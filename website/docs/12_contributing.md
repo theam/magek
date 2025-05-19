@@ -34,7 +34,6 @@ The packages are published to `npmjs` under the prefix `@boostercloud/`, their p
 
 - `cli` - You guessed it! This package is the `boost` command-line tool, it interacts only with the core package in order to load the project configuration. The specific provider packages to interact with the cloud providers are loaded dynamically from the project config.
 - `framework-core` - This one contains all the framework runtime vendor-independent logic. Stuff like the generation of the config or the commands and events handling happens here. The specific provider packages to interact with the cloud providers are loaded dynamically from the project config.
-- `framework-integration-tests` - Implements integration tests for all supported vendors. Tests are run on real infrastructure using the same mechanisms than a production application. This package `src` folder includes a synthetic Booster application that can be deployed to a real provider for testing purposes.
 - `framework-provider-aws` (Currently Deprecated) - Implements all the required adapters to make the booster core run on top of AWS technologies like Lambda and DynamoDB using the AWS SDK under the hoods.
 - `framework-provider-aws-infrastructure` (Currently Deprecated) - Implements all the required adapters to allow Booster applications to be deployed to AWS using the AWS CDK under the hoods.
 - `framework-provider-local` - Implements all the required adapters to run the Booster application on a local express server to be able to debug your code before deploying it to a real cloud provider.
@@ -217,7 +216,6 @@ To start contributing to the project you would need to set up the project in you
 
 ```bash
 rush pack-integration-deps
-cd packages/framework-integration-tests
 rushx integration -v
 ```
 
@@ -245,7 +243,6 @@ Unit tests are executed when you type `rush test`. If you want to run the unit t
 
 ### Running integration tests
 
-Integration tests are run automatically in Github Actions when a PR is locked, but it would be recommendable to run them locally before submitting a PR for review. You can find several scripts in `packages/framework-integration-tests/package.json` to run different test suites. You can run them using rush tool:
 
 `rushx <script name> -v`
 
@@ -295,7 +292,6 @@ When you submit a PR to the Booster repository:
 - _Unit tests_ will be automatically run. PRs with non-passing tests can't be merged.
 - If tests pass, your code will be reviewed by at least two core team members. Clarifications or improvements might be asked. They reserve the right to close any PR that does not meet the project quality standards, goals, or philosophy. So, discussing your plans in an issue or the Spectrum channel is always a good idea before committing to significant changes.
 - Code must be mergeable, and all conflicts must be solved before merging.
-- Once the review process is done, unit tests pass, and conflicts are fixed, you still need to make the Integration tests check to pass. You need to **Lock conversation** in the pull request to do that. The _integration tests_ will run, and a new check will appear with an "In progress" status. After some time, if everything goes well, the status check will become green, and your PR is now ready to merge.
 
 ### Branch naming conventions
 

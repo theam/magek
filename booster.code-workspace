@@ -21,10 +21,6 @@
       "path": "packages/framework-core"
     },
     {
-      "name": "📦 @boostercloud/framework-integration-tests",
-      "path": "packages/framework-integration-tests"
-    },
-    {
       "name": "📦 @boostercloud/framework-provider-aws",
       "path": "packages/framework-provider-aws"
     },

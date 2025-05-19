@@ -30,7 +30,6 @@ This file provides high-level guidance for **AI agents (e.g. OpenAI Codex)** tha
 | Fix linter issues | `rush lint:fix` | Uses project ESLint rules |
 | Run unit tests | `rush test` | Jest across all packages |
 | Package-scoped test | `cd packages/<name> && rushx test` | |
-| Integration tests (local) | `rushx integration/local -v` from `packages/framework-integration-tests` | Optional / slow |
 
 > Tip: Use `rush clean` & `rush purge` before a fresh install to remove caches.
 
@@ -42,7 +41,6 @@ This file provides high-level guidance for **AI agents (e.g. OpenAI Codex)** tha
 2. **Provider implementations** live in `packages/framework-provider-*/src`.
 3. **CLI entry point** is `packages/cli/src/commands/boost.ts`.
 4. Shared types are in `packages/framework-types`.
-5. If you need examples or tests, look under `packages/framework-integration-tests`.
 
 All production code is TypeScript; tests use Jest.  Standard utilities such as lodash are intentionally avoided—prefer simple, functional helpers.
 
