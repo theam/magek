@@ -24,7 +24,6 @@ Remember that if something here doesn't make sense, you can also propose a chang
   - [Getting the code](#getting-the-code)
   - [Understanding the "rush monorepo" approach and how dependencies are structured in the project](#understanding-the-rush-monorepo-approach-and-how-dependencies-are-structured-in-the-project)
   - [Running unit tests](#running-unit-tests)
-  - [Running integration tests](#running-integration-tests)
   - [Github flow](#github-flow)
   - [Publishing your Pull Request](#publishing-your-pull-request)
   - [Branch naming conventions](#branch-naming-conventions)
@@ -61,7 +60,6 @@ The packages are published to `npmjs` under the prefix `@boostercloud/`, their p
 
 - `cli` - You guessed it! This package is the `boost` command-line tool, it interacts only with the core package in order to load the project configuration. The specific provider packages to interact with the cloud providers are loaded dynamically from the project config.
 - `framework-core` - This one contains all the framework runtime vendor-independent logic. Stuff like the generation of the config or the commands and events handling happens here. The specific provider packages to interact with the cloud providers are loaded dynamically from the project config.
-- `framework-integration-tests` - Implements integration tests for all supported vendors. Tests are run on real infrastructure using the same mechanisms than a production application. This package `src` folder includes a synthetic Booster application that can be deployed to a real provider for testing purposes.
 - `framework-provider-aws` (Deprecated) - Implements all the required adapters to make the booster core run on top of AWS technologies like Lambda and DynamoDB using the AWS SDK under the hoods.
 - `framework-provider-aws-infrastructure` (Deprecated) - Implements all the required adapters to allow Booster applications to be deployed to AWS using the AWS CDK under the hoods.
 - `framework-provider-local` - Implements all the required adapters to run the Booster application on a local express server to be able to debug your code before deploying it to a real cloud provider.
@@ -236,15 +234,6 @@ To start contributing to the project you would need to set up the project in you
 
 - Make sure everything works by [executing the unit tests](#running-unit-tests): `rush test`
 
-> **DISCLAIMER**: The integration test process changed, feel free to chime in into our Discord for more info
-
-- Make sure everything works by [running the integration tests](#running-integration-tests):
-
-```bash
-rush pack-integration-deps
-cd packages/framework-integration-tests
-rushx integration -v
-```
 
 ### Understanding the "rush monorepo" approach and how dependencies are structured in the project
 
@@ -258,68 +247,6 @@ Finally, **always use exact numbers for dependency versions**. This means that i
 
 Unit tests are executed when you type `rush test`. If you want to run the unit tests for a specific package, you should move to the corresponding package folder and run `rushx test` there.
 
-### Running integration tests
-
-Integration tests are triggered by repo admins to be run in Github Actions by commenting
-
-```text
-/integration sha=1234ab
-```
-
-Where `1234ab` is the SHA of the latest commit.
-
-
-Still, it is recommendable to run them locally before submitting a PR for review. You can find several scripts in `packages/framework-integration-tests/package.json` to run different test suites. You can run them using rush tool:
-
-`rushx <script name> -v`
-
-These are the available scripts to run integration tests:
-
-1. **General Integration Tests:**
-    - `rushx integration -v`: Run all integration test scripts.
-
-2. **CLI Integration Tests:**
-    - `rushx integration/cli -v`: Tests CLI commands and verifies that they produce the expected results.
-
-3. **Local Integration Tests:**
-    - `rushx integration/local -v`: Runs all integration scripts in the local development server.
-    - `rushx integration/local-ongoing -v`: Runs the start and stop integration tests.
-    - `rushx integration/local-start -v`: Checks the start functionality of the local environment.
-    - `rushx integration/local-func -v`: Functional tests for the local environment.
-    - `rushx integration/local-end-to-end -v`: Runs end-to-end tests in the local environment.
-    - `rushx integration/local-stop -v`: Checks the stop functionality of the local environment.
-
-4. **AWS Integration Tests:**
-    - `rushx integration/aws -v`: Runs all integration test scripts for provider AWS.
-    - `rushx integration/aws-deploy -v`: Tests the deployment of a sample project to AWS.
-    - `rushx integration/aws-func -v`: Runs functional tests on AWS, stressing the deployed app's write API and verifying the results in databases and read APIs.
-    - `rushx integration/aws-end-to-end -v`: Performs end-to-end tests on AWS.
-    - `rushx integration/aws-load -v`: (Currently skipped) Intended for load tests on AWS.
-    - `rushx integration/aws-nuke -v`: Verifies that the deployed application on AWS can be properly nuked.
-
-5. **Azure Integration Tests:**
-    - `rushx integration/azure -v`: Runs all integration test scripts for provider Azure.
-    - `rushx integration/azure-deploy -v`: Tests the deployment of a project to Azure.
-    - `rushx integration/azure-func -v`: Runs functional tests on Azure.
-    - `rushx integration/azure-end-to-end -v`: Performs end-to-end tests on Azure.
-    - `rushx integration/azure-nuke -v`: Verifies that the deployed application on Azure can be properly nuked.
-
-Azure and AWS integration tests run in real environments, so you'll need to have your credentials properly set in your development machine in order to run them. They will deploy a sample project to your default account, run the tests and nuke the application when the process finishes. Notice that running integration tests in your cloud account could incur in some expenses.
-
-### Github flow
-
-The preferred way of accepting contributions is following the [Github flow](https://guides.github.com/introduction/flow/), that is, you fork the project and work in your own branch until you're happy with the work, and then submit a PR in Github.
-
-### Publishing your Pull Request
-
-Make sure that you describe your change thoroughly in the PR body, adding references for any related issues and links to any resource that helps clarifying the intent and goals of the change.
-
-When you submit a PR to the Booster repository:
-
-- _Unit tests_ will be automatically run. PRs with non-passing tests can't be merged.
-- If tests pass, your code will be reviewed by at least two people from the core team. Clarifications or improvements might be asked, and they reserve the right to close any PR that do not meet the project quality standards, goals or philosophy, so it's always a good idea to discuss your plans in an issue or the Spectrum channel before committing to significant changes.
-- Code must be mergeable and all conflicts solved before merging it.
-- Once the review process is done, unit tests pass and conflicts are fixed, you still need to make the _Integration tests check_ to pass. In order to do that, you need to comment `/integration sha=1234ab` (where `1234ab` is the latest commit's SHA) in the pull request. The _integration tests_ will run. If everything went well, the bot will comment with a success, and your PR can be merged now.
 
 Once the PR is merged, the CICD process will publish the latest changes to NPM. When this finishes, as a maintainer, make sure to create a new GitHub release in the [releases page](https://github.com/boostercloud/booster/releases):
 
@@ -386,7 +313,6 @@ We're using the following scopes in the project:
 - **cli**
 - **core**
 - **types**
-- **integration**
 - **aws**
 - **local**
 
