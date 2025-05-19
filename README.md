@@ -65,6 +65,7 @@ Booster Framework follows the next principles:
 # Contributing
 
 You can join the conversation and start contributing in any of the following ways:
+
 * [Say hello in Discord](https://discord.gg/bDY8MKx)
 * [Create a new issue in Github](https://github.com/boostercloud/booster/issues/new/choose)
 * [Try the framework and let us know how you liked it!](https://docs.boosterframework.com/category/getting-started)
@@ -86,8 +87,3 @@ The Booster Framework is licensed under the Apache License, Version 2.0. See the
 * [Demos and more on Youtube](https://www.youtube.com/channel/UCpUTONI8OG19pr9A4cn35DA)
 * [Rocket to the Cloud Podcast](https://www.youtube.com/channel/UCxUYk1SVyNRCGNV-9SYjEFQ)
 * [Booster in Dev.to](https://dev.to/boostercloud)
-
-
-
-
-
