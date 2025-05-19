@@ -44,7 +44,7 @@ export default class Project extends Command {
     providerPackageName: Flags.string({
       char: 'p',
       description:
-        'package name implementing the cloud provider integration where the application will be deployed (i.e: "@boostercloud/framework-provider-azure")',
+        'package name implementing the cloud provider integration where the application will be deployed',
     }),
     default: Flags.boolean({
       description: 'generates the project with default parameters (i.e. --license=MIT)',
@@ -89,15 +89,8 @@ const run = async (flags: Partial<ProjectInitializerConfig>, boosterVersion: str
     .info('Project generated!')
     .done()
 
-const getSelectedProviderPackage = (provider: Provider): string => {
-  switch (provider) {
-    case Provider.AWS:
-      return '@boostercloud/framework-provider-aws'
-    case Provider.AZURE:
-      return '@boostercloud/framework-provider-azure'
-    default:
-      return ''
-  }
+const getSelectedProviderPackage = (): string => {
+  return ''
 }
 
 const getProviderPackageName = async (prompter: Prompter, providerPackageName?: string): Promise<string> => {
@@ -105,20 +98,11 @@ const getProviderPackageName = async (prompter: Prompter, providerPackageName?: 
     return providerPackageName
   }
 
-  const providerSelection: Provider = (await prompter.defaultOrChoose(
+  const providerSelection = await prompter.defaultOrPrompt(
     providerPackageName,
-    "What's the package name of your provider infrastructure library?",
-    [Provider.AWS, Provider.AZURE, Provider.OTHER]
-  )) as Provider
-
-  if (providerSelection === Provider.OTHER) {
-    return await prompter.defaultOrPrompt(
-      undefined,
-      "What's the other provider integration library? e.g. @boostercloud/framework-provider-azure"
-    )
-  } else {
-    return getSelectedProviderPackage(providerSelection)
-  }
+    "What's the package name of your provider infrastructure library?"
+  )
+  return providerSelection || getSelectedProviderPackage()
 }
 
 export const parseConfig = async (
@@ -129,7 +113,7 @@ export const parseConfig = async (
   if (flags.default) {
     return Promise.resolve({
       projectName: flags.projectName as string,
-      providerPackageName: '@boostercloud/framework-provider-aws',
+      providerPackageName: '@boostercloud/framework-provider-local',
       description: '',
       version: '0.1.0',
       author: '',

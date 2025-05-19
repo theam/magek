@@ -405,30 +405,6 @@
       "projectFolder": "packages/framework-core"
     },
     {
-      "packageName": "@boostercloud/framework-provider-aws",
-      "shouldPublish": true,
-      "versionPolicyName": "booster",
-      "projectFolder": "packages/framework-provider-aws"
-    },
-    {
-      "packageName": "@boostercloud/framework-provider-aws-infrastructure",
-      "shouldPublish": true,
-      "versionPolicyName": "booster",
-      "projectFolder": "packages/framework-provider-aws-infrastructure"
-    },
-    {
-      "packageName": "@boostercloud/framework-provider-azure",
-      "shouldPublish": true,
-      "versionPolicyName": "booster",
-      "projectFolder": "packages/framework-provider-azure"
-    },
-    {
-      "packageName": "@boostercloud/framework-provider-azure-infrastructure",
-      "shouldPublish": true,
-      "versionPolicyName": "booster",
-      "projectFolder": "packages/framework-provider-azure-infrastructure"
-    },
-    {
       "packageName": "@boostercloud/framework-provider-local",
       "shouldPublish": true,
       "versionPolicyName": "booster",
