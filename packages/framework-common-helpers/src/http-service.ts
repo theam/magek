@@ -25,17 +25,18 @@ export async function request(
     method: method,
     headers: {
       'Content-Type': contentType,
-    },
+      // Content-Length will be added below if needed
+    } as Record<string, string | number>,
     timeout: timeout,
   }
   if (data) {
-    options.headers!['Content-Length'] = data.length
+    ;(options.headers as Record<string, string | number>)['Content-Length'] = data.length
   }
 
   return new Promise((resolve, reject) => {
     const method = url.startsWith('https') ? https.request : http.request
     const request = method(url, options, (res: IncomingMessage) => {
-      const body: Array<any> = []
+      const body: Buffer[] = []
       res.on('data', (chunk) => body.push(chunk))
       res.on('end', () => {
         if (!res?.statusCode) {

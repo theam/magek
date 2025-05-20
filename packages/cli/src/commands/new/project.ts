@@ -10,7 +10,6 @@ import {
 } from '../../services/project-initializer'
 import Prompter from '../../services/user-prompt'
 import { assertNameIsCorrect } from '../../services/provider-service'
-import { Provider } from '../../common/provider'
 import { checkProjectAlreadyExists } from '../../services/project-checker'
 
 export default class Project extends Command {
@@ -43,8 +42,7 @@ export default class Project extends Command {
     }),
     providerPackageName: Flags.string({
       char: 'p',
-      description:
-        'package name implementing the cloud provider integration where the application will be deployed',
+      description: 'package name implementing the cloud provider integration where the application will be deployed',
     }),
     default: Flags.boolean({
       description: 'generates the project with default parameters (i.e. --license=MIT)',
