@@ -1,4 +1,4 @@
-import { FakeOverrides, fakeService } from '@boostercloud/application-tester/src/effect'
+import { FakeOverrides, fakeService } from '../../helpers/effect'
 import { fake } from 'sinon'
 import { PackageManagerService } from '../../../src/services/package-manager'
 

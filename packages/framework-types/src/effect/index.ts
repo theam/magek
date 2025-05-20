@@ -658,8 +658,8 @@ export { mapError } from '@effect-ts/core/Effect'
  * =======
  *
  * In the case of testing, you can create a `live.test.ts` file that will export a
- * layer that will construct a mocked implementation of the service. For this check
- * the `@boostercloud/application-tester/dist/effect` module for more information.
+ * layer that will construct a mocked implementation of the service using utilities
+ * from the CLI test helpers.
  *
  *
  *
