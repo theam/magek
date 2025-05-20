@@ -32,6 +32,7 @@ This file provides high-level guidance for **AI agents (e.g. OpenAI Codex)** tha
 | Package-scoped test | `cd packages/<name> && rushx test` | |
 
 > Tip: Use `rush clean` & `rush purge` before a fresh install to remove caches.
+> **Codex Warning**: Avoid running `rush clean` here. The sandbox has no internet access after setup, so removed dependencies cannot be reinstalled.
 
 **Important**: Once all changes are done, run `rush change` to create a changelog entry.
 
