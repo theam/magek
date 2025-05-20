@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@boostercloud/framework-core",
+      "comment": "enabled node 22 support",
+      "type": "none"
+    }
+  ],
+  "packageName": "@boostercloud/framework-core"
+}

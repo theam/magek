@@ -15,7 +15,7 @@ This file provides high-level guidance for **AI agents (e.g. OpenAI Codex)** tha
   * `website/`      → Documentation source (Docusaurus).
   * `common/`       → Rush-generated files (lock-file, temp folders, etc.).
 * **Main configuration** – See `rush.json` (build graph), the root `tsconfig.json`, ESLint/prettier configs, and `.nvmrc`.
-* **Node / PNPM versions** – The repo targets **Node 20.x** and **PNPM 9.x** (managed automatically by Rush).
+* **Node / PNPM versions** – The repo targets **Node 22.x** and **PNPM 9.x** (managed automatically by Rush).
 
 ---
 
