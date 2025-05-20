@@ -64,7 +64,7 @@ All production code is TypeScript; tests use Jest.  Standard utilities such as l
 ## 5. Testing Strategy
 
 1. **Unit tests** (Jest) run quickly and should cover most changes.
-2. **Integration tests** deploy real cloud infrastructure (AWS/Azure) and are therefore **optional by default**.  Run them only when code touches deployment or provider logic.  You will need cloud credentials (see `scripts/init_azure_credentials.sh`).
+2. **Integration tests** deploy real cloud infrastructure (AWS/Azure) and are therefore **optional by default**.  Run them only when code touches deployment or provider logic.
 3. The CI pipeline mirrors the steps in `scripts/check-all-the-things.sh`; ensure it passes locally before creating a pull request.
 
 ---
