@@ -381,12 +381,6 @@
       "projectFolder": "tools/eslint-config"
     },
     {
-      "packageName": "@boostercloud/application-tester",
-      "shouldPublish": true,
-      "versionPolicyName": "booster",
-      "projectFolder": "packages/application-tester"
-    },
-    {
       "packageName": "@boostercloud/cli",
       "shouldPublish": true,
       "versionPolicyName": "booster",

@@ -1,6 +1,6 @@
 import { ProcessService } from '../../../src/services/process'
 import { fake } from 'sinon'
-import { FakeOverrides, fakeService } from '@boostercloud/application-tester/src/effect'
+import { FakeOverrides, fakeService } from '../../helpers/effect'
 
 export const makeTestProcess = (overrides?: FakeOverrides<ProcessService>) =>
   fakeService(ProcessService, {

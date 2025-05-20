@@ -1,6 +1,6 @@
 import { FileSystemService } from '../../../src/services/file-system'
 import { fake } from 'sinon'
-import { FakeOverrides, fakeService } from '@boostercloud/application-tester/src/effect'
+import { FakeOverrides, fakeService } from '../../helpers/effect'
 
 export const makeTestFileSystem = (overrides?: FakeOverrides<FileSystemService>) =>
   fakeService(FileSystemService, {
