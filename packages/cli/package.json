@@ -1,5 +1,5 @@
 {
-  "name": "@boostercloud/cli",
+  "name": "@booster-ai/cli",
   "description": "CLI of the Booster Framework, the next level of abstraction for cloud-native applications",
   "version": "3.2.0",
   "author": "Boosterin Labs SLU",

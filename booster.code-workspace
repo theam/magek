@@ -5,7 +5,7 @@
       "path": "."
     },
     {
-      "name": "📦 @boostercloud/cli",
+      "name": "📦 @booster-ai/cli",
       "path": "packages/cli"
     },
     {
