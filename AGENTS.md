@@ -24,7 +24,7 @@ This file provides high-level guidance for **AI agents (e.g. OpenAI Codex)** tha
 | Task | Command | Notes |
 |------|---------|-------|
 | Install global Rush | `npm i -g @microsoft/rush` | (One-time) |
-| Full local CI (clean → install → build → lint → test) | `./scripts/check-all-the-things.sh` | Preferred single entry-point |
+| Install | `rush install` | (One-time) |
 | Install deps only | `rush update` | |
 | Build all packages | `rush rebuild` | TypeScript compilation & type-check |
 | Fix linter issues | `rush lint:fix` | Uses project ESLint rules |
@@ -32,6 +32,8 @@ This file provides high-level guidance for **AI agents (e.g. OpenAI Codex)** tha
 | Package-scoped test | `cd packages/<name> && rushx test` | |
 
 > Tip: Use `rush clean` & `rush purge` before a fresh install to remove caches.
+
+**Important**: Once all changes are done, run `rush change` to create a changelog entry.
 
 ---
 
