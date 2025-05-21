@@ -381,7 +381,7 @@
       "projectFolder": "tools/eslint-config"
     },
     {
-      "packageName": "@boostercloud/cli",
+      "packageName": "@booster-ai/cli",
       "shouldPublish": true,
       "versionPolicyName": "booster",
       "projectFolder": "packages/cli"

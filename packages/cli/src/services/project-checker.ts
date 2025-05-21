@@ -109,7 +109,7 @@ class HigherCliVersionError extends Error {
 class LowerCliVersionError extends Error {
   constructor(public cliVersion: string, public projectVersion: string, public section: string) {
     super(
-      `CLI version ${cliVersion} is lower than your project Booster version ${projectVersion}. Please upgrade your @boostercloud/cli to the same version with "npm install -g @boostercloud/cli@${projectVersion}"`
+      `CLI version ${cliVersion} is lower than your project Booster version ${projectVersion}. Please upgrade your @booster-ai/cli to the same version with "npm install -g @booster-ai/cli@${projectVersion}"`
     )
   }
 }
