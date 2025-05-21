@@ -4,8 +4,6 @@
 
 This file provides high-level guidance for **AI agents (e.g. OpenAI Codex)** that interact with the Booster Framework repository.  Follow these instructions to reliably set up the development environment, run the full test & lint suite, and keep your contributions consistent with the project's conventions.
 
----
-
 ## 1. Repository Overview
 
 * **Monorepo layout** – The project is organised as a Rush/PNPM monorepo:
@@ -16,8 +14,6 @@ This file provides high-level guidance for **AI agents (e.g. OpenAI Codex)** tha
   * `common/`       → Rush-generated files (lock-file, temp folders, etc.).
 * **Main configuration** – See `rush.json` (build graph), the root `tsconfig.json`, ESLint/prettier configs, and `.nvmrc`.
 * **Node / PNPM versions** – The repo targets **Node 22.x** and **PNPM 9.x** (managed automatically by Rush).
-
----
 
 ## 2. Quick-start Commands for Agents
 
@@ -36,8 +32,6 @@ This file provides high-level guidance for **AI agents (e.g. OpenAI Codex)** tha
 
 **Important**: Once all changes are done, run `rush change` to create a changelog entry.
 
----
-
 ## 3. Code Navigation Tips
 
 1. **Start in `packages/framework-core/src`** – Contains the core domain logic (commands, events, GraphQL generation, etc.).
@@ -46,8 +40,6 @@ This file provides high-level guidance for **AI agents (e.g. OpenAI Codex)** tha
 4. Shared types are in `packages/framework-types`.
 
 All production code is TypeScript; tests use Jest.  Standard utilities such as lodash are intentionally avoided—prefer simple, functional helpers.
-
----
 
 ## 4. Coding Conventions to Follow
 
@@ -59,15 +51,11 @@ All production code is TypeScript; tests use Jest.  Standard utilities such as l
   * `fix(cli): validate project name before scaffolding`
 * **Branch naming**: `feature/<topic>`, `fix/<topic>`, `doc/<topic>` (see CONTRIBUTING.md for details).
 
----
-
 ## 5. Testing Strategy
 
 1. **Unit tests** (Jest) run quickly and should cover most changes.
 2. **Integration tests** deploy real cloud infrastructure (AWS/Azure) and are therefore **optional by default**.  Run them only when code touches deployment or provider logic.
 3. The CI pipeline mirrors the steps in `scripts/check-all-the-things.sh`; ensure it passes locally before creating a pull request.
-
----
 
 ## 6. Pull Requests & Releases
 
@@ -75,8 +63,6 @@ All production code is TypeScript; tests use Jest.  Standard utilities such as l
 2. Make sure `./scripts/check-all-the-things.sh` exits without errors.
 3. For large PRs, run the relevant integration tests.
 4. After review, core maintainers will trigger full CI and (if applicable) publish to npm following semver derived from Conventional Commits.
-
----
 
 ## 7. Useful References
 
