@@ -339,8 +339,8 @@ importers:
         specifier: 13.12.0
         version: 13.12.0
       ws:
-        specifier: 8.18.0
-        version: 8.18.0
+        specifier: 8.18.2
+        version: 8.18.2
     devDependencies:
       '@boostercloud/eslint-config':
         specifier: workspace:^3.2.0
@@ -466,8 +466,8 @@ importers:
         specifier: ^2.4.0
         version: 2.8.1
       ws:
-        specifier: 8.18.0
-        version: 8.18.0
+        specifier: 8.18.2
+        version: 8.18.2
     devDependencies:
       '@boostercloud/eslint-config':
         specifier: workspace:^3.2.0
@@ -500,8 +500,8 @@ importers:
         specifier: ^1.3.9
         version: 1.3.12
       '@types/ws':
-        specifier: 8.5.4
-        version: 8.5.4
+        specifier: 8.18.1
+        version: 8.18.1
       '@typescript-eslint/eslint-plugin':
         specifier: ^5.0.0
         version: 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.7.3))(eslint@8.57.1)(typescript@5.7.3)
@@ -723,8 +723,8 @@ importers:
         specifier: ~3.3.2
         version: 3.3.3
       ws:
-        specifier: 8.18.0
-        version: 8.18.0
+        specifier: 8.18.2
+        version: 8.18.2
     devDependencies:
       '@boostercloud/eslint-config':
         specifier: workspace:^3.2.0
@@ -1397,8 +1397,8 @@ packages:
   '@types/validator@13.12.2':
     resolution: {integrity: sha512-6SlHBzUW8Jhf3liqrGGXyTJSIFe4nqlJ5A5KaMZ2l/vbM3Wh3KSybots/wfWVzNLK4D1NZluDlSQIbIEPx6oyA==}
 
-  '@types/ws@8.5.4':
-    resolution: {integrity: sha512-zdQDHKUgcX/zBc4GrwsE/7dVdAD8JR4EuiAXiiUhhfyIJXXb2+PrGshFyeXWQPMmmZ2XxgaqclgpIC7eTXc1mg==}
+  '@types/ws@8.18.1':
+    resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
 
   '@typescript-eslint/eslint-plugin@5.62.0':
     resolution: {integrity: sha512-TiZzBSJja/LbhNPvk6yc0JrX9XqhQ0hdh6M2svYfsHGejaKFIAGd9MQ+ERIMzLGlN/kZoYIgdxFV0PuljTKXag==}
@@ -3936,8 +3936,8 @@ packages:
     resolution: {integrity: sha512-/lg70HAjtkUgWPVZhZcm+T4hkL8Zbtp1nFNOn3lRrxnlv50SRBv7cR7RqR+GMsd3hUXy9hWBo4CHTbFTcOYwig==}
     engines: {node: '>=4'}
 
-  ws@8.18.0:
-    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
+  ws@8.18.2:
+    resolution: {integrity: sha512-DMricUmwGZUVr++AEAe2uiVM7UoO9MAVZMDu05UQOaUII0lp+zOzLLU4Xqh/JvTqklB1T4uELaaPBKyjE1r4fQ==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -4141,7 +4141,7 @@ snapshots:
       effect: 3.13.2
       mime: 3.0.0
       undici: 7.10.0
-      ws: 8.18.0
+      ws: 8.18.2
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -4557,7 +4557,7 @@ snapshots:
 
   '@types/validator@13.12.2': {}
 
-  '@types/ws@8.5.4':
+  '@types/ws@8.18.1':
     dependencies:
       '@types/node': 22.15.21
 
@@ -7455,7 +7455,7 @@ snapshots:
     dependencies:
       mkdirp: 0.5.6
 
-  ws@8.18.0: {}
+  ws@8.18.2: {}
 
   xtend@4.0.2: {}
 
