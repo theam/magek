@@ -5,11 +5,55 @@
 
 version: 2
 updates:
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/" # Location of package manifests
-    schedule:
-      interval: "daily"
+  # Configure Dependabot for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
+    schedule:
+      interval: "daily"
+      
+  # Configure Dependabot for each package in the Rush monorepo
+  - package-ecosystem: "npm"
+    directory: "/packages/cli"
+    schedule:
+      interval: "daily"
+      
+  - package-ecosystem: "npm"
+    directory: "/packages/framework-common-helpers"
+    schedule:
+      interval: "daily"
+      
+  - package-ecosystem: "npm"
+    directory: "/packages/framework-core"
+    schedule:
+      interval: "daily"
+      
+  - package-ecosystem: "npm"
+    directory: "/packages/framework-provider-local"
+    schedule:
+      interval: "daily"
+      
+  - package-ecosystem: "npm"
+    directory: "/packages/framework-provider-local-infrastructure"
+    schedule:
+      interval: "daily"
+      
+  - package-ecosystem: "npm"
+    directory: "/packages/framework-types"
+    schedule:
+      interval: "daily"
+      
+  - package-ecosystem: "npm"
+    directory: "/packages/metadata-booster"
+    schedule:
+      interval: "daily"
+      
+  - package-ecosystem: "npm"
+    directory: "/tools/eslint-config"
+    schedule:
+      interval: "daily"
+      
+  # Website package
+  - package-ecosystem: "npm"
+    directory: "/website"
     schedule:
       interval: "daily"
