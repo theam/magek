@@ -45,7 +45,7 @@
     "@effect-ts/node": "~0.39.0",
     "effect": "3.13.2",
     "@effect/cli": "0.56.2",
-    "@effect/platform": "0.77.2",
+    "@effect/platform": "0.82.4",
     "@effect/printer": "0.41.2",
     "@effect/printer-ansi": "0.41.2",
     "@effect/schema": "0.75.5",
