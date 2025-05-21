@@ -1,0 +1,31 @@
+name: "Copilot Setup Steps"
+
+on: workflow_dispatch
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      # Install pnpm itself (one line)
+      - uses: pnpm/action-setup@v4      # provides the pnpm CLI  [oai_citation:7‡GitHub](https://github.com/pnpm/action-setup?utm_source=chatgpt.com)
+        with:
+          version: 10
+          run_install: false           # Rush will handle installs
+          
+      # Set up Node and enable pnpm caching
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm                  # <-- switch from npm to pnpm
+          cache-dependency-path: common/config/rush/pnpm-lock.yaml
+      - name: Install Rush globally
+        run: npm install -g @microsoft/rush
+      - name: Rush update
+        run: rush update
+      - name: Rush install
+        run: rush install
