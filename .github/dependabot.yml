@@ -18,7 +18,7 @@ updates:
       interval: "daily"
       
   - package-ecosystem: "npm"
-    directory: "/packages/framework-common-helpers"
+    directory: "/packages/common"
     schedule:
       interval: "daily"
       

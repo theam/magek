@@ -5,7 +5,7 @@ import { BoosterConfig, EventType, UUID } from '@boostercloud/framework-types'
 import { IncomingMessage } from 'node:http'
 import { GraphQLService } from '../services'
 import * as express from 'express'
-import { getLogger } from '@boostercloud/framework-common-helpers'
+import { getLogger } from '@booster-ai/common'
 
 export interface ConnectionContext {
   connectionId: UUID

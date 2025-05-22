@@ -387,10 +387,10 @@
       "projectFolder": "packages/cli"
     },
     {
-      "packageName": "@boostercloud/framework-common-helpers",
+      "packageName": "@booster-ai/common",
       "shouldPublish": true,
       "versionPolicyName": "booster",
-      "projectFolder": "packages/framework-common-helpers"
+      "projectFolder": "packages/common"
     },
     {
       "packageName": "@boostercloud/framework-core",

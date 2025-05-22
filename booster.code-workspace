@@ -9,8 +9,8 @@
       "path": "packages/cli"
     },
     {
-      "name": "📦 @boostercloud/framework-common-helpers",
-      "path": "packages/framework-common-helpers"
+      "name": "📦 @booster-ai/common",
+      "path": "packages/common"
     },
     {
       "name": "📦 @boostercloud/framework-core",

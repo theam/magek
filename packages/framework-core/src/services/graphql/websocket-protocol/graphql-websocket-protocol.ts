@@ -18,7 +18,7 @@ import {
   UserEnvelope,
 } from '@boostercloud/framework-types'
 import { BoosterTokenVerifier } from '../../../booster-token-verifier'
-import { getLogger } from '@boostercloud/framework-common-helpers'
+import { getLogger } from '@booster-ai/common'
 
 export interface GraphQLWebsocketHandlerCallbacks {
   onStartOperation: (

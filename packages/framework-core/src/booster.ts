@@ -1,4 +1,4 @@
-import { createInstance } from '@boostercloud/framework-common-helpers'
+import { createInstance } from '@booster-ai/common'
 import {
   BoosterConfig,
   BoosterConfigTag,

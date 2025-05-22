@@ -10,7 +10,7 @@ import {
   UserEnvelope,
 } from '@boostercloud/framework-types'
 import { childHealthProviders, isEnabled, metadataFromId, rootHealthProviders } from './health-utils'
-import { createInstance } from '@boostercloud/framework-common-helpers'
+import { createInstance } from '@booster-ai/common'
 import { defaultBoosterHealthIndicators } from './health-indicators'
 import { BoosterTokenVerifier } from '../../booster-token-verifier'
 import { BoosterAuthorizer } from '../../booster-authorizer'

@@ -1,6 +1,6 @@
 import * as path from 'path'
 import * as process from 'process'
-import { getLogger } from '@boostercloud/framework-common-helpers'
+import { getLogger } from '@booster-ai/common'
 import { BoosterConfig } from '@boostercloud/framework-types'
 
 export function boosterVersion(config: BoosterConfig) {

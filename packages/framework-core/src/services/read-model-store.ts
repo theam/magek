@@ -18,7 +18,7 @@ import {
   SequenceKey,
   UUID,
 } from '@boostercloud/framework-types'
-import { createInstance, getLogger, Promises, retryIfError } from '@boostercloud/framework-common-helpers'
+import { createInstance, getLogger, Promises, retryIfError } from '@booster-ai/common'
 import { BoosterGlobalErrorDispatcher } from '../booster-global-error-dispatcher'
 import { readModelSearcher } from './read-model-searcher'
 import { ReadModelSchemaMigrator } from '../read-model-schema-migrator'

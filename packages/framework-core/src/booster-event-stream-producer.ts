@@ -1,6 +1,6 @@
 import { Trace } from './instrumentation'
 import { BoosterConfig, TraceActionTypes } from '@boostercloud/framework-types'
-import { getLogger } from '@boostercloud/framework-common-helpers'
+import { getLogger } from '@booster-ai/common'
 import { RawEventsParser } from './services/raw-events-parser'
 
 /**
