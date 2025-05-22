@@ -11,7 +11,7 @@ import { Class, ProjectionFor, ReadModelInterface } from '@boostercloud/framewor
  *
  * @example
  * ```typescript
- * import { createInstance } from '@boostercloud/framework-common-helpers'
+ * import { createInstance } from '@booster-ai/common'
  * import { User } from './entities/user'
  *
  * const rawUser = {

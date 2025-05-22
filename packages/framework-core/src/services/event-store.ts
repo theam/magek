@@ -16,7 +16,7 @@ import {
   TraceActionTypes,
   UUID,
 } from '@boostercloud/framework-types'
-import { createInstance, getLogger } from '@boostercloud/framework-common-helpers'
+import { createInstance, getLogger } from '@booster-ai/common'
 import { BoosterGlobalErrorDispatcher } from '../booster-global-error-dispatcher'
 import { SchemaMigrator } from '../schema-migrator'
 import { BoosterEntityMigrated } from '../core-concepts/data-migration/events/booster-entity-migrated'

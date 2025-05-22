@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "rename package to @booster-ai/common",
+      "type": "patch",
+      "packageName": "@booster-ai/common"
+    }
+  ],
+  "packageName": "@booster-ai/common",
+  "email": "codex@openai.com"
+}

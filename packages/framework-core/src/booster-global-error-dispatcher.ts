@@ -11,7 +11,7 @@ import {
   QueryHandlerGlobalError,
   EventGlobalError,
 } from '@boostercloud/framework-types'
-import { getLogger } from '@boostercloud/framework-common-helpers'
+import { getLogger } from '@booster-ai/common'
 
 export class BoosterGlobalErrorDispatcher {
   public readonly errorHandler: GlobalErrorHandlerInterface | undefined

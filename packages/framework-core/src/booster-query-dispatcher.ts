@@ -7,7 +7,7 @@ import {
   QueryInfo,
   QueryInput,
 } from '@boostercloud/framework-types'
-import { createInstance, getLogger } from '@boostercloud/framework-common-helpers'
+import { createInstance, getLogger } from '@booster-ai/common'
 import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher'
 import { GraphQLResolverContext } from './services/graphql/common'
 import { applyBeforeFunctions } from './services/filter-helpers'

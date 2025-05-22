@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { beforeEach, describe } from 'mocha'
 import { ReadModelStore } from '../../src/services/read-model-store'
-import { createInstance } from '@boostercloud/framework-common-helpers'
+import { createInstance } from '@booster-ai/common'
 import {
   BoosterConfig,
   EntitySnapshotEnvelope,

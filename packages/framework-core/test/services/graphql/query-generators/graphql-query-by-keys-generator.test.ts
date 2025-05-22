@@ -4,7 +4,7 @@ import { expect } from '../../../expect'
 import { GraphQLTypeInformer } from '../../../../src/services/graphql/graphql-type-informer'
 import { BoosterConfig, UUID, TimeKey, Level, AnyClass, Logger } from '@boostercloud/framework-types'
 import { GraphqlQueryByKeysGenerator } from '../../../../src/services/graphql/query-generators/graphql-query-by-keys-generator'
-import { getLogger } from '@boostercloud/framework-common-helpers'
+import { getLogger } from '@booster-ai/common'
 import { random } from 'faker'
 
 class AnotherReadModel {

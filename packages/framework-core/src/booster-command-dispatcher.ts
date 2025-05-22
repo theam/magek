@@ -9,7 +9,7 @@ import {
   CommandInput,
 } from '@boostercloud/framework-types'
 import { RegisterHandler } from './booster-register-handler'
-import { createInstance, getLogger } from '@boostercloud/framework-common-helpers'
+import { createInstance, getLogger } from '@booster-ai/common'
 import { applyBeforeFunctions } from './services/filter-helpers'
 import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher'
 import { SchemaMigrator } from './schema-migrator'

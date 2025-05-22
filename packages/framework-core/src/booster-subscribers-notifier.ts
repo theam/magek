@@ -14,7 +14,7 @@ import { GraphQLGenerator } from './services/graphql/graphql-generator'
 import { FilteredReadModelPubSub, ReadModelPubSub } from './services/pub-sub/read-model-pub-sub'
 import { GraphQLResolverContext } from './services/graphql/common'
 import { ExecutionResult } from 'graphql/execution/execute'
-import { Promises, getLogger } from '@boostercloud/framework-common-helpers'
+import { Promises, getLogger } from '@booster-ai/common'
 import { Trace } from './instrumentation'
 
 export class BoosterSubscribersNotifier {

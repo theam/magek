@@ -1,5 +1,5 @@
 {
-  "name": "@boostercloud/framework-common-helpers",
+  "name": "@booster-ai/common",
   "version": "3.2.0",
   "description": "Contains Booster common helpers used by the core and provider packages",
   "keywords": [

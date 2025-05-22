@@ -10,7 +10,7 @@ export const template = `{
     "tslib": "^2.4.0",
     "@boostercloud/framework-core": "^${VERSION}",
     "@boostercloud/framework-types": "^${VERSION}",
-    "@boostercloud/framework-common-helpers": "^${VERSION}",
+    "@booster-ai/common": "^${VERSION}",
     "{{{providerPackageName}}}": "^${VERSION}"
   },
   "devDependencies": {

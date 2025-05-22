@@ -17,7 +17,7 @@ import { EventStore } from '../src/services/event-store'
 import { RegisterHandler } from '../src/booster-register-handler'
 import { random } from 'faker'
 import { BoosterEventProcessor } from '../src/booster-event-processor'
-import { PromisesError } from '@boostercloud/framework-common-helpers'
+import { PromisesError } from '@booster-ai/common'
 
 class SomeEvent {
   public constructor(readonly id: UUID) {}
