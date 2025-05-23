@@ -358,7 +358,7 @@ The Booster project comes with a nice set of ESLint config files to help you fol
 
 For everything else, the rule of thumb is: Try to be consistent with the code around yours, and if you're not sure, ask :-)
 
-There are some things that the linter doesn't force but are prefered this way:
+There are some things that the linter doesn't force but are preferred this way:
 
 ### Importing other files and libraries
 
