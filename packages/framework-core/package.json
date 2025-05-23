@@ -63,7 +63,7 @@
   "devDependencies": {
     "@boostercloud/metadata-booster": "workspace:^3.2.0",
     "@boostercloud/eslint-config": "workspace:^3.2.0",
-    "@types/chai": "4.2.18",
+    "@types/chai": "5.2.2",
     "@types/chai-as-promised": "7.1.4",
     "@types/faker": "5.1.5",
     "@types/inflected": "1.1.29",
@@ -75,7 +75,7 @@
     "@types/validator": "13.12.2",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
-    "chai": "4.2.0",
+    "chai": "5.2.0",
     "chai-as-promised": "7.1.1",
     "cross-env": "7.0.3",
     "eslint": "^8.23.1",

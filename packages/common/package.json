@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@boostercloud/eslint-config": "workspace:^3.2.0",
-    "@types/chai": "4.2.18",
+    "@types/chai": "5.2.2",
     "@types/chai-as-promised": "7.1.4",
     "@types/mocha": "10.0.10",
     "@types/node": "^22.15.21",
@@ -54,7 +54,7 @@
     "@types/uuid": "10.0.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
-    "chai": "4.2.0",
+    "chai": "5.2.0",
     "chai-as-promised": "7.1.1",
     "eslint": "^8.23.1",
     "eslint-config-prettier": "8.3.0",
