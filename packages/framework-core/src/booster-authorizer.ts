@@ -11,7 +11,7 @@ import {
   ReadModelAuthorizer,
   HealthRoleAccess,
   HealthAuthorizer,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 
 export class BoosterAuthorizer {
   public static allowAccess(): Promise<void> {

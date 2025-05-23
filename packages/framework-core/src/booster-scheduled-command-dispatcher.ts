@@ -6,7 +6,7 @@ import {
   ScheduledCommandInterface,
   ScheduleCommandGlobalError,
   TraceActionTypes,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { getLogger } from '@booster-ai/common'
 import { RegisterHandler } from './booster-register-handler'
 import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher'

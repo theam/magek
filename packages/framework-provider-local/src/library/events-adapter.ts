@@ -7,7 +7,7 @@ import {
   EntitySnapshotEnvelope,
   NonPersistedEventEnvelope,
   NonPersistedEntitySnapshotEnvelope,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { retryIfError, getLogger } from '@booster-ai/common'
 import { EventRegistry } from '..'
 

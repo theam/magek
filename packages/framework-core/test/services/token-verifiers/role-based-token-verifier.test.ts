@@ -1,4 +1,4 @@
-import { DecodedToken } from '@boostercloud/framework-types'
+import { DecodedToken } from '@booster-ai/common'
 import {
   DEFAULT_ROLES_CLAIM,
   RoleBasedTokenVerifier,

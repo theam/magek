@@ -1,5 +1,5 @@
 import { Booster } from '../booster'
-import { AnyClass } from '@boostercloud/framework-types'
+import { AnyClass } from '@booster-ai/common'
 import { getFunctionArguments } from './metadata'
 
 export function NonExposed(

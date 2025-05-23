@@ -4,7 +4,7 @@ import {
   EventParametersFilterByType,
   EventSearchResponse,
   UUID,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 
 interface QueryFields {
   createdAt?: unknown

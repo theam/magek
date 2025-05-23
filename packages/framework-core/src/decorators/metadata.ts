@@ -1,4 +1,4 @@
-import { AnyClass } from '@boostercloud/framework-types'
+import { AnyClass } from '@booster-ai/common'
 import { ClassMetadata } from '@boostercloud/metadata-booster'
 import 'reflect-metadata'
 

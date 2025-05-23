@@ -5,7 +5,7 @@
 
 import { expect } from './helpers/expect'
 import { fake, replace, restore } from 'sinon'
-import { BoosterConfig, Level } from '@boostercloud/framework-types'
+import { BoosterConfig, Level } from '@booster-ai/common'
 import { getLogger } from '../src/logger'
 
 describe('the `getLogger method`', () => {

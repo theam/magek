@@ -1,5 +1,5 @@
 import { Booster } from '../booster'
-import { Class, RoleMetadata, RoleInterface } from '@boostercloud/framework-types'
+import { Class, RoleMetadata, RoleInterface } from '@booster-ai/common'
 
 /**
  * Annotation to tell Booster which classes represent your roles

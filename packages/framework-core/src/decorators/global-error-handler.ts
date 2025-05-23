@@ -1,5 +1,5 @@
 import { Booster } from '../booster'
-import { GlobalErrorHandlerInterface } from '@boostercloud/framework-types'
+import { GlobalErrorHandlerInterface } from '@booster-ai/common'
 
 export function GlobalErrorHandler(): (errorHandlerClass: GlobalErrorHandlerInterface) => void {
   return (errorHandlerClass) => {

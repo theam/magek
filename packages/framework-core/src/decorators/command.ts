@@ -7,7 +7,7 @@ import {
   CommandInterface,
   CommandRoleAccess,
   Register,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { getClassMetadata } from './metadata'
 import { BoosterAuthorizer } from '../booster-authorizer'
 

@@ -15,7 +15,7 @@ import {
   ReducerGlobalError,
   TraceActionTypes,
   UUID,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { createInstance, getLogger } from '@booster-ai/common'
 import { BoosterGlobalErrorDispatcher } from '../booster-global-error-dispatcher'
 import { SchemaMigrator } from '../schema-migrator'

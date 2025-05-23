@@ -3,7 +3,7 @@ import { fake, match, replace, restore } from 'sinon'
 import { getJwksClient, getKeyWithClient, verifyJWT } from '../../../src/services/token-verifiers/utilities'
 import { JwksClient } from 'jwks-rsa'
 import * as jwt from 'jsonwebtoken'
-import { DecodedToken } from '@boostercloud/framework-types'
+import { DecodedToken } from '@booster-ai/common'
 
 describe('function `getJwksClient`', () => {
   it('returns a JwksClient instance', () => {

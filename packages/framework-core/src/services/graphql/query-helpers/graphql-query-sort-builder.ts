@@ -4,7 +4,7 @@ import { getClassMetadata } from '../../../decorators/metadata'
 import { buildGraphqlSimpleEnumFor, isExternalType, nonExcludedFields } from '../common'
 import { GraphQLInputFieldConfig } from 'graphql/type/definition'
 import { GraphQLTypeInformer } from '../graphql-type-informer'
-import { AnyClass, BoosterConfig } from '@boostercloud/framework-types'
+import { AnyClass, BoosterConfig } from '@booster-ai/common'
 
 export class GraphqlQuerySortBuilder {
   private generatedSortByByTypeName: Record<string, GraphQLInputObjectType> = {}

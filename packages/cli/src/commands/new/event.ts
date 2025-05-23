@@ -58,7 +58,7 @@ function generateImports(): Array<ImportDeclaration> {
       commaSeparatedComponents: 'Event',
     },
     {
-      packagePath: '@boostercloud/framework-types',
+      packagePath: '@booster-ai/common',
       commaSeparatedComponents: 'UUID',
     },
   ]

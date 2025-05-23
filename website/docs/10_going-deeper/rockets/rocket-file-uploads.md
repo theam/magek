@@ -46,7 +46,7 @@ In your Booster config file, configure your BoosterRocketFiles:
 
 ```typescript title="src/config/config.ts"
 import { Booster } from '@boostercloud/framework-core'
-import { BoosterConfig } from '@boostercloud/framework-types'
+import { BoosterConfig } from '@booster-ai/common'
 import { BoosterRocketFiles } from '@boostercloud/rocket-file-uploads-core'
 import { RocketFilesUserConfiguration } from '@boostercloud/rocket-file-uploads-types'
 
@@ -100,7 +100,7 @@ The storageName parameter is optional. It will use the first storage if undefine
 
 ```typescript title="src/commands/file-upload-put.ts"
 import { Booster, Command } from '@boostercloud/framework-core'
-import { Register } from '@boostercloud/framework-types'
+import { Register } from '@booster-ai/common'
 import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
 
 @Command({
@@ -147,7 +147,7 @@ The storageName parameter is optional. It will use the first storage if undefine
 
 ```typescript title="src/commands/file-upload-get.ts"
 import { Booster, Command } from '@boostercloud/framework-core'
-import { Register } from '@boostercloud/framework-types'
+import { Register } from '@booster-ai/common'
 import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
 
 @Command({
@@ -194,7 +194,7 @@ The storageName parameter is optional. It will use the first storage if undefine
 
 ```typescript title="src/commands/file-upload-list.ts"
 import { Booster, Command } from '@boostercloud/framework-core'
-import { Register } from '@boostercloud/framework-types'
+import { Register } from '@booster-ai/common'
 import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
 import { ListItem } from '@boostercloud/rocket-file-uploads-types'
 
@@ -299,7 +299,7 @@ In your Booster config file, configure your BoosterRocketFiles:
 
 ```typescript title="src/config/config.ts"
 import { Booster } from '@boostercloud/framework-core'
-import { BoosterConfig } from '@boostercloud/framework-types'
+import { BoosterConfig } from '@booster-ai/common'
 import { BoosterRocketFiles } from '@boostercloud/rocket-file-uploads-core'
 import { RocketFilesUserConfiguration } from '@boostercloud/rocket-file-uploads-types'
 
@@ -348,7 +348,7 @@ The storageName parameter is optional. It will use the first storage if undefine
 
 ```typescript title="src/commands/file-upload-put.ts"
 import { Booster, Command } from '@boostercloud/framework-core'
-import { Register } from '@boostercloud/framework-types'
+import { Register } from '@booster-ai/common'
 import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
 
 @Command({
@@ -408,7 +408,7 @@ The storageName parameter is optional. It will use the first storage if undefine
 
 ```typescript title="src/commands/file-upload-get.ts"
 import { Booster, Command } from '@boostercloud/framework-core'
-import { Register } from '@boostercloud/framework-types'
+import { Register } from '@booster-ai/common'
 import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
 
 @Command({
@@ -456,7 +456,7 @@ The storageName parameter is optional. It will use the first storage if undefine
 
 ```typescript title="src/commands/file-upload-list.ts"
 import { Booster, Command } from '@boostercloud/framework-core'
-import { Register } from '@boostercloud/framework-types'
+import { Register } from '@booster-ai/common'
 import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
 import { ListItem } from '@boostercloud/rocket-file-uploads-types'
 
@@ -515,7 +515,7 @@ The storageName parameter is optional. It will use the first storage if undefine
 
 ```typescript title="src/commands/delete-file.ts"
 import { Booster, Command } from '@boostercloud/framework-core'
-import { Register } from '@boostercloud/framework-types'
+import { Register } from '@booster-ai/common'
 import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
 import { ListItem } from '@boostercloud/rocket-file-uploads-types'
 
@@ -573,7 +573,7 @@ In your Booster config file, configure your BoosterRocketFiles:
 
 ```typescript title="src/config/config.ts"
 import { Booster } from '@boostercloud/framework-core'
-import { BoosterConfig } from '@boostercloud/framework-types'
+import { BoosterConfig } from '@booster-ai/common'
 import { BoosterRocketFiles } from '@boostercloud/rocket-file-uploads-core'
 import { RocketFilesUserConfiguration } from '@boostercloud/rocket-file-uploads-types'
 
@@ -625,7 +625,7 @@ The storageName parameter is optional. It will use the first storage if undefine
 
 ```typescript title="src/commands/file-upload-put.ts"
 import { Booster, Command } from '@boostercloud/framework-core'
-import { Register } from '@boostercloud/framework-types'
+import { Register } from '@booster-ai/common'
 import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
 
 @Command({
@@ -672,7 +672,7 @@ The storageName parameter is optional. It will use the first storage if undefine
 
 ```typescript title="src/commands/file-upload-get.ts"
 import { Booster, Command } from '@boostercloud/framework-core'
-import { Register } from '@boostercloud/framework-types'
+import { Register } from '@booster-ai/common'
 import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
 
 @Command({
@@ -719,7 +719,7 @@ The storageName parameter is optional. It will use the first storage if undefine
 
 ```typescript title="src/commands/file-upload-list.ts"
 import { Booster, Command } from '@boostercloud/framework-core'
-import { Register } from '@boostercloud/framework-types'
+import { Register } from '@booster-ai/common'
 import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
 import { ListItem } from '@boostercloud/rocket-file-uploads-types'
 

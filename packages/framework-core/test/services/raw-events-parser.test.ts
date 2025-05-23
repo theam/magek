@@ -6,7 +6,7 @@ import {
   EventEnvelope,
   UUID,
   EntitySnapshotEnvelope,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { RawEventsParser } from '../../src/services/raw-events-parser'
 import { expect } from '../expect'
 import { random } from 'faker'

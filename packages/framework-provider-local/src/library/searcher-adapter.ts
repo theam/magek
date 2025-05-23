@@ -1,4 +1,4 @@
-import { FilterFor } from '@boostercloud/framework-types'
+import { FilterFor } from '@booster-ai/common'
 
 /**
  * Creates a query record out of the read mode name and

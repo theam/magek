@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { EntitySnapshotEnvelope, EventEnvelope } from '@boostercloud/framework-types'
+import { EntitySnapshotEnvelope, EventEnvelope } from '@booster-ai/common'
 import { expect } from '../expect'
 import * as faker from 'faker'
 import { date, random } from 'faker'

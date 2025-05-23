@@ -10,7 +10,7 @@ import {
   ProviderLibrary,
   Register,
   UUID,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { expect } from './expect'
 import { ReadModelStore } from '../src/services/read-model-store'
 import { EventStore } from '../src/services/event-store'

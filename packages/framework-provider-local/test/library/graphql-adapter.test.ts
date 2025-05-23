@@ -3,7 +3,7 @@ import { mockReq } from 'sinon-express-mock'
 import { SinonStub, stub, replace, restore, fake } from 'sinon'
 import { rawGraphQLRequestToEnvelope } from '../../src/library/graphql-adapter'
 import { expect } from '../expect'
-import { BoosterConfig, UUID } from '@boostercloud/framework-types'
+import { BoosterConfig, UUID } from '@booster-ai/common'
 import { random } from 'faker'
 import { Request } from 'express'
 

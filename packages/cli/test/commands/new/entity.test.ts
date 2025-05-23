@@ -18,7 +18,7 @@ describe('new', (): void => {
         commaSeparatedComponents: 'Entity',
       },
       {
-        packagePath: '@boostercloud/framework-types',
+        packagePath: '@booster-ai/common',
         commaSeparatedComponents: 'UUID',
       },
     ]
@@ -28,7 +28,7 @@ describe('new', (): void => {
         commaSeparatedComponents: 'Entity, Reduces',
       },
       {
-        packagePath: '@boostercloud/framework-types',
+        packagePath: '@booster-ai/common',
         commaSeparatedComponents: 'UUID',
       },
       {
@@ -42,7 +42,7 @@ describe('new', (): void => {
         commaSeparatedComponents: 'Entity, Reduces',
       },
       {
-        packagePath: '@boostercloud/framework-types',
+        packagePath: '@booster-ai/common',
         commaSeparatedComponents: 'UUID',
       },
       {

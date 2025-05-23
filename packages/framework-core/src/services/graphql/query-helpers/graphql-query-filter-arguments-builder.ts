@@ -13,7 +13,7 @@ import {
 import { getClassMetadata } from '../../../decorators/metadata'
 import { PropertyMetadata, TypeMetadata } from '@boostercloud/metadata-booster'
 import { GraphQLJSON } from 'graphql-scalars'
-import { AnyClass, BoosterConfig, UUID } from '@boostercloud/framework-types'
+import { AnyClass, BoosterConfig, UUID } from '@booster-ai/common'
 import { GraphQLTypeInformer } from '../graphql-type-informer'
 import { DateScalar, isExternalType, nonExcludedFields } from '../common'
 

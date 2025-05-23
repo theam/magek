@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/no-unused-vars */
-import { BoosterConfig, TraceActionTypes, TraceInfo } from '@boostercloud/framework-types'
+import { BoosterConfig, TraceActionTypes, TraceInfo } from '@booster-ai/common'
 import { Booster, Trace } from '../../../src'
 import { expect } from '../../expect'
 import { stub } from 'sinon'

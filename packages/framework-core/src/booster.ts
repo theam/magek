@@ -11,7 +11,7 @@ import {
   ReadModelInterface,
   Searcher,
   UUID,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { Importer } from './importer'
 import { EventStore } from './services/event-store'
 import { BoosterEntityMigrated } from './core-concepts/data-migration/events/booster-entity-migrated'

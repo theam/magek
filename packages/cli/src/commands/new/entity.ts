@@ -83,7 +83,7 @@ function generateImports(info: EntityInfo): Array<ImportDeclaration> {
       commaSeparatedComponents: coreComponents.join(', '),
     },
     {
-      packagePath: '@boostercloud/framework-types',
+      packagePath: '@booster-ai/common',
       commaSeparatedComponents: 'UUID',
     },
     ...eventsImports,

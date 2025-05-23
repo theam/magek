@@ -1,4 +1,4 @@
-import { BoosterDataMigrationEntityDuration, DataMigrationStatus } from '@boostercloud/framework-types'
+import { BoosterDataMigrationEntityDuration, DataMigrationStatus } from '@booster-ai/common'
 import { BoosterDataMigrationStarted } from '../events/booster-data-migration-started'
 import { BoosterDataMigrationFinished } from '../events/booster-data-migration-finished'
 

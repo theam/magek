@@ -4,7 +4,7 @@ import {
   SchemaMigrationMetadata,
   ReadModelInterface,
   TraceActionTypes,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { getLogger } from '@booster-ai/common'
 import { Trace } from './instrumentation'
 

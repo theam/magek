@@ -1,4 +1,4 @@
-import { DecodedToken } from '@boostercloud/framework-types'
+import { DecodedToken } from '@booster-ai/common'
 import * as jwt from 'jsonwebtoken'
 import { JwksClient, SigningKey } from 'jwks-rsa'
 

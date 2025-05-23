@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { expect } from '../expect'
 import { Event } from '../../src/decorators'
-import { UUID } from '@boostercloud/framework-types'
+import { UUID } from '@booster-ai/common'
 import { Booster } from '../../src'
 
 describe('the `Event` decorator', () => {

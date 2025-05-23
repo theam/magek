@@ -1,7 +1,7 @@
 import * as execa from 'execa'
 import * as process from 'process'
 import { ProcessError, ProcessService } from '.'
-import { Layer, tryCatch, tryCatchPromise } from '@boostercloud/framework-types/dist/effect'
+import { Layer, tryCatch, tryCatchPromise } from '@booster-ai/common/dist/effect'
 import { unknownToError } from '../../common/errors'
 
 const exec = (command: string, cwd?: string) =>

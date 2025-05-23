@@ -14,7 +14,7 @@ import {
   ReadModelRequestEnvelope,
   ReadModelRequestProperties,
   TimeKey,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { getLogger } from '@booster-ai/common'
 import {
   FieldNode,

@@ -22,7 +22,7 @@ describe('new', (): void => {
         commaSeparatedComponents: 'EventHandler',
       },
       {
-        packagePath: '@boostercloud/framework-types',
+        packagePath: '@booster-ai/common',
         commaSeparatedComponents: 'Register',
       },
     ]

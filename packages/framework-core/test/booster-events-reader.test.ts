@@ -1,4 +1,4 @@
-import { ProviderLibrary, EventSearchRequest, EventSearchResponse, UUID } from '@boostercloud/framework-types'
+import { ProviderLibrary, EventSearchRequest, EventSearchResponse, UUID } from '@booster-ai/common'
 import { restore, fake, SinonSpy, match } from 'sinon'
 import { random, internet } from 'faker'
 import { BoosterEventsReader } from '../src/booster-events-reader'

@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { UserApp } from '@boostercloud/framework-types'
+import { UserApp } from '@booster-ai/common'
 
 export class HealthService {
   public constructor(readonly userApp: UserApp) {}

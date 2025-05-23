@@ -1,5 +1,5 @@
 import ora from 'ora'
-import { Logger } from '@boostercloud/framework-types'
+import { Logger } from '@booster-ai/common'
 import { appendFileSync } from 'fs'
 import * as path from 'path'
 

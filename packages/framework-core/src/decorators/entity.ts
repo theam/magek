@@ -8,7 +8,7 @@ import {
   EventStreamRoleAccess,
   AnyClass,
   EventStreamAuthorizer,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import 'reflect-metadata'
 import { BoosterAuthorizer } from '../booster-authorizer'
 

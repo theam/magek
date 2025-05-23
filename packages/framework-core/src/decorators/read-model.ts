@@ -4,7 +4,7 @@ import {
   ReadModelFilterHooks,
   ReadModelInterface,
   ReadModelRoleAccess,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { Booster } from '../booster'
 import { BoosterAuthorizer } from '../booster-authorizer'
 import { getClassMetadata } from './metadata'

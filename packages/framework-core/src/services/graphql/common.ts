@@ -6,7 +6,7 @@ import {
   GraphQLOperation,
   ReadModelInterface,
   ContextEnvelope,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import {
   GraphQLEnumType,
   GraphQLEnumValueConfigMap,

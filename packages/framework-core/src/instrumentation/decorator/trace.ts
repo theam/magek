@@ -1,4 +1,4 @@
-import { BoosterConfig, TraceActionTypes, TraceInfo, TraceTypes, UUID } from '@boostercloud/framework-types'
+import { BoosterConfig, TraceActionTypes, TraceInfo, TraceTypes, UUID } from '@booster-ai/common'
 import { isTraceEnabled, notifyTrace } from '../trace-notifier'
 import { Booster } from '../../booster'
 

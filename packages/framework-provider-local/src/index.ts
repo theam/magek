@@ -1,4 +1,4 @@
-import { HasInfrastructure, ProviderLibrary, RocketDescriptor, UserApp } from '@boostercloud/framework-types'
+import { HasInfrastructure, ProviderLibrary, RocketDescriptor, UserApp } from '@booster-ai/common'
 import {
   rawEventsToEnvelopes,
   readEntityEventsSince,

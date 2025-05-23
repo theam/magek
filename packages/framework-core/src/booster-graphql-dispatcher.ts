@@ -8,7 +8,7 @@ import {
   GraphQLRequestEnvelopeError,
   graphQLWebsocketSubprotocolHeaders,
   TraceActionTypes,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { GraphQLSchema, DocumentNode, ExecutionResult, GraphQLError, OperationTypeNode } from 'graphql'
 import * as graphql from 'graphql'
 import { GraphQLGenerator } from './services/graphql/graphql-generator'

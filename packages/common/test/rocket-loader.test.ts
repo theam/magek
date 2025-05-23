@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { fake, replace, restore } from 'sinon'
-import { RocketDescriptor } from '@boostercloud/framework-types'
+import { RocketDescriptor } from '@booster-ai/common'
 import { expect } from './helpers/expect'
 import { RocketLoader } from '../src/rocket-loader'
 

@@ -1,4 +1,4 @@
-import { BoosterConfig } from '@boostercloud/framework-types'
+import { BoosterConfig } from '@booster-ai/common'
 import { Router } from 'express'
 
 export interface InfrastructureRocketMetadata {

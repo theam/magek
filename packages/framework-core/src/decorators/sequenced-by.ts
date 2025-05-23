@@ -1,5 +1,5 @@
 import { Booster } from '../booster'
-import { Class, ReadModelInterface } from '@boostercloud/framework-types'
+import { Class, ReadModelInterface } from '@booster-ai/common'
 import { getFunctionArguments } from './metadata'
 
 export function sequencedBy(klass: Class<ReadModelInterface>, _: string | undefined, parameterIndex: number): void {

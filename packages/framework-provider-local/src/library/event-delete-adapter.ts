@@ -7,7 +7,7 @@ import {
   EventEnvelopeFromDatabase,
   EntitySnapshotEnvelopeFromDatabase,
   EntitySnapshotEnvelope,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { getLogger } from '@booster-ai/common'
 import { EventRegistry } from '../services'
 import { QueryOperation, QueryValue } from './searcher-adapter'

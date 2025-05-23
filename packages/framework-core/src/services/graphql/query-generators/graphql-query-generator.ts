@@ -2,7 +2,7 @@ import { GraphQLTypeInformer } from '../graphql-type-informer'
 import { GraphQLResolverContext, ResolverBuilder, TargetTypesMap } from '../common'
 import { GraphQLFieldConfigMap } from 'graphql'
 import { GraphQLHandledFieldsGenerator } from '../query-helpers/graphql-handled-fields-generator'
-import { BoosterConfig } from '@boostercloud/framework-types'
+import { BoosterConfig } from '@booster-ai/common'
 
 export class GraphqlQueryGenerator {
   public constructor(

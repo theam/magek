@@ -7,7 +7,7 @@ import {
   BoosterConfig,
   ReadModelRequestProperties,
   FilterFor,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { applyReadModelRequestBeforeFunctions } from '../filter-helpers'
 
 export interface ReadModelPubSub<TReadModel extends ReadModelInterface> {

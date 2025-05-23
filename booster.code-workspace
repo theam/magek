@@ -41,8 +41,8 @@
       "path": "packages/framework-provider-local-infrastructure"
     },
     {
-      "name": "📦 @boostercloud/framework-types",
-      "path": "packages/framework-types"
+      "name": "📦 @booster-ai/common",
+      "path": "packages/common"
     },
     {
       "name": "📦 @boostercloud/metadata-booster",

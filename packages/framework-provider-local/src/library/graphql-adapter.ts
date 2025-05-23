@@ -6,7 +6,7 @@ import {
   GraphQLRequestEnvelope,
   GraphQLRequestEnvelopeError,
   UUID,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { getLogger } from '@booster-ai/common'
 import * as express from 'express'
 import { ExpressWebSocketMessage } from './web-socket-server-adapter'

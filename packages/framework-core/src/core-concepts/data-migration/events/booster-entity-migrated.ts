@@ -1,4 +1,4 @@
-import { EntityInterface, Instance, UUID } from '@boostercloud/framework-types'
+import { EntityInterface, Instance, UUID } from '@booster-ai/common'
 
 export class BoosterEntityMigrated {
   public constructor(

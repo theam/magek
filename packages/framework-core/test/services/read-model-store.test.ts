@@ -13,7 +13,7 @@ import {
   ReadModelAction,
   ReadModelInterface,
   UUID,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { expect } from '../expect'
 import { BoosterAuthorizer } from '../../src/booster-authorizer'
 import { fake, match, replace, restore, SinonFakeTimers, spy, useFakeTimers } from 'sinon'

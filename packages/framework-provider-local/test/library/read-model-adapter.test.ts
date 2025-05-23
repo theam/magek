@@ -10,7 +10,7 @@ import {
   SortFor,
   UserApp,
   UUID,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { expect } from '../expect'
 import { random } from 'faker'
 import { createMockReadModelEnvelope } from '../helpers/read-model-helper'

@@ -7,7 +7,7 @@ import {
   CommandHandlerGlobalError,
   TraceActionTypes,
   CommandInput,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { RegisterHandler } from './booster-register-handler'
 import { createInstance, getLogger } from '@booster-ai/common'
 import { applyBeforeFunctions } from './services/filter-helpers'

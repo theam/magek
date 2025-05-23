@@ -1,4 +1,4 @@
-import { AnyClass, BoosterConfig } from '@boostercloud/framework-types'
+import { AnyClass, BoosterConfig } from '@booster-ai/common'
 import { GraphQLBoolean, GraphQLFieldConfigArgumentMap, GraphQLInputObjectType, GraphQLList } from 'graphql'
 import { GraphQLTypeInformer } from '../graphql-type-informer'
 import { GraphqlQueryFilterArgumentsBuilder } from './graphql-query-filter-arguments-builder'

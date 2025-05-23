@@ -1,5 +1,5 @@
 import { GraphQLTypeInformer } from '../../../src/services/graphql/graphql-type-informer'
-import { AnyClass, Logger } from '@boostercloud/framework-types'
+import { AnyClass, Logger } from '@booster-ai/common'
 import { expect } from '../../expect'
 import {
   GraphQLBoolean,

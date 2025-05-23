@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { expect } from './expect'
-import { BoosterConfig, UserEnvelope } from '@boostercloud/framework-types'
+import { BoosterConfig, UserEnvelope } from '@booster-ai/common'
 import createJWKSMock from 'mock-jwks'
 import { internet, phone, random } from 'faker'
 import { BoosterTokenVerifier } from '../src/booster-token-verifier'

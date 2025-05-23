@@ -4,7 +4,7 @@ import {
   EventSearchParameters,
   EventSearchResponse,
   NotificationMetadata,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { createInstance, getLogger } from '@booster-ai/common'
 
 export async function eventSearch(

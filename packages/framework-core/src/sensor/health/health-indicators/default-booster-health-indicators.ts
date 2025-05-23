@@ -4,7 +4,7 @@ import {
   Class,
   HealthIndicatorInterface,
   HealthIndicatorMetadata,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { BoosterHealthIndicator } from './booster-health-indicator'
 import { BoosterDatabaseHealthIndicator } from './booster-database-health-indicator'
 import { BoosterDatabaseEventsHealthIndicator } from './booster-database-events-health-indicator'

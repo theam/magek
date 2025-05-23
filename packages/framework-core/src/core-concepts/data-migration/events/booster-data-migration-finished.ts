@@ -1,4 +1,4 @@
-import { UUID } from '@boostercloud/framework-types'
+import { UUID } from '@booster-ai/common'
 
 export class BoosterDataMigrationFinished {
   readonly lastUpdated: string

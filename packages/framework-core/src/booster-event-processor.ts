@@ -7,7 +7,7 @@ import {
   Register,
   TraceActionTypes,
   UUID,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { EventStore } from './services/event-store'
 import { EventsStreamingCallback } from './services/raw-events-parser'
 import { ReadModelStore } from './services/read-model-store'

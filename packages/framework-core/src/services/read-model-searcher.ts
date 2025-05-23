@@ -5,7 +5,7 @@ import {
   ReadModelInterface,
   Searcher,
   SearcherFunction,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { BoosterReadModelsReader } from '../booster-read-models-reader'
 
 export function readModelSearcher<TReadModel extends ReadModelInterface>(

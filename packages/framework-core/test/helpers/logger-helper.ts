@@ -1,4 +1,4 @@
-import { Logger } from '@boostercloud/framework-types'
+import { Logger } from '@booster-ai/common'
 
 /**
  * Logger that doesn't do anything

@@ -1,4 +1,4 @@
-import { ScheduledCommandMetadata, BoosterConfig } from '@boostercloud/framework-types'
+import { ScheduledCommandMetadata, BoosterConfig } from '@booster-ai/common'
 import * as scheduler from 'node-schedule'
 
 interface ScheduledCommandInfo {

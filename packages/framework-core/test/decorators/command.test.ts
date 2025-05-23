@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { expect } from '../expect'
-import { Register } from '@boostercloud/framework-types'
+import { Register } from '@booster-ai/common'
 import { Command } from '../../src/decorators'
 import { Booster } from '../../src'
 import { fake } from 'sinon'

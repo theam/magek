@@ -24,7 +24,6 @@ import * as path from 'path'
 import { RocketDescriptor, RocketFunction } from './rockets'
 import { DEFAULT_SENSOR_HEALTH_BOOSTER_CONFIGURATIONS, HealthIndicatorMetadata, Logger, SensorConfiguration } from '.'
 import { TraceConfiguration } from './instrumentation/trace-types'
-import { Context } from 'effect'
 import { AzureConfiguration, DEFAULT_CHUNK_SIZE } from './provider/azure-configuration'
 
 /**
@@ -261,7 +260,7 @@ export class BoosterConfig {
   }
 }
 
-export const BoosterConfigTag = Context.GenericTag<BoosterConfig>('BoosterConfig')
+export const BoosterConfigTag = Symbol('BoosterConfig')
 
 interface ResourceNames {
   applicationStack: string

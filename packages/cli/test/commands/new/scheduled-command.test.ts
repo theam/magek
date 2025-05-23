@@ -18,7 +18,7 @@ describe('new', (): void => {
         commaSeparatedComponents: 'ScheduledCommand',
       },
       {
-        packagePath: '@boostercloud/framework-types',
+        packagePath: '@booster-ai/common',
         commaSeparatedComponents: 'Register',
       },
     ]

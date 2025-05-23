@@ -1,4 +1,4 @@
-import { Class, NotificationInterface } from '@boostercloud/framework-types'
+import { Class, NotificationInterface } from '@booster-ai/common'
 import { Booster } from '../booster'
 import { getFunctionArguments } from './metadata'
 

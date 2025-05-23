@@ -47,7 +47,7 @@ function generateImports(): Array<ImportDeclaration> {
       commaSeparatedComponents: 'ScheduledCommand',
     },
     {
-      packagePath: '@boostercloud/framework-types',
+      packagePath: '@booster-ai/common',
       commaSeparatedComponents: componentsFromBoosterTypes.join(', '),
     },
   ]

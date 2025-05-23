@@ -1,6 +1,6 @@
 import * as express from 'express'
 import { GraphQLService, HealthService } from '@boostercloud/framework-provider-local'
-import { BoosterConfig, ProviderInfrastructure, RocketDescriptor, UserApp } from '@boostercloud/framework-types'
+import { BoosterConfig, ProviderInfrastructure, RocketDescriptor, UserApp } from '@booster-ai/common'
 import * as path from 'path'
 import { requestFailed } from './http'
 import { GraphQLController } from './controllers/graphql'

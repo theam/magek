@@ -9,7 +9,7 @@ import { Script } from '../common/script'
 import Brand from '../common/brand'
 import { currentEnvironment, initializeEnvironment } from '../services/environment'
 import { logger } from '../services/logger'
-import { BoosterConfig } from '@boostercloud/framework-types'
+import { BoosterConfig } from '@booster-ai/common'
 import { synthToProvider } from '../services/provider-service'
 
 const runTasks = async (

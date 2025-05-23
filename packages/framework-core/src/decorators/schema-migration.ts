@@ -1,5 +1,5 @@
 import { Booster } from '../booster'
-import { Class, AnyClass, SchemaMigrationMetadata, BoosterConfig, Instance } from '@boostercloud/framework-types'
+import { Class, AnyClass, SchemaMigrationMetadata, BoosterConfig, Instance } from '@booster-ai/common'
 import 'reflect-metadata'
 
 const migrationMethodsMetadataKey = 'booster:migrationsMethods'

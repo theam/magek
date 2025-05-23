@@ -8,7 +8,7 @@ import {
   HealthIndicatorsResult,
   HealthStatus,
   UserEnvelope,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { childHealthProviders, isEnabled, metadataFromId, rootHealthProviders } from './health-utils'
 import { createInstance } from '@booster-ai/common'
 import { defaultBoosterHealthIndicators } from './health-indicators'

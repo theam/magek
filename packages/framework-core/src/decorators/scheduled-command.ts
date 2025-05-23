@@ -1,5 +1,5 @@
 import { Booster } from '../booster'
-import { ScheduledCommandInterface, ScheduleInterface } from '@boostercloud/framework-types'
+import { ScheduledCommandInterface, ScheduleInterface } from '@booster-ai/common'
 
 /**
  * Annotation to tell Booster which classes are scheduled commands

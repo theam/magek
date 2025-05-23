@@ -7,7 +7,7 @@ import {
   Instance,
   Register,
   UUID,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { getLogger } from '@booster-ai/common'
 import { RegisterHandler } from './booster-register-handler'
 import { EventStore } from './services/event-store'

@@ -1,7 +1,7 @@
 import * as process from 'process'
 import * as execa from 'execa'
 import { fake, replace, restore } from 'sinon'
-import { Effect, gen, mapError, pipe, unsafeRunEffect } from '@boostercloud/framework-types/dist/effect'
+import { Effect, gen, mapError, pipe, unsafeRunEffect } from '@booster-ai/common/dist/effect'
 import { LiveProcess } from '../../../src/services/process/live.impl'
 import { expect } from '../../expect'
 import { guardError } from '../../../src/common/errors'

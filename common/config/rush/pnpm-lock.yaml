@@ -15,9 +15,8 @@ importers:
       '@boostercloud/framework-core':
         specifier: workspace:^3.2.0
         version: link:../framework-core
-      '@boostercloud/framework-types':
+      '@booster-ai/common':
         specifier: workspace:^3.2.0
-        version: link:../framework-types
       '@effect-ts/core':
         specifier: ^0.60.4
         version: 0.60.5
@@ -169,9 +168,8 @@ importers:
 
   ../../packages/common:
     dependencies:
-      '@boostercloud/framework-types':
+      '@booster-ai/common':
         specifier: workspace:^3.2.0
-        version: link:../framework-types
       '@effect-ts/core':
         specifier: ^0.60.4
         version: 0.60.5
@@ -278,9 +276,8 @@ importers:
       '@booster-ai/common':
         specifier: workspace:^3.2.0
         version: link:../common
-      '@boostercloud/framework-types':
+      '@booster-ai/common':
         specifier: workspace:^3.2.0
-        version: link:../framework-types
       '@effect/cli':
         specifier: 0.56.2
         version: 0.56.2(@effect/platform@0.82.4(effect@3.13.2))(@effect/printer-ansi@0.41.2(@effect/typeclass@0.34.2(effect@3.13.2))(effect@3.13.2))(@effect/printer@0.41.2(@effect/typeclass@0.34.2(effect@3.13.2))(effect@3.13.2))(effect@3.13.2)
@@ -453,9 +450,8 @@ importers:
       '@booster-ai/common':
         specifier: workspace:^3.2.0
         version: link:../common
-      '@boostercloud/framework-types':
+      '@booster-ai/common':
         specifier: workspace:^3.2.0
-        version: link:../framework-types
       '@effect-ts/core':
         specifier: ^0.60.4
         version: 0.60.5
@@ -571,9 +567,8 @@ importers:
       '@boostercloud/framework-provider-local':
         specifier: workspace:^3.2.0
         version: link:../framework-provider-local
-      '@boostercloud/framework-types':
+      '@booster-ai/common':
         specifier: workspace:^3.2.0
-        version: link:../framework-types
       '@effect-ts/core':
         specifier: ^0.60.4
         version: 0.60.5
@@ -684,7 +679,6 @@ importers:
         specifier: 5.7.3
         version: 5.7.3
 
-  ../../packages/framework-types:
     dependencies:
       '@effect-ts/core':
         specifier: ^0.60.4

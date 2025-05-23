@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createInstanceWithCalculatedProperties } from '../src'
-import { ProjectionFor, ReadModelInterface, UUID } from '@boostercloud/framework-types'
+import { ProjectionFor, ReadModelInterface, UUID } from '@booster-ai/common'
 import { expect } from './helpers/expect'
 import { random } from 'faker'
 

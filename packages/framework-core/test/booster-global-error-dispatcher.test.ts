@@ -19,7 +19,7 @@ import {
   ScheduleCommandGlobalError,
   ScheduledCommandEnvelope,
   ScheduledCommandMetadata,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { GlobalErrorHandler } from '../src'
 import { restore } from 'sinon'
 import { Booster } from '../src/booster'

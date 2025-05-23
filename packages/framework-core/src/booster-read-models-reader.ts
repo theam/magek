@@ -17,7 +17,7 @@ import {
   SubscriptionEnvelope,
   TraceActionTypes,
   UUID,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { createInstance, createInstances, createInstanceWithCalculatedProperties, getLogger } from '@booster-ai/common'
 import { Booster } from './booster'
 import { applyReadModelRequestBeforeFunctions } from './services/filter-helpers'

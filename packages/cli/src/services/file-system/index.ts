@@ -1,4 +1,4 @@
-import { Effect, tag } from '@boostercloud/framework-types/dist/effect'
+import { Effect, tag } from '@booster-ai/common/dist/effect'
 
 export class FileSystemError {
   readonly _tag = 'FileSystemError'

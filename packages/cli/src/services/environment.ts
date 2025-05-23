@@ -1,4 +1,4 @@
-import { Logger } from '@boostercloud/framework-types'
+import { Logger } from '@booster-ai/common'
 
 export function initializeEnvironment(logger: Logger, environment?: string): boolean {
   // We override the environment with the one passed via flags
