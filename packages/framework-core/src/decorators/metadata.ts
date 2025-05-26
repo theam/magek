@@ -3,7 +3,7 @@ import { ClassMetadata } from '@boostercloud/metadata-booster'
 import 'reflect-metadata'
 
 export function getClassMetadata(classType: AnyClass): ClassMetadata {
-  const meta: ClassMetadata = Reflect.getMetadata('booster:typeinfo', classType)
+  const meta: ClassMetadata = Reflect.getMetadata('booster:typeinfo', classType as object)
   if (!meta) {
     throw Error(`Couldn't get proper metadata information of ${classType.name}`)
   }
