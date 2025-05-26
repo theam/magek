@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@boostercloud/framework-core",
+      "comment": "fix compile errors in framework-core",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@boostercloud/framework-core",
+  "email": "codex@openai.com"
+}
