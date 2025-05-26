@@ -1,5 +1,5 @@
-import { createInstance } from '@booster-ai/common'
 import {
+  createInstance,
   BoosterConfig,
   BoosterConfigTag,
   Class,

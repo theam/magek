@@ -7,14 +7,17 @@ import {
   Register,
   TraceActionTypes,
   UUID,
+  NotificationInterface,
+  createInstance,
+  getLogger,
+  Promises,
+  PromisesError,
 } from '@booster-ai/common'
 import { EventStore } from './services/event-store'
 import { EventsStreamingCallback } from './services/raw-events-parser'
 import { ReadModelStore } from './services/read-model-store'
 import { RegisterHandler } from './booster-register-handler'
 import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher'
-import { createInstance, getLogger, Promises, PromisesError } from '@booster-ai/common'
-import { NotificationInterface } from 'framework-types/dist'
 import { Trace } from './instrumentation'
 import { BOOSTER_GLOBAL_EVENT_HANDLERS } from './decorators'
 

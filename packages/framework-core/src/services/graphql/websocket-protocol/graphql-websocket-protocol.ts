@@ -16,9 +16,9 @@ import {
   MessageTypes,
   ProviderConnectionsLibrary,
   UserEnvelope,
+  getLogger,
 } from '@booster-ai/common'
 import { BoosterTokenVerifier } from '../../../booster-token-verifier'
-import { getLogger } from '@booster-ai/common'
 
 export interface GraphQLWebsocketHandlerCallbacks {
   onStartOperation: (

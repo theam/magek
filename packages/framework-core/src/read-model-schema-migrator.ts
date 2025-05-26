@@ -4,8 +4,8 @@ import {
   SchemaMigrationMetadata,
   ReadModelInterface,
   TraceActionTypes,
+  getLogger,
 } from '@booster-ai/common'
-import { getLogger } from '@booster-ai/common'
 import { Trace } from './instrumentation'
 
 export class ReadModelSchemaMigrator {

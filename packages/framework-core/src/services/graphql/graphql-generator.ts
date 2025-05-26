@@ -14,8 +14,8 @@ import {
   ReadModelRequestEnvelope,
   ReadModelRequestProperties,
   TimeKey,
+  getLogger,
 } from '@booster-ai/common'
-import { getLogger } from '@booster-ai/common'
 import {
   FieldNode,
   FragmentDefinitionNode,

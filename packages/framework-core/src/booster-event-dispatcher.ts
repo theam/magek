@@ -1,7 +1,6 @@
-import { BoosterConfig, TraceActionTypes } from '@booster-ai/common'
+import { BoosterConfig, TraceActionTypes, getLogger } from '@booster-ai/common'
 import { EventStore } from './services/event-store'
 import { RawEventsParser } from './services/raw-events-parser'
-import { getLogger } from '@booster-ai/common'
 import { ReadModelStore } from './services/read-model-store'
 import { Trace } from './instrumentation'
 import { BoosterEventProcessor } from './booster-event-processor'

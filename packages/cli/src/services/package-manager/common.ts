@@ -1,4 +1,4 @@
-import { mapError, gen, pipe, Ref } from '@booster-ai/common/dist/effect'
+import { mapError, gen, pipe, Ref } from '@booster-ai/common'
 import { InstallDependenciesError, PackageManagerService, RunScriptError } from '.'
 import { ProcessService } from '../process'
 import { FileSystemService } from '../file-system'

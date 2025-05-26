@@ -1,5 +1,5 @@
 import { InstallDependenciesError, PackageManagerService, RunScriptError } from '.'
-import { fail, gen, Layer, mapError, orDie, pipe, Ref } from '@booster-ai/common/dist/effect'
+import { fail, gen, Layer, mapError, orDie, pipe, Ref } from '@booster-ai/common'
 import { makePackageManager, makeScopedRun } from './common'
 
 // TODO: Look recursively up for a rush.json file and run ./common/scripts/install-run-rushx.js

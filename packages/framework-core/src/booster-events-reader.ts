@@ -8,8 +8,8 @@ import {
   EventSearchParameters,
   EventParametersFilterByEntity,
   EventParametersFilterByType,
+  getLogger,
 } from '@booster-ai/common'
-import { getLogger } from '@booster-ai/common'
 import { Booster } from './booster'
 
 export class BoosterEventsReader {

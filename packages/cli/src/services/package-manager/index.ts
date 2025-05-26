@@ -1,4 +1,4 @@
-import { Effect, tag } from '@booster-ai/common/dist/effect'
+import { Effect, tag } from '@booster-ai/common'
 
 export type PackageManagerError = InstallDependenciesError | RunScriptError
 

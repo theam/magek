@@ -188,6 +188,9 @@ importers:
       '@boostercloud/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
+      '@boostercloud/metadata-booster':
+        specifier: workspace:^3.2.0
+        version: link:../metadata-booster
       '@types/chai':
         specifier: 5.2.2
         version: 5.2.2
@@ -248,6 +251,9 @@ importers:
       fast-check:
         specifier: ^3.13.2
         version: 3.23.2
+      graphql:
+        specifier: ^16.6.0
+        version: 16.11.0
       mocha:
         specifier: 10.2.0
         version: 10.2.0

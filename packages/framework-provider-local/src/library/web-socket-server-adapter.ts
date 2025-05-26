@@ -1,11 +1,10 @@
 import { Server, WebSocket } from 'ws'
 import { Server as HttpServer } from 'http'
 import { Duplex } from 'stream'
-import { BoosterConfig, EventType, UUID } from '@booster-ai/common'
+import { BoosterConfig, EventType, UUID, getLogger } from '@booster-ai/common'
 import { IncomingMessage } from 'node:http'
 import { GraphQLService } from '../services'
 import * as express from 'express'
-import { getLogger } from '@booster-ai/common'
 
 export interface ConnectionContext {
   connectionId: UUID

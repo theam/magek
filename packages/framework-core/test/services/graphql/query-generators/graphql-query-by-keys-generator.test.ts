@@ -2,9 +2,8 @@
 import { replace, restore, fake } from 'sinon'
 import { expect } from '../../../expect'
 import { GraphQLTypeInformer } from '../../../../src/services/graphql/graphql-type-informer'
-import { BoosterConfig, UUID, TimeKey, Level, AnyClass, Logger } from '@booster-ai/common'
+import { BoosterConfig, UUID, TimeKey, Level, AnyClass, Logger, getLogger } from '@booster-ai/common'
 import { GraphqlQueryByKeysGenerator } from '../../../../src/services/graphql/query-generators/graphql-query-by-keys-generator'
-import { getLogger } from '@booster-ai/common'
 import { random } from 'faker'
 
 class AnotherReadModel {

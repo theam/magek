@@ -10,6 +10,7 @@ import {
   ProviderLibrary,
   Register,
   UUID,
+  PromisesError,
 } from '@booster-ai/common'
 import { expect } from './expect'
 import { ReadModelStore } from '../src/services/read-model-store'
@@ -17,7 +18,6 @@ import { EventStore } from '../src/services/event-store'
 import { RegisterHandler } from '../src/booster-register-handler'
 import { random } from 'faker'
 import { BoosterEventProcessor } from '../src/booster-event-processor'
-import { PromisesError } from '@booster-ai/common'
 
 class SomeEvent {
   public constructor(readonly id: UUID) {}

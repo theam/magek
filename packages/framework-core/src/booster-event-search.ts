@@ -4,8 +4,9 @@ import {
   EventSearchParameters,
   EventSearchResponse,
   NotificationMetadata,
+  createInstance,
+  getLogger,
 } from '@booster-ai/common'
-import { createInstance, getLogger } from '@booster-ai/common'
 
 export async function eventSearch(
   config: BoosterConfig,

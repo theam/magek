@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import { fake, replace } from 'sinon'
-import { gen, mapError, pipe, unsafeRunEffect } from '@booster-ai/common/dist/effect'
+import { gen, mapError, pipe, unsafeRunEffect } from '@booster-ai/common'
 import { expect } from '../../expect'
 import { FileSystemService } from '../../../src/services/file-system'
 import { LiveFileSystem } from '../../../src/services/file-system/live.impl'
