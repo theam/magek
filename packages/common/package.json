@@ -37,7 +37,6 @@
   },
   "dependencies": {
     "tslib": "^2.4.0",
-    "@effect-ts/core": "^0.60.4",
     "class-transformer": "~0.5.1",
     "execa": "^2.0.3",
     "effect": "3.13.2"

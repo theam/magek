@@ -169,9 +169,6 @@ importers:
 
   ../../packages/common:
     dependencies:
-      '@effect-ts/core':
-        specifier: ^0.60.4
-        version: 0.60.5
       class-transformer:
         specifier: ~0.5.1
         version: 0.5.1

@@ -1,5 +1,5 @@
 import Brand from './brand'
-import { orDieWith } from '@booster-ai/common'
+import { orDieWith } from '../effect'
 
 /**
  * Builds an error extracting its message from the "stdout" and "stderr" properties if present

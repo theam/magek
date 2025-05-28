@@ -1,4 +1,4 @@
-import { Effect, Has, Layer, succeedWith, Tag } from '@booster-ai/common'
+import { Effect, Has, Layer, succeedWith, Tag } from '../../src/effect'
 import { ShapeFn } from '@effect-ts/core/Effect'
 import { SinonSpy } from 'sinon'
 

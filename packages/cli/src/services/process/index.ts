@@ -1,4 +1,4 @@
-import { Effect, tag } from '@booster-ai/common'
+import { Effect, tag } from '../../effect'
 
 export class ProcessError {
   readonly _tag = 'ProcessError'
