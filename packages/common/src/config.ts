@@ -212,7 +212,7 @@ export class BoosterConfig {
   }
 
   public set provider(provider: ProviderLibrary) {
-    console.warn(`
+    console.info(`
       The usage of the 'config.provider' field is deprecated,
       please use 'config.providerPackage' instead.
 
