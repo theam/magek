@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@booster-ai/common": "workspace:^3.2.0",
-    "@boostercloud/framework-provider-local": "workspace:^3.2.0",
+    "@booster-ai/server": "workspace:^3.2.0",
     "cors": "2.8.5",
     "express": "^4.19.2",
     "node-schedule": "^2.1.0",

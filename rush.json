@@ -399,7 +399,7 @@
       "projectFolder": "packages/framework-core"
     },
     {
-      "packageName": "@boostercloud/framework-provider-local",
+      "packageName": "@booster-ai/server",
       "shouldPublish": true,
       "versionPolicyName": "booster",
       "projectFolder": "packages/framework-provider-local"

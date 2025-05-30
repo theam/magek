@@ -591,7 +591,7 @@ const rocketFilesConfigurationCms: RocketFilesUserConfiguration = {
 
 Booster.configure('local', (config: BoosterConfig): void => {
   config.appName = 'TEST_APP_NAME'
-  config.providerPackage = '@boostercloud/framework-provider-local'
+  config.providerPackage = '@booster-ai/server'
   config.rockets = [
     new BoosterRocketFiles(config, [rocketFilesConfigurationDefault, rocketFilesConfigurationCms]).rocketForLocal(),
   ]

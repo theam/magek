@@ -111,7 +111,7 @@ export const parseConfig = async (
   if (flags.default) {
     return Promise.resolve({
       projectName: flags.projectName as string,
-      providerPackageName: '@boostercloud/framework-provider-local',
+      providerPackageName: '@booster-ai/server',
       description: '',
       version: '0.1.0',
       author: '',

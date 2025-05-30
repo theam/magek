@@ -1,6 +1,6 @@
 import * as express from 'express'
 import { HttpCodes, requestFailed } from '../http'
-import { HealthService } from '@boostercloud/framework-provider-local'
+import { HealthService } from '@booster-ai/server'
 
 export class HealthController {
   public router: express.Router = express.Router()
