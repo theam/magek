@@ -405,7 +405,7 @@
       "projectFolder": "packages/framework-provider-local"
     },
     {
-      "packageName": "@boostercloud/framework-provider-local-infrastructure",
+      "packageName": "@booster-ai/server-infrastructure",
       "shouldPublish": true,
       "versionPolicyName": "booster",
       "projectFolder": "packages/framework-provider-local-infrastructure"
