@@ -24,7 +24,7 @@ describe('project initializer', (): void => {
   })
 
   const projectName = 'test-project'
-  const defaultProvider = '@boostercloud/framework-provider-local'
+  const defaultProvider = '@booster-ai/server'
   const defaultProjectInitializerConfig = {
     projectName: projectName,
     description: '',

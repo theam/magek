@@ -568,7 +568,7 @@ importers:
       '@booster-ai/common':
         specifier: workspace:^3.2.0
         version: link:../common
-      '@boostercloud/framework-provider-local':
+      '@booster-ai/server':
         specifier: workspace:^3.2.0
         version: link:../framework-provider-local
       '@effect-ts/core':

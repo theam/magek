@@ -1,6 +1,6 @@
 import * as express from 'express'
 import { HttpCodes, requestFailed } from '../http'
-import { GraphQLService } from '@boostercloud/framework-provider-local'
+import { GraphQLService } from '@booster-ai/server'
 
 export class GraphQLController {
   public router: express.Router = express.Router()

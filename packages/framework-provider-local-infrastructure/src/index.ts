@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { GraphQLService, HealthService } from '@boostercloud/framework-provider-local'
+import { GraphQLService, HealthService } from '@booster-ai/server'
 import { BoosterConfig, ProviderInfrastructure, RocketDescriptor, UserApp, RocketLoader } from '@booster-ai/common'
 import * as path from 'path'
 import { requestFailed } from './http'

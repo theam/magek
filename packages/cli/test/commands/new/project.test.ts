@@ -13,7 +13,7 @@ describe('new', (): void => {
   describe('project', () => {
     context('default provider', () => {
       const projectName = 'test-project'
-      const defaultProvider = '@boostercloud/framework-provider-local'
+      const defaultProvider = '@booster-ai/server'
       const defaultRepository = 'github.com:boostercloud/booster.git'
 
       const expectFilesAndDirectoriesCreated = (projectName: string) => {

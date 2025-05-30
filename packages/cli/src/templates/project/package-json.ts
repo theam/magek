@@ -13,7 +13,7 @@ export const template = `{
     "{{{providerPackageName}}}": "^${VERSION}"
   },
   "devDependencies": {
-    "@boostercloud/framework-provider-local": "^${VERSION}",
+    "@booster-ai/server": "^${VERSION}",
     "@boostercloud/framework-provider-local-infrastructure": "^${VERSION}",
     "@boostercloud/metadata-booster": "^${VERSION}",
     "{{{providerPackageName}}}-infrastructure": "^${VERSION}",

@@ -1,9 +1,9 @@
 {
-  "name": "@boostercloud/framework-provider-local",
+  "name": "@booster-ai/server",
   "version": "3.2.0",
   "description": "Debug your Booster projects locally",
   "keywords": [
-    "framework-provider-local"
+    "server"
   ],
   "author": "Boosterin Labs SLU",
   "homepage": "https://boosterframework.com",
