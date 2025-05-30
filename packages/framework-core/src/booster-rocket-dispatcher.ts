@@ -1,4 +1,4 @@
-import { BoosterConfig } from '@boostercloud/framework-types'
+import { BoosterConfig } from '@booster-ai/common'
 
 export class BoosterRocketDispatcher {
   constructor(readonly config: BoosterConfig) {}

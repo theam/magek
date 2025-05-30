@@ -18,7 +18,7 @@ describe('new', (): void => {
         commaSeparatedComponents: 'ReadModel',
       },
       {
-        packagePath: '@boostercloud/framework-types',
+        packagePath: '@booster-ai/common',
         commaSeparatedComponents: 'UUID',
       },
     ]
@@ -28,7 +28,7 @@ describe('new', (): void => {
         commaSeparatedComponents: 'ReadModel, Projects',
       },
       {
-        packagePath: '@boostercloud/framework-types',
+        packagePath: '@booster-ai/common',
         commaSeparatedComponents: 'UUID, ProjectionResult',
       },
       {
@@ -42,7 +42,7 @@ describe('new', (): void => {
         commaSeparatedComponents: 'ReadModel, Projects',
       },
       {
-        packagePath: '@boostercloud/framework-types',
+        packagePath: '@booster-ai/common',
         commaSeparatedComponents: 'UUID, ProjectionResult',
       },
       {

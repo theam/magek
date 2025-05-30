@@ -66,7 +66,7 @@ function generateImports(info: EventHandlerInfo): Array<ImportDeclaration> {
       commaSeparatedComponents: 'EventHandler',
     },
     {
-      packagePath: '@boostercloud/framework-types',
+      packagePath: '@booster-ai/common',
       commaSeparatedComponents: 'Register',
     },
   ]

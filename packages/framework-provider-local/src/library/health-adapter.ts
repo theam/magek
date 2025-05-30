@@ -1,9 +1,8 @@
 import { EventRegistry, ReadModelRegistry } from '../services'
 import { eventsDatabase, readModelsDatabase } from '../paths'
-import { BoosterConfig, boosterLocalPort, HealthEnvelope, UUID } from '@boostercloud/framework-types'
+import { BoosterConfig, boosterLocalPort, HealthEnvelope, UUID, request } from '@booster-ai/common'
 import { existsSync } from 'fs'
 import * as express from 'express'
-import { request } from '@booster-ai/common'
 import Nedb from '@seald-io/nedb'
 
 export async function databaseUrl(): Promise<Array<string>> {

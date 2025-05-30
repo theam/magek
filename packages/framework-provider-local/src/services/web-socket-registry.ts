@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 const DataStore = require('@seald-io/nedb')
-import { ConnectionDataEnvelope, SubscriptionEnvelope, UUID } from '@boostercloud/framework-types'
+import { ConnectionDataEnvelope, SubscriptionEnvelope, UUID } from '@booster-ai/common'
 
 export interface ConnectionData extends ConnectionDataEnvelope {
   connectionID: UUID

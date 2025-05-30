@@ -1,6 +1,6 @@
 import { expect } from '../../expect'
 import { BoosterHealthService } from '../../../src/sensor'
-import { BOOSTER_HEALTH_INDICATORS_IDS, BoosterConfig, ProviderLibrary } from '@boostercloud/framework-types'
+import { BOOSTER_HEALTH_INDICATORS_IDS, BoosterConfig, ProviderLibrary } from '@booster-ai/common'
 import { fake } from 'sinon'
 import createJWKSMock from 'mock-jwks'
 import { internet, phone, random } from 'faker'

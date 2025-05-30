@@ -1,4 +1,4 @@
-import { DecodedToken, TokenVerifier, UserEnvelope } from '@boostercloud/framework-types'
+import { DecodedToken, TokenVerifier, UserEnvelope } from '@booster-ai/common'
 
 export const DEFAULT_ROLES_CLAIM = 'custom:role'
 

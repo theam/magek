@@ -1,4 +1,4 @@
-import { BoosterConfig, TraceInfo, TraceTypes } from '@boostercloud/framework-types'
+import { BoosterConfig, TraceInfo, TraceTypes } from '@booster-ai/common'
 
 export async function notifyTrace(
   type: TraceTypes,

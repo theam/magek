@@ -1,4 +1,4 @@
-import { ReadModelEnvelope } from '@boostercloud/framework-types'
+import { ReadModelEnvelope } from '@booster-ai/common'
 import { random } from 'faker'
 import { expect } from '../expect'
 

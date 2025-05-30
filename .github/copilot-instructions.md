@@ -37,7 +37,7 @@ This file provides high-level guidance for **AI agents (e.g. OpenAI Codex)** tha
 1. **Start in `packages/framework-core/src`** – Contains the core domain logic (commands, events, GraphQL generation, etc.).
 2. **Provider implementations** live in `packages/framework-provider-*/src`.
 3. **CLI entry point** is `packages/cli/src/commands/boost.ts`.
-4. Shared types are in `packages/framework-types`.
+4. Shared types are in `packages/common`.
 
 All production code is TypeScript; tests use Jest.  Standard utilities such as lodash are intentionally avoided—prefer simple, functional helpers.
 

@@ -1,4 +1,4 @@
-import { tryCatchPromise, Layer } from '@boostercloud/framework-types/dist/effect'
+import { tryCatchPromise, Layer } from '../../effect'
 import { FileSystemService, FileSystemError } from '.'
 import * as fs from 'fs'
 

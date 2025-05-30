@@ -11,7 +11,7 @@ import {
   GraphQLRequestEnvelopeError,
   UserEnvelope,
   ConnectionDataEnvelope,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { GraphQLWebsocketHandler } from '../../../../src/services/graphql/websocket-protocol/graphql-websocket-protocol'
 import { ExecutionResult } from 'graphql'
 import { expect } from '../../../expect'

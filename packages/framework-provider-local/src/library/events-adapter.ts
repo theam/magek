@@ -7,8 +7,9 @@ import {
   EntitySnapshotEnvelope,
   NonPersistedEventEnvelope,
   NonPersistedEntitySnapshotEnvelope,
-} from '@boostercloud/framework-types'
-import { retryIfError, getLogger } from '@booster-ai/common'
+  retryIfError,
+  getLogger,
+} from '@booster-ai/common'
 import { EventRegistry } from '..'
 
 // eslint-disable-next-line @typescript-eslint/no-magic-numbers

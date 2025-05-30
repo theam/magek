@@ -1,5 +1,5 @@
 import { expect } from './expect'
-import { NotAuthorizedError, UserEnvelope } from '@boostercloud/framework-types'
+import { NotAuthorizedError, UserEnvelope } from '@booster-ai/common'
 
 import { BoosterAuthorizer } from '../src/booster-authorizer'
 

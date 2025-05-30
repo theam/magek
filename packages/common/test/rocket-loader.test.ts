@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { fake, replace, restore } from 'sinon'
-import { RocketDescriptor } from '@boostercloud/framework-types'
 import { expect } from './helpers/expect'
-import { RocketLoader } from '../src/rocket-loader'
+import { RocketDescriptor, RocketLoader } from '../src'
 
 const rocketDescriptor: RocketDescriptor = {
   packageName: 'some-package-name',

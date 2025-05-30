@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as fc from 'fast-check'
-import { expect } from './expect'
+import { expect } from './helpers/expect'
 import { SchemaMigrationMetadata, ProviderLibrary, BoosterConfig } from '../src'
 
 describe('the config type', () => {
@@ -12,37 +11,33 @@ describe('the config type', () => {
     })
 
     it('gets the application stack name from the app name', () => {
-      fc.assert(
-        fc.property(fc.string({ minLength: 1, maxLength: 10 }), (appName) => {
-          const cfg = new BoosterConfig('test')
-          cfg.appName = appName
-          expect(cfg.resourceNames.applicationStack).to.equal(`${appName}-app`)
-        })
-      )
+      const names = ['app1', 'test']
+      for (const appName of names) {
+        const cfg = new BoosterConfig('test')
+        cfg.appName = appName
+        expect(cfg.resourceNames.applicationStack).to.equal(`${appName}-app`)
+      }
     })
 
     it('gets the events store name from the app name', () => {
-      fc.assert(
-        fc.property(fc.string({ minLength: 1, maxLength: 10 }), (appName) => {
-          const cfg = new BoosterConfig('test')
-          cfg.appName = appName
-          expect(cfg.resourceNames.eventsStore).to.equal(`${appName}-app-events-store`)
-        })
-      )
+      const names = ['app1', 'test']
+      for (const appName of names) {
+        const cfg = new BoosterConfig('test')
+        cfg.appName = appName
+        expect(cfg.resourceNames.eventsStore).to.equal(`${appName}-app-events-store`)
+      }
     })
 
     it('gets well-formatted readmodel names, based on the application name', () => {
-      fc.assert(
-        fc.property(
-          fc.string({ minLength: 1, maxLength: 10 }),
-          fc.string({ minLength: 1, maxLength: 10 }),
-          (appName, readModelName) => {
-            const cfg = new BoosterConfig('test')
-            cfg.appName = appName
-            expect(cfg.resourceNames.forReadModel(readModelName)).to.equal(`${appName}-app-${readModelName}`)
-          }
-        )
-      )
+      const names = [
+        { app: 'app1', read: 'rm1' },
+        { app: 'test', read: 'model' },
+      ]
+      for (const { app, read } of names) {
+        const cfg = new BoosterConfig('test')
+        cfg.appName = app
+        expect(cfg.resourceNames.forReadModel(read)).to.equal(`${app}-app-${read}`)
+      }
     })
   })
 

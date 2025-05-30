@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 
 import { expect } from './expect'
-import { BoosterConfig, SchemaMigrationMetadata, ReadModelInterface, UUID } from '@boostercloud/framework-types'
+import { BoosterConfig, SchemaMigrationMetadata, ReadModelInterface, UUID } from '@booster-ai/common'
 import { ReadModelSchemaMigrator } from '../src/read-model-schema-migrator'
 
 class TestConceptV1 {

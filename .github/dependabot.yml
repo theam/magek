@@ -38,11 +38,6 @@ updates:
       interval: "daily"
       
   - package-ecosystem: "npm"
-    directory: "/packages/framework-types"
-    schedule:
-      interval: "daily"
-      
-  - package-ecosystem: "npm"
     directory: "/packages/metadata-booster"
     schedule:
       interval: "daily"

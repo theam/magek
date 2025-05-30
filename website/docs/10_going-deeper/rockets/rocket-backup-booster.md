@@ -23,7 +23,7 @@ In your Booster config file, pass a RocketDescriptor array to the AWS' Provider 
 
 ```typescript title="src/config/config.ts"
 import { Booster } from '@boostercloud/framework-core'
-import { BoosterConfig } from '@boostercloud/framework-types'
+import { BoosterConfig } from '@booster-ai/common'
 import * as AWS from '@boostercloud/framework-provider-aws'
 
 Booster.configure('development', (config: BoosterConfig): void => {

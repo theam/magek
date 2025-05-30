@@ -1,5 +1,5 @@
 import Brand from './brand'
-import { orDieWith } from '@boostercloud/framework-types/dist/effect'
+import { orDieWith } from '../effect'
 
 /**
  * Builds an error extracting its message from the "stdout" and "stderr" properties if present

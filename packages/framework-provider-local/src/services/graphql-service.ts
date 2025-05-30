@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { ReadModelEnvelope, UserApp } from '@boostercloud/framework-types'
+import { ReadModelEnvelope, UserApp } from '@booster-ai/common'
 import { ExpressWebSocketMessage } from '../library/web-socket-server-adapter'
 
 export class GraphQLService {

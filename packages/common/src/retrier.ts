@@ -1,4 +1,5 @@
-import { Class, Logger } from '@boostercloud/framework-types'
+import { Class } from './typelevel'
+import { Logger } from './logger'
 
 /**
  * Retries an async function if it fails with an error that matches the given class.

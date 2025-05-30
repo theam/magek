@@ -1,5 +1,4 @@
-import { BoosterConfig, ConnectionDataEnvelope } from '@boostercloud/framework-types'
-import { getLogger } from '@booster-ai/common'
+import { BoosterConfig, ConnectionDataEnvelope, getLogger } from '@booster-ai/common'
 import { WebSocketServerAdapter } from './web-socket-server-adapter'
 import { WebSocketRegistry } from '../services/web-socket-registry'
 

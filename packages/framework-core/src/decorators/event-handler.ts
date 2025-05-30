@@ -4,7 +4,7 @@ import {
   Class,
   BoosterConfig,
   NotificationInterface,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { Booster } from '../booster'
 
 export function EventHandler<TEvent extends EventInterface | NotificationInterface>(

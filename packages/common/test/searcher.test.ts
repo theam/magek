@@ -1,6 +1,6 @@
 import { fake } from 'sinon'
 import { FilterFor, Searcher, SequenceKey } from '../src'
-import { expect } from './expect'
+import { expect } from './helpers/expect'
 
 describe('the `Searcher` class', () => {
   class SomeModel {

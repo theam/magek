@@ -3,7 +3,7 @@
 import { expect } from '../expect'
 import { SchemaMigration, ToVersion } from '../../src/decorators'
 import { Booster } from '../../src'
-import { SchemaMigrationMetadata } from '@boostercloud/framework-types'
+import { SchemaMigrationMetadata } from '@booster-ai/common'
 
 // Entities to test the annotations
 class Product {}

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { beforeEach, describe } from 'mocha'
 import { ReadModelStore } from '../../src/services/read-model-store'
-import { createInstance } from '@booster-ai/common'
 import {
+  createInstance,
   BoosterConfig,
   EntitySnapshotEnvelope,
   Level,
@@ -13,7 +13,7 @@ import {
   ReadModelAction,
   ReadModelInterface,
   UUID,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { expect } from '../expect'
 import { BoosterAuthorizer } from '../../src/booster-authorizer'
 import { fake, match, replace, restore, SinonFakeTimers, spy, useFakeTimers } from 'sinon'

@@ -12,7 +12,7 @@ import {
   ReadModelInterface,
   ReadModelRequestArgs,
   ReadModelRequestProperties,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { expect } from '../../expect'
 import { GraphQLQueryGenerator } from '../../../src/services/graphql/graphql-query-generator'
 import { GraphQLMutationGenerator } from '../../../src/services/graphql/graphql-mutation-generator'

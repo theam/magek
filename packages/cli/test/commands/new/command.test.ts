@@ -18,7 +18,7 @@ describe('new', (): void => {
         commaSeparatedComponents: 'Command',
       },
       {
-        packagePath: '@boostercloud/framework-types',
+        packagePath: '@booster-ai/common',
         commaSeparatedComponents: 'Register',
       },
     ]
@@ -28,7 +28,7 @@ describe('new', (): void => {
         commaSeparatedComponents: 'Command',
       },
       {
-        packagePath: '@boostercloud/framework-types',
+        packagePath: '@booster-ai/common',
         commaSeparatedComponents: 'Register, UUID',
       },
     ]

@@ -15,7 +15,7 @@ import {
   ReducerMetadata,
   ScheduledCommandEnvelope,
   ScheduledCommandMetadata,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 
 describe('the `GlobalErrorHandler` decorator', () => {
   afterEach(() => {

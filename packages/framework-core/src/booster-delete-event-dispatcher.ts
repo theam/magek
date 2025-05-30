@@ -1,4 +1,4 @@
-import { BoosterConfig, EventDeleteParameters } from '@boostercloud/framework-types'
+import { BoosterConfig, EventDeleteParameters } from '@booster-ai/common'
 import { ReadModelStore } from './services/read-model-store'
 
 export class BoosterDeleteEventDispatcher {

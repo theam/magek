@@ -1,4 +1,4 @@
-import { BoosterConfig } from '@boostercloud/framework-types'
+import { BoosterConfig } from '@booster-ai/common'
 
 export function assertNameIsCorrect(name: string): void {
   // Current characters max length: 37

@@ -1,4 +1,4 @@
-import { BoosterConfig, SubscriptionEnvelope } from '@boostercloud/framework-types'
+import { BoosterConfig, SubscriptionEnvelope } from '@booster-ai/common'
 import { WebSocketRegistry } from '../services/web-socket-registry'
 
 export async function subscribeToReadModel(

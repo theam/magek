@@ -11,7 +11,7 @@ import {
   UUID,
   NotificationInterface,
   ReducerMetadata,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { BoosterEntityMigrated } from './core-concepts/data-migration/events/booster-entity-migrated'
 import { BoosterDataMigrationStarted } from './core-concepts/data-migration/events/booster-data-migration-started'
 import { BoosterDataMigrationFinished } from './core-concepts/data-migration/events/booster-data-migration-finished'

@@ -14,7 +14,7 @@ describe('add', async () => {
     const projectionName = 'Post:id'
     const sourceFileText = `
       import { ReadModel } from '@boostercloud/framework-core'
-      import { UUID } from '@boostercloud/framework-types'
+      import { UUID } from '@booster-ai/common'
       
       @ReadModel({
         authorize: 'all',

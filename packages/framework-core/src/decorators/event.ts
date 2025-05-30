@@ -1,4 +1,4 @@
-import { Class, EventInterface } from '@boostercloud/framework-types'
+import { Class, EventInterface } from '@booster-ai/common'
 import { Booster } from '../booster'
 
 /**

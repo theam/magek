@@ -9,9 +9,9 @@ import {
   ReadOnlyNonEmptyArray,
   SortFor,
   UUID,
-} from '@boostercloud/framework-types'
+  getLogger,
+} from '@booster-ai/common'
 import { GraphQLService, NedbError, ReadModelRegistry, UNIQUE_VIOLATED_ERROR_TYPE } from '../services'
-import { getLogger } from '@booster-ai/common'
 import { queryRecordFor } from './searcher-adapter'
 
 export async function rawReadModelEventsToEnvelopes(

@@ -13,7 +13,7 @@ describe('add', async () => {
     const entityName = 'Post'
     const sourceFileText = `
     import { Entity } from '@boostercloud/framework-core'
-    import { UUID } from '@boostercloud/framework-types'
+    import { UUID } from '@booster-ai/common'
     
     @Entity
     export class Post {

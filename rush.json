@@ -411,12 +411,6 @@
       "projectFolder": "packages/framework-provider-local-infrastructure"
     },
     {
-      "packageName": "@boostercloud/framework-types",
-      "shouldPublish": true,
-      "versionPolicyName": "booster",
-      "projectFolder": "packages/framework-types"
-    },
-    {
       "packageName": "@boostercloud/metadata-booster",
       "shouldPublish": true,
       "versionPolicyName": "booster",

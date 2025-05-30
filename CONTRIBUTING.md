@@ -64,7 +64,7 @@ The packages are published to `npmjs` under the prefix `@boostercloud/`, their p
 - `framework-provider-aws-infrastructure` (Deprecated) - Implements all the required adapters to allow Booster applications to be deployed to AWS using the AWS CDK under the hoods.
 - `framework-provider-local` - Implements all the required adapters to run the Booster application on a local express server to be able to debug your code before deploying it to a real cloud provider.
 - `framework-provider-local-infrastructure` - Implements all the required code to run the local development server.
-- `framework-types` - This package defines types that the rest of the project will use. This is useful for avoiding cyclic dependencies. Note that this package should not contain stuff that are not types, or very simple methods related directly to them, i.e. a getter or setter. This package defines the main booster concepts like:
+- `common` - This package defines types that the rest of the project will use. This is useful for avoiding cyclic dependencies. Note that this package should not contain stuff that are not types, or very simple methods related directly to them, i.e. a getter or setter. This package defines the main booster concepts like:
   - Entity
   - Command
   - etc…

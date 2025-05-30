@@ -1,4 +1,4 @@
-import { EntitySnapshotEnvelope, EventEnvelope, NonPersistedEventEnvelope } from '@boostercloud/framework-types'
+import { EntitySnapshotEnvelope, EventEnvelope, NonPersistedEventEnvelope } from '@booster-ai/common'
 import { random, date } from 'faker'
 
 export function createMockNonPersistedEventEnvelop(): NonPersistedEventEnvelope {

@@ -66,7 +66,7 @@ function generateImports(info: CommandInfo): Array<ImportDeclaration> {
       commaSeparatedComponents: 'Command',
     },
     {
-      packagePath: '@boostercloud/framework-types',
+      packagePath: '@booster-ai/common',
       commaSeparatedComponents: componentsFromBoosterTypes.join(', '),
     },
   ]

@@ -12,7 +12,7 @@ import {
   ReadModelRequestEnvelope,
   SubscriptionEnvelope,
   UUID,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { fake, match, replace, restore, SinonStub, stub } from 'sinon'
 import { BoosterReadModelsReader } from '../src/booster-read-models-reader'
 import { internet, random } from 'faker'

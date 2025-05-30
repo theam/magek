@@ -2,12 +2,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { expect } from './expect'
-import { BoosterConfig, UserEnvelope } from '@boostercloud/framework-types'
+import { BoosterConfig, UserEnvelope, DecodedToken } from '@booster-ai/common'
 import createJWKSMock from 'mock-jwks'
 import { internet, phone, random } from 'faker'
 import { BoosterTokenVerifier } from '../src/booster-token-verifier'
 import { JwksUriTokenVerifier } from '../src/services/token-verifiers/jwks-uri-token-verifier'
-import { DecodedToken } from '../../framework-types/src/concepts/token-verifier'
 
 describe('the "verifyToken" method', () => {
   const auth0VerifierUri = 'https://myauth0app.auth0.com/'

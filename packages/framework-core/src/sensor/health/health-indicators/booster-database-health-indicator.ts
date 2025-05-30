@@ -3,7 +3,7 @@ import {
   HealthIndicatorResult,
   HealthIndicatorMetadata,
   HealthStatus,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 
 export class BoosterDatabaseHealthIndicator {
   public async health(

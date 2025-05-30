@@ -9,8 +9,8 @@ import {
   InvalidVersionError,
   EntitySnapshotEnvelope,
   TraceActionTypes,
-} from '@boostercloud/framework-types'
-import { getLogger } from '@booster-ai/common'
+  getLogger,
+} from '@booster-ai/common'
 import { Trace } from './instrumentation'
 
 type SchemaMigrableEnvelope = CommandEnvelope | EventEnvelope | EntitySnapshotEnvelope

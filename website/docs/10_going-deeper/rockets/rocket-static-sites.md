@@ -18,7 +18,7 @@ This package is a configurable Booster rocket to add static site deployment to y
 
  ```typescript
 import { Booster } from '@boostercloud/framework-core'
-import { BoosterConfig } from '@boostercloud/framework-types'
+import { BoosterConfig } from '@booster-ai/common'
 
 Booster.configure('development', (config: BoosterConfig): void => {
   config.appName = 'my-store'

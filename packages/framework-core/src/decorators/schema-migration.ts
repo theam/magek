@@ -1,5 +1,5 @@
 import { Booster } from '../booster'
-import { Class, AnyClass, SchemaMigrationMetadata, BoosterConfig, Instance } from '@boostercloud/framework-types'
+import { Class, AnyClass, SchemaMigrationMetadata, BoosterConfig, Instance } from '@booster-ai/common'
 import 'reflect-metadata'
 
 const migrationMethodsMetadataKey = 'booster:migrationsMethods'
@@ -37,7 +37,7 @@ function getConceptMigrations(config: BoosterConfig, conceptClass: AnyClass): Ma
 function getMigrationMethods(migrationClass: AnyClass): Array<SchemaMigrationMetadata> {
   const migrationMethods: Array<SchemaMigrationMetadata> = Reflect.getMetadata(
     migrationMethodsMetadataKey,
-    migrationClass
+    migrationClass as object
   )
   if (!migrationMethods || migrationMethods.length == 0) {
     throw new Error(
@@ -72,7 +72,7 @@ export function ToVersion<TOldSchema, TNewSchema>(
 
     let migrationMethods: Array<SchemaMigrationMetadata> = Reflect.getMetadata(
       migrationMethodsMetadataKey,
-      migrationClass
+      migrationClass as object
     )
     if (!migrationMethods) {
       migrationMethods = []
@@ -87,7 +87,7 @@ export function ToVersion<TOldSchema, TNewSchema>(
     })
 
     // Here we just store the information (version and method). All the checks will be done in the @Migrates decorator
-    Reflect.defineMetadata(migrationMethodsMetadataKey, migrationMethods, migrationClass)
+    Reflect.defineMetadata(migrationMethodsMetadataKey, migrationMethods, migrationClass as object)
   }
 }
 

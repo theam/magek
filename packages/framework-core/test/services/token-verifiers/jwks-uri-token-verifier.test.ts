@@ -3,7 +3,7 @@ import { JwksUriTokenVerifier } from '../../../src/services/token-verifiers/jwks
 import * as utilities from '../../../src/services/token-verifiers/utilities'
 import { fake, match, replace, restore } from 'sinon'
 import { SigningKeyCallback } from 'jsonwebtoken'
-import { DecodedToken } from '@boostercloud/framework-types'
+import { DecodedToken } from '@booster-ai/common'
 
 describe('JwksUriTokenVerifier', () => {
   afterEach(() => {

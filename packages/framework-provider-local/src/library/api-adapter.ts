@@ -1,4 +1,4 @@
-import { httpStatusCodeFor, toClassTitle } from '@boostercloud/framework-types'
+import { httpStatusCodeFor, toClassTitle } from '@booster-ai/common'
 
 export type APIResult =
   | { status: 'success'; result: unknown; headers?: Record<string, number | string | ReadonlyArray<string>> }

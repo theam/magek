@@ -65,7 +65,7 @@ function generateImports(info: QueryInfo): Array<ImportDeclaration> {
       commaSeparatedComponents: 'Query',
     },
     {
-      packagePath: '@boostercloud/framework-types',
+      packagePath: '@booster-ai/common',
       commaSeparatedComponents: componentsFromBoosterTypes.join(', '),
     },
   ]

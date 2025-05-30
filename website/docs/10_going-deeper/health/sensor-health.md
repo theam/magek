@@ -46,7 +46,7 @@ import {
   HealthIndicatorResult,
   HealthIndicatorMetadata,
   HealthStatus,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { HealthSensor } from '@boostercloud/framework-core'
 
 @HealthSensor({
@@ -257,7 +257,7 @@ import {
   HealthIndicatorResult,
   HealthIndicatorMetadata,
   HealthStatus,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { HealthSensor } from '@boostercloud/framework-core'
 
 @HealthSensor({

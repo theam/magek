@@ -20,7 +20,7 @@ Here is an example of how to configure a `JwksUriTokenVerifier`:
 
 ```typescript title="src/config/config.ts"
 import { Booster, JwksUriTokenVerifier } from '@boostercloud/framework-core'
-import { BoosterConfig } from '@boostercloud/framework-types'
+import { BoosterConfig } from '@booster-ai/common'
 
 Booster.configure('production', (config: BoosterConfig): void => {
   config.appName = 'app-name'
@@ -65,7 +65,7 @@ This is useful when the token issuer doesn't provide a JWKS URI, when you're imp
 
 ```typescript title="src/config/config.ts"
 import { Booster, PublicKeyTokenVerifier } from '@boostercloud/framework-core'
-import { BoosterConfig } from '@boostercloud/framework-types'
+import { BoosterConfig } from '@booster-ai/common'
 
 function publicKeyResolver(): Promise<string> {
   // Your implementation here
@@ -116,7 +116,7 @@ Here is an example of how to implement a custom `TokenVerifier`:
 
 ```typescript title="src/config/config.ts"
 import { Booster, TokenVerifier } from '@boostercloud/framework-core'
-import { BoosterConfig, DecodedToken, TokenVerifier, UserEnvelope } from '@boostercloud/framework-types'
+import { BoosterConfig, DecodedToken, TokenVerifier, UserEnvelope } from '@booster-ai/common'
 
 class CustomTokenVerifier implements TokenVerifier {
   public async verify(token: string): Promise<DecodedToken> {

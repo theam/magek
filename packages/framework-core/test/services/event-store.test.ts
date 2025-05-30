@@ -10,7 +10,7 @@ import {
   NonPersistedEntitySnapshotEnvelope,
   ProviderLibrary,
   UUID,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { fake, replace, restore, stub, match, spy } from 'sinon'
 import { EventStore } from '../../src/services/event-store'
 import { expect } from '../expect'

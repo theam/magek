@@ -1,4 +1,4 @@
-import { HealthIndicatorMetadata } from '@boostercloud/framework-types'
+import { HealthIndicatorMetadata } from '@booster-ai/common'
 import 'mocha'
 import {
   childHealthProviders,

@@ -10,8 +10,8 @@ import {
   SnapshotPersistHandlerGlobalError,
   QueryHandlerGlobalError,
   EventGlobalError,
-} from '@boostercloud/framework-types'
-import { getLogger } from '@booster-ai/common'
+  getLogger,
+} from '@booster-ai/common'
 
 export class BoosterGlobalErrorDispatcher {
   public readonly errorHandler: GlobalErrorHandlerInterface | undefined

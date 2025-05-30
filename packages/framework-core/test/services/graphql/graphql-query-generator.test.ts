@@ -18,7 +18,7 @@ import {
 } from 'graphql'
 import { random } from 'faker'
 import { GraphQLJSON } from 'graphql-scalars'
-import { AnyClass, BoosterConfig, QueryMetadata } from '@boostercloud/framework-types'
+import { AnyClass, BoosterConfig, QueryMetadata } from '@booster-ai/common'
 import { ClassMetadata } from '@boostercloud/metadata-booster'
 import * as metadata from '../../../src/decorators/metadata'
 

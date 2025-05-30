@@ -17,32 +17,12 @@
       "path": "packages/framework-core"
     },
     {
-      "name": "📦 @boostercloud/framework-provider-aws",
-      "path": "packages/framework-provider-aws"
-    },
-    {
-      "name": "📦 @boostercloud/framework-provider-aws-infrastructure",
-      "path": "packages/framework-provider-aws-infrastructure"
-    },
-    {
-      "name": "📦 @boostercloud/framework-provider-azure",
-      "path": "packages/framework-provider-azure"
-    },
-    {
-      "name": "📦 @boostercloud/framework-provider-azure-infrastructure",
-      "path": "packages/framework-provider-azure-infrastructure"
-    },
-    {
       "name": "📦 @boostercloud/framework-provider-local",
       "path": "packages/framework-provider-local"
     },
     {
       "name": "📦 @boostercloud/framework-provider-local-infrastructure",
       "path": "packages/framework-provider-local-infrastructure"
-    },
-    {
-      "name": "📦 @boostercloud/framework-types",
-      "path": "packages/framework-types"
     },
     {
       "name": "📦 @boostercloud/metadata-booster",

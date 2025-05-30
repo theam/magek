@@ -5,8 +5,9 @@ import {
   EventSearchResponse,
   PaginatedEntitiesIdsResult,
   PaginatedEntityIdResult,
-} from '@boostercloud/framework-types'
-import { getLogger, unique } from '@booster-ai/common'
+  getLogger,
+  unique,
+} from '@booster-ai/common'
 import { buildFiltersForByFilters, buildFiltersForByTime, resultToEventSearchResponse } from './events-searcher-builder'
 import { EventRegistry } from '..'
 

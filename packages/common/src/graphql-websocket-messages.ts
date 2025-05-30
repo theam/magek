@@ -1,5 +1,5 @@
 import { GraphQLOperation } from './envelope'
-// Disable this lint rule here. In "framework-types" we only need the types of graphql,
+// Disable this lint rule here. In "common" we only need the types of graphql,
 // so we use the dependency "@types/graphql". However, this lint rule expects us to use the whole "graphql"
 // dependency, which doesn't make sense for this case.
 // eslint-disable-next-line import/no-extraneous-dependencies

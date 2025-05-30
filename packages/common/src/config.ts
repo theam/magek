@@ -24,8 +24,8 @@ import * as path from 'path'
 import { RocketDescriptor, RocketFunction } from './rockets'
 import { DEFAULT_SENSOR_HEALTH_BOOSTER_CONFIGURATIONS, HealthIndicatorMetadata, Logger, SensorConfiguration } from '.'
 import { TraceConfiguration } from './instrumentation/trace-types'
-import { Context } from 'effect'
 import { AzureConfiguration, DEFAULT_CHUNK_SIZE } from './provider/azure-configuration'
+import { Context } from 'effect'
 
 /**
  * Class used by external packages that needs to get a representation of
@@ -212,7 +212,7 @@ export class BoosterConfig {
   }
 
   public set provider(provider: ProviderLibrary) {
-    console.warn(`
+    console.info(`
       The usage of the 'config.provider' field is deprecated,
       please use 'config.providerPackage' instead.
 

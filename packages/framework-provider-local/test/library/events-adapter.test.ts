@@ -14,7 +14,7 @@ import {
   UUID,
   BoosterConfig,
   NonPersistedEventEnvelope,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { expect } from '../expect'
 import { createMockNonPersistedEventEnvelop, createMockEntitySnapshotEnvelope } from '../helpers/event-helper'
 import { random, date } from 'faker'

@@ -7,8 +7,8 @@ import {
   Instance,
   Register,
   UUID,
-} from '@boostercloud/framework-types'
-import { getLogger } from '@booster-ai/common'
+  getLogger,
+} from '@booster-ai/common'
 import { RegisterHandler } from './booster-register-handler'
 import { EventStore } from './services/event-store'
 import { BoosterDataMigrationEntity } from './core-concepts/data-migration/entities/booster-data-migration-entity'

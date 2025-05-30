@@ -7,7 +7,7 @@ import {
   ReadModelInterface,
   QueryInput,
   QueryBeforeFunction,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 
 export const applyReadModelRequestBeforeFunctions = async (
   readModelRequestEnvelope: ReadModelRequestEnvelope<ReadModelInterface>,

@@ -13,7 +13,7 @@ import {
   TraceParameters,
   BoosterConfig,
   TraceActionTypes,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 
 class MyTracer {
   static async onStart(config: BoosterConfig, actionType: string, traceParameters: TraceParameters): Promise<void> {
@@ -29,7 +29,7 @@ class MyTracer {
 You can then configure the tracer in your Booster application's configuration:
 
 ```typescript
-import { BoosterConfig } from '@boostercloud/framework-types'
+import { BoosterConfig } from '@booster-ai/common'
 import { MyTracer } from './my-tracer'
 
 const config: BoosterConfig = {
@@ -47,7 +47,7 @@ In the configuration above, we've enabled trace notifications and specified our 
 Setting `enableTraceNotification: true` would enable the trace for all actions. You can either disable them by setting it to `false` or selectively enable only specific actions using an array of TraceActionTypes.
 
 ```typescript
-import { BoosterConfig, TraceActionTypes } from '@boostercloud/framework-types'
+import { BoosterConfig, TraceActionTypes } from '@booster-ai/common'
 import { MyTracer } from './my-tracer'
 
 const config: BoosterConfig = {
@@ -120,7 +120,7 @@ Here's an example of how to use the Trace Decorator on a custom method:
 
 ```typescript
 import { Trace } from '@boostercloud/framework-core'
-import { BoosterConfig, Logger } from '@boostercloud/framework-types'
+import { BoosterConfig, Logger } from '@booster-ai/common'
 
 export class MyCustomClass {
   @Trace('OTHER')

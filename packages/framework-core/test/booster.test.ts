@@ -12,7 +12,7 @@ import {
   ProviderLibrary,
   UUID,
   NotificationInterface,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { EventStore } from '../src/services/event-store'
 import { random } from 'faker'
 import { JwksUriTokenVerifier } from '../src/services/token-verifiers'

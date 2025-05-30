@@ -4,7 +4,7 @@ import {
   HealthIndicatorMetadata,
   HealthIndicatorsResult,
   HealthStatus,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 
 export class RocketsHealthIndicator {
   public async health(

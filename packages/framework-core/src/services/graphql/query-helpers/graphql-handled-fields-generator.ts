@@ -2,7 +2,7 @@ import { GraphQLFieldConfigMap, GraphQLNonNull } from 'graphql'
 import { ResolverBuilder, TargetTypeMetadata, TargetTypesMap } from '../common'
 import { TypeMetadata } from '@boostercloud/metadata-booster'
 import { GraphQLTypeInformer } from '../graphql-type-informer'
-import { BoosterConfig } from '@boostercloud/framework-types'
+import { BoosterConfig } from '@booster-ai/common'
 
 export class GraphQLHandledFieldsGenerator {
   constructor(

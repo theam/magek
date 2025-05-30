@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Class, ProjectionFor, ReadModelInterface } from '@boostercloud/framework-types'
+import { Class } from './typelevel'
+import { ProjectionFor } from './searcher'
+import { ReadModelInterface } from './concepts'
 
 /**
  * Creates an instance of the given class from the given raw object.

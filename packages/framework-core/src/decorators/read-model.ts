@@ -4,7 +4,7 @@ import {
   ReadModelFilterHooks,
   ReadModelInterface,
   ReadModelRoleAccess,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { Booster } from '../booster'
 import { BoosterAuthorizer } from '../booster-authorizer'
 import { getClassMetadata } from './metadata'
@@ -25,7 +25,7 @@ export function ReadModel(
 
       const authorizer = BoosterAuthorizer.build(attributes) as ReadModelAuthorizer
       const classMetadata = getClassMetadata(readModelClass)
-      const dynamicDependencies = Reflect.getMetadata('dynamic:dependencies', readModelClass) || {}
+      const dynamicDependencies = Reflect.getMetadata('dynamic:dependencies', readModelClass as object) || {}
 
       // Combine properties with dynamic dependencies
       const properties = classMetadata.fields.map((field: any) => {
@@ -55,8 +55,8 @@ interface CalculatedFieldOptions {
  */
 export function CalculatedField(options: CalculatedFieldOptions): PropertyDecorator {
   return (target: object, propertyKey: string | symbol): void => {
-    const existingDependencies = Reflect.getMetadata('dynamic:dependencies', target.constructor) || {}
+    const existingDependencies = Reflect.getMetadata('dynamic:dependencies', target.constructor as object) || {}
     existingDependencies[propertyKey] = options.dependsOn
-    Reflect.defineMetadata('dynamic:dependencies', existingDependencies, target.constructor)
+    Reflect.defineMetadata('dynamic:dependencies', existingDependencies, target.constructor as object)
   }
 }

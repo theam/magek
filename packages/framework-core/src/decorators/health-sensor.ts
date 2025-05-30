@@ -4,7 +4,7 @@ import {
   HealthIndicatorConfiguration,
   HealthIndicatorInterface,
   HealthIndicatorMetadata,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { Booster } from '../booster'
 import { defaultBoosterHealthIndicators } from '../sensor/health/health-indicators'
 

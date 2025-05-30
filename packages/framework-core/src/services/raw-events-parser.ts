@@ -1,5 +1,4 @@
-import { BoosterConfig, EventEnvelope, UUID } from '@boostercloud/framework-types'
-import { getLogger } from '@booster-ai/common'
+import { BoosterConfig, EventEnvelope, UUID, getLogger } from '@booster-ai/common'
 
 export type EventsStreamingCallback = (
   entityName: string,

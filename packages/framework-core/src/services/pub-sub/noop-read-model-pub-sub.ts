@@ -1,4 +1,4 @@
-import { ReadModelRequestEnvelope, ReadModelInterface } from '@boostercloud/framework-types'
+import { ReadModelRequestEnvelope, ReadModelInterface } from '@booster-ai/common'
 import { createAsyncIterator } from 'iterall'
 import { ReadModelPubSub } from './read-model-pub-sub'
 

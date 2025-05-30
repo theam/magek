@@ -4,7 +4,7 @@ import {
   BoosterTokenNotBeforeError,
   UserEnvelope,
   BoosterConfig,
-} from '@boostercloud/framework-types'
+} from '@booster-ai/common'
 import { NotBeforeError, TokenExpiredError } from 'jsonwebtoken'
 
 export class BoosterTokenVerifier {

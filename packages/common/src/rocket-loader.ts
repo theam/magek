@@ -1,4 +1,4 @@
-import { RocketDescriptor } from '@boostercloud/framework-types'
+import { RocketDescriptor } from './rockets'
 
 export class RocketLoader {
   // Separate function to make it easier to mock in tests

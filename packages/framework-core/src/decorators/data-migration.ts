@@ -1,5 +1,5 @@
 import { Booster } from '../booster'
-import { DataMigrationInterface, DataMigrationParameters } from '@boostercloud/framework-types'
+import { DataMigrationInterface, DataMigrationParameters } from '@booster-ai/common'
 
 /**
  * Annotation to tell Booster which classes are data migration scripts
