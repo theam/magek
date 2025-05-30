@@ -1,9 +1,9 @@
 {
-  "name": "@boostercloud/framework-provider-local-infrastructure",
+  "name": "@booster-ai/server-infrastructure",
   "version": "3.2.0",
   "description": "Handle the Booster running process of the local runtime",
   "keywords": [
-    "framework-provider-local-infrastructure"
+    "server-infrastructure"
   ],
   "author": "Boosterin Labs SLU",
   "homepage": "https://boosterframework.com",

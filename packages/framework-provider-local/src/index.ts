@@ -138,7 +138,7 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
   },
   // ProviderInfrastructureGetter
   infrastructure: () => {
-    const infrastructurePackageName = require('../package.json').name + '-infrastructure'
+    const infrastructurePackageName = '@booster-ai/server-infrastructure'
     let infrastructure: HasInfrastructure | undefined
 
     try {

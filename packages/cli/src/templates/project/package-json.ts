@@ -14,7 +14,7 @@ export const template = `{
   },
   "devDependencies": {
     "@booster-ai/server": "^${VERSION}",
-    "@boostercloud/framework-provider-local-infrastructure": "^${VERSION}",
+    "@booster-ai/server-infrastructure": "^${VERSION}",
     "@boostercloud/metadata-booster": "^${VERSION}",
     "{{{providerPackageName}}}-infrastructure": "^${VERSION}",
     "rimraf": "^5.0.0",
