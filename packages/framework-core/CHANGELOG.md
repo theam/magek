@@ -1,4 +1,4 @@
-# Change Log - @boostercloud/framework-core
+# Change Log - @booster-ai/core
 
 This log was last generated on Tue, 22 Apr 2025 14:30:07 GMT and should not be manually modified.
 

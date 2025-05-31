@@ -7,7 +7,7 @@ export function boosterVersion(config: BoosterConfig) {
   const logger = getLogger(config, 'boosterVersion')
   try {
     const packageJsonContents = require(path.join(projectAbsolutePath, 'package.json'))
-    const version = packageJsonContents.dependencies['@boostercloud/framework-core']
+    const version = packageJsonContents.dependencies['@booster-ai/core']
     if (!version) {
       logger.warn('Could not get Booster Version')
       return ''

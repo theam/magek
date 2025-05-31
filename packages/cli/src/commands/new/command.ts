@@ -62,7 +62,7 @@ function generateImports(info: CommandInfo): Array<ImportDeclaration> {
 
   return [
     {
-      packagePath: '@boostercloud/framework-core',
+      packagePath: '@booster-ai/core',
       commaSeparatedComponents: 'Command',
     },
     {

@@ -14,7 +14,7 @@ describe('new', (): void => {
     const eventPath = `${eventsRoot}example-event.ts`
     const defaultEventImports = [
       {
-        packagePath: '@boostercloud/framework-core',
+        packagePath: '@booster-ai/core',
         commaSeparatedComponents: 'Event',
       },
       {

@@ -14,7 +14,7 @@ describe('new', (): void => {
     const entityPath = `${entitysRoot}example-entity.ts`
     const defaultEntityImports = [
       {
-        packagePath: '@boostercloud/framework-core',
+        packagePath: '@booster-ai/core',
         commaSeparatedComponents: 'Entity',
       },
       {
@@ -24,7 +24,7 @@ describe('new', (): void => {
     ]
     const reducingEntityImports = [
       {
-        packagePath: '@boostercloud/framework-core',
+        packagePath: '@booster-ai/core',
         commaSeparatedComponents: 'Entity, Reduces',
       },
       {
@@ -38,7 +38,7 @@ describe('new', (): void => {
     ]
     const reducingTwoEntityImports = [
       {
-        packagePath: '@boostercloud/framework-core',
+        packagePath: '@booster-ai/core',
         commaSeparatedComponents: 'Entity, Reduces',
       },
       {

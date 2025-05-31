@@ -14,7 +14,7 @@ describe('new', (): void => {
     const typePath = `${typesRoot}example-type.ts`
     const defaultTypeImports = [
       {
-        packagePath: '@boostercloud/framework-core',
+        packagePath: '@booster-ai/core',
         commaSeparatedComponents: 'Type',
       },
       {
@@ -24,7 +24,7 @@ describe('new', (): void => {
     ]
     const uuidTypeImports = [
       {
-        packagePath: '@boostercloud/framework-core',
+        packagePath: '@booster-ai/core',
         commaSeparatedComponents: 'Type',
       },
       {

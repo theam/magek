@@ -1,4 +1,4 @@
-import { Booster } from '@boostercloud/framework-core'
+import { Booster } from '@booster-ai/core'
 export {
   Booster,
   boosterEventDispatcher,
@@ -9,6 +9,6 @@ export {
   boosterConsumeEventStream,
   boosterProduceEventStream,
   boosterHealth,
-} from '@boostercloud/framework-core'
+} from '@booster-ai/core'
 
 Booster.start(__dirname)

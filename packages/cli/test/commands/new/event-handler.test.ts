@@ -18,7 +18,7 @@ describe('new', (): void => {
         commaSeparatedComponents: 'CommentPosted',
       },
       {
-        packagePath: '@boostercloud/framework-core',
+        packagePath: '@booster-ai/core',
         commaSeparatedComponents: 'EventHandler',
       },
       {

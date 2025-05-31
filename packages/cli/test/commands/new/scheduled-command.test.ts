@@ -14,7 +14,7 @@ describe('new', (): void => {
     const scheduledCommandPath = `${scheduledCommandRoot}example-scheduled-command.ts`
     const defaultScheduledCommandImports = [
       {
-        packagePath: '@boostercloud/framework-core',
+        packagePath: '@booster-ai/core',
         commaSeparatedComponents: 'ScheduledCommand',
       },
       {

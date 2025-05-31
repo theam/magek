@@ -12,7 +12,7 @@ describe('add', async () => {
   describe('reducer', async () => {
     const entityName = 'Post'
     const sourceFileText = `
-    import { Entity } from '@boostercloud/framework-core'
+    import { Entity } from '@booster-ai/core'
     import { UUID } from '@booster-ai/common'
     
     @Entity

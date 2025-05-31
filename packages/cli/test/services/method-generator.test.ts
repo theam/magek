@@ -198,7 +198,7 @@ describe('method generator', (): void => {
 
       const project = new Project()
       const fileText = `
-      import { Entity } from '@boostercloud/framework-core'
+      import { Entity } from '@booster-ai/core'
       import { UUID } from '@booster-ai/common'
       
       @Entity

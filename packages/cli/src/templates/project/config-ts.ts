@@ -1,4 +1,4 @@
-export const template = `import { Booster } from '@boostercloud/framework-core'
+export const template = `import { Booster } from '@booster-ai/core'
 import { BoosterConfig } from '@booster-ai/common'
 
 Booster.configure('local', (config: BoosterConfig): void => {

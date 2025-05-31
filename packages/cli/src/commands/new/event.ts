@@ -54,7 +54,7 @@ const run = async (name: string, rawFields: Array<string>): Promise<void> =>
 function generateImports(): Array<ImportDeclaration> {
   return [
     {
-      packagePath: '@boostercloud/framework-core',
+      packagePath: '@booster-ai/core',
       commaSeparatedComponents: 'Event',
     },
     {

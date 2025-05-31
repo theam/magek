@@ -79,7 +79,7 @@ function generateImports(info: EntityInfo): Array<ImportDeclaration> {
 
   return [
     {
-      packagePath: '@boostercloud/framework-core',
+      packagePath: '@booster-ai/core',
       commaSeparatedComponents: coreComponents.join(', '),
     },
     {

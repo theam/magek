@@ -14,7 +14,7 @@ describe('new', (): void => {
     const readModelPath = `${readModelsRoot}example-read-model.ts`
     const defaultReadModelImports = [
       {
-        packagePath: '@boostercloud/framework-core',
+        packagePath: '@booster-ai/core',
         commaSeparatedComponents: 'ReadModel',
       },
       {
@@ -24,7 +24,7 @@ describe('new', (): void => {
     ]
     const projectingReadModelImports = [
       {
-        packagePath: '@boostercloud/framework-core',
+        packagePath: '@booster-ai/core',
         commaSeparatedComponents: 'ReadModel, Projects',
       },
       {
@@ -38,7 +38,7 @@ describe('new', (): void => {
     ]
     const projectingTwoReadModelImports = [
       {
-        packagePath: '@boostercloud/framework-core',
+        packagePath: '@booster-ai/core',
         commaSeparatedComponents: 'ReadModel, Projects',
       },
       {
