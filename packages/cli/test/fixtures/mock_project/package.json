@@ -10,7 +10,7 @@
     "tslib": "^2.0.3"
   },
   "devDependencies": {
-    "@boostercloud/framework-provider-local-infrastructure": "^1.11.2",
+    "@booster-ai/server-infrastructure": "^1.11.2",
     "rimraf": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
