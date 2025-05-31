@@ -43,7 +43,7 @@ function generateImports(): Array<ImportDeclaration> {
   const componentsFromBoosterTypes = ['Register']
   return [
     {
-      packagePath: '@boostercloud/framework-core',
+      packagePath: '@booster-ai/core',
       commaSeparatedComponents: 'ScheduledCommand',
     },
     {

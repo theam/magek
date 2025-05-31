@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "author": "",
   "dependencies": {
-    "@boostercloud/framework-core": "^1.11.2",
+    "@booster-ai/core": "^1.11.2",
     "@booster-ai/common": "^1.11.2",
     "@booster-ai/server": "^1.11.2",
     "tslib": "^2.0.3"

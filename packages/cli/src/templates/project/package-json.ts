@@ -8,7 +8,7 @@ export const template = `{
   "author": "{{{author}}}",
   "dependencies": {
     "tslib": "^2.4.0",
-    "@boostercloud/framework-core": "^${VERSION}",
+    "@booster-ai/core": "^${VERSION}",
     "@booster-ai/common": "^${VERSION}",
     "{{{providerPackageName}}}": "^${VERSION}"
   },

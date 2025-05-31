@@ -14,7 +14,7 @@ describe('new', (): void => {
     const commandPath = `${commandsRoot}example-command.ts`
     const defaultCommandImports = [
       {
-        packagePath: '@boostercloud/framework-core',
+        packagePath: '@booster-ai/core',
         commaSeparatedComponents: 'Command',
       },
       {
@@ -24,7 +24,7 @@ describe('new', (): void => {
     ]
     const uuidCommandImports = [
       {
-        packagePath: '@boostercloud/framework-core',
+        packagePath: '@booster-ai/core',
         commaSeparatedComponents: 'Command',
       },
       {

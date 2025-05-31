@@ -1,4 +1,4 @@
-export const template = `import { Booster } from '@boostercloud/framework-core'
+export const template = `import { Booster } from '@booster-ai/core'
 export {
   Booster,
   boosterEventDispatcher,
@@ -9,7 +9,7 @@ export {
   boosterHealth,
   boosterTriggerScheduledCommand,
   boosterRocketDispatcher,
-} from '@boostercloud/framework-core'
+} from '@booster-ai/core'
 
 Booster.start(__dirname)
 `

@@ -80,7 +80,7 @@ function generateImports(info: ReadModelInfo): Array<ImportDeclaration> {
 
   return [
     {
-      packagePath: '@boostercloud/framework-core',
+      packagePath: '@booster-ai/core',
       commaSeparatedComponents: coreComponents.join(', '),
     },
     {

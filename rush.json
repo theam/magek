@@ -393,7 +393,7 @@
       "projectFolder": "packages/common"
     },
     {
-      "packageName": "@boostercloud/framework-core",
+      "packageName": "@booster-ai/core",
       "shouldPublish": true,
       "versionPolicyName": "booster",
       "projectFolder": "packages/framework-core"

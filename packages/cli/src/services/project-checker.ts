@@ -84,7 +84,7 @@ async function getBoosterVersion(projectPath: string): Promise<string> {
   const projectAbsolutePath = path.resolve(projectPath)
   try {
     const packageJsonContents = require(path.join(projectAbsolutePath, 'package.json'))
-    const version = packageJsonContents.dependencies['@boostercloud/framework-core']
+    const version = packageJsonContents.dependencies['@booster-ai/core']
     const versionParts = version
       .replace('workspace:', '') // We remove the workspace protocol in case we're in the Booster monorepo
       .replace('^', '')
