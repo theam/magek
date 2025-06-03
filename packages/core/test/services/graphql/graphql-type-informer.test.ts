@@ -11,7 +11,7 @@ import {
   GraphQLObjectType,
   GraphQLString,
 } from 'graphql'
-import { TypeMetadata } from '@boostercloud/metadata-booster'
+import { TypeMetadata } from '@booster-ai/metadata'
 import { GraphQLJSON } from 'graphql-scalars'
 import { random } from 'faker'
 import { GraphQLEnumValueConfig, GraphQLEnumValueConfigMap } from 'graphql/type/definition'

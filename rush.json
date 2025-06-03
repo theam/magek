@@ -396,25 +396,25 @@
       "packageName": "@booster-ai/core",
       "shouldPublish": true,
       "versionPolicyName": "booster",
-      "projectFolder": "packages/framework-core"
+      "projectFolder": "packages/core"
     },
     {
       "packageName": "@booster-ai/server",
       "shouldPublish": true,
       "versionPolicyName": "booster",
-      "projectFolder": "packages/framework-provider-local"
+      "projectFolder": "packages/server"
     },
     {
       "packageName": "@booster-ai/server-infrastructure",
       "shouldPublish": true,
       "versionPolicyName": "booster",
-      "projectFolder": "packages/framework-provider-local-infrastructure"
+      "projectFolder": "packages/server-infrastructure"
     },
     {
-      "packageName": "@boostercloud/metadata-booster",
+      "packageName": "@booster-ai/metadata",
       "shouldPublish": true,
       "versionPolicyName": "booster",
-      "projectFolder": "packages/metadata-booster"
+      "projectFolder": "packages/metadata"
     }
   ]
 }

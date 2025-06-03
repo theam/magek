@@ -161,7 +161,7 @@ export class CartIdDataMigrateV2 {
     "ts-node": "9.1.1",
     "@types/node": "15.0.2",
     "ts-patch": "3.1.2",
-    "@boostercloud/metadata-booster": "0.30.2"
+    "@booster-ai/metadata": "0.30.2"
   },
 ```
 

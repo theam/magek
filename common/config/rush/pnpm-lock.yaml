@@ -17,7 +17,7 @@ importers:
         version: link:../common
       '@booster-ai/core':
         specifier: workspace:^3.2.0
-        version: link:../framework-core
+        version: link:../core
       '@effect-ts/core':
         specifier: ^0.60.4
         version: 0.60.5
@@ -182,12 +182,12 @@ importers:
         specifier: ^2.4.0
         version: 2.8.1
     devDependencies:
+      '@booster-ai/metadata':
+        specifier: workspace:^3.2.0
+        version: link:../metadata
       '@boostercloud/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
-      '@boostercloud/metadata-booster':
-        specifier: workspace:^3.2.0
-        version: link:../metadata-booster
       '@types/chai':
         specifier: 5.2.2
         version: 5.2.2
@@ -279,7 +279,7 @@ importers:
         specifier: 5.7.3
         version: 5.7.3
 
-  ../../packages/framework-core:
+  ../../packages/core:
     dependencies:
       '@booster-ai/common':
         specifier: workspace:^3.2.0
@@ -345,12 +345,12 @@ importers:
         specifier: 8.18.2
         version: 8.18.2
     devDependencies:
+      '@booster-ai/metadata':
+        specifier: workspace:^3.2.0
+        version: link:../metadata
       '@boostercloud/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
-      '@boostercloud/metadata-booster':
-        specifier: workspace:^3.2.0
-        version: link:../metadata-booster
       '@types/chai':
         specifier: 5.2.2
         version: 5.2.2
@@ -451,7 +451,68 @@ importers:
         specifier: 5.7.3
         version: 5.7.3
 
-  ../../packages/framework-provider-local:
+  ../../packages/metadata:
+    dependencies:
+      '@effect-ts/core':
+        specifier: ^0.60.4
+        version: 0.60.5
+      reflect-metadata:
+        specifier: 0.1.13
+        version: 0.1.13
+      ts-morph:
+        specifier: ^25.0.1
+        version: 25.0.1
+      tslib:
+        specifier: ^2.4.0
+        version: 2.8.1
+    devDependencies:
+      '@boostercloud/eslint-config':
+        specifier: workspace:^3.2.0
+        version: link:../../tools/eslint-config
+      '@types/node':
+        specifier: ^22.15.21
+        version: 22.15.21
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5.0.0
+        version: 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.7.3))(eslint@8.57.1)(typescript@5.7.3)
+      '@typescript-eslint/parser':
+        specifier: ^5.0.0
+        version: 5.62.0(eslint@8.57.1)(typescript@5.7.3)
+      eslint:
+        specifier: ^8.23.1
+        version: 8.57.1
+      eslint-config-prettier:
+        specifier: 8.3.0
+        version: 8.3.0(eslint@8.57.1)
+      eslint-plugin-import:
+        specifier: ^2.26.0
+        version: 2.31.0(eslint@8.57.1)
+      eslint-plugin-prettier:
+        specifier: 3.4.0
+        version: 3.4.0(eslint-config-prettier@8.3.0(eslint@8.57.1))(eslint@8.57.1)(prettier@2.3.0)
+      eslint-plugin-unicorn:
+        specifier: ~44.0.2
+        version: 44.0.2(eslint@8.57.1)
+      prettier:
+        specifier: 2.3.0
+        version: 2.3.0
+      rimraf:
+        specifier: ^6.0.1
+        version: 6.0.1
+      sinon:
+        specifier: 9.2.3
+        version: 9.2.3
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.2(@types/node@22.15.21)(typescript@5.7.3)
+      ts-patch:
+        specifier: 3.3.0
+        version: 3.3.0
+      typescript:
+        specifier: 5.7.3
+        version: 5.7.3
+
+  ../../packages/server:
     dependencies:
       '@booster-ai/common':
         specifier: workspace:^3.2.0
@@ -563,14 +624,14 @@ importers:
         specifier: 5.7.3
         version: 5.7.3
 
-  ../../packages/framework-provider-local-infrastructure:
+  ../../packages/server-infrastructure:
     dependencies:
       '@booster-ai/common':
         specifier: workspace:^3.2.0
         version: link:../common
       '@booster-ai/server':
         specifier: workspace:^3.2.0
-        version: link:../framework-provider-local
+        version: link:../server
       '@effect-ts/core':
         specifier: ^0.60.4
         version: 0.60.5
@@ -677,67 +738,6 @@ importers:
       ts-node:
         specifier: ^10.9.1
         version: 10.9.2(@types/node@22.15.21)(typescript@5.7.3)
-      typescript:
-        specifier: 5.7.3
-        version: 5.7.3
-
-  ../../packages/metadata-booster:
-    dependencies:
-      '@effect-ts/core':
-        specifier: ^0.60.4
-        version: 0.60.5
-      reflect-metadata:
-        specifier: 0.1.13
-        version: 0.1.13
-      ts-morph:
-        specifier: ^25.0.1
-        version: 25.0.1
-      tslib:
-        specifier: ^2.4.0
-        version: 2.8.1
-    devDependencies:
-      '@boostercloud/eslint-config':
-        specifier: workspace:^3.2.0
-        version: link:../../tools/eslint-config
-      '@types/node':
-        specifier: ^22.15.21
-        version: 22.15.21
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^5.0.0
-        version: 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.7.3))(eslint@8.57.1)(typescript@5.7.3)
-      '@typescript-eslint/parser':
-        specifier: ^5.0.0
-        version: 5.62.0(eslint@8.57.1)(typescript@5.7.3)
-      eslint:
-        specifier: ^8.23.1
-        version: 8.57.1
-      eslint-config-prettier:
-        specifier: 8.3.0
-        version: 8.3.0(eslint@8.57.1)
-      eslint-plugin-import:
-        specifier: ^2.26.0
-        version: 2.31.0(eslint@8.57.1)
-      eslint-plugin-prettier:
-        specifier: 3.4.0
-        version: 3.4.0(eslint-config-prettier@8.3.0(eslint@8.57.1))(eslint@8.57.1)(prettier@2.3.0)
-      eslint-plugin-unicorn:
-        specifier: ~44.0.2
-        version: 44.0.2(eslint@8.57.1)
-      prettier:
-        specifier: 2.3.0
-        version: 2.3.0
-      rimraf:
-        specifier: ^6.0.1
-        version: 6.0.1
-      sinon:
-        specifier: 9.2.3
-        version: 9.2.3
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.2(@types/node@22.15.21)(typescript@5.7.3)
-      ts-patch:
-        specifier: 3.3.0
-        version: 3.3.0
       typescript:
         specifier: 5.7.3
         version: 5.7.3

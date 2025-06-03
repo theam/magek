@@ -26,7 +26,7 @@ import { Booster } from './booster'
 import { applyReadModelRequestBeforeFunctions } from './services/filter-helpers'
 import { ReadModelSchemaMigrator } from './read-model-schema-migrator'
 import { Trace } from './instrumentation'
-import { PropertyMetadata } from '@boostercloud/metadata-booster'
+import { PropertyMetadata } from '@booster-ai/metadata'
 
 export class BoosterReadModelsReader {
   public constructor(readonly config: BoosterConfig) {}

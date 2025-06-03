@@ -9,7 +9,7 @@
     "compilerOptions": {
       "plugins": [
         {
-          "transform": "@boostercloud/metadata-booster"
+          "transform": "@booster-ai/metadata"
         }
       ]
     }

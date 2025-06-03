@@ -1,6 +1,6 @@
 import { GraphQLFieldConfigMap, GraphQLNonNull } from 'graphql'
 import { ResolverBuilder, TargetTypeMetadata, TargetTypesMap } from '../common'
-import { TypeMetadata } from '@boostercloud/metadata-booster'
+import { TypeMetadata } from '@booster-ai/metadata'
 import { GraphQLTypeInformer } from '../graphql-type-informer'
 import { BoosterConfig } from '@booster-ai/common'
 

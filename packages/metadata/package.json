@@ -1,5 +1,5 @@
 {
-  "name": "@boostercloud/metadata-booster",
+  "name": "@booster-ai/metadata",
   "version": "3.2.0",
   "description": "Emits detailed metadata of your types. You can then get it in runtime to deal with schema-aware operation, like defining GraphQL schemas, ORM operations, etc.",
   "repository": "https://github.com/boostercloud/booster.git",

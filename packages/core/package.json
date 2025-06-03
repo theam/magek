@@ -60,7 +60,7 @@
     "ws": "8.18.2"
   },
   "devDependencies": {
-    "@boostercloud/metadata-booster": "workspace:^3.2.0",
+    "@booster-ai/metadata": "workspace:^3.2.0",
     "@boostercloud/eslint-config": "workspace:^3.2.0",
     "@types/chai": "5.2.2",
     "@types/chai-as-promised": "7.1.4",

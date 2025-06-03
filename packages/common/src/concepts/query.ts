@@ -1,5 +1,5 @@
 import { Class } from '../typelevel'
-import { PropertyMetadata } from '@boostercloud/metadata-booster'
+import { PropertyMetadata } from '@booster-ai/metadata'
 import { QueryAuthorizer, QueryFilterHooks, UUID } from './.'
 import { ContextEnvelope, UserEnvelope } from '../envelope'
 

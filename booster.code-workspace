@@ -25,8 +25,8 @@
       "path": "packages/framework-provider-local-infrastructure"
     },
     {
-      "name": "📦 @boostercloud/metadata-booster",
-      "path": "packages/metadata-booster"
+      "name": "📦 @booster-ai/metadata",
+      "path": "packages/metadata"
     },
     {
       "name": "⚙️ @boostercloud/eslint-config",
