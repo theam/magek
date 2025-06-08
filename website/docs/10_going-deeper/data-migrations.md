@@ -170,7 +170,7 @@ export class CartIdDataMigrateV2 {
 Booster version 1.19.0 requires updating your index.ts file to export the `boosterHealth` method. If you have an index.ts file created from a previous Booster version, update it accordingly. Example:
 
 ```typescript
-import { Booster } from '@boostercloud/framework-core'
+import { Booster } from '@booster-ai/framework-core'
 export {
   Booster,
   boosterEventDispatcher,
@@ -179,7 +179,7 @@ export {
   boosterNotifySubscribers,
   boosterTriggerScheduledCommand,
   boosterRocketDispatcher,
-} from '@boostercloud/framework-core'
+} from '@booster-ai/framework-core'
 
 Booster.start(__dirname)
 

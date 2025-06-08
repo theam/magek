@@ -1,3 +1,3 @@
 module.exports = {
-  extends: ['@boostercloud/eslint-config'],
+  extends: ['@booster-ai/eslint-config'],
 }

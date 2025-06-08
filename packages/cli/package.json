@@ -29,7 +29,7 @@
     "@effect-ts/core": "^0.60.4"
   },
   "devDependencies": {
-    "@boostercloud/eslint-config": "workspace:^3.2.0",
+    "@booster-ai/eslint-config": "workspace:^3.2.0",
     "@oclif/test": "^4.1.10",
     "@types/chai": "5.2.2",
     "@types/chai-as-promised": "8.0.2",

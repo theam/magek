@@ -4,31 +4,31 @@ You can create multiple environments calling the `Booster.configure` function se
 
 ```typescript
 // Here we use a single file called src/config.ts, but you can use separate files for each environment too.
-import { Booster } from '@boostercloud/framework-core'
+import { Booster } from '@booster-ai/framework-core'
 import { BoosterConfig } from '@booster-ai/common'
 // A provider that deploys your app to AWS:
 
 Booster.configure('stage', (config: BoosterConfig): void => {
   config.appName = 'fruit-store-stage'
-  config.providerPackage = '@boostercloud/framework-provider-aws'
+  config.providerPackage = '@booster-ai/framework-provider-aws'
 })
 
 Booster.configure('prod', (config: BoosterConfig): void => {
   config.appName = 'fruit-store-prod'
-  config.providerPackage = '@boostercloud/framework-provider-aws'
+  config.providerPackage = '@booster-ai/framework-provider-aws'
 })
 ```
 
 It is also possible to place an environment configuration in a separated file. Let's say that a developer called "John" created its own configuration file `src/config/john.ts`. The content would be the following:
 
 ```typescript
-import { Booster } from '@boostercloud/framework-core'
+import { Booster } from '@booster-ai/framework-core'
 import { BoosterConfig } from '@booster-ai/common'
 import * as AWS from
 
 Booster.configure('john', (config: BoosterConfig): void => {
   config.appName = 'john-fruit-store'
-  config.providerPackage = '@boostercloud/framework-provider-aws'
+  config.providerPackage = '@booster-ai/framework-provider-aws'
 })
 ```
 
