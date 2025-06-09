@@ -13,9 +13,33 @@ import { InfrastructureRocket } from './infrastructure-rocket'
 import { HealthController } from './controllers/health-controller'
 import * as process from 'process'
 import { FastifyRequest, FastifyReply, FastifyInstance } from 'fastify'
+import { WebSocketRegistry } from './websocket-registry'
 
 export * from './test-helper/local-test-helper'
 export * from './infrastructure-rocket'
+export * from './websocket-registry'
+
+// Global WebSocket registry instance
+let globalWebSocketRegistry: WebSocketRegistry | undefined
+
+/**
+ * Get the global WebSocket registry instance
+ */
+export function getWebSocketRegistry(): WebSocketRegistry {
+  if (!globalWebSocketRegistry) {
+    throw new Error('WebSocket registry not initialized. Make sure the Fastify server is started.')
+  }
+  return globalWebSocketRegistry
+}
+
+/**
+ * Send a message to a WebSocket connection
+ * This function is used by the server package to send messages through the Fastify WebSocket implementation
+ */
+export function sendWebSocketMessage(connectionId: string, data: unknown): void {
+  const registry = getWebSocketRegistry()
+  registry.sendMessage(connectionId, data)
+}
 
 /**
  * Build a Fastify server instance for testing purposes
@@ -29,6 +53,13 @@ export async function buildFastifyServer(
     logger: false, // Disable logging for tests
     bodyLimit: 6 * 1024 * 1024, // 6MB
   })
+
+  // Initialize WebSocket registry if not already done
+  if (!globalWebSocketRegistry) {
+    globalWebSocketRegistry = new WebSocketRegistry()
+    // Set global registry for access from server package
+    ;(global as any).boosterWebSocketRegistry = globalWebSocketRegistry
+  }
 
   // Register plugins
   await fastify.register(cors, {
@@ -67,6 +98,9 @@ export async function buildFastifyServer(
   await fastify.register((instance: FastifyInstance) => {
     instance.get('/websocket', { websocket: true }, (connection, req) => {
       const connectionId = (req as any).connectionId || `conn_${Date.now()}_${Math.random()}`
+
+      // Add connection to registry
+      globalWebSocketRegistry!.addConnection(connectionId, connection.socket)
 
       connection.socket.on('message', async (message) => {
         try {
@@ -191,6 +225,12 @@ export const Infrastructure = (rocketDescriptors?: RocketDescriptor[]): Provider
     start: async (config: BoosterConfig, port: number): Promise<void> => {
       let httpServer: http.Server
 
+      // Initialize WebSocket registry
+      globalWebSocketRegistry = new WebSocketRegistry()
+
+      // Set global registry for access from server package
+      ;(global as any).boosterWebSocketRegistry = globalWebSocketRegistry
+
       const fastify = Fastify({
         serverFactory(handler, opts) {
           httpServer = http.createServer(handler)
@@ -241,6 +281,9 @@ export const Infrastructure = (rocketDescriptors?: RocketDescriptor[]): Provider
       await fastify.register((instance: FastifyInstance) => {
         instance.get('/websocket', { websocket: true }, (connection, req) => {
           const connectionId = (req as any).connectionId || `conn_${Date.now()}_${Math.random()}`
+
+          // Add connection to registry
+          globalWebSocketRegistry!.addConnection(connectionId, connection.socket)
 
           connection.socket.on('message', async (message) => {
             try {

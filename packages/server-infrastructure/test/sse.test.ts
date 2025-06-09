@@ -39,15 +39,5 @@ describe('SSE integration', () => {
       expect(result.status).to.equal('success')
       expect(graphQLServiceStub.handleGraphQLRequest).to.have.been.calledWith(webSocketRequest)
     })
-
-    it('should generate unique SSE connection IDs', () => {
-      // Test that connection ID generation is working correctly
-      const connectionId1 = `sse_${Date.now()}_${Math.random()}`
-      const connectionId2 = `sse_${Date.now()}_${Math.random()}`
-
-      expect(connectionId1).to.not.equal(connectionId2)
-      expect(connectionId1).to.match(/^sse_/)
-      expect(connectionId2).to.match(/^sse_/)
-    })
   })
 })
