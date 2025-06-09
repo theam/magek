@@ -1,5 +1,5 @@
 import { fake } from 'sinon'
-import { Effect, gen, Layer, mapError, pipe, unsafeRunEffect } from '../../../src/effect'
+import { Effect, Layer, pipe } from 'effect'
 import { expect } from '../../expect'
 import { makeTestFileSystem } from '../file-system/test.impl'
 import { makeTestProcess } from '../process/test.impl'
@@ -10,10 +10,10 @@ import { PackageManagerService } from '../../../src/services/package-manager'
 const TestFileSystem = makeTestFileSystem()
 const TestProcess = makeTestProcess()
 
-const mapEffError = <R, A>(effect: Effect<R, { error: Error }, A>) =>
+const mapEffError = <A, R>(effect: Effect.Effect<A, { error: Error }, R>) =>
   pipe(
     effect,
-    mapError((e) => e.error)
+    Effect.mapError((e: { error: Error }) => e.error)
   )
 
 describe('PackageManager - Rush Implementation', () => {
@@ -25,32 +25,38 @@ describe('PackageManager - Rush Implementation', () => {
   it('run arbitrary scripts from package.json', async () => {
     const script = 'script'
     const args = ['arg1', 'arg2']
-    const testLayer = Layer.all(TestFileSystem.layer, TestProcess.layer)
+    const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
 
-    const effect = gen(function* ($) {
-      const { runScript } = yield* $(PackageManagerService)
-      return yield* $(runScript(script, args))
+    const effect = Effect.gen(function* () {
+      const { runScript } = yield* PackageManagerService
+      return yield* runScript(script, args)
     })
 
-    await unsafeRunEffect(mapEffError(effect), {
-      layer: Layer.using(testLayer)(RushPackageManager),
-      onError: guardError('An error ocurred'),
-    })
+    await Effect.runPromise(
+      pipe(
+        mapEffError(effect),
+        Effect.provide(Layer.provide(RushPackageManager, testLayer)),
+        Effect.orDieWith(guardError('An error ocurred'))
+      )
+    )
     expect(TestProcess.fakes.exec).to.have.been.calledWith(`rushx ${script} ${args.join(' ')}`)
   })
 
   it('runs the `build` script', async () => {
-    const testLayer = Layer.all(TestFileSystem.layer, TestProcess.layer)
+    const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
 
-    const effect = gen(function* ($) {
-      const { build } = yield* $(PackageManagerService)
-      return yield* $(build([]))
+    const effect = Effect.gen(function* () {
+      const { build } = yield* PackageManagerService
+      return yield* build([])
     })
 
-    await unsafeRunEffect(mapEffError(effect), {
-      layer: Layer.using(testLayer)(RushPackageManager),
-      onError: guardError('An error ocurred'),
-    })
+    await Effect.runPromise(
+      pipe(
+        mapEffError(effect),
+        Effect.provide(Layer.provide(RushPackageManager, testLayer)),
+        Effect.orDieWith(guardError('An error ocurred'))
+      )
+    )
     expect(TestProcess.fakes.exec).to.have.been.calledWith('rush build')
   })
 
@@ -58,49 +64,58 @@ describe('PackageManager - Rush Implementation', () => {
     const projectRoot = 'projectRoot'
 
     const CwdTestProcess = makeTestProcess({ cwd: fake.returns(projectRoot) })
-    const testLayer = Layer.all(TestFileSystem.layer, CwdTestProcess.layer)
+    const testLayer = Layer.merge(TestFileSystem.layer, CwdTestProcess.layer)
 
-    const effect = gen(function* ($) {
-      const { setProjectRoot, runScript } = yield* $(PackageManagerService)
-      yield* $(setProjectRoot(projectRoot))
-      yield* $(runScript('script', []))
+    const effect = Effect.gen(function* () {
+      const { setProjectRoot, runScript } = yield* PackageManagerService
+      yield* setProjectRoot(projectRoot)
+      yield* runScript('script', [])
     })
 
-    await unsafeRunEffect(mapEffError(effect), {
-      layer: Layer.using(testLayer)(RushPackageManager),
-      onError: guardError('An error ocurred'),
-    })
+    await Effect.runPromise(
+      pipe(
+        mapEffError(effect),
+        Effect.provide(Layer.provide(RushPackageManager, testLayer)),
+        Effect.orDieWith(guardError('An error ocurred'))
+      )
+    )
     expect(CwdTestProcess.fakes.exec).to.have.been.calledWith('rushx script', projectRoot)
   })
 
   it('cannot install production dependencies', async () => {
-    const testLayer = Layer.all(TestFileSystem.layer, TestProcess.layer)
+    const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
 
-    const effect = gen(function* ($) {
-      const { installProductionDependencies } = yield* $(PackageManagerService)
-      return yield* $(installProductionDependencies())
+    const effect = Effect.gen(function* () {
+      const { installProductionDependencies } = yield* PackageManagerService
+      return yield* installProductionDependencies()
     })
 
     return expect(
-      unsafeRunEffect(mapEffError(effect), {
-        layer: Layer.using(testLayer)(RushPackageManager),
-        onError: guardError('An error ocurred'),
-      })
+      Effect.runPromise(
+        pipe(
+          mapEffError(effect),
+          Effect.provide(Layer.provide(RushPackageManager, testLayer)),
+          Effect.orDieWith(guardError('An error ocurred'))
+        )
+      )
     ).to.be.eventually.rejected
   })
 
   it('can install all dependencies', async () => {
-    const testLayer = Layer.all(TestFileSystem.layer, TestProcess.layer)
+    const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
 
-    const effect = gen(function* ($) {
-      const { installAllDependencies } = yield* $(PackageManagerService)
-      return yield* $(installAllDependencies())
+    const effect = Effect.gen(function* () {
+      const { installAllDependencies } = yield* PackageManagerService
+      return yield* installAllDependencies()
     })
 
-    await unsafeRunEffect(mapEffError(effect), {
-      layer: Layer.using(testLayer)(RushPackageManager),
-      onError: guardError('An error ocurred'),
-    })
+    await Effect.runPromise(
+      pipe(
+        mapEffError(effect),
+        Effect.provide(Layer.provide(RushPackageManager, testLayer)),
+        Effect.orDieWith(guardError('An error ocurred'))
+      )
+    )
 
     expect(TestProcess.fakes.exec).to.have.been.calledWith('rush update')
   })

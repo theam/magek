@@ -14,7 +14,7 @@ import * as prettierRc from '../templates/project/prettierrc-yaml'
 import * as mochaRc from '../templates/project/mocharc-yml'
 import { guardError, wrapExecError } from '../common/errors'
 import { PackageManagerService } from './package-manager'
-import { gen, mapError, pipe, unsafeRunEffect } from '../effect'
+import { Effect, pipe } from 'effect'
 import { LivePackageManager } from './package-manager/live.impl'
 
 export async function generateConfigFiles(config: ProjectInitializerConfig): Promise<void> {
@@ -23,23 +23,21 @@ export async function generateConfigFiles(config: ProjectInitializerConfig): Pro
 
 export async function installDependencies(config: ProjectInitializerConfig): Promise<void> {
   const effect = installDependenciesEff(config)
-  return unsafeRunEffect(
+  await Effect.runPromise(
     pipe(
       effect,
-      mapError((e) => e.error)
-    ),
-    {
-      layer: LivePackageManager,
-      onError: guardError('Could not install dependencies'),
-    }
+      Effect.mapError((e) => e.error),
+      Effect.provide(LivePackageManager),
+      Effect.orDieWith(guardError('Could not install dependencies'))
+    )
   )
 }
 
 const installDependenciesEff = (config: ProjectInitializerConfig) =>
-  gen(function* ($) {
-    const { setProjectRoot, installAllDependencies } = yield* $(PackageManagerService)
-    yield* $(setProjectRoot(projectDir(config)))
-    yield* $(installAllDependencies())
+  Effect.gen(function* () {
+    const { setProjectRoot, installAllDependencies } = yield* PackageManagerService
+    yield* setProjectRoot(projectDir(config))
+    yield* installAllDependencies()
   })
 
 export async function generateRootDirectory(config: ProjectInitializerConfig): Promise<void> {

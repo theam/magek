@@ -1,4 +1,4 @@
-import { Effect, tag } from '../../effect'
+import { Effect, Context } from 'effect'
 
 export class ProcessError {
   readonly _tag = 'ProcessError'
@@ -6,8 +6,8 @@ export class ProcessError {
 }
 
 export interface ProcessService {
-  readonly exec: (command: string, cwd?: string) => Effect<unknown, ProcessError, string>
-  readonly cwd: () => Effect<unknown, ProcessError, string>
+  readonly exec: (command: string, cwd?: string) => Effect.Effect<string, ProcessError>
+  readonly cwd: () => Effect.Effect<string, ProcessError>
 }
 
-export const ProcessService = tag<ProcessService>()
+export const ProcessService = Context.GenericTag<ProcessService>('ProcessService')

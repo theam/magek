@@ -1,4 +1,4 @@
-import { Effect, tag } from '../../effect'
+import { Effect, Context } from 'effect'
 
 export type PackageManagerError = InstallDependenciesError | RunScriptError
 
@@ -13,11 +13,11 @@ export class RunScriptError {
 }
 
 export interface PackageManagerService {
-  readonly setProjectRoot: (projectRoot: string) => Effect<unknown, never, void>
-  readonly installProductionDependencies: () => Effect<unknown, InstallDependenciesError, void>
-  readonly installAllDependencies: () => Effect<unknown, InstallDependenciesError, void>
-  readonly runScript: (scriptName: string, args: ReadonlyArray<string>) => Effect<unknown, RunScriptError, string>
-  readonly build: (args: ReadonlyArray<string>) => Effect<unknown, RunScriptError, string>
+  readonly setProjectRoot: (projectRoot: string) => Effect.Effect<void>
+  readonly installProductionDependencies: () => Effect.Effect<void, InstallDependenciesError>
+  readonly installAllDependencies: () => Effect.Effect<void, InstallDependenciesError>
+  readonly runScript: (scriptName: string, args: ReadonlyArray<string>) => Effect.Effect<string, RunScriptError>
+  readonly build: (args: ReadonlyArray<string>) => Effect.Effect<string, RunScriptError>
 }
 
-export const PackageManagerService = tag<PackageManagerService>()
+export const PackageManagerService = Context.GenericTag<PackageManagerService>('PackageManagerService')

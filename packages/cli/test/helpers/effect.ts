@@ -1,8 +1,7 @@
-import { Effect, Has, Layer, succeedWith, Tag } from '../../src/effect'
-import { ShapeFn } from '@effect-ts/core/Effect'
+import { Effect, Context, Layer } from 'effect'
 import { SinonSpy } from 'sinon'
 
-export const fakeService = <T extends ShapeFn<T>>(tag: Tag<T>, fakes: Fakes<T>): FakeServiceUtils<T> => {
+export const fakeService = <T>(tag: Context.Tag<T, T>, fakes: Fakes<T>): FakeServiceUtils<T> => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const fakeService: any = {}
 
@@ -10,10 +9,10 @@ export const fakeService = <T extends ShapeFn<T>>(tag: Tag<T>, fakes: Fakes<T>):
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const fakeFunction = v as SinonSpy<any[], any>
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    fakeService[k] = (...args: any[]) => succeedWith(() => fakeFunction(...args))
+    fakeService[k] = (...args: any[]) => Effect.sync(() => fakeFunction(...args))
   }
 
-  const layer = Layer.fromValue(tag)(fakeService)
+  const layer = Layer.succeed(tag, fakeService)
 
   const reset = () => {
     for (const f of Object.values(fakes)) {
@@ -25,18 +24,20 @@ export const fakeService = <T extends ShapeFn<T>>(tag: Tag<T>, fakes: Fakes<T>):
   return { layer, fakes, reset }
 }
 
-export type FakeServiceUtils<T extends ShapeFn<T>> = {
-  layer: Layer.Layer<unknown, never, Has<T>>
+export type FakeServiceUtils<T> = {
+  layer: Layer.Layer<T>
   fakes: Fakes<T>
   reset: () => void
 }
 
-type EffectResult<T> = T extends Effect<any, any, infer A> ? A : never
+type EffectResult<T> = T extends Effect.Effect<infer A, any, any> ? A : never
 
-export type FakeOverrides<T extends ShapeFn<T>> = Partial<Fakes<T>>
+export type FakeOverrides<T> = Partial<Fakes<T>>
 
-type Fakes<T extends ShapeFn<T>> = {
-  [key in keyof T]: EffectSpy<T, key>
+type Fakes<T> = {
+  [key in keyof T]: T[key] extends (...args: any[]) => any ? EffectSpy<T, key> : never
 }
 
-type EffectSpy<T extends ShapeFn<T>, key extends keyof T> = SinonSpy<any[], EffectResult<ReturnType<T[key]>>>
+type EffectSpy<T, key extends keyof T> = T[key] extends (...args: any[]) => any 
+  ? SinonSpy<any[], EffectResult<ReturnType<T[key]>>>
+  : never

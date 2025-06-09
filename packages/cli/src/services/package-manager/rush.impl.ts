@@ -1,32 +1,32 @@
 import { InstallDependenciesError, PackageManagerService, RunScriptError } from '.'
-import { fail, gen, Layer, mapError, orDie, pipe, Ref } from '../../effect'
+import { Effect, Layer, pipe, Ref } from 'effect'
 import { makePackageManager, makeScopedRun } from './common'
 
 // TODO: Look recursively up for a rush.json file and run ./common/scripts/install-run-rushx.js
-export const makeRushPackageManager = gen(function* ($) {
+export const makeRushPackageManager = Effect.gen(function* () {
   // Create a reference to store the current project directory
-  const projectDirRef = yield* $(Ref.makeRef(''))
+  const projectDirRef = yield* Ref.make('')
 
   // Create a function to run a script in the project directory
-  const runRush = yield* $(makeScopedRun('rush', projectDirRef))
-  const runRushX = yield* $(makeScopedRun('rushx', projectDirRef))
+  const runRush = yield* makeScopedRun('rush', projectDirRef)
+  const runRushX = yield* makeScopedRun('rushx', projectDirRef)
 
-  const commonService = yield* $(makePackageManager('rush'))
+  const commonService = yield* makePackageManager('rush')
 
   const service: PackageManagerService = {
     ...commonService,
     runScript: (scriptName: string, args: ReadonlyArray<string>) =>
       pipe(
         runRushX(scriptName, null, args),
-        mapError((error) => new RunScriptError(error.error))
+        Effect.mapError((error) => new RunScriptError(error.error))
       ),
     build: (args: ReadonlyArray<string>) =>
       pipe(
         runRush('build', null, args),
-        mapError((error) => new RunScriptError(error.error))
+        Effect.mapError((error) => new RunScriptError(error.error))
       ),
     installProductionDependencies: () =>
-      fail(
+      Effect.fail(
         new InstallDependenciesError(
           new Error('Rush is a monorepo manager, so it does not support installing production dependencies')
         )
@@ -34,10 +34,10 @@ export const makeRushPackageManager = gen(function* ($) {
     installAllDependencies: () =>
       pipe(
         runRush('update', null, []),
-        mapError((error) => new InstallDependenciesError(error.error))
+        Effect.mapError((error) => new InstallDependenciesError(error.error))
       ),
   }
   return service
 })
 
-export const RushPackageManager = Layer.fromEffect(PackageManagerService)(orDie(makeRushPackageManager))
+export const RushPackageManager = Layer.effect(PackageManagerService, Effect.orDie(makeRushPackageManager))

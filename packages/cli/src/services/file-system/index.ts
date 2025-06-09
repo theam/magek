@@ -1,4 +1,4 @@
-import { Effect, tag } from '../../effect'
+import { Effect, Context } from 'effect'
 
 export class FileSystemError {
   readonly _tag = 'FileSystemError'
@@ -6,8 +6,8 @@ export class FileSystemError {
 }
 
 export interface FileSystemService {
-  readonly readDirectoryContents: (directoryPath: string) => Effect<unknown, FileSystemError, ReadonlyArray<string>>
-  readonly readFileContents: (filePath: string) => Effect<unknown, FileSystemError, string>
+  readonly readDirectoryContents: (directoryPath: string) => Effect.Effect<ReadonlyArray<string>, FileSystemError>
+  readonly readFileContents: (filePath: string) => Effect.Effect<string, FileSystemError>
 }
 
-export const FileSystemService = tag<FileSystemService>()
+export const FileSystemService = Context.GenericTag<FileSystemService>('FileSystemService')

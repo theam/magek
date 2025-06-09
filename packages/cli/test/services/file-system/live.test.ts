@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import { fake, replace } from 'sinon'
-import { gen, mapError, pipe, unsafeRunEffect } from '../../../src/effect'
+import { Effect, pipe } from 'effect'
 import { expect } from '../../expect'
 import { FileSystemService } from '../../../src/services/file-system'
 import { LiveFileSystem } from '../../../src/services/file-system/live.impl'
@@ -13,19 +13,17 @@ describe('FileSystem - Live Implementation', () => {
 
   it('uses fs.promises.readdir', async () => {
     const directoryPath = 'directoryPath'
-    const effect = gen(function* ($) {
-      const { readDirectoryContents } = yield* $(FileSystemService)
-      return yield* $(readDirectoryContents(directoryPath))
+    const effect = Effect.gen(function* () {
+      const { readDirectoryContents } = yield* FileSystemService
+      return yield* readDirectoryContents(directoryPath)
     })
-    await unsafeRunEffect(
+    await Effect.runPromise(
       pipe(
         effect,
-        mapError((e) => e.error)
-      ),
-      {
-        layer: LiveFileSystem,
-        onError: guardError('An error ocurred'),
-      }
+        Effect.mapError((e) => e.error),
+        Effect.provide(LiveFileSystem),
+        Effect.orDieWith(guardError('An error ocurred'))
+      )
     )
     expect(fs.promises.readdir).to.have.been.calledWith(directoryPath)
   })
