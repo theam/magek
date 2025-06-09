@@ -33,11 +33,9 @@ The packages are managed using [rush](https://rushjs.io/) and [npm](https://npmj
 The packages are published to `npmjs` under the prefix `@booster-ai/`, their purpose is as follows:
 
 - `cli` - You guessed it! This package is the `boost` command-line tool, it interacts only with the core package in order to load the project configuration. The specific provider packages to interact with the cloud providers are loaded dynamically from the project config.
-- `framework-core` - This one contains all the framework runtime vendor-independent logic. Stuff like the generation of the config or the commands and events handling happens here. The specific provider packages to interact with the cloud providers are loaded dynamically from the project config.
-- `framework-provider-aws` (Currently Deprecated) - Implements all the required adapters to make the booster core run on top of AWS technologies like Lambda and DynamoDB using the AWS SDK under the hoods.
-- `framework-provider-aws-infrastructure` (Currently Deprecated) - Implements all the required adapters to allow Booster applications to be deployed to AWS using the AWS CDK under the hoods.
-- `framework-provider-local` - Implements all the required adapters to run the Booster application on a local express server to be able to debug your code before deploying it to a real cloud provider.
-- `framework-provider-local-infrastructure` - Implements all the required code to run the local development server.
+- `core` - This one contains all the framework runtime vendor-independent logic. Stuff like the generation of the config or the commands and events handling happens here. The specific provider packages to interact with the cloud providers are loaded dynamically from the project config.
+- `server` - Implements all the required adapters to run the Booster application locally using the Booster server.
+- `server-infrastructure` - Implements all the required code to run the local development server.
 - `common` - This package defines shared types and helpers used across all other packages. It includes the main Booster concepts like:
   - Entity
   - Command
@@ -232,13 +230,9 @@ Finally, **always use exact numbers for dependency versions**. This means that i
 Unit tests are executed when you type `rush test`. If you want to run the unit tests for an especific package, you should move to the corresponding folder and run one of the following commands:
 
 - `rushx test:cli -v`: Run unit tests for the `cli` package.
-- `rushx test:core -v`: Run unit tests for the `framework-core` package.
-- `rushx test:provider-aws -v`: Run unit tests for the `framework-provider-aws` package.
-- `rushx test:provider-aws-infrastructure -v`: Run unit tests for the `framework-provider-aws-infrastructure` package.
-- `rushx test:provider-azure -v`: Run unit tests for the `framework-provider-azure` package.
-- `rushx test:provider-azure-infrastructure -v`: Run unit tests for the `framework-provider-azure-infrastructure` package.
-- `rushx test:provider-local -v`: Run unit tests for the `framework-provider-local` package.
-- `rushx test:provider-local-infrastructure -v`: Run unit tests for the `framework-provider-local-infrastructure` package.
+- `rushx test:core -v`: Run unit tests for the `core` package.
+- `rushx test:server -v`: Run unit tests for the `server` package.
+- `rushx test:server-infrastructure -v`: Run unit tests for the `server-infrastructure` package.
 - `rushx test:common -v`: Run unit tests for the `common` package.
 
 ### Running integration tests

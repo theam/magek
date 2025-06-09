@@ -1,0 +1,9 @@
+{
+  "changes": [
+    {
+      "comment": "update documentation to use new package names",
+      "type": "none",
+      "packageName": "@booster-ai/cli"
+    }
+  ]
+}

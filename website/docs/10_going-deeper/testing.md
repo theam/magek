@@ -34,7 +34,7 @@ import { replace } from 'sinon'
 
 const config = new BoosterConfig('test')
 config.appName = 'testing-time'
-config.providerPackage = '@booster-ai/framework-provider-aws'
+config.providerPackage = '@booster-ai/server'
 config.readModels['WoW'] = {} as ReadModelMetadata
 config.readModels['Amazing'] = {} as ReadModelMetadata
 replace(Booster, 'config', config)

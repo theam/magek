@@ -73,7 +73,7 @@ For example, given the following setup:
 ```typescript title="src/config/config.ts"
 Booster.configure('production', (config: BoosterConfig): void => {
   config.appName = 'my-store'
-  config.providerPackage = '@booster-ai/framework-provider-x'
+  config.providerPackage = '@booster-ai/server'
   config.tokenVerifiers = [
     new JwksUriTokenVerifier(
       'https://my-auth0-tenant.auth0.com/', // Issuer

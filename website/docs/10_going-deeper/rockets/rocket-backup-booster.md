@@ -19,12 +19,12 @@ Install this package as a dev dependency in your Booster project:
 npm install --save-dev @booster-ai/rocket-backup-aws-infrastructure
 ```
 
-In your Booster config file, pass a RocketDescriptor array to the AWS' Provider initializer configuring the backup rocket:
+In your Booster config file, pass a RocketDescriptor array to the Booster Server initializer configuring the backup rocket:
 
 ```typescript title="src/config/config.ts"
-import { Booster } from '@booster-ai/framework-core'
+import { Booster } from '@booster-ai/core'
 import { BoosterConfig } from '@booster-ai/common'
-import * as AWS from '@booster-ai/framework-provider-aws'
+import { Provider } from '@booster-ai/server'
 
 Booster.configure('development', (config: BoosterConfig): void => {
   config.appName = 'my-store'

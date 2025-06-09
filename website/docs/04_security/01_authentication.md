@@ -19,12 +19,12 @@ The `TokenVerifier` class is a simple interface that you can implement to define
 Here is an example of how to configure a `JwksUriTokenVerifier`:
 
 ```typescript title="src/config/config.ts"
-import { Booster, JwksUriTokenVerifier } from '@booster-ai/framework-core'
+import { Booster, JwksUriTokenVerifier } from '@booster-ai/core'
 import { BoosterConfig } from '@booster-ai/common'
 
 Booster.configure('production', (config: BoosterConfig): void => {
   config.appName = 'app-name'
-  config.providerPackage = '@booster-ai/framework-provider-x'
+  config.providerPackage = '@booster-ai/server'
   config.tokenVerifiers = [
       new JwksUriTokenVerifier(
         'https://my-auth0-tenant.auth0.com/', // Issuer
@@ -64,7 +64,7 @@ The `PublicKeyTokenVerifier` class uses the public key of the issuer to verify t
 This is useful when the token issuer doesn't provide a JWKS URI, when you're implementing your own authentication mechanism or you're issuing self-signed tokens.
 
 ```typescript title="src/config/config.ts"
-import { Booster, PublicKeyTokenVerifier } from '@booster-ai/framework-core'
+import { Booster, PublicKeyTokenVerifier } from '@booster-ai/core'
 import { BoosterConfig } from '@booster-ai/common'
 
 function publicKeyResolver(): Promise<string> {
@@ -73,7 +73,7 @@ function publicKeyResolver(): Promise<string> {
 
 Booster.configure('production', (config: BoosterConfig): void => {
   config.appName = 'app-name'
-  config.providerPackage = '@booster-ai/framework-provider-x'
+  config.providerPackage = '@booster-ai/server'
   config.tokenVerifiers = [
     new PublicKeyTokenVerifier(
       'issuer-name', // Issuer name
@@ -115,7 +115,7 @@ interface TokenVerifier {
 Here is an example of how to implement a custom `TokenVerifier`:
 
 ```typescript title="src/config/config.ts"
-import { Booster, TokenVerifier } from '@booster-ai/framework-core'
+import { Booster, TokenVerifier } from '@booster-ai/core'
 import { BoosterConfig, DecodedToken, TokenVerifier, UserEnvelope } from '@booster-ai/common'
 
 class CustomTokenVerifier implements TokenVerifier {
@@ -130,7 +130,7 @@ class CustomTokenVerifier implements TokenVerifier {
 
 Booster.configure('production', (config: BoosterConfig): void => {
   config.appName = 'app-name'
-  config.providerPackage = '@booster-ai/framework-provider-x'
+  config.providerPackage = '@booster-ai/server'
   config.tokenVerifiers = [new CustomTokenVerifier()]
 })
 ```
