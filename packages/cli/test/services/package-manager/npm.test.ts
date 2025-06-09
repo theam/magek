@@ -13,7 +13,7 @@ const TestProcess = makeTestProcess()
 const mapEffError = <A, R>(effect: Effect.Effect<A, { error: Error }, R>) =>
   pipe(
     effect,
-    Effect.Effect.mapError((e) => e.error)
+    Effect.mapError((e: { error: Error }) => e.error)
   )
 
 describe('PackageManager - npm Implementation', () => {
@@ -33,8 +33,7 @@ describe('PackageManager - npm Implementation', () => {
       pipe(
         mapEffError(effect),
         Effect.provide(Layer.provide(NpmPackageManager, testLayer)),
-        Effect.orDieWith(guardError('An error ocurred')
-    )
+        Effect.orDieWith(guardError('An error ocurred'))
       )
     )
     expect(TestProcess.fakes.exec).to.have.been.calledWith(`npm run ${script} ${args.join(' ')}`)
@@ -49,18 +48,17 @@ describe('PackageManager - npm Implementation', () => {
       const compileLayer = Layer.merge(TestFileSystemWithCompileScript.layer, TestProcess.layer)
 
       const effect = Effect.gen(function* () {
-        const { build } = yield* PackageManagerService)
-        return yield* build([]))
+        const { build } = yield* PackageManagerService
+        return yield* build([])
       })
 
       await Effect.runPromise(
-      pipe(
-        mapEffError(effect),
-        Effect.provide(Layer.provide(NpmPackageManager, compileLayer)),
-        Effect.orDieWith(guardError('An error ocurred')
+        pipe(
+          mapEffError(effect),
+          Effect.provide(Layer.provide(NpmPackageManager, compileLayer)),
+          Effect.orDieWith(guardError('An error ocurred'))
+        )
       )
-      )
-    )
       expect(TestProcess.fakes.exec).to.have.been.calledWith('npm run compile')
     })
   })
@@ -70,18 +68,17 @@ describe('PackageManager - npm Implementation', () => {
       const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
 
       const effect = Effect.gen(function* () {
-        const { build } = yield* PackageManagerService)
-        return yield* build([]))
+        const { build } = yield* PackageManagerService
+        return yield* build([])
       })
 
       await Effect.runPromise(
-      pipe(
-        mapEffError(effect),
-        Effect.provide(Layer.provide(NpmPackageManager, testLayer)),
-        Effect.orDieWith(guardError('An error ocurred')
+        pipe(
+          mapEffError(effect),
+          Effect.provide(Layer.provide(NpmPackageManager, testLayer)),
+          Effect.orDieWith(guardError('An error ocurred'))
+        )
       )
-      )
-    )
       expect(TestProcess.fakes.exec).to.have.been.calledWith('npm run build')
     })
   })
@@ -93,17 +90,16 @@ describe('PackageManager - npm Implementation', () => {
     const testLayer = Layer.merge(TestFileSystem.layer, CwdTestProcess.layer)
 
     const effect = Effect.gen(function* () {
-      const { setProjectRoot, runScript } = yield* PackageManagerService)
-      yield* setProjectRoot(projectRoot))
-      yield* runScript('script', []))
+      const { setProjectRoot, runScript } = yield* PackageManagerService
+      yield* setProjectRoot(projectRoot)
+      yield* runScript('script', [])
     })
 
     await Effect.runPromise(
       pipe(
         mapEffError(effect),
         Effect.provide(Layer.provide(NpmPackageManager, testLayer)),
-        Effect.orDieWith(guardError('An error ocurred')
-    )
+        Effect.orDieWith(guardError('An error ocurred'))
       )
     )
     expect(CwdTestProcess.fakes.exec).to.have.been.calledWith('npm run script', projectRoot)
@@ -113,16 +109,15 @@ describe('PackageManager - npm Implementation', () => {
     const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
 
     const effect = Effect.gen(function* () {
-      const { installProductionDependencies } = yield* PackageManagerService)
-      return yield* installProductionDependencies())
+      const { installProductionDependencies } = yield* PackageManagerService
+      return yield* installProductionDependencies()
     })
 
     await Effect.runPromise(
       pipe(
         mapEffError(effect),
         Effect.provide(Layer.provide(NpmPackageManager, testLayer)),
-        Effect.orDieWith(guardError('An error ocurred')
-    )
+        Effect.orDieWith(guardError('An error ocurred'))
       )
     )
 
@@ -133,16 +128,15 @@ describe('PackageManager - npm Implementation', () => {
     const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
 
     const effect = Effect.gen(function* () {
-      const { installAllDependencies } = yield* PackageManagerService)
-      return yield* installAllDependencies())
+      const { installAllDependencies } = yield* PackageManagerService
+      return yield* installAllDependencies()
     })
 
     await Effect.runPromise(
       pipe(
         mapEffError(effect),
         Effect.provide(Layer.provide(NpmPackageManager, testLayer)),
-        Effect.orDieWith(guardError('An error ocurred')
-    )
+        Effect.orDieWith(guardError('An error ocurred'))
       )
     )
 
