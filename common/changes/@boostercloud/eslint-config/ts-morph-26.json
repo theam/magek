@@ -1,0 +1,5 @@
+{
+  "changes": [{"comment": "update TypeScript to 5.8", "type": "patch", "packageName": "@boostercloud/eslint-config"}],
+  "packageName": "@boostercloud/eslint-config",
+  "email": "codex@openai.com"
+}
