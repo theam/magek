@@ -42,7 +42,7 @@
     "@types/node": "^22.15.21",
     "ts-node": "^10.9.1",
     "ts-patch": "3.3.0",
-    "typescript": "5.7.3",
+    "typescript": "5.8.3",
     "prettier": "2.3.0",
     "sinon": "9.2.3",
     "rimraf": "^6.0.1",
