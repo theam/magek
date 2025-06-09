@@ -1,5 +1,5 @@
 import Brand from './brand'
-import { orDieWith } from '../effect'
+import { Effect } from 'effect'
 
 /**
  * Builds an error extracting its message from the "stdout" and "stderr" properties if present
@@ -13,7 +13,7 @@ export function wrapExecError(e: Error, prefix: string): Error {
 }
 
 export const guardError = (prefix: string) =>
-  orDieWith((err: Error) => {
+  Effect.orDieWith((err: Error) => {
     return new Error(Brand.dangerize(`[${err.name}] ${prefix}:`) + '\n' + err.message)
   })
 

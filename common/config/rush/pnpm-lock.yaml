@@ -18,9 +18,6 @@ importers:
       '@booster-ai/core':
         specifier: workspace:^3.2.0
         version: link:../core
-      '@effect-ts/core':
-        specifier: ^0.60.4
-        version: 0.60.5
       '@oclif/core':
         specifier: 4.3.0
         version: 4.3.0
@@ -30,6 +27,9 @@ importers:
       chalk:
         specifier: ^5.4.1
         version: 5.4.1
+      effect:
+        specifier: 3.13.2
+        version: 3.13.2
       execa:
         specifier: ^2.0.3
         version: 2.1.0
@@ -182,12 +182,12 @@ importers:
         specifier: ^2.4.0
         version: 2.8.1
     devDependencies:
-      '@booster-ai/metadata':
-        specifier: workspace:^3.2.0
-        version: link:../metadata
       '@booster-ai/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
+      '@booster-ai/metadata':
+        specifier: workspace:^3.2.0
+        version: link:../metadata
       '@types/chai':
         specifier: 5.2.2
         version: 5.2.2
@@ -345,12 +345,12 @@ importers:
         specifier: 8.18.2
         version: 8.18.2
     devDependencies:
-      '@booster-ai/metadata':
-        specifier: workspace:^3.2.0
-        version: link:../metadata
       '@booster-ai/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
+      '@booster-ai/metadata':
+        specifier: workspace:^3.2.0
+        version: link:../metadata
       '@types/chai':
         specifier: 5.2.2
         version: 5.2.2

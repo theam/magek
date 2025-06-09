@@ -1,7 +1,7 @@
 import { PackageManagerService } from '.'
-import { Layer, orDie } from '../../effect'
+import { Effect, Layer } from 'effect'
 import { makePackageManager } from './common'
 
 export const makePnpmPackageManager = makePackageManager('pnpm')
 
-export const PnpmPackageManager = Layer.fromEffect(PackageManagerService)(orDie(makePnpmPackageManager))
+export const PnpmPackageManager = Layer.effect(PackageManagerService, Effect.orDie(makePnpmPackageManager))

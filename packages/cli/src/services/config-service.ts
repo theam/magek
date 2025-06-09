@@ -1,5 +1,5 @@
 import { BoosterConfig, UserApp } from '@booster-ai/common'
-import { gen, mapError, pipe, unsafeRunEffect } from '../effect'
+import { Effect, pipe } from 'effect'
 import * as path from 'path'
 import { guardError } from '../common/errors'
 import { checkItIsABoosterProject } from './project-checker'
@@ -13,20 +13,18 @@ export const DEPLOYMENT_SANDBOX = path.join(process.cwd(), '.deploy')
 export async function createDeploymentSandbox(): Promise<string> {
   const config = await compileProjectAndLoadConfig(process.cwd())
   const sandboxRelativePath = createSandboxProject(DEPLOYMENT_SANDBOX, config.assets)
-  const effect = gen(function* ($) {
-    const { setProjectRoot, installProductionDependencies } = yield* $(PackageManagerService)
-    yield* $(setProjectRoot(sandboxRelativePath))
-    yield* $(installProductionDependencies())
+  const effect = Effect.gen(function* () {
+    const { setProjectRoot, installProductionDependencies } = yield* PackageManagerService
+    yield* setProjectRoot(sandboxRelativePath)
+    yield* installProductionDependencies()
   })
-  await unsafeRunEffect(
+  await Effect.runPromise(
     pipe(
       effect,
-      mapError((e) => e.error)
-    ),
-    {
-      layer: LivePackageManager,
-      onError: guardError('Could not install production dependencies'),
-    }
+      Effect.mapError((e) => e.error),
+      Effect.provide(LivePackageManager),
+      Effect.orDieWith(guardError('Could not install production dependencies'))
+    )
   )
   return sandboxRelativePath
 }
