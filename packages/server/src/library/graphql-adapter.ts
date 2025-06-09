@@ -8,25 +8,33 @@ import {
   UUID,
   getLogger,
 } from '@booster-ai/common'
-import * as express from 'express'
-import { ExpressWebSocketMessage } from './web-socket-server-adapter'
+import { FastifyRequest } from 'fastify'
+
+export interface WebSocketMessage {
+  connectionContext: {
+    connectionId: string
+    eventType: 'CONNECT' | 'MESSAGE' | 'DISCONNECT'
+  }
+  data?: any
+  incomingMessage?: any
+}
 
 export async function rawGraphQLRequestToEnvelope(
   config: BoosterConfig,
-  request: express.Request | ExpressWebSocketMessage
+  request: FastifyRequest | WebSocketMessage
 ): Promise<GraphQLRequestEnvelope | GraphQLRequestEnvelopeError> {
   const requestID = UUID.generate()
-  return isExpressWebSocketMessage(request)
-    ? expressWebSocketMessageToEnvelope(config, request, requestID)
-    : expressHttpMessageToEnvelope(config, request, requestID)
+  return isWebSocketMessage(request)
+    ? webSocketMessageToEnvelope(config, request, requestID)
+    : httpMessageToEnvelope(config, request, requestID)
 }
 
-function expressWebSocketMessageToEnvelope(
+function webSocketMessageToEnvelope(
   config: BoosterConfig,
-  webSocketRequest: ExpressWebSocketMessage,
+  webSocketRequest: WebSocketMessage,
   requestID: UUID
 ): GraphQLRequestEnvelope | GraphQLRequestEnvelopeError {
-  const logger = getLogger(config, 'graphql-adapter#expressWebSocketMessageToEnvelope')
+  const logger = getLogger(config, 'graphql-adapter#webSocketMessageToEnvelope')
   logger.debug('Received  WebSocket GraphQL request: ', webSocketRequest)
 
   let eventType: EventType = 'MESSAGE'
@@ -40,7 +48,7 @@ function expressWebSocketMessageToEnvelope(
       requestID,
       eventType,
       connectionID: connectionContext?.connectionId.toString(),
-      token: headers?.authorization,
+      token: Array.isArray(headers?.authorization) ? headers.authorization[0] : headers?.authorization,
       value: data,
       context: {
         request: {
@@ -67,22 +75,22 @@ function expressWebSocketMessageToEnvelope(
   }
 }
 
-function expressHttpMessageToEnvelope(
+function httpMessageToEnvelope(
   config: BoosterConfig,
-  httpRequest: express.Request,
+  httpRequest: FastifyRequest,
   requestId: UUID
 ): GraphQLRequestEnvelope | GraphQLRequestEnvelopeError {
-  const logger = getLogger(config, 'graphql-adapter#expressHttpMessageToEnvelope')
+  const logger = getLogger(config, 'graphql-adapter#httpMessageToEnvelope')
   const eventType: EventType = 'MESSAGE'
   const headers = httpRequest.headers
-  const data = httpRequest.body
+  const data = httpRequest.body as GraphQLOperation | GraphQLClientMessage | undefined
   try {
     logger.debug('Received GraphQL request: \n- Headers: ', headers, '\n- Body: ', data)
     return {
       connectionID: undefined,
       requestID: requestId,
       eventType: eventType,
-      token: headers?.authorization,
+      token: Array.isArray(headers?.authorization) ? headers.authorization[0] : headers?.authorization,
       value: data,
       context: {
         request: {
@@ -109,8 +117,8 @@ function expressHttpMessageToEnvelope(
   }
 }
 
-function isExpressWebSocketMessage(
-  request: express.Request | ExpressWebSocketMessage
-): request is ExpressWebSocketMessage {
+function isWebSocketMessage(
+  request: FastifyRequest | WebSocketMessage
+): request is WebSocketMessage {
   return 'connectionContext' in request
 }

@@ -37,7 +37,6 @@ import {
 import { WebSocketRegistry } from './services/web-socket-registry'
 import { connectionsDatabase, subscriptionDatabase } from './paths'
 import { rawRocketInputToEnvelope } from './library/rocket-adapter'
-import { WebSocketServerAdapter } from './library/web-socket-server-adapter'
 import {
   areDatabaseReadModelsUp,
   areRocketFunctionsUp,
@@ -54,6 +53,7 @@ import * as process from 'process'
 
 export * from './paths'
 export * from './services'
+export * from './library/graphql-adapter'
 
 const eventRegistry = new EventRegistry()
 const readModelRegistry = new ReadModelRegistry()
@@ -116,7 +116,7 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
     storeData: storeConnectionData.bind(null, connectionRegistry),
     fetchData: fetchConnectionData.bind(null, connectionRegistry),
     deleteData: deleteConnectionData.bind(null, connectionRegistry),
-    sendMessage: sendMessageToConnection.bind(null, new WebSocketServerAdapter(graphQLService, userApp.Booster.config)),
+    sendMessage: sendMessageToConnection,
   },
   // ScheduledCommandsLibrary
   scheduled: {

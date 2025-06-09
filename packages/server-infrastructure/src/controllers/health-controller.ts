@@ -1,27 +1,24 @@
-import * as express from 'express'
+import { FastifyRequest, FastifyReply } from 'fastify'
 import { HttpCodes, requestFailed } from '../http'
 import { HealthService } from '@booster-ai/server'
 
 export class HealthController {
-  public router: express.Router = express.Router()
-  constructor(readonly healthService: HealthService) {
-    this.router.get('/*', this.handleHealth.bind(this))
-  }
+  constructor(readonly healthService: HealthService) {}
 
-  public async handleHealth(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
+  public async handleHealth(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     try {
-      const response = await this.healthService.handleHealthRequest(req)
+      const response = await this.healthService.handleHealthRequest(request)
       if (response.status === 'success') {
-        res.status(HttpCodes.Ok).json(response.result)
+        reply.status(HttpCodes.Ok).send(response.result)
       } else {
-        res.status(response.code).json({
+        reply.status(response.code).send({
           title: response.title,
           reason: response.message,
         })
       }
     } catch (e) {
-      await requestFailed(e, res)
-      next(e)
+      await requestFailed(e as Error, reply)
+      throw e
     }
   }
 }

@@ -2,7 +2,7 @@ import { EventRegistry, ReadModelRegistry } from '../services'
 import { eventsDatabase, readModelsDatabase } from '../paths'
 import { BoosterConfig, boosterLocalPort, HealthEnvelope, UUID, request } from '@booster-ai/common'
 import { existsSync } from 'fs'
-import * as express from 'express'
+import { FastifyRequest } from 'fastify'
 import Nedb from '@seald-io/nedb'
 
 export async function databaseUrl(): Promise<Array<string>> {
@@ -56,15 +56,18 @@ export async function isGraphQLFunctionUp(): Promise<boolean> {
   }
 }
 
-function rawRequestToSensorHealthComponentPath(rawRequest: express.Request): string {
-  const url = rawRequest?.url
-  if (url && url !== '/') {
-    return url.substring(1)
+function rawRequestToSensorHealthComponentPath(rawRequest: FastifyRequest): string {
+  // For health requests, the component path is typically in the URL path
+  // Since we don't have a direct url property, we'll construct it from params
+  const params = rawRequest.params
+  if (params && Object.keys(params).length > 0) {
+    // If there are path parameters, join them to create the component path
+    return Object.values(params).filter(Boolean).join('/')
   }
   return ''
 }
 
-export function rawRequestToSensorHealth(rawRequest: express.Request): HealthEnvelope {
+export function rawRequestToSensorHealth(rawRequest: FastifyRequest): HealthEnvelope {
   const componentPath = rawRequestToSensorHealthComponentPath(rawRequest)
   const requestID = UUID.generate()
   const headers = rawRequest.headers
@@ -73,12 +76,12 @@ export function rawRequestToSensorHealth(rawRequest: express.Request): HealthEnv
     context: {
       request: {
         headers: headers,
-        body: {},
+        body: rawRequest.body || {},
       },
       rawContext: rawRequest,
     },
     componentPath: componentPath,
-    token: headers?.authorization,
+    token: Array.isArray(headers?.authorization) ? headers.authorization[0] : headers?.authorization,
   }
 }
 

@@ -1,5 +1,4 @@
 import { BoosterConfig, ConnectionDataEnvelope, getLogger } from '@booster-ai/common'
-import { WebSocketServerAdapter } from './web-socket-server-adapter'
 import { WebSocketRegistry } from '../services/web-socket-registry'
 
 export async function storeConnectionData(
@@ -45,12 +44,18 @@ export async function deleteConnectionData(
 }
 
 export async function sendMessageToConnection(
-  webSocketServerAdapter: WebSocketServerAdapter,
   config: BoosterConfig,
   connectionId: string,
   data: unknown
 ): Promise<void> {
   const logger = getLogger(config, 'connection-adapter#sendMessageToConnection')
   logger.debug(`Sending message ${JSON.stringify(data)} to connection ${connectionId}`)
-  webSocketServerAdapter.sendToConnection(connectionId, data)
+  
+  // Check if the global variable exists in the process to avoid importing server-infrastructure
+  const globalRegistry = (global as any).boosterWebSocketRegistry
+  if (globalRegistry && typeof globalRegistry.sendMessage === 'function') {
+    globalRegistry.sendMessage(connectionId, data)
+  } else {
+    logger.warn(`WebSocket registry not available. Message not sent to connection ${connectionId}`)
+  }
 }
