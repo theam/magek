@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "reflect-metadata": "0.1.13",
-    "ts-morph": "^25.0.1",
+    "ts-morph": "^26.0.0",
     "tslib": "^2.4.0",
     "@effect-ts/core": "^0.60.4"
   },
