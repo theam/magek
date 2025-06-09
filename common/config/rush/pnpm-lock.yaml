@@ -109,6 +109,9 @@ importers:
       copyfiles:
         specifier: ^2.3.0
         version: 2.4.1
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.1
       faker:
         specifier: 5.1.0
         version: 5.1.0
@@ -200,6 +203,9 @@ importers:
       chai-as-promised:
         specifier: 8.0.1
         version: 8.0.1(chai@5.2.0)
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.1
       faker:
         specifier: 5.1.0
         version: 5.1.0
@@ -345,6 +351,9 @@ importers:
       cross-env:
         specifier: 7.0.3
         version: 7.0.3
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.1
       faker:
         specifier: 5.1.0
         version: 5.1.0
@@ -412,6 +421,9 @@ importers:
       chai-as-promised:
         specifier: 8.0.1
         version: 8.0.1(chai@5.2.0)
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.1
       prettier:
         specifier: 2.3.0
         version: 2.3.0
@@ -479,6 +491,9 @@ importers:
       chai-as-promised:
         specifier: 8.0.1
         version: 8.0.1(chai@5.2.0)
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.1
       faker:
         specifier: 5.1.0
         version: 5.1.0
@@ -570,6 +585,9 @@ importers:
       chai-as-promised:
         specifier: 8.0.1
         version: 8.0.1(chai@5.2.0)
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.1
       faker:
         specifier: 5.1.0
         version: 5.1.0
@@ -607,7 +625,7 @@ importers:
         specifier: ^5.0.0
         version: 5.62.0(eslint@8.57.1)(typescript@5.8.3)
       eslint:
-        specifier: ^8.23.1
+        specifier: ^8.57.0
         version: 8.57.1
       eslint-config-prettier:
         specifier: 10.1.5
