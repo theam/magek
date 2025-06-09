@@ -21,11 +21,7 @@ export * from './infrastructure-rocket'
  * Default error handling for Fastify. Handles errors in route handlers
  * and sends appropriate error responses.
  */
-async function defaultErrorHandler(
-  error: Error,
-  request: FastifyRequest,
-  reply: FastifyReply
-): Promise<void> {
+async function defaultErrorHandler(error: Error, request: FastifyRequest, reply: FastifyReply): Promise<void> {
   if (reply.sent) {
     return
   }
@@ -96,7 +92,7 @@ export const Infrastructure = (rocketDescriptors?: RocketDescriptor[]): Provider
       await fastify.register((instance: FastifyInstance) => {
         instance.get('/websocket', { websocket: true }, (connection, req) => {
           const connectionId = (req as any).connectionId || `conn_${Date.now()}_${Math.random()}`
-          
+
           connection.socket.on('message', async (message) => {
             try {
               const data = JSON.parse(message.toString())
@@ -112,10 +108,12 @@ export const Infrastructure = (rocketDescriptors?: RocketDescriptor[]): Provider
               await graphQLService.handleGraphQLRequest(webSocketRequest)
             } catch (error) {
               console.error('WebSocket message error:', error)
-              connection.socket.send(JSON.stringify({ 
-                type: 'error', 
-                payload: { message: 'Failed to process message' }
-              }))
+              connection.socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { message: 'Failed to process message' },
+                })
+              )
             }
           })
 
@@ -137,18 +135,16 @@ export const Infrastructure = (rocketDescriptors?: RocketDescriptor[]): Provider
             },
             incomingMessage: req.raw,
           }
-          graphQLService.handleGraphQLRequest(webSocketRequest)
+          void graphQLService.handleGraphQLRequest(webSocketRequest)
         })
       })
 
       // Register rockets if any
       if (rockets && rockets.length > 0) {
-        // Note: Rockets may need adaptation for Fastify - this is a placeholder
-        // for now to maintain compatibility
-        rockets.forEach((rocket) => {
-          // TODO: Adapt rocket mounting for Fastify
-          console.log('Rocket mounting needs to be adapted for Fastify:', rocket.constructor.name)
-        })
+        console.log('Warning: Rocket mounting is not yet fully supported with Fastify. Rockets will be skipped.')
+        console.log('Rockets to mount:', rockets.map(r => r.constructor.name))
+        // TODO: Implement full rocket support for Fastify
+        // For now, we skip rocket mounting to maintain compatibility
       }
 
       // Set error handler
