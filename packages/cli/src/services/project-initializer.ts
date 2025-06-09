@@ -23,7 +23,7 @@ export async function generateConfigFiles(config: ProjectInitializerConfig): Pro
 
 export async function installDependencies(config: ProjectInitializerConfig): Promise<void> {
   const effect = installDependenciesEff(config)
-  return Effect.runPromise(
+  await Effect.runPromise(
     pipe(
       effect,
       Effect.mapError((e) => e.error),

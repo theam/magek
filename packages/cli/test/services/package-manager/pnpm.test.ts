@@ -1,5 +1,5 @@
 import { fake } from 'sinon'
-import { Effect, gen, Layer, mapError, pipe, unsafeRunEffect } from '../../../src/effect'
+import { Effect, Layer, pipe } from 'effect'
 import { expect } from '../../expect'
 import { makeTestFileSystem } from '../file-system/test.impl'
 import { makeTestProcess } from '../process/test.impl'
@@ -10,27 +10,31 @@ import { PackageManagerService } from '../../../src/services/package-manager'
 const TestFileSystem = makeTestFileSystem()
 const TestProcess = makeTestProcess()
 
-const mapEffError = <R, A>(effect: Effect<R, { error: Error }, A>) =>
+const mapEffError = <A, R>(effect: Effect.Effect<A, { error: Error }, R>) =>
   pipe(
     effect,
-    mapError((e) => e.error)
+    Effect.mapError((e) => e.error)
   )
 
 describe('PackageManager - Pnpm Implementation', () => {
   it('run arbitrary scripts from package.json', async () => {
     const script = 'script'
     const args = ['arg1', 'arg2']
-    const testLayer = Layer.all(TestFileSystem.layer, TestProcess.layer)
+    const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
 
-    const effect = gen(function* ($) {
-      const { runScript } = yield* $(PackageManagerService)
-      return yield* $(runScript(script, args))
+    const effect = Effect.gen(function* () {
+      const { runScript } = yield* PackageManagerService)
+      return yield* runScript(script, args))
     })
 
-    await unsafeRunEffect(mapEffError(effect), {
-      layer: Layer.using(testLayer)(PnpmPackageManager),
-      onError: guardError('An error ocurred'),
-    })
+    await Effect.runPromise(
+      pipe(
+        mapEffError(effect),
+        Effect.provide(Layer.provide(PnpmPackageManager, testLayer)),
+        Effect.orDieWith(guardError('An error ocurred')
+    )
+      )
+    )
     expect(TestProcess.fakes.exec).to.have.been.calledWith(`pnpm run ${script} ${args.join(' ')}`)
   })
 
@@ -40,34 +44,42 @@ describe('PackageManager - Pnpm Implementation', () => {
     })
 
     it('run the `compile` script', async () => {
-      const testLayer = Layer.all(TestFileSystemWithCompileScript.layer, TestProcess.layer)
+      const testLayer = Layer.merge(TestFileSystemWithCompileScript.layer, TestProcess.layer)
 
-      const effect = gen(function* ($) {
-        const { build } = yield* $(PackageManagerService)
-        return yield* $(build([]))
+      const effect = Effect.gen(function* () {
+        const { build } = yield* PackageManagerService)
+        return yield* build([]))
       })
 
-      await unsafeRunEffect(mapEffError(effect), {
-        layer: Layer.using(testLayer)(PnpmPackageManager),
-        onError: guardError('An error ocurred'),
-      })
+      await Effect.runPromise(
+      pipe(
+        mapEffError(effect),
+        Effect.provide(Layer.provide(PnpmPackageManager, testLayer)),
+        Effect.orDieWith(guardError('An error ocurred')
+      )
+      )
+    )
       expect(TestProcess.fakes.exec).to.have.been.calledWith('pnpm run compile')
     })
   })
 
   describe('when the `compile` script does not exist', () => {
     it('run the `build` script', async () => {
-      const testLayer = Layer.all(TestFileSystem.layer, TestProcess.layer)
+      const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
 
-      const effect = gen(function* ($) {
-        const { build } = yield* $(PackageManagerService)
-        return yield* $(build([]))
+      const effect = Effect.gen(function* () {
+        const { build } = yield* PackageManagerService)
+        return yield* build([]))
       })
 
-      await unsafeRunEffect(mapEffError(effect), {
-        layer: Layer.using(testLayer)(PnpmPackageManager),
-        onError: guardError('An error ocurred'),
-      })
+      await Effect.runPromise(
+      pipe(
+        mapEffError(effect),
+        Effect.provide(Layer.provide(PnpmPackageManager, testLayer)),
+        Effect.orDieWith(guardError('An error ocurred')
+      )
+      )
+    )
       expect(TestProcess.fakes.exec).to.have.been.calledWith('pnpm run build')
     })
   })
@@ -76,49 +88,61 @@ describe('PackageManager - Pnpm Implementation', () => {
     const projectRoot = 'projectRoot'
 
     const CwdTestProcess = makeTestProcess({ cwd: fake.returns(projectRoot) })
-    const testLayer = Layer.all(TestFileSystem.layer, CwdTestProcess.layer)
+    const testLayer = Layer.merge(TestFileSystem.layer, CwdTestProcess.layer)
 
-    const effect = gen(function* ($) {
-      const { setProjectRoot, runScript } = yield* $(PackageManagerService)
-      yield* $(setProjectRoot(projectRoot))
-      yield* $(runScript('script', []))
+    const effect = Effect.gen(function* () {
+      const { setProjectRoot, runScript } = yield* PackageManagerService)
+      yield* setProjectRoot(projectRoot))
+      yield* runScript('script', []))
     })
 
-    await unsafeRunEffect(mapEffError(effect), {
-      layer: Layer.using(testLayer)(PnpmPackageManager),
-      onError: guardError('An error ocurred'),
-    })
+    await Effect.runPromise(
+      pipe(
+        mapEffError(effect),
+        Effect.provide(Layer.provide(PnpmPackageManager, testLayer)),
+        Effect.orDieWith(guardError('An error ocurred')
+    )
+      )
+    )
     expect(CwdTestProcess.fakes.exec).to.have.been.calledWith('pnpm run script', projectRoot)
   })
 
   it('can install production dependencies', async () => {
-    const testLayer = Layer.all(TestFileSystem.layer, TestProcess.layer)
+    const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
 
-    const effect = gen(function* ($) {
-      const { installProductionDependencies } = yield* $(PackageManagerService)
-      return yield* $(installProductionDependencies())
+    const effect = Effect.gen(function* () {
+      const { installProductionDependencies } = yield* PackageManagerService)
+      return yield* installProductionDependencies())
     })
 
-    await unsafeRunEffect(mapEffError(effect), {
-      layer: Layer.using(testLayer)(PnpmPackageManager),
-      onError: guardError('An error ocurred'),
-    })
+    await Effect.runPromise(
+      pipe(
+        mapEffError(effect),
+        Effect.provide(Layer.provide(PnpmPackageManager, testLayer)),
+        Effect.orDieWith(guardError('An error ocurred')
+    )
+      )
+    )
 
     expect(TestProcess.fakes.exec).to.have.been.calledWith('pnpm install --omit=dev --omit=optional --no-bin-links')
   })
 
   it('can install all dependencies', async () => {
-    const testLayer = Layer.all(TestFileSystem.layer, TestProcess.layer)
+    const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
 
-    const effect = gen(function* ($) {
-      const { installAllDependencies } = yield* $(PackageManagerService)
-      return yield* $(installAllDependencies())
+    const effect = Effect.gen(function* () {
+      const { installAllDependencies } = yield* PackageManagerService)
+      return yield* installAllDependencies())
     })
 
-    await unsafeRunEffect(mapEffError(effect), {
-      layer: Layer.using(testLayer)(PnpmPackageManager),
-      onError: guardError('An error ocurred'),
-    })
+    await Effect.runPromise(
+      pipe(
+        mapEffError(effect),
+        Effect.provide(Layer.provide(PnpmPackageManager, testLayer)),
+        Effect.orDieWith(guardError('An error ocurred')
+    )
+      )
+    )
 
     expect(TestProcess.fakes.exec).to.have.been.calledWith('pnpm install')
   })

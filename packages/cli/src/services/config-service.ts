@@ -41,45 +41,41 @@ export async function compileProjectAndLoadConfig(userProjectPath: string): Prom
 
 export async function compileProject(projectPath: string): Promise<void> {
   const effect = compileProjectEff(projectPath)
-  return await unsafeRunEffect(
+  await Effect.runPromise(
     pipe(
       effect,
-      mapError((e) => e.error)
-    ),
-    {
-      layer: LivePackageManager,
-      onError: guardError('Project contains compilation errors'),
-    }
+      Effect.mapError((e) => e.error),
+      Effect.provide(LivePackageManager),
+      Effect.orDieWith(guardError('Project contains compilation errors'))
+    )
   )
 }
 
 const compileProjectEff = (projectPath: string) =>
-  gen(function* ($) {
-    const { setProjectRoot, build } = yield* $(PackageManagerService)
-    yield* $(setProjectRoot(projectPath))
-    yield* $(cleanProjectEff(projectPath))
-    return yield* $(build([]))
+  Effect.gen(function* () {
+    const { setProjectRoot, build } = yield* PackageManagerService
+    yield* setProjectRoot(projectPath)
+    yield* cleanProjectEff(projectPath)
+    return yield* build([])
   })
 
 export async function cleanProject(projectPath: string): Promise<void> {
   const effect = cleanProjectEff(projectPath)
-  return unsafeRunEffect(
+  await Effect.runPromise(
     pipe(
       effect,
-      mapError((e) => e.error)
-    ),
-    {
-      layer: LivePackageManager,
-      onError: guardError('Could not clean project'),
-    }
+      Effect.mapError((e) => e.error),
+      Effect.provide(LivePackageManager),
+      Effect.orDieWith(guardError('Could not clean project'))
+    )
   )
 }
 
 const cleanProjectEff = (projectPath: string) =>
-  gen(function* ($) {
-    const { setProjectRoot, runScript } = yield* $(PackageManagerService)
-    yield* $(setProjectRoot(projectPath))
-    yield* $(runScript('clean', []))
+  Effect.gen(function* () {
+    const { setProjectRoot, runScript } = yield* PackageManagerService
+    yield* setProjectRoot(projectPath)
+    yield* runScript('clean', [])
   })
 
 function readProjectConfig(userProjectPath: string): Promise<BoosterConfig> {
