@@ -8,6 +8,16 @@ import kleur from 'kleur'
 import { globby } from 'globby'
 import { spawn } from 'child_process'
 
+// Get the Booster version from the current package or a reasonable default
+function getBoosterVersion(): string {
+  try {
+    // Try to read from the create package itself to get the version used during build
+    return '3.2.0' // hardcode for now, can be made dynamic later
+  } catch {
+    return '3.2.0'
+  }
+}
+
 interface ProjectConfig {
   projectName: string
   description: string
@@ -218,14 +228,21 @@ async function createProject(config: ProjectConfig): Promise<void> {
   console.log(kleur.blue('📦 Creating project...'))
   
   // Determine template source
-  const templateSource = config.template || 'boostercloud/boosterai/templates/default'
+  const templateSource = config.template || path.join(__dirname, '../template')
   
   try {
-    // Clone template using degit
-    const emitter = degit(templateSource, { cache: false, force: true })
-    await emitter.clone(targetDir)
+    // If template source is a local path, copy directly
+    if (fs.existsSync(templateSource)) {
+      console.log(kleur.blue('📁 Using local template...'))
+      await copyTemplate(templateSource, targetDir)
+    } else {
+      // Clone template using degit for remote templates
+      console.log(kleur.blue('🌐 Cloning remote template...'))
+      const emitter = degit(templateSource, { cache: false, force: true })
+      await emitter.clone(targetDir)
+    }
     
-    console.log(kleur.green('✓ Template cloned'))
+    console.log(kleur.green('✓ Template copied'))
     
     // Replace placeholders in all files
     console.log(kleur.blue('🔧 Configuring project...'))
@@ -239,7 +256,8 @@ async function createProject(config: ProjectConfig): Promise<void> {
       homepage: config.homepage,
       license: config.license,
       repository: config.repository,
-      providerPackageName: config.providerPackageName
+      providerPackageName: config.providerPackageName,
+      boosterVersion: getBoosterVersion()
     }
     
     await replaceInAllFiles(targetDir, replacements)
@@ -288,6 +306,27 @@ async function createProject(config: ProjectConfig): Promise<void> {
     console.error(kleur.red('❌ Failed to create project:'))
     console.error(error)
     process.exit(1)
+  }
+}
+
+async function copyTemplate(source: string, target: string): Promise<void> {
+  await copyRecursive(source, target)
+}
+
+async function copyRecursive(src: string, dest: string): Promise<void> {
+  const stat = fs.statSync(src)
+  
+  if (stat.isDirectory()) {
+    if (!fs.existsSync(dest)) {
+      fs.mkdirSync(dest, { recursive: true })
+    }
+    
+    const files = fs.readdirSync(src)
+    for (const file of files) {
+      await copyRecursive(path.join(src, file), path.join(dest, file))
+    }
+  } else {
+    fs.copyFileSync(src, dest)
   }
 }
 

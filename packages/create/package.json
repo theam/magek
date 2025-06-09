@@ -7,7 +7,8 @@
     "create-booster-ai": "dist/cli.js"
   },
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "template/**/*"
   ],
   "engines": {
     "node": ">=22"
@@ -37,6 +38,9 @@
     "@booster-ai/eslint-config": "workspace:^3.2.0",
     "@types/node": "^22.15.21",
     "@types/prompts": "^2.4.9",
+    "@types/chai": "5.2.2",
+    "@types/mocha": "10.0.10",
+    "chai": "5.2.0",
     "eslint": "^8.23.1",
     "mocha": "10.2.0",
     "ts-node": "^10.9.1",
