@@ -15,7 +15,7 @@ describe('create-booster-ai CLI', () => {
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true })
     }
-    
+
     // Clean up any existing test project
     if (fs.existsSync(testProjectPath)) {
       fs.rmSync(testProjectPath, { recursive: true, force: true })
@@ -37,15 +37,9 @@ describe('create-booster-ai CLI', () => {
   })
 
   it('should create a project with default options', (done) => {
-    const child = spawn('node', [
-      cliPath,
-      testProjectName,
-      '--default',
-      '--skip-install',
-      '--skip-git'
-    ], {
+    const child = spawn('node', [cliPath, testProjectName, '--default', '--skip-install', '--skip-git'], {
       cwd: tempDir,
-      stdio: ['pipe', 'pipe', 'pipe']
+      stdio: ['pipe', 'pipe', 'pipe'],
     })
 
     let output = ''
@@ -57,27 +51,27 @@ describe('create-booster-ai CLI', () => {
       try {
         expect(code).to.equal(0)
         expect(output).to.include('Project created successfully!')
-        
+
         // Check that project directory was created
         expect(fs.existsSync(testProjectPath)).to.be.true
-        
+
         // Check that essential files were created
         expect(fs.existsSync(path.join(testProjectPath, 'package.json'))).to.be.true
         expect(fs.existsSync(path.join(testProjectPath, 'tsconfig.json'))).to.be.true
         expect(fs.existsSync(path.join(testProjectPath, 'src', 'index.ts'))).to.be.true
         expect(fs.existsSync(path.join(testProjectPath, 'src', 'config', 'config.ts'))).to.be.true
         expect(fs.existsSync(path.join(testProjectPath, 'README.md'))).to.be.true
-        
+
         // Check that package.json was properly configured
         const packageJson = JSON.parse(fs.readFileSync(path.join(testProjectPath, 'package.json'), 'utf-8'))
         expect(packageJson.name).to.equal(testProjectName)
         expect(packageJson.version).to.equal('0.1.0')
         expect(packageJson.license).to.equal('MIT')
-        
+
         // Check that placeholders were replaced
         const readme = fs.readFileSync(path.join(testProjectPath, 'README.md'), 'utf-8')
         expect(readme).to.include(`# ${testProjectName}`)
-        
+
         done()
       } catch (error) {
         done(error)
@@ -90,15 +84,9 @@ describe('create-booster-ai CLI', () => {
   }).timeout(10000)
 
   it('should reject invalid project names', (done) => {
-    const child = spawn('node', [
-      cliPath,
-      'Invalid Project Name',
-      '--default',
-      '--skip-install',
-      '--skip-git'
-    ], {
+    const child = spawn('node', [cliPath, 'Invalid Project Name', '--default', '--skip-install', '--skip-git'], {
       cwd: tempDir,
-      stdio: ['pipe', 'pipe', 'pipe']
+      stdio: ['pipe', 'pipe', 'pipe'],
     })
 
     let errorOutput = ''

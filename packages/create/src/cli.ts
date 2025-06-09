@@ -59,16 +59,18 @@ function assertNameIsCorrect(name: string): void {
 function checkProjectAlreadyExists(name: string): void {
   const projectPath = path.join(process.cwd(), name)
   if (fs.existsSync(projectPath)) {
-    throw new Error(`Directory "${name}" already exists. Please choose a different project name or remove the existing directory.`)
+    throw new Error(
+      `Directory "${name}" already exists. Please choose a different project name or remove the existing directory.`
+    )
   }
 }
 
 async function runCommand(command: string, args: string[], cwd: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    const child = spawn(command, args, { 
-      cwd, 
+    const child = spawn(command, args, {
+      cwd,
       stdio: 'inherit',
-      shell: process.platform === 'win32'
+      shell: process.platform === 'win32',
     })
 
     child.on('close', (code) => {
@@ -85,27 +87,22 @@ async function runCommand(command: string, args: string[], cwd: string): Promise
 
 async function replaceInFile(filePath: string, replacements: Record<string, string>): Promise<void> {
   if (!fs.existsSync(filePath)) return
-  
+
   let content = fs.readFileSync(filePath, 'utf-8')
-  
+
   for (const [placeholder, value] of Object.entries(replacements)) {
     const regex = new RegExp(`\\{\\{${placeholder}\\}\\}`, 'g')
     content = content.replace(regex, value)
   }
-  
+
   fs.writeFileSync(filePath, content, 'utf-8')
 }
 
 async function replaceInAllFiles(targetDir: string, replacements: Record<string, string>): Promise<void> {
-  const files = await globby([
-    '**/*',
-    '!node_modules/**',
-    '!.git/**',
-    '!**/node_modules/**'
-  ], { 
+  const files = await globby(['**/*', '!node_modules/**', '!.git/**', '!**/node_modules/**'], {
     cwd: targetDir,
     dot: true,
-    absolute: true
+    absolute: true,
   })
 
   for (const file of files) {
@@ -118,7 +115,7 @@ async function replaceInAllFiles(targetDir: string, replacements: Record<string,
 
 async function collectProjectInfo(args: string[]): Promise<ProjectConfig> {
   const projectName = args[0]
-  
+
   if (!projectName) {
     console.error(kleur.red('Error: Project name is required'))
     console.log('Usage: npm create booster-ai@latest <project-name>')
@@ -166,45 +163,45 @@ async function collectProjectInfo(args: string[]): Promise<ProjectConfig> {
     {
       type: 'text',
       name: 'description',
-      message: 'What\'s your project description?',
-      initial: flags.description as string || ''
+      message: "What's your project description?",
+      initial: (flags.description as string) || '',
     },
     {
       type: 'text',
       name: 'version',
-      message: 'What\'s the first version?',
-      initial: flags.version as string || '0.1.0'
+      message: "What's the first version?",
+      initial: (flags.version as string) || '0.1.0',
     },
     {
       type: 'text',
       name: 'author',
-      message: 'Who\'s the author?',
-      initial: flags.author as string || ''
+      message: "Who's the author?",
+      initial: (flags.author as string) || '',
     },
     {
       type: 'text',
       name: 'homepage',
-      message: 'What\'s the website?',
-      initial: flags.homepage as string || ''
+      message: "What's the website?",
+      initial: (flags.homepage as string) || '',
     },
     {
       type: 'text',
       name: 'license',
       message: 'What license will you be publishing this under?',
-      initial: flags.license as string || 'MIT'
+      initial: (flags.license as string) || 'MIT',
     },
     {
       type: 'text',
       name: 'repository',
-      message: 'What\'s the URL of the repository?',
-      initial: flags.repository as string || ''
+      message: "What's the URL of the repository?",
+      initial: (flags.repository as string) || '',
     },
     {
       type: 'text',
       name: 'providerPackageName',
-      message: 'What\'s the package name of your provider infrastructure library?',
-      initial: flags.providerPackageName as string || '@booster-ai/server'
-    }
+      message: "What's the package name of your provider infrastructure library?",
+      initial: (flags.providerPackageName as string) || '@booster-ai/server',
+    },
   ])
 
   return {
@@ -224,12 +221,12 @@ async function collectProjectInfo(args: string[]): Promise<ProjectConfig> {
 
 async function createProject(config: ProjectConfig): Promise<void> {
   const targetDir = path.join(process.cwd(), config.projectName)
-  
+
   console.log(kleur.blue('📦 Creating project...'))
-  
+
   // Determine template source
   const templateSource = config.template || path.join(__dirname, '../template')
-  
+
   try {
     // If template source is a local path, copy directly
     if (fs.existsSync(templateSource)) {
@@ -241,12 +238,12 @@ async function createProject(config: ProjectConfig): Promise<void> {
       const emitter = degit(templateSource, { cache: false, force: true })
       await emitter.clone(targetDir)
     }
-    
+
     console.log(kleur.green('✓ Template copied'))
-    
+
     // Replace placeholders in all files
     console.log(kleur.blue('🔧 Configuring project...'))
-    
+
     const replacements = {
       PROJECT_NAME: config.projectName,
       PROJECT_NAME_UPPER: config.projectName.toUpperCase().replace(/-/g, '_'),
@@ -257,13 +254,13 @@ async function createProject(config: ProjectConfig): Promise<void> {
       license: config.license,
       repository: config.repository,
       providerPackageName: config.providerPackageName,
-      boosterVersion: getBoosterVersion()
+      boosterVersion: getBoosterVersion(),
     }
-    
+
     await replaceInAllFiles(targetDir, replacements)
-    
+
     console.log(kleur.green('✓ Project configured'))
-    
+
     // Install dependencies
     if (!config.skipInstall) {
       console.log(kleur.blue('📦 Installing dependencies...'))
@@ -274,7 +271,7 @@ async function createProject(config: ProjectConfig): Promise<void> {
         console.log(kleur.yellow('⚠ Failed to install dependencies. You can run "npm install" manually.'))
       }
     }
-    
+
     // Initialize git repository
     if (!config.skipGit) {
       console.log(kleur.blue('🔄 Initializing git repository...'))
@@ -287,7 +284,7 @@ async function createProject(config: ProjectConfig): Promise<void> {
         console.log(kleur.yellow('⚠ Failed to initialize git repository. You can run "git init" manually.'))
       }
     }
-    
+
     // Print success message
     console.log()
     console.log(kleur.green('🎉 Project created successfully!'))
@@ -301,7 +298,6 @@ async function createProject(config: ProjectConfig): Promise<void> {
     console.log(kleur.cyan('  npm run start:local'))
     console.log()
     console.log('Learn more at: https://docs.boosterframework.com')
-    
   } catch (error) {
     console.error(kleur.red('❌ Failed to create project:'))
     console.error(error)
@@ -315,12 +311,12 @@ async function copyTemplate(source: string, target: string): Promise<void> {
 
 async function copyRecursive(src: string, dest: string): Promise<void> {
   const stat = fs.statSync(src)
-  
+
   if (stat.isDirectory()) {
     if (!fs.existsSync(dest)) {
       fs.mkdirSync(dest, { recursive: true })
     }
-    
+
     const files = fs.readdirSync(src)
     for (const file of files) {
       await copyRecursive(path.join(src, file), path.join(dest, file))
@@ -332,7 +328,7 @@ async function copyRecursive(src: string, dest: string): Promise<void> {
 
 async function main(): Promise<void> {
   const args = process.argv.slice(2)
-  
+
   try {
     const config = await collectProjectInfo(args)
     await createProject(config)
