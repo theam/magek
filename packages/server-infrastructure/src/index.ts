@@ -102,7 +102,7 @@ export async function buildFastifyServer(
       // Add connection to registry
       globalWebSocketRegistry!.addConnection(connectionId, connection.socket)
 
-      connection.socket.on('message', async (message) => {
+      connection.socket.on('message', async (message: Buffer) => {
         try {
           const data = JSON.parse(message.toString())
           const webSocketRequest = {
@@ -285,7 +285,7 @@ export const Infrastructure = (rocketDescriptors?: RocketDescriptor[]): Provider
           // Add connection to registry
           globalWebSocketRegistry!.addConnection(connectionId, connection.socket)
 
-          connection.socket.on('message', async (message) => {
+          connection.socket.on('message', async (message: Buffer) => {
             try {
               const data = JSON.parse(message.toString())
               // Create a WebSocketMessage for the GraphQL service

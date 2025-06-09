@@ -341,9 +341,6 @@ importers:
       validator:
         specifier: 13.12.0
         version: 13.12.0
-      ws:
-        specifier: 8.18.2
-        version: 8.18.2
     devDependencies:
       '@booster-ai/eslint-config':
         specifier: workspace:^3.2.0
@@ -644,9 +641,6 @@ importers:
       tslib:
         specifier: ^2.4.0
         version: 2.8.1
-      ws:
-        specifier: 8.18.2
-        version: 8.18.2
     devDependencies:
       '@booster-ai/eslint-config':
         specifier: workspace:^3.2.0
@@ -675,9 +669,6 @@ importers:
       '@types/sinon-chai':
         specifier: 4.0.0
         version: 4.0.0
-      '@types/ws':
-        specifier: 8.18.1
-        version: 8.18.1
       '@typescript-eslint/eslint-plugin':
         specifier: ^5.0.0
         version: 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3)
@@ -1272,9 +1263,6 @@ packages:
 
   '@types/validator@13.12.2':
     resolution: {integrity: sha512-6SlHBzUW8Jhf3liqrGGXyTJSIFe4nqlJ5A5KaMZ2l/vbM3Wh3KSybots/wfWVzNLK4D1NZluDlSQIbIEPx6oyA==}
-
-  '@types/ws@8.18.1':
-    resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
 
   '@typescript-eslint/eslint-plugin@5.62.0':
     resolution: {integrity: sha512-TiZzBSJja/LbhNPvk6yc0JrX9XqhQ0hdh6M2svYfsHGejaKFIAGd9MQ+ERIMzLGlN/kZoYIgdxFV0PuljTKXag==}
@@ -4462,10 +4450,6 @@ snapshots:
   '@types/uuid@10.0.0': {}
 
   '@types/validator@13.12.2': {}
-
-  '@types/ws@8.18.1':
-    dependencies:
-      '@types/node': 22.15.21
 
   '@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3)':
     dependencies:
