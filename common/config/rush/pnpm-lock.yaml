@@ -644,9 +644,6 @@ importers:
       '@fastify/cors':
         specifier: ^8.0.0
         version: 8.5.0
-      '@fastify/express':
-        specifier: ^3.0.0
-        version: 3.0.0
       '@fastify/websocket':
         specifier: ^9.0.0
         version: 9.0.0
@@ -953,9 +950,6 @@ packages:
 
   '@fastify/error@3.4.1':
     resolution: {integrity: sha512-wWSvph+29GR783IhmvdwWnN4bUxTD01Vm5Xad4i7i1VuAOItLvbPAb69sb0IQ2N57yprvhNIwAP5B6xfKTmjmQ==}
-
-  '@fastify/express@3.0.0':
-    resolution: {integrity: sha512-Ug6aulXCUiHgMyrHVYQqnQbGdsAV0aTad6nZxbOr6w3QjKn1mdQS3Kyzvc+I0xMjZ9yIyMUWHSooHgZ0l7nOng==}
 
   '@fastify/fast-json-stringify-compiler@4.3.0':
     resolution: {integrity: sha512-aZAXGYo6m22Fk1zZzEUKBvut/CIIQe/BapEORnxiD5Qr0kPHqqI69NtEMCme74h+at72sPhbkb4ZrLd1W3KRLA==}
@@ -4304,11 +4298,6 @@ snapshots:
       mnemonist: 0.39.6
 
   '@fastify/error@3.4.1': {}
-
-  '@fastify/express@3.0.0':
-    dependencies:
-      express: 4.21.2
-      fastify-plugin: 4.5.1
 
   '@fastify/fast-json-stringify-compiler@4.3.0':
     dependencies:
