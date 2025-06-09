@@ -18,6 +18,155 @@ export * from './test-helper/local-test-helper'
 export * from './infrastructure-rocket'
 
 /**
+ * Build a Fastify server instance for testing purposes
+ */
+export async function buildFastifyServer(
+  config: BoosterConfig,
+  graphQLService: GraphQLService,
+  healthService: HealthService
+): Promise<FastifyInstance> {
+  const fastify = Fastify({
+    logger: false, // Disable logging for tests
+    bodyLimit: 6 * 1024 * 1024, // 6MB
+  })
+
+  // Register plugins
+  await fastify.register(cors, {
+    origin: true,
+    credentials: true,
+  })
+  await fastify.register(websocket)
+  await fastify.register(FastifySSEPlugin)
+
+  // Add raw body support for GraphQL requests
+  fastify.addContentTypeParser('application/json', { parseAs: 'buffer' }, (req, body, done) => {
+    try {
+      const rawBody = body as Buffer
+      // Add rawBody to the request for compatibility
+      ;(req as any).rawBody = rawBody
+      const json = JSON.parse(rawBody.toString())
+      done(null, json)
+    } catch (err) {
+      done(err as Error, undefined)
+    }
+  })
+
+  // Register GraphQL endpoint
+  const graphQLController = new GraphQLController(graphQLService)
+  await fastify.register((instance: FastifyInstance) => {
+    instance.post('/graphql', graphQLController.handleGraphQL.bind(graphQLController))
+  })
+
+  // Register Health endpoint
+  const healthController = new HealthController(healthService)
+  await fastify.register((instance: FastifyInstance) => {
+    instance.get('/sensor/health/*', healthController.handleHealth.bind(healthController))
+  })
+
+  // Register WebSocket endpoint
+  await fastify.register((instance: FastifyInstance) => {
+    instance.get('/websocket', { websocket: true }, (connection, req) => {
+      const connectionId = (req as any).connectionId || `conn_${Date.now()}_${Math.random()}`
+
+      connection.socket.on('message', async (message) => {
+        try {
+          const data = JSON.parse(message.toString())
+          const webSocketRequest = {
+            connectionContext: {
+              connectionId,
+              eventType: 'MESSAGE' as const,
+            },
+            data,
+            incomingMessage: req.raw,
+          }
+          await graphQLService.handleGraphQLRequest(webSocketRequest)
+        } catch (error) {
+          console.error('WebSocket message error:', error)
+          connection.socket.send(
+            JSON.stringify({
+              type: 'error',
+              payload: { message: 'Failed to process message' },
+            })
+          )
+        }
+      })
+
+      connection.socket.on('close', async () => {
+        const webSocketRequest = {
+          connectionContext: {
+            connectionId,
+            eventType: 'DISCONNECT' as const,
+          },
+        }
+        await graphQLService.handleGraphQLRequest(webSocketRequest)
+      })
+
+      const webSocketRequest = {
+        connectionContext: {
+          connectionId,
+          eventType: 'CONNECT' as const,
+        },
+        incomingMessage: req.raw,
+      }
+      void graphQLService.handleGraphQLRequest(webSocketRequest)
+    })
+  })
+
+  // Register SSE endpoint
+  await fastify.register((instance: FastifyInstance) => {
+    instance.get('/sse', (request, reply) => {
+      const connectionId = `sse_${Date.now()}_${Math.random()}`
+
+      reply.sse({
+        id: connectionId,
+        event: 'connection',
+        data: JSON.stringify({
+          type: 'connection_init',
+          payload: { connectionId },
+        }),
+      })
+
+      const webSocketRequest = {
+        connectionContext: {
+          connectionId,
+          eventType: 'CONNECT' as const,
+        },
+        incomingMessage: request.raw,
+      }
+      void graphQLService.handleGraphQLRequest(webSocketRequest)
+
+      const pingInterval = setInterval(() => {
+        if (!reply.sent) {
+          reply.sse({
+            id: Date.now().toString(),
+            event: 'ping',
+            data: JSON.stringify({ type: 'ping', timestamp: Date.now() }),
+          })
+        }
+      }, 30000)
+
+      request.raw.on('close', async () => {
+        clearInterval(pingInterval)
+        const disconnectRequest = {
+          connectionContext: {
+            connectionId,
+            eventType: 'DISCONNECT' as const,
+          },
+        }
+        await graphQLService.handleGraphQLRequest(disconnectRequest)
+      })
+    })
+  })
+
+  fastify.setErrorHandler(async (error, request, reply) => {
+    await defaultErrorHandler(error, request, reply)
+  })
+
+  await fastify.ready()
+  return fastify
+}
+
+/**
  * Default error handling for Fastify. Handles errors in route handlers
  * and sends appropriate error responses.
  */

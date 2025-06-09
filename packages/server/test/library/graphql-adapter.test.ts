@@ -4,13 +4,13 @@ import { rawGraphQLRequestToEnvelope } from '../../src/library/graphql-adapter'
 import { expect } from '../expect'
 import { BoosterConfig, UUID } from '@booster-ai/common'
 import { random } from 'faker'
-import { HttpRequest } from '../../src/library/request-types'
+import { FastifyRequest } from 'fastify'
 
 describe('Local provider graphql-adapter', () => {
   describe('rawGraphQLRequestToEnvelope', () => {
     let mockUuid: string
     let mockBody: any
-    let mockRequest: HttpRequest
+    let mockRequest: FastifyRequest
     let mockUserToken: string
     const mockConfig = new BoosterConfig('test')
     mockConfig.logger = {
@@ -36,7 +36,7 @@ describe('Local provider graphql-adapter', () => {
         },
         params: {},
         query: {},
-      }
+      } as FastifyRequest
 
       generateStub = stub().returns(mockUuid)
 

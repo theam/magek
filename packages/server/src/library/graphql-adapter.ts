@@ -8,11 +8,20 @@ import {
   UUID,
   getLogger,
 } from '@booster-ai/common'
-import { HttpRequest, WebSocketMessage } from './request-types'
+import { FastifyRequest } from 'fastify'
+
+export interface WebSocketMessage {
+  connectionContext: {
+    connectionId: string
+    eventType: 'CONNECT' | 'MESSAGE' | 'DISCONNECT'
+  }
+  data?: any
+  incomingMessage?: any
+}
 
 export async function rawGraphQLRequestToEnvelope(
   config: BoosterConfig,
-  request: HttpRequest | WebSocketMessage
+  request: FastifyRequest | WebSocketMessage
 ): Promise<GraphQLRequestEnvelope | GraphQLRequestEnvelopeError> {
   const requestID = UUID.generate()
   return isWebSocketMessage(request)
@@ -68,13 +77,13 @@ function webSocketMessageToEnvelope(
 
 function httpMessageToEnvelope(
   config: BoosterConfig,
-  httpRequest: HttpRequest,
+  httpRequest: FastifyRequest,
   requestId: UUID
 ): GraphQLRequestEnvelope | GraphQLRequestEnvelopeError {
   const logger = getLogger(config, 'graphql-adapter#httpMessageToEnvelope')
   const eventType: EventType = 'MESSAGE'
   const headers = httpRequest.headers
-  const data = httpRequest.body
+  const data = httpRequest.body as GraphQLOperation | GraphQLClientMessage | undefined
   try {
     logger.debug('Received GraphQL request: \n- Headers: ', headers, '\n- Body: ', data)
     return {
@@ -109,7 +118,7 @@ function httpMessageToEnvelope(
 }
 
 function isWebSocketMessage(
-  request: HttpRequest | WebSocketMessage
+  request: FastifyRequest | WebSocketMessage
 ): request is WebSocketMessage {
   return 'connectionContext' in request
 }

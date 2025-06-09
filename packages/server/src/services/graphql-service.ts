@@ -1,10 +1,11 @@
 import { ReadModelEnvelope, UserApp } from '@booster-ai/common'
-import { HttpRequest, WebSocketMessage } from '../library/request-types'
+import { FastifyRequest } from 'fastify'
+import { WebSocketMessage } from '../library/graphql-adapter'
 
 export class GraphQLService {
   public constructor(readonly userApp: UserApp) {}
 
-  public async handleGraphQLRequest(request: HttpRequest | WebSocketMessage): Promise<any> {
+  public async handleGraphQLRequest(request: FastifyRequest | WebSocketMessage): Promise<any> {
     return await this.userApp.boosterServeGraphQL(request)
   }
 

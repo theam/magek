@@ -54,6 +54,7 @@ import * as process from 'process'
 
 export * from './paths'
 export * from './services'
+export * from './library/graphql-adapter'
 
 const eventRegistry = new EventRegistry()
 const readModelRegistry = new ReadModelRegistry()

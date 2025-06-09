@@ -4,7 +4,7 @@ import { Duplex } from 'stream'
 import { BoosterConfig, EventType, UUID, getLogger } from '@booster-ai/common'
 import { IncomingMessage } from 'node:http'
 import { GraphQLService } from '../services'
-import { WebSocketMessage } from './request-types'
+import { WebSocketMessage } from './graphql-adapter'
 import * as http from 'http'
 
 export interface ConnectionContext {
