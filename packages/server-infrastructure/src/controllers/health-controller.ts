@@ -1,21 +1,22 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { HttpCodes, requestFailed } from '../http'
 import { HealthService } from '@booster-ai/server'
+import { HttpRequest } from '@booster-ai/server/dist/library/request-types'
 
 export class HealthController {
   constructor(readonly healthService: HealthService) {}
 
   public async handleHealth(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     try {
-      // Convert Fastify request to be compatible with existing Health service
-      const expressLikeRequest = {
-        ...request,
-        headers: request.headers,
-        params: request.params,
-        query: request.query,
+      // Convert Fastify request to generic HttpRequest interface
+      const httpRequest: HttpRequest = {
+        headers: request.headers as Record<string, string | string[] | undefined>,
+        body: request.body,
+        params: request.params as Record<string, string | undefined>,
+        query: request.query as Record<string, any>,
       }
       
-      const response = await this.healthService.handleHealthRequest(expressLikeRequest as any)
+      const response = await this.healthService.handleHealthRequest(httpRequest)
       if (response.status === 'success') {
         reply.status(HttpCodes.Ok).send(response.result)
       } else {

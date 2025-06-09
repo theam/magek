@@ -4,17 +4,12 @@ import { Duplex } from 'stream'
 import { BoosterConfig, EventType, UUID, getLogger } from '@booster-ai/common'
 import { IncomingMessage } from 'node:http'
 import { GraphQLService } from '../services'
-import * as express from 'express'
+import { WebSocketMessage } from './request-types'
+import * as http from 'http'
 
 export interface ConnectionContext {
   connectionId: UUID
   eventType: EventType
-}
-
-export interface ExpressWebSocketMessage {
-  connectionContext: ConnectionContext
-  incomingMessage?: IncomingMessage
-  data?: unknown
 }
 
 const LOCAL_ENVIRONMENT_WEBSOCKET_SERVER_PORT = 'LOCAL_ENVIRONMENT_WEBSOCKET_SERVER_PORT'
@@ -26,12 +21,12 @@ export class WebSocketServerAdapter {
   private readonly WS_PORT = process.env[LOCAL_ENVIRONMENT_WEBSOCKET_SERVER_PORT] ?? '65529'
 
   constructor(readonly graphQLService: GraphQLService, config: BoosterConfig) {
-    const expressServer = express()
     this.webSocketServer = new WebSocket.Server({
       noServer: true,
       path: '/websocket',
     })
-    this.httpServer = expressServer.listen(this.WS_PORT, () => {})
+    this.httpServer = http.createServer()
+    this.httpServer.listen(this.WS_PORT, () => {})
     const logger = getLogger(config, 'WebSocketServerAdapter#constructor#handleUpgrade')
     logger.info(`Starting websocket server on ws://localhost:${this.WS_PORT}/websocket`)
     this.attach()
@@ -50,10 +45,10 @@ export class WebSocketServerAdapter {
     this.webSocketServer.on('connection', async (webSocket: WebSocket, connectionRequest: IncomingMessage) => {
       const connectionId = UUID.generate()
       this.clients[connectionId.toString()] = webSocket
-      const request: ExpressWebSocketMessage = {
+      const request: WebSocketMessage = {
         incomingMessage: connectionRequest,
         connectionContext: {
-          connectionId: connectionId,
+          connectionId: connectionId.toString(),
           eventType: 'CONNECT',
         },
       }
@@ -78,11 +73,11 @@ export class WebSocketServerAdapter {
         logger.error('Error parsing websocket message', e)
         return
       }
-      const request: ExpressWebSocketMessage = {
+      const request: WebSocketMessage = {
         data: data,
         incomingMessage: connectionRequest,
         connectionContext: {
-          connectionId: connectionId,
+          connectionId: connectionId.toString(),
           eventType: 'MESSAGE',
         },
       }
@@ -92,9 +87,9 @@ export class WebSocketServerAdapter {
 
   private onDisconnect(webSocket: WebSocket, connectionId: UUID): void {
     webSocket.on('close', async () => {
-      const request: ExpressWebSocketMessage = {
+      const request: WebSocketMessage = {
         connectionContext: {
-          connectionId: connectionId,
+          connectionId: connectionId.toString(),
           eventType: 'DISCONNECT',
         },
       }

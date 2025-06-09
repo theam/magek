@@ -1,17 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { mockReq } from 'sinon-express-mock'
 import { SinonStub, stub, replace, restore, fake } from 'sinon'
 import { rawGraphQLRequestToEnvelope } from '../../src/library/graphql-adapter'
 import { expect } from '../expect'
 import { BoosterConfig, UUID } from '@booster-ai/common'
 import { random } from 'faker'
-import { Request } from 'express'
+import { HttpRequest } from '../../src/library/request-types'
 
 describe('Local provider graphql-adapter', () => {
   describe('rawGraphQLRequestToEnvelope', () => {
     let mockUuid: string
     let mockBody: any
-    let mockRequest: Request
+    let mockRequest: HttpRequest
     let mockUserToken: string
     const mockConfig = new BoosterConfig('test')
     mockConfig.logger = {
@@ -30,10 +29,13 @@ describe('Local provider graphql-adapter', () => {
         query: '',
         variables: {},
       }
-      mockRequest = mockReq()
-      mockRequest.body = mockBody
-      mockRequest.headers = {
-        authorization: mockUserToken,
+      mockRequest = {
+        body: mockBody,
+        headers: {
+          authorization: mockUserToken,
+        },
+        params: {},
+        query: {},
       }
 
       generateStub = stub().returns(mockUuid)
@@ -49,7 +51,7 @@ describe('Local provider graphql-adapter', () => {
       await rawGraphQLRequestToEnvelope(mockConfig, mockRequest)
 
       expect(mockConfig.logger?.debug).to.have.been.calledOnceWith(
-        '[Booster]|graphql-adapter#expressHttpMessageToEnvelope: ',
+        '[Booster]|graphql-adapter#httpMessageToEnvelope: ',
         'Received GraphQL request: \n- Headers: ',
         mockRequest.headers,
         '\n- Body: ',

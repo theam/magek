@@ -96,7 +96,7 @@ export const Infrastructure = (rocketDescriptors?: RocketDescriptor[]): Provider
           connection.socket.on('message', async (message) => {
             try {
               const data = JSON.parse(message.toString())
-              // Create a mock ExpressWebSocketMessage for compatibility with existing GraphQL service
+              // Create a WebSocketMessage for the GraphQL service
               const webSocketRequest = {
                 connectionContext: {
                   connectionId,
@@ -136,6 +136,58 @@ export const Infrastructure = (rocketDescriptors?: RocketDescriptor[]): Provider
             incomingMessage: req.raw,
           }
           void graphQLService.handleGraphQLRequest(webSocketRequest)
+        })
+      })
+
+      // Register SSE endpoint
+      await fastify.register((instance: FastifyInstance) => {
+        instance.get('/sse', (request, reply) => {
+          const connectionId = `sse_${Date.now()}_${Math.random()}`
+
+          // Initialize SSE connection
+          reply.sse({
+            id: connectionId,
+            event: 'connection',
+            data: JSON.stringify({
+              type: 'connection_init',
+              payload: { connectionId },
+            }),
+          })
+
+          // Handle SSE connection for read model updates
+          const webSocketRequest = {
+            connectionContext: {
+              connectionId,
+              eventType: 'CONNECT' as const,
+            },
+            incomingMessage: request.raw,
+          }
+
+          // Initialize GraphQL connection for read model subscriptions
+          void graphQLService.handleGraphQLRequest(webSocketRequest)
+
+          // Set up ping to keep connection alive
+          const pingInterval = setInterval(() => {
+            if (!reply.sent) {
+              reply.sse({
+                id: Date.now().toString(),
+                event: 'ping',
+                data: JSON.stringify({ type: 'ping', timestamp: Date.now() }),
+              })
+            }
+          }, 30000) // Ping every 30 seconds
+
+          // Clean up on connection close
+          request.raw.on('close', async () => {
+            clearInterval(pingInterval)
+            const disconnectRequest = {
+              connectionContext: {
+                connectionId,
+                eventType: 'DISCONNECT' as const,
+              },
+            }
+            await graphQLService.handleGraphQLRequest(disconnectRequest)
+          })
         })
       })
 
