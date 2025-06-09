@@ -1,15 +1,15 @@
-import * as WebSocket from 'ws'
+import { SocketStream } from '@fastify/websocket'
 
 /**
  * Registry to manage active WebSocket connections
  */
 export class WebSocketRegistry {
-  private connections: Map<string, WebSocket> = new Map()
+  private connections: Map<string, SocketStream['socket']> = new Map()
 
   /**
    * Add a connection to the registry
    */
-  addConnection(connectionId: string, socket: WebSocket): void {
+  addConnection(connectionId: string, socket: SocketStream['socket']): void {
     this.connections.set(connectionId, socket)
 
     // Clean up when connection closes
@@ -30,7 +30,7 @@ export class WebSocketRegistry {
    */
   sendMessage(connectionId: string, data: unknown): void {
     const connection = this.connections.get(connectionId)
-    if (connection && connection.readyState === WebSocket.OPEN) {
+    if (connection && connection.readyState === connection.OPEN) {
       connection.send(JSON.stringify(data))
     }
   }
