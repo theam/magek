@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.13.8",
-    "@docusaurus/core": "^3.8.0",
+    "@docusaurus/core": "^3.8.1",
     "@docusaurus/preset-classic": "^3.1.0",
     "@mdx-js/react": "^3.1.0",
     "autoprefixer": "^10.4.17",
