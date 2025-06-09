@@ -11,8 +11,8 @@ import { spawn } from 'child_process'
 // Get the Booster version from the current package or a reasonable default
 function getBoosterVersion(): string {
   try {
-    // Try to read from the create package itself to get the version used during build
-    return '3.2.0' // hardcode for now, can be made dynamic later
+    // Read from the create package itself
+    return require('../package.json').version
   } catch {
     return '3.2.0'
   }
@@ -26,8 +26,8 @@ interface ProjectConfig {
   homepage: string
   license: string
   repository: string
-  providerPackageName: string
   template?: string
+  packageManager: 'npm' | 'pnpm'
   skipInstall?: boolean
   skipGit?: boolean
 }
@@ -113,6 +113,19 @@ async function replaceInAllFiles(targetDir: string, replacements: Record<string,
   }
 }
 
+// Default values for project configuration
+const defaults = {
+  description: '',
+  version: '0.1.0',
+  author: '',
+  homepage: '',
+  license: 'MIT',
+  repository: '',
+  packageManager: 'npm' as const,
+  skipInstall: false,
+  skipGit: false,
+}
+
 async function collectProjectInfo(args: string[]): Promise<ProjectConfig> {
   const projectName = args[0]
 
@@ -141,82 +154,98 @@ async function collectProjectInfo(args: string[]): Promise<ProjectConfig> {
     }
   }
 
-  // If --default flag is provided, use defaults
-  if (flags.default) {
-    return {
+  // Check if we should skip prompts (any required flags provided or skip flags set)
+  const shouldSkipPrompts =
+    flags['skip-install'] ||
+    flags['skip-git'] ||
+    Object.keys(flags).some((key) =>
+      ['description', 'version', 'author', 'homepage', 'license', 'repository', 'package-manager'].includes(key)
+    )
+
+  let config: ProjectConfig
+
+  if (shouldSkipPrompts) {
+    // Use defaults with any provided flag values
+    config = {
       projectName,
-      description: '',
-      version: '0.1.0',
-      author: '',
-      homepage: '',
-      license: 'MIT',
-      repository: '',
-      providerPackageName: '@booster-ai/server',
+      description: (flags.description as string) || defaults.description,
+      version: (flags.version as string) || defaults.version,
+      author: (flags.author as string) || defaults.author,
+      homepage: (flags.homepage as string) || defaults.homepage,
+      license: (flags.license as string) || defaults.license,
+      repository: (flags.repository as string) || defaults.repository,
+      packageManager: (flags['package-manager'] as 'npm' | 'pnpm') || defaults.packageManager,
       template: flags.template as string,
-      skipInstall: flags['skip-install'] as boolean,
-      skipGit: flags['skip-git'] as boolean,
+      skipInstall: (flags['skip-install'] as boolean) || defaults.skipInstall,
+      skipGit: (flags['skip-git'] as boolean) || defaults.skipGit,
+    }
+  } else {
+    // Collect information via prompts
+    const responses = await prompts([
+      {
+        type: 'text',
+        name: 'description',
+        message: "What's your project description?",
+        initial: (flags.description as string) || defaults.description,
+      },
+      {
+        type: 'text',
+        name: 'version',
+        message: "What's the first version?",
+        initial: (flags.version as string) || defaults.version,
+      },
+      {
+        type: 'text',
+        name: 'author',
+        message: "Who's the author?",
+        initial: (flags.author as string) || defaults.author,
+      },
+      {
+        type: 'text',
+        name: 'homepage',
+        message: "What's the website?",
+        initial: (flags.homepage as string) || defaults.homepage,
+      },
+      {
+        type: 'text',
+        name: 'license',
+        message: 'What license will you be publishing this under?',
+        initial: (flags.license as string) || defaults.license,
+      },
+      {
+        type: 'text',
+        name: 'repository',
+        message: "What's the URL of the repository?",
+        initial: (flags.repository as string) || defaults.repository,
+      },
+      {
+        type: 'select',
+        name: 'packageManager',
+        message: 'Which package manager would you like to use?',
+        choices: [
+          { title: 'npm', value: 'npm' },
+          { title: 'pnpm', value: 'pnpm' },
+        ],
+        initial: (flags['package-manager'] as string) === 'pnpm' ? 1 : 0,
+      },
+    ])
+
+    config = {
+      projectName,
+      description: responses.description || defaults.description,
+      version: responses.version || defaults.version,
+      author: responses.author || defaults.author,
+      homepage: responses.homepage || defaults.homepage,
+      license: responses.license || defaults.license,
+      repository: responses.repository || defaults.repository,
+      packageManager: responses.packageManager || defaults.packageManager,
+      template: flags.template as string,
+      skipInstall: (flags['skip-install'] as boolean) || defaults.skipInstall,
+      skipGit: (flags['skip-git'] as boolean) || defaults.skipGit,
     }
   }
 
-  // Collect information via prompts
-  const responses = await prompts([
-    {
-      type: 'text',
-      name: 'description',
-      message: "What's your project description?",
-      initial: (flags.description as string) || '',
-    },
-    {
-      type: 'text',
-      name: 'version',
-      message: "What's the first version?",
-      initial: (flags.version as string) || '0.1.0',
-    },
-    {
-      type: 'text',
-      name: 'author',
-      message: "Who's the author?",
-      initial: (flags.author as string) || '',
-    },
-    {
-      type: 'text',
-      name: 'homepage',
-      message: "What's the website?",
-      initial: (flags.homepage as string) || '',
-    },
-    {
-      type: 'text',
-      name: 'license',
-      message: 'What license will you be publishing this under?',
-      initial: (flags.license as string) || 'MIT',
-    },
-    {
-      type: 'text',
-      name: 'repository',
-      message: "What's the URL of the repository?",
-      initial: (flags.repository as string) || '',
-    },
-    {
-      type: 'text',
-      name: 'providerPackageName',
-      message: "What's the package name of your provider infrastructure library?",
-      initial: (flags.providerPackageName as string) || '@booster-ai/server',
-    },
-  ])
-
-  return {
-    projectName,
-    description: responses.description || '',
-    version: responses.version || '0.1.0',
-    author: responses.author || '',
-    homepage: responses.homepage || '',
-    license: responses.license || 'MIT',
-    repository: responses.repository || '',
-    providerPackageName: responses.providerPackageName || '@booster-ai/server',
-    template: flags.template as string,
-    skipInstall: flags['skip-install'] as boolean,
-    skipGit: flags['skip-git'] as boolean,
-  }
+  return config
 }
 
 async function createProject(config: ProjectConfig): Promise<void> {
@@ -224,20 +253,14 @@ async function createProject(config: ProjectConfig): Promise<void> {
 
   console.log(kleur.blue('📦 Creating project...'))
 
-  // Determine template source
-  const templateSource = config.template || path.join(__dirname, '../template')
+  // Determine template source - default to GitHub template
+  const templateSource = config.template || 'github.com/boostercloud/boosterai/templates/default'
 
   try {
-    // If template source is a local path, copy directly
-    if (fs.existsSync(templateSource)) {
-      console.log(kleur.blue('📁 Using local template...'))
-      await copyTemplate(templateSource, targetDir)
-    } else {
-      // Clone template using degit for remote templates
-      console.log(kleur.blue('🌐 Cloning remote template...'))
-      const emitter = degit(templateSource, { cache: false, force: true })
-      await emitter.clone(targetDir)
-    }
+    // Clone template using degit
+    console.log(kleur.blue('🌐 Cloning template...'))
+    const emitter = degit(templateSource, { cache: false, force: true })
+    await emitter.clone(targetDir)
 
     console.log(kleur.green('✓ Template copied'))
 
@@ -253,7 +276,6 @@ async function createProject(config: ProjectConfig): Promise<void> {
       homepage: config.homepage,
       license: config.license,
       repository: config.repository,
-      providerPackageName: config.providerPackageName,
       boosterVersion: getBoosterVersion(),
     }
 
@@ -265,10 +287,14 @@ async function createProject(config: ProjectConfig): Promise<void> {
     if (!config.skipInstall) {
       console.log(kleur.blue('📦 Installing dependencies...'))
       try {
-        await runCommand('npm', ['install'], targetDir)
+        const installCommand = config.packageManager === 'pnpm' ? 'pnpm' : 'npm'
+        const installArgs = config.packageManager === 'pnpm' ? ['install'] : ['install']
+        await runCommand(installCommand, installArgs, targetDir)
         console.log(kleur.green('✓ Dependencies installed'))
       } catch (error) {
-        console.log(kleur.yellow('⚠ Failed to install dependencies. You can run "npm install" manually.'))
+        console.log(
+          kleur.yellow(`⚠ Failed to install dependencies. You can run "${config.packageManager} install" manually.`)
+        )
       }
     }
 
@@ -292,37 +318,16 @@ async function createProject(config: ProjectConfig): Promise<void> {
     console.log('Next steps:')
     console.log(kleur.cyan(`  cd ${config.projectName}`))
     if (config.skipInstall) {
-      console.log(kleur.cyan('  npm install'))
+      console.log(kleur.cyan(`  ${config.packageManager} install`))
     }
-    console.log(kleur.cyan('  npm run build'))
-    console.log(kleur.cyan('  npm run start:local'))
+    console.log(kleur.cyan(`  ${config.packageManager} run build`))
+    console.log(kleur.cyan(`  ${config.packageManager} run start:local`))
     console.log()
     console.log('Learn more at: https://docs.boosterframework.com')
   } catch (error) {
     console.error(kleur.red('❌ Failed to create project:'))
     console.error(error)
     process.exit(1)
-  }
-}
-
-async function copyTemplate(source: string, target: string): Promise<void> {
-  await copyRecursive(source, target)
-}
-
-async function copyRecursive(src: string, dest: string): Promise<void> {
-  const stat = fs.statSync(src)
-
-  if (stat.isDirectory()) {
-    if (!fs.existsSync(dest)) {
-      fs.mkdirSync(dest, { recursive: true })
-    }
-
-    const files = fs.readdirSync(src)
-    for (const file of files) {
-      await copyRecursive(path.join(src, file), path.join(dest, file))
-    }
-  } else {
-    fs.copyFileSync(src, dest)
   }
 }
 

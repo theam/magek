@@ -8,5 +8,5 @@ Booster.configure('local', (config: BoosterConfig): void => {
 
 Booster.configure('production', (config: BoosterConfig): void => {
   config.appName = '{{PROJECT_NAME}}'
-  config.providerPackage = '{{providerPackageName}}'
+  config.providerPackage = '@booster-ai/server'
 })

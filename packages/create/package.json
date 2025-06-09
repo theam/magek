@@ -1,14 +1,13 @@
 {
   "name": "create-booster-ai",
-  "version": "0.0.0",
+  "version": "3.2.0",
   "description": "Create Booster AI applications with one command",
   "main": "dist/cli.js",
   "bin": {
     "create-booster-ai": "dist/cli.js"
   },
   "files": [
-    "dist/**/*",
-    "template/**/*"
+    "dist/**/*"
   ],
   "engines": {
     "node": ">=22"
@@ -26,7 +25,7 @@
     "generator",
     "cli"
   ],
-  "author": "Booster Framework Team",
+  "author": "Boosterin Labs SLU",
   "license": "Apache-2.0",
   "dependencies": {
     "degit": "^2.8.4",
@@ -40,9 +39,11 @@
     "@types/prompts": "^2.4.9",
     "@types/chai": "5.2.2",
     "@types/mocha": "10.0.10",
+    "@types/sinon": "10.0.0",
     "chai": "5.2.0",
     "eslint": "^8.23.1",
     "mocha": "10.2.0",
+    "sinon": "9.2.3",
     "ts-node": "^10.9.1",
     "tsup": "^8.0.0",
     "typescript": "5.8.3"
