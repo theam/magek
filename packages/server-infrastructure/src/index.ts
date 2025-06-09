@@ -142,7 +142,10 @@ export const Infrastructure = (rocketDescriptors?: RocketDescriptor[]): Provider
       // Register rockets if any
       if (rockets && rockets.length > 0) {
         console.log('Warning: Rocket mounting is not yet fully supported with Fastify. Rockets will be skipped.')
-        console.log('Rockets to mount:', rockets.map(r => r.constructor.name))
+        console.log(
+          'Rockets to mount:',
+          rockets.map((r) => r.constructor.name)
+        )
         // TODO: Implement full rocket support for Fastify
         // For now, we skip rocket mounting to maintain compatibility
       }
