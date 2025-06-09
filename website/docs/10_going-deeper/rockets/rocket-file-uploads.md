@@ -33,22 +33,22 @@ This rocket also provides a Booster Event each time a file is uploaded.
 
 Install needed dependency packages:
 ```bash
-npm install --save @boostercloud/rocket-file-uploads-core @boostercloud/rocket-file-uploads-types
-npm install --save @boostercloud/rocket-file-uploads-azure
+npm install --save @booster-ai/rocket-file-uploads-core @booster-ai/rocket-file-uploads-types
+npm install --save @booster-ai/rocket-file-uploads-azure
 ```
 
 Also, you will need a devDependency in your project:
 ```bash
-npm install --save-dev @boostercloud/rocket-file-uploads-azure-infrastructure
+npm install --save-dev @booster-ai/rocket-file-uploads-azure-infrastructure
 ```
 
 In your Booster config file, configure your BoosterRocketFiles:
 
 ```typescript title="src/config/config.ts"
-import { Booster } from '@boostercloud/framework-core'
+import { Booster } from '@booster-ai/core'
 import { BoosterConfig } from '@booster-ai/common'
-import { BoosterRocketFiles } from '@boostercloud/rocket-file-uploads-core'
-import { RocketFilesUserConfiguration } from '@boostercloud/rocket-file-uploads-types'
+import { BoosterRocketFiles } from '@booster-ai/rocket-file-uploads-core'
+import { RocketFilesUserConfiguration } from '@booster-ai/rocket-file-uploads-types'
 
 const rocketFilesConfigurationDefault: RocketFilesUserConfiguration = {
   storageName: 'STORAGE_NAME',
@@ -64,7 +64,7 @@ const rocketFilesConfigurationCms: RocketFilesUserConfiguration = {
 
 Booster.configure('production', (config: BoosterConfig): void => {
   config.appName = 'TEST_APP_NAME'
-  config.providerPackage = '@boostercloud/framework-provider-azure'
+  config.providerPackage = '@booster-ai/server'
   config.rockets = [
     new BoosterRocketFiles(config, [rocketFilesConfigurationDefault, rocketFilesConfigurationCms]).rocketForAzure(),
   ]
@@ -99,9 +99,9 @@ Create a command in your application and call the `presignedPut` method on the `
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/file-upload-put.ts"
-import { Booster, Command } from '@boostercloud/framework-core'
+import { Booster, Command } from '@booster-ai/core'
 import { Register } from '@booster-ai/common'
-import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
+import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
 
 @Command({
   authorize: 'all',
@@ -146,9 +146,9 @@ Create a command in your application and call the `presignedGet` method on the `
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/file-upload-get.ts"
-import { Booster, Command } from '@boostercloud/framework-core'
+import { Booster, Command } from '@booster-ai/core'
 import { Register } from '@booster-ai/common'
-import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
+import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
 
 @Command({
   authorize: 'all',
@@ -193,10 +193,10 @@ Create a command in your application and call the `list` method on the `FileHand
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/file-upload-list.ts"
-import { Booster, Command } from '@boostercloud/framework-core'
+import { Booster, Command } from '@booster-ai/core'
 import { Register } from '@booster-ai/common'
-import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
-import { ListItem } from '@boostercloud/rocket-file-uploads-types'
+import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
+import { ListItem } from '@booster-ai/rocket-file-uploads-types'
 
 @Command({
   authorize: 'all',
@@ -287,21 +287,21 @@ az role assignment create \
 
 Install needed dependency packages:
 ```bash
-npm install --save @boostercloud/rocket-file-uploads-core @boostercloud/rocket-file-uploads-types
-npm install --save @boostercloud/rocket-file-uploads-aws
+npm install --save @booster-ai/rocket-file-uploads-core @booster-ai/rocket-file-uploads-types
+npm install --save @booster-ai/rocket-file-uploads-aws
 ```
 Also, you will need a devDependency in your project:
 ```bash
-npm install --save-dev @boostercloud/rocket-file-uploads-aws-infrastructure
+npm install --save-dev @booster-ai/rocket-file-uploads-aws-infrastructure
 ```
 
 In your Booster config file, configure your BoosterRocketFiles:
 
 ```typescript title="src/config/config.ts"
-import { Booster } from '@boostercloud/framework-core'
+import { Booster } from '@booster-ai/core'
 import { BoosterConfig } from '@booster-ai/common'
-import { BoosterRocketFiles } from '@boostercloud/rocket-file-uploads-core'
-import { RocketFilesUserConfiguration } from '@boostercloud/rocket-file-uploads-types'
+import { BoosterRocketFiles } from '@booster-ai/rocket-file-uploads-core'
+import { RocketFilesUserConfiguration } from '@booster-ai/rocket-file-uploads-types'
 
 const rocketFilesConfigurationDefault: RocketFilesUserConfiguration = {
   storageName: 'STORAGE_NAME',
@@ -317,7 +317,7 @@ const rocketFilesConfigurationCms: RocketFilesUserConfiguration = {
 
 Booster.configure('production', (config: BoosterConfig): void => {
   config.appName = 'TEST_APP_NAME'
-  config.providerPackage = '@boostercloud/framework-provider-aws'
+  config.providerPackage = '@booster-ai/server'
   config.rockets = [
     new BoosterRocketFiles(config, [rocketFilesConfigurationDefault, rocketFilesConfigurationCms]).rocketForAWS(),
   ]
@@ -347,9 +347,9 @@ Create a command in your application and call the `presignedPut` method on the `
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/file-upload-put.ts"
-import { Booster, Command } from '@boostercloud/framework-core'
+import { Booster, Command } from '@booster-ai/core'
 import { Register } from '@booster-ai/common'
-import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
+import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
 
 @Command({
   authorize: 'all',
@@ -407,9 +407,9 @@ Create a command in your application and call the `presignedGet` method on the `
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/file-upload-get.ts"
-import { Booster, Command } from '@boostercloud/framework-core'
+import { Booster, Command } from '@booster-ai/core'
 import { Register } from '@booster-ai/common'
-import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
+import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
 
 @Command({
   authorize: 'all',
@@ -455,10 +455,10 @@ Create a command in your application and call the `list` method on the `FileHand
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/file-upload-list.ts"
-import { Booster, Command } from '@boostercloud/framework-core'
+import { Booster, Command } from '@booster-ai/core'
 import { Register } from '@booster-ai/common'
-import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
-import { ListItem } from '@boostercloud/rocket-file-uploads-types'
+import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
+import { ListItem } from '@booster-ai/rocket-file-uploads-types'
 
 @Command({
   authorize: 'all',
@@ -514,10 +514,10 @@ Create a command in your application and call the `deleteFile` method on the `Fi
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/delete-file.ts"
-import { Booster, Command } from '@boostercloud/framework-core'
+import { Booster, Command } from '@booster-ai/core'
 import { Register } from '@booster-ai/common'
-import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
-import { ListItem } from '@boostercloud/rocket-file-uploads-types'
+import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
+import { ListItem } from '@booster-ai/rocket-file-uploads-types'
 
 @Command({
   authorize: 'all',
@@ -561,21 +561,21 @@ Response:
 
 Install needed dependency packages:
 ```bash
-npm install --save @boostercloud/rocket-file-uploads-core @boostercloud/rocket-file-uploads-types
-npm install --save @boostercloud/rocket-file-uploads-local
+npm install --save @booster-ai/rocket-file-uploads-core @booster-ai/rocket-file-uploads-types
+npm install --save @booster-ai/rocket-file-uploads-local
 ```
 Also, you will need a devDependency in your project:
 ```
-npm install --save-dev @boostercloud/rocket-file-uploads-local-infrastructure
+npm install --save-dev @booster-ai/rocket-file-uploads-local-infrastructure
 ```
 
 In your Booster config file, configure your BoosterRocketFiles:
 
 ```typescript title="src/config/config.ts"
-import { Booster } from '@boostercloud/framework-core'
+import { Booster } from '@booster-ai/core'
 import { BoosterConfig } from '@booster-ai/common'
-import { BoosterRocketFiles } from '@boostercloud/rocket-file-uploads-core'
-import { RocketFilesUserConfiguration } from '@boostercloud/rocket-file-uploads-types'
+import { BoosterRocketFiles } from '@booster-ai/rocket-file-uploads-core'
+import { RocketFilesUserConfiguration } from '@booster-ai/rocket-file-uploads-types'
 
 const rocketFilesConfigurationDefault: RocketFilesUserConfiguration = {
   storageName: 'STORAGE_NAME',
@@ -624,9 +624,9 @@ Create a command in your application and call the `presignedPut` method on the `
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/file-upload-put.ts"
-import { Booster, Command } from '@boostercloud/framework-core'
+import { Booster, Command } from '@booster-ai/core'
 import { Register } from '@booster-ai/common'
-import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
+import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
 
 @Command({
   authorize: 'all',
@@ -671,9 +671,9 @@ Create a command in your application and call the `presignedGet` method on the `
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/file-upload-get.ts"
-import { Booster, Command } from '@boostercloud/framework-core'
+import { Booster, Command } from '@booster-ai/core'
 import { Register } from '@booster-ai/common'
-import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
+import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
 
 @Command({
   authorize: 'all',
@@ -718,10 +718,10 @@ Create a command in your application and call the `list` method on the `FileHand
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/file-upload-list.ts"
-import { Booster, Command } from '@boostercloud/framework-core'
+import { Booster, Command } from '@booster-ai/core'
 import { Register } from '@booster-ai/common'
-import { FileHandler } from '@boostercloud/rocket-file-uploads-core'
-import { ListItem } from '@boostercloud/rocket-file-uploads-types'
+import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
+import { ListItem } from '@booster-ai/rocket-file-uploads-types'
 
 @Command({
   authorize: 'all',

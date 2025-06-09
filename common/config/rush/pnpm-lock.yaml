@@ -58,7 +58,7 @@ importers:
         specifier: ^2.4.0
         version: 2.8.1
     devDependencies:
-      '@boostercloud/eslint-config':
+      '@booster-ai/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
       '@oclif/test':
@@ -185,7 +185,7 @@ importers:
       '@booster-ai/metadata':
         specifier: workspace:^3.2.0
         version: link:../metadata
-      '@boostercloud/eslint-config':
+      '@booster-ai/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
       '@types/chai':
@@ -348,7 +348,7 @@ importers:
       '@booster-ai/metadata':
         specifier: workspace:^3.2.0
         version: link:../metadata
-      '@boostercloud/eslint-config':
+      '@booster-ai/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
       '@types/chai':
@@ -466,7 +466,7 @@ importers:
         specifier: ^2.4.0
         version: 2.8.1
     devDependencies:
-      '@boostercloud/eslint-config':
+      '@booster-ai/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
       '@types/chai-as-promised':
@@ -536,7 +536,7 @@ importers:
         specifier: 8.18.2
         version: 8.18.2
     devDependencies:
-      '@boostercloud/eslint-config':
+      '@booster-ai/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
       '@types/chai':
@@ -654,7 +654,7 @@ importers:
         specifier: ^2.4.0
         version: 2.8.1
     devDependencies:
-      '@boostercloud/eslint-config':
+      '@booster-ai/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
       '@types/chai':

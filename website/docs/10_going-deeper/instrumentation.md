@@ -119,7 +119,7 @@ In addition to using the Trace Decorator to receive notifications when events oc
 Here's an example of how to use the Trace Decorator on a custom method:
 
 ```typescript
-import { Trace } from '@boostercloud/framework-core'
+import { Trace } from '@booster-ai/core'
 import { BoosterConfig, Logger } from '@booster-ai/common'
 
 export class MyCustomClass {

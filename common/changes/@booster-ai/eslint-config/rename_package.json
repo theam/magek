@@ -1,0 +1,9 @@
+{
+  "changes": [
+    {
+      "comment": "Rename package to @booster-ai/eslint-config",
+      "packageName": "@booster-ai/eslint-config",
+      "type": "patch"
+    }
+  ]
+}

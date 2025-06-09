@@ -61,7 +61,7 @@
   },
   "devDependencies": {
     "@booster-ai/metadata": "workspace:^3.2.0",
-    "@boostercloud/eslint-config": "workspace:^3.2.0",
+    "@booster-ai/eslint-config": "workspace:^3.2.0",
     "@types/chai": "5.2.2",
     "@types/chai-as-promised": "8.0.2",
     "@types/faker": "5.1.5",

@@ -42,7 +42,7 @@
     "effect": "3.13.2"
   },
   "devDependencies": {
-    "@boostercloud/eslint-config": "workspace:^3.2.0",
+    "@booster-ai/eslint-config": "workspace:^3.2.0",
     "@booster-ai/metadata": "workspace:^3.2.0",
     "@types/chai": "5.2.2",
     "@types/chai-as-promised": "8.0.2",

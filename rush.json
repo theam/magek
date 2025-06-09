@@ -375,7 +375,7 @@
    */
   "projects": [
     {
-      "packageName": "@boostercloud/eslint-config",
+      "packageName": "@booster-ai/eslint-config",
       "shouldPublish": true, // Required for our integration tests, in the registry it is private
       "versionPolicyName": "booster",
       "projectFolder": "tools/eslint-config"
