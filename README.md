@@ -5,7 +5,6 @@
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![License](https://img.shields.io/npm/l/@booster-ai/cli)](https://github.com/boostercloud/booster/blob/main/package.json)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
-![Integration tests](https://github.com/boostercloud/booster/actions/workflows/wf_test-integration.yml/badge.svg)
 [![Discord](https://img.shields.io/discord/763753198388510780.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/bDY8MKx)
 [![Docs](https://img.shields.io/badge/Docs-Booster-blue)](https://docs.boosterframework.com)
 ---
@@ -46,7 +45,7 @@ All those things, and more, will be given to you by default and entirely for fre
 
 [The roadmap](https://github.com/orgs/boostercloud/projects/2/views/2) is community-driven; the core team actively participates in the Booster community, listening to real users and prioritizing those issues and ideas that provide the most value for the majority. So don't hesitate to create issues or leave comments in [Discord](https://discord.gg/k7b4B8CDtT) and tell us about your questions and ideas.
 
-AWS and Azure integrations are thoroughly tested (with unit and integration tests running automatically before every release), and are currently used in production in projects of all-sized organizations, from startups to massive enterprises.
+AWS and Azure integrations are thoroughly tested, and are currently used in production in projects of all-sized organizations, from startups to massive enterprises.
 
 # The "Booster Way"
 

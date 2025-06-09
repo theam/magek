@@ -208,14 +208,6 @@ To start contributing to the project you would need to set up the project in you
 
 - Make sure everything works by [executing the unit tests](#running-unit-tests): `rush rest`
 
-> **DISCLAIMER**: The integration test process changed, feel free to chime in into our Discord for more info
-
-- Make sure everything works by [running the integration tests](#running-integration-tests):
-
-```bash
-rush pack-integration-deps
-rushx integration -v
-```
 
 ### Understanding the "rush monorepo" approach and how dependencies are structured in the project
 
@@ -235,64 +227,6 @@ Unit tests are executed when you type `rush test`. If you want to run the unit t
 - `rushx test:server-infrastructure -v`: Run unit tests for the `server-infrastructure` package.
 - `rushx test:common -v`: Run unit tests for the `common` package.
 
-### Running integration tests
-
-
-`rushx <script name> -v`
-
-These are the available scripts to run integration tests:
-
-1. **General Integration Tests:**
-    - `rushx integration -v`: Run all integration test scripts.
-
-2. **CLI Integration Tests:**
-    - `rushx integration/cli -v`: Tests CLI commands and verifies that they produce the expected results.
-
-3. **Local Integration Tests:**
-    - `rushx integration/local -v`: Runs all integration scripts in the local development server.
-    - `rushx integration/local-ongoing -v`: Runs the start and stop integration tests.
-    - `rushx integration/local-start -v`: Checks the start functionality of the local environment.
-    - `rushx integration/local-func -v`: Functional tests for the local environment.
-    - `rushx integration/local-end-to-end -v`: Runs end-to-end tests in the local environment.
-    - `rushx integration/local-stop -v`: Checks the stop functionality of the local environment.
-
-4. **AWS Integration Tests:**
-    - `rushx integration/aws -v`: Runs all integration test scripts for provider AWS.
-    - `rushx integration/aws-deploy -v`: Tests the deployment of a sample project to AWS.
-    - `rushx integration/aws-func -v`: Runs functional tests on AWS, stressing the deployed app's write API and verifying the results in databases and read APIs.
-    - `rushx integration/aws-end-to-end -v`: Performs end-to-end tests on AWS.
-    - `rushx integration/aws-load -v`: (Currently skipped) Intended for load tests on AWS.
-    - `rushx integration/aws-nuke -v`: Verifies that the deployed application on AWS can be properly nuked.
-
-5. **Azure Integration Tests:**
-    - `rushx integration/azure -v`: Runs all integration test scripts for provider Azure.
-    - `rushx integration/azure-deploy -v`: Tests the deployment of a project to Azure.
-    - `rushx integration/azure-func -v`: Runs functional tests on Azure.
-    - `rushx integration/azure-end-to-end -v`: Performs end-to-end tests on Azure.
-    - `rushx integration/azure-nuke -v`: Verifies that the deployed application on Azure can be properly nuked.
-
-Azure and AWS integration tests run in real environments, so you'll need to have your credentials properly set in your development machine in order to run them. They will deploy a sample project to your default account, run the tests and nuke the application when the process finishes. Notice that running integration tests in your cloud account could incur in some expenses.
-
-### Github flow
-
-The preferred way of accepting contributions is following the [Github flow](https://guides.github.com/introduction/flow/), that is, you fork the project and work in your own branch until you're happy with the work, and then submit a PR in Github.
-
-### Publishing your Pull Request
-
-Make sure that you describe your change thoroughly in the PR body, adding references for any related issues and links to any resource that helps clarify the intent and goals of the change.
-
-When you submit a PR to the Booster repository:
-
-- _Unit tests_ will be automatically run. PRs with non-passing tests can't be merged.
-- If tests pass, your code will be reviewed by at least two core team members. Clarifications or improvements might be asked. They reserve the right to close any PR that does not meet the project quality standards, goals, or philosophy. So, discussing your plans in an issue or the Spectrum channel is always a good idea before committing to significant changes.
-- Code must be mergeable, and all conflicts must be solved before merging.
-
-### Branch naming conventions
-
-In order to create a PR, you must create a branch from `main`. You should follow the GitFlow naming conventions, as detailed below:
-
-- `feature/*` - PR that implements a new feature
-- `fix/*` - PR that fixes a bug
 - `doc/*` - PR that enhances the documentation
 
 In the right side of the branch name you can include the GitHub issue number. An example of doing this could be:

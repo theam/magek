@@ -24,7 +24,7 @@ This file provides high-level guidance for **AI agents (e.g. OpenAI Codex)** tha
 | Install deps only | `rush update` | |
 | Build all packages | `rush rebuild` | TypeScript compilation & type-check |
 | Fix linter issues | `rush lint:fix` | Uses project ESLint rules |
-| Run unit tests | `rush test` | Jest across all packages |
+| Run unit tests | `rush test` | Mocha across all packages |
 | Package-scoped test | `cd packages/<name> && rushx test` | |
 
 > Tip: Use `rush clean` & `rush purge` before a fresh install to remove caches.
@@ -39,7 +39,7 @@ This file provides high-level guidance for **AI agents (e.g. OpenAI Codex)** tha
 3. **CLI entry point** is `packages/cli/src/commands/boost.ts`.
 4. Shared types are in `packages/common`.
 
-All production code is TypeScript; tests use Jest.  Standard utilities such as lodash are intentionally avoided—prefer simple, functional helpers.
+All production code is TypeScript; tests use Mocha.  Standard utilities such as lodash are intentionally avoided—prefer simple, functional helpers.
 
 ## 4. Coding Conventions to Follow
 
@@ -52,17 +52,14 @@ All production code is TypeScript; tests use Jest.  Standard utilities such as l
 * **Branch naming**: `feature/<topic>`, `fix/<topic>`, `doc/<topic>` (see CONTRIBUTING.md for details).
 
 ## 5. Testing Strategy
-
-1. **Unit tests** (Jest) run quickly and should cover most changes.
-2. **Integration tests** deploy real cloud infrastructure (AWS/Azure) and are therefore **optional by default**.  Run them only when code touches deployment or provider logic.
-3. The CI pipeline mirrors the steps in `scripts/check-all-the-things.sh`; ensure it passes locally before creating a pull request.
+1. **Unit tests** (Mocha) run quickly and should cover most changes.
+2. The CI pipeline mirrors the steps in `scripts/check-all-the-things.sh`; ensure it passes locally before creating a pull request.
 
 ## 6. Pull Requests & Releases
 
 1. **Fork → Branch → PR against `main`**.
 2. Make sure `./scripts/check-all-the-things.sh` exits without errors.
-3. For large PRs, run the relevant integration tests.
-4. After review, core maintainers will trigger full CI and (if applicable) publish to npm following semver derived from Conventional Commits.
+3. After review, core maintainers will trigger full CI and (if applicable) publish to npm following semver derived from Conventional Commits.
 
 ## 7. Useful References
 
