@@ -1,17 +1,36 @@
-import { mockRes, mockReq } from 'sinon-express-mock'
 import { restore, SinonStub, SinonStubbedInstance, createStubInstance, stub, replace } from 'sinon'
 import { GraphQLService } from '@booster-ai/server'
 import { GraphQLController } from '../../src/controllers/graphql'
-import { Request, Response } from 'express'
+import { FastifyRequest, FastifyReply } from 'fastify'
 import { expect } from '../expect'
 import { lorem } from 'faker'
+
+// Helper to create a mock FastifyRequest
+function mockFastifyRequest(overrides: any = {}): FastifyRequest {
+  return {
+    headers: {},
+    body: {},
+    params: {},
+    query: {},
+    ...overrides,
+  } as FastifyRequest
+}
+
+// Helper to create a mock FastifyReply  
+function mockFastifyReply(): FastifyReply {
+  const reply = {
+    status: stub().returnsThis(),
+    send: stub().returnsThis(),
+    sent: false,
+  }
+  return reply as unknown as FastifyReply
+}
 
 describe('GraphQL controller', () => {
   let mockQueryResponse: any
 
   let graphQLServiceStub: SinonStubbedInstance<GraphQLService>
   let queryStub: SinonStub
-  let nextStub: SinonStub
 
   let sut: GraphQLController
   beforeEach(() => {
@@ -26,7 +45,6 @@ describe('GraphQL controller', () => {
 
     graphQLServiceStub = createStubInstance(GraphQLService)
     queryStub = stub().resolves(mockQueryResponse)
-    nextStub = stub()
 
     replace(graphQLServiceStub, 'handleGraphQLRequest', queryStub as any)
 
@@ -38,41 +56,41 @@ describe('GraphQL controller', () => {
   })
 
   describe('handleGraphQL', () => {
-    let mockRequest: Request
-    let mockResponse: Response
+    let mockRequest: FastifyRequest
+    let mockReply: FastifyReply
 
-    let jsonStub: SinonStub
+    let sendStub: SinonStub
+    let statusStub: SinonStub
 
     beforeEach(() => {
-      mockRequest = mockReq({})
-      mockResponse = mockRes()
+      mockRequest = mockFastifyRequest({})
+      mockReply = mockFastifyReply()
 
-      jsonStub = stub()
-
-      replace(mockResponse, 'json', jsonStub)
+      sendStub = mockReply.send as SinonStub
+      statusStub = mockReply.status as SinonStub
     })
 
     it('should call GraphQLService.handleGraphQLRequest', async () => {
-      await sut.handleGraphQL(mockRequest, mockResponse, nextStub)
+      await sut.handleGraphQL(mockRequest, mockReply)
 
-      expect(queryStub).to.have.been.calledOnce.and.calledWith(mockRequest)
+      expect(queryStub).to.have.been.calledOnce
+      // Check that the converted request has the right properties
+      const calledWith = queryStub.getCall(0).args[0]
+      expect(calledWith).to.have.property('headers')
+      expect(calledWith).to.have.property('body')
     })
 
     context('on success', () => {
       beforeEach(async () => {
-        await sut.handleGraphQL(mockRequest, mockResponse, nextStub)
-      })
-
-      it('should not call next', () => {
-        expect(nextStub).not.to.be.called
+        await sut.handleGraphQL(mockRequest, mockReply)
       })
 
       it('should return expected status code', async () => {
-        expect(mockResponse.status).to.be.calledOnceWith(200)
+        expect(statusStub).to.be.calledOnceWith(200)
       })
 
-      it('should call response.json with expected arguments', () => {
-        expect(jsonStub).to.be.calledOnceWith({ ...mockQueryResponse.result })
+      it('should call reply.send with expected arguments', () => {
+        expect(sendStub).to.be.calledOnceWith({ ...mockQueryResponse.result })
       })
     })
 
@@ -81,22 +99,21 @@ describe('GraphQL controller', () => {
 
       beforeEach(async () => {
         error = new Error(lorem.words())
-
         queryStub.rejects(error)
 
-        await sut.handleGraphQL(mockRequest, mockResponse, nextStub)
+        try {
+          await sut.handleGraphQL(mockRequest, mockReply)
+        } catch (e) {
+          // Expected to throw
+        }
       })
 
       it('should return expected status code', async () => {
-        expect(mockResponse.status).to.be.calledOnceWith(500)
+        expect(statusStub).to.be.calledOnceWith(500)
       })
 
-      it('should call response.json with expected arguments', () => {
-        expect(jsonStub).to.be.calledOnceWith({ title: 'Error', reason: error.message })
-      })
-
-      it('should call next', () => {
-        expect(nextStub).to.have.been.calledOnceWith(error)
+      it('should call reply.send with expected arguments', () => {
+        expect(sendStub).to.be.calledOnceWith({ title: 'Error', reason: error.message })
       })
     })
   })

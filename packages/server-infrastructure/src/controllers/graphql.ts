@@ -1,20 +1,25 @@
-import * as express from 'express'
+import { FastifyRequest, FastifyReply } from 'fastify'
 import { HttpCodes, requestFailed } from '../http'
 import { GraphQLService } from '@booster-ai/server'
 
 export class GraphQLController {
-  public router: express.Router = express.Router()
-  constructor(readonly graphQLService: GraphQLService) {
-    this.router.post('/', this.handleGraphQL.bind(this))
-  }
+  constructor(readonly graphQLService: GraphQLService) {}
 
-  public async handleGraphQL(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
+  public async handleGraphQL(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     try {
-      const response = await this.graphQLService.handleGraphQLRequest(req)
-      res.status(HttpCodes.Ok).json(response.result)
+      // Convert Fastify request to be compatible with existing GraphQL service
+      const expressLikeRequest = {
+        ...request,
+        headers: request.headers,
+        body: request.body,
+        rawBody: (request as any).rawBody,
+      }
+      
+      const response = await this.graphQLService.handleGraphQLRequest(expressLikeRequest as any)
+      reply.status(HttpCodes.Ok).send(response.result)
     } catch (e) {
-      await requestFailed(e, res)
-      next(e)
+      await requestFailed(e as Error, reply)
+      throw e
     }
   }
 }

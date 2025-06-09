@@ -1,5 +1,5 @@
 import { httpStatusCodeFor, toClassTitle } from '@booster-ai/common'
-import * as express from 'express'
+import { FastifyReply } from 'fastify'
 
 export enum HttpCodes {
   Ok = 200,
@@ -9,9 +9,9 @@ export enum HttpCodes {
 }
 
 // Wrapper to return a failed request through GraphQL
-export async function requestFailed(error: Error, res: express.Response): Promise<void> {
+export async function requestFailed(error: Error, reply: FastifyReply): Promise<void> {
   const statusCode = httpStatusCodeFor(error)
-  res.status(statusCode).json({
+  reply.status(statusCode).send({
     title: toClassTitle(error),
     reason: error.message,
   })

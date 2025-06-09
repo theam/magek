@@ -27,6 +27,10 @@
     "@booster-ai/server": "workspace:^3.2.0",
     "cors": "2.8.5",
     "express": "^4.19.2",
+    "fastify": "^4.28.0",
+    "@fastify/websocket": "^9.0.0",
+    "fastify-sse-v2": "^3.0.0",
+    "@fastify/cors": "^8.0.0",
     "node-schedule": "^2.1.0",
     "tslib": "^2.4.0",
     "@effect-ts/core": "^0.60.4"
