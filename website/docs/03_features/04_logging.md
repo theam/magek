@@ -26,7 +26,7 @@ interface Logger {
 ```typescript title="src/config/config.ts"
 Booster.configure('development', (config: BoosterConfig): void => {
   config.appName = 'my-store'
-  config.providerPackage = '@booster-ai/framework-provider-aws'
+  config.providerPackage = '@booster-ai/server'
   // highlight-start
   config.logger = new MyCustomLogger() // Overrides the default logger object
   config.logLevel = Level.debug        // Sets the log level at 'debug'     
