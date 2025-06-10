@@ -2,7 +2,7 @@
 
 You can change what the newly created Booster resources will contain by customizing the resource template files.
 
-To do this, you first need to publish the resource templates by running the `boost stub:publish` command. This will create a folder `stubs` in the root directory of the project, and it will contain all the resources that you can customize:
+To do this, you first need to publish the resource templates by running the `npx boost stub:publish` command. This will create a folder `stubs` in the root directory of the project, and it will contain all the resources that you can customize:
 
 ```
 stubs/
@@ -29,7 +29,7 @@ export class {{{ name }}} {
 }
 ```
 
-Now if you run `boost new:type CartItem --fields sku:string` command, you will get `common/cart-item.ts` file with following content:
+Now if you run `npx boost new:type CartItem --fields sku:string` command, you will get `common/cart-item.ts` file with following content:
 ```typescript
 // Look I am a comment that will now appear in every new type file 🐙
 export class CartItem {
@@ -39,7 +39,7 @@ export class CartItem {
 }
 ```
 
-You did it, we just updated our resource template file! Now when you run `boost new:type', it will contain the comment you added earlier 🚀
+You did it, we just updated our resource template file! Now when you run `npx boost new:type`, it will contain the comment you added earlier 🚀
 Of course, this is a simple example, and you may want to add new methods, import something, you name it!
 
 Here are some answers to questions you may have:
@@ -54,7 +54,7 @@ Here are some answers to questions you may have:
 <details>
     <summary>How can I keep up with new template updates?</summary>
 
-    1. Run `boost stub:publish --force` command
+    1. Run `npx boost stub:publish --force` command
     2. Review changes
     3. Done!
 </details>
@@ -80,10 +80,21 @@ Here are some answers to questions you may have:
 </details>
 
 <details>
-    <summary>How do I change what `new:project` command generates?</summary>
+    <summary>How do I use custom project templates?</summary>
 
-    At the moment there is no way to do this.
-    But in the future we will move the new project template from the CLI package( https://github.com/boostercloud/booster/issues/1078 ), and then you will be able to create and use your own templates for new projects.
+    Project creation now uses the modern `npm create` pattern instead of the CLI. You can use custom project templates in two ways:
+
+    **From GitHub repositories:**
+    ```bash
+    npm create booster-ai@latest my-app -- --template user/custom-booster-template
+    ```
+
+    **From local filesystem:**
+    ```bash
+    npm create booster-ai@latest my-app -- --template ./path/to/local/template
+    ```
+
+    The template should contain a Booster project structure with mustache placeholders like `{{PROJECT_NAME}}`, `{{description}}`, etc.
 </details>
 
 <details>

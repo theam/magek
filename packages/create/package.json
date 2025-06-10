@@ -1,0 +1,61 @@
+{
+  "name": "create-booster-ai",
+  "version": "3.2.0",
+  "description": "Create Booster AI applications with one command",
+  "main": "dist/cli.js",
+  "bin": {
+    "create-booster-ai": "dist/cli.js"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "format": "prettier --write --ext '.js,.ts' **/*.ts **/*/*.ts",
+    "lint:check": "eslint --ext '.js,.ts' **/*.ts",
+    "lint:fix": "eslint --quiet --fix --ext '.js,.ts' **/*.ts",
+    "build": "tsup src/cli.ts --format cjs --target node22 --outDir dist --clean",
+    "clean": "rimraf ./dist tsconfig.tsbuildinfo",
+    "prepack": "npm run build",
+    "test:create": "npm run test",
+    "test": "mocha --recursive test/**/*.test.ts --require ts-node/register --timeout 10000"
+  },
+  "keywords": [
+    "booster",
+    "booster-ai",
+    "scaffold",
+    "generator",
+    "cli"
+  ],
+  "author": "Boosterin Labs SLU",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "degit": "^2.8.4",
+    "prompts": "^2.4.2",
+    "kleur": "^4.1.5",
+    "globby": "^14.0.2"
+  },
+  "devDependencies": {
+    "@booster-ai/eslint-config": "workspace:^3.2.0",
+    "@types/node": "^22.15.21",
+    "@types/prompts": "^2.4.9",
+    "@types/chai": "5.2.2",
+    "@types/mocha": "10.0.10",
+    "@types/sinon": "10.0.0",
+    "chai": "5.2.0",
+    "eslint": "^8.57.0",
+    "mocha": "10.2.0",
+    "sinon": "9.2.3",
+    "ts-node": "^10.9.1",
+    "tsup": "^8.0.0",
+    "typescript": "5.8.3",
+    "@types/degit": "~2.8.6",
+    "prettier": "2.3.0",
+    "rimraf": "^6.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

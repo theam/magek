@@ -387,6 +387,12 @@
       "projectFolder": "packages/cli"
     },
     {
+      "packageName": "create-booster-ai",
+      "shouldPublish": true,
+      "versionPolicyName": "booster",
+      "projectFolder": "packages/create"
+    },
+    {
       "packageName": "@booster-ai/common",
       "shouldPublish": true,
       "versionPolicyName": "booster",

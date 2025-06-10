@@ -3,28 +3,31 @@ import TerminalWindow from '@site/src/components/TerminalWindow/TerminalWindow'
 
 # Booster CLI
 
-Booster CLI is a command line interface that helps you to create, develop, and deploy your Booster applications. It is built with Node.js and published to NPM through the package `@booster-ai/cli` . You can install it using any compatible package manager. If you want to contribute to the project, you will also need to clone the GitHub repository and compile the source code.
+The Booster CLI is a command line interface that helps you develop and deploy your Booster applications. It is built with Node.js and published to NPM through the package `@booster-ai/cli`. It's automatically included as a dependency in every Booster project - no global installation required!
 
-## Installation
+## No Installation Required
 
-The preferred way to install the Booster CLI is through NPM. You can install it following the instructions in the [Node.js website](https://nodejs.org/en/download/).
-
-Once you have NPM installed, you can install the Booster CLI by running this command:
+When you create a Booster project using `npm create booster-ai@latest`, the CLI is automatically included as a dependency. Simply use `npx boost` to run any CLI command within your project directory.
 
 <TerminalWindow>
 
 ```bash
-npm install -g @booster-ai/cli
+# Create a new project (CLI automatically included)
+npm create booster-ai@latest my-project
+
+# Navigate to your project and start using the CLI
+cd my-project
+npx boost --help
 ```
 
 </TerminalWindow>
 
 ## Usage
 
-Once the installation is finished, you will have the `boost` command available in your terminal. You can run it to see the help message.
+Once you're in your Booster project directory, you can use the `npx boost` command to see the help message.
 
 :::tip
-You can also run `boost --help` to get the same output.
+You can also run `npx boost --help` to get the same output.
 :::
 
 
@@ -32,7 +35,6 @@ You can also run `boost --help` to get the same output.
 
 | Command | Description |
 |---------|-------------|
-| [`new:project`](#new) | Creates a new Booster project in a new directory |
 | [`new:command`](/architecture/command#creating-a-command) | Creates a new command in the project |
 | [`new:entity`](/architecture/entity#creating-an-entity) | Creates a new entity in the project |
 | [`new:event`](/architecture/event#creating-an-event) | Creates a new event in the project |
@@ -45,6 +47,23 @@ You can also run `boost --help` to get the same output.
 | [`deploy -e <environment>`](/getting-started/coding#6-deployment) | Deploys the project to the cloud |
 | `nuke` | Deletes all the resources created by the deploy command |
 | | |
+
+:::tip
+To create a new Booster project, use the modern npm create pattern:
+
+```bash
+npm create booster-ai@latest my-project
+```
+
+All CLI commands should be run with `npx boost` within your project directory.
+:::
+
+```bash
+npm create booster-ai@latest my-project
+```
+
+See the [Getting Started guide](/getting-started/coding#1-create-the-project) for details.
+:::
 
 
 

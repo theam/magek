@@ -1,22 +1,20 @@
-// New projects use the same Booster version as the installed CLI
-const VERSION = require('../../../package.json').version
-
-export const template = `{
-  "name": "{{{projectName}}}",
-  "description": "{{{description}}}",
-  "version": "{{{version}}}",
-  "author": "{{{author}}}",
+{
+  "name": "{{PROJECT_NAME}}",
+  "description": "{{description}}",
+  "version": "{{version}}",
+  "author": "{{author}}",
   "dependencies": {
     "tslib": "^2.4.0",
-    "@booster-ai/core": "^${VERSION}",
-    "@booster-ai/common": "^${VERSION}",
-    "{{{providerPackageName}}}": "^${VERSION}"
+    "@booster-ai/core": "^{{boosterVersion}}",
+    "@booster-ai/common": "^{{boosterVersion}}",
+    "@booster-ai/cli": "^{{boosterVersion}}",
+    "{{providerPackageName}}": "^{{boosterVersion}}"
   },
   "devDependencies": {
-    "@booster-ai/server": "^${VERSION}",
-    "@booster-ai/server-infrastructure": "^${VERSION}",
-    "@boostercloud/metadata-booster": "^${VERSION}",
-    "{{{providerPackageName}}}-infrastructure": "^${VERSION}",
+    "@booster-ai/server": "^{{boosterVersion}}",
+    "@booster-ai/server-infrastructure": "^{{boosterVersion}}",
+    "@boostercloud/metadata-booster": "^{{boosterVersion}}",
+    "{{providerPackageName}}-infrastructure": "^{{boosterVersion}}",
     "rimraf": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "4.22.1",
     "@typescript-eslint/parser": "4.22.1",
@@ -35,12 +33,12 @@ export const template = `{
     "graphql": "^16.6.0"
   },
   "engines": {
-    "node": ">=20.0.0 <21.0.0"
+    "node": ">=20.0.0 <21.0.0 || >=22.0.0 <23.0.0"
   },
-  "homepage": "{{{homepage}}}",
-  "license": "{{{license}}}",
+  "homepage": "{{homepage}}",
+  "license": "{{license}}",
   "main": "dist/index.js",
-  "repository": "{{{repository}}}",
+  "repository": "{{repository}}",
   "scripts": {
     "prepare": "ts-patch install -s",
     "lint:check": "eslint --ext '.js,.ts' **/*.ts",
@@ -49,4 +47,4 @@ export const template = `{
     "clean": "rimraf ./dist tsconfig.tsbuildinfo"
   },
   "types": "lib/index.d.ts"
-}`
+}

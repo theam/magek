@@ -25,9 +25,7 @@ jobs:
           node-version: "22"
           cache: pnpm                  # <-- switch from npm to pnpm
           cache-dependency-path: common/config/rush/pnpm-lock.yaml
-      - name: Install Rush globally
-        run: npm install -g @microsoft/rush
       - name: Rush update
-        run: rush update
+        run: node common/scripts/install-run-rush.js update
       - name: Rush install
-        run: rush install
+        run: node common/scripts/install-run-rush.js install

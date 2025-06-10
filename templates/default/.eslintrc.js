@@ -1,4 +1,4 @@
-export const template = `module.exports = {
+module.exports = {
   root: true,
   env: {
     node: true,
@@ -46,4 +46,4 @@ export const template = `module.exports = {
       },
     ],
   },
-}`
+}

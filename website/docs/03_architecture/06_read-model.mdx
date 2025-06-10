@@ -9,7 +9,7 @@ In other words, Read Models are cached data optimized for read operations. They'
 The Booster CLI will help you to create new read models. You just need to run the following command and the CLI will generate all the boilerplate for you:
 
 ```shell
-boost new:read-model CartReadModel --fields id:UUID cartItems:"Array<CartItem>" paid:boolean --projects Cart
+npx boost new:read-model CartReadModel --fields id:UUID cartItems:"Array<CartItem>" paid:boolean --projects Cart
 ```
 
 This will generate a new file called `cart-read-model.ts` in the `src/read-models` directory. You can also create the file manually, but you will need to create the class and decorate it, so we recommend using the CLI.

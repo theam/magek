@@ -1,4 +1,4 @@
-export const template = `diff: true
+diff: true
 require: 'ts-node/register'
 extension:
   - ts
@@ -7,4 +7,4 @@ recursive: true
 reporter: 'spec'
 timeout: 5000
 full-trace: true
-bail: true`
+bail: true

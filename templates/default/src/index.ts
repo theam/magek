@@ -1,4 +1,4 @@
-export const template = `import { Booster } from '@booster-ai/core'
+import { Booster } from '@booster-ai/core'
 export {
   Booster,
   boosterEventDispatcher,
@@ -12,4 +12,3 @@ export {
 } from '@booster-ai/core'
 
 Booster.start(__dirname)
-`

@@ -1,4 +1,4 @@
-export const template = `{
+{
   "compilerOptions": {
     "declaration": true,
     "outDir": "./dist",
@@ -19,4 +19,3 @@ export const template = `{
   },
   "include": ["src/**/*"]
 }
-`
