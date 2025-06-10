@@ -80,10 +80,15 @@ Here are some answers to questions you may have:
 </details>
 
 <details>
-    <summary>How do I change what `new:project` command generates?</summary>
+    <summary>How do I use custom project templates?</summary>
 
-    At the moment there is no way to do this.
-    But in the future we will move the new project template from the CLI package( https://github.com/boostercloud/booster/issues/1078 ), and then you will be able to create and use your own templates for new projects.
+    Project creation now uses the modern `npm create` pattern instead of the CLI. You can use custom project templates by specifying a GitHub repository:
+
+    ```bash
+    npm create booster-ai@latest my-app -- --template user/custom-booster-template
+    ```
+
+    The template repository should contain a Booster project structure with mustache placeholders like `{{PROJECT_NAME}}`, `{{description}}`, etc.
 </details>
 
 <details>

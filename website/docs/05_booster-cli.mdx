@@ -32,7 +32,6 @@ You can also run `boost --help` to get the same output.
 
 | Command | Description |
 |---------|-------------|
-| [`new:project`](#new) | Creates a new Booster project in a new directory |
 | [`new:command`](/architecture/command#creating-a-command) | Creates a new command in the project |
 | [`new:entity`](/architecture/entity#creating-an-entity) | Creates a new entity in the project |
 | [`new:event`](/architecture/event#creating-an-event) | Creates a new event in the project |
@@ -45,6 +44,16 @@ You can also run `boost --help` to get the same output.
 | [`deploy -e <environment>`](/getting-started/coding#6-deployment) | Deploys the project to the cloud |
 | `nuke` | Deletes all the resources created by the deploy command |
 | | |
+
+:::tip
+To create a new Booster project, use the modern npm create pattern instead of the CLI:
+
+```bash
+npm create booster-ai@latest my-project
+```
+
+See the [Getting Started guide](/getting-started/coding#1-create-the-project) for details.
+:::
 
 
 
