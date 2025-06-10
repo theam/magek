@@ -2,9 +2,9 @@
 
 import * as fs from 'fs'
 import * as path from 'path'
-import degit from 'degit'
-import prompts from 'prompts'
-import kleur from 'kleur'
+import degit = require('degit')
+import prompts = require('prompts')
+import kleur = require('kleur')
 import { globby } from 'globby'
 import { spawn } from 'child_process'
 
@@ -39,12 +39,14 @@ class ForbiddenProjectName extends Error {
 }
 
 function assertNameIsCorrect(name: string): void {
-  // Current characters max length: 37
-  // Lambda name limit is 64 characters
-  // `-subscriptions-notifier` lambda is 23 characters
-  // `-app` prefix is added to application stack
-  // which is 64 - 23 - 4 = 37
-  const maxProjectNameLength = 37
+  // Follow npm package naming guidelines:
+  // - Lowercase only
+  // - Max length ≤ 214 characters
+  // - URL-safe characters only (no spaces or ~)('!* characters)
+  // - Cannot begin with . or _ (unless scoped)
+  // - No leading/trailing spaces
+  // - No core/reserved names
+  const maxProjectNameLength = 214
 
   if (name.length > maxProjectNameLength)
     throw new ForbiddenProjectName(name, `be longer than ${maxProjectNameLength} characters`)
@@ -53,7 +55,16 @@ function assertNameIsCorrect(name: string): void {
 
   if (name.toLowerCase() !== name) throw new ForbiddenProjectName(name, 'contain uppercase letters')
 
-  if (name.includes('_')) throw new ForbiddenProjectName(name, 'contain underscore')
+  // URL-unsafe characters according to npm guidelines
+  if (/[~)('!*]/.test(name)) throw new ForbiddenProjectName(name, "contain URL-unsafe characters (~)'(!*)")
+
+  if (name.startsWith('.') || name.startsWith('_')) throw new ForbiddenProjectName(name, 'begin with . or _')
+
+  if (name.trim() !== name) throw new ForbiddenProjectName(name, 'have leading or trailing spaces')
+
+  // Check for core/reserved names
+  const reservedNames = ['http', 'node_modules', 'favicon.ico', 'npm', 'node', 'js', 'json']
+  if (reservedNames.includes(name.toLowerCase())) throw new ForbiddenProjectName(name, `be a reserved name (${name})`)
 }
 
 function checkProjectAlreadyExists(name: string): void {
@@ -287,9 +298,17 @@ async function createProject(config: ProjectConfig): Promise<void> {
     if (!config.skipInstall) {
       console.log(kleur.blue('📦 Installing dependencies...'))
       try {
-        const installCommand = config.packageManager === 'pnpm' ? 'pnpm' : 'npm'
-        const installArgs = config.packageManager === 'pnpm' ? ['install'] : ['install']
-        await runCommand(installCommand, installArgs, targetDir)
+        switch (config.packageManager) {
+          case 'pnpm':
+            await runCommand('pnpm', ['install'], targetDir)
+            break
+          case 'npm':
+            await runCommand('npm', ['install'], targetDir)
+            break
+          default:
+            throw new Error(`Unsupported package manager: ${config.packageManager}`)
+        }
+
         console.log(kleur.green('✓ Dependencies installed'))
       } catch (error) {
         console.log(
@@ -350,4 +369,4 @@ if (require.main === module) {
   })
 }
 
-export { main }
+export { main, assertNameIsCorrect, checkProjectAlreadyExists, replaceInFile }

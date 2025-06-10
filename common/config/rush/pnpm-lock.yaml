@@ -460,6 +460,9 @@ importers:
       '@types/chai':
         specifier: 5.2.2
         version: 5.2.2
+      '@types/degit':
+        specifier: ~2.8.6
+        version: 2.8.6
       '@types/mocha':
         specifier: 10.0.10
         version: 10.0.10
@@ -1479,6 +1482,9 @@ packages:
 
   '@types/deep-eql@4.0.2':
     resolution: {integrity: sha512-c9h9dVVMigMPc4bwTvC5dxqtqJZwQPePsWjPlpSOnojbor6pGqdk541lfA7AqFQr5pB1BRdq0juY9db81BwyFw==}
+
+  '@types/degit@2.8.6':
+    resolution: {integrity: sha512-y0M7sqzsnHB6cvAeTCBPrCQNQiZe8U4qdzf8uBVmOWYap5MMTN/gB2iEqrIqFiYcsyvP74GnGD5tgsHttielFw==}
 
   '@types/estree@1.0.7':
     resolution: {integrity: sha512-w28IoSUCJpidD/TGviZwwMJckNESJZXFu7NBZ5YJ4mEUnNraUn9Pm8HSZm/jDF1pDWYKspWE7oVphigUPRakIQ==}
@@ -5008,6 +5014,8 @@ snapshots:
       '@types/node': 22.15.21
 
   '@types/deep-eql@4.0.2': {}
+
+  '@types/degit@2.8.6': {}
 
   '@types/estree@1.0.7': {}
 

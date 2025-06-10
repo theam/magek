@@ -1,32 +1,27 @@
 import { describe, it, beforeEach, afterEach } from 'mocha'
 import { expect } from 'chai'
 import * as sinon from 'sinon'
-
-// Mock dependencies
-const mockFs = {
-  existsSync: sinon.stub(),
-  readFileSync: sinon.stub(),
-  writeFileSync: sinon.stub(),
-  mkdirSync: sinon.stub(),
-  copyFileSync: sinon.stub(),
-  readdirSync: sinon.stub(),
-  statSync: sinon.stub(),
-}
-
-const mockDegit = sinon.stub()
+import * as fs from 'fs'
+import * as path from 'path'
+import { assertNameIsCorrect, checkProjectAlreadyExists, replaceInFile } from '../src/cli'
 
 describe('create-booster-ai CLI', () => {
+  let fsExistsStub: sinon.SinonStub
+  let fsReadFileStub: sinon.SinonStub
+  let fsWriteFileStub: sinon.SinonStub
+  let fsStatStub: sinon.SinonStub
+
   beforeEach(() => {
-    // Reset all mocks
-    sinon.reset()
-
-    // Set up default mock behaviors
-    mockFs.existsSync.returns(false)
-    mockFs.statSync.returns({ isFile: () => true, isDirectory: () => false })
-    mockDegit.returns({ clone: sinon.stub().resolves() })
-
-    // Mock process.cwd()
+    // Mock filesystem operations
+    fsExistsStub = sinon.stub(fs, 'existsSync')
+    fsReadFileStub = sinon.stub(fs, 'readFileSync')
+    fsWriteFileStub = sinon.stub(fs, 'writeFileSync')
+    fsStatStub = sinon.stub(fs, 'statSync')
     sinon.stub(process, 'cwd').returns('/test/cwd')
+
+    // Set default behaviors
+    fsExistsStub.returns(false)
+    fsStatStub.returns({ isFile: () => true, isDirectory: () => false })
   })
 
   afterEach(() => {
@@ -38,13 +33,7 @@ describe('create-booster-ai CLI', () => {
       const testCases = ['project name', 'my project', 'test project name']
 
       testCases.forEach((name) => {
-        expect(() => {
-          // This would call the assertNameIsCorrect function
-          // For now, we verify the validation logic conceptually
-          if (name.includes(' ')) {
-            throw new Error(`Project name cannot contain spaces: Found: '${name}'`)
-          }
-        }).to.throw('Project name cannot contain spaces')
+        expect(() => assertNameIsCorrect(name)).to.throw('Project name cannot contain spaces')
       })
     })
 
@@ -52,48 +41,106 @@ describe('create-booster-ai CLI', () => {
       const testCases = ['ProjectName', 'myProject', 'TEST']
 
       testCases.forEach((name) => {
-        expect(() => {
-          if (name.toLowerCase() !== name) {
-            throw new Error(`Project name cannot contain uppercase letters: Found: '${name}'`)
-          }
-        }).to.throw('Project name cannot contain uppercase letters')
+        expect(() => assertNameIsCorrect(name)).to.throw('Project name cannot contain uppercase letters')
       })
     })
 
-    it('should reject project names with underscores', () => {
-      const testCases = ['project_name', 'my_project', 'test_name']
+    it('should reject project names with URL-unsafe characters', () => {
+      const testCases = ['project~name', 'project)', "project'name", 'project!', 'project*name']
 
       testCases.forEach((name) => {
-        expect(() => {
-          if (name.includes('_')) {
-            throw new Error(`Project name cannot contain underscore: Found: '${name}'`)
-          }
-        }).to.throw('Project name cannot contain underscore')
+        expect(() => assertNameIsCorrect(name)).to.throw('Project name cannot contain URL-unsafe characters')
       })
     })
 
-    it('should reject project names longer than 37 characters', () => {
-      const longName = 'a'.repeat(38)
+    it('should reject project names starting with . or _', () => {
+      const testCases = ['.project', '_project', '.hidden', '_private']
 
-      expect(() => {
-        if (longName.length > 37) {
-          throw new Error(`Project name cannot be longer than 37 characters: Found: '${longName}'`)
-        }
-      }).to.throw('Project name cannot be longer than 37 characters')
+      testCases.forEach((name) => {
+        expect(() => assertNameIsCorrect(name)).to.throw('Project name cannot begin with . or _')
+      })
+    })
+
+    it('should reject project names longer than 214 characters', () => {
+      const longName = 'a'.repeat(215)
+      expect(() => assertNameIsCorrect(longName)).to.throw('Project name cannot be longer than 214 characters')
+    })
+
+    it('should reject reserved names', () => {
+      const reservedNames = ['http', 'node_modules', 'favicon.ico', 'npm', 'node', 'js', 'json']
+
+      reservedNames.forEach((name) => {
+        expect(() => assertNameIsCorrect(name)).to.throw('Project name cannot be a reserved name')
+      })
     })
 
     it('should accept valid project names', () => {
-      const validNames = ['my-project', 'test-app', 'booster-app', 'simple']
+      const validNames = ['my-project', 'test-app', 'booster-app', 'simple', 'app123', 'my-cool-project-name']
 
       validNames.forEach((name) => {
-        expect(() => {
-          // Validate the name using the same rules
-          if (name.length > 37) throw new Error('too long')
-          if (name.includes(' ')) throw new Error('has spaces')
-          if (name.toLowerCase() !== name) throw new Error('has uppercase')
-          if (name.includes('_')) throw new Error('has underscore')
-        }).to.not.throw()
+        expect(() => assertNameIsCorrect(name)).to.not.throw()
       })
+    })
+  })
+
+  describe('project existence check', () => {
+    it('should throw error if project directory already exists', () => {
+      fsExistsStub.withArgs(path.join('/test/cwd', 'existing-project')).returns(true)
+
+      expect(() => checkProjectAlreadyExists('existing-project')).to.throw(
+        'Directory "existing-project" already exists'
+      )
+    })
+
+    it('should not throw error if project directory does not exist', () => {
+      fsExistsStub.withArgs(path.join('/test/cwd', 'new-project')).returns(false)
+
+      expect(() => checkProjectAlreadyExists('new-project')).to.not.throw()
+    })
+  })
+
+  describe('file replacement', () => {
+    it('should replace placeholders in file content', async () => {
+      const filePath = '/test/file.txt'
+      const originalContent = 'Hello {{name}}, version {{version}}'
+      const expectedContent = 'Hello world, version 1.0.0'
+
+      fsExistsStub.withArgs(filePath).returns(true)
+      fsReadFileStub.withArgs(filePath, 'utf-8').returns(originalContent)
+
+      await replaceInFile(filePath, { name: 'world', version: '1.0.0' })
+
+      expect(fsWriteFileStub.calledOnce).to.be.true
+      expect(fsWriteFileStub.calledWith(filePath, expectedContent, 'utf-8')).to.be.true
+    })
+
+    it('should skip replacement if file does not exist', async () => {
+      const filePath = '/test/nonexistent.txt'
+
+      fsExistsStub.withArgs(filePath).returns(false)
+
+      await replaceInFile(filePath, { name: 'world' })
+
+      expect(fsReadFileStub.called).to.be.false
+      expect(fsWriteFileStub.called).to.be.false
+    })
+
+    it('should handle multiple placeholders', async () => {
+      const filePath = '/test/template.txt'
+      const originalContent = '{{PROJECT_NAME}} - {{description}} v{{version}} by {{author}}'
+      const expectedContent = 'my-app - My awesome app v2.0.0 by John Doe'
+
+      fsExistsStub.withArgs(filePath).returns(true)
+      fsReadFileStub.withArgs(filePath, 'utf-8').returns(originalContent)
+
+      await replaceInFile(filePath, {
+        PROJECT_NAME: 'my-app',
+        description: 'My awesome app',
+        version: '2.0.0',
+        author: 'John Doe',
+      })
+
+      expect(fsWriteFileStub.calledWith(filePath, expectedContent, 'utf-8')).to.be.true
     })
   })
 
