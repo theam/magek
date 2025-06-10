@@ -290,7 +290,7 @@ There are some things that the linter doesn't force but are preferred this way:
 
 ### Importing other files and libraries
 
-Use `import` instead of `require` and import the objects individually when possible:
+Use ES modules (`import`/`export`) instead of CommonJS (`require`/`module.exports`), and import the objects individually when possible:
 
 ```typescript
 import { Object, function } from 'some-package'
@@ -308,6 +308,10 @@ export functionA() {
 
 export const someConstantA = 42
 ```
+
+### Dependency injection
+
+Prefer functions and modules to accept their dependencies as parameters rather than hard-coding imports. This enhances testability and composability.
 
 ```typescript
 // module-b.ts, grouping functions with a scope

@@ -1,26 +1,28 @@
-import * as execa from 'execa'
+import type { execaCommand as ExecaCommandFn } from 'execa'
+import { execaCommand as defaultExecaCommand } from 'execa'
 import * as process from 'process'
 import { ProcessError, ProcessService } from '.'
 import { Effect, Layer } from 'effect'
 import { unknownToError } from '../../common/errors'
 
-const exec = (command: string, cwd?: string) =>
-  Effect.tryPromise({
-    try: async () => {
-      const { stdout, stderr } = await execa.command(command, { cwd })
-      const result = `
+export const makeLiveProcess = (execaCommand: typeof ExecaCommandFn) =>
+  Layer.fromValue(ProcessService)({
+    exec: (command: string, cwd?: string) =>
+      Effect.tryPromise({
+        try: async () => {
+          const { stdout, stderr } = await execaCommand(command, { cwd })
+          return `
 ${stderr ? `There were some issues running the command: ${stderr}\n` : ''}
 ${stdout}
 `
-      return result
-    },
-    catch: (reason) => new ProcessError(unknownToError(reason))
+        },
+        catch: (reason: unknown) => new ProcessError(unknownToError(reason))
+      }),
+    cwd: () =>
+      Effect.try({
+        try: () => process.cwd(),
+        catch: (reason: unknown) => new ProcessError(unknownToError(reason))
+      }),
   })
 
-const cwd = () =>
-  Effect.try({
-    try: () => process.cwd(),
-    catch: (reason) => new ProcessError(unknownToError(reason))
-  })
-
-export const LiveProcess = Layer.succeed(ProcessService, { exec, cwd })
+export const LiveProcess = makeLiveProcess(defaultExecaCommand)
