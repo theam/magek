@@ -10,9 +10,13 @@ import { restore, replace, fake, spy, stub } from 'sinon'
 import { logger } from '../../src/services/logger'
 import * as fs from 'fs-extra'
 import * as process from 'process'
-import { projectDir, ProjectInitializerConfig } from '../../src/services/project-initializer'
 import Prompter from '../../src/services/user-prompt'
 import { expect } from '../expect'
+
+// Helper function to create project directory path (same as the one in project-checker)
+function projectDir(projectName: string): string {
+  return path.join(process.cwd(), projectName)
+}
 
 describe('project checker', () => {
   afterEach(() => {
@@ -76,7 +80,7 @@ describe('project checker', () => {
       spy(Prompter, 'confirmPrompt')
 
       const projectName = path.join('test', 'fixtures', 'mock_project_test')
-      const projectPath = projectDir({ projectName } as ProjectInitializerConfig)
+      const projectPath = projectDir(projectName)
       await checkProjectAlreadyExists(projectName)
 
       expect(fs.existsSync).to.have.been.calledWithMatch(projectPath)
@@ -91,7 +95,7 @@ describe('project checker', () => {
       replace(Prompter, 'confirmPrompt', fakePrompter)
 
       const projectName = path.join('test', 'fixtures', 'mock_project_test')
-      const projectPath = projectDir({ projectName } as ProjectInitializerConfig)
+      const projectPath = projectDir(projectName)
       let exceptionThrown = false
       let exceptionMessage = ''
 
@@ -117,7 +121,7 @@ describe('project checker', () => {
       replace(Prompter, 'confirmPrompt', fakePrompter)
 
       const projectName = path.join('test', 'fixtures', 'mock_project_test')
-      const projectPath = projectDir({ projectName } as ProjectInitializerConfig)
+      const projectPath = projectDir(projectName)
 
       await checkProjectAlreadyExists(projectName)
 

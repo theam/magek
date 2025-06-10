@@ -1,12 +1,15 @@
 import { readFileSync, existsSync, removeSync } from 'fs-extra'
 import * as path from 'path'
-import { projectDir, ProjectInitializerConfig } from './project-initializer'
 import Brand from '../common/brand'
 import { filePath, getResourceType } from './generator'
 import { classNameToFileName } from '../common/filenames'
 import { logger } from '../services/logger'
 import Prompter from '../services/user-prompt'
 import Semver from '../services/semver'
+
+function projectDir(projectName: string): string {
+  return path.join(process.cwd(), projectName)
+}
 
 function checkIndexFileIsBooster(indexFilePath: string): void {
   const contents = readFileSync(indexFilePath)
@@ -37,7 +40,7 @@ export async function checkItIsABoosterProject(projectPath: string): Promise<voi
 }
 
 export async function checkProjectAlreadyExists(name: string): Promise<void> {
-  const projectDirectoryPath = projectDir({ projectName: name } as ProjectInitializerConfig)
+  const projectDirectoryPath = projectDir(name)
   const projectDirectoryExists = existsSync(projectDirectoryPath)
 
   if (projectDirectoryExists) {
