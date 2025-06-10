@@ -66,11 +66,11 @@ export class YourMainClass {
 
 Let's look in more detail these two special functions:
 
-- **mountStack**: Whenever we are deploying our Booster application (`boost deploy`) this method will also be run.  It receives two params:
+- **mountStack**: Whenever we are deploying our Booster application (`npx boost deploy`) this method will also be run.  It receives two params:
   - `stack`: An initialized AWS CDK stack that you can use to add new resources. Check out [the Stack API in the official CDK documentation](https://docs.aws.amazon.com/cdk/latest/guide/stacks.html#stack_api). This is the same stack instance that Booster uses to deploy its resources, so your resources will automatically be deployed along with the Booster's ones on the same stack.
   - `config`: It includes properties of the Booster project (e.g. project name) that come in handy for your rocket.
 
-- **unmountStack**: This function executes when you run the `boost nuke` command, just before starting the deletion of the cloud resources. When you nuke your Booster application, resources added by your rocket are automatically destroyed with the rest of the application stack. However, in certain cases, you may need extra steps during the deletion process. The `unmountStack` function serves this purpose. For example, in AWS, you must first empty any S3 buckets before deleting your stack. You can achieve this within the `unmountStack` method.
+- **unmountStack**: This function executes when you run the `npx boost nuke` command, just before starting the deletion of the cloud resources. When you nuke your Booster application, resources added by your rocket are automatically destroyed with the rest of the application stack. However, in certain cases, you may need extra steps during the deletion process. The `unmountStack` function serves this purpose. For example, in AWS, you must first empty any S3 buckets before deleting your stack. You can achieve this within the `unmountStack` method.
 
 In addition to your main rocket class, you'll need an `index.ts` file that default exports an object that conforms to the `InfrastructureRocket` interface:
 

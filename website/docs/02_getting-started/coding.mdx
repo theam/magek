@@ -44,8 +44,9 @@ After filling in the details, you will see your project generated!:
 
 Next steps:
   cd boosted-blog
-  npm run build
-  npm run start:local
+  nvm use
+  npm install
+  npx boost version
 ```
 
 </TerminalWindow>
@@ -120,24 +121,26 @@ boosted-blog
 
 Now open the project in your favorite editor, e.g. [Visual Studio Code](https://code.visualstudio.com/).
 
-### 2. Install the Booster CLI
+### 2. Setting up your development environment
 
-Now that you have a project, you'll need the Booster CLI for development tasks like generating commands, entities, and events. Install it globally:
+Now that you have a project, navigate to your project directory and set up your development environment. The project includes the Booster CLI as a dependency, so you can use it immediately:
 
 <TerminalWindow>
 
 ```bash
-npm install --global @booster-ai/cli
+cd boosted-blog
+nvm use
+npm install
 ```
 
 </TerminalWindow>
 
-You can verify the installation by running:
+You can verify everything is working by running:
 
 <TerminalWindow>
 
 ```bash
-boost version
+npx boost version
 ```
 
 </TerminalWindow>
@@ -151,7 +154,7 @@ directory, as follows:
 <TerminalWindow>
 
 ```bash
-boost new:command CreatePost --fields postId:UUID title:string content:string author:string
+npx boost new:command CreatePost --fields postId:UUID title:string content:string author:string
 ```
 
 </TerminalWindow>
@@ -204,7 +207,7 @@ that will contain the initial post info:
 <TerminalWindow>
 
 ```bash
-boost new:event PostCreated --fields postId:UUID title:string content:string author:string
+npx boost new:event PostCreated --fields postId:UUID title:string content:string author:string
 ```
 
 </TerminalWindow>
@@ -271,7 +274,7 @@ with the same `entityID`. Let's generate our `Post` entity:
 <TerminalWindow>
 
 ```bash
-boost new:entity Post --fields title:string content:string author:string --reduces PostCreated
+npx boost new:entity Post --fields title:string content:string author:string --reduces PostCreated
 ```
 
 </TerminalWindow>
@@ -313,7 +316,7 @@ Read models are _projections_ of one or more entities into a new object that is 
 
 <TerminalWindow>
 ```bash
-boost new:read-model PostReadModel --fields title:string author:string --projects Post:id
+npx boost new:read-model PostReadModel --fields title:string author:string --projects Post:id
 ```
 </TerminalWindow>
 
@@ -375,7 +378,7 @@ You can check that code compiles correctly by running the build command:
 <TerminalWindow>
 
 ```bash
-boost build
+npx boost build
 ```
 
 </TerminalWindow>
@@ -385,7 +388,7 @@ You can also clean the compiled code by running:
 <TerminalWindow>
 
 ```bash
-boost clean
+npx boost clean
 ```
 
 </TerminalWindow>
@@ -397,7 +400,7 @@ Now, let's run our application to see it working. It is as simple as running:
 <TerminalWindow>
 
 ```bash
-boost start -e local
+npx boost start -e local
 ```
 
 </TerminalWindow>
@@ -407,7 +410,7 @@ This will execute a local `Express.js` server and will try to expose it in port 
 <TerminalWindow>
 
 ```bash
-boost start -e local -p 8080
+npx boost start -e local -p 8080
 ```
 
 </TerminalWindow>
@@ -420,7 +423,7 @@ the deploy command:
 <TerminalWindow>
 
 ```bash
-boost deploy -e production
+npx boost deploy -e production
 ```
 
 </TerminalWindow>
@@ -587,7 +590,7 @@ we ran the `npm create booster-ai` command.
 <TerminalWindow>
 
 ```bash
-> boost nuke -e production
+> npx boost nuke -e production
 
 ? Please, enter the app name to confirm deletion of all resources: boosted-blog
 ```

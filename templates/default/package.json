@@ -7,6 +7,7 @@
     "tslib": "^2.4.0",
     "@booster-ai/core": "^{{boosterVersion}}",
     "@booster-ai/common": "^{{boosterVersion}}",
+    "@booster-ai/cli": "^{{boosterVersion}}",
     "{{providerPackageName}}": "^{{boosterVersion}}"
   },
   "devDependencies": {
@@ -32,7 +33,7 @@
     "graphql": "^16.6.0"
   },
   "engines": {
-    "node": ">=20.0.0 <21.0.0"
+    "node": ">=20.0.0 <21.0.0 || >=22.0.0 <23.0.0"
   },
   "homepage": "{{homepage}}",
   "license": "{{license}}",
