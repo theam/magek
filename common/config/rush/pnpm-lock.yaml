@@ -100,12 +100,6 @@ importers:
       '@types/sinon-chai':
         specifier: 4.0.0
         version: 4.0.0
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^5.0.0
-        version: 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3)
-      '@typescript-eslint/parser':
-        specifier: ^5.0.0
-        version: 5.62.0(eslint@8.57.1)(typescript@5.8.3)
       chai:
         specifier: 5.2.0
         version: 5.2.0
@@ -116,17 +110,8 @@ importers:
         specifier: ^2.3.0
         version: 2.4.1
       eslint:
-        specifier: ^8.23.1
+        specifier: ^8.57.0
         version: 8.57.1
-      eslint-config-prettier:
-        specifier: 8.3.0
-        version: 8.3.0(eslint@8.57.1)
-      eslint-plugin-import:
-        specifier: ^2.26.0
-        version: 2.31.0(eslint@8.57.1)
-      eslint-plugin-prettier:
-        specifier: 3.4.0
-        version: 3.4.0(eslint-config-prettier@8.3.0(eslint@8.57.1))(eslint@8.57.1)(prettier@2.3.0)
       faker:
         specifier: 5.1.0
         version: 5.1.0
@@ -212,12 +197,6 @@ importers:
       '@types/uuid':
         specifier: 10.0.0
         version: 10.0.0
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^5.0.0
-        version: 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3)
-      '@typescript-eslint/parser':
-        specifier: ^5.0.0
-        version: 5.62.0(eslint@8.57.1)(typescript@5.8.3)
       chai:
         specifier: 5.2.0
         version: 5.2.0
@@ -225,17 +204,8 @@ importers:
         specifier: 8.0.1
         version: 8.0.1(chai@5.2.0)
       eslint:
-        specifier: ^8.23.1
+        specifier: ^8.57.0
         version: 8.57.1
-      eslint-config-prettier:
-        specifier: 8.3.0
-        version: 8.3.0(eslint@8.57.1)
-      eslint-plugin-import:
-        specifier: ^2.26.0
-        version: 2.31.0(eslint@8.57.1)
-      eslint-plugin-prettier:
-        specifier: 3.4.0
-        version: 3.4.0(eslint-config-prettier@8.3.0(eslint@8.57.1))(eslint@8.57.1)(prettier@2.3.0)
       faker:
         specifier: 5.1.0
         version: 5.1.0
@@ -372,12 +342,6 @@ importers:
       '@types/validator':
         specifier: 13.12.2
         version: 13.12.2
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^5.0.0
-        version: 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3)
-      '@typescript-eslint/parser':
-        specifier: ^5.0.0
-        version: 5.62.0(eslint@8.57.1)(typescript@5.8.3)
       chai:
         specifier: 5.2.0
         version: 5.2.0
@@ -388,17 +352,8 @@ importers:
         specifier: 7.0.3
         version: 7.0.3
       eslint:
-        specifier: ^8.23.1
+        specifier: ^8.57.0
         version: 8.57.1
-      eslint-config-prettier:
-        specifier: 8.3.0
-        version: 8.3.0(eslint@8.57.1)
-      eslint-plugin-import:
-        specifier: ^2.26.0
-        version: 2.31.0(eslint@8.57.1)
-      eslint-plugin-prettier:
-        specifier: 3.4.0
-        version: 3.4.0(eslint-config-prettier@8.3.0(eslint@8.57.1))(eslint@8.57.1)(prettier@2.3.0)
       faker:
         specifier: 5.1.0
         version: 5.1.0
@@ -463,27 +418,12 @@ importers:
       '@types/node':
         specifier: ^22.15.21
         version: 22.15.21
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^5.0.0
-        version: 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3)
-      '@typescript-eslint/parser':
-        specifier: ^5.0.0
-        version: 5.62.0(eslint@8.57.1)(typescript@5.8.3)
       chai-as-promised:
         specifier: 8.0.1
         version: 8.0.1(chai@5.2.0)
       eslint:
-        specifier: ^8.23.1
+        specifier: ^8.57.0
         version: 8.57.1
-      eslint-config-prettier:
-        specifier: 8.3.0
-        version: 8.3.0(eslint@8.57.1)
-      eslint-plugin-import:
-        specifier: ^2.26.0
-        version: 2.31.0(eslint@8.57.1)
-      eslint-plugin-prettier:
-        specifier: 3.4.0
-        version: 3.4.0(eslint-config-prettier@8.3.0(eslint@8.57.1))(eslint@8.57.1)(prettier@2.3.0)
       prettier:
         specifier: 2.3.0
         version: 2.3.0
@@ -545,12 +485,6 @@ importers:
       '@types/sinon-chai':
         specifier: 4.0.0
         version: 4.0.0
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^5.0.0
-        version: 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3)
-      '@typescript-eslint/parser':
-        specifier: ^5.0.0
-        version: 5.62.0(eslint@8.57.1)(typescript@5.8.3)
       chai:
         specifier: 5.2.0
         version: 5.2.0
@@ -558,17 +492,8 @@ importers:
         specifier: 8.0.1
         version: 8.0.1(chai@5.2.0)
       eslint:
-        specifier: ^8.23.1
+        specifier: ^8.57.0
         version: 8.57.1
-      eslint-config-prettier:
-        specifier: 8.3.0
-        version: 8.3.0(eslint@8.57.1)
-      eslint-plugin-import:
-        specifier: ^2.26.0
-        version: 2.31.0(eslint@8.57.1)
-      eslint-plugin-prettier:
-        specifier: 3.4.0
-        version: 3.4.0(eslint-config-prettier@8.3.0(eslint@8.57.1))(eslint@8.57.1)(prettier@2.3.0)
       faker:
         specifier: 5.1.0
         version: 5.1.0
@@ -654,12 +579,6 @@ importers:
       '@types/sinon-chai':
         specifier: 4.0.0
         version: 4.0.0
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^5.0.0
-        version: 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3)
-      '@typescript-eslint/parser':
-        specifier: ^5.0.0
-        version: 5.62.0(eslint@8.57.1)(typescript@5.8.3)
       chai:
         specifier: 5.2.0
         version: 5.2.0
@@ -667,17 +586,8 @@ importers:
         specifier: 8.0.1
         version: 8.0.1(chai@5.2.0)
       eslint:
-        specifier: ^8.23.1
+        specifier: ^8.57.0
         version: 8.57.1
-      eslint-config-prettier:
-        specifier: 8.3.0
-        version: 8.3.0(eslint@8.57.1)
-      eslint-plugin-import:
-        specifier: ^2.26.0
-        version: 2.31.0(eslint@8.57.1)
-      eslint-plugin-prettier:
-        specifier: 3.4.0
-        version: 3.4.0(eslint-config-prettier@8.3.0(eslint@8.57.1))(eslint@8.57.1)(prettier@2.3.0)
       faker:
         specifier: 5.1.0
         version: 5.1.0
@@ -715,17 +625,17 @@ importers:
         specifier: ^5.0.0
         version: 5.62.0(eslint@8.57.1)(typescript@5.8.3)
       eslint:
-        specifier: ^8.23.1
+        specifier: ^8.57.0
         version: 8.57.1
       eslint-config-prettier:
-        specifier: 8.3.0
-        version: 8.3.0(eslint@8.57.1)
+        specifier: 10.1.5
+        version: 10.1.5(eslint@8.57.1)
       eslint-plugin-import:
         specifier: ^2.26.0
         version: 2.31.0(eslint@8.57.1)
       eslint-plugin-prettier:
         specifier: 3.4.0
-        version: 3.4.0(eslint-config-prettier@8.3.0(eslint@8.57.1))(eslint@8.57.1)(prettier@2.3.0)
+        version: 3.4.0(eslint-config-prettier@10.1.5(eslint@8.57.1))(eslint@8.57.1)(prettier@2.3.0)
       eslint-plugin-unicorn:
         specifier: ~59.0.1
         version: 59.0.1(eslint@8.57.1)
@@ -1858,8 +1768,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-config-prettier@8.3.0:
-    resolution: {integrity: sha512-BgZuLUSeKzvlL/VUjx/Yb787VQ26RU3gGjA3iiFvdsp/2bMfVIWUVP7tjxtjS0e+HP409cPlPvNkQloz8C91ew==}
+  eslint-config-prettier@10.1.5:
+    resolution: {integrity: sha512-zc1UmCpNltmVY34vuLRV61r1K27sWuX39E+uyUnY8xS2Bex88VV9cugG+UZbRSRGtGyFboj+D8JODyme1plMpw==}
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
@@ -5098,7 +5008,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-prettier@8.3.0(eslint@8.57.1):
+  eslint-config-prettier@10.1.5(eslint@8.57.1):
     dependencies:
       eslint: 8.57.1
 
@@ -5137,13 +5047,13 @@ snapshots:
       string.prototype.trimend: 1.0.9
       tsconfig-paths: 3.15.0
 
-  eslint-plugin-prettier@3.4.0(eslint-config-prettier@8.3.0(eslint@8.57.1))(eslint@8.57.1)(prettier@2.3.0):
+  eslint-plugin-prettier@3.4.0(eslint-config-prettier@10.1.5(eslint@8.57.1))(eslint@8.57.1)(prettier@2.3.0):
     dependencies:
       eslint: 8.57.1
       prettier: 2.3.0
       prettier-linter-helpers: 1.0.0
     optionalDependencies:
-      eslint-config-prettier: 8.3.0(eslint@8.57.1)
+      eslint-config-prettier: 10.1.5(eslint@8.57.1)
 
   eslint-plugin-unicorn@59.0.1(eslint@8.57.1):
     dependencies:
