@@ -16,31 +16,57 @@ updates:
     directory: "/packages/cli"
     schedule:
       interval: "daily"
+    ignore:
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
       
   - package-ecosystem: "npm"
     directory: "/packages/common"
     schedule:
       interval: "daily"
+    ignore:
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
       
   - package-ecosystem: "npm"
-    directory: "/packages/framework-core"
+    directory: "/packages/core"
     schedule:
       interval: "daily"
+    ignore:
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
       
   - package-ecosystem: "npm"
-    directory: "/packages/framework-provider-local"
+    directory: "/packages/create"
     schedule:
       interval: "daily"
+    ignore:
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "npm"
+    directory: "/packages/metadata"
+    schedule:
+      interval: "daily"
+    ignore:
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
       
   - package-ecosystem: "npm"
-    directory: "/packages/framework-provider-local-infrastructure"
+    directory: "/packages/server"
     schedule:
       interval: "daily"
+    ignore:
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
       
   - package-ecosystem: "npm"
-    directory: "/packages/metadata-booster"
+    directory: "/packages/server-infrastructure"
     schedule:
       interval: "daily"
+    ignore:
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
       
   - package-ecosystem: "npm"
     directory: "/tools/eslint-config"
