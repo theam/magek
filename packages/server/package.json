@@ -27,7 +27,7 @@
     "@seald-io/nedb": "4.1.1",
     "tslib": "^2.4.0",
     "@effect-ts/core": "^0.60.4",
-    "fastify": "^4.28.0"
+    "fastify": "^5.3.3"
   },
   "scripts": {
     "format": "prettier --write --ext '.js,.ts' **/*.ts **/*/*.ts",
