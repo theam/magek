@@ -13,6 +13,10 @@
     "lint:fix": "",
     "lint:check": ""
   },
+  "bin": {
+    "eslint": "./bin/run-eslint.js",
+    "prettier": "./bin/run-prettier.js"
+  },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^8.34.0",
@@ -20,11 +24,11 @@
     "eslint-config-prettier": "10.1.5",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "5.4.1",
-    "eslint-plugin-unicorn": "~59.0.1"
+    "eslint-plugin-unicorn": "~59.0.1",
+    "prettier": "3.5.3"
   },
   "devDependencies": {
     "typescript": "5.8.3",
-    "prettier": "3.5.3",
     "chai-as-promised": "8.0.1",
     "@types/chai-as-promised": "8.0.2"
   },
