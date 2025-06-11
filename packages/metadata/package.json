@@ -37,12 +37,10 @@
     "ts-node": "^10.9.1",
     "ts-patch": "3.3.0",
     "typescript": "5.8.3",
-    "prettier": "2.3.0",
     "sinon": "9.2.3",
     "rimraf": "^6.0.1",
     "chai-as-promised": "8.0.1",
-    "@types/chai-as-promised": "8.0.2",
-    "eslint": "^8.57.0"
+    "@types/chai-as-promised": "8.0.2"
   },
   "scripts": {
     "prepare": "ts-patch install -s",

@@ -5,7 +5,10 @@
  */
 
 class User {
-  constructor(public name: string, public friends: Set<User>) {}
+  constructor(
+    public name: string,
+    public friends: Set<User>
+  ) {}
 }
 
 enum Size {
@@ -15,7 +18,10 @@ enum Size {
 }
 
 class Car {
-  constructor(public driversMap: Map<string, User>, public size: Size) {}
+  constructor(
+    public driversMap: Map<string, User>,
+    public size: Size
+  ) {}
 
   public engageAutoPilot(): Promise<boolean> {
     // Assume a long task here

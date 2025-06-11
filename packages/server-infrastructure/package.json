@@ -61,13 +61,11 @@
     "faker": "5.1.0",
     "mocha": "10.2.0",
     "nyc": "^17.1.0",
-    "prettier": "2.3.0",
     "rimraf": "^6.0.1",
     "sinon": "9.2.3",
     "sinon-chai": "4.0.0",
     "ts-node": "^10.9.1",
-    "typescript": "5.8.3",
-    "eslint": "^8.57.0"
+    "typescript": "5.8.3"
   },
   "pnpm": {
     "overrides": {
