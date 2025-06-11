@@ -38,7 +38,7 @@
   "dependencies": {
     "tslib": "^2.4.0",
     "class-transformer": "~0.5.1",
-    "execa": "^2.0.3",
+    "execa": "^9.6.0",
     "effect": "3.13.2"
   },
   "devDependencies": {

@@ -1,8 +1,7 @@
 import * as process from 'process'
-import * as execa from 'execa'
 import { fake, replace, restore } from 'sinon'
 import { Effect, pipe } from 'effect'
-import { LiveProcess } from '../../../src/services/process/live.impl'
+import { makeLiveProcess, LiveProcess } from '../../../src/services/process/live.impl'
 import { expect } from '../../expect'
 import { guardError } from '../../../src/common/errors'
 import { ProcessService } from '../../../src/services/process'
@@ -10,7 +9,6 @@ import { ProcessService } from '../../../src/services/process'
 describe('Process - Live Implementation', () => {
   beforeEach(() => {
     replace(process, 'cwd', fake.returns(''))
-    replace(execa, 'command', fake.resolves({ stdout: '', stderr: '' }))
   })
 
   afterEach(() => {
@@ -20,7 +18,7 @@ describe('Process - Live Implementation', () => {
   const mapEffError = <A, R>(effect: Effect.Effect<A, { error: Error }, R>) =>
     pipe(
       effect,
-      Effect.mapError((e) => e.error)
+      Effect.mapError((e: { error: Error }) => e.error)
     )
 
   it('uses process.cwd', async () => {
@@ -41,6 +39,8 @@ describe('Process - Live Implementation', () => {
   it('uses execa.command', async () => {
     const command = 'command'
     const cwd = 'cwd'
+    const fakeExeca = fake.resolves({ stdout: '', stderr: '' })
+    const layer = makeLiveProcess(fakeExeca)
 
     const effect = Effect.gen(function* () {
       const { exec } = yield* ProcessService
@@ -50,10 +50,10 @@ describe('Process - Live Implementation', () => {
     await Effect.runPromise(
       pipe(
         mapEffError(effect),
-        Effect.provide(LiveProcess),
+        Effect.provide(layer),
         Effect.orDieWith(guardError('An error ocurred'))
       )
     )
-    expect(execa.command).to.have.been.calledWith(command, { cwd })
+    expect(fakeExeca).to.have.been.calledWith(command, { cwd })
   })
 })

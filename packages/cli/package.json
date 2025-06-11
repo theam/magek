@@ -17,7 +17,7 @@
     "@oclif/core": "4.3.0",
     "@oclif/plugin-help": "^6.2.25",
     "chalk": "^5.4.1",
-    "execa": "^2.0.3",
+    "execa": "^9.6.0",
     "fp-ts": "^2.11.0",
     "fs-extra": "^8.1.0",
     "inflected": "2.1.0",
