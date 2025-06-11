@@ -1,15 +1,15 @@
-import { SocketStream } from '@fastify/websocket'
+import type { WebSocket } from '@fastify/websocket'
 
 /**
  * Registry to manage active WebSocket connections
  */
 export class WebSocketRegistry {
-  private connections: Map<string, SocketStream['socket']> = new Map()
+  private connections: Map<string, WebSocket> = new Map()
 
   /**
    * Add a connection to the registry
    */
-  addConnection(connectionId: string, socket: SocketStream['socket']): void {
+  addConnection(connectionId: string, socket: WebSocket): void {
     this.connections.set(connectionId, socket)
 
     // Clean up when connection closes
