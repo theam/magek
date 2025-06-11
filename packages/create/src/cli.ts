@@ -33,7 +33,10 @@ interface ProjectConfig {
 }
 
 class ForbiddenProjectName extends Error {
-  constructor(public name: string, public restrictionText: string) {
+  constructor(
+    public name: string,
+    public restrictionText: string
+  ) {
     super(`Project name cannot ${restrictionText}:\n\n    Found: '${name}'`)
   }
 }
