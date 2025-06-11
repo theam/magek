@@ -1,0 +1,5 @@
+{
+  "changes": [{"comment": "remove unused pnpm overrides", "type": "patch", "packageName": "@booster-ai/server-infrastructure"}],
+  "packageName": "@booster-ai/server-infrastructure",
+  "email": "codex@openai.com"
+}
