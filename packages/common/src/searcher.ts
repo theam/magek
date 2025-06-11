@@ -33,7 +33,7 @@ export type SequenceFinderByKeyFunction<TObject> = (
 export class Searcher<
   TObject,
   TSingleResult extends SingleResultType<TObject> = TObject,
-  TContainer extends ContainerType = Array<any>,
+  TContainer extends ContainerType = Array<any>
 > {
   // private offset?: number
   private _limit?: number
@@ -136,14 +136,15 @@ export class Searcher<
 
 type SingleResultType<TObject> = TObject | Partial<TObject>
 type ContainerType = Array<any> | ReadModelListResult<any>
-type ApplyContainerToType<Container extends ContainerType, Type> =
-  Container extends Array<any> ? Array<Type> : ReadModelListResult<Type>
+type ApplyContainerToType<Container extends ContainerType, Type> = Container extends Array<any>
+  ? Array<Type>
+  : ReadModelListResult<Type>
 
 type SearchAfterSelect<TObject, TContainer extends ContainerType> = Searcher<TObject, Partial<TObject>, TContainer>
 type SearcherAfterPaginatedVersion<
   TObject,
   TSingleResult extends SingleResultType<TObject>,
-  Paginated extends boolean,
+  Paginated extends boolean
 > = Searcher<TObject, TSingleResult, Paginated extends true ? ReadModelListResult<any> : Array<any>>
 
 type Tail<T extends any[]> = T extends [any, ...infer Rest] ? Rest : never
@@ -151,8 +152,8 @@ type Tail<T extends any[]> = T extends [any, ...infer Rest] ? Rest : never
 type Paths<T, TLevels extends any[] = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]> = TLevels extends []
   ? ''
   : T extends object
-    ? { [K in keyof T]: `${Exclude<K, symbol>}${'' | `.${Paths<T[K], Tail<TLevels>>}`}` }[keyof T]
-    : never
+  ? { [K in keyof T]: `${Exclude<K, symbol>}${'' | `.${Paths<T[K], Tail<TLevels>>}`}` }[keyof T]
+  : never
 
 export type ProjectionFor<TType> = Array<Paths<TType>>
 
@@ -162,7 +163,8 @@ export type SortFor<TType> = {
 
 export type FilterFor<TType> = {
   [TProp in keyof TType]?: Operation<TType[TProp]>
-} & FilterCombinators<TType> &
+} &
+  FilterCombinators<TType> &
   IsDefinedOperator
 
 interface FilterCombinators<TType> {
@@ -171,18 +173,17 @@ interface FilterCombinators<TType> {
   not?: FilterFor<TType>
 }
 
-export type Operation<TType> =
-  TType extends Array<infer TElementType>
-    ? ArrayOperators<TElementType>
-    : TType extends string | UUID
-      ? StringOperators<TType>
-      : TType extends number
-        ? ScalarOperators<TType>
-        : TType extends boolean
-          ? BooleanOperators<TType>
-          : TType extends Record<string, any>
-            ? FilterFor<TType>
-            : never
+export type Operation<TType> = TType extends Array<infer TElementType>
+  ? ArrayOperators<TElementType>
+  : TType extends string | UUID
+  ? StringOperators<TType>
+  : TType extends number
+  ? ScalarOperators<TType>
+  : TType extends boolean
+  ? BooleanOperators<TType>
+  : TType extends Record<string, any>
+  ? FilterFor<TType>
+  : never
 
 interface IsDefinedOperator {
   isDefined?: boolean

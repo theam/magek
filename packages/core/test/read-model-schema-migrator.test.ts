@@ -6,27 +6,15 @@ import { BoosterConfig, SchemaMigrationMetadata, ReadModelInterface, UUID } from
 import { ReadModelSchemaMigrator } from '../src/read-model-schema-migrator'
 
 class TestConceptV1 {
-  public constructor(
-    readonly id: UUID,
-    readonly field1: string
-  ) {}
+  public constructor(readonly id: UUID, readonly field1: string) {}
 }
 
 class TestConceptV2 {
-  public constructor(
-    readonly id: UUID,
-    readonly field1: string,
-    readonly field2: number
-  ) {}
+  public constructor(readonly id: UUID, readonly field1: string, readonly field2: number) {}
 }
 
 class TestConceptV3 {
-  public constructor(
-    readonly id: UUID,
-    readonly field1: string,
-    readonly field2: number,
-    readonly field3: string
-  ) {}
+  public constructor(readonly id: UUID, readonly field1: string, readonly field2: number, readonly field3: string) {}
 }
 
 class TestConceptMigration {

@@ -2,11 +2,7 @@ import { EntityInterface, EventInterface } from './concepts'
 
 export class BoosterError extends Error {
   readonly code: string
-  constructor(
-    message: string,
-    code?: string,
-    readonly data?: Record<string, unknown>
-  ) {
+  constructor(message: string, code?: string, readonly data?: Record<string, unknown>) {
     super(message)
     this.code = code ?? this.constructor.name
   }

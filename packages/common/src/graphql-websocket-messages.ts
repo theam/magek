@@ -53,17 +53,11 @@ export class GraphQLInitAck {
 }
 export class GraphQLData {
   public readonly type = MessageTypes.GQL_DATA
-  public constructor(
-    public readonly id: string,
-    public readonly payload: ExecutionResult
-  ) {}
+  public constructor(public readonly id: string, public readonly payload: ExecutionResult) {}
 }
 export class GraphQLError {
   public readonly type = MessageTypes.GQL_ERROR
-  public constructor(
-    public readonly id: string,
-    public readonly payload: { errors: Array<Error> }
-  ) {}
+  public constructor(public readonly id: string, public readonly payload: { errors: Array<Error> }) {}
 }
 export class GraphQLComplete {
   public readonly type = MessageTypes.GQL_COMPLETE
