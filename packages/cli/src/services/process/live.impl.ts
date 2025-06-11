@@ -6,7 +6,7 @@ import { Effect, Layer } from 'effect'
 import { unknownToError } from '../../common/errors'
 
 export const makeLiveProcess = (execaCommand: typeof ExecaCommandFn) =>
-  Layer.fromValue(ProcessService)({
+  Layer.succeed(ProcessService, {
     exec: (command: string, cwd?: string) =>
       Effect.tryPromise({
         try: async () => {
@@ -16,12 +16,12 @@ ${stderr ? `There were some issues running the command: ${stderr}\n` : ''}
 ${stdout}
 `
         },
-        catch: (reason: unknown) => new ProcessError(unknownToError(reason))
+        catch: (reason: unknown) => new ProcessError(unknownToError(reason)),
       }),
     cwd: () =>
       Effect.try({
         try: () => process.cwd(),
-        catch: (reason: unknown) => new ProcessError(unknownToError(reason))
+        catch: (reason: unknown) => new ProcessError(unknownToError(reason)),
       }),
   })
 

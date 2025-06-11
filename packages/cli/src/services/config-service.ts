@@ -5,7 +5,7 @@ import { guardError } from '../common/errors'
 import { checkItIsABoosterProject } from './project-checker'
 import { currentEnvironment } from './environment'
 import { createSandboxProject, removeSandboxProject } from '../common/sandbox'
-import { PackageManagerService } from './package-manager'
+import { PackageManagerService, type PackageManagerError } from './package-manager'
 import { LivePackageManager } from './package-manager/live.impl'
 
 export const DEPLOYMENT_SANDBOX = path.join(process.cwd(), '.deploy')
@@ -21,9 +21,9 @@ export async function createDeploymentSandbox(): Promise<string> {
   await Effect.runPromise(
     pipe(
       effect,
-      Effect.mapError((e) => e.error),
+      Effect.mapError<PackageManagerError, Error>((e) => e.error),
       Effect.provide(LivePackageManager),
-      Effect.orDieWith(guardError('Could not install production dependencies'))
+      Effect.orDieWith<Error>(guardError('Could not install production dependencies'))
     )
   )
   return sandboxRelativePath
@@ -44,9 +44,9 @@ export async function compileProject(projectPath: string): Promise<void> {
   await Effect.runPromise(
     pipe(
       effect,
-      Effect.mapError((e) => e.error),
+      Effect.mapError<PackageManagerError, Error>((e) => e.error),
       Effect.provide(LivePackageManager),
-      Effect.orDieWith(guardError('Project contains compilation errors'))
+      Effect.orDieWith<Error>(guardError('Project contains compilation errors'))
     )
   )
 }
@@ -64,9 +64,9 @@ export async function cleanProject(projectPath: string): Promise<void> {
   await Effect.runPromise(
     pipe(
       effect,
-      Effect.mapError((e) => e.error),
+      Effect.mapError<PackageManagerError, Error>((e) => e.error),
       Effect.provide(LivePackageManager),
-      Effect.orDieWith(guardError('Could not clean project'))
+      Effect.orDieWith<Error>(guardError('Could not clean project'))
     )
   )
 }
