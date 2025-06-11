@@ -45,14 +45,12 @@
     "@types/mocha": "10.0.10",
     "@types/sinon": "10.0.0",
     "chai": "5.2.0",
-    "eslint": "^8.57.0",
     "mocha": "10.2.0",
     "sinon": "9.2.3",
     "ts-node": "^10.9.1",
     "tsup": "^8.0.0",
     "typescript": "5.8.3",
     "@types/degit": "~2.8.6",
-    "prettier": "2.3.0",
     "rimraf": "^6.0.1"
   },
   "publishConfig": {
