@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: update websocket type",
+      "type": "patch",
+      "packageName": "@booster-ai/server-infrastructure"
+    }
+  ],
+  "packageName": "@booster-ai/server-infrastructure",
+  "email": "codex@openai.com"
+}
