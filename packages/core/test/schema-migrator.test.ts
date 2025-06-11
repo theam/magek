@@ -10,11 +10,18 @@ class TestConceptV1 {
 }
 
 class TestConceptV2 {
-  public constructor(readonly field1: string, readonly field2: number) {}
+  public constructor(
+    readonly field1: string,
+    readonly field2: number
+  ) {}
 }
 
 class TestConceptV3 {
-  public constructor(readonly field1: string, readonly field2: number, readonly field3: string) {}
+  public constructor(
+    readonly field1: string,
+    readonly field2: number,
+    readonly field3: string
+  ) {}
 }
 
 class TestConceptMigration {
