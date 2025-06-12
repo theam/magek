@@ -23,7 +23,7 @@
     "inflected": "2.1.0",
     "inquirer": "^7.0.0",
     "mustache": "4.2.0",
-    "ora": "^3.4.0",
+    "ora": "^8.2.0",
     "ts-morph": "^26.0.0",
     "tslib": "^2.4.0",
     "effect": "3.16.5"
