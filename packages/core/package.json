@@ -52,7 +52,7 @@
     "@effect/platform": "0.84.9",
     "@effect/schema": "0.75.5",
     "@effect/cli": "0.63.9",
-    "fast-check": "^3.13.2",
+    "fast-check": "^4.1.1",
     "@effect/printer": "0.44.5",
     "@effect/typeclass": "0.34.2",
     "@effect/printer-ansi": "0.41.2",

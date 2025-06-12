@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Bump fast-check to v4.1.1",
+      "type": "patch",
+      "packageName": "@booster-ai/core"
+    }
+  ],
+  "packageName": "@booster-ai/core",
+  "email": "codex@openai.com"
+}
