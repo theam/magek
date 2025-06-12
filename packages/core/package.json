@@ -60,7 +60,8 @@
     "@effect/platform-node-shared": "^0.39.14",
     "@effect/cluster": "^0.38.14",
     "@effect/rpc": "^0.61.13",
-    "@effect/sql": "^0.37.10"
+    "@effect/sql": "^0.37.10",
+    "@effect/experimental": "0.48.10"
   },
   "devDependencies": {
     "@booster-ai/metadata": "workspace:^3.2.0",
