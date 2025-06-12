@@ -12,9 +12,10 @@
    */
   "commands": [
     {
-      "commandKind": "bulk",
+      "commandKind": "phased",
       "name": "test",
       "summary": "Runs unit tests for all packages",
+      "phases": ["_phase:test"],
       "enableParallelism": true
     },
     {
@@ -45,6 +46,17 @@
       "safeForSimultaneousRushProcesses": true,
       "ignoreMissingScript": true,
       "enableParallelism": true
+    }
+  ],
+  "phases": [
+    {
+      "name": "_phase:build",
+      "ignoreMissingScript": true
+    },
+    {
+      "name": "_phase:test",
+      "dependencies": { "upstream": ["_phase:build"] },
+      "ignoreMissingScript": true
     }
   ],
 
