@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "bump rewire to 8.0.0",
+      "type": "patch",
+      "packageName": "@booster-ai/core"
+    }
+  ],
+  "packageName": "@booster-ai/core",
+  "email": "codex@openai.com"
+}
