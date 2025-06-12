@@ -11,7 +11,7 @@ RUN git config --global user.name "Test User"
 COPY ./e2e-run.sh .
 COPY ./tests ./tests
 
-# Create a local template directory to avoid GitHub access issues
-RUN mkdir -p /work/local-template
+# Copy fallback template in case GitHub is not accessible
+COPY ./fallback-template ./fallback-template
 
 ENTRYPOINT ["bash", "e2e-run.sh"]

@@ -1,0 +1,25 @@
+{
+  "name": "{{PROJECT_NAME}}",
+  "description": "{{description}}",
+  "version": "{{version}}",
+  "author": "{{author}}",
+  "dependencies": {
+    "tslib": "^2.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "homepage": "{{homepage}}",
+  "license": "{{license}}",
+  "repository": "{{repository}}",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts"
+}
