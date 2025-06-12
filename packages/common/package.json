@@ -64,7 +64,7 @@
     "typescript": "5.8.3",
     "faker": "5.1.0",
     "@types/faker": "5.1.5",
-    "fast-check": "^3.13.2",
+    "fast-check": "^4.1.1",
     "graphql": "^16.6.0"
   }
 }
