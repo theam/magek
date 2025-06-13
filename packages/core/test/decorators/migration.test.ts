@@ -4,6 +4,7 @@ import { expect } from '../expect'
 import { SchemaMigration, ToVersion } from '../../src/decorators'
 import { Booster } from '../../src'
 import { SchemaMigrationMetadata } from '@booster-ai/common'
+import { getMetadata } from '@booster-ai/metadata'
 
 // Entities to test the annotations
 class Product {}
@@ -64,7 +65,10 @@ describe('the `ToVersion` decorator', () => {
       },
     ]
 
-    const gotMetadata = Reflect.getMetadata('booster:migrationsMethods', MigrateProduct)
+    const gotMetadata = getMetadata<Array<SchemaMigrationMetadata>>(
+      'booster:migrationsMethods',
+      MigrateProduct
+    )
 
     expect(gotMetadata).to.be.deep.equal(expectedMetadata)
   })

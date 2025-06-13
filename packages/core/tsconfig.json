@@ -2,7 +2,8 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "types": ["node", "mocha", "sinon-chai"]
   },
   "include": ["src/**/*"],
   "ts-node": {

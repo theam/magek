@@ -1,9 +1,8 @@
 import { AnyClass } from '@booster-ai/common'
-import { ClassMetadata } from '@booster-ai/metadata'
-import 'reflect-metadata'
+import { ClassMetadata, getMetadata } from '@booster-ai/metadata'
 
 export function getClassMetadata(classType: AnyClass): ClassMetadata {
-  const meta: ClassMetadata = Reflect.getMetadata('booster:typeinfo', classType as object)
+  const meta = getMetadata<ClassMetadata>('booster:typeinfo', classType as object)
   if (!meta) {
     throw Error(`Couldn't get proper metadata information of ${classType.name}`)
   }
