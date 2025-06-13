@@ -8,7 +8,7 @@ jobs:
     permissions:
       contents: read
     env:
-      pnpm_config_store_dir: '${{ github.workspace }}/common/temp/pnpm-store'
+      pnpm_config_store_dir: ${{ github.workspace }}/common/temp/pnpm-store
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
