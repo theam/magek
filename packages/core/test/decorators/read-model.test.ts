@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { expect } from '../expect'
-import { describe } from 'mocha'
 import { ReadModel, Booster, Entity, Projects, sequencedBy, Role, CalculatedField } from '../../src'
 import { UUID, ProjectionResult, UserEnvelope } from '@booster-ai/common'
 import { BoosterAuthorizer } from '../../src/booster-authorizer'

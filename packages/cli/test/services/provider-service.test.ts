@@ -1,4 +1,3 @@
-import { afterEach, describe } from 'mocha'
 import * as providerService from '../../src/services/provider-service'
 import { restore, fake } from 'sinon'
 import { expect } from '../expect'

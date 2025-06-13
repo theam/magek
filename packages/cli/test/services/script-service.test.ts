@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { describe, it, afterEach } from 'mocha'
 import { stub, replace, restore, fake } from 'sinon'
 import { Script } from '../../src/common/script'
 import { expect } from '../expect'

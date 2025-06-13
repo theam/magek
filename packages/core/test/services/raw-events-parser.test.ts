@@ -1,4 +1,3 @@
-import { describe } from 'mocha'
 import { fake, restore, SinonSpy } from 'sinon'
 import {
   ProviderLibrary,

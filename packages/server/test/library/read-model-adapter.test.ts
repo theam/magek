@@ -21,7 +21,6 @@ import {
   searchReadModel,
   storeReadModel,
 } from '../../src/library/read-model-adapter'
-import { describe } from 'mocha'
 
 async function fetchMock(
   mockReadModelRegistry: SinonStubbedInstance<ReadModelRegistry>,

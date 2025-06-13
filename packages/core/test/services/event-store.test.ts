@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/ban-ts-comment */
-import { describe } from 'mocha'
 import {
   BOOSTER_SUPER_KIND,
   BoosterConfig,
