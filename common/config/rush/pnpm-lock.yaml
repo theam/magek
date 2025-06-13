@@ -236,6 +236,9 @@ importers:
       '@booster-ai/common':
         specifier: workspace:^3.2.0
         version: link:../common
+      '@booster-ai/metadata':
+        specifier: workspace:^3.2.0
+        version: link:../metadata
       '@effect/cli':
         specifier: 0.63.9
         version: 0.63.9(@effect/platform@0.84.9(effect@3.16.5))(@effect/printer-ansi@0.41.2(@effect/typeclass@0.35.5(effect@3.16.5))(effect@3.16.5))(@effect/printer@0.44.5(@effect/typeclass@0.35.5(effect@3.16.5))(effect@3.16.5))(effect@3.16.5)
@@ -299,9 +302,6 @@ importers:
       jwks-rsa:
         specifier: 3.2.0
         version: 3.2.0
-      reflect-metadata:
-        specifier: 0.1.13
-        version: 0.1.13
       tslib:
         specifier: ^2.4.0
         version: 2.8.1
@@ -312,9 +312,6 @@ importers:
       '@booster-ai/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
-      '@booster-ai/metadata':
-        specifier: workspace:^3.2.0
-        version: link:../metadata
       '@types/chai':
         specifier: 5.2.2
         version: 5.2.2
@@ -455,8 +452,8 @@ importers:
         specifier: ^0.60.4
         version: 0.60.5
       reflect-metadata:
-        specifier: 0.1.13
-        version: 0.1.13
+        specifier: 0.2.2
+        version: 0.2.2
       ts-morph:
         specifier: ^26.0.0
         version: 26.0.0
@@ -3524,8 +3521,8 @@ packages:
     resolution: {integrity: sha512-57frrGM/OCTLqLOAh0mhVA9VBMHd+9U7Zb2THMGdBUoZVOtGbJzjxsYGDJ3A9AYYCP4hn6y1TVbaOfzWtm5GFg==}
     engines: {node: '>= 12.13.0'}
 
-  reflect-metadata@0.1.13:
-    resolution: {integrity: sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==}
+  reflect-metadata@0.2.2:
+    resolution: {integrity: sha512-urBwgfrvVP/eAyXx4hluJivBKzuEbSQs9rKWCrCkbSxNv8mxPcUZKeuoF3Uy4mJl3Lwprp6yy5/39VWigZ4K6Q==}
 
   reflect.getprototypeof@1.0.10:
     resolution: {integrity: sha512-00o4I+DVrefhv+nX0ulyi3biSHCPDe+yLv5o/p6d/UVlirijB8E16FtfwSAi4g3tcqrQ4lRAqQSoFEZJehYEcw==}
@@ -7253,7 +7250,7 @@ snapshots:
 
   real-require@0.2.0: {}
 
-  reflect-metadata@0.1.13: {}
+  reflect-metadata@0.2.2: {}
 
   reflect.getprototypeof@1.0.10:
     dependencies:
