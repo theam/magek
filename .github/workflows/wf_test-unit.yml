@@ -34,3 +34,8 @@ jobs:
         uses: ./.github/actions/call-rush
         with:
           command: test -v
+
+      - name: Vitest tests
+        uses: ./.github/actions/call-rush
+        with:
+          command: test:vitest -v

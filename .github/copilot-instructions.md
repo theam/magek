@@ -25,7 +25,9 @@ This file provides high-level guidance for **AI agents (e.g. OpenAI Codex)** tha
 | Build all packages | `rush rebuild` | TypeScript compilation & type-check |
 | Fix linter issues | `rush lint:fix` | Uses project ESLint rules |
 | Run unit tests | `rush test` | Mocha across all packages |
+| Run vitest tests | `rush test:vitest` | Vitest across all packages |
 | Package-scoped test | `cd packages/<name> && rushx test` | |
+| Package-scoped vitest | `cd packages/<name> && rushx test:vitest` | |
 
 > Tip: Use `rush clean` & `rush purge` before a fresh install to remove caches.
 > **Codex Warning**: Avoid running `rush clean` or `scripts/check-all-the-things.*` scripts here. The sandbox has no internet access after setup, so removed dependencies cannot be reinstalled.

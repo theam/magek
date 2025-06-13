@@ -20,6 +20,14 @@
     },
     {
       "commandKind": "bulk",
+      "name": "test:vitest",
+      "summary": "Runs vitest tests for all packages",
+      "safeForSimultaneousRushProcesses": true,
+      "enableParallelism": true,
+      "ignoreMissingScript": true
+    },
+    {
+      "commandKind": "bulk",
       "name": "lint:check",
       "summary": "Checks that there are no ESLint issues",
       "safeForSimultaneousRushProcesses": true,

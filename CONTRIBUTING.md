@@ -245,7 +245,16 @@ Finally, **always use exact numbers for dependency versions**. This means that i
 
 ### Running unit tests
 
-Unit tests are executed when you type `rush test`. If you want to run the unit tests for a specific package, you should move to the corresponding package folder and run `rushx test` there.
+Booster supports two testing frameworks:
+
+- **Mocha tests**: Execute `rush test` to run traditional Mocha-based unit tests across all packages
+- **Vitest tests**: Execute `rush test:vitest` to run modern Vitest-based unit tests across all packages
+
+If you want to run the unit tests for a specific package, you should move to the corresponding package folder and run:
+- `rushx test` for Mocha tests
+- `rushx test:vitest` for Vitest tests
+
+Both test suites run in the CI/CD pipeline and will block pull requests if tests fail.
 
 
 Once the PR is merged, the CICD process will publish the latest changes to NPM. When this finishes, as a maintainer, make sure to create a new GitHub release in the [releases page](https://github.com/boostercloud/booster/releases):

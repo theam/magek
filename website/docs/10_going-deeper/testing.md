@@ -6,6 +6,13 @@ Booster applications are fully tested by default. This means that you can be sur
 
 To properly test a Booster application, you should create a `test` folder at the same level as the `src` one. Apart from that, tests' names should have the `<my_test>.test.ts` format.
 
+Booster supports two testing frameworks:
+
+1. **Mocha** (traditional framework)
+2. **Vitest** (modern testing framework, recommended for new tests)
+
+### Mocha Tests (Legacy)
+
 When a Booster application is generated, you will have a script in a `package.json` like this:
 
 ```typescript
@@ -21,6 +28,23 @@ The only thing that you should add to this line are the `AWS_SDK_LOAD_CONFIG=tru
   "test": "AWS_SDK_LOAD_CONFIG=true BOOSTER_ENV=test nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
 }
 ```
+
+### Vitest Tests (Recommended)
+
+Vitest is a modern, fast testing framework that provides better TypeScript support and improved developer experience. Each package includes a `test:vitest` script:
+
+```typescript
+"scripts": {
+  "test:vitest": "vitest"
+}
+```
+
+You can run Vitest tests using:
+
+- `rush test:vitest` - Run vitest tests across all packages
+- `rushx test:vitest` - Run vitest tests in the current package (when inside a package directory)
+
+Vitest configuration is handled by `vitest.config.ts` files in each package.
 
 ### Testing with `sinon-chai`
 
