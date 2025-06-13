@@ -1,0 +1,5 @@
+{
+  "changes": [{"comment": "Set up Vitest and tsx dependencies at workspace root", "type": "none", "packageName": "@booster-ai/workspace-root"}],
+  "packageName": "@booster-ai/workspace-root",
+  "email": "copilot@github.com"
+}
