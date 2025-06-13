@@ -421,12 +421,6 @@
       "shouldPublish": true,
       "versionPolicyName": "booster",
       "projectFolder": "packages/metadata"
-    },
-    {
-      "packageName": "@booster-ai/workspace-root",
-      "shouldPublish": false,
-      "versionPolicyName": "booster",
-      "projectFolder": "."
     }
   ]
 }

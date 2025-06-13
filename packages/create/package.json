@@ -20,7 +20,8 @@
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "prepack": "npm run build",
     "test:create": "npm run test",
-    "test": "mocha --recursive test/**/*.test.ts --require ts-node/register --timeout 10000"
+    "test": "mocha --recursive test/**/*.test.ts --require ts-node/register --timeout 10000",
+    "test:vitest": "vitest"
   },
   "keywords": [
     "booster",
@@ -49,7 +50,9 @@
     "sinon": "9.2.3",
     "ts-node": "^10.9.1",
     "tsup": "^8.0.0",
+    "tsx": "^4.8.1",
     "typescript": "5.8.3",
+    "vitest": "^2.1.8",
     "@types/degit": "~2.8.6",
     "rimraf": "^6.0.1"
   },

@@ -55,7 +55,9 @@
     "sinon": "9.2.3",
     "sinon-chai": "4.0.0",
     "ts-node": "^10.9.1",
+    "tsx": "^4.8.1",
     "typescript": "5.8.3",
+    "vitest": "^2.1.8",
     "ts-patch": "3.3.0"
   },
   "engines": {
@@ -91,7 +93,8 @@
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "prepack": "tsc -b tsconfig.json",
     "test:cli": "npm run test",
-    "test": "nyc --extension .ts mocha --forbid-only  \"test/**/*.test.ts\""
+    "test": "nyc --extension .ts mocha --forbid-only  \"test/**/*.test.ts\"",
+    "test:vitest": "vitest"
   },
   "types": "lib/index.d.ts"
 }
