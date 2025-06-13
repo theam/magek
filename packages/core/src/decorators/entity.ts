@@ -9,7 +9,6 @@ import {
   AnyClass,
   EventStreamAuthorizer,
 } from '@booster-ai/common'
-import 'reflect-metadata'
 import { BoosterAuthorizer } from '../booster-authorizer'
 
 type EntityAttributes = EventStreamRoleAccess

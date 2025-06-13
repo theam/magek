@@ -1,0 +1,5 @@
+{
+  "changes": [{"comment": "expose high level metadata helpers", "type": "patch", "packageName": "@booster-ai/metadata"}],
+  "packageName": "@booster-ai/metadata",
+  "email": "codex@openai.com"
+}

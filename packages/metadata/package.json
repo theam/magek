@@ -19,6 +19,9 @@
   },
   "homepage": "https://github.com/boostercloud/booster#readme",
   "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
   "files": [
     "dist"
   ],

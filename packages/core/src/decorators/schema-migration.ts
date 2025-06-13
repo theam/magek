@@ -1,6 +1,6 @@
 import { Booster } from '../booster'
 import { Class, AnyClass, SchemaMigrationMetadata, BoosterConfig, Instance } from '@booster-ai/common'
-import 'reflect-metadata'
+import { getMetadata, defineMetadata } from '@booster-ai/metadata'
 
 const migrationMethodsMetadataKey = 'booster:migrationsMethods'
 
@@ -35,10 +35,8 @@ function getConceptMigrations(config: BoosterConfig, conceptClass: AnyClass): Ma
 }
 
 function getMigrationMethods(migrationClass: AnyClass): Array<SchemaMigrationMetadata> {
-  const migrationMethods: Array<SchemaMigrationMetadata> = Reflect.getMetadata(
-    migrationMethodsMetadataKey,
-    migrationClass as object
-  )
+  const migrationMethods =
+    getMetadata<Array<SchemaMigrationMetadata>>(migrationMethodsMetadataKey, migrationClass as object)
   if (!migrationMethods || migrationMethods.length == 0) {
     throw new Error(
       'No migration methods found in this class. Define at least one migration and annotate it with @ToVersion()'
@@ -70,10 +68,8 @@ export function ToVersion<TOldSchema, TNewSchema>(
   return (migrationInstance, propertyName): void => {
     const migrationClass = migrationInstance.constructor as AnyClass
 
-    let migrationMethods: Array<SchemaMigrationMetadata> = Reflect.getMetadata(
-      migrationMethodsMetadataKey,
-      migrationClass as object
-    )
+    let migrationMethods =
+      getMetadata<Array<SchemaMigrationMetadata>>(migrationMethodsMetadataKey, migrationClass as object)
     if (!migrationMethods) {
       migrationMethods = []
     }
@@ -87,7 +83,7 @@ export function ToVersion<TOldSchema, TNewSchema>(
     })
 
     // Here we just store the information (version and method). All the checks will be done in the @Migrates decorator
-    Reflect.defineMetadata(migrationMethodsMetadataKey, migrationMethods, migrationClass as object)
+    defineMetadata(migrationMethodsMetadataKey, migrationMethods, migrationClass as object)
   }
 }
 

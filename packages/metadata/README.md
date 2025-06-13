@@ -153,10 +153,17 @@ Here are the steps:
     npm install --save-dev "ts-patch"
     ```
 
-2. Add the official module "reflect-metadata" to your `"dependencies"` (you need this to access the metadata)
+2. Add `@booster-ai/metadata` to your `"dependencies"` and use the helper
+   functions it exposes to read and write metadata
 
     ```shell
-    npm install --save-prod "reflect-metadata"
+    npm install --save-prod "@booster-ai/metadata"
+    ```
+
+    ```typescript
+    import { defineMetadata, getMetadata } from '@booster-ai/metadata'
+    defineMetadata('my:key', 42, MyClass)
+    const value = getMetadata<number>('my:key', MyClass)
     ```
 
 3. Go to your `tsconfig.json` file and
