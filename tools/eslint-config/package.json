@@ -3,6 +3,7 @@
   "version": "3.2.0",
   "description": "Shared eslint rules",
   "main": "index.js",
+  "type": "module",
   "publishConfig": {
     "access": "restricted"
   },
@@ -14,8 +15,8 @@
     "lint:check": ""
   },
   "bin": {
-    "eslint": "./bin/run-eslint.js",
-    "prettier": "./bin/run-prettier.js"
+    "eslint": "./bin/run-eslint.cjs",
+    "prettier": "./bin/run-prettier.cjs"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.0.0",

@@ -1,11 +1,11 @@
-const tsPlugin = require('@typescript-eslint/eslint-plugin')
-const tsParser = require('@typescript-eslint/parser')
-const importPlugin = require('eslint-plugin-import')
-const prettierPlugin = require('eslint-plugin-prettier')
-const unicornPlugin = require('eslint-plugin-unicorn')
-const unicorn = require('./unicorn')
+import tsPlugin from '@typescript-eslint/eslint-plugin'
+import tsParser from '@typescript-eslint/parser'
+import importPlugin from 'eslint-plugin-import'
+import prettierPlugin from 'eslint-plugin-prettier'
+import unicornPlugin from 'eslint-plugin-unicorn'
+import unicorn from './unicorn.cjs'
 
-module.exports = [
+export default [
   {
     files: ['**/*.ts'],
     languageOptions: {
@@ -47,3 +47,4 @@ module.exports = [
     },
   },
 ]
+
