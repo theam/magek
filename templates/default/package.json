@@ -36,8 +36,8 @@
   "repository": "{{repository}}",
   "scripts": {
     "prepare": "ts-patch install -s",
-    "lint:check": "eslint --ext '.js,.ts' **/*.ts",
-    "lint:fix": "eslint --quiet --fix --ext '.js,.ts' **/*.ts",
+    "lint:check": "eslint \"**/*.ts\"",
+    "lint:fix": "eslint --quiet --fix \"**/*.ts\"",
     "build": "tsc -b tsconfig.json",
     "clean": "rimraf ./dist tsconfig.tsbuildinfo"
   },
