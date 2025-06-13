@@ -3,6 +3,9 @@
   "private": true,
   "version": "3.2.0",
   "description": "Root workspace for Booster AI framework",
+  "scripts": {
+    "lint:fix": "echo 'No linting needed for workspace root'"
+  },
   "devDependencies": {
     "vitest": "^2.1.8",
     "tsx": "^4.8.1",
