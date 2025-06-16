@@ -20,13 +20,15 @@ describe('the "verifyToken" method', () => {
 
   config.tokenVerifiers = [new JwksUriTokenVerifier(issuer, auth0VerifierUri + '.well-known/jwks.json')]
 
+  let stop: () => void
+
   beforeEach(() => {
-    jwks.start()
+    stop = jwks.start()
     boosterTokenVerifier = new BoosterTokenVerifier(config)
   })
 
-  afterEach(async () => {
-    await jwks.stop()
+  afterEach(() => {
+    stop()
   })
 
   it('accepts custom claims and generates a UserEnvelope with them', async () => {
