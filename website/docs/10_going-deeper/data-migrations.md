@@ -6,7 +6,7 @@ description: Learn how to migrate data in Booster
 
 Migrations are a mechanism for updating or transforming the schemas of events and entities as your system evolves. This allows you to make changes to your data model without losing or corrupting existing data. There are two types of migration tools available in Booster: schema migrations and data migrations.
 
-* **Schema migrations** are used to incrementally upgrade an event or entity from a past version to the next. They are applied lazily, meaning that they are performed on-the-fly whenever an event or entity is loaded. This allows you to make changes to your data model without having to manually update all existing artifacts, and makes it possible to apply changes without running lenghty migration processes.
+* **Schema migrations** are used to incrementally upgrade an event or entity from a past version to the next. They are applied lazily, meaning that they are performed on-the-fly whenever an event or entity is loaded. This allows you to make changes to your data model without having to manually update all existing artifacts, and makes it possible to apply changes without running lengthy migration processes.
 
 * **Data migrations**, on the other hand, behave as background processes that can actively change the existing values in the database for existing entities and read models. They are particularly useful for data migrations that cannot be performed automatically with schema migrations, or for updating existing read models after a schema change.
 
@@ -14,7 +14,7 @@ Together, schema and data migrations provide a flexible and powerful toolset for
 
 ## Schema migrations
 
-Booster handles classes annotated with `@SchemaMigration` as **schema migrations**. The migration functions defined inside will update an existing artifact (either an event or an entity) from a previous version to a newer one whenever that artifact is visited. Schema migrations are applied to events and entities lazyly, meaning that they are only applied when the event or entity is loaded. This ensures that the migration process is non-disruptive and does not affect the performance of your system. Schema migrations are also performed on-the-fly and the results are not written back to the database, as events are not revisited once the next snapshot is written in the database.
+Booster handles classes annotated with `@SchemaMigration` as **schema migrations**. The migration functions defined inside will update an existing artifact (either an event or an entity) from a previous version to a newer one whenever that artifact is visited. Schema migrations are applied to events and entities lazily, meaning that they are only applied when the event or entity is loaded. This ensures that the migration process is non-disruptive and does not affect the performance of your system. Schema migrations are also performed on-the-fly and the results are not written back to the database, as events are not revisited once the next snapshot is written in the database.
 
 For example, to upgrade a `Product` entity from version 1 to version 2, you can write the following migration class:
 
