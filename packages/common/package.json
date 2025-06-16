@@ -37,9 +37,6 @@
     "node": ">=20.0.0 <21.0.0 || >=22.0.0 <23.0.0"
   },
   "dependencies": {
-    "tslib": "^2.4.0",
-    "class-transformer": "~0.5.1",
-    "execa": "^9.6.0",
     "effect": "3.16.5"
   },
   "devDependencies": {
@@ -49,7 +46,6 @@
     "@types/chai-as-promised": "8.0.2",
     "@types/mocha": "10.0.10",
     "@types/node": "^22.15.21",
-    "@types/rewire": "^2.5.28",
     "@types/sinon": "10.0.0",
     "@types/sinon-chai": "4.0.0",
     "@types/uuid": "10.0.0",
@@ -57,7 +53,6 @@
     "chai-as-promised": "8.0.1",
     "mocha": "11.6.0",
     "nyc": "^17.1.0",
-    "rewire": "8.0.0",
     "rimraf": "^6.0.1",
     "sinon": "9.2.3",
     "sinon-chai": "4.0.0",
@@ -65,7 +60,6 @@
     "typescript": "5.8.3",
     "faker": "5.1.0",
     "@types/faker": "5.1.5",
-    "fast-check": "^4.1.1",
     "graphql": "^16.6.0"
   }
 }

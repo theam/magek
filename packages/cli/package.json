@@ -26,7 +26,6 @@
     "mustache": "4.2.0",
     "ora": "^8.2.0",
     "ts-morph": "^26.0.0",
-    "tslib": "^2.4.0",
     "effect": "3.16.5"
   },
   "devDependencies": {
@@ -55,8 +54,7 @@
     "sinon": "9.2.3",
     "sinon-chai": "4.0.0",
     "ts-node": "^10.9.1",
-    "typescript": "5.8.3",
-    "ts-patch": "3.3.0"
+    "typescript": "5.8.3"
   },
   "engines": {
     "node": ">=20.0.0 <21.0.0 || >=22.0.0 <23.0.0"
