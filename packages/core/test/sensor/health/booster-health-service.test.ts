@@ -96,7 +96,7 @@ describe('BoosterHealthService', () => {
 
   it('Validates with the expected Role', async () => {
     const jwks = createJWKSMock('https://myauth0app.auth0.com/')
-    jwks.start()
+    const stop = jwks.start()
     const token = jwks.token({
       sub: random.uuid(),
       iss: issuer,
@@ -114,12 +114,13 @@ describe('BoosterHealthService', () => {
       new JwksUriTokenVerifier(issuer, 'https://myauth0app.auth0.com/' + '.well-known/jwks.json'),
     ]
     const boosterResult = await boosterHealth(config)
+    stop()
     expectBooster(boosterResult, '', 'UP')
   })
 
   it('Validates fails with wrong role', async () => {
     const jwks = createJWKSMock('https://myauth0app.auth0.com/')
-    jwks.start()
+    const stop = jwks.start()
     const token = jwks.token({
       sub: random.uuid(),
       iss: issuer,
@@ -137,7 +138,7 @@ describe('BoosterHealthService', () => {
     config.tokenVerifiers = [new JwksUriTokenVerifier(issuer, jwksUri)]
     const boosterHealthService = new BoosterHealthService(config)
     const boosterResult = (await boosterHealthService.boosterHealth(undefined)) as any
-    await jwks.stop()
+    stop()
     expect(boosterResult.code).to.be.eq('NotAuthorizedError')
   })
 
