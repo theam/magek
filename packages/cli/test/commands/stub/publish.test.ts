@@ -7,7 +7,7 @@ import { expect } from '../../expect'
 import Publish from '../../../src/commands/stub/publish'
 import Prompter from '../../../src/services/user-prompt'
 import { resourceTemplatesPath } from '../../../src/services/stub-publisher'
-import inquirer = require('inquirer')
+import inquirer from 'inquirer'
 
 describe('stub', async () => {
   describe('publish', async () => {
