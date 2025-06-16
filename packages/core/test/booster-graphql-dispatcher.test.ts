@@ -249,7 +249,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
           )
         })
 
-        it('calls the the GraphQL engine with the passed envelope and handles the result', async () => {
+        it('calls the GraphQL engine with the passed envelope and handles the result', async () => {
           const graphQLBody = 'query { a { x }}'
           const graphQLResult = { data: 'the result' }
           const graphQLVariables = { productId: 'productId' }
@@ -292,7 +292,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
           expect(config.provider.graphQL.handleResult).to.have.been.calledWithExactly(graphQLResult, {})
         })
 
-        it('calls the the GraphQL engine with the passed envelope and handles the result including the `responseHeaders`', async () => {
+        it('calls the GraphQL engine with the passed envelope and handles the result including the `responseHeaders`', async () => {
           const graphQLBody = 'query { a { x }}'
           const graphQLResult = { data: 'the result' }
           const graphQLVariables = { productId: 'productId' }
@@ -341,7 +341,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
           })
         })
 
-        it('calls the the GraphQL engine with the passed envelope with an authorization token and handles the result', async () => {
+        it('calls the GraphQL engine with the passed envelope with an authorization token and handles the result', async () => {
           const graphQLBody = 'query { a { x }}'
           const graphQLResult = { data: 'the result' }
           const graphQLVariables = { productId: 'productId' }

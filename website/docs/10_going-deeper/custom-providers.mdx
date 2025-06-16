@@ -9,7 +9,7 @@ infrastructure implementation. Booster layered architecture allows you to do so 
 Booster providers require the implementation of two specific interfaces, often delivered as separate packages to avoid including dependencies required at 
 deployment time as part of your application package: 
 -  **Infrastructure:** This interface is used during deployment to create, destroy and configure all the infrastructure necessary to run the application. 
--  **Runtime:** This inteface implements all the interaction between Booster framework and the deployed infrastructure in runtime. 
+-  **Runtime:** This interface implements all the interaction between Booster framework and the deployed infrastructure in runtime. 
 
 ![architecture](/img/interface.jpg)
 
@@ -30,7 +30,7 @@ The infrastructure package interface is composed of four methods:
     }
 ```
 
-- **deploy**: This method is called during the deployment by the CLI and it should be in charge to deploy all the neccesary resource for your application and rockets. 
+- **deploy**: This method is called during the deployment by the CLI and it should be in charge to deploy all the necessary resource for your application and rockets. 
 - **nuke**: This is method is charge of destroy all generated resources during the deploy and it is called during the nuke process. 
 - **start**: This method is used when the provider implements a server that needs to be started (i.e. the local provider)
 - **synth**: This method allows you to export the infrastructure to a file (for instance, if you use the Terraform CDK, you can export the script here to run it using conventional terraform tools)
@@ -41,7 +41,7 @@ or even call other CLI tools or scripts if you rather maintain it using a differ
 ## The runtime interface in detail
 
 The other key aspect during the implementation of a provider is the runtime package. This package is in charge of the interaction between Booster framework and all deployed resources when the application is running.
-For instance, this package has the responsability to store data in the event store, performs the data projections, etc...
+For instance, this package has the responsibility to store data in the event store, performs the data projections, etc...
 
 The runtime interface ([ProviderLibrary](https://github.com/boostercloud/booster/blob/main/packages/common/src/provider.ts)) is divided in seven sections:
 
@@ -59,8 +59,8 @@ export interface ProviderEventsLibrary {
 }
 ```
 - **rawToEnvelopes:** Inside the framework all user application data is processed encapsulated in an envelope object. This particular function performs the transformation from the used database data into a Booster framework envelope object.
-- **forEntitySince:** This method have to returns all the events associated with an specific entity.
-- **latestEntitySnapshot:** With this method the framework should be able to obtains the latest snapshot for an specific entity.
+- **forEntitySince:** This method has to return all the events associated with a specific entity.
+- **latestEntitySnapshot:** With this method the framework should be able to obtain the latest snapshot for a specific entity.
 - **search:** This method receives a query and it should perform it in the database used by the provider and return the result. 
 - **store:** This method is used to store new events in the database. 
 - **searchEntitiesIDs:** This method is used for implementing the pagination in searches. 
@@ -85,7 +85,7 @@ export interface ProviderReadModelsLibrary {
 - **search:** This method receives a search query and it should return the read model search result.
 - **store:** Save a new read model projection on the database. 
 - **delete:** Delete a read model from the database. 
-- **subscribe:** This method is used to susbcribe a client to an specific read model.
+- **subscribe:** This method is used to subscribe a client to a specific read model.
 - **fetchSubscriptions:** Get the list of all clients subscribed to a specific read model.
 - **deleteSubscription:** Delete a specific read model subscription.
 - **deleteAllSubscriptions:** Delete all subscription for a specific read model. 
@@ -109,7 +109,7 @@ export interface ProviderAPIHandling {
   requestFailed(error: Error): Promise<unknown>
 }
 ```
-- **requestSucceeded:** This is a general method for processing sucess responses.
+- **requestSucceeded:** This is a general method for processing success responses.
 - **requestFailed:** This is a general method for processing error responses.
 
 ### Connections
@@ -140,7 +140,7 @@ export interface ScheduledCommandsLibrary {
 
 ## Tips for developing custom providers
 
-- As a starting point, check the implementation of other providers to check how evertyhing is implemented. 
+- As a starting point, check the implementation of other providers to check how everything is implemented. 
 - Start the provider implementation by the infrastructure package because you will get all the infrastructure deployed and later the work with the runtime API will be easier. 
 - If you need support during the development remember that you can have access to our [Discord](https://discord.gg/bDY8MKx) where some community members will can help you. 
 

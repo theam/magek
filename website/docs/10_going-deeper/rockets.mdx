@@ -7,19 +7,19 @@ You can extend Booster by creating rockets (Booster Framework extensions). A roc
 1. Extend your infrastructure: You can write a rocket that adds provider resources to your application stack.
 2. Runtime extensions: Add new annotations and interfaces, which combined with infrastructure extensions, could implement new abstractions on top of highly requested use cases.
 
-If you want to create a rocket that supports several cloud providers or want to provide extra decorators and functionality on top of the infrastructure extensions, you'll probably need to distribute it as a set of separate packages. In this scenario we recommend using a monorepo management tool like [Microsoft Rush](https://rushjs.io) to maintail them all together in a single repository, but this is not a requirement. Your packages will work perfectly fine if you maintain them in separate repositories.
+If you want to create a rocket that supports several cloud providers or want to provide extra decorators and functionality on top of the infrastructure extensions, you'll probably need to distribute it as a set of separate packages. In this scenario we recommend using a monorepo management tool like [Microsoft Rush](https://rushjs.io) to maintain them all together in a single repository, but this is not a requirement. Your packages will work perfectly fine if you maintain them in separate repositories.
 
 ### Create an Infrastructure Rocket package to extend the default Booster-provided infrastructure
 
 A rocket is an npm package that extends your current Booster architecture. The structure is simple, and it mainly has 2 methods: `mountStack` and `unmountStack`. We'll explain what they are shortly.
 
-*Infrastructure Rocket* interfaces are provider-dependant because each provider defines their own way to manage context, so *Infrastructure Rockets* must import the corresponding booster infrastructure package for their chosen provider:
+*Infrastructure Rocket* interfaces are provider-dependent because each provider defines their own way to manage context, so *Infrastructure Rockets* must import the corresponding booster infrastructure package for their chosen provider:
 
 All providers use the same package: `@booster-ai/server-infrastructure`.
  
 Notice that, as the only thing you'll need from that package is the `InfrastructureRocket` interface, it is preferable to import it as a dev dependency to avoid including such a big package in your deployed lambdas.
 
-So let's start by creating a new package and adding the provider-depdendent dependency as well as the `typescript` and `@booster-ai/common` packages:
+So let's start by creating a new package and adding the provider-dependent dependency as well as the `typescript` and `@booster-ai/common` packages:
 
 ```sh
 mkdir rocket-your-rocket-name-aws-infrastructure
