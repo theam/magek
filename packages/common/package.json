@@ -40,7 +40,7 @@
     "tslib": "^2.4.0",
     "class-transformer": "~0.5.1",
     "execa": "^9.6.0",
-    "effect": "3.16.5"
+    "effect": "3.16.7"
   },
   "devDependencies": {
     "@booster-ai/eslint-config": "workspace:^3.2.0",
