@@ -1,7 +1,6 @@
  
 import { fake, match, replace, restore, spy } from 'sinon'
 import { faker } from '@faker-js/faker'
-const { lorem, internet } = faker
 import { expect } from './expect'
 import { BoosterConfig, GraphQLRequestEnvelope, GraphQLRequestEnvelopeError, UserEnvelope } from '@booster-ai/common'
 import { BoosterGraphQLDispatcher } from '../src/booster-graphql-dispatcher'

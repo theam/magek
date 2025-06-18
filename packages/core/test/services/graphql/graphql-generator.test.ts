@@ -18,7 +18,6 @@ import { GraphQLQueryGenerator } from '../../../src/services/graphql/graphql-que
 import { GraphQLMutationGenerator } from '../../../src/services/graphql/graphql-mutation-generator'
 import { GraphQLSubscriptionGenerator } from '../../../src/services/graphql/graphql-subcriptions-generator'
 import { faker } from '@faker-js/faker'
-const { internet, lorem, random } = faker
 import { BoosterEventsReader } from '../../../src/booster-events-reader'
 
 import { GraphQLResolverContext } from '../../../src/services/graphql/common'

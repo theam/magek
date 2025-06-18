@@ -4,7 +4,6 @@ import { BOOSTER_HEALTH_INDICATORS_IDS, BoosterConfig, ProviderLibrary } from '@
 import { fake } from 'sinon'
 import createJWKSMock from 'mock-jwks'
 import { faker } from '@faker-js/faker'
-const { internet, phone, random } = faker
 import { JwksUriTokenVerifier } from '../../../src'
 
 const jwksUri = 'https://myauth0app.auth0.com/' + '.well-known/jwks.json'

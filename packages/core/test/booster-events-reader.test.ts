@@ -1,7 +1,6 @@
 import { ProviderLibrary, EventSearchRequest, EventSearchResponse, UUID } from '@booster-ai/common'
 import { restore, fake, SinonSpy, match } from 'sinon'
 import { faker } from '@faker-js/faker'
-const { internet } = faker
 import { BoosterEventsReader } from '../src/booster-events-reader'
 import { expect } from './expect'
 import { Booster } from '../src'

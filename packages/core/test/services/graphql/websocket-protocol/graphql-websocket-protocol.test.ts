@@ -1,7 +1,6 @@
  
 import { stub, match, SinonStub, fake, replace } from 'sinon'
 import { faker } from '@faker-js/faker'
-const { lorem, internet } = faker
 import {
   GraphQLRequestEnvelope,
   GraphQLStart,

@@ -16,7 +16,6 @@ import {
 import { fake, match, replace, restore, SinonStub, stub } from 'sinon'
 import { BoosterReadModelsReader } from '../src/booster-read-models-reader'
 import { faker } from '@faker-js/faker'
-const { internet } = faker
 import { Booster } from '../src/booster'
 import { BoosterAuthorizer } from '../src/booster-authorizer'
 import { ReadModelSchemaMigrator } from '../src/read-model-schema-migrator'
