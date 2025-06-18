@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
+ 
 /**
  * This file is transpiled with metadata when executing "npm run test".
  * The result will be available in dist/test/test.js

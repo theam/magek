@@ -2,13 +2,13 @@ import { Effect, Context, Layer } from 'effect'
 import { SinonSpy } from 'sinon'
 
 export const fakeService = <T>(tag: Context.Tag<T, T>, fakes: Fakes<T>): FakeServiceUtils<T> => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   const fakeService: any = {}
 
   for (const [k, v] of Object.entries(fakes)) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     const fakeFunction = v as SinonSpy<any[], any>
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     fakeService[k] = (...args: any[]) => Effect.sync(() => fakeFunction(...args))
   }
 

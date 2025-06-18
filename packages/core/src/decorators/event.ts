@@ -7,7 +7,7 @@ import { Booster } from '../booster'
  * @constructor
  */
 // Disabling unused vars here, because it won't allow us to call the decorator without parens
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+ 
 export function Event<TEvent extends EventInterface>(eventClass: Class<TEvent>): void {
   Booster.configureCurrentEnv((config): void => {
     if (config.events[eventClass.name]) {

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { SinonStub, stub, replace, restore, fake } from 'sinon'
 import { rawGraphQLRequestToEnvelope } from '../../src/library/graphql-adapter'
 import { expect } from '../expect'

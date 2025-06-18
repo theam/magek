@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { beforeEach, describe } from 'mocha'
 import { ReadModelStore } from '../../src/services/read-model-store'
 import {
@@ -74,7 +74,7 @@ describe('ReadModelStore', () => {
 
     public static projectionThatCallsEntityMethod(
       entity: AnImportantEntity,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       currentReadModel: SomeReadModel
     ): ProjectionResult<SomeReadModel> {
       entity.getPrefixedKey('a prefix')

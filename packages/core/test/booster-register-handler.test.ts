@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
+ 
+ 
 import { expect } from './expect'
 import { Register, BoosterConfig, Level, UserEnvelope, UUID } from '@booster-ai/common'
 import { replace, fake, restore, spy } from 'sinon'

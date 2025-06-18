@@ -61,7 +61,7 @@ describe('providerService', () => {
         const fakeConfig = {
           appName: 'lolapp',
           provider: fakeProvider,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+           
         } as any
 
         await providerService.startProvider(3000, fakeConfig)
@@ -79,7 +79,7 @@ describe('providerService', () => {
         const fakeConfig = {
           appName: 'lolapp',
           provider: fakeProvider,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+           
         } as any
 
         await expect(providerService.startProvider(3000, fakeConfig)).to.eventually.be.rejectedWith(

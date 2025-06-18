@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import {
   BoosterConfig,
   BoosterMetadata,
@@ -131,7 +131,7 @@ export class ReadModelStore {
     return undefined
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
+   
   getProjectionFunction(projectionMetadata: ProjectionMetadata<EntityInterface, ReadModelInterface>): Function {
     try {
       return (projectionMetadata.class as any)[projectionMetadata.methodName]

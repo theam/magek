@@ -185,7 +185,7 @@ export interface GraphQLOperation {
   query: string
   id?: string
   operationName?: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   variables?: Record<string, any>
 }
 

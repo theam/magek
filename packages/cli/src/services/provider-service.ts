@@ -24,7 +24,7 @@ class ForbiddenProjectName extends Error {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 function supportedInfrastructureMethodOrDie(
   methodName: 'deploy' | 'nuke' | 'start' | 'synth',
   config: BoosterConfig

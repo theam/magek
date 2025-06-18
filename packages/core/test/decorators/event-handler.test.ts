@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+ 
+ 
 import { expect } from '../expect'
 import { EventHandler } from '../../src/decorators'
 import { Booster } from '../../src'

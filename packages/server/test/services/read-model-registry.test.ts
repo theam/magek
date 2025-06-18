@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { ProjectionFor, ReadModelEnvelope } from '@booster-ai/common'
 import { expect } from '../expect'
 import * as faker from 'faker'

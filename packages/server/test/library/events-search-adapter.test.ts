@@ -15,7 +15,7 @@ describe('The "searchEntitiesIDs" method', () => {
     queryStub = stub()
 
     mockEventRegistry = createStubInstance(WebSocketRegistry) as StubbedClass<WebSocketRegistry>
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     replace(mockEventRegistry, 'query', queryStub as any)
   })
 

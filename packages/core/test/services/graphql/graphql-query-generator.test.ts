@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/ban-ts-comment */
+ 
 import { GraphQLQueryGenerator } from '../../../src/services/graphql/graphql-query-generator'
 import { SinonStub, stub, replace, SinonStubbedInstance, restore } from 'sinon'
 import { expect } from '../../expect'

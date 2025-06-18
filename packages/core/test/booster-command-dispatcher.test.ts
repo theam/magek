@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
+ 
+ 
 import { Booster } from '../src/booster'
 import { fake, replace, restore, spy } from 'sinon'
 import { expect } from './expect'
@@ -212,7 +212,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
       @Command({ authorize: 'all' })
       class PostComment {
         public constructor(readonly comment: string) {}
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+         
         public static async handle(command: PostComment, _register: Register): Promise<void> {
           await new Promise((resolve) => setTimeout(resolve, 100))
           asyncOperationFinished = true
@@ -242,14 +242,14 @@ describe('the `BoosterCommandsDispatcher`', () => {
     context('when before hook functions are passed', () => {
       const newComment = 'Look, I changed the message'
       const newCommentV2 = 'Yes, I changed it for a second time'
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       const beforeFn: CommandBeforeFunction = async (input, _currentUser) => {
         input.comment = newComment
         const result = await Promise.resolve()
         console.log(result)
         return input
       }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       const beforeFnV2: CommandBeforeFunction = async (input, _currentUser) => {
         // To double-check it's really chained
         if (input.comment === newComment) input.comment = newCommentV2

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+ 
 import { createStubInstance, fake, SinonStub, SinonStubbedInstance, replace, stub } from 'sinon'
 import { GraphQLService, ReadModelRegistry } from '../../src'
 import {
@@ -104,9 +104,9 @@ describe('read-models-adapter', () => {
     mockReadModelRegistry = createStubInstance(ReadModelRegistry) as StubbedClass<ReadModelRegistry>
     mockReadModel = createMockReadModelEnvelope()
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     replace(mockReadModelRegistry, 'store', storeStub as any)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     replace(mockReadModelRegistry, 'query', queryStub as any)
     replace(mockReadModelRegistry, 'deleteById', deleteStub as any)
   })

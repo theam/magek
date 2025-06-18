@@ -29,7 +29,7 @@ describe('abstract class RoleBasedTokenVerifier', () => {
             super()
           }
 
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+           
           public verify(_token: string): Promise<DecodedToken> {
             return Promise.resolve({ header, payload })
           }
@@ -65,7 +65,7 @@ describe('abstract class RoleBasedTokenVerifier', () => {
             super('ekipaso')
           }
 
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+           
           public verify(_token: string): Promise<DecodedToken> {
             return Promise.resolve({ header, payload })
           }

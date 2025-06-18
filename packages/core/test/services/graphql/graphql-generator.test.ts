@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { fake, replace, restore, SinonStub, spy, stub } from 'sinon'
 import { BoosterCommandDispatcher } from '../../../src/booster-command-dispatcher'
 import { BoosterReadModelsReader } from '../../../src/booster-read-models-reader'

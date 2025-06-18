@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { EntitySnapshotEnvelope, EventEnvelope } from '@booster-ai/common'
 import { expect } from '../expect'
 import * as faker from 'faker'
@@ -122,7 +122,7 @@ describe('the event registry', () => {
       })
 
       expect(result).not.to.be.undefined
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       const { _id, ...rest } = result as any
       expect(rest).to.deep.equal(copyOfMockTargetSnapshot)
     })

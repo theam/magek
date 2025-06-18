@@ -43,7 +43,7 @@ export default class Reducer extends BaseCommand {
 
 type ReducerInfo = HasName & HasReaction
 
-/* eslint-disable @typescript-eslint/no-extra-parens */
+ 
 const pluralize = (word: string, count: number): string => (count === 1 ? word : `${word}s`)
 
 const run = async (rawEntity: string, rawEvents: string[]): Promise<void> =>

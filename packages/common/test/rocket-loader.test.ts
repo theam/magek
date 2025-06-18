@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { fake, replace, restore } from 'sinon'
 import { expect } from './helpers/expect'
 import { RocketDescriptor, RocketLoader } from '../src'

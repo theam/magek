@@ -6,7 +6,7 @@ import Brand from './brand'
  * @param prefix
  */
 export function wrapExecError(e: Error, prefix: string): Error {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   const { stdout, stderr } = e as any
   return new Error(Brand.dangerize(prefix) + '\n' + stdout + stderr)
 }

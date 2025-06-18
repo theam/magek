@@ -7,7 +7,7 @@ import {
   ReadModelAuthorizer,
 } from './authorizers'
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+ 
 export interface RoleInterface {}
 
 export interface RoleMetadata {

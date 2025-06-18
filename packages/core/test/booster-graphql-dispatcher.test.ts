@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
+ 
 import { fake, match, replace, restore, spy } from 'sinon'
 import { random, lorem, internet } from 'faker'
 import { expect } from './expect'
@@ -211,7 +211,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
             eventType: 'MESSAGE',
             value: {
               query: undefined,
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+               
             } as any, // If not, the compiler does not allow us to provide an empty query
           })
           const dispatcher = new BoosterGraphQLDispatcher(config)

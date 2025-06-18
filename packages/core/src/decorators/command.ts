@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-types */
+ 
 import { Booster } from '../booster'
 import {
   Class,

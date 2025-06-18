@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-magic-numbers */
+ 
+ 
+ 
 import { expect } from './expect'
 import { BoosterConfig, UserEnvelope, DecodedToken } from '@booster-ai/common'
 import createJWKSMock from 'mock-jwks'

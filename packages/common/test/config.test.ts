@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { expect } from './helpers/expect'
 import { SchemaMigrationMetadata, ProviderLibrary, BoosterConfig } from '../src'
 

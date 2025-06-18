@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { expect } from './expect'
 import {
   BoosterConfig,
@@ -273,7 +273,7 @@ describe('BoosterReadModelReader', () => {
       const envelope = {
         class: { name: 'anyReadModel' },
         requestID: random.uuid(),
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+         
       } as any // To avoid the compilation failure of "missing version field"
 
       await expect(readModelReader.search(envelope)).to.eventually.be.rejectedWith(InvalidParameterError)

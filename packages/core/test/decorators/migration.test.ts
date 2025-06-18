@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
+ 
+ 
 import { expect } from '../expect'
 import { SchemaMigration, ToVersion } from '../../src/decorators'
 import { Booster } from '../../src'
@@ -25,7 +25,7 @@ describe('the `ToVersion` decorator', () => {
   it('throws when a version smaller than 1 is specified', () => {
     expect(() => {
       // @ts-ignore: Unused class
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       class MigrateProduct {
         @ToVersion(1, { fromSchema: ProductV1, toSchema: ProductV2 })
         public async changeField2(x: ProductV1): Promise<ProductV2> {
@@ -149,7 +149,7 @@ describe('the `Migrates` annotation', () => {
   it('throws when a migration is duplicated', () => {
     @SchemaMigration(Product)
     // @ts-ignore: Unused class
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+     
     class MigrateProductFrom1To3 {
       @ToVersion(2, { fromSchema: ProductV1, toSchema: ProductV2 })
       public async changeField2(x: ProductV1): Promise<ProductV2> {
@@ -165,7 +165,7 @@ describe('the `Migrates` annotation', () => {
     expect(() => {
       @SchemaMigration(Product)
       // @ts-ignore: Unused class
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       class MigrateProductFrom3To5 {
         @ToVersion(3, { fromSchema: ProductV2, toSchema: ProductV3 })
         public async changeField5(x: ProductV2): Promise<ProductV3> {
@@ -179,7 +179,7 @@ describe('the `Migrates` annotation', () => {
     expect(() => {
       @SchemaMigration(Product)
       // @ts-ignore: Unused class
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
       class MigrateProductFrom3To5 {
         public async changeField5(x: Record<string, any>): Promise<string> {
           return {} as any
