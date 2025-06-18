@@ -23,7 +23,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
   describe('Introspection in graphQL API', () => {
     context('on introspection message', () => {
       it('with default config introspection is enabled', async () => {
-        const graphQLResult = { data: 'the result' }
+        const graphQLResult = { data: { result: 'the result' } }
         const messageEnvelope: GraphQLRequestEnvelope = {
           requestID: faker.datatype.uuid(),
           eventType: 'MESSAGE',
@@ -48,7 +48,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
       })
 
       it('override the introspection configuration and disable it', async () => {
-        const graphQLResult = { data: 'the result' }
+        const graphQLResult = { data: { result: 'the result' } }
         const messageEnvelope: GraphQLRequestEnvelope = {
           requestID: faker.datatype.uuid(),
           eventType: 'MESSAGE',
@@ -251,7 +251,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
 
         it('calls the GraphQL engine with the passed envelope and handles the result', async () => {
           const graphQLBody = 'query { a { x }}'
-          const graphQLResult = { data: 'the result' }
+          const graphQLResult = { data: { result: 'the result' } }
           const graphQLVariables = { productId: 'productId' }
           const graphQLEnvelope: GraphQLRequestEnvelope = {
             requestID: faker.datatype.uuid(),
@@ -294,7 +294,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
 
         it('calls the GraphQL engine with the passed envelope and handles the result including the `responseHeaders`', async () => {
           const graphQLBody = 'query { a { x }}'
-          const graphQLResult = { data: 'the result' }
+          const graphQLResult = { data: { result: 'the result' } }
           const graphQLVariables = { productId: 'productId' }
           const graphQLEnvelope: GraphQLRequestEnvelope = {
             requestID: faker.datatype.uuid(),
@@ -343,7 +343,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
 
         it('calls the GraphQL engine with the passed envelope with an authorization token and handles the result', async () => {
           const graphQLBody = 'query { a { x }}'
-          const graphQLResult = { data: 'the result' }
+          const graphQLResult = { data: { result: 'the result' } }
           const graphQLVariables = { productId: 'productId' }
           const graphQLEnvelope: GraphQLRequestEnvelope = {
             requestID: faker.datatype.uuid(),
@@ -380,7 +380,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
           replace(gqlValidator, 'validate', fake.returns([]))
           replace(gqlExecutor, 'execute', executeFake)
 
-          const fakeVerifier = fake.returns(currentUser)
+          const fakeVerifier = fake.resolves(currentUser)
           replace(BoosterTokenVerifier.prototype, 'verify', fakeVerifier)
           resolverContext.user = currentUser
 
@@ -406,7 +406,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
               errors: [new GraphQLError('graphql error 1'), new GraphQLError('graphql error 2')],
             }
             replace(gqlExecutor, 'execute', fake.returns(graphQLErrorResult))
-            replace(gqlSubscriptor, 'subscribe', fake.returns(graphQLErrorResult))
+            replace(gqlSubscriptor, 'subscribe', fake.resolves(graphQLErrorResult))
           })
 
           it('calls the provider "handleGraphQLResult" with the error with a query', async () => {
