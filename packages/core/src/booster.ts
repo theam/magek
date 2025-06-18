@@ -28,7 +28,8 @@ import { Effect, pipe } from 'effect'
 import { Command } from '@effect/cli'
 import * as path from 'path'
 import * as Injectable from './injectable'
-import { NodeContext, NodeRuntime } from '@effect/platform-node'
+import * as NodeContext from '@effect/platform-node/NodeContext'
+import { runMain as nodeRunMain } from '@effect/platform-node-shared/NodeRuntime'
 
 /**
  * Main class to interact with Booster and configure it.
@@ -77,7 +78,7 @@ export class Booster {
     if (injectable) {
       const { commands, runMain, contextProvider } = injectable as Injectable.Injectable
       const provider = contextProvider ?? NodeContext.layer
-      const runner = runMain ?? NodeRuntime.runMain
+      const runner = runMain ?? nodeRunMain
       const name = 'boost'
       const version = require(path.join(projectRootPath, 'package.json')).version
       const command = Command.make('boost').pipe(Command.withSubcommands(commands))
