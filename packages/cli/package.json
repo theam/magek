@@ -7,7 +7,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "type": "module",
   "bin": {
     "boost": "./bin/run"
   },
