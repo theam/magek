@@ -57,7 +57,7 @@
     "@effect/typeclass": "0.35.8",
     "@effect/printer-ansi": "0.41.2",
     "@effect/platform-node": "^0.86.0",
-    "@effect/platform-node-shared": "^0.39.14",
+    "@effect/platform-node-shared": "^0.40.2",
     "@effect/cluster": "^0.38.14",
     "@effect/rpc": "^0.62.0",
     "@effect/sql": "^0.37.10",
