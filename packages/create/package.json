@@ -20,7 +20,7 @@
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "prepack": "npm run build",
     "test:create": "npm run test",
-    "test": "mocha"
+    "test": "mocha test/**/*.test.ts"
   },
   "keywords": [
     "booster",

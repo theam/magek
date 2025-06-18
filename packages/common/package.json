@@ -2,6 +2,11 @@
   "name": "@booster-ai/common",
   "version": "3.2.0",
   "description": "Contains Booster common helpers used by the core and provider packages",
+  "keywords": [
+    "framework-common-helpers"
+  ],
+  "author": "Boosterin Labs SLU",
+  "homepage": "https://boosterframework.com",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"

@@ -62,7 +62,9 @@ describe('the "verifyToken" method', () => {
 
     const user = await boosterTokenVerifier.verify(token)
 
-    expect(user.claims).to.deep.equals(expectedUser.claims)
+    // Exclude the 'iat' field from claims comparison as it's automatically added by the JWT library
+    const { iat, ...userClaimsWithoutIat } = user.claims as any
+    expect(userClaimsWithoutIat).to.deep.equals(expectedUser.claims)
     expect(user.header?.alg).equals(expectedUser.header?.alg)
     expect(user.roles).to.have.all.members(expectedUser.roles)
   })
@@ -94,7 +96,9 @@ describe('the "verifyToken" method', () => {
 
     const user = await boosterTokenVerifier.verify(token)
 
-    expect(user.claims).to.deep.equals(expectedUser.claims)
+    // Exclude the 'iat' field from claims comparison as it's automatically added by the JWT library
+    const { iat, ...userClaimsWithoutIat } = user.claims as any
+    expect(userClaimsWithoutIat).to.deep.equals(expectedUser.claims)
     expect(user.header?.alg).equals(expectedUser.header?.alg)
     expect(user.roles).to.have.all.members(expectedUser.roles)
   })
@@ -126,7 +130,9 @@ describe('the "verifyToken" method', () => {
 
     const user = await boosterTokenVerifier.verify(token)
 
-    expect(user.claims).to.deep.equals(expectedUser.claims)
+    // Exclude the 'iat' field from claims comparison as it's automatically added by the JWT library
+    const { iat, ...userClaimsWithoutIat } = user.claims as any
+    expect(userClaimsWithoutIat).to.deep.equals(expectedUser.claims)
     expect(user.header?.alg).equals(expectedUser.header?.alg)
     expect(user.roles).to.have.all.members(expectedUser.roles)
   })
@@ -158,7 +164,9 @@ describe('the "verifyToken" method', () => {
 
     const user = await boosterTokenVerifier.verify(token)
 
-    expect(user.claims).to.deep.equals(expectedUser.claims)
+    // Exclude the 'iat' field from claims comparison as it's automatically added by the JWT library
+    const { iat, ...userClaimsWithoutIat } = user.claims as any
+    expect(userClaimsWithoutIat).to.deep.equals(expectedUser.claims)
     expect(user.header?.alg).equals(expectedUser.header?.alg)
     expect(user.roles).to.have.all.members(expectedUser.roles)
   })
