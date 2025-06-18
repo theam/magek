@@ -29,7 +29,7 @@ describe('GraphQLQueryGenerator', () => {
   let mockLogger: Logger
 
   beforeEach(() => {
-    mockEnvironmentName = faker.string.alphanumeric(10)
+    mockEnvironmentName = faker.lorem.word(10)
     mockConfig = new BoosterConfig(mockEnvironmentName)
     mockConfig.logLevel = Level.error
     mockLogger = getLogger(mockConfig)

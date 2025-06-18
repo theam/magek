@@ -149,7 +149,7 @@ describe('RawEventsParser', () => {
 })
 
 function createPersistedEventEnvelope(entityTypeName: string, entityID: string): EventEnvelope {
-  const createdAt = faker.string.alpha()
+  const createdAt = faker.lorem.word()
   return {
     entityID: entityID,
     entityTypeName: entityTypeName,
@@ -158,13 +158,13 @@ function createPersistedEventEnvelope(entityTypeName: string, entityID: string):
     version: 1,
     value: { id: faker.datatype.uuid() },
     requestID: faker.datatype.uuid(),
-    typeName: 'Event' + faker.string.alpha(),
+    typeName: 'Event' + faker.lorem.word(),
     createdAt,
   }
 }
 
 function createEntitySnapshotEnvelope(entityTypeName: string, entityID: string): EntitySnapshotEnvelope {
-  const snapshottedEventCreatedAt = faker.string.alpha()
+  const snapshottedEventCreatedAt = faker.lorem.word()
   return {
     entityID: entityID,
     entityTypeName: entityTypeName,
@@ -173,9 +173,9 @@ function createEntitySnapshotEnvelope(entityTypeName: string, entityID: string):
     version: 1,
     value: { id: faker.datatype.uuid() },
     requestID: faker.datatype.uuid(),
-    typeName: 'Snapshot' + faker.string.alpha(),
+    typeName: 'Snapshot' + faker.lorem.word(),
     createdAt: snapshottedEventCreatedAt,
-    persistedAt: faker.string.alpha(),
+    persistedAt: faker.lorem.word(),
     snapshottedEventCreatedAt,
   }
 }

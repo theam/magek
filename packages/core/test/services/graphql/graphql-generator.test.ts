@@ -26,9 +26,8 @@ import { GraphQLFieldResolver } from 'graphql'
 describe('GraphQL generator', () => {
   let mockEnvironmentName: string
   let mockConfig: BoosterConfig
-
   beforeEach(() => {
-    mockEnvironmentName = faker.string.alphanumeric(10)
+    mockEnvironmentName = faker.lorem.word(10)
     mockConfig = new BoosterConfig(mockEnvironmentName)
     mockConfig.logLevel = Level.error
   })
@@ -47,9 +46,9 @@ describe('GraphQL generator', () => {
     let fakeSubscriptionGenerator: SinonStub
 
     beforeEach(() => {
-      mockQueryTypeName = faker.string.alphanumeric(10)
-      mockMutationTypeName = faker.string.alphanumeric(10)
-      mockSubscriptionTypeName = faker.string.alphanumeric(10)
+      mockQueryTypeName = faker.lorem.word(10)
+      mockMutationTypeName = faker.lorem.word(10)
+      mockSubscriptionTypeName = faker.lorem.word(10)
       fakeQueryGenerator = stub().returns({ name: mockQueryTypeName })
       fakeMutationGenerator = stub().returns({ name: mockMutationTypeName })
       fakeSubscriptionGenerator = stub().returns({ name: mockSubscriptionTypeName })
@@ -114,18 +113,18 @@ describe('GraphQL generator', () => {
     beforeEach(() => {
       mockType = faker.helpers.arrayElement([Boolean, String, Number])
       mockRequestId = faker.datatype.uuid()
-      mockEmail = internet.email()
-      mockRole = faker.string.alphanumeric(10)
+      mockEmail = faker.internet.email()
+      mockRole = faker.lorem.word(10)
       mockFetchResult = []
 
-      for (let i = 0; i < faker.number.int({min: 1, max: 10}); i++) {
+      for (let i = 0; i < faker.datatype.number({min: 1, max: 10}); i++) {
         mockFetchResult.push({
           id: faker.datatype.uuid(),
-          testKey: faker.number.int(),
+          testKey: faker.datatype.number(),
         })
       }
 
-      mockAsyncIteratorResult = lorem.word()
+      mockAsyncIteratorResult = faker.lorem.word()
       asyncIteratorStub = stub().returns(mockAsyncIteratorResult)
       mockResolverContext = {
         requestID: mockRequestId,
@@ -136,7 +135,7 @@ describe('GraphQL generator', () => {
           claims: {},
         },
         operation: {
-          query: faker.string.alphanumeric(),
+          query: faker.lorem.word(),
         },
         pubSub: {
           asyncIterator: (x: any) => asyncIteratorStub(x),
@@ -284,7 +283,7 @@ describe('GraphQL generator', () => {
 
       beforeEach(() => {
         mockInput = {
-          testObjectKey: faker.string.alphanumeric(10),
+          testObjectKey: faker.lorem.word(10),
         }
 
         dispatchCommandStub = stub()
@@ -351,7 +350,7 @@ describe('GraphQL generator', () => {
       >
 
       beforeEach(() => {
-        mockResolverResult = faker.string.alphanumeric(10)
+        mockResolverResult = faker.lorem.word(10)
 
         subscriptionResolverBuilderStub = stub().returns(() => {
           return mockResolverResult

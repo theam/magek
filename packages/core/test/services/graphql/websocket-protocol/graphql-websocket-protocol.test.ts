@@ -61,7 +61,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
     envelope = {
       currentUser: undefined,
       eventType: 'MESSAGE',
-      requestID: faker.string.alphanumeric(10),
+      requestID: faker.lorem.word(10),
     }
   })
 
@@ -92,11 +92,11 @@ describe('the `GraphQLWebsocketHandler`', () => {
 
     describe('with an envelope with connectionID', () => {
       beforeEach(() => {
-        envelope.connectionID = faker.string.alphanumeric(10)
+        envelope.connectionID = faker.lorem.word(10)
       })
 
       describe('with an error in the envelope', () => {
-        const errorMessage = lorem.sentences(1)
+        const errorMessage = faker.lorem.sentences(1)
         let envelopeWithError: GraphQLRequestEnvelopeError
         beforeEach(() => {
           envelopeWithError = {
@@ -181,8 +181,8 @@ describe('the `GraphQLWebsocketHandler`', () => {
 
           it('stores connection data including the user', async () => {
             const expectedUser: UserEnvelope = {
-              username: internet.email(),
-              roles: [lorem.word()],
+              username: faker.internet.email(),
+              roles: [faker.lorem.word()],
               claims: {},
             }
 
@@ -206,12 +206,12 @@ describe('the `GraphQLWebsocketHandler`', () => {
       describe('with a value with GQL_START message', () => {
         beforeEach(() => {
           envelope.value = {
-            id: faker.string.alphanumeric(10),
+            id: faker.lorem.word(10),
             type: MessageTypes.GQL_START,
             payload: {
-              query: faker.string.alphanumeric(20),
-              variables: { aField: faker.string.alphanumeric(5) },
-              operationName: faker.string.alphanumeric(10),
+              query: faker.lorem.word(20),
+              variables: { aField: faker.lorem.word(5) },
+              operationName: faker.lorem.word(10),
             },
           }
         })
@@ -275,11 +275,11 @@ describe('the `GraphQLWebsocketHandler`', () => {
           const message = envelope.value as GraphQLStart
           const connectionData: ConnectionDataEnvelope = {
             user: {
-              username: internet.email(),
-              roles: [lorem.word()],
+              username: faker.internet.email(),
+              roles: [faker.lorem.word()],
               claims: {},
             },
-            expirationTime: faker.number.int(),
+            expirationTime: faker.datatype.number(),
           }
           const fetchDataFake: SinonStub = connectionsManager.fetchData as any
           fetchDataFake.withArgs(config, envelope.connectionID).returns(connectionData)
@@ -366,7 +366,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
         beforeEach(() => {
           envelope.value = {
             type: MessageTypes.GQL_STOP,
-            id: faker.string.alphanumeric(10),
+            id: faker.lorem.word(10),
           }
         })
 

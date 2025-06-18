@@ -303,7 +303,7 @@ describe('BoosterReadModelReader', () => {
         filters: {},
         version: 1,
         currentUser: {
-          username: internet.email(),
+          username: faker.internet.email(),
           roles: [''],
           claims: {},
         },
@@ -319,16 +319,16 @@ describe('BoosterReadModelReader', () => {
     const filters = {
       id: {
         operation: 'eq',
-        values: [faker.string.alphanumeric(5)],
+        values: [faker.lorem.word(5)],
       },
       field: {
         operation: 'lt',
-        values: [faker.number.int({max: 10})],
+        values: [faker.datatype.number({ max: 10 })],
       },
     }
 
     const currentUser = {
-      username: internet.email(),
+      username: faker.internet.email(),
       roles: [UserRole.name],
       claims: {},
     }

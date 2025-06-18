@@ -103,8 +103,8 @@ describe('BoosterHealthService', () => {
       'custom:role': 'UserRole',
       extraParam: 'claims',
       anotherParam: 111,
-      email: internet.email(),
-      phoneNumber: phone.phoneNumber(),
+      email: faker.internet.email(),
+      phoneNumber: faker.phone.number(),
     })
     config.provider.sensor = defaultSensor(token)
     config.sensorConfiguration.health.globalAuthorizer = {
@@ -127,8 +127,8 @@ describe('BoosterHealthService', () => {
       'custom:role': 'UserRole1',
       extraParam: 'claims',
       anotherParam: 111,
-      email: internet.email(),
-      phoneNumber: phone.phoneNumber(),
+      email: faker.internet.email(),
+      phoneNumber: faker.phone.number(),
     })
 
     config.provider.sensor = defaultSensor(token)

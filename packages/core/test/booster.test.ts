@@ -158,9 +158,9 @@ describe('the `Booster` class', () => {
         {
           requestID: faker.datatype.uuid(),
           type: TestEvent.name,
-          entity: faker.string.alpha(),
+          entity: faker.lorem.word(),
           entityID: faker.datatype.uuid(),
-          createdAt: faker.string.alphanumeric(),
+          createdAt: faker.date.recent().toISOString(),
           value: {
             id: '1',
             entityID: () => UUID.generate(),
@@ -169,9 +169,9 @@ describe('the `Booster` class', () => {
         {
           requestID: faker.datatype.uuid(),
           type: BestEvent.name,
-          entity: faker.string.alpha(),
+          entity: faker.lorem.word(),
           entityID: faker.datatype.uuid(),
-          createdAt: faker.string.alphanumeric(),
+          createdAt: faker.date.recent().toISOString(),
           value: {
             id: '1',
             entityID: () => UUID.generate(),
@@ -219,9 +219,9 @@ describe('the `Booster` class', () => {
         {
           requestID: faker.datatype.uuid(),
           type: TestEvent.name,
-          entity: faker.string.alpha(),
+          entity: faker.lorem.word(),
           entityID: faker.datatype.uuid(),
-          createdAt: faker.string.alphanumeric(),
+          createdAt: faker.date.recent().toISOString(),
           value: {
             id: '1',
             entityID: () => UUID.generate(),
@@ -230,9 +230,9 @@ describe('the `Booster` class', () => {
         {
           requestID: faker.datatype.uuid(),
           type: BestEvent.name,
-          entity: faker.string.alpha(),
+          entity: faker.lorem.word(),
           entityID: faker.datatype.uuid(),
-          createdAt: faker.string.alphanumeric(),
+          createdAt: faker.date.recent().toISOString(),
           value: {
             id: '1',
             entityID: () => UUID.generate(),
@@ -279,9 +279,9 @@ describe('the `Booster` class', () => {
         {
           requestID: faker.datatype.uuid(),
           type: TestEvent.name,
-          entity: faker.string.alpha(),
+          entity: faker.lorem.word(),
           entityID: faker.datatype.uuid(),
-          createdAt: faker.string.alphanumeric(),
+          createdAt: faker.date.recent().toISOString(),
           value: {
             id: '1',
             entityID: () => UUID.generate(),

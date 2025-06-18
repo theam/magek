@@ -31,9 +31,9 @@ describe('BoosterEventsReader', () => {
     {
       requestID: faker.datatype.uuid(),
       type: TestEvent.name,
-      entity: faker.string.alpha(),
+      entity: faker.lorem.word(),
       entityID: faker.datatype.uuid(),
-      createdAt: faker.string.alphanumeric(),
+      createdAt: faker.date.recent().toISOString(),
       value: {
         entityID: () => UUID.generate(),
       },
@@ -132,7 +132,7 @@ describe('BoosterEventsReader', () => {
       const request: EventSearchRequest = {
         currentUser: {
           roles: ['NonValidRole'],
-          username: internet.email(),
+          username: faker.internet.email(),
           claims: {},
         },
         requestID: faker.datatype.uuid(),
@@ -149,7 +149,7 @@ describe('BoosterEventsReader', () => {
       const request: EventSearchRequest = {
         currentUser: {
           roles: [CanReadEventsRole.name],
-          username: internet.email(),
+          username: faker.internet.email(),
           claims: {},
         },
         requestID: faker.datatype.uuid(),

@@ -12,8 +12,8 @@ describe('the "verifyToken" method', () => {
   const auth0VerifierUri = 'https://myauth0app.auth0.com/'
   const issuer = 'auth0'
   const jwks = createJWKSMock(auth0VerifierUri)
-  const email = internet.email()
-  const phoneNumber = phone.phoneNumber()
+  const email = faker.internet.email()
+  const phoneNumber = faker.phone.number()
   const userId = faker.datatype.uuid()
   const config = new BoosterConfig('test')
   let boosterTokenVerifier: BoosterTokenVerifier

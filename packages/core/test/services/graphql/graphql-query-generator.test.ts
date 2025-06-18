@@ -148,7 +148,7 @@ describe('GraphQLQueryGenerator', () => {
 
             beforeEach(() => {
               // Provision target types
-              mockPropertyName = '_a' + faker.string.alphanumeric(10)
+              mockPropertyName = '_a' + faker.lorem.word(10)
               mockTargetType = Array
               mockTargetTypeName = mockTargetType.name
               mockPropertyType = Boolean
@@ -265,7 +265,7 @@ describe('GraphQLQueryGenerator', () => {
                 })
 
                 it('When Number', () => {
-                  mockPropertyName = '_a' + faker.string.alphanumeric(10)
+                  mockPropertyName = '_a' + faker.lorem.word(10)
                   mockTargetType = Array
                   mockTargetTypeName = mockTargetType.name
                   mockPropertyType = Number
@@ -355,7 +355,7 @@ describe('GraphQLQueryGenerator', () => {
                 })
 
                 it('When String', () => {
-                  mockPropertyName = '_a' + faker.string.alphanumeric(10)
+                  mockPropertyName = '_a' + faker.lorem.word(10)
                   mockTargetType = Array
                   mockTargetTypeName = mockTargetType.name
                   mockPropertyType = String

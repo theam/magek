@@ -170,7 +170,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
         })
 
         it('calls the provider "handleGraphQLResult" when the envelope contains errors', async () => {
-          const errorMessage = lorem.sentences(1)
+          const errorMessage = faker.lorem.sentences(1)
           const config = mockConfigForGraphQLEnvelope({
             requestID: faker.datatype.uuid(),
             eventType: 'MESSAGE',
@@ -367,8 +367,8 @@ describe('the `BoosterGraphQLDispatcher`', () => {
           }
 
           const currentUser: UserEnvelope = {
-            username: internet.email(),
-            roles: [faker.word.sample()],
+            username: faker.internet.email(),
+            roles: [faker.lorem.word()],
             claims: {},
           }
 
