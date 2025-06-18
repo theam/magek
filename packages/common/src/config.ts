@@ -212,14 +212,6 @@ export class BoosterConfig {
   }
 
   public set provider(provider: ProviderLibrary) {
-    console.info(`
-      The usage of the 'config.provider' field is deprecated,
-      please use 'config.providerPackage' instead.
-
-      For more information, check out the docs:
-
-      https://docs.boosterframework.com/going-deeper/environment-configuration
-    `)
     this._provider = provider
   }
 
