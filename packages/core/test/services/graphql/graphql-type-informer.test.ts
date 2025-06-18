@@ -13,7 +13,7 @@ import {
 } from 'graphql'
 import { TypeMetadata } from '@booster-ai/metadata'
 import { GraphQLJSON } from 'graphql-scalars'
-import { random } from 'faker'
+import { faker } from '@faker-js/faker'
 import { GraphQLEnumValueConfig, GraphQLEnumValueConfigMap } from 'graphql/type/definition'
 import { DateScalar } from '../../../src/services/graphql/common'
 
@@ -211,7 +211,7 @@ describe('GraphQLTypeInformer', () => {
         let mockType: string
 
         beforeEach(() => {
-          mockType = random.arrayElement(['Float32Array', 'Float32Array', 'Uint8Array', 'Promise'])
+          mockType = faker.helpers.arrayElement(['Float32Array', 'Float32Array', 'Uint8Array', 'Promise'])
         })
 
         it('should return GraphQLJSON', () => {

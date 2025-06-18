@@ -15,7 +15,8 @@ import {
 } from '@booster-ai/common'
 import { fake, match, replace, restore, SinonStub, stub } from 'sinon'
 import { BoosterReadModelsReader } from '../src/booster-read-models-reader'
-import { internet, random } from 'faker'
+import { faker } from '@faker-js/faker'
+const { internet } = faker
 import { Booster } from '../src/booster'
 import { BoosterAuthorizer } from '../src/booster-authorizer'
 import { ReadModelSchemaMigrator } from '../src/read-model-schema-migrator'
@@ -272,7 +273,7 @@ describe('BoosterReadModelReader', () => {
     it('throws the right error when request is missing "version"', async () => {
       const envelope = {
         class: { name: 'anyReadModel' },
-        requestID: random.uuid(),
+        requestID: faker.datatype.uuid(),
          
       } as any // To avoid the compilation failure of "missing version field"
 
@@ -286,7 +287,7 @@ describe('BoosterReadModelReader', () => {
       const envelope: ReadModelRequestEnvelope<any> = {
         class: { name: 'nonExistentReadModel' },
         filters: {},
-        requestID: random.uuid(),
+        requestID: faker.datatype.uuid(),
         version: 1,
       } as any
       await expect(readModelReader.search(envelope)).to.eventually.be.rejectedWith(NotFoundError)
@@ -299,7 +300,7 @@ describe('BoosterReadModelReader', () => {
       const envelope: ReadModelRequestEnvelope<TestReadModel> = {
         class: TestReadModel,
         className: TestReadModel.name,
-        requestID: random.uuid(),
+        requestID: faker.datatype.uuid(),
         filters: {},
         version: 1,
         currentUser: {
@@ -319,11 +320,11 @@ describe('BoosterReadModelReader', () => {
     const filters = {
       id: {
         operation: 'eq',
-        values: [random.alphaNumeric(5)],
+        values: [faker.string.alphanumeric(5)],
       },
       field: {
         operation: 'lt',
-        values: [random.number(10)],
+        values: [faker.number.int({max: 10})],
       },
     }
 
@@ -336,7 +337,7 @@ describe('BoosterReadModelReader', () => {
     const readModelRequestEnvelope: ReadModelRequestEnvelope<TestReadModel> = {
       class: TestReadModel,
       className: TestReadModel.name,
-      requestID: random.uuid(),
+      requestID: faker.datatype.uuid(),
       version: 1,
       filters,
       currentUser,
@@ -452,7 +453,7 @@ describe('BoosterReadModelReader', () => {
           const readModelWithProjectionRequestEnvelope: ReadModelRequestEnvelope<TestReadModel> = {
             class: TestReadModel,
             className: TestReadModel.name,
-            requestID: random.uuid(),
+            requestID: faker.datatype.uuid(),
             version: 1,
             filters,
             currentUser,
@@ -487,7 +488,7 @@ describe('BoosterReadModelReader', () => {
           const readModelWithProjectionRequestEnvelope: ReadModelRequestEnvelope<TestReadModel> = {
             class: TestReadModel,
             className: TestReadModel.name,
-            requestID: random.uuid(),
+            requestID: faker.datatype.uuid(),
             version: 1,
             filters,
             currentUser,
@@ -618,7 +619,7 @@ describe('BoosterReadModelReader', () => {
         })
 
         it('calls the provider subscribe function and returns its results', async () => {
-          const connectionID = random.uuid()
+          const connectionID = faker.datatype.uuid()
           const expectedSubscriptionEnvelope: SubscriptionEnvelope = {
             ...readModelRequestEnvelope,
             connectionID,
@@ -651,7 +652,7 @@ describe('BoosterReadModelReader', () => {
         })
 
         it('calls the provider subscribe function when setting before hooks and returns the new filter in the result', async () => {
-          const connectionID = random.uuid()
+          const connectionID = faker.datatype.uuid()
           readModelRequestEnvelope.filters = { id: { eq: currentUser?.username } } as Record<string, FilterFor<unknown>>
           const expectedSubscriptionEnvelope: SubscriptionEnvelope = {
             ...readModelRequestEnvelope,
@@ -676,8 +677,8 @@ describe('BoosterReadModelReader', () => {
     it('calls the provider "deleteSubscription" method with the right data', async () => {
       const deleteSubscriptionFake = fake()
       replace(config.provider.readModels, 'deleteSubscription', deleteSubscriptionFake)
-      const connectionID = random.uuid()
-      const subscriptionID = random.uuid()
+      const connectionID = faker.datatype.uuid()
+      const subscriptionID = faker.datatype.uuid()
       await readModelReader.unsubscribe(connectionID, subscriptionID)
 
       expect(deleteSubscriptionFake).to.have.been.calledOnceWithExactly(match.any, connectionID, subscriptionID)
@@ -688,7 +689,7 @@ describe('BoosterReadModelReader', () => {
     it('calls the provider "deleteAllSubscription" method with the right data', async () => {
       const deleteAllSubscriptionsFake = fake()
       replace(config.provider.readModels, 'deleteAllSubscriptions', deleteAllSubscriptionsFake)
-      const connectionID = random.uuid()
+      const connectionID = faker.datatype.uuid()
       await readModelReader.unsubscribeAll(connectionID)
 
       expect(deleteAllSubscriptionsFake).to.have.been.calledOnceWithExactly(match.any, connectionID)

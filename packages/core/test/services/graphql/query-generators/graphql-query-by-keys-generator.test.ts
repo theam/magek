@@ -4,7 +4,7 @@ import { expect } from '../../../expect'
 import { GraphQLTypeInformer } from '../../../../src/services/graphql/graphql-type-informer'
 import { BoosterConfig, UUID, TimeKey, Level, AnyClass, Logger, getLogger } from '@booster-ai/common'
 import { GraphqlQueryByKeysGenerator } from '../../../../src/services/graphql/query-generators/graphql-query-by-keys-generator'
-import { random } from 'faker'
+import { faker } from '@faker-js/faker'
 
 class AnotherReadModel {
   public constructor(readonly id: UUID, readonly otherField: string) {}
@@ -29,7 +29,7 @@ describe('GraphQLQueryGenerator', () => {
   let mockLogger: Logger
 
   beforeEach(() => {
-    mockEnvironmentName = random.alphaNumeric(10)
+    mockEnvironmentName = faker.string.alphanumeric(10)
     mockConfig = new BoosterConfig(mockEnvironmentName)
     mockConfig.logLevel = Level.error
     mockLogger = getLogger(mockConfig)

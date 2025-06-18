@@ -1,6 +1,7 @@
 import { ProviderLibrary, EventSearchRequest, EventSearchResponse, UUID } from '@booster-ai/common'
 import { restore, fake, SinonSpy, match } from 'sinon'
-import { random, internet } from 'faker'
+import { faker } from '@faker-js/faker'
+const { internet } = faker
 import { BoosterEventsReader } from '../src/booster-events-reader'
 import { expect } from './expect'
 import { Booster } from '../src'
@@ -29,11 +30,11 @@ describe('BoosterEventsReader', () => {
   let providerEventsSearch: SinonSpy
   const searchResult: EventSearchResponse[] = [
     {
-      requestID: random.uuid(),
+      requestID: faker.datatype.uuid(),
       type: TestEvent.name,
-      entity: random.alpha(),
-      entityID: random.uuid(),
-      createdAt: random.alphaNumeric(),
+      entity: faker.string.alpha(),
+      entityID: faker.datatype.uuid(),
+      createdAt: faker.string.alphanumeric(),
       value: {
         entityID: () => UUID.generate(),
       },
@@ -75,7 +76,7 @@ describe('BoosterEventsReader', () => {
   describe('the validation for the method `fetch` throws the right error when', () => {
     it('is a "byEntity" search and entity metadata is not found', async () => {
       const request: EventSearchRequest = {
-        requestID: random.uuid(),
+        requestID: faker.datatype.uuid(),
         parameters: {
           entity: 'NonExistingEntity',
         },
@@ -87,7 +88,7 @@ describe('BoosterEventsReader', () => {
 
     it('is a "byType" search and the associated entity is not found', async () => {
       const request: EventSearchRequest = {
-        requestID: random.uuid(),
+        requestID: faker.datatype.uuid(),
         parameters: {
           type: 'NonExistingEventType',
         },
@@ -99,7 +100,7 @@ describe('BoosterEventsReader', () => {
 
     it('is a "byEvent" search and the associated entity metadata is not found', async () => {
       const request: EventSearchRequest = {
-        requestID: random.uuid(),
+        requestID: faker.datatype.uuid(),
         parameters: {
           type: TestEventReducedByNonRegisteredEntity.name,
         },
@@ -111,7 +112,7 @@ describe('BoosterEventsReader', () => {
 
     it('is an invalid type of event search: it is not a "byEntity" or a "byType" search', async () => {
       const request: EventSearchRequest = {
-        requestID: random.uuid(),
+        requestID: faker.datatype.uuid(),
         parameters: {} as never,
       }
       await expect(eventsReader.fetch(request)).to.be.rejectedWith(/Invalid event search request/)
@@ -119,7 +120,7 @@ describe('BoosterEventsReader', () => {
 
     it('is an invalid type of event search: it is both a "byEntity" and a "byType" search', async () => {
       const request: EventSearchRequest = {
-        requestID: random.uuid(),
+        requestID: faker.datatype.uuid(),
         parameters: {
           entity: TestEntity.name,
           type: TestEvent.name,
@@ -135,7 +136,7 @@ describe('BoosterEventsReader', () => {
           username: internet.email(),
           claims: {},
         },
-        requestID: random.uuid(),
+        requestID: faker.datatype.uuid(),
         parameters: {
           entity: TestEntity.name,
         },
@@ -152,7 +153,7 @@ describe('BoosterEventsReader', () => {
           username: internet.email(),
           claims: {},
         },
-        requestID: random.uuid(),
+        requestID: faker.datatype.uuid(),
         parameters: {
           entity: TestEntity.name,
           from: 'fromTime',

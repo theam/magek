@@ -3,7 +3,8 @@ import { BoosterHealthService } from '../../../src/sensor'
 import { BOOSTER_HEALTH_INDICATORS_IDS, BoosterConfig, ProviderLibrary } from '@booster-ai/common'
 import { fake } from 'sinon'
 import createJWKSMock from 'mock-jwks'
-import { internet, phone, random } from 'faker'
+import { faker } from '@faker-js/faker'
+const { internet, phone, random } = faker
 import { JwksUriTokenVerifier } from '../../../src'
 
 const jwksUri = 'https://myauth0app.auth0.com/' + '.well-known/jwks.json'
@@ -98,7 +99,7 @@ describe('BoosterHealthService', () => {
     const jwks = createJWKSMock('https://myauth0app.auth0.com/')
     const stop = jwks.start()
     const token = jwks.token({
-      sub: random.uuid(),
+      sub: faker.datatype.uuid(),
       iss: issuer,
       'custom:role': 'UserRole',
       extraParam: 'claims',
@@ -122,7 +123,7 @@ describe('BoosterHealthService', () => {
     const jwks = createJWKSMock('https://myauth0app.auth0.com/')
     const stop = jwks.start()
     const token = jwks.token({
-      sub: random.uuid(),
+      sub: faker.datatype.uuid(),
       iss: issuer,
       'custom:role': 'UserRole1',
       extraParam: 'claims',

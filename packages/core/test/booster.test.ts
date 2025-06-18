@@ -14,7 +14,7 @@ import {
   NotificationInterface,
 } from '@booster-ai/common'
 import { EventStore } from '../src/services/event-store'
-import { random } from 'faker'
+import { faker } from '@faker-js/faker'
 import { JwksUriTokenVerifier } from '../src/services/token-verifiers'
 import { afterEach } from 'mocha'
 
@@ -156,22 +156,22 @@ describe('the `Booster` class', () => {
     it('has an instance method', async () => {
       const searchResult: EventSearchResponse[] = [
         {
-          requestID: random.uuid(),
+          requestID: faker.datatype.uuid(),
           type: TestEvent.name,
-          entity: random.alpha(),
-          entityID: random.uuid(),
-          createdAt: random.alphaNumeric(),
+          entity: faker.string.alpha(),
+          entityID: faker.datatype.uuid(),
+          createdAt: faker.string.alphanumeric(),
           value: {
             id: '1',
             entityID: () => UUID.generate(),
           } as EventInterface,
         },
         {
-          requestID: random.uuid(),
+          requestID: faker.datatype.uuid(),
           type: BestEvent.name,
-          entity: random.alpha(),
-          entityID: random.uuid(),
-          createdAt: random.alphaNumeric(),
+          entity: faker.string.alpha(),
+          entityID: faker.datatype.uuid(),
+          createdAt: faker.string.alphanumeric(),
           value: {
             id: '1',
             entityID: () => UUID.generate(),
@@ -217,22 +217,22 @@ describe('the `Booster` class', () => {
     it('has a plain object if event class does not exist', async () => {
       const searchResult: EventSearchResponse[] = [
         {
-          requestID: random.uuid(),
+          requestID: faker.datatype.uuid(),
           type: TestEvent.name,
-          entity: random.alpha(),
-          entityID: random.uuid(),
-          createdAt: random.alphaNumeric(),
+          entity: faker.string.alpha(),
+          entityID: faker.datatype.uuid(),
+          createdAt: faker.string.alphanumeric(),
           value: {
             id: '1',
             entityID: () => UUID.generate(),
           } as EventInterface,
         },
         {
-          requestID: random.uuid(),
+          requestID: faker.datatype.uuid(),
           type: BestEvent.name,
-          entity: random.alpha(),
-          entityID: random.uuid(),
-          createdAt: random.alphaNumeric(),
+          entity: faker.string.alpha(),
+          entityID: faker.datatype.uuid(),
+          createdAt: faker.string.alphanumeric(),
           value: {
             id: '1',
             entityID: () => UUID.generate(),
@@ -277,11 +277,11 @@ describe('the `Booster` class', () => {
     it('has a plain object if notification class does not exist', async () => {
       const searchResult: EventSearchResponse[] = [
         {
-          requestID: random.uuid(),
+          requestID: faker.datatype.uuid(),
           type: TestEvent.name,
-          entity: random.alpha(),
-          entityID: random.uuid(),
-          createdAt: random.alphaNumeric(),
+          entity: faker.string.alpha(),
+          entityID: faker.datatype.uuid(),
+          createdAt: faker.string.alphanumeric(),
           value: {
             id: '1',
             entityID: () => UUID.generate(),

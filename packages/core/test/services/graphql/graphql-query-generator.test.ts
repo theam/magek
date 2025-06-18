@@ -16,7 +16,7 @@ import {
   GraphQLObjectType,
   GraphQLList,
 } from 'graphql'
-import { random } from 'faker'
+import { faker } from '@faker-js/faker'
 import { GraphQLJSON } from 'graphql-scalars'
 import { AnyClass, BoosterConfig, QueryMetadata } from '@booster-ai/common'
 import { ClassMetadata } from '@booster-ai/metadata'
@@ -43,7 +43,7 @@ describe('GraphQLQueryGenerator', () => {
       let getGraphQLTypeForStub: SinonStub
 
       beforeEach(() => {
-        mockGraphQLType = random.arrayElement([
+        mockGraphQLType = faker.helpers.arrayElement([
           GraphQLBoolean,
           GraphQLID,
           GraphQLString,
@@ -71,7 +71,7 @@ describe('GraphQLQueryGenerator', () => {
           let getClassMetadataStub: SinonStub<[classType: AnyClass], ClassMetadata>
 
           beforeEach(() => {
-            mockTargetTypeClass = random.arrayElement([Boolean, String, Number, Array])
+            mockTargetTypeClass = faker.helpers.arrayElement([Boolean, String, Number, Array])
             mockTargetTypeName = mockTargetTypeClass.name
 
             const mockedClassMetadata = {
@@ -148,7 +148,7 @@ describe('GraphQLQueryGenerator', () => {
 
             beforeEach(() => {
               // Provision target types
-              mockPropertyName = '_a' + random.alphaNumeric(10)
+              mockPropertyName = '_a' + faker.string.alphanumeric(10)
               mockTargetType = Array
               mockTargetTypeName = mockTargetType.name
               mockPropertyType = Boolean
@@ -265,7 +265,7 @@ describe('GraphQLQueryGenerator', () => {
                 })
 
                 it('When Number', () => {
-                  mockPropertyName = '_a' + random.alphaNumeric(10)
+                  mockPropertyName = '_a' + faker.string.alphanumeric(10)
                   mockTargetType = Array
                   mockTargetTypeName = mockTargetType.name
                   mockPropertyType = Number
@@ -355,7 +355,7 @@ describe('GraphQLQueryGenerator', () => {
                 })
 
                 it('When String', () => {
-                  mockPropertyName = '_a' + random.alphaNumeric(10)
+                  mockPropertyName = '_a' + faker.string.alphanumeric(10)
                   mockTargetType = Array
                   mockTargetTypeName = mockTargetType.name
                   mockPropertyType = String

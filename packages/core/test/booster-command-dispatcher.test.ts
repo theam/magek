@@ -6,7 +6,7 @@ import { expect } from './expect'
 import { BoosterCommandDispatcher } from '../src/booster-command-dispatcher'
 import { CommandBeforeFunction, Register, NotAuthorizedError } from '@booster-ai/common'
 import { Command, RegisterHandler } from '../src'
-import { random } from 'faker'
+import { faker } from '@faker-js/faker'
 import { BoosterAuthorizer } from '../src/booster-authorizer'
 
 describe('the `BoosterCommandsDispatcher`', () => {
@@ -156,7 +156,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
       class SomethingHappened {
         public constructor(readonly when: string) {}
         public entityID() {
-          return random.uuid()
+          return faker.datatype.uuid()
         }
       }
 

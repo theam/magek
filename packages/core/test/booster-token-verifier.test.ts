@@ -4,7 +4,8 @@
 import { expect } from './expect'
 import { BoosterConfig, UserEnvelope, DecodedToken } from '@booster-ai/common'
 import createJWKSMock from 'mock-jwks'
-import { internet, phone, random } from 'faker'
+import { faker } from '@faker-js/faker'
+const { internet, phone } = faker
 import { BoosterTokenVerifier } from '../src/booster-token-verifier'
 import { JwksUriTokenVerifier } from '../src/services/token-verifiers/jwks-uri-token-verifier'
 
@@ -14,7 +15,7 @@ describe('the "verifyToken" method', () => {
   const jwks = createJWKSMock(auth0VerifierUri)
   const email = internet.email()
   const phoneNumber = phone.phoneNumber()
-  const userId = random.uuid()
+  const userId = faker.datatype.uuid()
   const config = new BoosterConfig('test')
   let boosterTokenVerifier: BoosterTokenVerifier
 

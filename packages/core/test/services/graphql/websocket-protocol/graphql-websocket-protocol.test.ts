@@ -1,6 +1,7 @@
  
 import { stub, match, SinonStub, fake, replace } from 'sinon'
-import { random, lorem, internet } from 'faker'
+import { faker } from '@faker-js/faker'
+const { lorem, internet } = faker
 import {
   GraphQLRequestEnvelope,
   GraphQLStart,
@@ -61,7 +62,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
     envelope = {
       currentUser: undefined,
       eventType: 'MESSAGE',
-      requestID: random.alphaNumeric(10),
+      requestID: faker.string.alphanumeric(10),
     }
   })
 
@@ -92,7 +93,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
 
     describe('with an envelope with connectionID', () => {
       beforeEach(() => {
-        envelope.connectionID = random.alphaNumeric(10)
+        envelope.connectionID = faker.string.alphanumeric(10)
       })
 
       describe('with an error in the envelope', () => {
@@ -174,7 +175,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
             envelope.value = {
               type: MessageTypes.GQL_CONNECTION_INIT,
               payload: {
-                Authorization: random.uuid(),
+                Authorization: faker.datatype.uuid(),
               },
             }
           })
@@ -206,12 +207,12 @@ describe('the `GraphQLWebsocketHandler`', () => {
       describe('with a value with GQL_START message', () => {
         beforeEach(() => {
           envelope.value = {
-            id: random.alphaNumeric(10),
+            id: faker.string.alphanumeric(10),
             type: MessageTypes.GQL_START,
             payload: {
-              query: random.alphaNumeric(20),
-              variables: { aField: random.alphaNumeric(5) },
-              operationName: random.alphaNumeric(10),
+              query: faker.string.alphanumeric(20),
+              variables: { aField: faker.string.alphanumeric(5) },
+              operationName: faker.string.alphanumeric(10),
             },
           }
         })
@@ -279,7 +280,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
               roles: [lorem.word()],
               claims: {},
             },
-            expirationTime: random.number(),
+            expirationTime: faker.number.int(),
           }
           const fetchDataFake: SinonStub = connectionsManager.fetchData as any
           fetchDataFake.withArgs(config, envelope.connectionID).returns(connectionData)
@@ -366,7 +367,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
         beforeEach(() => {
           envelope.value = {
             type: MessageTypes.GQL_STOP,
-            id: random.alphaNumeric(10),
+            id: faker.string.alphanumeric(10),
           }
         })
 
