@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/indent */
+ 
 import { SequenceKey, UUID } from './concepts'
 import { ReadModelListResult } from './envelope'
 import { AnyClass, Class, ReadOnlyNonEmptyArray } from './typelevel'

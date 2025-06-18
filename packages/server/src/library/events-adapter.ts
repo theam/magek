@@ -12,7 +12,7 @@ import {
 } from '@booster-ai/common'
 import { EventRegistry } from '..'
 
-// eslint-disable-next-line @typescript-eslint/no-magic-numbers
+ 
 const originOfTime = new Date(0).toISOString()
 
 export function rawEventsToEnvelopes(rawEvents: Array<unknown>): Array<EventEnvelope> {

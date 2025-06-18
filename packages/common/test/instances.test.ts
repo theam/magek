@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { createInstanceWithCalculatedProperties, ProjectionFor, ReadModelInterface, UUID } from '../src'
 import { expect } from './helpers/expect'
 import { random } from 'faker'

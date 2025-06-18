@@ -79,7 +79,7 @@ function createMetadataForTypeInfo(
       f.createPropertyAssignment(
         'type',
         typeModule
-          ? /* eslint-disable indent */
+          ?  
             f.createPropertyAccessExpression(
               f.createCallExpression(f.createIdentifier('require'), undefined, [
                 f.createStringLiteral(typeModule || ''),
@@ -87,7 +87,7 @@ function createMetadataForTypeInfo(
               f.createIdentifier(typeInfo.typeName)
             )
           : f.createCallExpression(filterInterfaceFunctionName, undefined, [f.createStringLiteral(typeInfo.typeName)])
-        /* eslint-enable indent */
+         
       )
     )
   }

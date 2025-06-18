@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { stub, match, SinonStub, fake, replace } from 'sinon'
 import { random, lorem, internet } from 'faker'
 import {

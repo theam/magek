@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/no-unused-vars */
+ 
 import { BoosterConfig, TraceActionTypes, TraceInfo } from '@booster-ai/common'
 import { Booster, Trace } from '../../../src'
 import { expect } from '../../expect'
@@ -54,7 +54,7 @@ class TestClass {
   public innerField = ''
 
   @Trace(TraceActionTypes.CUSTOM)
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+   
   // @ts-ignore
   public async myCustomMethod(param: string): Promise<void> {
     this.innerField = param

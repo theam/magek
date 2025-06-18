@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
+ 
+ 
 import { BoosterEventDispatcher } from '../src/booster-event-dispatcher'
 import { fake, replace, restore, SinonSpy } from 'sinon'
 import { BoosterConfig, ProviderLibrary, UUID } from '@booster-ai/common'

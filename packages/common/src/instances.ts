@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { Class } from './typelevel'
 import { ProjectionFor } from './searcher'
 import { ReadModelInterface } from './concepts'

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-types */
+ 
 import { EntitySnapshotEnvelope, EventEnvelope, EventStoreEntryEnvelope } from '@booster-ai/common'
 import { eventsDatabase } from '../paths'
 

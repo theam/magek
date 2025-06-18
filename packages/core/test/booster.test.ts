@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
+ 
+ 
 import { expect } from './expect'
 import { Booster } from '../src/'
 import { replace, fake, restore, match, replaceGetter } from 'sinon'

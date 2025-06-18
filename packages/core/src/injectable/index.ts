@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { BoosterConfig } from '@booster-ai/common'
 import { PlatformError } from '@effect/platform/Error'
 import { CliApp, Command } from '@effect/cli'

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { createStubInstance, fake, SinonStub, SinonStubbedInstance, replace, stub, restore } from 'sinon'
 import { EventRegistry } from '../../src/services'
 import {

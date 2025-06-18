@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/ban-ts-comment */
+ 
 import { describe } from 'mocha'
 import {
   BOOSTER_SUPER_KIND,
@@ -53,7 +53,7 @@ describe('EventStore', () => {
       return new AnEntity(event.entityId, event.delta)
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+     
     public static reducerThatCallsEventMethod(event: AnotherEvent, currentEntity?: AnEntity): AnEntity {
       event.getPrefixedId('prefix')
       return new AnEntity('1', 1)
@@ -147,14 +147,14 @@ describe('EventStore', () => {
   describe('public methods', () => {
     describe('fetchEntitySnapshot', () => {
       it('properly binds `this` to the entityReducer', async () => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+         
         const eventStore = new EventStore(config) as any
         const someEventEnvelope = eventEnvelopeFor(someEvent, AnEvent.name)
 
         replace(eventStore, 'loadLatestSnapshot', fake.resolves(null))
         replace(eventStore, 'loadEventStreamSince', fake.resolves([someEventEnvelope]))
         replace(eventStore, 'entityReducer', function () {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+           
           // @ts-ignore
           expect(this).to.be.equal(eventStore)
         })
@@ -166,7 +166,7 @@ describe('EventStore', () => {
 
       context('when there is a snapshot but no pending events', () => {
         it('returns the snapshot', async () => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+           
           const eventStore = new EventStore(config) as any
           const someSnapshotEnvelope = snapshotEnvelopeFor(someEntity)
 
@@ -194,7 +194,7 @@ describe('EventStore', () => {
 
       context('when there is a snapshot and a short list of pending events', () => {
         it('produces and returns a new snapshot, storing it', async () => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+           
           const eventStore = new EventStore(config) as any
           const someSnapshotEnvelope = snapshotEnvelopeFor(someEntity)
           const someEventEnvelopePersistedAt = new Date()
@@ -260,7 +260,7 @@ describe('EventStore', () => {
 
       context('when there is a snapshot and a long list of pending events', () => {
         it('produces a new snapshot, stores it and returns it', async () => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+           
           const eventStore = new EventStore(config) as any
           const someSnapshotEnvelope = snapshotEnvelopeFor(someEntity)
           const someEventEnvelope = eventEnvelopeFor(someEvent, AnEvent.name)
@@ -331,7 +331,7 @@ describe('EventStore', () => {
 
       context('with no snapshot and a list of more than 5 events', () => {
         it('produces a new snapshot, stores it and returns it', async () => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+           
           const eventStore = new EventStore(config) as any
           const someEventEnvelope = eventEnvelopeFor(someEvent, AnEvent.name)
           const otherEventEnvelope = eventEnvelopeFor(otherEvent, AnEvent.name)
@@ -396,7 +396,7 @@ describe('EventStore', () => {
 
       context('with no snapshot and an empty list of events', () => {
         it('does nothing and returns null', async () => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+           
           const eventStore = new EventStore(config) as any
 
           replace(eventStore, 'loadLatestSnapshot', fake.resolves(null))
@@ -421,7 +421,7 @@ describe('EventStore', () => {
 
       context('with a stream that contains BEM events', () => {
         it('returns the reduced snapshot including the changes from BEM events', async () => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+           
           const eventStore = new EventStore(config) as any
 
           const someSnapshotEnvelope = snapshotEnvelopeFor(someEntity)
@@ -568,7 +568,7 @@ describe('EventStore', () => {
 
       context('when persisting the entity fails', () => {
         it('does not throw an exception and returns undefined', async () => {
-          //eslint-disable-next-line @typescript-eslint/no-explicit-any
+           
           const eventStore = new EventStore(config) as any
 
           const someSnapshotEnvelope = snapshotEnvelopeFor(someEntity)
@@ -643,7 +643,7 @@ describe('EventStore', () => {
       // This could potentially happen if two or more processes are reading the same entity stream at the same time
       context('when there is a snapshot in the middle of the stream', () => {
         it('ignores the snapshot and continues processing the stream', async () => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+           
           const eventStore = new EventStore(config) as any
 
           // It doesn't initially see the snapshot
@@ -745,7 +745,7 @@ describe('EventStore', () => {
   })
 
   describe('private methods', () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     const eventStore = new EventStore(config) as any
 
     describe('loadLatestSnapshot', () => {

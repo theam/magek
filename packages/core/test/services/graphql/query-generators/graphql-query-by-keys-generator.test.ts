@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/ban-ts-comment */
+ 
 import { replace, restore, fake } from 'sinon'
 import { expect } from '../../../expect'
 import { GraphQLTypeInformer } from '../../../../src/services/graphql/graphql-type-informer'

@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
+ 
+ 
 import { expect } from '../expect'
 import { Register } from '@booster-ai/common'
 import { Command } from '../../src/decorators'
@@ -19,7 +19,7 @@ describe('the `Command` decorator', () => {
       @Command({ authorize: fakeCommandAuthorizer })
       class PostComment {
         public constructor(readonly comment: string) {}
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+         
         public static async handle(_command: PostComment, _register: Register): Promise<void> {
           throw new Error('Not implemented')
         }
@@ -46,7 +46,7 @@ describe('the `Command` decorator', () => {
       @Command({})
       class PostComment {
         public constructor(readonly comment: string) {}
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+         
         public static async handle(_command: PostComment, _register: Register): Promise<void> {
           throw new Error('Not implemented')
         }
@@ -74,7 +74,7 @@ describe('the `Command` decorator', () => {
       @Command({ before: [fakeBeforeHook] })
       class PostComment {
         public constructor(readonly comment: string) {}
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+         
         public static async handle(_command: PostComment, _register: Register): Promise<void> {
           throw new Error('Not implemented')
         }

@@ -335,7 +335,7 @@ export class GraphQLGenerator {
 
     info.fieldNodes.forEach((fieldNode: FieldNode) => {
       const firstField: string = fieldNode.name.value
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+       
       // @ts-ignore
       const firstFieldType = info.schema.getQueryType().getFields()[firstField].type
       const rootType: GraphQLObjectType = getNamedType(
@@ -381,7 +381,7 @@ function toEventSearchRequest(args: EventSearchParameters, context: GraphQLResol
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 function toEnvelope(typeName: string, value: any, context: GraphQLResolverContext): CommandEnvelope | QueryEnvelope {
   return {
     requestID: context.requestID,

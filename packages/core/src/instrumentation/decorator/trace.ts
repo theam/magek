@@ -57,7 +57,7 @@ function buildParameters(
 
 // Get class name for instances and static methods
 function getClassName(target: unknown) {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+   
   // @ts-ignore
   return target?.prototype?.constructor?.name ?? target?.constructor?.name ?? ''
 }

@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-magic-numbers */
+ 
+ 
 
 import { expect } from './expect'
 import { BoosterConfig, SchemaMigrationMetadata, ReadModelInterface, UUID } from '@booster-ai/common'

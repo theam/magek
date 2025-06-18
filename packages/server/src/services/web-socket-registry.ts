@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-types */
+ 
 const DataStore = require('@seald-io/nedb')
 import { ConnectionDataEnvelope, SubscriptionEnvelope, UUID } from '@booster-ai/common'
 

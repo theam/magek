@@ -1,23 +1,23 @@
 import { describe, it, beforeEach, afterEach } from 'mocha'
 import { expect } from 'chai'
-import * as sinon from 'sinon'
+import { stub, restore, SinonStub } from 'sinon'
 import * as fs from 'fs'
 import * as path from 'path'
 import { assertNameIsCorrect, checkProjectAlreadyExists, replaceInFile } from '../src/cli'
 
 describe('create-booster-ai CLI', () => {
-  let fsExistsStub: sinon.SinonStub
-  let fsReadFileStub: sinon.SinonStub
-  let fsWriteFileStub: sinon.SinonStub
-  let fsStatStub: sinon.SinonStub
+  let fsExistsStub: SinonStub
+  let fsReadFileStub: SinonStub
+  let fsWriteFileStub: SinonStub
+  let fsStatStub: SinonStub
 
   beforeEach(() => {
     // Mock filesystem operations
-    fsExistsStub = sinon.stub(fs, 'existsSync')
-    fsReadFileStub = sinon.stub(fs, 'readFileSync')
-    fsWriteFileStub = sinon.stub(fs, 'writeFileSync')
-    fsStatStub = sinon.stub(fs, 'statSync')
-    sinon.stub(process, 'cwd').returns('/test/cwd')
+    fsExistsStub = stub(fs, 'existsSync')
+    fsReadFileStub = stub(fs, 'readFileSync')
+    fsWriteFileStub = stub(fs, 'writeFileSync')
+    fsStatStub = stub(fs, 'statSync')
+    stub(process, 'cwd').returns('/test/cwd')
 
     // Set default behaviors
     fsExistsStub.returns(false)
@@ -25,7 +25,7 @@ describe('create-booster-ai CLI', () => {
   })
 
   afterEach(() => {
-    sinon.restore()
+    restore()
   })
 
   describe('project name validation', () => {

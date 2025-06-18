@@ -85,7 +85,7 @@ export async function searchReadModel(
   afterCursor?: Record<string, string> | undefined,
   paginatedVersion = false,
   select?: ProjectionFor<unknown>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
 ): Promise<Array<any> | ReadModelListResult<any>> {
   const logger = getLogger(config, 'read-model-adapter#searchReadModel')
   logger.debug('Converting filter to query')

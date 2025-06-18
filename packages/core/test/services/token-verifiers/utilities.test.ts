@@ -43,7 +43,7 @@ describe('function `getKeyWithClient`', () => {
 
   context('when getting the public key fails', () => {
     it('calls the callback function with an error', () => {
-      // eslint-disable-next-line @typescript-eslint/ban-types
+       
       const fakeGetSigningKeyCallback = fake((_kid: unknown, callback: Function) =>
         callback(new Error('Error getting public key'))
       )
@@ -61,7 +61,7 @@ describe('function `getKeyWithClient`', () => {
 
   context('when getting the public key succeeds', () => {
     it('calls the callback function with the public key', () => {
-      // eslint-disable-next-line @typescript-eslint/ban-types
+       
       const fakeGetSigningKeyCallback = fake((_kid: string, callback: Function) =>
         callback(null, { getPublicKey: () => 'public-key' })
       )
@@ -89,7 +89,7 @@ describe('function `verifyJWT`', () => {
       const fakeIssuer = 'issuer'
       const fakePublicKey = 'public-key'
       const fakeDecodedToken = { a: 'token' } as unknown as DecodedToken
-      // eslint-disable-next-line @typescript-eslint/ban-types
+       
       const fakeVerify = fake((_token: unknown, _key: unknown, _options: unknown, callback: Function) =>
         callback(null, fakeDecodedToken)
       )
@@ -116,7 +116,7 @@ describe('function `verifyJWT`', () => {
       const fakeIssuer = 'issuer'
       const fakePublicKey = 'public-key'
       const fakeError = new Error('Error verifying token')
-      // eslint-disable-next-line @typescript-eslint/ban-types
+       
       const fakeVerify = fake((_token: unknown, _key: unknown, _options: unknown, callback: Function) =>
         callback(fakeError)
       )

@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
+ 
+ 
 import { createStubInstance, fake, match, replace, restore } from 'sinon'
 import {
   BoosterConfig,
@@ -36,7 +36,7 @@ class SomeNotification {
 }
 
 class AnEventHandler {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   public static async handle(event: SomeEvent, register: Register): Promise<void> {
     event.getPrefixedId('prefix')
   }

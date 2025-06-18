@@ -2,7 +2,6 @@
   "name": "create-booster-ai",
   "version": "3.2.0",
   "description": "Create Booster AI applications with one command",
-  "type": "module",
   "main": "dist/cli.js",
   "bin": {
     "create-booster-ai": "dist/cli.js"
@@ -21,7 +20,7 @@
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "prepack": "npm run build",
     "test:create": "npm run test",
-    "test": "mocha --recursive test/**/*.test.ts --require ts-node/register --timeout 10000"
+    "test": "mocha test/**/*.test.ts"
   },
   "keywords": [
     "booster",

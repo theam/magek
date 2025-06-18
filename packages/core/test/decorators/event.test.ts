@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
+ 
+ 
+ 
 import { expect } from '../expect'
 import { Event } from '../../src/decorators'
 import { UUID } from '@booster-ai/common'

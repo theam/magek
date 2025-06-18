@@ -10,7 +10,7 @@ import {
   HasProjection,
 } from './types'
 
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
+ 
 
 export const parseName = (name: string): Promise<HasName> => Promise.resolve({ name })
 
@@ -86,7 +86,7 @@ const projectionParsingError = (projection: string): Error =>
  *   )
  * ```
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 export function joinParsers<T extends Promise<any>[]>(
   ...parsers: T
 ): Promise<TupleToIntersection<{ [K in keyof T]: T[K] extends Promise<infer P> ? P : never }>> {
@@ -96,6 +96,6 @@ export function joinParsers<T extends Promise<any>[]>(
 }
 
 type TupleToUnion<T> = { [P in keyof T]: T[P] } extends { [K: number]: infer V } ? V : never
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 type UnionToIntersection<T> = (T extends any ? (k: T) => void : never) extends (k: infer I) => void ? I : never
 type TupleToIntersection<T> = UnionToIntersection<TupleToUnion<T>>

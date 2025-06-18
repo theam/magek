@@ -291,7 +291,7 @@ export class EventStore {
     eventName: string,
     eventInstance: EventInterface,
     snapshotInstance: EntityInterface | null
-    // eslint-disable-next-line @typescript-eslint/ban-types
+     
   ): Function {
     const logger = getLogger(this.config, 'EventStore#reducerForEvent')
     const reducerMetadata = this.config.reducers[eventName]
@@ -299,7 +299,7 @@ export class EventStore {
       throw new InvalidReducerError(`No reducer registered for event ${eventName}`, eventInstance, snapshotInstance)
     } else {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+         
         const methodName = reducerMetadata.methodName
         const reducer = (reducerMetadata.class as any)[methodName]
         logger.debug(`Found reducer for event ${eventName}: "${reducerMetadata.class.name}.${methodName}"`)

@@ -20,7 +20,7 @@ export function getClassMetadata(classType: AnyClass): ClassMetadata {
  * @returns {Array} arg - List of arguments in the function.
  */
 // TODO: Consider extending `metadata-booster` to yield constructor argument types
-// eslint-disable-next-line @typescript-eslint/ban-types
+ 
 export function getFunctionArguments(func: Function): Array<string> {
   // First match everything inside the function argument parens.
   const args = func.toString().match(/([^(])*\(([^)]*)\)/)?.[2]
