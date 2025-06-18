@@ -14,7 +14,7 @@
   "dependencies": {
     "@booster-ai/core": "workspace:^3.2.0",
     "@booster-ai/common": "workspace:^3.2.0",
-    "@oclif/core": "4.3.3",
+    "@oclif/core": "4.4.0",
     "@oclif/plugin-help": "^6.2.25",
     "chalk": "^5.4.1",
     "execa": "^9.6.0",
