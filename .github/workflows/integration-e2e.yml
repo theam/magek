@@ -67,7 +67,7 @@ jobs:
         env:
           VERDACCIO_AUTH_ENABLED: false
         options: >-
-          --health-cmd "wget --no-verbose --tries=1 --spider http://localhost:4873/health || exit 1"
+          --health-cmd "wget --no-verbose --tries=1 --spider http://localhost:4873/ || exit 1"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
