@@ -13,8 +13,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
-    "plugins": [{ "transform": "./src/index.ts" }]
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["test/**/*"]
+  "include": [
+    "test/**/*"
+  ]
 }

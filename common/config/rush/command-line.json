@@ -12,10 +12,10 @@
    */
   "commands": [
     {
-      "commandKind": "phased",
+      "commandKind": "bulk",
       "name": "test",
       "summary": "Runs unit tests for all packages",
-      "phases": ["_phase:test"],
+      "ignoreMissingScript": true,
       "enableParallelism": true
     },
     {
@@ -48,17 +48,7 @@
       "enableParallelism": true
     }
   ],
-  "phases": [
-    {
-      "name": "_phase:build",
-      "ignoreMissingScript": true
-    },
-    {
-      "name": "_phase:test",
-      "dependencies": { "upstream": ["_phase:build"] },
-      "ignoreMissingScript": true
-    }
-  ],
+
 
   /**
    * Custom "parameters" introduce new parameters for specified Rush command-line commands.
