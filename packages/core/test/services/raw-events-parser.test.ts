@@ -9,7 +9,7 @@ import {
 } from '@booster-ai/common'
 import { RawEventsParser } from '../../src/services/raw-events-parser'
 import { expect } from '../expect'
-import { random } from 'faker'
+import { faker } from '@faker-js/faker'
 
 describe('RawEventsParser', () => {
   afterEach(() => {
@@ -47,18 +47,18 @@ describe('RawEventsParser', () => {
 
     eventSource = [
       persistedEventEnvelopeForEntityA1,
-      createEntitySnapshotEnvelope(snapshottedEntityName, random.uuid()),
+      createEntitySnapshotEnvelope(snapshottedEntityName, faker.datatype.uuid()),
       persistedEventEnvelopeForEntityA2,
       persistedEventEnvelopeForEntityA3,
-      createEntitySnapshotEnvelope(snapshottedEntityName, random.uuid()),
-      createEntitySnapshotEnvelope(snapshottedEntityName, random.uuid()),
+      createEntitySnapshotEnvelope(snapshottedEntityName, faker.datatype.uuid()),
+      createEntitySnapshotEnvelope(snapshottedEntityName, faker.datatype.uuid()),
       persistedEventEnvelopeForEntityB1,
       persistedEventEnvelopeForEntityB2,
       persistedEventEnvelopeForEntityB3,
-      createEntitySnapshotEnvelope(snapshottedEntityName, random.uuid()),
-      createEntitySnapshotEnvelope(snapshottedEntityName, random.uuid()),
+      createEntitySnapshotEnvelope(snapshottedEntityName, faker.datatype.uuid()),
+      createEntitySnapshotEnvelope(snapshottedEntityName, faker.datatype.uuid()),
       persistedEventEnvelopeForEntityB4,
-      createEntitySnapshotEnvelope(snapshottedEntityName, random.uuid()),
+      createEntitySnapshotEnvelope(snapshottedEntityName, faker.datatype.uuid()),
     ]
 
     fakeRawToEnvelopes = fake.returns(eventSource)
@@ -149,33 +149,33 @@ describe('RawEventsParser', () => {
 })
 
 function createPersistedEventEnvelope(entityTypeName: string, entityID: string): EventEnvelope {
-  const createdAt = random.alpha()
+  const createdAt = faker.lorem.word()
   return {
     entityID: entityID,
     entityTypeName: entityTypeName,
     kind: 'event',
     superKind: 'domain',
     version: 1,
-    value: { id: random.uuid() },
-    requestID: random.uuid(),
-    typeName: 'Event' + random.alpha(),
+    value: { id: faker.datatype.uuid() },
+    requestID: faker.datatype.uuid(),
+    typeName: 'Event' + faker.lorem.word(),
     createdAt,
   }
 }
 
 function createEntitySnapshotEnvelope(entityTypeName: string, entityID: string): EntitySnapshotEnvelope {
-  const snapshottedEventCreatedAt = random.alpha()
+  const snapshottedEventCreatedAt = faker.lorem.word()
   return {
     entityID: entityID,
     entityTypeName: entityTypeName,
     kind: 'snapshot',
     superKind: 'domain',
     version: 1,
-    value: { id: random.uuid() },
-    requestID: random.uuid(),
-    typeName: 'Snapshot' + random.alpha(),
+    value: { id: faker.datatype.uuid() },
+    requestID: faker.datatype.uuid(),
+    typeName: 'Snapshot' + faker.lorem.word(),
     createdAt: snapshottedEventCreatedAt,
-    persistedAt: random.alpha(),
+    persistedAt: faker.lorem.word(),
     snapshottedEventCreatedAt,
   }
 }

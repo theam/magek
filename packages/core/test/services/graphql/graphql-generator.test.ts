@@ -17,7 +17,7 @@ import { expect } from '../../expect'
 import { GraphQLQueryGenerator } from '../../../src/services/graphql/graphql-query-generator'
 import { GraphQLMutationGenerator } from '../../../src/services/graphql/graphql-mutation-generator'
 import { GraphQLSubscriptionGenerator } from '../../../src/services/graphql/graphql-subcriptions-generator'
-import { internet, lorem, random } from 'faker'
+import { faker } from '@faker-js/faker'
 import { BoosterEventsReader } from '../../../src/booster-events-reader'
 
 import { GraphQLResolverContext } from '../../../src/services/graphql/common'
@@ -26,9 +26,8 @@ import { GraphQLFieldResolver } from 'graphql'
 describe('GraphQL generator', () => {
   let mockEnvironmentName: string
   let mockConfig: BoosterConfig
-
   beforeEach(() => {
-    mockEnvironmentName = random.alphaNumeric(10)
+    mockEnvironmentName = faker.lorem.word(10)
     mockConfig = new BoosterConfig(mockEnvironmentName)
     mockConfig.logLevel = Level.error
   })
@@ -47,9 +46,9 @@ describe('GraphQL generator', () => {
     let fakeSubscriptionGenerator: SinonStub
 
     beforeEach(() => {
-      mockQueryTypeName = random.alphaNumeric(10)
-      mockMutationTypeName = random.alphaNumeric(10)
-      mockSubscriptionTypeName = random.alphaNumeric(10)
+      mockQueryTypeName = 'QueryType'
+      mockMutationTypeName = 'MutationType'
+      mockSubscriptionTypeName = 'SubscriptionType'
       fakeQueryGenerator = stub().returns({ name: mockQueryTypeName })
       fakeMutationGenerator = stub().returns({ name: mockMutationTypeName })
       fakeSubscriptionGenerator = stub().returns({ name: mockSubscriptionTypeName })
@@ -112,20 +111,20 @@ describe('GraphQL generator', () => {
     let mockAsyncIteratorResult: string
 
     beforeEach(() => {
-      mockType = random.arrayElement([Boolean, String, Number])
-      mockRequestId = random.uuid()
-      mockEmail = internet.email()
-      mockRole = random.alphaNumeric(10)
+      mockType = faker.helpers.arrayElement([Boolean, String, Number])
+      mockRequestId = faker.datatype.uuid()
+      mockEmail = faker.internet.email()
+      mockRole = faker.lorem.word(10)
       mockFetchResult = []
 
-      for (let i = 0; i < random.number({ min: 1, max: 10 }); i++) {
+      for (let i = 0; i < faker.datatype.number({min: 1, max: 10}); i++) {
         mockFetchResult.push({
-          id: random.uuid(),
-          testKey: random.number(),
+          id: faker.datatype.uuid(),
+          testKey: faker.datatype.number(),
         })
       }
 
-      mockAsyncIteratorResult = lorem.word()
+      mockAsyncIteratorResult = faker.lorem.word()
       asyncIteratorStub = stub().returns(mockAsyncIteratorResult)
       mockResolverContext = {
         requestID: mockRequestId,
@@ -136,7 +135,7 @@ describe('GraphQL generator', () => {
           claims: {},
         },
         operation: {
-          query: random.alphaNumeric(),
+          query: faker.lorem.word(),
         },
         pubSub: {
           asyncIterator: (x: any) => asyncIteratorStub(x),
@@ -284,7 +283,7 @@ describe('GraphQL generator', () => {
 
       beforeEach(() => {
         mockInput = {
-          testObjectKey: random.alphaNumeric(10),
+          testObjectKey: faker.lorem.word(10),
         }
 
         dispatchCommandStub = stub()
@@ -351,7 +350,7 @@ describe('GraphQL generator', () => {
       >
 
       beforeEach(() => {
-        mockResolverResult = random.alphaNumeric(10)
+        mockResolverResult = faker.lorem.word(10)
 
         subscriptionResolverBuilderStub = stub().returns(() => {
           return mockResolverResult
@@ -380,7 +379,7 @@ describe('GraphQL generator', () => {
       let returnedFunction: GraphQLFieldResolver<any, GraphQLResolverContext, ReadModelRequestArgs<ReadModelInterface>>
 
       beforeEach(() => {
-        mockContextConnectionID = random.uuid()
+        mockContextConnectionID = faker.datatype.uuid()
 
         mockResolverContext.connectionID = mockContextConnectionID
 

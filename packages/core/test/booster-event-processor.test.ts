@@ -16,7 +16,7 @@ import { expect } from './expect'
 import { ReadModelStore } from '../src/services/read-model-store'
 import { EventStore } from '../src/services/event-store'
 import { RegisterHandler } from '../src/booster-register-handler'
-import { random } from 'faker'
+import { faker } from '@faker-js/faker'
 import { BoosterEventProcessor } from '../src/booster-event-processor'
 
 class SomeEvent {
@@ -333,7 +333,7 @@ describe('BoosterEventProcessor', () => {
       })
 
       it('waits for async event handlers to finish', async () => {
-        let capturedRegister: Register = new Register(random.uuid(), {} as any, RegisterHandler.flush)
+        let capturedRegister: Register = new Register(faker.datatype.uuid(), {} as any, RegisterHandler.flush)
         const fakeHandler = fake(async (event: EventInterface, register: Register) => {
           await new Promise((resolve) => setTimeout(resolve, 100))
           register.events(someEvent.value as EventInterface)
