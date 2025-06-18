@@ -1,8 +1,7 @@
 import { expect } from '../expect'
-import { fancy } from 'fancy-test'
+import { test, runCommand } from '@oclif/test'
 import { restore, fake, replace } from 'sinon'
 import { ProviderLibrary, BoosterConfig } from '@booster-ai/common'
-import { runCommand } from '@oclif/test'
 import * as Deploy from '../../src/commands/deploy'
 import * as providerService from '../../src/services/provider-service'
 import { oraLogger } from '../../src/services/logger'
@@ -35,7 +34,7 @@ describe('deploy', () => {
 
   describe('runTasks function', () => {
     context('when an unexpected problem happens', () => {
-      fancy.stdout().it('fails gracefully showing the error message', async () => {
+      test.stdout().it('fails gracefully showing the error message', async () => {
         const msg = 'weird exception'
         const fakeLoader = Promise.reject(new Error(msg))
         const fakeDeployer = fake()
@@ -47,7 +46,7 @@ describe('deploy', () => {
     })
 
     context('when index.ts structure is not correct', () => {
-      fancy.stdout().it('fails gracefully', async () => {
+      test.stdout().it('fails gracefully', async () => {
         const msg = 'An error when loading project'
         const fakeLoader = Promise.reject(new Error(msg))
         const fakeDeployer = fake()
@@ -59,7 +58,7 @@ describe('deploy', () => {
     })
 
     context('when there is a valid index.ts', () => {
-      fancy.stdout().it('Starts deployment', async (ctx) => {
+      test.stdout().it('Starts deployment', async (ctx) => {
         // TODO: Once we migrate all services to the new way, we can remove this and just use the Test Layer for each of them
         replace(packageManagerImpl, 'LivePackageManager', TestPackageManager.layer)
 

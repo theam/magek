@@ -1,5 +1,5 @@
 import { expect } from '../expect'
-import { fancy } from 'fancy-test'
+import { test, runCommand } from '@oclif/test'
 import { restore, replace, fake } from 'sinon'
 import Prompter from '../../src/services/user-prompt'
 import { ProviderLibrary, BoosterConfig } from '@booster-ai/common'
@@ -7,7 +7,6 @@ import * as Nuke from '../../src/commands/nuke'
 import * as providerService from '../../src/services/provider-service'
 import { oraLogger } from '../../src/services/logger'
 import { Config } from '@oclif/core'
-import { runCommand } from '@oclif/test'
 import * as environment from '../../src/services/environment'
 import * as configService from '../../src/services/config-service'
 import * as projectChecker from '../../src/services/project-checker'
@@ -27,7 +26,7 @@ describe('nuke', () => {
 
   describe('runTasks function', () => {
     context('when an unexpected problem happens', () => {
-      fancy.stdout().it('fails gracefully showing the error message', async () => {
+      test.stdout().it('fails gracefully showing the error message', async () => {
         const msg = 'weird exception'
         const fakeLoader = Promise.reject(new Error(msg))
         const fakeNuke = fake()
@@ -39,7 +38,7 @@ describe('nuke', () => {
     })
 
     context('when a wrong application name is provided', () => {
-      fancy.stdout().it('fails gracefully showing the error message', async () => {
+      test.stdout().it('fails gracefully showing the error message', async () => {
         const fakeProvider = {} as ProviderLibrary
 
         const fakeConfig = Promise.resolve({
@@ -63,7 +62,7 @@ describe('nuke', () => {
     })
 
     context('when the --force flag is provided', () => {
-      fancy.stdout().it('continues without asking for the application name', async () => {
+      test.stdout().it('continues without asking for the application name', async () => {
         const fakeProvider = {} as ProviderLibrary
 
         const fakeConfig = Promise.resolve({
@@ -87,7 +86,7 @@ describe('nuke', () => {
     })
 
     context('when a valid application name is provided', () => {
-      fancy.stdout().it('starts removal', async (ctx) => {
+      test.stdout().it('starts removal', async (ctx) => {
         const fakeProvider = {} as ProviderLibrary
 
         const fakeConfig = Promise.resolve({
