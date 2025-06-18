@@ -46,9 +46,9 @@ describe('GraphQL generator', () => {
     let fakeSubscriptionGenerator: SinonStub
 
     beforeEach(() => {
-      mockQueryTypeName = faker.lorem.word(10)
-      mockMutationTypeName = faker.lorem.word(10)
-      mockSubscriptionTypeName = faker.lorem.word(10)
+      mockQueryTypeName = 'QueryType'
+      mockMutationTypeName = 'MutationType'
+      mockSubscriptionTypeName = 'SubscriptionType'
       fakeQueryGenerator = stub().returns({ name: mockQueryTypeName })
       fakeMutationGenerator = stub().returns({ name: mockMutationTypeName })
       fakeSubscriptionGenerator = stub().returns({ name: mockSubscriptionTypeName })
