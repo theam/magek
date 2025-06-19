@@ -34,7 +34,7 @@ describe('RocketsHealthIndicator', () => {
 
   describe('when no rockets are found', () => {
     beforeEach(() => {
-      config.provider.sensor.areRocketFunctionsUp = fake.returns({})
+      config.provider.sensor.areRocketFunctionsUp = fake.resolves({})
     })
 
     it('returns UNKNOWN status with reason', async () => {
@@ -54,7 +54,7 @@ describe('RocketsHealthIndicator', () => {
 
   describe('when checking all rockets', () => {
     it('returns UP status when all rockets are up', async () => {
-      config.provider.sensor.areRocketFunctionsUp = fake.returns({
+      config.provider.sensor.areRocketFunctionsUp = fake.resolves({
         'rocket1-func': true,
         'rocket2-func': true,
       })
@@ -70,7 +70,7 @@ describe('RocketsHealthIndicator', () => {
     })
 
     it('returns DOWN status when any rocket is down', async () => {
-      config.provider.sensor.areRocketFunctionsUp = fake.returns({
+      config.provider.sensor.areRocketFunctionsUp = fake.resolves({
         'rocket1-func': false,
         'rocket2-func': false,
       })
@@ -86,7 +86,7 @@ describe('RocketsHealthIndicator', () => {
     })
 
     it('returns PARTIALLY_UP status when some rockets are up and some are down', async () => {
-      config.provider.sensor.areRocketFunctionsUp = fake.returns({
+      config.provider.sensor.areRocketFunctionsUp = fake.resolves({
         'rocket1-func': true,
         'rocket2-func': false,
       })
@@ -108,7 +108,7 @@ describe('RocketsHealthIndicator', () => {
     })
 
     it('returns UP status when the rocket is up', async () => {
-      config.provider.sensor.areRocketFunctionsUp = fake.returns({
+      config.provider.sensor.areRocketFunctionsUp = fake.resolves({
         'rocket1-func': true,
         'rocket2-func': false,
       })
@@ -124,7 +124,7 @@ describe('RocketsHealthIndicator', () => {
     })
 
     it('returns DOWN status when the rocket is down', async () => {
-      config.provider.sensor.areRocketFunctionsUp = fake.returns({
+      config.provider.sensor.areRocketFunctionsUp = fake.resolves({
         'rocket1-func': false,
         'rocket2-func': true,
       })
@@ -140,7 +140,7 @@ describe('RocketsHealthIndicator', () => {
     })
 
     it('throws error when the rocket does not exist', async () => {
-      config.provider.sensor.areRocketFunctionsUp = fake.returns({
+      config.provider.sensor.areRocketFunctionsUp = fake.resolves({
         'rocket2-func': true,
       })
 

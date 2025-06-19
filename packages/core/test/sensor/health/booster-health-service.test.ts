@@ -53,9 +53,9 @@ describe('BoosterHealthService', () => {
 
   it('All indicators are DOWN', async () => {
     config.provider.sensor = defaultSensor()
-    config.provider.sensor.isGraphQLFunctionUp = fake(() => false)
-    config.provider.sensor.isDatabaseEventUp = fake(() => false)
-    config.provider.sensor.areDatabaseReadModelsUp = fake(() => false)
+    config.provider.sensor.isGraphQLFunctionUp = fake.resolves(false)
+    config.provider.sensor.isDatabaseEventUp = fake.resolves(false)
+    config.provider.sensor.areDatabaseReadModelsUp = fake.resolves(false)
     const expectedStatus = 'DOWN'
     const boosterResult = await boosterHealth(config)
     const boosterFunction = getBoosterFunction(boosterResult)
@@ -71,12 +71,12 @@ describe('BoosterHealthService', () => {
 
   it('Details are processed', async () => {
     config.provider.sensor = defaultSensor()
-    config.provider.sensor.databaseEventsHealthDetails = fake(() => ({
+    config.provider.sensor.databaseEventsHealthDetails = fake.resolves({
       test: true,
-    }))
-    config.provider.sensor.databaseReadModelsHealthDetails = fake(() => ({
+    })
+    config.provider.sensor.databaseReadModelsHealthDetails = fake.resolves({
       test: true,
-    }))
+    })
     const boosterResult = await boosterHealth(config)
     const boosterFunction = getBoosterFunction(boosterResult)
     const boosterDatabase = getBoosterDatabase(boosterResult)
@@ -227,28 +227,28 @@ describe('BoosterHealthService', () => {
 
     it('returns isHealthy false when any component is DOWN', async () => {
       config.provider.sensor = defaultSensor()
-      config.provider.sensor.isGraphQLFunctionUp = fake(() => false)
+      config.provider.sensor.isGraphQLFunctionUp = fake.resolves(false)
       await boosterHealth(config)
       expect(healthRequestResult.isHealthy).to.be.false
     })
 
     it('returns isHealthy true when rockets are UNKNOWN', async () => {
       config.provider.sensor = defaultSensor()
-      config.provider.sensor.areRocketFunctionsUp = fake(() => ({})) // Empty object means no rockets
+      config.provider.sensor.areRocketFunctionsUp = fake.resolves({}) // Empty object means no rockets
       await boosterHealth(config)
       expect(healthRequestResult.isHealthy).to.be.true
     })
 
     it('returns isHealthy false when rockets are DOWN', async () => {
       config.provider.sensor = defaultSensor()
-      config.provider.sensor.areRocketFunctionsUp = fake(() => ({ rocket1: false }))
+      config.provider.sensor.areRocketFunctionsUp = fake.resolves({ rocket1: false })
       await boosterHealth(config)
       expect(healthRequestResult.isHealthy).to.be.false
     })
 
     it('returns isHealthy true when rockets are UP', async () => {
       config.provider.sensor = defaultSensor()
-      config.provider.sensor.areRocketFunctionsUp = fake(() => ({ rocket1: true }))
+      config.provider.sensor.areRocketFunctionsUp = fake.resolves({ rocket1: true })
       await boosterHealth(config)
       expect(healthRequestResult.isHealthy).to.be.true
     })
@@ -257,17 +257,17 @@ describe('BoosterHealthService', () => {
 
 function defaultSensor(token?: string, url?: string) {
   return {
-    databaseEventsHealthDetails: fake(() => {}),
-    databaseReadModelsHealthDetails: fake(() => {}),
-    isGraphQLFunctionUp: fake(() => true),
-    isDatabaseEventUp: fake(() => true),
-    areDatabaseReadModelsUp: fake(() => true),
-    databaseUrls: fake(() => []),
-    graphQLFunctionUrl: fake(() => ''),
+    databaseEventsHealthDetails: fake.resolves({}),
+    databaseReadModelsHealthDetails: fake.resolves({}),
+    isGraphQLFunctionUp: fake.resolves(true),
+    isDatabaseEventUp: fake.resolves(true),
+    areDatabaseReadModelsUp: fake.resolves(true),
+    databaseUrls: fake.resolves([]),
+    graphQLFunctionUrl: fake.resolves(''),
     rawRequestToHealthEnvelope: fake(() => {
-      return { token: token, componentPath: url }
+      return { requestID: 'test-request-id', token: token, componentPath: url || '' }
     }),
-    areRocketFunctionsUp: fake(() => ({ rocket1: true })),
+    areRocketFunctionsUp: fake.resolves({ rocket1: true }),
   }
 }
 

@@ -201,7 +201,7 @@ describe('ReadModelStore', () => {
 
         replace(config.provider.readModels, 'store', fake())
         const readModelStore = new ReadModelStore(config)
-        replace(readModelStore, 'fetchReadModel', fake.returns(null))
+        replace(readModelStore, 'fetchReadModel', fake.resolves(null))
 
         await expect(readModelStore.project(entitySnapshotWithNoProjections)).to.eventually.be.fulfilled
 
@@ -215,7 +215,7 @@ describe('ReadModelStore', () => {
         replace(config.provider.readModels, 'store', fake())
         replace(config.provider.readModels, 'delete', fake())
         replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
-        replace(config.provider.readModels, 'search', fake.returns([]))
+        replace(config.provider.readModels, 'search', fake.resolves([]))
         replace(
           ReadModelStore.prototype,
           'getProjectionFunction',
@@ -235,7 +235,7 @@ describe('ReadModelStore', () => {
         replace(config.provider.readModels, 'store', fake())
         replace(config.provider.readModels, 'delete', fake())
         replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
-        replace(config.provider.readModels, 'search', fake.returns([]))
+        replace(config.provider.readModels, 'search', fake.resolves([]))
         replace(
           ReadModelStore.prototype,
           'getProjectionFunction',
@@ -263,9 +263,9 @@ describe('ReadModelStore', () => {
       it('creates new instances of the read models', async () => {
         replace(config.provider.readModels, 'store', fake())
         replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
-        replace(config.provider.readModels, 'search', fake.returns([]))
+        replace(config.provider.readModels, 'search', fake.resolves([]))
         const readModelStore = new ReadModelStore(config)
-        replace(readModelStore, 'fetchReadModel', fake.returns(null))
+        replace(readModelStore, 'fetchReadModel', fake.resolves(null))
         spy(SomeReadModel, 'someObserver')
         spy(AnotherReadModel, 'anotherObserver')
         const entityValue: any = entitySnapshotEnvelopeFor(AnImportantEntity.name).value
@@ -372,7 +372,7 @@ describe('ReadModelStore', () => {
         replace(
           config.provider.readModels,
           'search',
-          fake((config: BoosterConfig, className: string) => {
+          fake(async (config: BoosterConfig, className: string) => {
             if (className == SomeReadModel.name) {
               return [
                 {
@@ -410,7 +410,7 @@ describe('ReadModelStore', () => {
                 },
               ]
             }
-          })
+          }) as any
         )
         spy(SomeReadModel, 'someObserver')
         spy(AnotherReadModel, 'anotherObserver')
@@ -537,7 +537,7 @@ describe('ReadModelStore', () => {
       it('is executed without failing', async () => {
         const readModelStore = new ReadModelStore(config)
         replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
-        replace(config.provider.readModels, 'search', fake.returns([]))
+        replace(config.provider.readModels, 'search', fake.resolves([]))
         const getPrefixedKeyFake = fake()
         replace(AnImportantEntity.prototype, 'getPrefixedKey', getPrefixedKeyFake)
         await readModelStore.project(entitySnapshotEnvelopeFor(AnImportantEntity.name))
@@ -549,7 +549,7 @@ describe('ReadModelStore', () => {
       it('is executed without failing', async () => {
         const readModelStore = new ReadModelStore(config)
         replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
-        replace(config.provider.readModels, 'search', fake.returns([{ id: 'joinColumnID', count: 31415 }]))
+        replace(config.provider.readModels, 'search', fake.resolves([{ id: 'joinColumnID', count: 31415 }]))
         const getIdFake = fake()
         replace(SomeReadModel.prototype, 'getId', getIdFake)
         await readModelStore.project(entitySnapshotEnvelopeFor(AnEntity.name))
@@ -578,7 +578,7 @@ describe('ReadModelStore', () => {
           return Promise.resolve()
         })
         replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
-        replace(config.provider.readModels, 'search', fake.returns([]))
+        replace(config.provider.readModels, 'search', fake.resolves([]))
         replace(config.provider.readModels, 'store', fakeStore)
         const readModelStore = new ReadModelStore(config)
         await readModelStore.project(entitySnapshotEnvelopeFor(AnImportantEntity.name))
@@ -629,7 +629,7 @@ describe('ReadModelStore', () => {
         replace(
           config.provider.readModels,
           'search',
-          fake.returns([
+          fake.resolves([
             {
               id: 'joinColumnID',
               kind: 'some',
@@ -776,7 +776,7 @@ describe('ReadModelStore', () => {
         )
         replace(config.provider.readModels, 'store', fakeStore)
         replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
-        replace(config.provider.readModels, 'search', fake.returns([]))
+        replace(config.provider.readModels, 'search', fake.resolves([]))
 
         const readModelStore = new ReadModelStore(config)
         await readModelStore.project(entitySnapshotEnvelopeFor(AnImportantEntityWithArray.name))
@@ -832,7 +832,7 @@ describe('ReadModelStore', () => {
         const fakeApplyProjectionToReadModel = fake()
         replace(readModelStore as any, 'applyProjectionToReadModel', fakeApplyProjectionToReadModel)
         replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
-        replace(config.provider.readModels, 'search', fake.returns([]))
+        replace(config.provider.readModels, 'search', fake.resolves([]))
 
         await readModelStore.project(anEntitySnapshot)
 
@@ -858,7 +858,7 @@ describe('ReadModelStore', () => {
   describe('the `fetchReadModel` method', () => {
     context('with no sequenceMetadata', () => {
       it("returns `undefined` when the read model doesn't exist", async () => {
-        replace(config.provider.readModels, 'fetch', fake.returns(undefined))
+        replace(config.provider.readModels, 'fetch', fake.resolves(undefined))
         const readModelStore = new ReadModelStore(config)
 
         const result = await readModelStore.fetchReadModel(SomeReadModel.name, 'joinColumnID')
@@ -873,7 +873,7 @@ describe('ReadModelStore', () => {
       })
 
       it("returns `undefined` when the read model doesn't exist and provider returns [undefined]", async () => {
-        replace(config.provider.readModels, 'fetch', fake.returns([undefined]))
+        replace(config.provider.readModels, 'fetch', fake.resolves([undefined]))
         const readModelStore = new ReadModelStore(config)
 
         const result = await readModelStore.fetchReadModel(SomeReadModel.name, 'joinColumnID')
@@ -888,7 +888,7 @@ describe('ReadModelStore', () => {
       })
 
       it('returns an instance of the current read model value when it exists', async () => {
-        replace(config.provider.readModels, 'fetch', fake.returns([{ id: 'joinColumnID', count: 0 }]))
+        replace(config.provider.readModels, 'fetch', fake.resolves([{ id: 'joinColumnID', count: 0 }]))
         const readModelStore = new ReadModelStore(config)
 
         const result = await readModelStore.fetchReadModel(SomeReadModel.name, 'joinColumnID')
@@ -905,7 +905,7 @@ describe('ReadModelStore', () => {
 
     context('with sequenceMetadata', () => {
       it("calls the provider's fetch method passing the sequenceMetadata object", async () => {
-        replace(config.provider.readModels, 'fetch', fake.returns({ id: 'joinColumnID' }))
+        replace(config.provider.readModels, 'fetch', fake.resolves({ id: 'joinColumnID' }))
         const readModelStore = new ReadModelStore(config)
 
         await readModelStore.fetchReadModel(SomeReadModel.name, 'joinColumnID', {
