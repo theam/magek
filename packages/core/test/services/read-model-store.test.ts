@@ -764,7 +764,7 @@ describe('ReadModelStore', () => {
         const expectedAnotherJoinColumnIDTries = 5
         const expectedJoinColumnIDTries = 1
         const fakeStore = fake(
-          (config: BoosterConfig, readModelName: string, readModel: ReadModelInterface): Promise<unknown> => {
+          (config: BoosterConfig, readModelName: string, readModel: ReadModelInterface, expectedCurrentVersion?: number): Promise<unknown> => {
             if (readModelName === SomeReadModel.name) {
               if (readModel.id == 'anotherJoinColumnID' && tryNumber < expectedAnotherJoinColumnIDTries) {
                 tryNumber++
@@ -784,7 +784,7 @@ describe('ReadModelStore', () => {
         const someReadModelStoreCalls = fakeStore.getCalls().filter((call) => call.args[1] === SomeReadModel.name)
         expect(someReadModelStoreCalls).to.be.have.length(expectedJoinColumnIDTries + expectedAnotherJoinColumnIDTries)
         someReadModelStoreCalls
-          .filter((call) => call.args[3].id == 'joinColumnID')
+          .filter((call) => call.args[2].id == 'joinColumnID')
           .forEach((call) => {
             expect(call.args).to.be.deep.equal([
               config,
@@ -799,7 +799,7 @@ describe('ReadModelStore', () => {
             ])
           })
         someReadModelStoreCalls
-          .filter((call) => call.args[3].id == 'anotherJoinColumnID')
+          .filter((call) => call.args[2].id == 'anotherJoinColumnID')
           .forEach((call) => {
             expect(call.args).to.be.deep.equal([
               config,
