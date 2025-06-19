@@ -61,7 +61,7 @@
     "@effect/cluster": "^0.38.14",
     "@effect/rpc": "^0.62.0",
     "@effect/sql": "^0.37.10",
-    "@effect/experimental": "0.48.10"
+    "@effect/experimental": "0.49.2"
   },
   "devDependencies": {
     "@booster-ai/eslint-config": "workspace:^3.2.0",
