@@ -55,7 +55,7 @@
     "fast-check": "^4.1.1",
     "@effect/printer": "0.44.7",
     "@effect/typeclass": "0.35.8",
-    "@effect/printer-ansi": "0.41.2",
+    "@effect/printer-ansi": "0.44.8",
     "@effect/platform-node": "^0.86.0",
     "@effect/platform-node-shared": "^0.40.2",
     "@effect/cluster": "^0.38.14",
