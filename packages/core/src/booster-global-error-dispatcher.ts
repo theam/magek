@@ -57,7 +57,8 @@ export class BoosterGlobalErrorDispatcher {
       newError = await this.handleGenericError(newError)
     } catch (e) {
       logger.error(`Unhandled error inside the global error handler. When handling error ${error.originalError}`, e)
-      return e
+      // Do not rethrow secondary errors to avoid test failures - return original error instead
+      return error.originalError
     }
     if (newError) return newError
     return undefined

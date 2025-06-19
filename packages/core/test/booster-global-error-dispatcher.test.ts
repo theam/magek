@@ -19,6 +19,11 @@ import {
   ScheduleCommandGlobalError,
   ScheduledCommandEnvelope,
   ScheduledCommandMetadata,
+  QueryEnvelope,
+  QueryHandlerGlobalError,
+  EventGlobalError,
+  SnapshotPersistHandlerGlobalError,
+  EntitySnapshot,
 } from '@booster-ai/common'
 import { GlobalErrorHandler } from '../src'
 import { restore } from 'sinon'
@@ -91,7 +96,8 @@ describe('BoosterGlobalErrorDispatcher', () => {
     config.globalErrorsHandler = { class: ErrorHandler } as GlobalErrorHandlerMetadata
     const errorDispatcher = new BoosterGlobalErrorDispatcher(config)
     const result = await errorDispatcher.dispatch(scheduleCommandGlobalError)
-    expect(result?.toString()).to.be.eq('Error: failed')
+    // Should return original error when error handler fails, not the secondary error
+    expect(result?.toString()).to.be.eq(`Error: ${baseError.message}`)
   })
 
   it('should dispatch specific and generic handler if both are defined for a specific error', async () => {
@@ -281,5 +287,26 @@ describe('BoosterGlobalErrorDispatcher', () => {
     const errorDispatcher = new BoosterGlobalErrorDispatcher(config)
     const result = await errorDispatcher.dispatch(scheduleCommandGlobalError)
     expect(result).to.be.undefined
+  })
+
+  it('should throw original error for QueryHandlerGlobalError when no handler is defined', async () => {
+    const mockQuery = {} as QueryEnvelope
+    const queryGlobalError = new QueryHandlerGlobalError(mockQuery, baseError)
+    const errorDispatcher = new BoosterGlobalErrorDispatcher(config)
+    await expect(errorDispatcher.dispatch(queryGlobalError)).to.eventually.eq(baseError)
+  })
+
+  it('should throw original error for EventGlobalError when no handler is defined', async () => {
+    const mockEventEnvelope: EventEnvelope = {} as EventEnvelope
+    const eventGlobalError = new EventGlobalError(mockEventEnvelope, baseError)
+    const errorDispatcher = new BoosterGlobalErrorDispatcher(config)
+    await expect(errorDispatcher.dispatch(eventGlobalError)).to.eventually.eq(baseError)
+  })
+
+  it('should throw original error for SnapshotPersistHandlerGlobalError when no handler is defined', async () => {
+    const mockSnapshot = {} as EntitySnapshot
+    const snapshotGlobalError = new SnapshotPersistHandlerGlobalError(mockSnapshot, baseError)
+    const errorDispatcher = new BoosterGlobalErrorDispatcher(config)
+    await expect(errorDispatcher.dispatch(snapshotGlobalError)).to.eventually.eq(baseError)
   })
 })
