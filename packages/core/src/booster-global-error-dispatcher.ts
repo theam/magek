@@ -65,7 +65,7 @@ export class BoosterGlobalErrorDispatcher {
   }
 
   private async handleCommandError(error: GlobalErrorContainer): Promise<Error | undefined> {
-    if (!this.errorHandler || !this.errorHandler.onCommandHandlerError) throw error.originalError
+    if (!this.errorHandler || !this.errorHandler.onCommandHandlerError) return error.originalError
     const currentError = error as CommandHandlerGlobalError
     return await this.errorHandler.onCommandHandlerError(
       currentError.originalError,
@@ -75,13 +75,13 @@ export class BoosterGlobalErrorDispatcher {
   }
 
   private async handleQueryError(error: GlobalErrorContainer): Promise<Error | undefined> {
-    if (!this.errorHandler || !this.errorHandler.onQueryHandlerError) throw error.originalError
+    if (!this.errorHandler || !this.errorHandler.onQueryHandlerError) return error.originalError
     const currentError = error as QueryHandlerGlobalError
     return await this.errorHandler.onQueryHandlerError(currentError.originalError, currentError.query)
   }
 
   private async handleScheduleError(error: GlobalErrorContainer): Promise<Error | undefined> {
-    if (!this.errorHandler || !this.errorHandler.onScheduledCommandHandlerError) throw error.originalError
+    if (!this.errorHandler || !this.errorHandler.onScheduledCommandHandlerError) return error.originalError
     const currentError = error as ScheduleCommandGlobalError
     return await this.errorHandler.onScheduledCommandHandlerError(
       currentError.originalError,
@@ -91,7 +91,7 @@ export class BoosterGlobalErrorDispatcher {
   }
 
   private async handleEventHandlerError(error: GlobalErrorContainer): Promise<Error | undefined> {
-    if (!this.errorHandler || !this.errorHandler.onDispatchEventHandlerError) throw error.originalError
+    if (!this.errorHandler || !this.errorHandler.onDispatchEventHandlerError) return error.originalError
     const currentError = error as EventHandlerGlobalError
     return await this.errorHandler.onDispatchEventHandlerError(
       currentError.originalError,
@@ -102,7 +102,7 @@ export class BoosterGlobalErrorDispatcher {
   }
 
   private async handleReducerError(error: GlobalErrorContainer): Promise<Error> {
-    if (!this.errorHandler || !this.errorHandler.onReducerError) throw error.originalError
+    if (!this.errorHandler || !this.errorHandler.onReducerError) return error.originalError
     const currentError = error as ReducerGlobalError
     return await this.errorHandler.onReducerError(
       currentError.originalError,
@@ -114,7 +114,7 @@ export class BoosterGlobalErrorDispatcher {
   }
 
   private async handleProjectionError(error: GlobalErrorContainer): Promise<Error | undefined> {
-    if (!this.errorHandler || !this.errorHandler.onProjectionError) throw error.originalError
+    if (!this.errorHandler || !this.errorHandler.onProjectionError) return error.originalError
     const currentError = error as ProjectionGlobalError
     return await this.errorHandler.onProjectionError(
       currentError.originalError,
@@ -126,20 +126,20 @@ export class BoosterGlobalErrorDispatcher {
   }
 
   private async handleSnapshotPersistError(error: GlobalErrorContainer): Promise<Error | undefined> {
-    if (!this.errorHandler || !this.errorHandler.onSnapshotPersistError) throw error.originalError
+    if (!this.errorHandler || !this.errorHandler.onSnapshotPersistError) return error.originalError
     const currentError = error as SnapshotPersistHandlerGlobalError
     return this.errorHandler.onSnapshotPersistError(currentError.originalError, currentError.snapshot)
   }
 
   private async handleEventError(error: GlobalErrorContainer): Promise<Error | undefined> {
-    if (!this.errorHandler || !this.errorHandler.onEventError) throw error.originalError
+    if (!this.errorHandler || !this.errorHandler.onEventError) return error.originalError
     const currentError = error as EventGlobalError
     return await this.errorHandler.onEventError(currentError.originalError, currentError.eventEnvelope)
   }
 
   private async handleGenericError(error: Error | undefined): Promise<Error | undefined> {
     if (!error) return undefined
-    if (!this.errorHandler || !this.errorHandler.onError) throw error
+    if (!this.errorHandler || !this.errorHandler.onError) return error
     return await this.errorHandler.onError(error)
   }
 }

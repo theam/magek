@@ -23,7 +23,7 @@ import {
   QueryHandlerGlobalError,
   EventGlobalError,
   SnapshotPersistHandlerGlobalError,
-  EntitySnapshot,
+  NonPersistedEntitySnapshotEnvelope,
 } from '@booster-ai/common'
 import { GlobalErrorHandler } from '../src'
 import { restore } from 'sinon'
@@ -304,7 +304,7 @@ describe('BoosterGlobalErrorDispatcher', () => {
   })
 
   it('should throw original error for SnapshotPersistHandlerGlobalError when no handler is defined', async () => {
-    const mockSnapshot = {} as EntitySnapshot
+    const mockSnapshot = {} as NonPersistedEntitySnapshotEnvelope
     const snapshotGlobalError = new SnapshotPersistHandlerGlobalError(mockSnapshot, baseError)
     const errorDispatcher = new BoosterGlobalErrorDispatcher(config)
     await expect(errorDispatcher.dispatch(snapshotGlobalError)).to.eventually.eq(baseError)
