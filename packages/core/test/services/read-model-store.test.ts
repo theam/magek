@@ -16,7 +16,7 @@ import {
 } from '@booster-ai/common'
 import { expect } from '../expect'
 import { BoosterAuthorizer } from '../../src/booster-authorizer'
-import { fake, match, replace, restore, SinonFakeTimers, spy, useFakeTimers } from 'sinon'
+import { fake, match, replace, restore, SinonFakeTimers, spy, stub, useFakeTimers } from 'sinon'
 import { Booster } from '../../src/booster'
 
 describe('ReadModelStore', () => {
@@ -369,49 +369,48 @@ describe('ReadModelStore', () => {
         const someReadModelStoredVersion = 10
         const anotherReadModelStoredVersion = 32
         replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
-        replace(
-          config.provider.readModels,
-          'search',
-          fake(async (config: BoosterConfig, className: string) => {
-            if (className == SomeReadModel.name) {
-              return [
-                {
-                  id: 'joinColumnID',
-                  kind: 'some',
-                  count: 77,
-                  boosterMetadata: {
-                    version: someReadModelStoredVersion,
-                    lastUpdateAt: '1970-01-01T00:00:00.000Z',
-                    lastProjectionInfo: {
-                      entityId: 'importantEntityID',
-                      entityName: 'AnImportantEntity',
-                      entityUpdatedAt: '1970-01-01T00:00:00.000Z',
-                      projectionMethod: 'SomeReadModel.someObserver',
-                    },
+        const searchStub = stub(config.provider.readModels, 'search')
+        searchStub.callsFake(async (_config: any, className: string) => {
+          if (className == SomeReadModel.name) {
+            return [
+              {
+                id: 'joinColumnID',
+                kind: 'some',
+                count: 77,
+                boosterMetadata: {
+                  version: someReadModelStoredVersion,
+                  schemaVersion: 1,
+                  lastUpdateAt: '1970-01-01T00:00:00.000Z',
+                  lastProjectionInfo: {
+                    entityId: 'importantEntityID',
+                    entityName: 'AnImportantEntity',
+                    entityUpdatedAt: '1970-01-01T00:00:00.000Z',
+                    projectionMethod: 'SomeReadModel.someObserver',
                   },
                 },
-              ]
-            } else {
-              return [
-                {
-                  id: 'joinColumnID',
-                  kind: 'another',
-                  count: 177,
-                  boosterMetadata: {
-                    version: anotherReadModelStoredVersion,
-                    lastUpdateAt: '1970-01-01T00:00:00.000Z',
-                    lastProjectionInfo: {
-                      entityId: 'importantEntityID',
-                      entityName: 'AnImportantEntity',
-                      entityUpdatedAt: '1970-01-01T00:00:00.000Z',
-                      projectionMethod: 'AnotherReadModel.anotherObserver',
-                    },
+              },
+            ]
+          } else {
+            return [
+              {
+                id: 'joinColumnID',
+                kind: 'another',
+                count: 177,
+                boosterMetadata: {
+                  version: anotherReadModelStoredVersion,
+                  schemaVersion: 1,
+                  lastUpdateAt: '1970-01-01T00:00:00.000Z',
+                  lastProjectionInfo: {
+                    entityId: 'importantEntityID',
+                    entityName: 'AnImportantEntity',
+                    entityUpdatedAt: '1970-01-01T00:00:00.000Z',
+                    projectionMethod: 'AnotherReadModel.anotherObserver',
                   },
                 },
-              ]
-            }
-          }) as any
-        )
+              },
+            ]
+          }
+        })
         spy(SomeReadModel, 'someObserver')
         spy(AnotherReadModel, 'anotherObserver')
         const anEntitySnapshot = entitySnapshotEnvelopeFor(AnImportantEntity.name)
@@ -764,7 +763,7 @@ describe('ReadModelStore', () => {
         const expectedAnotherJoinColumnIDTries = 5
         const expectedJoinColumnIDTries = 1
         const fakeStore = fake(
-          (config: BoosterConfig, readModelName: string, readModel: ReadModelInterface, expectedCurrentVersion?: number): Promise<unknown> => {
+          (config: BoosterConfig, readModelName: string, readModel: ReadModelInterface): Promise<unknown> => {
             if (readModelName === SomeReadModel.name) {
               if (readModel.id == 'anotherJoinColumnID' && tryNumber < expectedAnotherJoinColumnIDTries) {
                 tryNumber++
