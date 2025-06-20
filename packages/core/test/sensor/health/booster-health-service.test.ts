@@ -257,8 +257,8 @@ describe('BoosterHealthService', () => {
 
 function defaultSensor(token?: string, url?: string) {
   return {
-    databaseEventsHealthDetails: fake.resolves({}),
-    databaseReadModelsHealthDetails: fake.resolves({}),
+    databaseEventsHealthDetails: fake.resolves(undefined),
+    databaseReadModelsHealthDetails: fake.resolves(undefined),
     isGraphQLFunctionUp: fake.resolves(true),
     isDatabaseEventUp: fake.resolves(true),
     areDatabaseReadModelsUp: fake.resolves(true),
