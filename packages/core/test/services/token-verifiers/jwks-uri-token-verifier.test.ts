@@ -2,7 +2,6 @@ import { expect } from '../../expect'
 import { JwksUriTokenVerifier } from '../../../src/services/token-verifiers/jwks-uri-token-verifier'
 import * as utilities from '../../../src/services/token-verifiers/utilities'
 import { fake, match, replace, restore } from 'sinon'
-import { DecodedToken } from '@booster-ai/common'
 
 describe('JwksUriTokenVerifier', () => {
   afterEach(() => {
@@ -16,23 +15,11 @@ describe('JwksUriTokenVerifier', () => {
       getSigningKey: fake()
     }
     replace(utilities, 'getJwksClient', fake.returns(fakeClient))
-    const fakeGetKey = { fakeGetKey: true }
-    replace(utilities, 'getKeyWithClient', fake.returns(fakeGetKey))
+    replace(utilities, 'getKeyWithClient', fake.returns(fakeClient.getSigningKey))
     const fakeDecodedToken = { header: { kid: '123' }, payload: { sub: '123' } }
     const fakeHeader = { header: true }
     const fakeCallback = fake()
-    const fakeVerifyJWT = fake(
-      async (
-        _token: string,
-        _issuer: string,
-        key: any
-      ): Promise<DecodedToken> => {
-        if (typeof key === 'function') {
-          key(fakeHeader, fakeCallback)
-        }
-        return Promise.resolve(fakeDecodedToken)
-      }
-    )
+    const fakeVerifyJWT = fake.resolves(fakeDecodedToken)
     replace(utilities, 'verifyJWT', fakeVerifyJWT)
 
     const verifier = new JwksUriTokenVerifier('issuer', 'https://example.com/jwks')

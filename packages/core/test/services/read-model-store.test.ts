@@ -783,7 +783,7 @@ describe('ReadModelStore', () => {
         const someReadModelStoreCalls = fakeStore.getCalls().filter((call) => call.args[1] === SomeReadModel.name)
         expect(someReadModelStoreCalls).to.be.have.length(expectedJoinColumnIDTries + expectedAnotherJoinColumnIDTries)
         someReadModelStoreCalls
-          .filter((call) => call.args[2].id == 'joinColumnID')
+          .filter((call) => call?.args?.[2]?.id == 'joinColumnID')
           .forEach((call) => {
             expect(call.args).to.be.deep.equal([
               config,
@@ -798,7 +798,7 @@ describe('ReadModelStore', () => {
             ])
           })
         someReadModelStoreCalls
-          .filter((call) => call.args[2].id == 'anotherJoinColumnID')
+          .filter((call) => call?.args?.[2]?.id == 'anotherJoinColumnID')
           .forEach((call) => {
             expect(call.args).to.be.deep.equal([
               config,
