@@ -20,24 +20,15 @@ echo "✅ create-booster-ai package found in registry"
 # Create test app
 cd /work
 
-# First, check if the bank-app template exists
-if [ -d "/workspace/templates/bank-app" ]; then
-  echo "📦 Creating bank-app with template..."
-  npm create booster-ai@latest bank-app \
-    --template /workspace/templates/bank-app \
-    --skip-install \
-    --skip-git \
-    --description "Test bank app"
-  APP_DIR="bank-app"
-else
-  echo "⚠️  Template /workspace/templates/bank-app not found, using default template"
-  echo "📦 Creating test-app with default template..."
-  npm create booster-ai@latest test-app \
-    --skip-install \
-    --skip-git \
-    --description "Test app"
-  APP_DIR="test-app"
-fi
+# Use the default template
+echo "📦 Creating test-app with default template..."
+npx --yes create-booster-ai@latest test-app \
+  --template /workspace/templates/default \
+  --skip-install \
+  --skip-git \
+  --description "Test app"
+
+APP_DIR="test-app"
 
 # Verify app was created
 if [ ! -d "$APP_DIR" ]; then
