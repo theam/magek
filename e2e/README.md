@@ -16,7 +16,7 @@ Finally, we publish the packed packages to the Verdaccio registry.
 
 ### Phase 2: Running `npm create booster-ai@latest` in the Docker container
 
-We run `npm create booster-ai@latest bank-app --template ../templates/bank-app` in the Docker container. This will create a new project in the `test-app` directory using the template from the `../templates/bank-app` directory.
+We run `npm create booster-ai@latest test-app --template /workspace/templates/default` in the Docker container. This will create a new project in the `test-app` directory using the template from the `/workspace/templates/default` directory.
 
 > TODO: Add an additional test using the default template live at the official repository.
 
@@ -36,4 +36,14 @@ We validate the generated project structure and token replacements.
 
 - Based on `node:22-alpine`
 - Configures npm to use Verdaccio registry
-- Includes git, curl, and bash for testing
+- Includes git, curl, bash, and build tools (python3, make, g++) for native dependencies
+
+## Running the Tests
+
+To run the E2E tests, execute the following command from the workspace root:
+
+```bash
+docker build -f e2e/Dockerfile .
+```
+
+This will build the Docker image and run all three phases of the test.

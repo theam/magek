@@ -1,11 +1,12 @@
 FROM node:22-alpine
 
 # Install dependencies
-RUN apk add --no-cache bash git curl jq
+RUN apk add --no-cache bash git curl jq python3 make g++
 
 # Create a mock git user for any git operations
-RUN git config --global user.email "test@example.com"
-RUN git config --global user.name "Test User"
+RUN git config --global user.email "test@example.com" && \
+    git config --global user.name "Test User" && \
+    git config --global init.defaultBranch main
 
 # Install Verdaccio globally
 RUN npm install -g verdaccio@5
@@ -26,6 +27,9 @@ COPY ./e2e/phase3-validate-app.sh /scripts/
 
 # Make scripts executable
 RUN chmod +x /scripts/*.sh
+
+# Create necessary directories
+RUN mkdir -p /tmp/verdaccio-storage
 
 # Run each phase in sequence
 # Phase 1: Setup registry and build/publish packages
