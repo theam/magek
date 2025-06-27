@@ -278,7 +278,6 @@ async function createProject(config: ProjectConfig): Promise<void> {
       // Copy local template directory
       console.log(kleur.blue('📁 Copying local template...'))
       const fs = await import('fs/promises')
-      const path = await import('path')
       
       // Ensure source template exists
       try {

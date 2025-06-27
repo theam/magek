@@ -85,6 +85,10 @@ if [ ! -f "common/scripts/install-run-rush.js" ]; then
   exit 1
 fi
 
+# Update dependencies first to sync shrinkwrap file
+echo "🔄 Updating dependencies to sync shrinkwrap file..."
+node common/scripts/install-run-rush.js update
+
 # Install dependencies
 echo "📦 Installing dependencies..."
 # Use --purge to handle store path changes in containerized environment
