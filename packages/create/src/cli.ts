@@ -271,12 +271,32 @@ async function createProject(config: ProjectConfig): Promise<void> {
   const templateSource = config.template || 'github.com/boostercloud/boosterai/templates/default'
 
   try {
-    // Clone template using degit
-    console.log(kleur.blue('🌐 Cloning template...'))
-    const emitter = degit(templateSource, { cache: false, force: true })
-    await emitter.clone(targetDir)
-
-    console.log(kleur.green('✓ Template copied'))
+    // Check if template is a local path
+    const isLocalPath = templateSource.startsWith('/') || templateSource.startsWith('./') || templateSource.startsWith('../')
+    
+    if (isLocalPath) {
+      // Copy local template directory
+      console.log(kleur.blue('📁 Copying local template...'))
+      const fs = await import('fs/promises')
+      const path = await import('path')
+      
+      // Ensure source template exists
+      try {
+        await fs.access(templateSource)
+      } catch (error) {
+        throw new Error(`Template directory not found: ${templateSource}`)
+      }
+      
+      // Copy template files recursively
+      await fs.cp(templateSource, targetDir, { recursive: true })
+      console.log(kleur.green('✓ Template copied'))
+    } else {
+      // Clone template using degit (from GitHub/remote)
+      console.log(kleur.blue('🌐 Cloning template...'))
+      const emitter = degit(templateSource, { cache: false, force: true })
+      await emitter.clone(targetDir)
+      console.log(kleur.green('✓ Template copied'))
+    }
 
     // Replace placeholders in all files
     console.log(kleur.blue('🔧 Configuring project...'))

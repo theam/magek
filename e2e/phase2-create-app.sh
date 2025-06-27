@@ -3,8 +3,13 @@ set -euo pipefail
 
 echo "📦 Phase 2: Creating test app with npm create booster-ai"
 
-# Ensure we're using the local registry
-npm config set registry http://localhost:4873
+# Ensure we're using the local registry (inherit from phase1 if sourced)
+if [ -z "${NPM_CONFIG_REGISTRY:-}" ]; then
+  npm config set registry http://localhost:4873
+  pnpm config set registry http://localhost:4873
+  export NPM_CONFIG_REGISTRY=http://localhost:4873
+  export PNPM_REGISTRY=http://localhost:4873
+fi
 
 # Check if create-booster-ai package is available
 echo "🔍 Checking if create-booster-ai is available..."

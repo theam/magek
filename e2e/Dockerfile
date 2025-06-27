@@ -8,8 +8,8 @@ RUN git config --global user.email "test@example.com" && \
     git config --global user.name "Test User" && \
     git config --global init.defaultBranch main
 
-# Install Verdaccio globally
-RUN npm install -g verdaccio@5
+# Install Verdaccio and pnpm globally
+RUN npm install -g verdaccio@5 pnpm@10.12.1
 
 # Set working directory
 WORKDIR /work
@@ -24,6 +24,7 @@ COPY ./e2e/verdaccio-config.yaml /etc/verdaccio/config.yaml
 COPY ./e2e/phase1-setup-registry.sh /scripts/
 COPY ./e2e/phase2-create-app.sh /scripts/
 COPY ./e2e/phase3-validate-app.sh /scripts/
+COPY ./e2e/run-e2e-tests.sh /scripts/
 
 # Make scripts executable
 RUN chmod +x /scripts/*.sh
@@ -31,15 +32,5 @@ RUN chmod +x /scripts/*.sh
 # Create necessary directories
 RUN mkdir -p /tmp/verdaccio-storage
 
-# Run each phase in sequence
-# Phase 1: Setup registry and build/publish packages
-RUN /scripts/phase1-setup-registry.sh
-
-# Phase 2: Create test app
-RUN /scripts/phase2-create-app.sh
-
-# Phase 3: Validate the generated project
-RUN /scripts/phase3-validate-app.sh
-
-# Default command (can be overridden)
-CMD ["echo", "✅ E2E tests completed successfully!"]
+# Default command runs the orchestrator script
+CMD ["/scripts/run-e2e-tests.sh"]
