@@ -1,0 +1,42 @@
+# Rush temporary files - these contain host-specific paths
+common/temp/
+common/deploy/
+**/.rush/temp/
+
+# Node modules (will be installed fresh in container)
+node_modules/
+**/node_modules/
+
+# Build artifacts
+**/dist/
+**/lib/
+**/tmp/
+**/.heft
+
+# OS and editor files
+.DS_Store
+**/.idea
+*.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Optional npm cache directory
+.npm
+
+# Output of 'npm pack'
+*.tgz
+
+# Environment files
+.env
+
+# Coverage and test artifacts
+coverage
+.nyc_output
+
+# Booster specific
+.booster
+*-integration-sandbox

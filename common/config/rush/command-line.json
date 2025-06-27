@@ -47,7 +47,7 @@
       "safeForSimultaneousRushProcesses": true,
       "ignoreMissingScript": true,
       "enableParallelism": true
-    }
+    },
   ],
 
   /**

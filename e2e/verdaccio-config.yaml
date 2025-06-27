@@ -1,0 +1,45 @@
+storage: /tmp/verdaccio-storage
+
+# Disable authentication for E2E testing
+# By default Verdaccio still loads the htpasswd plugin even when the `auth:`
+# section is omitted. That means `npm publish` will error if no authentication
+# token is supplied.  In an ephemeral CI registry we just want *any* publish
+# request to be accepted without a prior `npm adduser` step.
+#
+# Verdaccio's built-in `htpasswd` auth plugin supports this use-case when
+# `max_users` is set to **-1** – it will auto-create a user record on the very
+# first publish attempt and thereby allow anonymous publishing.
+#
+# See https://verdaccio.org/docs/configuration/#authentication for details.
+
+auth:
+  htpasswd:
+    file: /tmp/verdaccio-storage/htpasswd
+    max_users: -1
+    # leaving `verify_passwords` to the default (false) keeps things simple for CI
+
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+
+packages:
+  '@*/*':
+    # scoped packages
+    access: $all
+    publish: $all
+    proxy: npmjs
+
+  '**':
+    # all other packages
+    access: $all
+    publish: $all
+    proxy: npmjs
+
+server:
+  keepAliveTimeout: 60
+
+listen:
+  - 0.0.0.0:4873
+
+log:
+  - {type: stdout, format: pretty, level: info} 
