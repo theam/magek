@@ -44,6 +44,39 @@ else
     fi
   done
   
+  # Validate git repository initialization
+  if [ -d ".git" ]; then
+    echo "✅ Git repository initialized"
+  else
+    echo "❌ Git repository not initialized"
+    echo "🔧 Note: This may indicate an issue with create-booster-ai package"
+    exit 1
+  fi
+  
+  # Validate node_modules exists and is populated
+  if [ -d "node_modules" ] && [ "$(ls -A node_modules)" ]; then
+    echo "✅ Dependencies installed"
+  else
+    echo "❌ Dependencies not installed or node_modules empty"
+    exit 1
+  fi
+  
+  # Validate @booster-ai/cli is available
+  if npm list @booster-ai/cli > /dev/null 2>&1; then
+    echo "✅ @booster-ai/cli dependency found"
+  else
+    echo "❌ @booster-ai/cli dependency missing"
+    exit 1
+  fi
+  
+  # Validate npm works out of the box
+  if npm run --silent > /dev/null 2>&1; then
+    echo "✅ NPM scripts functional"
+  else
+    echo "❌ NPM scripts not working"
+    exit 1
+  fi
+  
   # Check package.json has correct name
   PROJECT_NAME=$(node -p "require('./package.json').name")
   echo "📦 Project name: $PROJECT_NAME"

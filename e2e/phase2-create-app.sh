@@ -27,10 +27,8 @@ cd /work
 
 # Use the default template
 echo "📦 Creating test-app with default template..."
-npx --yes create-booster-ai@latest test-app \
+npm create booster-ai@latest test-app \
   --template /workspace/templates/default \
-  --skip-install \
-  --skip-git \
   --description "Test app"
 
 APP_DIR="test-app"
