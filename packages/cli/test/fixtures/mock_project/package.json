@@ -13,7 +13,7 @@
     "@booster-ai/server-infrastructure": "^1.11.2",
     "rimraf": "^5.0.0",
     "@booster-ai/eslint-config": "^1.11.2",
-    "mocha": "11.7.0",
+    "mocha": "11.7.1",
     "nyc": "^15.1.0",
     "typescript": "5.1.6",
     "ts-node": "^10.9.1",
