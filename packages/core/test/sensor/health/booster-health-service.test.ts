@@ -1,6 +1,12 @@
 import { expect } from '../../expect'
 import { BoosterHealthService } from '../../../src/sensor'
-import { BOOSTER_HEALTH_INDICATORS_IDS, BoosterConfig, ProviderLibrary } from '@booster-ai/common'
+import {
+  BOOSTER_HEALTH_INDICATORS_IDS,
+  BoosterConfig,
+  ProviderLibrary,
+  HealthIndicatorsResult,
+  HealthStatus,
+} from '@booster-ai/common'
 import { fake } from 'sinon'
 import createJWKSMock from 'mock-jwks'
 import { faker } from '@faker-js/faker'
@@ -11,7 +17,7 @@ const issuer = 'auth0'
 
 describe('BoosterHealthService', () => {
   const config = new BoosterConfig('test')
-  let healthRequestResult: any
+  let healthRequestResult: { body: HealthIndicatorsResult | Array<HealthIndicatorsResult>; isHealthy: boolean } | undefined
 
   before(() => {
     config.provider = {
@@ -53,9 +59,9 @@ describe('BoosterHealthService', () => {
 
   it('All indicators are DOWN', async () => {
     config.provider.sensor = defaultSensor()
-    config.provider.sensor.isGraphQLFunctionUp = fake(() => false)
-    config.provider.sensor.isDatabaseEventUp = fake(() => false)
-    config.provider.sensor.areDatabaseReadModelsUp = fake(() => false)
+    config.provider.sensor.isGraphQLFunctionUp = fake.resolves(false)
+    config.provider.sensor.isDatabaseEventUp = fake.resolves(false)
+    config.provider.sensor.areDatabaseReadModelsUp = fake.resolves(false)
     const expectedStatus = 'DOWN'
     const boosterResult = await boosterHealth(config)
     const boosterFunction = getBoosterFunction(boosterResult)
@@ -71,12 +77,12 @@ describe('BoosterHealthService', () => {
 
   it('Details are processed', async () => {
     config.provider.sensor = defaultSensor()
-    config.provider.sensor.databaseEventsHealthDetails = fake(() => ({
+    config.provider.sensor.databaseEventsHealthDetails = fake.resolves({
       test: true,
-    }))
-    config.provider.sensor.databaseReadModelsHealthDetails = fake(() => ({
+    })
+    config.provider.sensor.databaseReadModelsHealthDetails = fake.resolves({
       test: true,
-    }))
+    })
     const boosterResult = await boosterHealth(config)
     const boosterFunction = getBoosterFunction(boosterResult)
     const boosterDatabase = getBoosterDatabase(boosterResult)
@@ -222,58 +228,58 @@ describe('BoosterHealthService', () => {
     it('returns isHealthy true when all components are UP', async () => {
       config.provider.sensor = defaultSensor()
       await boosterHealth(config)
-      expect(healthRequestResult.isHealthy).to.be.true
+      expect(healthRequestResult?.isHealthy).to.be.true
     })
 
     it('returns isHealthy false when any component is DOWN', async () => {
       config.provider.sensor = defaultSensor()
-      config.provider.sensor.isGraphQLFunctionUp = fake(() => false)
+      config.provider.sensor.isGraphQLFunctionUp = fake.resolves(false)
       await boosterHealth(config)
-      expect(healthRequestResult.isHealthy).to.be.false
+      expect(healthRequestResult?.isHealthy).to.be.false
     })
 
     it('returns isHealthy true when rockets are UNKNOWN', async () => {
       config.provider.sensor = defaultSensor()
-      config.provider.sensor.areRocketFunctionsUp = fake(() => ({})) // Empty object means no rockets
+      config.provider.sensor.areRocketFunctionsUp = fake.resolves({}) // Empty object means no rockets
       await boosterHealth(config)
-      expect(healthRequestResult.isHealthy).to.be.true
+      expect(healthRequestResult?.isHealthy).to.be.true
     })
 
     it('returns isHealthy false when rockets are DOWN', async () => {
       config.provider.sensor = defaultSensor()
-      config.provider.sensor.areRocketFunctionsUp = fake(() => ({ rocket1: false }))
+      config.provider.sensor.areRocketFunctionsUp = fake.resolves({ rocket1: false })
       await boosterHealth(config)
-      expect(healthRequestResult.isHealthy).to.be.false
+      expect(healthRequestResult?.isHealthy).to.be.false
     })
 
     it('returns isHealthy true when rockets are UP', async () => {
       config.provider.sensor = defaultSensor()
-      config.provider.sensor.areRocketFunctionsUp = fake(() => ({ rocket1: true }))
+      config.provider.sensor.areRocketFunctionsUp = fake.resolves({ rocket1: true })
       await boosterHealth(config)
-      expect(healthRequestResult.isHealthy).to.be.true
+      expect(healthRequestResult?.isHealthy).to.be.true
     })
   })
 })
 
 function defaultSensor(token?: string, url?: string) {
   return {
-    databaseEventsHealthDetails: fake(() => {}),
-    databaseReadModelsHealthDetails: fake(() => {}),
-    isGraphQLFunctionUp: fake(() => true),
-    isDatabaseEventUp: fake(() => true),
-    areDatabaseReadModelsUp: fake(() => true),
-    databaseUrls: fake(() => []),
-    graphQLFunctionUrl: fake(() => ''),
+    databaseEventsHealthDetails: fake.resolves(undefined),
+    databaseReadModelsHealthDetails: fake.resolves(undefined),
+    isGraphQLFunctionUp: fake.resolves(true),
+    isDatabaseEventUp: fake.resolves(true),
+    areDatabaseReadModelsUp: fake.resolves(true),
+    databaseUrls: fake.resolves([]),
+    graphQLFunctionUrl: fake.resolves(''),
     rawRequestToHealthEnvelope: fake(() => {
-      return { token: token, componentPath: url }
+      return { requestID: 'test-request-id', token: token, componentPath: url || '' }
     }),
-    areRocketFunctionsUp: fake(() => ({ rocket1: true })),
+    areRocketFunctionsUp: fake.resolves({ rocket1: true }),
   }
 }
 
-async function boosterHealth(config: BoosterConfig): Promise<any> {
+async function boosterHealth(config: BoosterConfig): Promise<HealthIndicatorsResult> {
   const boosterHealthService = new BoosterHealthService(config)
-  const result = (await boosterHealthService.boosterHealth(undefined)) as any
+  const result = (await boosterHealthService.boosterHealth(undefined)) as HealthIndicatorsResult | Array<HealthIndicatorsResult>
   // For backwards compatibility with existing tests that expect the first component
   if (Array.isArray(result)) {
     return result[0]
@@ -281,70 +287,116 @@ async function boosterHealth(config: BoosterConfig): Promise<any> {
   return result
 }
 
-function getBoosterFunction(boosterResult: any) {
-  return boosterResult.components?.find((element: any) => element.id === 'booster/function')
+function getBoosterFunction(boosterResult: HealthIndicatorsResult | undefined) {
+  return boosterResult?.components?.find((element: HealthIndicatorsResult) => element.id === 'booster/function')
 }
 
-function getBoosterDatabase(boosterResult: any) {
-  return boosterResult.components?.find((element: any) => element.id === 'booster/database')
+function getBoosterDatabase(boosterResult: HealthIndicatorsResult | undefined) {
+  return boosterResult?.components?.find((element: HealthIndicatorsResult) => element.id === 'booster/database')
 }
 
-function getEventDatabase(boosterDatabase: any) {
-  return boosterDatabase.components?.find((element: any) => element.id === 'booster/database/events')
+function getEventDatabase(boosterDatabase: HealthIndicatorsResult | undefined) {
+  return boosterDatabase?.components?.find((element: HealthIndicatorsResult) => element.id === 'booster/database/events')
 }
 
-function getReadModelsDatabase(boosterDatabase: any) {
-  return boosterDatabase.components?.find((element: any) => element.id === 'booster/database/readmodels')
+function getReadModelsDatabase(boosterDatabase: HealthIndicatorsResult | undefined) {
+  return boosterDatabase?.components?.find((element: HealthIndicatorsResult) => element.id === 'booster/database/readmodels')
 }
 
-function expectDefaultResult(result: any, status: string, id: string, name: string, componentsLength: number) {
-  expect(result.id).to.be.eq(id)
-  expect(result.status).to.be.eq(status)
-  expect(result.name).to.be.eq(name)
+function expectDefaultResult(
+  result: HealthIndicatorsResult | undefined,
+  status: HealthStatus | string,
+  id: string,
+  name: string,
+  componentsLength: number
+) {
+  expect(result).to.not.be.undefined
+  const resultNonNull = result as HealthIndicatorsResult
+  expect(resultNonNull.id).to.be.eq(id)
+  expect(resultNonNull.status).to.be.eq(status)
+  expect(resultNonNull.name).to.be.eq(name)
   if (componentsLength === 0) {
-    expect(result.components).to.be.undefined
+    expect(resultNonNull.components).to.be.undefined
   } else {
-    expect(result.components.length).to.be.eq(componentsLength)
+    expect(resultNonNull.components!.length).to.be.eq(componentsLength)
   }
 }
 
-function expectBooster(boosterResult: any, version: string, status: string): void {
+function expectBooster(
+  boosterResult: HealthIndicatorsResult | undefined,
+  version: string,
+  status: HealthStatus | string
+): void {
   expectDefaultResult(boosterResult, status, 'booster', 'Booster', 2)
-  expect(boosterResult.details.boosterVersion).to.be.eq(version)
+  expect(boosterResult!.details!.boosterVersion).to.be.eq(version)
 }
 
-function expectBoosterFunction(boosterFunction: any, url: string, status: string) {
+function expectBoosterFunction(
+  boosterFunction: HealthIndicatorsResult | undefined,
+  url: string,
+  status: HealthStatus | string
+) {
   expectDefaultResult(boosterFunction, status, 'booster/function', 'Booster Function', 0)
-  expect(boosterFunction.details.cpus.length).to.be.gt(0)
-  expect(boosterFunction.details.cpus[0].timesPercentages.length).to.be.gt(0)
-  expect(boosterFunction.details.memory.totalBytes).to.be.gt(0)
-  expect(boosterFunction.details.memory.freeBytes).to.be.gt(0)
-  expect(boosterFunction.details.graphQL_url as string).to.be.eq(url)
+  const details = boosterFunction!.details as any
+  expect(details.cpus.length).to.be.gt(0)
+  expect(details.cpus[0].timesPercentages.length).to.be.gt(0)
+  expect(details.memory.totalBytes).to.be.gt(0)
+  expect(details.memory.freeBytes).to.be.gt(0)
+  expect(details.graphQL_url as string).to.be.eq(url)
 }
 
-function expectBoosterDatabase(boosterDatabase: any, status: string): void {
+function expectBoosterDatabase(
+  boosterDatabase: HealthIndicatorsResult | undefined,
+  status: HealthStatus | string
+): void {
   expectDefaultResult(boosterDatabase, status, 'booster/database', 'Booster Database', 2)
-  expect(boosterDatabase.details).to.not.be.undefined
+  expect(boosterDatabase!.details).to.not.be.undefined
 }
 
-function expectDatabaseEvents(databaseEvents: any, status: string): void {
+function expectDatabaseEvents(
+  databaseEvents: HealthIndicatorsResult | undefined,
+  status: HealthStatus | string
+): void {
   expectDefaultResult(databaseEvents, status, 'booster/database/events', 'Booster Database Events', 0)
-  expect(databaseEvents.details).to.be.undefined
+  expect(databaseEvents!.details).to.be.undefined
 }
 
-function expectDatabaseEventsWithDetails(databaseEvents: any, status: string, details: any): void {
+function expectDatabaseEventsWithDetails(
+  databaseEvents: HealthIndicatorsResult | undefined,
+  status: HealthStatus | string,
+  details: unknown
+): void {
   expectDefaultResult(databaseEvents, status, 'booster/database/events', 'Booster Database Events', 0)
-  expect(databaseEvents.details).to.be.deep.eq(details)
+  expect(databaseEvents!.details).to.be.deep.eq(details)
 }
 
-function expectDatabaseReadModels(databaseReadModels: any, status: string): void {
-  expectDefaultResult(databaseReadModels, status, 'booster/database/readmodels', 'Booster Database ReadModels', 0)
-  expect(databaseReadModels.details).to.be.undefined
+function expectDatabaseReadModels(
+  databaseReadModels: HealthIndicatorsResult | undefined,
+  status: HealthStatus | string
+): void {
+  expectDefaultResult(
+    databaseReadModels,
+    status,
+    'booster/database/readmodels',
+    'Booster Database ReadModels',
+    0
+  )
+  expect(databaseReadModels!.details).to.be.undefined
 }
 
-function expectDatabaseReadModelsWithDetails(databaseReadModels: any, status: string, details: any): void {
-  expectDefaultResult(databaseReadModels, status, 'booster/database/readmodels', 'Booster Database ReadModels', 0)
-  expect(databaseReadModels.details).to.be.deep.eq(details)
+function expectDatabaseReadModelsWithDetails(
+  databaseReadModels: HealthIndicatorsResult | undefined,
+  status: HealthStatus | string,
+  details: unknown
+): void {
+  expectDefaultResult(
+    databaseReadModels,
+    status,
+    'booster/database/readmodels',
+    'Booster Database ReadModels',
+    0
+  )
+  expect(databaseReadModels!.details).to.be.deep.eq(details)
 }
 
 class UserRole {}

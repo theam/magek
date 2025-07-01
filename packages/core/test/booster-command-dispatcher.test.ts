@@ -73,7 +73,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
     it('calls the handler method of a registered command', async () => {
       const fakeHandler = fake()
       class ProperlyHandledCommand {
-        public static handle() {}
+        public static handle(_command: any, _register: Register) {}
       }
 
       replace(ProperlyHandledCommand, 'handle', fakeHandler)
@@ -167,7 +167,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
       })
 
       class ProperlyHandledCommand {
-        public static handle() {}
+        public static handle(_command: any, _register: Register) {}
       }
 
       replace(ProperlyHandledCommand, 'handle', fakeHandler)

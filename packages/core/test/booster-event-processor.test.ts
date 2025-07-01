@@ -266,9 +266,9 @@ describe('BoosterEventProcessor', () => {
       })
 
       it('calls all the handlers for the current event', async () => {
-        const fakeHandler1 = fake()
-        const fakeHandler2 = fake()
-        const fakeGlobalHandler = fake()
+        const fakeHandler1 = fake(async () => {})
+        const fakeHandler2 = fake(async () => {})
+        const fakeGlobalHandler = fake(async () => {})
         config.eventHandlers[SomeEvent.name] = [
           { handle: fakeHandler1 },
           { handle: fakeHandler2 },
@@ -290,9 +290,9 @@ describe('BoosterEventProcessor', () => {
       })
 
       it('calls all the handlers, even if the event is stored in the notifications field instead of the events one', async () => {
-        const fakeHandler1 = fake()
-        const fakeHandler2 = fake()
-        const fakeGlobalHandler = fake()
+        const fakeHandler1 = fake(async () => {})
+        const fakeHandler2 = fake(async () => {})
+        const fakeGlobalHandler = fake(async () => {})
         config.eventHandlers[SomeNotification.name] = [
           { handle: fakeHandler1 },
           { handle: fakeHandler2 },
@@ -314,10 +314,10 @@ describe('BoosterEventProcessor', () => {
       it('calls the register handler for all the published events', async () => {
         let capturedRegister1: Register = {} as any
         let capturedRegister2: Register = {} as any
-        const fakeHandler1 = fake((event: EventInterface, register: Register) => {
+        const fakeHandler1 = fake(async (event: EventInterface, register: Register) => {
           capturedRegister1 = register
         })
-        const fakeHandler2 = fake((event: EventInterface, register: Register) => {
+        const fakeHandler2 = fake(async (event: EventInterface, register: Register) => {
           capturedRegister2 = register
         })
         config.eventHandlers[SomeEvent.name] = [{ handle: fakeHandler1 }, { handle: fakeHandler2 }]

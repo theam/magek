@@ -62,6 +62,32 @@ describe('BoosterReadModelReader', () => {
     query: '',
   }
 
+  // Helper function to create a fake Searcher
+  const createFakeSearcher = (overrides: any = {}) => {
+    const fakeSearcher = {
+      findById: fake(),
+      objectClass: TestReadModel,
+      searcherFunction: fake(),
+      finderByKeyFunction: fake(),
+      filters: {},
+      _sortByList: {},
+      _paginatedVersion: false,
+      _selectFor: undefined,
+      _limit: undefined,
+      _afterCursor: undefined,
+      filter: () => fakeSearcher,
+      sortBy: () => fakeSearcher,
+      select: () => fakeSearcher,
+      limit: () => fakeSearcher,
+      afterCursor: () => fakeSearcher,
+      paginatedVersion: () => fakeSearcher,
+      searchOne: fake(),
+      search: fake(),
+      ...overrides,
+    }
+    return fakeSearcher
+  }
+
   context('requests by Id', () => {
     beforeEach(() => {
       config.readModels[TestReadModel.name] = {
@@ -160,7 +186,7 @@ describe('BoosterReadModelReader', () => {
       it('validates and uses the searcher to find a read model by id', async () => {
         const fakeValidateByIdRequest = fake()
         replace(readModelReader as any, 'validateByIdRequest', fakeValidateByIdRequest)
-        const fakeSearcher = { findById: fake() }
+        const fakeSearcher = createFakeSearcher()
         replace(Booster, 'readModel', fake.returns(fakeSearcher))
 
         const currentUser = {
@@ -192,7 +218,9 @@ describe('BoosterReadModelReader', () => {
         const fakeValidateByIdRequest = fake()
         replace(readModelReader as any, 'validateByIdRequest', fakeValidateByIdRequest)
 
-        const fakeSearcher = { findById: fake.returns(new TestReadModel()) }
+        const fakeSearcher = createFakeSearcher({
+          findById: fake.returns(new TestReadModel())
+        })
         replace(Booster, 'readModel', fake.returns(fakeSearcher))
 
         const readModelRequestEnvelope = {
@@ -224,7 +252,9 @@ describe('BoosterReadModelReader', () => {
       it('call migrate once the read model after find a read model by id and got an Array', async () => {
         const fakeValidateByIdRequest = fake()
         replace(readModelReader as any, 'validateByIdRequest', fakeValidateByIdRequest)
-        const fakeSearcher = { findById: fake.returns([new TestReadModel(), new TestReadModel()]) }
+        const fakeSearcher = createFakeSearcher({
+          findById: fake.returns([new TestReadModel(), new TestReadModel()])
+        })
         replace(Booster, 'readModel', fake.returns(fakeSearcher))
 
         const readModelRequestEnvelope = {
@@ -369,7 +399,7 @@ describe('BoosterReadModelReader', () => {
 
       it('calls the provider search function and returns its results', async () => {
         const expectedReadModels = [new TestReadModel(), new TestReadModel()]
-        const providerSearcherFunctionFake = fake.returns(expectedReadModels)
+        const providerSearcherFunctionFake = fake.resolves(expectedReadModels)
         replace(config.provider.readModels, 'search', providerSearcherFunctionFake)
 
         replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
@@ -393,7 +423,7 @@ describe('BoosterReadModelReader', () => {
 
       it('calls migrates after search a read model with a simple array', async () => {
         const expectedReadModels = [new TestReadModel(), new TestReadModel()]
-        const providerSearcherFunctionFake = fake.returns(expectedReadModels)
+        const providerSearcherFunctionFake = fake.resolves(expectedReadModels)
         replace(config.provider.readModels, 'search', providerSearcherFunctionFake)
 
         replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
@@ -423,7 +453,7 @@ describe('BoosterReadModelReader', () => {
           count: 2,
           cursor: {},
         }
-        const providerSearcherFunctionFake = fake.returns(searchResult)
+        const providerSearcherFunctionFake = fake.resolves(searchResult)
         replace(config.provider.readModels, 'search', providerSearcherFunctionFake)
 
         replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
@@ -461,7 +491,7 @@ describe('BoosterReadModelReader', () => {
           } as any
 
           const expectedReadModels = [new TestReadModel(), new TestReadModel()]
-          const providerSearcherFunctionFake = fake.returns(expectedReadModels)
+          const providerSearcherFunctionFake = fake.resolves(expectedReadModels)
           replace(config.provider.readModels, 'search', providerSearcherFunctionFake)
 
           replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
@@ -496,7 +526,7 @@ describe('BoosterReadModelReader', () => {
           } as any
 
           const expectedResult = [new TestReadModel(), new TestReadModel()]
-          const providerSearcherFunctionFake = fake.returns(expectedResult)
+          const providerSearcherFunctionFake = fake.resolves(expectedResult)
           replace(config.provider.readModels, 'search', providerSearcherFunctionFake)
 
           replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
@@ -524,7 +554,7 @@ describe('BoosterReadModelReader', () => {
         const fakeBeforeFn = fake(beforeFn)
 
         beforeEach(() => {
-          const providerSearcherFunctionFake = fake.returns([])
+          const providerSearcherFunctionFake = fake.resolves([])
 
           config.readModels[TestReadModel.name] = {
             class: TestReadModel,
@@ -559,7 +589,7 @@ describe('BoosterReadModelReader', () => {
         const beforeFnV2Spy = fake(beforeFnV2)
 
         beforeEach(() => {
-          const providerSearcherFunctionFake = fake.returns([])
+          const providerSearcherFunctionFake = fake.resolves([])
 
           config.readModels[TestReadModel.name] = {
             class: TestReadModel,

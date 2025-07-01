@@ -3,7 +3,6 @@ import { fake, match, replace, restore } from 'sinon'
 import { getJwksClient, getKeyWithClient, verifyJWT } from '../../../src/services/token-verifiers/utilities'
 import { JwksClient } from 'jwks-rsa'
 import * as jwt from 'jsonwebtoken'
-import { DecodedToken } from '@booster-ai/common'
 
 describe('function `getJwksClient`', () => {
   it('returns a JwksClient instance', () => {
@@ -88,12 +87,13 @@ describe('function `verifyJWT`', () => {
       const fakeToken = 'Bearer token'
       const fakeIssuer = 'issuer'
       const fakePublicKey = 'public-key'
-      const fakeDecodedToken = { a: 'token' } as unknown as DecodedToken
-       
+      const fakeDecodedToken = { key: 'token' }
+      
       const fakeVerify = fake((_token: unknown, _key: unknown, _options: unknown, callback: Function) =>
         callback(null, fakeDecodedToken)
       )
-      replace(jwt, 'verify', fakeVerify)
+      
+      replace(jwt, 'verify', fakeVerify as any)
 
       await expect(verifyJWT(fakeToken, 'issuer', fakePublicKey)).to.eventually.become(fakeDecodedToken)
 
@@ -120,7 +120,7 @@ describe('function `verifyJWT`', () => {
       const fakeVerify = fake((_token: unknown, _key: unknown, _options: unknown, callback: Function) =>
         callback(fakeError)
       )
-      replace(jwt, 'verify', fakeVerify)
+      replace(jwt, 'verify', fakeVerify as any)
 
       await expect(verifyJWT(fakeToken, 'issuer', fakePublicKey)).to.eventually.be.rejectedWith(fakeError)
 
