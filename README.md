@@ -1,11 +1,12 @@
 # ![Magek Framework](https://user-images.githubusercontent.com/175096/217907175-b81b3937-d773-45fd-85ca-716f9813432d.png)
 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODE_OF_CONDUCT.md)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODE_OF_CONDUCT.md)
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Ftheam%2Fmagek%2Fbadge%3Fref%3Dmain&style=flat)](https://actions-badge.atrox.dev/theam/magek/goto?ref=main)
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![License](https://img.shields.io/npm/l/@magek/cli)](https://github.com/theam/magek/blob/main/package.json)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
-[![Discord](https://img.shields.io/discord/763753198388510780.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/bDY8MKx)
+[![Docs](https://img.shields.io/badge/Docs-Magek-blue)](https://magek.ai)
 [![Docs](https://img.shields.io/badge/Docs-Magek-blue)](https://magek.ai)
 ---
 
@@ -19,7 +20,7 @@ Combining these features, Magek provides an unprecedented developer experience. 
 
 Magek is 100% open-source and designed with extensibility in mind. If your desired infrastructure doesn't match the existing implementations, you can easily fork and adapt them or create a new one using your infrastructure-as-code tool of preference. Magek also supports extensions (called “Rockets”) that allow users to implement additional functionalities.
 
-If you want to help us to drive Magek forward or have questions, don't hesitate to ping us on [Discord](https://discord.gg/bDY8MKx)!
+If you want to help us to drive Magek forward or have questions, don't hesitate to [create an issue](https://github.com/theam/magek/issues/new/choose)!
 
 # Why Magek instead of X?
 
@@ -43,7 +44,7 @@ All those things, and more, will be given to you by default and entirely for fre
 
 # Current state and roadmap
 
-[The roadmap](https://github.com/orgs/magekcloud/projects/2/views/2) is community-driven; the core team actively participates in the Magek community, listening to real users and prioritizing those issues and ideas that provide the most value for the majority. So don't hesitate to create issues or leave comments in [Discord](https://discord.gg/k7b4B8CDtT) and tell us about your questions and ideas.
+The roadmap is community-driven; the core team actively participates in the Magek community, listening to real users and prioritizing those issues and ideas that provide the most value for the majority. So don't hesitate to [create issues](https://github.com/theam/magek/issues/new/choose) and tell us about your questions and ideas.
 
 AWS and Azure integrations are thoroughly tested, and are currently used in production in projects of all-sized organizations, from startups to massive enterprises.
 
@@ -65,9 +66,9 @@ Magek Framework follows the next principles:
 
 You can join the conversation and start contributing in any of the following ways:
 
-* [Say hello in Discord](https://discord.gg/bDY8MKx)
-* [Create a new issue in Github](https://github.com/magekcloud/magek/issues/new/choose)
-* [Try the framework and let us know how you liked it!](https://docs.magekframework.com/category/getting-started)
+
+* [Create a new issue in Github](https://github.com/theam/magek/issues/new/choose)
+* [Try the framework and let us know how you liked it!](https://docs.magek.ai/category/getting-started)
 
 Please refer to [`CONTRIBUTING.md`](./CONTRIBUTING.md) for more details. Pull requests are welcome. For major changes, please
 open an issue first to discuss what you would like to change.
@@ -78,11 +79,7 @@ The Magek Framework is licensed under the Apache License, Version 2.0. See the [
 
 # Resources
 
-* [Website](https://magekframework.com)
-* [Documentation](https://docs.magekframework.com)
+* [Website](https://magek.ai)
+* [Documentation](https://docs.magek.ai)
 * [Step-by-step guides and examples](docs/examples)
-* [Join the conversation in Discord](https://discord.gg/k7b4B8CDtT)
-* [Twitter](https://twitter.com/boostthecloud)
-* [Demos and more on Youtube](https://www.youtube.com/channel/UCpUTONI8OG19pr9A4cn35DA)
-* [Rocket to the Cloud Podcast](https://www.youtube.com/channel/UCxUYk1SVyNRCGNV-9SYjEFQ)
-* [Magek in Dev.to](https://dev.to/magekcloud)
+

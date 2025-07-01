@@ -5,8 +5,7 @@
 
 Thanks for taking the time to contribute to Magek. It is an open-source project and it wouldn't be possible without people like you 🙏🎉
 
-This document is a set of guidelines to help you contribute to Magek, which is hosted on the [`magekcloud`](https://github.com/magekcloud) GitHub
-organization. These aren’t absolute laws, use your judgment and common sense 😀.
+This document is a set of guidelines to help you contribute to Magek, which is hosted on the [`theam/magek`](https://github.com/theam/magek) GitHub repository. These aren’t absolute laws, use your judgment and common sense 😀.
 Remember that if something here doesn't make sense, you can also propose a change to this document.
 
 <!-- toc -->
@@ -37,12 +36,12 @@ Remember that if something here doesn't make sense, you can also propose a chang
 
 ## Code of Conduct
 
-This project and everyone participating in it are expected to uphold the [Magek's Code of Conduct](https://github.com/magekcloud/magek/blob/main/CODE_OF_CONDUCT.md), based on the Covenant Code of Conduct.
+This project and everyone participating in it are expected to uphold the [Magek's Code of Conduct](https://github.com/theam/magek/blob/main/CODE_OF_CONDUCT.md), based on the Covenant Code of Conduct.
 If you see unacceptable behavior, please communicate so to `hello@magek.cloud`.
 
 ## I don't want to read this whole thing, I just have a question
 
-Go ahead and ask the community in [Discord](https://discord.com/invite/bDY8MKx) or [create a new issue](https://github.com/theam/magek/issues).
+Go ahead and ask the community by [opening a GitHub discussion](https://github.com/theam/magek/discussions) or [create a new issue](https://github.com/theam/magek/issues).
 
 ## What should I know before I get started?
 
@@ -56,21 +55,17 @@ Magek is divided in many different packages. The criteria to split the code in p
 
 The packages are managed using [rush](https://rushjs.io/) and [npm](https://npmjs.com), if you run `rush build`, it will build all the packages.
 
-The packages are published to `npmjs` under the prefix `@magekcloud/`, their purpose is as follows:
+The packages are published to `npmjs` under the prefix `@magek/`, their purpose is as follows:
 
-- `cli` - You guessed it! This package is the `boost` command-line tool, it interacts only with the core package in order to load the project configuration. The specific provider packages to interact with the cloud providers are loaded dynamically from the project config.
-- `framework-core` - This one contains all the framework runtime vendor-independent logic. Stuff like the generation of the config or the commands and events handling happens here. The specific provider packages to interact with the cloud providers are loaded dynamically from the project config.
-- `framework-provider-aws` (Deprecated) - Implements all the required adapters to make the magek core run on top of AWS technologies like Lambda and DynamoDB using the AWS SDK under the hoods.
-- `framework-provider-aws-infrastructure` (Deprecated) - Implements all the required adapters to allow Magek applications to be deployed to AWS using the AWS CDK under the hoods.
-- `framework-provider-local` - Implements all the required adapters to run the Magek application on a local express server to be able to debug your code before deploying it to a real cloud provider.
-- `framework-provider-local-infrastructure` - Implements all the required code to run the local development server.
-- `common` - This package defines types that the rest of the project will use. This is useful for avoiding cyclic dependencies. Note that this package should not contain stuff that are not types, or very simple methods related directly to them, i.e. a getter or setter. This package defines the main magek concepts like:
-  - Entity
-  - Command
-  - etc…
+- `cli` - CLI of the Magek Framework, the next level of abstraction for cloud-native applications. This package is the `magek` command-line tool.
+- `core` - Library for your Magek apps. Contains all the framework runtime vendor-independent logic.
+- `common` - Contains Magek common helpers used by the core and provider packages. This package defines types that the rest of the project will use to avoid cyclic dependencies.
+- `create-magek` - Create Magek applications with one command. This is the scaffolding tool for new projects.
+- `metadata` - Emits detailed metadata of your types for runtime schema-aware operations, like defining GraphQL schemas.
+- `server` - Debug your Magek projects locally. Implements the local development server functionality.
+- `server-infrastructure` - Handle the Magek running process of the local runtime.
 
-This is a dependency graph that shows the dependencies among all packages, including the application using Magek:
-![Magek packages dependencies](https://raw.githubusercontent.com/magekcloud/magek/main/docs/img/packages-dependencies.png)
+
 
 ## How Can I Contribute?
 
@@ -104,7 +99,7 @@ Enhancement suggestions are tracked as GitHub issues. Make sure you provide the 
 
 ### Improving documentation
 
-[Magek documentation](https://docs.magekframework.com) is treated as a live document that continues improving on a daily basis. If you find something that is missing or can be improved, please contribute, it will be of great help for other developers.
+[Magek documentation](https://docs.magek.ai) is treated as a live document that continues improving on a daily basis. If you find something that is missing or can be improved, please contribute, it will be of great help for other developers.
 To contribute you can use the button "Edit on github" at the top of each chapter.
 
 #### Documentation principles and practices
@@ -205,7 +200,7 @@ So decide one or another being conscious about your intention.
 
 ### Create your very first GitHub issue
 
-[Click here](https://github.com/magekcloud/magek/issues/new) to start making contributions to Magek.
+[Click here](https://github.com/theam/magek/issues/new) to start making contributions to Magek.
 
 ## Your First Code Contribution
 
@@ -248,7 +243,7 @@ Finally, **always use exact numbers for dependency versions**. This means that i
 Unit tests are executed when you type `rush test`. If you want to run the unit tests for a specific package, you should move to the corresponding package folder and run `rushx test` there.
 
 
-Once the PR is merged, the CICD process will publish the latest changes to NPM. When this finishes, as a maintainer, make sure to create a new GitHub release in the [releases page](https://github.com/magekcloud/magek/releases):
+Once the PR is merged, the CICD process will publish the latest changes to NPM. When this finishes, as a maintainer, make sure to create a new GitHub release in the [releases page](https://github.com/theam/magek/releases):
 
 ![Screenshot 2023-04-19 at 12 23 01](https://user-images.githubusercontent.com/7448243/233060277-d3cdcdbb-29ee-4fab-95d8-0e122bac9ab6.png)
 
