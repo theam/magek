@@ -60,7 +60,7 @@
     "@effect/platform-node-shared": "^0.40.2",
     "@effect/cluster": "^0.38.14",
     "@effect/rpc": "^0.62.0",
-    "@effect/sql": "^0.37.10",
+    "@effect/sql": "^0.40.1",
     "@effect/experimental": "0.51.1"
   },
   "devDependencies": {
