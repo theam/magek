@@ -26,7 +26,7 @@
     "ora": "^8.2.0",
     "ts-morph": "^26.0.0",
     "tslib": "^2.4.0",
-    "effect": "3.16.8"
+    "effect": "3.16.10"
   },
   "devDependencies": {
     "@booster-ai/eslint-config": "workspace:^3.2.0",
