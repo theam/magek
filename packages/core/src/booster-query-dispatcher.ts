@@ -8,7 +8,7 @@ import {
   QueryInput,
   createInstance,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher'
 import { GraphQLResolverContext } from './services/graphql/common'
 import { applyBeforeFunctions } from './services/filter-helpers'

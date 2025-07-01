@@ -3,7 +3,7 @@ import { GraphQLResolverContext, ResolverBuilder } from '../common'
 import * as inflected from 'inflected'
 import { GraphQLTypeInformer } from '../graphql-type-informer'
 import { GraphqlQueryFilterFieldsBuilder } from '../query-helpers/graphql-query-filter-fields-builder'
-import { AnyClass, BoosterConfig } from '@booster-ai/common'
+import { AnyClass, BoosterConfig } from '@magek/common'
 
 export class GraphqlQueryFiltersGenerator {
   private graphqlQueryFilterFieldsBuilder: GraphqlQueryFilterFieldsBuilder

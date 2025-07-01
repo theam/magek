@@ -1,6 +1,6 @@
 import { GraphQLFieldConfig, GraphQLFieldConfigMap, GraphQLID, GraphQLList, GraphQLNonNull } from 'graphql'
 import { GraphQLResolverContext, ResolverBuilder } from '../common'
-import { AnyClass, BoosterConfig } from '@booster-ai/common'
+import { AnyClass, BoosterConfig } from '@magek/common'
 import { GraphQLTypeInformer } from '../graphql-type-informer'
 
 export class GraphqlQueryByKeysGenerator {

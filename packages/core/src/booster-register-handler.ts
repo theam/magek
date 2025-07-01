@@ -11,11 +11,11 @@ import {
   UUID,
   NotificationInterface,
   ReducerMetadata,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { BoosterEntityMigrated } from './core-concepts/data-migration/events/booster-entity-migrated'
 import { BoosterDataMigrationStarted } from './core-concepts/data-migration/events/booster-data-migration-started'
 import { BoosterDataMigrationFinished } from './core-concepts/data-migration/events/booster-data-migration-finished'
-import { Booster } from './booster'
+import { Magek } from './booster'
 import { BoosterEntityTouched } from './core-concepts/touch-entity/events/booster-entity-touched'
 
 const boosterEventsTypesNames: Array<string> = [
@@ -38,7 +38,7 @@ export class RegisterHandler {
   }
 
   public static async flush(record: Register): Promise<void> {
-    return RegisterHandler.handle(Booster.config, record)
+    return RegisterHandler.handle(Magek.config, record)
   }
 
   private static wrapEvent(

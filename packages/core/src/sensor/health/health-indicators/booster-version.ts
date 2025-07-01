@@ -1,6 +1,6 @@
 import * as path from 'path'
 import * as process from 'process'
-import { BoosterConfig, getLogger } from '@booster-ai/common'
+import { BoosterConfig, getLogger } from '@magek/common'
 
 export function boosterVersion(config: BoosterConfig) {
   const projectAbsolutePath = path.resolve(process.cwd())

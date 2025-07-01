@@ -145,7 +145,7 @@ async function collectProjectInfo(args: string[]): Promise<ProjectConfig> {
 
   if (!projectName) {
     console.error(kleur.red('Error: Project name is required'))
-    console.log('Usage: npm create booster-ai@latest <project-name>')
+    console.log('Usage: npm create magek@latest <project-name>')
     process.exit(1)
   }
 

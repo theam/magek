@@ -1,4 +1,4 @@
-import { DecodedToken } from '@booster-ai/common'
+import { DecodedToken } from '@magek/common'
 import * as jwt from 'jsonwebtoken'
 import { JwksClient, SigningKey } from 'jwks-rsa'
 

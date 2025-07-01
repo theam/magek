@@ -1,4 +1,4 @@
-import { UUID } from '@booster-ai/common'
+import { UUID } from '@magek/common'
 
 export class BoosterDataMigrationFinished {
   readonly lastUpdated: string

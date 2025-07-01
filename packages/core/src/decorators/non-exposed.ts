@@ -1,5 +1,5 @@
-import { Booster } from '../booster'
-import { AnyClass } from '@booster-ai/common'
+import { Magek } from '../booster'
+import { AnyClass } from '@magek/common'
 import { getFunctionArguments } from './metadata'
 
 export function NonExposed(
@@ -7,7 +7,7 @@ export function NonExposed(
   methodName: string | undefined,
   parameterIndex?: number
 ) {
-  Booster.configureCurrentEnv((config): void => {
+  Magek.configureCurrentEnv((config): void => {
     const className = target.name ?? target.constructor.name
     const value: Array<string> = config.nonExposedGraphQLMetadataKey[className] || []
 

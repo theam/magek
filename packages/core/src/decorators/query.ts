@@ -1,12 +1,12 @@
  
-import { Booster } from '../booster'
+import { Magek } from '../booster'
 import {
   CommandFilterHooks,
   QueryAuthorizer,
   QueryInterface,
   QueryMetadata,
   QueryRoleAccess,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { getClassMetadata } from './metadata'
 import { BoosterAuthorizer } from '../booster-authorizer'
 
@@ -14,7 +14,7 @@ export function Query(
   attributes: QueryRoleAccess & CommandFilterHooks
 ): <TCommand>(queryClass: QueryInterface<TCommand>) => void {
   return (queryClass) => {
-    Booster.configureCurrentEnv((config): void => {
+    Magek.configureCurrentEnv((config): void => {
       if (config.queryHandlers[queryClass.name]) {
         throw new Error(`A query called ${queryClass.name} is already registered.
         If you think that this is an error, try performing a clean build.`)

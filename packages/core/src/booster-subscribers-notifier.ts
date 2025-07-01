@@ -9,7 +9,7 @@ import {
   TraceActionTypes,
   Promises,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { GraphQLSchema, DocumentNode } from 'graphql'
 import * as graphql from 'graphql'
 import { GraphQLGenerator } from './services/graphql/graphql-generator'

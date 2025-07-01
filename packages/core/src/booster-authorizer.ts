@@ -11,7 +11,7 @@ import {
   ReadModelAuthorizer,
   HealthRoleAccess,
   HealthAuthorizer,
-} from '@booster-ai/common'
+} from '@magek/common'
 
 export class BoosterAuthorizer {
   public static allowAccess(): Promise<void> {

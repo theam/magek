@@ -3,7 +3,7 @@ import {
   HealthIndicatorMetadata,
   HealthIndicatorResult,
   HealthStatus,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { osInfo } from './os-info'
 
 export class BoosterFunctionHealthIndicator {

@@ -1,4 +1,4 @@
-import { BoosterConfig } from '@booster-ai/common'
+import { BoosterConfig } from '@magek/common'
 
 export class BoosterRocketDispatcher {
   constructor(readonly config: BoosterConfig) {}

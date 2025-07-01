@@ -1,5 +1,5 @@
 import { Trace } from './instrumentation'
-import { BoosterConfig, TraceActionTypes, getLogger } from '@booster-ai/common'
+import { BoosterConfig, TraceActionTypes, getLogger } from '@magek/common'
 import { RawEventsParser } from './services/raw-events-parser'
 
 /**

@@ -1,5 +1,5 @@
  
-import { Booster } from '../booster'
+import { Magek } from '../booster'
 import {
   Class,
   CommandAuthorizer,
@@ -7,7 +7,7 @@ import {
   CommandInterface,
   CommandRoleAccess,
   Register,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { getClassMetadata } from './metadata'
 import { BoosterAuthorizer } from '../booster-authorizer'
 
@@ -20,7 +20,7 @@ export function Command(
   attributes: CommandRoleAccess & CommandFilterHooks
 ): <TCommand>(commandClass: CommandInterface<TCommand>) => void {
   return (commandClass) => {
-    Booster.configureCurrentEnv((config): void => {
+    Magek.configureCurrentEnv((config): void => {
       if (config.commandHandlers[commandClass.name]) {
         throw new Error(`A command called ${commandClass.name} is already registered.
         If you think that this is an error, try performing a clean build.`)

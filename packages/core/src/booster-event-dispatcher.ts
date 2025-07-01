@@ -1,4 +1,4 @@
-import { BoosterConfig, TraceActionTypes, getLogger } from '@booster-ai/common'
+import { BoosterConfig, TraceActionTypes, getLogger } from '@magek/common'
 import { EventStore } from './services/event-store'
 import { RawEventsParser } from './services/raw-events-parser'
 import { ReadModelStore } from './services/read-model-store'

@@ -1,4 +1,4 @@
-import { BoosterConfig, EventEnvelope, UUID, getLogger } from '@booster-ai/common'
+import { BoosterConfig, EventEnvelope, UUID, getLogger } from '@magek/common'
 
 export type EventsStreamingCallback = (
   entityName: string,

@@ -1,6 +1,6 @@
-import { Booster } from '../booster'
-import { Class, AnyClass, SchemaMigrationMetadata, BoosterConfig, Instance } from '@booster-ai/common'
-import { getMetadata, defineMetadata } from '@booster-ai/metadata'
+import { Magek } from '../booster'
+import { Class, AnyClass, SchemaMigrationMetadata, BoosterConfig, Instance } from '@magek/common'
+import { getMetadata, defineMetadata } from '@magek/metadata'
 
 const migrationMethodsMetadataKey = 'booster:migrationsMethods'
 
@@ -9,7 +9,7 @@ const migrationMethodsMetadataKey = 'booster:migrationsMethods'
  */
 export function SchemaMigration(conceptClass: AnyClass): (schemaMigrationClass: AnyClass) => void {
   return (schemaMigrationClass) => {
-    Booster.configureCurrentEnv((config) => {
+    Magek.configureCurrentEnv((config) => {
       const conceptMigrations = getConceptMigrations(config, conceptClass)
       const migrationMethodsMetadata = getMigrationMethods(schemaMigrationClass)
 

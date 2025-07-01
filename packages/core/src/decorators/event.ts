@@ -1,5 +1,5 @@
-import { Class, EventInterface } from '@booster-ai/common'
-import { Booster } from '../booster'
+import { Class, EventInterface } from '@magek/common'
+import { Magek } from '../booster'
 
 /**
  * Annotation to tell Booster which classes are your Events
@@ -9,7 +9,7 @@ import { Booster } from '../booster'
 // Disabling unused vars here, because it won't allow us to call the decorator without parens
  
 export function Event<TEvent extends EventInterface>(eventClass: Class<TEvent>): void {
-  Booster.configureCurrentEnv((config): void => {
+  Magek.configureCurrentEnv((config): void => {
     if (config.events[eventClass.name]) {
       throw new Error(`A event called ${eventClass.name} is already registered.
         If you think that this is an error, try performing a clean build.`)

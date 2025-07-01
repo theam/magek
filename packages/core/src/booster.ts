@@ -11,7 +11,7 @@ import {
   ReadModelInterface,
   Searcher,
   UUID,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { Importer } from './importer'
 import { EventStore } from './services/event-store'
 import { BoosterEntityMigrated } from './core-concepts/data-migration/events/booster-entity-migrated'
@@ -38,7 +38,7 @@ import { NodeContext, NodeRuntime } from '@effect/platform-node'
  * - `region`: 'eu-west-1'
  *
  */
-export class Booster {
+export class Magek {
   public static readonly configuredEnvironments: Set<string> = new Set<string>()
   public static readonly config = new BoosterConfig(checkAndGetCurrentEnv())
 
@@ -70,7 +70,7 @@ export class Booster {
     this.loadTokenVerifierFromEnv()
     this.config.validate()
     const args = process.argv
-    if (process.env['BOOSTER_CLI_HOOK']?.trim() !== 'true') {
+    if (process.env['MAGEK_CLI_HOOK']?.trim() !== 'true') {
       return
     }
     const injectable = this.config.injectable
@@ -78,9 +78,9 @@ export class Booster {
       const { commands, runMain, contextProvider } = injectable as Injectable.Injectable
       const provider = contextProvider ?? NodeContext.layer
       const runner = runMain ?? NodeRuntime.runMain
-      const name = 'boost'
+      const name = 'magek'
       const version = require(path.join(projectRootPath, 'package.json')).version
-      const command = Command.make('boost').pipe(Command.withSubcommands(commands))
+      const command = Command.make('magek').pipe(Command.withSubcommands(commands))
       // Run the generated CLI
       pipe(
         args,

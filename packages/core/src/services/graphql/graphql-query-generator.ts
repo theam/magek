@@ -1,4 +1,4 @@
-import { AnyClass, BoosterConfig } from '@booster-ai/common'
+import { AnyClass, BoosterConfig } from '@magek/common'
 import { GraphQLFieldResolver, GraphQLInputObjectType, GraphQLObjectType } from 'graphql'
 import { GraphQLResolverContext, ResolverBuilder, TargetTypesMap } from './common'
 import { GraphQLTypeInformer } from './graphql-type-informer'

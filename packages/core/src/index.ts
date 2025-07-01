@@ -1,4 +1,4 @@
-import { Booster } from './booster'
+import { Magek } from './booster'
 import { BoosterEventDispatcher } from './booster-event-dispatcher'
 import { BoosterGraphQLDispatcher } from './booster-graphql-dispatcher'
 import { BoosterScheduledCommandDispatcher } from './booster-scheduled-command-dispatcher'
@@ -9,7 +9,7 @@ import { BoosterEventStreamProducer } from './booster-event-stream-producer'
 import { BoosterHealthService } from './sensor'
 
 // Exports
-export { Booster } from './booster'
+export { Magek } from './booster'
 export { RegisterHandler } from './booster-register-handler'
 export * from './decorators'
 export { BoosterDataMigrations } from './booster-data-migrations'
@@ -27,8 +27,8 @@ export * as Injectable from './injectable'
  * @param rawEvents A provider-specific representation of the events to be processed
  * @returns A promise that resolves when the events are processed
  */
-export async function boosterEventDispatcher(rawEvents: unknown): Promise<void> {
-  return BoosterEventDispatcher.dispatch(rawEvents, Booster.config)
+export async function magekEventDispatcher(rawEvents: unknown): Promise<void> {
+  return BoosterEventDispatcher.dispatch(rawEvents, Magek.config)
 }
 
 /**
@@ -37,8 +37,8 @@ export async function boosterEventDispatcher(rawEvents: unknown): Promise<void> 
  * @param rawRequest A provider-specific representation of the GraphQL request.
  * @returns A promise that resolves to the GraphQL response.
  */
-export async function boosterServeGraphQL(rawRequest: unknown): Promise<unknown> {
-  return new BoosterGraphQLDispatcher(Booster.config).dispatch(rawRequest)
+export async function magekServeGraphQL(rawRequest: unknown): Promise<unknown> {
+  return new BoosterGraphQLDispatcher(Magek.config).dispatch(rawRequest)
 }
 
 /**
@@ -47,14 +47,14 @@ export async function boosterServeGraphQL(rawRequest: unknown): Promise<unknown>
  * @param rawRequest A provider-specific representation of the request to trigger scheduled commands
  * @returns A promise that resolves when the scheduled commands are triggered
  */
-export async function boosterTriggerScheduledCommands(rawRequest: unknown): Promise<void> {
-  return new BoosterScheduledCommandDispatcher(Booster.config).dispatch(rawRequest)
+export async function magekTriggerScheduledCommands(rawRequest: unknown): Promise<void> {
+  return new BoosterScheduledCommandDispatcher(Magek.config).dispatch(rawRequest)
 }
 
 /**
  * @deprecated [EOL v3] Please use `boosterTriggerScheduledCommands` instead.
  */
-export const boosterTriggerScheduledCommand = boosterTriggerScheduledCommands
+export const magekTriggerScheduledCommand = magekTriggerScheduledCommands
 
 /**
  * Notifies subscribers of a new update on a read model
@@ -62,8 +62,8 @@ export const boosterTriggerScheduledCommand = boosterTriggerScheduledCommands
  * @param rawRequest A provider-specific representation of the request to notify subscribers.
  * @returns A promise that resolves when the subscribers are notified
  */
-export async function boosterNotifySubscribers(rawRequest: unknown): Promise<void> {
-  return new BoosterSubscribersNotifier(Booster.config).dispatch(rawRequest)
+export async function magekNotifySubscribers(rawRequest: unknown): Promise<void> {
+  return new BoosterSubscribersNotifier(Magek.config).dispatch(rawRequest)
 }
 
 /**
@@ -72,8 +72,8 @@ export async function boosterNotifySubscribers(rawRequest: unknown): Promise<voi
  * @param rawRequest A provider-specific representation of the request to be processed
  * @returns A promise that resolves when the request is processed
  */
-export async function boosterRocketDispatcher(rawRequest: unknown): Promise<unknown> {
-  return new BoosterRocketDispatcher(Booster.config).dispatch(rawRequest)
+export async function magekRocketDispatcher(rawRequest: unknown): Promise<unknown> {
+  return new BoosterRocketDispatcher(Magek.config).dispatch(rawRequest)
 }
 
 /**
@@ -82,8 +82,8 @@ export async function boosterRocketDispatcher(rawRequest: unknown): Promise<unkn
  * @param rawEvent A provider-specific representation of the event to be processed
  * @returns A promise that resolves when the event is processed
  */
-export async function boosterConsumeEventStream(rawEvent: unknown): Promise<unknown> {
-  return BoosterEventStreamConsumer.consume(rawEvent, Booster.config)
+export async function magekConsumeEventStream(rawEvent: unknown): Promise<unknown> {
+  return BoosterEventStreamConsumer.consume(rawEvent, Magek.config)
 }
 
 /**
@@ -92,8 +92,8 @@ export async function boosterConsumeEventStream(rawEvent: unknown): Promise<unkn
  * @param rawEvent A provider-specific representation of the event to be produced
  * @returns A promise that resolves when the event is produced
  */
-export async function boosterProduceEventStream(rawEvent: unknown): Promise<unknown> {
-  return BoosterEventStreamProducer.produce(rawEvent, Booster.config)
+export async function magekProduceEventStream(rawEvent: unknown): Promise<unknown> {
+  return BoosterEventStreamProducer.produce(rawEvent, Magek.config)
 }
 
 /**
@@ -102,6 +102,6 @@ export async function boosterProduceEventStream(rawEvent: unknown): Promise<unkn
  * @param request A provider-specific representation of the request to check the health
  * @returns A promise that resolves to the health of the application
  */
-export async function boosterHealth(request: unknown): Promise<unknown> {
-  return new BoosterHealthService(Booster.config).boosterHealth(request)
+export async function magekHealth(request: unknown): Promise<unknown> {
+  return new BoosterHealthService(Magek.config).boosterHealth(request)
 }

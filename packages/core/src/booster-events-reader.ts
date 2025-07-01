@@ -9,8 +9,8 @@ import {
   EventParametersFilterByEntity,
   EventParametersFilterByType,
   getLogger,
-} from '@booster-ai/common'
-import { Booster } from './booster'
+} from '@magek/common'
+import { Magek } from './booster'
 
 export class BoosterEventsReader {
   public constructor(readonly config: BoosterConfig) {}
@@ -69,7 +69,7 @@ export class BoosterEventsReader {
   }
 
   private async processFetch(eventRequest: EventSearchRequest): Promise<Array<EventSearchResponse>> {
-    return Booster.events(eventRequest.parameters)
+    return Magek.events(eventRequest.parameters)
   }
 }
 

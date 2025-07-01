@@ -9,7 +9,7 @@ import {
   CommandInput,
   createInstance,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { RegisterHandler } from './booster-register-handler'
 import { applyBeforeFunctions } from './services/filter-helpers'
 import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher'

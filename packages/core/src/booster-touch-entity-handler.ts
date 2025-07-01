@@ -1,6 +1,6 @@
-import { Register, UUID } from '@booster-ai/common'
+import { Register, UUID } from '@magek/common'
 import { RegisterHandler } from './booster-register-handler'
-import { Booster } from './index'
+import { Magek } from "./index"
 import { BoosterEntityTouched } from './core-concepts/touch-entity/events/booster-entity-touched'
 
 export class BoosterTouchEntityHandler {
@@ -8,6 +8,6 @@ export class BoosterTouchEntityHandler {
     const requestID = UUID.generate()
     const register = new Register(requestID, {}, RegisterHandler.flush)
     register.events(new BoosterEntityTouched(entityName, entityId))
-    return RegisterHandler.handle(Booster.config, register)
+    return RegisterHandler.handle(Magek.config, register)
   }
 }
