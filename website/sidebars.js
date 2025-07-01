@@ -26,7 +26,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Booster architecture',
+      label: 'Magek architecture',
       collapsed: false,
       link: {
         type: 'doc',
@@ -66,10 +66,10 @@ const sidebars = {
       items: ['security/authentication', 'security/authorization'],
     },
     'graphql',
-    'booster-cli',
+    'magek-cli',
     {
       type: 'category',
-      label: 'Going deeper with Booster',
+      label: 'Going deeper with Magek',
       link: {
         type: 'generated-index'
       },
@@ -84,14 +84,14 @@ const sidebars = {
         'going-deeper/custom-providers',
         {
           type: 'category',
-          label: 'Extending Booster with Rockets!',
+          label: 'Extending Magek with Rockets!',
           link: {
             type: 'doc',
             id: 'going-deeper/rockets'
           },
           items: [
             'going-deeper/rockets/rocket-file-uploads',
-            'going-deeper/rockets/rocket-backup-booster',
+            'going-deeper/rockets/rocket-backup-magek',
             'going-deeper/rockets/rocket-static-sites',
             'going-deeper/rockets/rocket-webhook',
           ]

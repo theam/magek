@@ -4,16 +4,16 @@ description: Learn how to update entities and ReadModels
 
 # TouchEntities
 
-Booster provides a way to refresh the value of an entity and update the corresponding ReadModels that depend on it.
+Magek provides a way to refresh the value of an entity and update the corresponding ReadModels that depend on it.
 This functionality is useful when a new projection is added to a ReadModel and you want to apply it retroactively to the events that have already occurred.
 It is also helpful when there was an error when calculating a ReadModel or when the snapshot of an entity was not generated.
 
-To migrate an existing entity to a new version, you need to call `BoosterTouchEntityHandler.touchEntity` to touch entities.
+To migrate an existing entity to a new version, you need to call `MagekTouchEntityHandler.touchEntity` to touch entities.
 For example, this command will touch all the entities of the class Cart.:
 
 ```typescript
-import { Booster, BoosterTouchEntityHandler, Command } from '@booster-ai/core'
-import { Register } from '@booster-ai/common'
+import { Magek, MagekTouchEntityHandler, Command } from '@magek/core'
+import { Register } from '@magek/common'
 import { Cart } from '../entities/cart'
 
 @Command({
@@ -23,10 +23,10 @@ export class TouchCommand {
   public constructor() {}
 
   public static async handle(_command: TouchCommand, _register: Register): Promise<void> {
-    const entitiesIdsResult = await Booster.entitiesIDs('Cart', 500, undefined)
+    const entitiesIdsResult = await Magek.entitiesIDs('Cart', 500, undefined)
     const paginatedEntityIdResults = entitiesIdsResult.items
     const carts = await Promise.all(
-      paginatedEntityIdResults.map(async (entity) => await Booster.entity(Cart, entity.entityID))
+      paginatedEntityIdResults.map(async (entity) => await Magek.entity(Cart, entity.entityID))
     )
     if (!carts || carts.length === 0) {
       return
@@ -34,7 +34,7 @@ export class TouchCommand {
     await Promise.all(
       carts.map(async (cart) => {
         const validCart = cart!
-        await BoosterTouchEntityHandler.touchEntity('Cart', validCart.id)
+        await MagekTouchEntityHandler.touchEntity('Cart', validCart.id)
         console.log('Touched', validCart)
         return validCart.id
       })

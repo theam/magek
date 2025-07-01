@@ -18,7 +18,7 @@ export const CLAskMeRepo: React.FC = ({ children }: CLStepByStepProps) => {
   return createCustomLinkComponent(children, 'NE1EADCK')
 }
 
-export const CLInstallBooster: React.FC = ({ children }: CLStepByStepProps) => {
+export const CLInstallMagek: React.FC = ({ children }: CLStepByStepProps) => {
   return createCustomLinkComponent(children, 'AXTW7ICE')
 }
 

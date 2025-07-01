@@ -11,25 +11,25 @@ import TerminalWindow from '@site/src/components/TerminalWindow/TerminalWindow'
 
 ## Introduction
 
-This document proposes an enhancement to Booster Framework, introducing a new component integration mechanism. This enhancement aims not to overhaul the existing architecture but to provide an incremental upgrade, allowing the Framework to retain its current functionality while adding new, more efficient capabilities. This proposal details the transition to a system where components, written with clear interfaces using [Effect](https://www.effect.website/), can be directly injected into the Booster project, offering improved efficiency and customization.
+This document proposes an enhancement to Magek Framework, introducing a new component integration mechanism. This enhancement aims not to overhaul the existing architecture but to provide an incremental upgrade, allowing the Framework to retain its current functionality while adding new, more efficient capabilities. This proposal details the transition to a system where components, written with clear interfaces using [Effect](https://www.effect.website/), can be directly injected into the Magek project, offering improved efficiency and customization.
 
 
 :::warning
 
-This component system is **not meant to be used by all Booster users**, but rather by it's **power users** who want to extend their apps in ways that are not possible with the current system, as well as **Booster contributors** who want to add new features to the framework.
+This component system is **not meant to be used by all Magek users**, but rather by it's **power users** who want to extend their apps in ways that are not possible with the current system, as well as **Magek contributors** who want to add new features to the framework.
 
 :::
 
 ## Current Mechanism and Its Limitations
 
-The Booster Framework currently relies on users specifying packages to be loaded (like Azure provider or filesystem components) in a JSON configuration, which are then **dynamically imported** by the framework. While functional, this approach has limitations in efficiency and customization.
+The Magek Framework currently relies on users specifying packages to be loaded (like Azure provider or filesystem components) in a JSON configuration, which are then **dynamically imported** by the framework. While functional, this approach has limitations in efficiency and customization.
 
 ## Enhancement Overview
 
 ### Interface Definition and Inversion of Control
 
 - **Interface Definition**: We propose to define explicit interfaces for CLI commands, runtime operations, and post-compile activities.
-- **Inversion of Control**: Shift from dynamic imports to a system where users inject components directly into their Booster projects.
+- **Inversion of Control**: Shift from dynamic imports to a system where users inject components directly into their Magek projects.
 - **[Effect](https://www.effect.website/) Integration**: Utilize [Effect](https://www.effect.website/) for writing components, ensuring robustness and type safety.
   - This part is crucial, because it enhances the component system with:
     - **Dependency injection**: Components can be automatically injected into other components, allowing for a more modular design.
@@ -39,7 +39,7 @@ The Booster Framework currently relies on users specifying packages to be loaded
 ### Maintaining Existing Functionality
 
 - **Gradual Transition**: The new system is designed to coexist with the current architecture, allowing users to transition at their own pace.
-- **Backward Compatibility**: Ensures existing Booster applications continue to function without mandatory modifications.
+- **Backward Compatibility**: Ensures existing Magek applications continue to function without mandatory modifications.
 
 ## Benefits
 
@@ -141,22 +141,22 @@ a bit of friction, we believe that **the advantages outweight the friction by fa
 In the example above, we just used the `FileGenerator` component, and because that one already defined the CLI-time behavior, we didn't need to do
 it ourselves.
 
-This is an extremely powerful idea, because with a little subset of primitive components, we allow extending and customizing Booster apps in
+This is an extremely powerful idea, because with a little subset of primitive components, we allow extending and customizing Magek apps in
 inimaginable ways. Power users could define their own database component that allows them to configure, deploy and use a database in their app
 **with a single function call.**
 
 ### How to execute the different run-times?
 
-These components would get injected into the `Booster.config` block for now, as it gets loaded when
+These components would get injected into the `Magek.config` block for now, as it gets loaded when
 the application starts.
 
-If a Booster application is configured with some components, it's main executable will get extended with an additional CLI flag `--exec` that
+If a Magek application is configured with some components, it's main executable will get extended with an additional CLI flag `--exec` that
 allows specifying the run-time to execute.
 
 To maintain backwards compatibility, **if `--exec` is not specified, it will run the run-time by default**, as it is what happens when one runs a
-Booster app nowadays.
+Magek app nowadays.
 
-This way of working allows taking responsibility out of the Booster CLI tool and allow users to create a regular `boost` (or any more descriptive name)
+This way of working allows taking responsibility out of the Magek CLI tool and allow users to create a regular `boost` (or any more descriptive name)
 script in their `package.json` file, allowing to execute the CLI components right with `pnpm` (or their preferred Node package manager):
 
 <TerminalWindow>
@@ -169,11 +169,11 @@ $ pnpm boost event:generate --name AccountCreated --fields 'amount:number'
 
 ## Considerations
 
-- **Compatibility Measures**: Ensure the new component system aligns with the existing Booster Framework.
+- **Compatibility Measures**: Ensure the new component system aligns with the existing Magek Framework.
 - **Learning Curve**: Address the potential learning curve associated with [Effect](https://www.effect.website/) through detailed documentation and community support.
 - **Error Handling**: Leverage TypeScript's compiler for improved error handling and runtime safety.
 
 ## Conclusion
 
-This proposal lays the groundwork for a progressive enhancement in Booster Framework's component integration mechanism. This proposal balances the need for advanced functionality and efficiency with the necessity of maintaining existing systems, while giving power users a great extensibility tool, and
+This proposal lays the groundwork for a progressive enhancement in Magek Framework's component integration mechanism. This proposal balances the need for advanced functionality and efficiency with the necessity of maintaining existing systems, while giving power users a great extensibility tool, and
 most importantly, increasing the robustness of the framework overall.

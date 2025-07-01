@@ -1,5 +1,5 @@
 import {
-  BOOSTER_HEALTH_INDICATORS_IDS,
+  MAGEK_HEALTH_INDICATORS_IDS,
   BoosterConfig,
   HealthIndicatorMetadata,
   HealthIndicatorsResult,
@@ -15,7 +15,7 @@ export class RocketsHealthIndicator {
     if (Object.keys(results).length === 0) {
       return {
         name: 'Rockets',
-        id: BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS,
+        id: MAGEK_HEALTH_INDICATORS_IDS.ROCKETS,
         status: HealthStatus.UNKNOWN,
         details: {
           reason: 'No Rockets found',
@@ -34,7 +34,7 @@ export class RocketsHealthIndicator {
       }
       return {
         name: rocketName,
-        id: `${BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS}/${rocketName}`,
+        id: `${MAGEK_HEALTH_INDICATORS_IDS.ROCKETS}/${rocketName}`,
         status: rocketStatus ? HealthStatus.UP : HealthStatus.DOWN,
       }
     }
@@ -42,12 +42,12 @@ export class RocketsHealthIndicator {
     // return all rockets status
     return {
       name: 'Rockets',
-      id: BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS,
+      id: MAGEK_HEALTH_INDICATORS_IDS.ROCKETS,
       status: this.getOverAllHealthStatus(results),
       components: Object.entries(results).map(([rocketName, status]) => {
         return {
           name: rocketName,
-          id: `${BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS}/${rocketName}`,
+          id: `${MAGEK_HEALTH_INDICATORS_IDS.ROCKETS}/${rocketName}`,
           status: status ? HealthStatus.UP : HealthStatus.DOWN,
         }
       }),

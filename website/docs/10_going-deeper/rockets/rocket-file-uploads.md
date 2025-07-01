@@ -3,10 +3,10 @@ import Tabs from '@theme/Tabs'
 
 # File Uploads Rocket
 
-This package is a configurable rocket to add a storage API to your Booster applications.
+This package is a configurable rocket to add a storage API to your Magek applications.
 
 :::info
-[GitHub Repo](https://github.com/boostercloud/rocket-file-uploads)
+[GitHub Repo](https://github.com/magekcloud/rocket-file-uploads)
 :::
 
 ## Supported Providers
@@ -23,7 +23,7 @@ This rocket provides some methods to access files stores in your cloud provider:
 - **deleteFile**: Removes a file from a directory (only supported in AWS at the moment).
 
 These methods may be used from a Command in your project secured via JWT Token.
-This rocket also provides a Booster Event each time a file is uploaded.
+This rocket also provides a Magek Event each time a file is uploaded.
 
 
 ## Usage
@@ -33,22 +33,22 @@ This rocket also provides a Booster Event each time a file is uploaded.
 
 Install needed dependency packages:
 ```bash
-npm install --save @booster-ai/rocket-file-uploads-core @booster-ai/rocket-file-uploads-types
-npm install --save @booster-ai/rocket-file-uploads-azure
+npm install --save @magek-ai/rocket-file-uploads-core @magek-ai/rocket-file-uploads-types
+npm install --save @magek-ai/rocket-file-uploads-azure
 ```
 
 Also, you will need a devDependency in your project:
 ```bash
-npm install --save-dev @booster-ai/rocket-file-uploads-azure-infrastructure
+npm install --save-dev @magek-ai/rocket-file-uploads-azure-infrastructure
 ```
 
-In your Booster config file, configure your BoosterRocketFiles:
+In your Magek config file, configure your MagekRocketFiles:
 
 ```typescript title="src/config/config.ts"
-import { Booster } from '@booster-ai/core'
-import { BoosterConfig } from '@booster-ai/common'
-import { BoosterRocketFiles } from '@booster-ai/rocket-file-uploads-core'
-import { RocketFilesUserConfiguration } from '@booster-ai/rocket-file-uploads-types'
+import { Magek } from '@magek-ai/core'
+import { MagekConfig } from '@magek-ai/common'
+import { MagekRocketFiles } from '@magek-ai/rocket-file-uploads-core'
+import { RocketFilesUserConfiguration } from '@magek-ai/rocket-file-uploads-types'
 
 const rocketFilesConfigurationDefault: RocketFilesUserConfiguration = {
   storageName: 'STORAGE_NAME',
@@ -62,11 +62,11 @@ const rocketFilesConfigurationCms: RocketFilesUserConfiguration = {
   directories: ['cms1', 'cms2'],
 }
 
-Booster.configure('production', (config: BoosterConfig): void => {
+Magek.configure('production', (config: MagekConfig): void => {
   config.appName = 'TEST_APP_NAME'
-  config.providerPackage = '@booster-ai/server'
+  config.providerPackage = '@magek-ai/server'
   config.rockets = [
-    new BoosterRocketFiles(config, [rocketFilesConfigurationDefault, rocketFilesConfigurationCms]).rocketForAzure(),
+    new MagekRocketFiles(config, [rocketFilesConfigurationDefault, rocketFilesConfigurationCms]).rocketForAzure(),
   ]
 })
 
@@ -99,9 +99,9 @@ Create a command in your application and call the `presignedPut` method on the `
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/file-upload-put.ts"
-import { Booster, Command } from '@booster-ai/core'
-import { Register } from '@booster-ai/common'
-import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
+import { Magek, Command } from '@magek-ai/core'
+import { Register } from '@magek-ai/common'
+import { FileHandler } from '@magek-ai/rocket-file-uploads-core'
 
 @Command({
   authorize: 'all',
@@ -110,8 +110,8 @@ export class FileUploadPut {
   public constructor(readonly directory: string, readonly fileName: string, readonly storageName?: string) {}
 
   public static async handle(command: FileUploadPut, register: Register): Promise<string> {
-    const boosterConfig = Booster.config
-    const fileHandler = new FileHandler(boosterConfig, command.storageName)
+    const magekConfig = Magek.config
+    const fileHandler = new FileHandler(magekConfig, command.storageName)
     return await fileHandler.presignedPut(command.directory, command.fileName)
   }
 }
@@ -146,9 +146,9 @@ Create a command in your application and call the `presignedGet` method on the `
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/file-upload-get.ts"
-import { Booster, Command } from '@booster-ai/core'
-import { Register } from '@booster-ai/common'
-import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
+import { Magek, Command } from '@magek-ai/core'
+import { Register } from '@magek-ai/common'
+import { FileHandler } from '@magek-ai/rocket-file-uploads-core'
 
 @Command({
   authorize: 'all',
@@ -157,8 +157,8 @@ export class FileUploadGet {
   public constructor(readonly directory: string, readonly fileName: string, readonly storageName?: string) {}
 
   public static async handle(command: FileUploadGet, register: Register): Promise<string> {
-    const boosterConfig = Booster.config
-    const fileHandler = new FileHandler(boosterConfig, command.storageName)
+    const magekConfig = Magek.config
+    const fileHandler = new FileHandler(magekConfig, command.storageName)
     return await fileHandler.presignedGet(command.directory, command.fileName)
   }
 }
@@ -193,10 +193,10 @@ Create a command in your application and call the `list` method on the `FileHand
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/file-upload-list.ts"
-import { Booster, Command } from '@booster-ai/core'
-import { Register } from '@booster-ai/common'
-import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
-import { ListItem } from '@booster-ai/rocket-file-uploads-types'
+import { Magek, Command } from '@magek-ai/core'
+import { Register } from '@magek-ai/common'
+import { FileHandler } from '@magek-ai/rocket-file-uploads-core'
+import { ListItem } from '@magek-ai/rocket-file-uploads-types'
 
 @Command({
   authorize: 'all',
@@ -205,8 +205,8 @@ export class FileUploadList {
   public constructor(readonly directory: string, readonly storageName?: string) {}
 
   public static async handle(command: FileUploadList, register: Register): Promise<Array<ListItem>> {
-    const boosterConfig = Booster.config
-    const fileHandler = new FileHandler(boosterConfig, command.storageName)
+    const magekConfig = Magek.config
+    const fileHandler = new FileHandler(magekConfig, command.storageName)
     return await fileHandler.list(command.directory)
   }
 }
@@ -287,21 +287,21 @@ az role assignment create \
 
 Install needed dependency packages:
 ```bash
-npm install --save @booster-ai/rocket-file-uploads-core @booster-ai/rocket-file-uploads-types
-npm install --save @booster-ai/rocket-file-uploads-aws
+npm install --save @magek-ai/rocket-file-uploads-core @magek-ai/rocket-file-uploads-types
+npm install --save @magek-ai/rocket-file-uploads-aws
 ```
 Also, you will need a devDependency in your project:
 ```bash
-npm install --save-dev @booster-ai/rocket-file-uploads-aws-infrastructure
+npm install --save-dev @magek-ai/rocket-file-uploads-aws-infrastructure
 ```
 
-In your Booster config file, configure your BoosterRocketFiles:
+In your Magek config file, configure your MagekRocketFiles:
 
 ```typescript title="src/config/config.ts"
-import { Booster } from '@booster-ai/core'
-import { BoosterConfig } from '@booster-ai/common'
-import { BoosterRocketFiles } from '@booster-ai/rocket-file-uploads-core'
-import { RocketFilesUserConfiguration } from '@booster-ai/rocket-file-uploads-types'
+import { Magek } from '@magek-ai/core'
+import { MagekConfig } from '@magek-ai/common'
+import { MagekRocketFiles } from '@magek-ai/rocket-file-uploads-core'
+import { RocketFilesUserConfiguration } from '@magek-ai/rocket-file-uploads-types'
 
 const rocketFilesConfigurationDefault: RocketFilesUserConfiguration = {
   storageName: 'STORAGE_NAME',
@@ -315,11 +315,11 @@ const rocketFilesConfigurationCms: RocketFilesUserConfiguration = {
   directories: ['cms1', 'cms2'],
 }
 
-Booster.configure('production', (config: BoosterConfig): void => {
+Magek.configure('production', (config: MagekConfig): void => {
   config.appName = 'TEST_APP_NAME'
-  config.providerPackage = '@booster-ai/server'
+  config.providerPackage = '@magek-ai/server'
   config.rockets = [
-    new BoosterRocketFiles(config, [rocketFilesConfigurationDefault, rocketFilesConfigurationCms]).rocketForAWS(),
+    new MagekRocketFiles(config, [rocketFilesConfigurationDefault, rocketFilesConfigurationCms]).rocketForAWS(),
   ]
 })
 ```
@@ -347,9 +347,9 @@ Create a command in your application and call the `presignedPut` method on the `
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/file-upload-put.ts"
-import { Booster, Command } from '@booster-ai/core'
-import { Register } from '@booster-ai/common'
-import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
+import { Magek, Command } from '@magek-ai/core'
+import { Register } from '@magek-ai/common'
+import { FileHandler } from '@magek-ai/rocket-file-uploads-core'
 
 @Command({
   authorize: 'all',
@@ -358,8 +358,8 @@ export class FileUploadPut {
   public constructor(readonly directory: string, readonly fileName: string, readonly storageName?: string) {}
 
   public static async handle(command: FileUploadPut, register: Register): Promise<PresignedPostResponse> {
-    const boosterConfig = Booster.config
-    const fileHandler = new FileHandler(boosterConfig, command.storageName)
+    const magekConfig = Magek.config
+    const fileHandler = new FileHandler(magekConfig, command.storageName)
     return await fileHandler.presignedPut(command.directory, command.fileName) as Promise<PresignedPostResponse>
   }
 }
@@ -407,9 +407,9 @@ Create a command in your application and call the `presignedGet` method on the `
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/file-upload-get.ts"
-import { Booster, Command } from '@booster-ai/core'
-import { Register } from '@booster-ai/common'
-import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
+import { Magek, Command } from '@magek-ai/core'
+import { Register } from '@magek-ai/common'
+import { FileHandler } from '@magek-ai/rocket-file-uploads-core'
 
 @Command({
   authorize: 'all',
@@ -418,8 +418,8 @@ export class FileUploadGet {
   public constructor(readonly directory: string, readonly fileName: string, readonly storageName?: string) {}
 
   public static async handle(command: FileUploadGet, register: Register): Promise<string> {
-    const boosterConfig = Booster.config
-    const fileHandler = new FileHandler(boosterConfig, command.storageName)
+    const magekConfig = Magek.config
+    const fileHandler = new FileHandler(magekConfig, command.storageName)
     return await fileHandler.presignedGet(command.directory, command.fileName)
   }
 }
@@ -455,10 +455,10 @@ Create a command in your application and call the `list` method on the `FileHand
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/file-upload-list.ts"
-import { Booster, Command } from '@booster-ai/core'
-import { Register } from '@booster-ai/common'
-import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
-import { ListItem } from '@booster-ai/rocket-file-uploads-types'
+import { Magek, Command } from '@magek-ai/core'
+import { Register } from '@magek-ai/common'
+import { FileHandler } from '@magek-ai/rocket-file-uploads-core'
+import { ListItem } from '@magek-ai/rocket-file-uploads-types'
 
 @Command({
   authorize: 'all',
@@ -467,8 +467,8 @@ export class FileUploadList {
   public constructor(readonly directory: string, readonly storageName?: string) {}
 
   public static async handle(command: FileUploadList, register: Register): Promise<Array<ListItem>> {
-    const boosterConfig = Booster.config
-    const fileHandler = new FileHandler(boosterConfig, command.storageName)
+    const magekConfig = Magek.config
+    const fileHandler = new FileHandler(magekConfig, command.storageName)
     return await fileHandler.list(command.directory)
   }
 }
@@ -514,10 +514,10 @@ Create a command in your application and call the `deleteFile` method on the `Fi
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/delete-file.ts"
-import { Booster, Command } from '@booster-ai/core'
-import { Register } from '@booster-ai/common'
-import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
-import { ListItem } from '@booster-ai/rocket-file-uploads-types'
+import { Magek, Command } from '@magek-ai/core'
+import { Register } from '@magek-ai/common'
+import { FileHandler } from '@magek-ai/rocket-file-uploads-core'
+import { ListItem } from '@magek-ai/rocket-file-uploads-types'
 
 @Command({
   authorize: 'all',
@@ -526,8 +526,8 @@ export class DeleteFile {
   public constructor(readonly directory: string, readonly fileName: string, readonly storageName?: string) {}
 
   public static async handle(command: DeleteFile, register: Register): Promise<boolean> {
-    const boosterConfig = Booster.config
-    const fileHandler = new FileHandler(boosterConfig, command.storageName)
+    const magekConfig = Magek.config
+    const fileHandler = new FileHandler(magekConfig, command.storageName)
     return await fileHandler.deleteFile(command.directory, command.fileName)
   }
 }
@@ -561,21 +561,21 @@ Response:
 
 Install needed dependency packages:
 ```bash
-npm install --save @booster-ai/rocket-file-uploads-core @booster-ai/rocket-file-uploads-types
-npm install --save @booster-ai/rocket-file-uploads-local
+npm install --save @magek-ai/rocket-file-uploads-core @magek-ai/rocket-file-uploads-types
+npm install --save @magek-ai/rocket-file-uploads-local
 ```
 Also, you will need a devDependency in your project:
 ```
-npm install --save-dev @booster-ai/rocket-file-uploads-local-infrastructure
+npm install --save-dev @magek-ai/rocket-file-uploads-local-infrastructure
 ```
 
-In your Booster config file, configure your BoosterRocketFiles:
+In your Magek config file, configure your MagekRocketFiles:
 
 ```typescript title="src/config/config.ts"
-import { Booster } from '@booster-ai/core'
-import { BoosterConfig } from '@booster-ai/common'
-import { BoosterRocketFiles } from '@booster-ai/rocket-file-uploads-core'
-import { RocketFilesUserConfiguration } from '@booster-ai/rocket-file-uploads-types'
+import { Magek } from '@magek-ai/core'
+import { MagekConfig } from '@magek-ai/common'
+import { MagekRocketFiles } from '@magek-ai/rocket-file-uploads-core'
+import { RocketFilesUserConfiguration } from '@magek-ai/rocket-file-uploads-types'
 
 const rocketFilesConfigurationDefault: RocketFilesUserConfiguration = {
   storageName: 'STORAGE_NAME',
@@ -589,11 +589,11 @@ const rocketFilesConfigurationCms: RocketFilesUserConfiguration = {
   directories: ['cms1', 'cms2'],
 }
 
-Booster.configure('local', (config: BoosterConfig): void => {
+Magek.configure('local', (config: MagekConfig): void => {
   config.appName = 'TEST_APP_NAME'
-  config.providerPackage = '@booster-ai/server'
+  config.providerPackage = '@magek-ai/server'
   config.rockets = [
-    new BoosterRocketFiles(config, [rocketFilesConfigurationDefault, rocketFilesConfigurationCms]).rocketForLocal(),
+    new MagekRocketFiles(config, [rocketFilesConfigurationDefault, rocketFilesConfigurationCms]).rocketForLocal(),
   ]
 })
 ```
@@ -624,9 +624,9 @@ Create a command in your application and call the `presignedPut` method on the `
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/file-upload-put.ts"
-import { Booster, Command } from '@booster-ai/core'
-import { Register } from '@booster-ai/common'
-import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
+import { Magek, Command } from '@magek-ai/core'
+import { Register } from '@magek-ai/common'
+import { FileHandler } from '@magek-ai/rocket-file-uploads-core'
 
 @Command({
   authorize: 'all',
@@ -635,8 +635,8 @@ export class FileUploadPut {
   public constructor(readonly directory: string, readonly fileName: string, readonly storageName?: string) {}
 
   public static async handle(command: FileUploadPut, register: Register): Promise<string> {
-    const boosterConfig = Booster.config
-    const fileHandler = new FileHandler(boosterConfig, command.storageName)
+    const magekConfig = Magek.config
+    const fileHandler = new FileHandler(magekConfig, command.storageName)
     return await fileHandler.presignedPut(command.directory, command.fileName)
   }
 }
@@ -671,9 +671,9 @@ Create a command in your application and call the `presignedGet` method on the `
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/file-upload-get.ts"
-import { Booster, Command } from '@booster-ai/core'
-import { Register } from '@booster-ai/common'
-import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
+import { Magek, Command } from '@magek-ai/core'
+import { Register } from '@magek-ai/common'
+import { FileHandler } from '@magek-ai/rocket-file-uploads-core'
 
 @Command({
   authorize: 'all',
@@ -682,8 +682,8 @@ export class FileUploadGet {
   public constructor(readonly directory: string, readonly fileName: string, readonly storageName?: string) {}
 
   public static async handle(command: FileUploadGet, register: Register): Promise<string> {
-    const boosterConfig = Booster.config
-    const fileHandler = new FileHandler(boosterConfig, command.storageName)
+    const magekConfig = Magek.config
+    const fileHandler = new FileHandler(magekConfig, command.storageName)
     return await fileHandler.presignedGet(command.directory, command.fileName)
   }
 }
@@ -718,10 +718,10 @@ Create a command in your application and call the `list` method on the `FileHand
 The storageName parameter is optional. It will use the first storage if undefined.
 
 ```typescript title="src/commands/file-upload-list.ts"
-import { Booster, Command } from '@booster-ai/core'
-import { Register } from '@booster-ai/common'
-import { FileHandler } from '@booster-ai/rocket-file-uploads-core'
-import { ListItem } from '@booster-ai/rocket-file-uploads-types'
+import { Magek, Command } from '@magek-ai/core'
+import { Register } from '@magek-ai/common'
+import { FileHandler } from '@magek-ai/rocket-file-uploads-core'
+import { ListItem } from '@magek-ai/rocket-file-uploads-types'
 
 @Command({
   authorize: 'all',
@@ -730,8 +730,8 @@ export class FileUploadList {
   public constructor(readonly directory: string, readonly storageName?: string) {}
 
   public static async handle(command: FileUploadList, register: Register): Promise<Array<ListItem>> {
-    const boosterConfig = Booster.config
-    const fileHandler = new FileHandler(boosterConfig, command.storageName)
+    const magekConfig = Magek.config
+    const fileHandler = new FileHandler(magekConfig, command.storageName)
     return await fileHandler.list(command.directory)
   }
 }

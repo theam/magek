@@ -1,5 +1,5 @@
 import {
-  BOOSTER_HEALTH_INDICATORS_IDS,
+  MAGEK_HEALTH_INDICATORS_IDS,
   BoosterConfig,
   Class,
   HealthIndicatorInterface,
@@ -14,7 +14,7 @@ import { RocketsHealthIndicator } from './rockets-health-indicator'
 
 function buildMetadata(
   config: BoosterConfig,
-  id: BOOSTER_HEALTH_INDICATORS_IDS,
+  id: MAGEK_HEALTH_INDICATORS_IDS,
   name: string,
   boosterHealthIndicator: Class<HealthIndicatorInterface>
 ): HealthIndicatorMetadata {
@@ -35,34 +35,34 @@ function buildMetadata(
  * Booster configured HealthIndicators
  */
 export function defaultBoosterHealthIndicators(config: BoosterConfig): Record<string, HealthIndicatorMetadata> {
-  const root = buildMetadata(config, BOOSTER_HEALTH_INDICATORS_IDS.ROOT, 'Booster', BoosterHealthIndicator)
+  const root = buildMetadata(config, MAGEK_HEALTH_INDICATORS_IDS.ROOT, 'Booster', BoosterHealthIndicator)
   const boosterFunction = buildMetadata(
     config,
-    BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION,
+    MAGEK_HEALTH_INDICATORS_IDS.FUNCTION,
     'Booster Function',
     BoosterFunctionHealthIndicator
   )
   const boosterDatabase = buildMetadata(
     config,
-    BOOSTER_HEALTH_INDICATORS_IDS.DATABASE,
+    MAGEK_HEALTH_INDICATORS_IDS.DATABASE,
     'Booster Database',
     BoosterDatabaseHealthIndicator
   )
   const databaseEvents = buildMetadata(
     config,
-    BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS,
+    MAGEK_HEALTH_INDICATORS_IDS.DATABASE_EVENTS,
     'Booster Database Events',
     BoosterDatabaseEventsHealthIndicator
   )
   const databaseReadModels = buildMetadata(
     config,
-    BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS,
+    MAGEK_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS,
     'Booster Database ReadModels',
     BoosterDatabaseReadModelsHealthIndicator
   )
   const rocketFunctions = buildMetadata(
     config,
-    BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS,
+    MAGEK_HEALTH_INDICATORS_IDS.ROCKETS,
     'Rockets',
     RocketsHealthIndicator
   )

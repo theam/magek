@@ -1,7 +1,7 @@
-# Booster instrumentation
+# Magek instrumentation
 
 ## Trace Decorator
-The Trace Decorator is a **Booster** functionality that facilitates the reception of notifications whenever significant events occur in Booster's core, such as event dispatching or migration execution.
+The Trace Decorator is a **Magek** functionality that facilitates the reception of notifications whenever significant events occur in Magek's core, such as event dispatching or migration execution.
 
 ### Usage
 To configure a custom tracer, you need to define an object with two methods: onStart and onEnd. The onStart method is called before the traced method is invoked, and the onEnd method is called after the method completes. Both methods receive a TraceInfo object, which contains information about the traced method and its arguments.
@@ -11,28 +11,28 @@ Here's an example of a custom tracer that logs trace events to the console:
 ```typescript
 import {
   TraceParameters,
-  BoosterConfig,
+  MagekConfig,
   TraceActionTypes,
-} from '@booster-ai/common'
+} from '@magek-ai/common'
 
 class MyTracer {
-  static async onStart(config: BoosterConfig, actionType: string, traceParameters: TraceParameters): Promise<void> {
+  static async onStart(config: MagekConfig, actionType: string, traceParameters: TraceParameters): Promise<void> {
     console.log(`Start ${actionType}: ${traceParameters.className}.${traceParameters.methodName}`)
   }
 
-  static async onEnd(config: BoosterConfig, actionType: string, traceParameters: TraceParameters): Promise<void> {
+  static async onEnd(config: MagekConfig, actionType: string, traceParameters: TraceParameters): Promise<void> {
     console.log(`End ${actionType}: ${traceParameters.className}.${traceParameters.methodName}`)
   }
 }
 ```
 
-You can then configure the tracer in your Booster application's configuration:
+You can then configure the tracer in your Magek application's configuration:
 
 ```typescript
-import { BoosterConfig } from '@booster-ai/common'
+import { MagekConfig } from '@magek-ai/common'
 import { MyTracer } from './my-tracer'
 
-const config: BoosterConfig = {
+const config: MagekConfig = {
 // ...other configuration options...
   trace: {
     enableTraceNotification: true,
@@ -47,10 +47,10 @@ In the configuration above, we've enabled trace notifications and specified our 
 Setting `enableTraceNotification: true` would enable the trace for all actions. You can either disable them by setting it to `false` or selectively enable only specific actions using an array of TraceActionTypes.
 
 ```typescript
-import { BoosterConfig, TraceActionTypes } from '@booster-ai/common'
+import { MagekConfig, TraceActionTypes } from '@magek-ai/common'
 import { MyTracer } from './my-tracer'
 
-const config: BoosterConfig = {
+const config: MagekConfig = {
 // ...other configuration options...
   trace: {
     enableTraceNotification: [TraceActionTypes.DISPATCH_EVENT, TraceActionTypes.MIGRATION_RUN, 'OTHER'],
@@ -65,7 +65,7 @@ In this example, only DISPATCH_EVENT, MIGRATION_RUN and 'OTHER' actions will tri
 
 ### TraceActionTypes
 
-The TraceActionTypes enum defines all the traceable actions in Booster's core:
+The TraceActionTypes enum defines all the traceable actions in Magek's core:
 
 ```typescript
 export enum TraceActionTypes {
@@ -114,17 +114,17 @@ export interface TraceInfo {
 `className` and `methodName` identify the function that is being traced.
 
 ### Adding the Trace Decorator to Your own async methods
-In addition to using the Trace Decorator to receive notifications when events occur in Booster's core, you can also use it to trace your own methods. To add the Trace Decorator to your own methods, simply add @Trace() before your method declaration.
+In addition to using the Trace Decorator to receive notifications when events occur in Magek's core, you can also use it to trace your own methods. To add the Trace Decorator to your own methods, simply add @Trace() before your method declaration.
 
 Here's an example of how to use the Trace Decorator on a custom method:
 
 ```typescript
-import { Trace } from '@booster-ai/core'
-import { BoosterConfig, Logger } from '@booster-ai/common'
+import { Trace } from '@magek-ai/core'
+import { MagekConfig, Logger } from '@magek-ai/common'
 
 export class MyCustomClass {
   @Trace('OTHER')
-  public async myCustomMethod(config: BoosterConfig, logger: Logger): Promise<void> {
+  public async myCustomMethod(config: MagekConfig, logger: Logger): Promise<void> {
     logger.debug('This is my custom method')
     // Do some custom logic here...
   }
@@ -133,4 +133,4 @@ export class MyCustomClass {
 
 In the example above, we added the @Trace('OTHER') decorator to the myCustomMethod method. This will cause the method to emit trace events when it's invoked, allowing you to trace the flow of your application and detect performance bottlenecks or errors.
 
-Note that when you add the Trace Decorator to your own methods, you'll need to configure your Booster instance to use a tracer that implements the necessary methods to handle these events. 
+Note that when you add the Trace Decorator to your own methods, you'll need to configure your Magek instance to use a tracer that implements the necessary methods to handle these events. 

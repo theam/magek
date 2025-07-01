@@ -4,9 +4,9 @@
 This is an experimental functionality. Please note that this functionality is only supported by Azure and Local providers.
 :::
 
-Booster allows to delete past events and their related entities as to update the affected ReadModels.
+Magek allows to delete past events and their related entities as to update the affected ReadModels.
 
-By using the `Booster.deleteEvent` command it is possible to indicate the event to be deleted. To do so, you must indicate:
+By using the `Magek.deleteEvent` command it is possible to indicate the event to be deleted. To do so, you must indicate:
 
 * entityID: The `id` of the entity of the event to be deleted
 * entityTypeName: The entity type name of the event entity to be deleted
@@ -14,8 +14,8 @@ By using the `Booster.deleteEvent` command it is possible to indicate the event 
 
 Example:
 ```typescript
-import { Booster, Command } from '@booster-ai/core'
-import { EventDeleteParameters } from '@booster-ai/common'
+import { Magek, Command } from '@magek/core'
+import { EventDeleteParameters } from '@magek/common'
 
 @Command({
   authorize: 'all',
@@ -29,15 +29,15 @@ export class HardDelete {
       entityTypeName: command.entityTypeName,
       createdAt: command.createdAt,
     }
-    return await Booster.deleteEvent(parameters)
+    return await Magek.deleteEvent(parameters)
   }
 }
 ```
 
-When executing this command, Booster will update the selected event in the corresponding database with an empty value and a deletion date.
+When executing this command, Magek will update the selected event in the corresponding database with an empty value and a deletion date.
 This way, it will be reflected in the system that there was an event that was subsequently deleted.
 
-Deleted events are ignored by Booster, but they can be accessed using the corresponding methods (`eventsByEntity` and `eventsByType`).
+Deleted events are ignored by Magek, but they can be accessed using the corresponding methods (`eventsByEntity` and `eventsByType`).
 
 The entities associated with a deleted event will be permanently removed from the database.
 
@@ -88,7 +88,7 @@ Example:
   }
 ```
 
-([See more details about how to delete a ReadModel in the docs](https://docs.boosterframework.com/architecture/read-model/#deleting-read-models))
+([See more details about how to delete a ReadModel in the docs](https://docs.magekframework.com/architecture/read-model/#deleting-read-models))
 
 :::warning
 Please note that these changes are final and it is not possible to retrieve the information once they have been made.

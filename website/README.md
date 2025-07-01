@@ -30,4 +30,4 @@ The deployment is automatically done through GH actions, see `.github/workflows/
 
 ## Algolia
 
-The search is powered by [Algolia](https://www.algolia.com/). The configuration is done in `docusaurus.config.js` and the search index is updated automatically every Tuesday, contact a Booster maintainer for more information.
+The search is powered by [Algolia](https://www.algolia.com/). The configuration is done in `docusaurus.config.js` and the search index is updated automatically every Tuesday, contact a Magek maintainer for more information.

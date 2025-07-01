@@ -6,9 +6,9 @@ const lightCodeTheme = themes.palenight
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Booster Framework',
+  title: 'Magek Framework',
   staticDirectories: ['static'],
-  url: 'https://docs.boosterframework.com',
+  url: 'https://docs.magek.ai',
   baseUrl: '/',
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
@@ -16,8 +16,8 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'boostercloud', // Usually your GitHub org/user name.
-  projectName: 'booster', // Usually your repo name.
+  organizationName: 'theam', // Usually your GitHub org/user name.
+  projectName: 'magek', // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -38,18 +38,18 @@ const config = {
           showLastUpdateAuthor: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/boostercloud/booster/tree/main/website/',
+          editUrl: 'https://github.com/theam/magek/tree/main/website/',
         },
         blog: {
           path: 'proposals',
           exclude: ['README.md'],
           sortPosts: 'ascending',
           blogTitle: 'BEEP',
-          blogDescription: 'Booster Evolution Enhancement Proposals',
+          blogDescription: 'Magek Evolution Enhancement Proposals',
           blogSidebarTitle: 'Proposals Index',
           blogSidebarCount: 'ALL',
           editUrl: ({ locale, blogDirPath, blogPath, permalink }) =>
-            `https://github.com/boostercloud/booster/edit/main/website/proposals/${blogPath}`,
+            `https://github.com/theam/magek/edit/main/website/proposals/${blogPath}`,
         },
         theme: {
           customCss: [require.resolve('./src/custom.css')],
@@ -61,7 +61,7 @@ const config = {
   themeConfig: {
     fathomAnalytics: {
       siteId: 'LHRTIPFZ',
-      customDomain: 'https://tl1.boosterframework.com',
+      customDomain: 'https://tl1.magek.ai',
     },
     colorMode: {
       defaultMode: 'light',
@@ -69,8 +69,8 @@ const config = {
     },
     navbar: {
       logo: {
-        alt: 'Booster Logo',
-        src: 'img/booster-logo.png',
+        alt: 'Magek Logo',
+        src: 'img/magek-logo.png',
       },
       items: [
         {
@@ -85,7 +85,7 @@ const config = {
           position: 'left',
         },
         {
-          href: 'https://github.com/boostercloud/booster',
+          href: 'https://github.com/theam/magek',
           label: 'GitHub',
           position: 'left',
           customProps: {
@@ -109,14 +109,14 @@ const config = {
       ],
     },
     footer: {
-      copyright: `Booster is an open-source initiative from <a href="https://www.theagilemonkeys.com/">The Agile Monkeys.</a>`,
+      copyright: `Magek is an open-source initiative from <a href="https://www.theagilemonkeys.com/">The Agile Monkeys.</a>`,
       links: [
         {
           title: 'Join Us',
           items: [
             {
               label: 'Github',
-              to: 'https://github.com/boostercloud',
+              to: 'https://github.com/theam/magek',
             },
             {
               label: 'Discord',
@@ -124,11 +124,11 @@ const config = {
             },
             {
               label: 'Twitter',
-              to: 'https://twitter.com/theboosterway',
+              to: 'https://twitter.com/themagekway',
             },
             {
               label: 'Linkedin',
-              to: 'https://www.linkedin.com/company/boosterin-labs/',
+              to: 'https://www.linkedin.com/company/magekin-labs/',
             },
           ],
         },
@@ -137,7 +137,7 @@ const config = {
           items: [
             {
               label: 'Docs',
-              to: 'https://docs.boosterframework.com/',
+              to: 'https://docs.magek.ai/',
             },
             {
               label: 'YouTube',
@@ -158,7 +158,7 @@ const config = {
           items: [
             {
               label: 'Dev.to',
-              to: 'https://dev.to/boostercloud',
+              to: 'https://dev.to/theam',
             },
             {
               label: 'Medium',
@@ -182,7 +182,7 @@ const config = {
     algolia: {
       appId: 'JOKOWZFYZX',
       apiKey: '84b54a8d1bd786f29df8c9357a8c0852',
-      indexName: 'booster',
+      indexName: 'magek',
       contextualSearch: true,
     },
   },

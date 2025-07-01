@@ -6,7 +6,7 @@ import { ChatResponse } from './ChatResponse'
 
 export const ASK_AI_ERROR = 'There was an unexpected error. Please try again 🙏'
 
-export default function BoosterChat(): JSX.Element {
+export default function MagekChat(): JSX.Element {
   const [response, setResponse] = useState(null)
   const [loading, setLoading] = useState(null)
   const [hasFinished, setHasFinished] = useState(false)
@@ -34,7 +34,7 @@ export default function BoosterChat(): JSX.Element {
     setResponse('')
     setHasFinished(false)
 
-    ChatService.answerBoosterQuestion(query, handleResponseUpdated)
+    ChatService.answerMagekQuestion(query, handleResponseUpdated)
       .catch((error) => {
         setResponse(ASK_AI_ERROR)
         AnalyticsClient.trackEvent('SFWQOOY0')
@@ -79,11 +79,11 @@ export default function BoosterChat(): JSX.Element {
       <AskAIDisclaimer />
       {!hasSearched && (
         <div className="bc-quick-questions-panel">
-          <button className="bc-quick-question" onClick={() => onQuickQuestionClick('What is Booster Framework?')}>
-            What is Booster Framework?
+          <button className="bc-quick-question" onClick={() => onQuickQuestionClick('What is Magek Framework?')}>
+            What is Magek Framework?
           </button>
-          <button className="bc-quick-question" onClick={() => onQuickQuestionClick("Summary of Booster's components")}>
-            Summary of Booster's components
+          <button className="bc-quick-question" onClick={() => onQuickQuestionClick("Summary of Magek's components")}>
+            Summary of Magek's components
           </button>
           <button
             className="bc-quick-question"
@@ -123,7 +123,7 @@ export function AskAIBar({ handleKeyDown, loading, isModalStyle, hasFinished, re
     <div className={isModalStyle ? 'bc-searchbar max-width-100' : 'bc-searchbar'}>
       <PrivateGPTSearchIcon className="bc-searchbar-icon" />
       <input
-        placeholder="Ask PrivateGPT about Booster"
+        placeholder="Ask PrivateGPT about Magek"
         className="bc-input"
         type="text"
         onKeyDown={handleKeyDown}

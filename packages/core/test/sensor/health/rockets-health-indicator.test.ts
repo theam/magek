@@ -1,5 +1,5 @@
 import {
-  BOOSTER_HEALTH_INDICATORS_IDS,
+  MAGEK_HEALTH_INDICATORS_IDS,
   BoosterConfig,
   HealthIndicatorMetadata,
   HealthStatus,
@@ -18,7 +18,7 @@ describe('RocketsHealthIndicator', () => {
     healthIndicatorMetadata = {
       class: RocketsHealthIndicator,
       healthIndicatorConfiguration: {
-        id: BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS,
+        id: MAGEK_HEALTH_INDICATORS_IDS.ROCKETS,
         name: 'Rockets',
         enabled: true,
         details: true,
@@ -43,7 +43,7 @@ describe('RocketsHealthIndicator', () => {
 
       expect(result).to.deep.equal({
         name: 'Rockets',
-        id: BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS,
+        id: MAGEK_HEALTH_INDICATORS_IDS.ROCKETS,
         status: 'UNKNOWN',
         details: {
           reason: 'No Rockets found',
@@ -104,7 +104,7 @@ describe('RocketsHealthIndicator', () => {
 
   describe('when checking a specific rocket', () => {
     beforeEach(() => {
-      healthIndicatorMetadata.healthIndicatorConfiguration.id = `${BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS}/rocket1-func`
+      healthIndicatorMetadata.healthIndicatorConfiguration.id = `${MAGEK_HEALTH_INDICATORS_IDS.ROCKETS}/rocket1-func`
     })
 
     it('returns UP status when the rocket is up', async () => {
@@ -118,7 +118,7 @@ describe('RocketsHealthIndicator', () => {
 
       expect(result).to.deep.equal({
         name: 'rocket1-func',
-        id: `${BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS}/rocket1-func`,
+        id: `${MAGEK_HEALTH_INDICATORS_IDS.ROCKETS}/rocket1-func`,
         status: HealthStatus.UP,
       })
     })
@@ -134,7 +134,7 @@ describe('RocketsHealthIndicator', () => {
 
       expect(result).to.deep.equal({
         name: 'rocket1-func',
-        id: `${BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS}/rocket1-func`,
+        id: `${MAGEK_HEALTH_INDICATORS_IDS.ROCKETS}/rocket1-func`,
         status: HealthStatus.DOWN,
       })
     })

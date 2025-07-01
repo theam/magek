@@ -1,15 +1,15 @@
 # Create custom providers
 
-Booster provides an infrastructure layer out of the box with sensible defaults that you can use for rapid development, but if 
+Magek provides an infrastructure layer out of the box with sensible defaults that you can use for rapid development, but if 
 you want to have control over the infrastructure deployed to your cloud provider or start from scratch with a fully customized 
-infrastructure implementation. Booster layered architecture allows you to do so by implementing a provider package. 
+infrastructure implementation. Magek layered architecture allows you to do so by implementing a provider package. 
 
-## How do Booster cloud providers work?
+## How do Magek cloud providers work?
 
-Booster providers require the implementation of two specific interfaces, often delivered as separate packages to avoid including dependencies required at 
+Magek providers require the implementation of two specific interfaces, often delivered as separate packages to avoid including dependencies required at 
 deployment time as part of your application package: 
 -  **Infrastructure:** This interface is used during deployment to create, destroy and configure all the infrastructure necessary to run the application. 
--  **Runtime:** This interface implements all the interaction between Booster framework and the deployed infrastructure in runtime. 
+-  **Runtime:** This interface implements all the interaction between Magek framework and the deployed infrastructure in runtime. 
 
 ![architecture](/img/interface.jpg)
 
@@ -23,10 +23,10 @@ The infrastructure package interface is composed of four methods:
 
 ```ts
     export interface ProviderInfrastructure {
-      deploy?: (config: BoosterConfig) => Promise<void>
-      nuke?: (config: BoosterConfig) => Promise<void>
-      start?: (config: BoosterConfig, port: number) => Promise<void>
-      synth?: (config: BoosterConfig) => Promise<void>
+      deploy?: (config: MagekConfig) => Promise<void>
+      nuke?: (config: MagekConfig) => Promise<void>
+      start?: (config: MagekConfig, port: number) => Promise<void>
+      synth?: (config: MagekConfig) => Promise<void>
     }
 ```
 
@@ -35,15 +35,15 @@ The infrastructure package interface is composed of four methods:
 - **start**: This method is used when the provider implements a server that needs to be started (i.e. the local provider)
 - **synth**: This method allows you to export the infrastructure to a file (for instance, if you use the Terraform CDK, you can export the script here to run it using conventional terraform tools)
 
-The infrastructure interface just defines an adapter for Booster so the framework knows how to start any of the described processes, but you can use any Infrastructure as Code tool that has a Typescript DSL (CDK) 
+The infrastructure interface just defines an adapter for Magek so the framework knows how to start any of the described processes, but you can use any Infrastructure as Code tool that has a Typescript DSL (CDK) 
 or even call other CLI tools or scripts if you rather maintain it using a different technology.
 
 ## The runtime interface in detail
 
-The other key aspect during the implementation of a provider is the runtime package. This package is in charge of the interaction between Booster framework and all deployed resources when the application is running.
+The other key aspect during the implementation of a provider is the runtime package. This package is in charge of the interaction between Magek framework and all deployed resources when the application is running.
 For instance, this package has the responsibility to store data in the event store, performs the data projections, etc...
 
-The runtime interface ([ProviderLibrary](https://github.com/boostercloud/booster/blob/main/packages/common/src/provider.ts)) is divided in seven sections:
+The runtime interface ([ProviderLibrary](https://github.com/magekcloud/magek/blob/main/packages/common/src/provider.ts)) is divided in seven sections:
 
 ### Events
 This section is in charge of all operations related to events. the methods of this section are the following:
@@ -51,14 +51,14 @@ This section is in charge of all operations related to events. the methods of th
 ```ts
 export interface ProviderEventsLibrary {
   rawToEnvelopes(rawEvents: unknown): Array<EventEnvelope>
-  forEntitySince(config: BoosterConfig, entityTypeName: string, entityID: UUID, since?: string): Promise<Array<EventEnvelope>>
-  latestEntitySnapshot(config: BoosterConfig, entityTypeName: string, entityID: UUID): Promise<EventEnvelope | null>
-  search(config: BoosterConfig, parameters: EventSearchParameters): Promise<Array<EventSearchResponse>>
-  store(eventEnvelopes: Array<EventEnvelope>, config: BoosterConfig): Promise<void>
-  searchEntitiesIDs(config: BoosterConfig, limit: number, afterCursor: Record<string, string> | undefined, entityTypeName: string): Promise<PaginatedEntitiesIdsResult>
+  forEntitySince(config: MagekConfig, entityTypeName: string, entityID: UUID, since?: string): Promise<Array<EventEnvelope>>
+  latestEntitySnapshot(config: MagekConfig, entityTypeName: string, entityID: UUID): Promise<EventEnvelope | null>
+  search(config: MagekConfig, parameters: EventSearchParameters): Promise<Array<EventSearchResponse>>
+  store(eventEnvelopes: Array<EventEnvelope>, config: MagekConfig): Promise<void>
+  searchEntitiesIDs(config: MagekConfig, limit: number, afterCursor: Record<string, string> | undefined, entityTypeName: string): Promise<PaginatedEntitiesIdsResult>
 }
 ```
-- **rawToEnvelopes:** Inside the framework all user application data is processed encapsulated in an envelope object. This particular function performs the transformation from the used database data into a Booster framework envelope object.
+- **rawToEnvelopes:** Inside the framework all user application data is processed encapsulated in an envelope object. This particular function performs the transformation from the used database data into a Magek framework envelope object.
 - **forEntitySince:** This method has to return all the events associated with a specific entity.
 - **latestEntitySnapshot:** With this method the framework should be able to obtain the latest snapshot for a specific entity.
 - **search:** This method receives a query and it should perform it in the database used by the provider and return the result. 
@@ -70,15 +70,15 @@ This section of the interface provides to the framework the ability to interact 
 
 ```ts
 export interface ProviderReadModelsLibrary {
-  rawToEnvelopes(config: BoosterConfig, rawEvents: unknown): Promise<Array<ReadModelEnvelope>>
-  fetch(config: BoosterConfig, readModelName: string, readModelID: UUID, sequenceKey?: SequenceKey): Promise<ReadOnlyNonEmptyArray<ReadModelInterface>>
-  search<TReadModel extends ReadModelInterface>(config: BoosterConfig, entityTypeName: string, filters: FilterFor<unknown>, sortBy?: SortFor<unknown>, limit?: number, afterCursor?: unknown, paginatedVersion?: boolean): Promise<Array<TReadModel> | ReadModelListResult<TReadModel>>
-  store(config: BoosterConfig, readModelName: string, readModel: ReadModelInterface, expectedCurrentVersion?: number): Promise<unknown>
-  delete(config: BoosterConfig, readModelName: string, readModel: ReadModelInterface | undefined): Promise<any>
-  subscribe(config: BoosterConfig, subscriptionEnvelope: SubscriptionEnvelope): Promise<void>
-  fetchSubscriptions(config: BoosterConfig, subscriptionName: string): Promise<Array<SubscriptionEnvelope>>
-  deleteSubscription(config: BoosterConfig, connectionID: string, subscriptionID: string): Promise<void>
-  deleteAllSubscriptions(config: BoosterConfig, connectionID: string): Promise<void>
+  rawToEnvelopes(config: MagekConfig, rawEvents: unknown): Promise<Array<ReadModelEnvelope>>
+  fetch(config: MagekConfig, readModelName: string, readModelID: UUID, sequenceKey?: SequenceKey): Promise<ReadOnlyNonEmptyArray<ReadModelInterface>>
+  search<TReadModel extends ReadModelInterface>(config: MagekConfig, entityTypeName: string, filters: FilterFor<unknown>, sortBy?: SortFor<unknown>, limit?: number, afterCursor?: unknown, paginatedVersion?: boolean): Promise<Array<TReadModel> | ReadModelListResult<TReadModel>>
+  store(config: MagekConfig, readModelName: string, readModel: ReadModelInterface, expectedCurrentVersion?: number): Promise<unknown>
+  delete(config: MagekConfig, readModelName: string, readModel: ReadModelInterface | undefined): Promise<any>
+  subscribe(config: MagekConfig, subscriptionEnvelope: SubscriptionEnvelope): Promise<void>
+  fetchSubscriptions(config: MagekConfig, subscriptionName: string): Promise<Array<SubscriptionEnvelope>>
+  deleteSubscription(config: MagekConfig, connectionID: string, subscriptionID: string): Promise<void>
+  deleteAllSubscriptions(config: MagekConfig, connectionID: string): Promise<void>
 ```
 - **rawToEnvelopes:** This method is used to transform all database data into read models envelopes. 
 - **fetch:** Fetch a specific read model from the database. 
@@ -94,7 +94,7 @@ export interface ProviderReadModelsLibrary {
 This section of the API provides all necessary to receive and return GraphQL query from client side and create the return for requests:
 ```ts
 export interface ProviderGraphQLLibrary {
-  rawToEnvelope(config: BoosterConfig, rawGraphQLRequest: unknown): Promise<GraphQLRequestEnvelope | GraphQLRequestEnvelopeError>
+  rawToEnvelope(config: MagekConfig, rawGraphQLRequest: unknown): Promise<GraphQLRequestEnvelope | GraphQLRequestEnvelopeError>
   handleResult(result?: unknown, headers?: Record<string, string>): Promise<unknown>
 }
 ```
@@ -117,10 +117,10 @@ This section of the API is in charge of the connection management for subscripti
 
 ```ts
 export interface ProviderConnectionsLibrary {
-  storeData(config: BoosterConfig, connectionID: string, data: ConnectionDataEnvelope): Promise<void>
-  fetchData(config: BoosterConfig, connectionID: string): Promise<ConnectionDataEnvelope | undefined>
-  deleteData(config: BoosterConfig, connectionID: string): Promise<void>
-  sendMessage(config: BoosterConfig, connectionID: string, data: unknown): Promise<void>
+  storeData(config: MagekConfig, connectionID: string, data: ConnectionDataEnvelope): Promise<void>
+  fetchData(config: MagekConfig, connectionID: string): Promise<ConnectionDataEnvelope | undefined>
+  deleteData(config: MagekConfig, connectionID: string): Promise<void>
+  sendMessage(config: MagekConfig, connectionID: string, data: unknown): Promise<void>
 }
 ```
 - **storeData:** This method receives all the information about the incoming connection and it should store the data on a database. 
@@ -132,7 +132,7 @@ export interface ProviderConnectionsLibrary {
 Finally, this section of the API is related to scheduled commands:
 ```ts
 export interface ScheduledCommandsLibrary {
-  rawToEnvelope(config: BoosterConfig, rawMessage: unknown): Promise<ScheduledCommandEnvelope>
+  rawToEnvelope(config: MagekConfig, rawMessage: unknown): Promise<ScheduledCommandEnvelope>
 }
 ```
 

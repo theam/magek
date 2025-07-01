@@ -1,8 +1,8 @@
 type SubscribeFn = (questionId: string, question: string, chunk: string, finished: boolean) => void
 
 enum ApiEndpoint {
-  Answer = 'https://asktoai.boosterframework.com/api/answer',
-  ReactAnswer = 'https://asktoai.boosterframework.com/api/reactanswer',
+  Answer = 'https://asktoai.magek.ai/api/answer',
+  ReactAnswer = 'https://asktoai.magek.ai/api/reactanswer',
 }
 
 export enum AnswerReaction {
@@ -24,7 +24,7 @@ export class ChatService {
     })
   }
 
-  static async answerBoosterQuestion(
+  static async answerMagekQuestion(
     question: string,
     callback: SubscribeFn,
     abortSignal?: AbortSignal

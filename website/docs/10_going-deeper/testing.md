@@ -1,12 +1,12 @@
 # Testing
 
-Booster applications are fully tested by default. This means that you can be sure that your application will work as expected. However, you can also write your own tests to check that your application behaves as you expect. In this section, we will leave some recommendations on how to test your Booster application.
+Magek applications are fully tested by default. This means that you can be sure that your application will work as expected. However, you can also write your own tests to check that your application behaves as you expect. In this section, we will leave some recommendations on how to test your Magek application.
 
-## Testing Booster applications
+## Testing Magek applications
 
-To properly test a Booster application, you should create a `test` folder at the same level as the `src` one. Apart from that, tests' names should have the `<my_test>.test.ts` format.
+To properly test a Magek application, you should create a `test` folder at the same level as the `src` one. Apart from that, tests' names should have the `<my_test>.test.ts` format.
 
-When a Booster application is generated, you will have a script in a `package.json` like this:
+When a Magek application is generated, you will have a script in a `package.json` like this:
 
 ```typescript
 "scripts": {
@@ -24,20 +24,20 @@ The only thing that you should add to this line are the `AWS_SDK_LOAD_CONFIG=tru
 
 ### Testing with `sinon-chai`
 
-The `BoosterConfig` can be accessed through the `Booster.config` on any part of a Booster application. To properly mock it for your objective, we really recommend to use sinon `replace` method, after configuring your `Booster.config` as desired.
+The `MagekConfig` can be accessed through the `Magek.config` on any part of a Magek application. To properly mock it for your objective, we really recommend to use sinon `replace` method, after configuring your `Magek.config` as desired.
 
-In the example below, we add 2 "empty" read-models, since we are iterating `Booster.config.readModels` from a command handler:
+In the example below, we add 2 "empty" read-models, since we are iterating `Magek.config.readModels` from a command handler:
 
 ```typescript
 // Test
 import { replace } from 'sinon'
 
-const config = new BoosterConfig('test')
+const config = new MagekConfig('test')
 config.appName = 'testing-time'
-config.providerPackage = '@booster-ai/server'
+config.providerPackage = '@magek-ai/server'
 config.readModels['WoW'] = {} as ReadModelMetadata
 config.readModels['Amazing'] = {} as ReadModelMetadata
-replace(Booster, 'config', config)
+replace(Magek, 'config', config)
 
 const spyMyCall = spy(MyCommand, 'myCall')
 const command = new MyCommand('1', true)
@@ -54,7 +54,7 @@ expect(registerSpy).to.have.been.calledOnceWithExactly(new MyEvent('1', 'Amazing
 ```typescript
 // Example code
 public static async handle(command: MyCommand, register: Register): Promise<void> {
-  const readModels = Booster.config.readModels
+  const readModels = Magek.config.readModels
   for (const readModelName in readModels) {
     myCall(readModelName)
     register.events(new MyEvent(command.ID, readModelName))
@@ -64,7 +64,7 @@ public static async handle(command: MyCommand, register: Register): Promise<void
 
 ### Recommended files
 
-These are some files that might help you speed up your testing with Booster.
+These are some files that might help you speed up your testing with Magek.
 
 ```typescript
 // <root_dir>/test/expect.ts

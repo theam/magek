@@ -1,5 +1,5 @@
 import {
-  BOOSTER_HEALTH_INDICATORS_IDS,
+  MAGEK_HEALTH_INDICATORS_IDS,
   BoosterConfig,
   HealthAuthorizer,
   HealthEnvelope,
@@ -120,7 +120,7 @@ export class BoosterHealthService {
 
     // Special handling for rockets - always use the root rockets provider
     if (componentPath.startsWith('rockets/')) {
-      const rocketsProvider = healthProviders[BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS]
+      const rocketsProvider = healthProviders[MAGEK_HEALTH_INDICATORS_IDS.ROCKETS]
       if (!rocketsProvider) {
         throw new Error('Rockets health provider not found')
       }
@@ -152,7 +152,7 @@ export class BoosterHealthService {
   private isOverallHealthy(results: Array<HealthIndicatorsResult>): boolean {
     for (const result of results) {
       // Special case: UNKNOWN status for rockets is considered healthy
-      if (result.id === BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS && result.status === HealthStatus.UNKNOWN) {
+      if (result.id === MAGEK_HEALTH_INDICATORS_IDS.ROCKETS && result.status === HealthStatus.UNKNOWN) {
         continue
       }
 

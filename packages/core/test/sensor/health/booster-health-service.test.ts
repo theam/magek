@@ -1,7 +1,7 @@
 import { expect } from '../../expect'
 import { BoosterHealthService } from '../../../src/sensor'
 import {
-  BOOSTER_HEALTH_INDICATORS_IDS,
+  MAGEK_HEALTH_INDICATORS_IDS,
   BoosterConfig,
   ProviderLibrary,
   HealthIndicatorsResult,
@@ -150,21 +150,21 @@ describe('BoosterHealthService', () => {
 
   it('Only root enabled and without children and details', async () => {
     config.provider.sensor = defaultSensor()
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.ROOT].enabled = true
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.ROOT].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.ROOT].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].showChildren = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.ROOT].enabled = true
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE].enabled = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].enabled = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].enabled = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.FUNCTION].enabled = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.ROOT].details = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE].details = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].details = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].details = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.FUNCTION].details = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.ROOT].showChildren = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE].showChildren = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].showChildren = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].showChildren = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.FUNCTION].showChildren = false
 
     // get root
     const boosterResult = await boosterHealth(config)
@@ -182,21 +182,21 @@ describe('BoosterHealthService', () => {
 
   it('if parent disabled then children are disabled', async () => {
     config.provider.sensor = defaultSensor('', 'booster/database/readmodels')
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.ROOT].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].enabled = true
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.ROOT].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.ROOT].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].showChildren = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.ROOT].enabled = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE].enabled = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].enabled = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].enabled = true
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.FUNCTION].enabled = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.ROOT].details = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE].details = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].details = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].details = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.FUNCTION].details = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.ROOT].showChildren = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE].showChildren = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].showChildren = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].showChildren = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.FUNCTION].showChildren = false
 
     const readModelsResult = await boosterHealth(config)
     expect(readModelsResult).to.be.undefined
@@ -204,21 +204,21 @@ describe('BoosterHealthService', () => {
 
   it('Only ReadModels enabled and without children and details', async () => {
     config.provider.sensor = defaultSensor('', 'booster/database/readmodels')
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.ROOT].enabled = true
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].enabled = true
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].enabled = true
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.ROOT].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.ROOT].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].showChildren = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.ROOT].enabled = true
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE].enabled = true
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].enabled = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].enabled = true
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.FUNCTION].enabled = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.ROOT].details = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE].details = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].details = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].details = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.FUNCTION].details = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.ROOT].showChildren = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE].showChildren = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].showChildren = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].showChildren = false
+    config.sensorConfiguration.health.booster[MAGEK_HEALTH_INDICATORS_IDS.FUNCTION].showChildren = false
 
     const readModelsResult = await boosterHealth(config)
     expectDatabaseReadModels(readModelsResult, 'UP')

@@ -1,5 +1,5 @@
 ---
-description: Learn how to get Booster health information
+description: Learn how to get Magek health information
 ---
 
 ## Health
@@ -12,16 +12,16 @@ The Health functionality allows users to easily monitor the health status of the
 
 ### Enabling Health Functionality
 
-To enable the Health functionality in your Booster application, follow these steps:
+To enable the Health functionality in your Magek application, follow these steps:
 
-1. Install or update to the latest version of the Booster framework, ensuring compatibility with the Health functionality. 
-2. Enable the Booster Health endpoints in your application's configuration file. Example configuration in config.ts:
+1. Install or update to the latest version of the Magek framework, ensuring compatibility with the Health functionality. 
+2. Enable the Magek Health endpoints in your application's configuration file. Example configuration in config.ts:
 
 ```typescript
-Booster.configure('local', (config: BoosterConfig): void => {
+Magek.configure('local', (config: MagekConfig): void => {
   config.appName = 'my-store'
-  config.providerPackage = '@booster-ai/server'
-  Object.values(config.sensorConfiguration.health.booster).forEach((indicator) => {
+  config.providerPackage = '@magek-ai/server'
+  Object.values(config.sensorConfiguration.health.magek).forEach((indicator) => {
     indicator.enabled = true
   })
 })
@@ -29,11 +29,11 @@ Booster.configure('local', (config: BoosterConfig): void => {
 
 Or enable only the components you want:
 ```typescript
-Booster.configure('local', (config: BoosterConfig): void => {
+Magek.configure('local', (config: MagekConfig): void => {
   config.appName = 'my-store'
-  config.providerPackage = '@booster-ai/server'
-  const sensors = config.sensorConfiguration.health.booster
-  sensors[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].enabled = true
+  config.providerPackage = '@magek-ai/server'
+  const sensors = config.sensorConfiguration.health.magek
+  sensors[MAGEK_HEALTH_INDICATORS_IDS.DATABASE].enabled = true
 })
 ```
 
@@ -42,12 +42,12 @@ Booster.configure('local', (config: BoosterConfig): void => {
 
 ```typescript
 import {
-  BoosterConfig,
+  MagekConfig,
   HealthIndicatorResult,
   HealthIndicatorMetadata,
   HealthStatus,
-} from '@booster-ai/common'
-import { HealthSensor } from '@booster-ai/core'
+} from '@magek-ai/common'
+import { HealthSensor } from '@magek-ai/core'
 
 @HealthSensor({
   id: 'application',
@@ -58,7 +58,7 @@ import { HealthSensor } from '@booster-ai/core'
 })
 export class ApplicationHealthIndicator {
   public async health(
-    config: BoosterConfig,
+    config: MagekConfig,
     healthIndicatorMetadata: HealthIndicatorMetadata
   ): Promise<HealthIndicatorResult> {
     return {
@@ -68,25 +68,25 @@ export class ApplicationHealthIndicator {
 }
 ```
 4. A health check typically involves verifying the connectivity and status of the component, running any necessary tests, and returning an appropriate status code.
-5. Start or restart your Booster application. The Health functionality will be available at the https://your-application-url/sensor/health/ endpoint URL.
+5. Start or restart your Magek application. The Health functionality will be available at the https://your-application-url/sensor/health/ endpoint URL.
 
 
 ### Health Endpoint
 
 The Health functionality provides a dedicated endpoint where users can make GET requests to retrieve the health status of their application. The endpoint URL is: https://your-application-url/sensor/health/
 
-This endpoint will return all the enabled Booster and application components health status. To get specific component health status, add the component status to the url. For example, to get the events status use: https://your-application-url/sensor/health/booster/database/events   
+This endpoint will return all the enabled Magek and application components health status. To get specific component health status, add the component status to the url. For example, to get the events status use: https://your-application-url/sensor/health/magek/database/events   
 
 #### Available endpoints
 
-Booster provides the following endpoints to retrieve the enabled components:
+Magek provides the following endpoints to retrieve the enabled components:
 
 * https://your-application-url/sensor/health/: All the components status
-* https://your-application-url/sensor/health/booster: Booster status 
-* https://your-application-url/sensor/health/booster/database: Database status
-* https://your-application-url/sensor/health/booster/database/events: Events status
-* https://your-application-url/sensor/health/booster/database/readmodels: ReadModels status
-* https://your-application-url/sensor/health/booster/function: Functions status
+* https://your-application-url/sensor/health/magek: Magek status 
+* https://your-application-url/sensor/health/magek/database: Database status
+* https://your-application-url/sensor/health/magek/database/events: Events status
+* https://your-application-url/sensor/health/magek/database/readmodels: ReadModels status
+* https://your-application-url/sensor/health/magek/function: Functions status
 * https://your-application-url/sensor/health/rockets: All rockets status
 * https://your-application-url/sensor/health/rockets/rocket-name: Individual rocket status
 * https://your-application-url/sensor/health/your-component-id: User defined status
@@ -121,8 +121,8 @@ Example:
         "dbs/my-store-app"
       ]
     },
-    "name": "Booster Database",
-    "id": "booster/database",
+    "name": "Magek Database",
+    "id": "magek/database",
     "components": [
       {
         "status": "UP",
@@ -130,8 +130,8 @@ Example:
           "url": "dbs/my-store-app/colls/my-store-app-events-store",
           "count": 6
         },
-        "name": "Booster Database Events",
-        "id": "booster/database/events"
+        "name": "Magek Database Events",
+        "id": "magek/database/events"
       },
       {
         "status": "UP",
@@ -141,8 +141,8 @@ Example:
             "count": 1
           }
         ],
-        "name": "Booster Database ReadModels",
-        "id": "booster/database/readmodels"
+        "name": "Magek Database ReadModels",
+        "id": "magek/database/readmodels"
       }
     ]
   }
@@ -163,13 +163,13 @@ status code.
 
 ### Get specific component health information
 
-Use the `id` field to get specific component health information. Booster provides the following ids:
+Use the `id` field to get specific component health information. Magek provides the following ids:
 
-* booster
-* booster/function
-* booster/database
-* booster/database/events
-* booster/database/readmodels
+* magek
+* magek/function
+* magek/database
+* magek/database/events
+* magek/database/readmodels
 * rockets
 * rockets/rocket-name (NEW: You can now check individual rocket health)
 
@@ -186,20 +186,20 @@ You can provide new components:
 })
 ```
 
-Add your own components to Booster:
+Add your own components to Magek:
 
 ```typescript
 @HealthSensor({
-  id: `${BOOSTER_HEALTH_INDICATORS_IDS.DATABASE}/extra`,
+  id: `${MAGEK_HEALTH_INDICATORS_IDS.DATABASE}/extra`,
 })
 ```
 
 
-Or override Booster existing components with your own implementation:
+Or override Magek existing components with your own implementation:
 
 ```typescript
 @HealthSensor({
-  id: BOOSTER_HEALTH_INDICATORS_IDS.DATABASE,
+  id: MAGEK_HEALTH_INDICATORS_IDS.DATABASE,
 })
 ```
 
@@ -213,11 +213,11 @@ Configuration options:
 * details: If false, the indicator will not include the details
 * showChildren: If false, this indicator will not include child components in the tree.
   * Child components will be shown through child urls
-* authorize: Authorize configuration. [See security documentation](https://docs.boosterframework.com/security/security) 
+* authorize: Authorize configuration. [See security documentation](https://docs.magekframework.com/security/security) 
 
-#### Booster components default configuration
+#### Magek components default configuration
 
-Booster sets the following default configuration for its own components:
+Magek sets the following default configuration for its own components:
 
 * enabled: false
 * details: true
@@ -226,10 +226,10 @@ Booster sets the following default configuration for its own components:
 Change this configuration using the `config.sensorConfiguration` object. This object provides:
 
 * config.sensorConfiguration.health.globalAuthorizer: Allow to define authorization configuration
-* config.sensorConfiguration.health.booster: Allow to override default Booster components configuration
-  * config.sensorConfiguration.health.booster[BOOSTER_COMPONENT_ID].enabled
-  * config.sensorConfiguration.health.booster[BOOSTER_COMPONENT_ID].details
-  * config.sensorConfiguration.health.booster[BOOSTER_COMPONENT_ID].showChildren
+* config.sensorConfiguration.health.magek: Allow to override default Magek components configuration
+  * config.sensorConfiguration.health.magek[BOOSTER_COMPONENT_ID].enabled
+  * config.sensorConfiguration.health.magek[BOOSTER_COMPONENT_ID].details
+  * config.sensorConfiguration.health.magek[BOOSTER_COMPONENT_ID].showChildren
 
 
 #### User components configuration
@@ -253,12 +253,12 @@ should define a `health` method that returns a **HealthIndicatorResult**. Exampl
 
 ```typescript
 import {
-  BoosterConfig,
+  MagekConfig,
   HealthIndicatorResult,
   HealthIndicatorMetadata,
   HealthStatus,
-} from '@booster-ai/common'
-import { HealthSensor } from '@booster-ai/core'
+} from '@magek-ai/common'
+import { HealthSensor } from '@magek-ai/core'
 
 @HealthSensor({
   id: 'application',
@@ -269,7 +269,7 @@ import { HealthSensor } from '@booster-ai/core'
 })
 export class ApplicationHealthIndicator {
   public async health(
-    config: BoosterConfig,
+    config: MagekConfig,
     healthIndicatorMetadata: HealthIndicatorMetadata
   ): Promise<HealthIndicatorResult> {
     return {
@@ -279,14 +279,14 @@ export class ApplicationHealthIndicator {
 }
 ```
 
-### Booster health endpoints
+### Magek health endpoints
 
-#### booster
+#### magek
 * status: UP if and only if graphql function is UP and events are UP
 * details: 
-  * boosterVersion: Booster version number
+  * magekVersion: Magek version number
 
-#### booster/function
+#### magek/function
 * status: UP if and only if graphql function is UP
 * details:
   * graphQL_url: GraphQL function url
@@ -305,14 +305,14 @@ export class ApplicationHealthIndicator {
     * totalBytes: the total amount of system memory in bytes as an integer.
     * freeBytes: the amount of free system memory in bytes as an integer.
 
-#### booster/database
+#### magek/database
 
 * status: UP if and only if events are UP and Read Models are UP
 * details:
   * urls: Database urls
 
 
-#### booster/database/events
+#### magek/database/events
 
 * status: UP if and only if events are UP
 * details:
@@ -324,7 +324,7 @@ export class ApplicationHealthIndicator {
     * count: number of rows
 
 
-#### booster/database/readmodels
+#### magek/database/readmodels
 
 * status: UP if and only if Read Models are UP
 * details:
@@ -353,7 +353,7 @@ endpoint: http://your-application-url/sensor/health/rockets/rocket-name
 
 :::note
 Rocket health sensors are only available for the Azure provider. When using the local provider, rocket health status
-will always be UP since rockets run in the same process as the main Booster application. The health check behavior
+will always be UP since rockets run in the same process as the main Magek application. The health check behavior
 described above (UP, PARTIALLY_UP, DOWN, UNKNOWN) applies specifically to the Azure provider where rockets run as
 separate functions.
 :::
@@ -392,7 +392,7 @@ If all components are enable and showChildren is set to true:
 * A Request to https://your-application-url/sensor/health/ will return:
 
 ```text
-├── booster
+├── magek
 │  ├── database
 │    ├── events
 │    └── readmodels
@@ -402,7 +402,7 @@ If all components are enable and showChildren is set to true:
 If the database component is disabled, the same url will return:
 
 ```text
-├── booster
+├── magek
 └  └── function
 ```
 
@@ -421,7 +421,7 @@ And the child components will be disabled too using direct url https://your-appl
 If database is enabled and showChildren is set to false and using https://your-application-url/sensor/health/
 
 ```text
-├── booster
+├── magek
 │  ├── database
 │  └── function
 ```

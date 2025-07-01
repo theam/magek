@@ -53,7 +53,7 @@ export const ChatResponse: FC<ChatResponseProps> = ({ questionId, loading, respo
           <div className={"bc-chat-popup"} style={{ bottom: displayPopup ? '2rem' : '-20rem' }}>
             <p>
               Not the answer you expected? This is still a beta version, and the quality of the answers may vary depending on the language, spelling, and other factors. You can check out the documentation, and remember that you can also use our
-              <a href={'https://discord.com/channels/763753198388510780/1019895895325675550'} target="_blank" onClick={() => AnalyticsClient.trackEvent('UESXT8VI')}> #booster-help </a>
+              <a href={'https://discord.com/channels/763753198388510780/1019895895325675550'} target="_blank" onClick={() => AnalyticsClient.trackEvent('UESXT8VI')}> #magek-help </a>
               Discord channel 🤗
             </p>
           </div>

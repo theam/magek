@@ -1,12 +1,12 @@
 # Read model
 
-A read model contains the data of your application that is exposed to the client through the GraphQL API. It's a _projection_ of one or more entities, so you dont have to directly expose them to the client. Booster generates the GraphQL queries that allow you to fetch your read models.
+A read model contains the data of your application that is exposed to the client through the GraphQL API. It's a _projection_ of one or more entities, so you dont have to directly expose them to the client. Magek generates the GraphQL queries that allow you to fetch your read models.
 
 In other words, Read Models are cached data optimized for read operations. They're updated reactively when [Entities](entity) are updated after reducing [events](event).
 
 ## Creating a read model
 
-The Booster CLI will help you to create new read models. You just need to run the following command and the CLI will generate all the boilerplate for you:
+The Magek CLI will help you to create new read models. You just need to run the following command and the CLI will generate all the boilerplate for you:
 
 ```shell
 npx boost new:read-model CartReadModel --fields id:UUID cartItems:"Array<CartItem>" paid:boolean --projects Cart
@@ -16,7 +16,7 @@ This will generate a new file called `cart-read-model.ts` in the `src/read-model
 
 ## Declaring a read model
 
-In Booster, a read model is a class decorated with the `@ReadModel` decorator. The properties of the class are the fields of the read model. The following example shows a read model with two fields:
+In Magek, a read model is a class decorated with the `@ReadModel` decorator. The properties of the class are the fields of the read model. The following example shows a read model with two fields:
 
 ```typescript
 @ReadModel
@@ -77,7 +77,7 @@ export class UserReadModel {
 
 ### Advanced join keys
 
-There might be cases where you need to project an entity into a read model using a more complex join key. For that reason, Booster supports other types of join keys.
+There might be cases where you need to project an entity into a read model using a more complex join key. For that reason, Magek supports other types of join keys.
 
 #### Array of entities
 
@@ -91,7 +91,7 @@ You can use an array of entities as a join key. For example, if you have a `Grou
   }
 ```
 
-You can even select arrays of UUIDs as `joinKey`. Booster get each value on the array, find a read model with that id and execute the projection function. The signature of the projection function is a bit different in this case. It receives the `readModelID` as the second argument, which is the id we are projecting from the array. The third argument is the current read model instance, which will be `undefined` if it's the first time the read model is created. For example, if we have a `Group` with an array of users in that group (`users: Array<UUID>`), we can have the following to update each `UserReadModel` accordingly:
+You can even select arrays of UUIDs as `joinKey`. Magek get each value on the array, find a read model with that id and execute the projection function. The signature of the projection function is a bit different in this case. It receives the `readModelID` as the second argument, which is the id we are projecting from the array. The third argument is the current read model instance, which will be `undefined` if it's the first time the read model is created. For example, if we have a `Group` with an array of users in that group (`users: Array<UUID>`), we can have the following to update each `UserReadModel` accordingly:
 
 ```typescript
   @Projects(Group, 'users')
@@ -237,7 +237,7 @@ export class UserReadModel {
 
   @CalculatedField({ dependsOn: ['postIds'] })
   public get posts(): Promise<PostReadModel[]> {
-    return this.postIds.map((postId) => Booster.readModel(PostReadModel)
+    return this.postIds.map((postId) => Magek.readModel(PostReadModel)
       .filter({
         id: { eq: postId }
       })
@@ -251,7 +251,7 @@ export class UserReadModel {
 }
 ```
 
-As you can see, the getter posts uses the Booster.readModel(PostReadModel) method and filters it by the ids of the posts saved in the postIds private property. This allows you to retrieve all the PostReadModels that belong to a specific UserReadModel and include them as part of the GraphQL response.
+As you can see, the getter posts uses the Magek.readModel(PostReadModel) method and filters it by the ids of the posts saved in the postIds private property. This allows you to retrieve all the PostReadModels that belong to a specific UserReadModel and include them as part of the GraphQL response.
 
 Also, you can see here a simple example of a getter called `currentTime` that returns the timestamp at the moment of the request:
 
@@ -308,7 +308,7 @@ Notice that getters are not cached in the read models database, so the getters w
 
 ## Authorizing a read model
 
-Read models are part of the public API of a Booster application, so you can define who is authorized to submit them. All read models are protected by default, which means that no one can query them. In order to allow users to query a read model, you must explicitly authorize them. You can use the `authorize` field of the `@ReadModel` decorator to specify the authorization rule.
+Read models are part of the public API of a Magek application, so you can define who is authorized to submit them. All read models are protected by default, which means that no one can query them. In order to allow users to query a read model, you must explicitly authorize them. You can use the `authorize` field of the `@ReadModel` decorator to specify the authorization rule.
 
 ```typescript title="src/read-model/product-read-model.ts"
 @ReadModel({
@@ -328,9 +328,9 @@ You can read more about this on the [Authorization section](/security/authorizat
 
 ## Querying a read model
 
-Booster read models are accessible to the outside world through GraphQL queries. GrahpQL fits very well with Booster's CQRS approach because it has two kinds of reading operations: Queries and Subscriptions. They are read-only operations that do not modify the state of the application. Booster uses them to fetch data from the read models.
+Magek read models are accessible to the outside world through GraphQL queries. GrahpQL fits very well with Magek's CQRS approach because it has two kinds of reading operations: Queries and Subscriptions. They are read-only operations that do not modify the state of the application. Magek uses them to fetch data from the read models.
 
-Booster automatically creates the queries and subscriptions for each read model. You can use them to fetch the data from the read models. For example, given the following read model:
+Magek automatically creates the queries and subscriptions for each read model. You can use them to fetch the data from the read models. For example, given the following read model:
 
 ```typescript title="src/read-model/cart-read-model.ts"
 @ReadModel({
@@ -358,15 +358,15 @@ For more information about queries and how to use them, please check the [GraphQ
 
 ### Filtering a read model
 
-Booster GraphQL API provides support for filtering Read Models on `queries` and `subscriptions`. To get more information about it go to the [GraphQL API](/graphql#filtering-a-read-model) section.
+Magek GraphQL API provides support for filtering Read Models on `queries` and `subscriptions`. To get more information about it go to the [GraphQL API](/graphql#filtering-a-read-model) section.
 
 ## Subscribing to a read model
 
-Booster GraphQL API also provides support for real-time updates using subscriptions and a web-socket. To get more information about it go to the [GraphQL API](/graphql#subscribing-to-read-models) section.
+Magek GraphQL API also provides support for real-time updates using subscriptions and a web-socket. To get more information about it go to the [GraphQL API](/graphql#subscribing-to-read-models) section.
 
 ## Sorting Read Models
 
-There are some cases when it's desirable to query your read models sorted a particular field. An example could be a chat app where you want to fetch the messages of a channel sorted by the time they were sent. Booster provides a special decorator to tag a specific property as a sequence key for a read model:
+There are some cases when it's desirable to query your read models sorted a particular field. An example could be a chat app where you want to fetch the messages of a channel sorted by the time they were sent. Magek provides a special decorator to tag a specific property as a sequence key for a read model:
 
 ```typescript title="src/read-model/message-read-model.ts"
 export class MessageReadModel {
@@ -401,7 +401,7 @@ query MessageReadModel(id: ID!, timestamp: string): [MessageReadModel]
 
 Using this query, when only the id is provided, you get an array of all the messages in the channel sorted by timestamp in ascending order (from older to newer). When you also provide an specific timestamp, you still get an array, but it will only contain the message sent in that exact moment.
 
-It is important to guarantee that the sequence key is unique for each message. This could be difficult to achieve if you are using a timestamp as the sequence key. Booster provides a utility function to generate unique timestamps that you can use in your read models: `TimeKey.generate()`. It will generate a timestamp with a random UUID as a suffix to avoid any coincidences.
+It is important to guarantee that the sequence key is unique for each message. This could be difficult to achieve if you are using a timestamp as the sequence key. Magek provides a utility function to generate unique timestamps that you can use in your read models: `TimeKey.generate()`. It will generate a timestamp with a random UUID as a suffix to avoid any coincidences.
 
 For more information about queries and how to use them, please check the [GraphQL API](/graphql#reading-read-models) section.
 
