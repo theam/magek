@@ -3,7 +3,7 @@ import { GraphQLService } from '@booster-ai/server'
 import { GraphQLController } from '../../src/controllers/graphql'
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { expect } from '../expect'
-import { lorem } from 'faker'
+import { faker } from '@faker-js/faker'
 
 // Helper to create a mock FastifyRequest
 function mockFastifyRequest(overrides: any = {}): FastifyRequest {
@@ -98,7 +98,7 @@ describe('GraphQL controller', () => {
       let error: Error
 
       beforeEach(async () => {
-        error = new Error(lorem.words())
+        error = new Error(faker.lorem.words())
         queryStub.rejects(error)
 
         try {

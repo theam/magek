@@ -1,7 +1,7 @@
  
 import { createInstanceWithCalculatedProperties, ProjectionFor, ReadModelInterface, UUID } from '../src'
 import { expect } from './helpers/expect'
-import { random } from 'faker'
+import { faker } from '@faker-js/faker'
 
 describe('the `Instances` helper', () => {
   class PersonReadModel implements ReadModelInterface {
@@ -21,12 +21,12 @@ describe('the `Instances` helper', () => {
 
   beforeEach(() => {
     rawObject = {
-      id: random.uuid(),
-      firstName: random.word(),
-      lastName: random.word(),
+      id: faker.datatype.uuid(),
+      firstName: faker.lorem.word(),
+      lastName: faker.lorem.word(),
       friends: [
-        { id: random.uuid(), firstName: random.word(), lastName: random.word() },
-        { id: random.uuid(), firstName: random.word(), lastName: random.word() },
+        { id: faker.datatype.uuid(), firstName: faker.lorem.word(), lastName: faker.lorem.word() },
+        { id: faker.datatype.uuid(), firstName: faker.lorem.word(), lastName: faker.lorem.word() },
       ],
     }
   })

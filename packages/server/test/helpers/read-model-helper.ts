@@ -1,42 +1,42 @@
 import { ReadModelEnvelope } from '@booster-ai/common'
-import { random } from 'faker'
+import { faker } from '@faker-js/faker'
 import { expect } from '../expect'
 
 export function createMockReadModelEnvelope(): ReadModelEnvelope {
   return {
     value: {
-      id: random.uuid(),
-      age: random.number(40),
-      foo: random.word(),
-      bar: random.float(),
+      id: faker.datatype.uuid(),
+      age: faker.datatype.number(40),
+      foo: faker.lorem.word(),
+      bar: faker.datatype.float(),
       boosterMetadata: {
         version: 1,
         schemaVersion: 1,
       },
       arr: [
         {
-          id: random.uuid(),
-          name: random.word(),
+          id: faker.datatype.uuid(),
+          name: faker.lorem.word(),
         },
         {
-          id: random.uuid(),
-          name: random.word(),
+          id: faker.datatype.uuid(),
+          name: faker.lorem.word(),
         },
       ],
       prop: {
         items: [
           {
-            id: random.uuid(),
-            name: random.word(),
+            id: faker.datatype.uuid(),
+            name: faker.lorem.word(),
           },
           {
-            id: random.uuid(),
-            name: random.word(),
+            id: faker.datatype.uuid(),
+            name: faker.lorem.word(),
           },
         ],
       },
     },
-    typeName: random.word(),
+    typeName: faker.lorem.word(),
   }
 }
 

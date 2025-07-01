@@ -17,7 +17,7 @@ import {
 } from '@booster-ai/common'
 import { expect } from '../expect'
 import { createMockNonPersistedEventEnvelop, createMockEntitySnapshotEnvelope } from '../helpers/event-helper'
-import { random, date } from 'faker'
+import { faker } from '@faker-js/faker'
 
 describe('events-adapter', () => {
   let mockConfig: BoosterConfig
@@ -90,8 +90,8 @@ describe('events-adapter', () => {
     beforeEach(() => {
       queryStub.resolves([mockEventEnvelop])
 
-      mockEntityTypeName = random.alphaNumeric(10)
-      mockEntityID = random.uuid()
+      mockEntityTypeName = faker.random.alphaNumeric(10)
+      mockEntityID = faker.datatype.uuid()
     })
 
     it('should return expected result', async () => {
@@ -110,7 +110,7 @@ describe('events-adapter', () => {
       let dateStr: string
 
       beforeEach(async () => {
-        dateStr = date.recent().toISOString()
+        dateStr = faker.date.recent().toISOString()
 
         await readEntityEventsSince(mockEventRegistry, mockConfig, mockEntityTypeName, mockEntityID, dateStr)
       })
@@ -176,8 +176,8 @@ describe('events-adapter', () => {
     beforeEach(() => {
       queryLatestStub.resolves(mockSnapshot)
 
-      mockEntityTypeName = random.alphaNumeric(10)
-      mockEntityID = random.uuid()
+      mockEntityTypeName = faker.random.alphaNumeric(10)
+      mockEntityID = faker.datatype.uuid()
     })
 
     it('should call event registry queryLatest', async () => {
