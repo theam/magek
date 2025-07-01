@@ -12,10 +12,10 @@ importers:
 
   ../../packages/cli:
     dependencies:
-      '@booster-ai/common':
+      '@magek/common':
         specifier: workspace:^3.2.0
         version: link:../common
-      '@booster-ai/core':
+      '@magek/core':
         specifier: workspace:^3.2.0
         version: link:../core
       '@oclif/core':
@@ -58,7 +58,7 @@ importers:
         specifier: ^2.4.0
         version: 2.8.1
     devDependencies:
-      '@booster-ai/eslint-config':
+      '@magek/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
       '@oclif/test':
@@ -155,10 +155,10 @@ importers:
         specifier: ^2.4.0
         version: 2.8.1
     devDependencies:
-      '@booster-ai/eslint-config':
+      '@magek/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
-      '@booster-ai/metadata':
+      '@magek/metadata':
         specifier: workspace:^3.2.0
         version: link:../metadata
       '@types/chai':
@@ -230,12 +230,6 @@ importers:
 
   ../../packages/core:
     dependencies:
-      '@booster-ai/common':
-        specifier: workspace:^3.2.0
-        version: link:../common
-      '@booster-ai/metadata':
-        specifier: workspace:^3.2.0
-        version: link:../metadata
       '@effect/cli':
         specifier: 0.66.1
         version: 0.66.1(@effect/platform@0.85.1(effect@3.16.8))(@effect/printer-ansi@0.44.10(@effect/typeclass@0.35.8(effect@3.16.8))(effect@3.16.8))(@effect/printer@0.44.7(@effect/typeclass@0.35.8(effect@3.16.8))(effect@3.16.8))(effect@3.16.8)
@@ -272,6 +266,12 @@ importers:
       '@effect/typeclass':
         specifier: 0.35.8
         version: 0.35.8(effect@3.16.8)
+      '@magek/common':
+        specifier: workspace:^3.2.0
+        version: link:../common
+      '@magek/metadata':
+        specifier: workspace:^3.2.0
+        version: link:../metadata
       effect:
         specifier: 3.16.8
         version: 3.16.8
@@ -306,12 +306,12 @@ importers:
         specifier: 13.15.15
         version: 13.15.15
     devDependencies:
-      '@booster-ai/eslint-config':
-        specifier: workspace:^3.2.0
-        version: link:../../tools/eslint-config
       '@faker-js/faker':
         specifier: ^7.6.0
         version: 7.6.0
+      '@magek/eslint-config':
+        specifier: workspace:^3.2.0
+        version: link:../../tools/eslint-config
       '@types/chai':
         specifier: 5.2.2
         version: 5.2.2
@@ -394,7 +394,7 @@ importers:
         specifier: ^2.4.2
         version: 2.4.2
     devDependencies:
-      '@booster-ai/eslint-config':
+      '@magek/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
       '@types/chai':
@@ -452,7 +452,7 @@ importers:
         specifier: ^2.4.0
         version: 2.8.1
     devDependencies:
-      '@booster-ai/eslint-config':
+      '@magek/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
       '@types/chai-as-promised':
@@ -482,12 +482,12 @@ importers:
 
   ../../packages/server:
     dependencies:
-      '@booster-ai/common':
-        specifier: workspace:^3.2.0
-        version: link:../common
       '@effect-ts/core':
         specifier: ^0.60.4
         version: 0.60.5
+      '@magek/common':
+        specifier: workspace:^3.2.0
+        version: link:../common
       '@seald-io/nedb':
         specifier: 4.1.1
         version: 4.1.1
@@ -498,7 +498,7 @@ importers:
         specifier: ^2.4.0
         version: 2.8.1
     devDependencies:
-      '@booster-ai/eslint-config':
+      '@magek/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
       '@types/chai':
@@ -555,12 +555,6 @@ importers:
 
   ../../packages/server-infrastructure:
     dependencies:
-      '@booster-ai/common':
-        specifier: workspace:^3.2.0
-        version: link:../common
-      '@booster-ai/server':
-        specifier: workspace:^3.2.0
-        version: link:../server
       '@effect-ts/core':
         specifier: ^0.60.4
         version: 0.60.5
@@ -570,6 +564,12 @@ importers:
       '@fastify/websocket':
         specifier: ^11.1.0
         version: 11.1.0
+      '@magek/common':
+        specifier: workspace:^3.2.0
+        version: link:../common
+      '@magek/server':
+        specifier: workspace:^3.2.0
+        version: link:../server
       fastify:
         specifier: ^5.3.3
         version: 5.4.0
@@ -583,7 +583,7 @@ importers:
         specifier: ^2.4.0
         version: 2.8.1
     devDependencies:
-      '@booster-ai/eslint-config':
+      '@magek/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
       '@types/chai':
