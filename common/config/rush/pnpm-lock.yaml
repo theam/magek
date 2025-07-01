@@ -61,6 +61,9 @@ importers:
       '@booster-ai/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
+      '@faker-js/faker':
+        specifier: ^7.6.0
+        version: 7.6.0
       '@oclif/test':
         specifier: ^4.1.10
         version: 4.1.13(@oclif/core@4.4.0)
@@ -70,9 +73,6 @@ importers:
       '@types/chai-as-promised':
         specifier: 8.0.2
         version: 8.0.2
-      '@types/faker':
-        specifier: 5.1.5
-        version: 5.1.5
       '@types/fs-extra':
         specifier: ^11.0.4
         version: 11.0.4
@@ -106,9 +106,6 @@ importers:
       copyfiles:
         specifier: ^2.3.0
         version: 2.4.1
-      faker:
-        specifier: 5.1.0
-        version: 5.1.0
       fancy-test:
         specifier: ^3.0.1
         version: 3.0.16
@@ -161,15 +158,15 @@ importers:
       '@booster-ai/metadata':
         specifier: workspace:^3.2.0
         version: link:../metadata
+      '@faker-js/faker':
+        specifier: ^7.6.0
+        version: 7.6.0
       '@types/chai':
         specifier: 5.2.2
         version: 5.2.2
       '@types/chai-as-promised':
         specifier: 8.0.2
         version: 8.0.2
-      '@types/faker':
-        specifier: 5.1.5
-        version: 5.1.5
       '@types/mocha':
         specifier: 10.0.10
         version: 10.0.10
@@ -194,9 +191,6 @@ importers:
       chai-as-promised:
         specifier: 8.0.1
         version: 8.0.1(chai@5.2.0)
-      faker:
-        specifier: 5.1.0
-        version: 5.1.0
       fast-check:
         specifier: ^4.1.1
         version: 4.1.1
@@ -501,15 +495,15 @@ importers:
       '@booster-ai/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
+      '@faker-js/faker':
+        specifier: ^7.6.0
+        version: 7.6.0
       '@types/chai':
         specifier: 5.2.2
         version: 5.2.2
       '@types/chai-as-promised':
         specifier: 8.0.2
         version: 8.0.2
-      '@types/faker':
-        specifier: 5.1.5
-        version: 5.1.5
       '@types/mocha':
         specifier: 10.0.10
         version: 10.0.10
@@ -528,9 +522,6 @@ importers:
       chai-as-promised:
         specifier: 8.0.1
         version: 8.0.1(chai@5.2.0)
-      faker:
-        specifier: 5.1.0
-        version: 5.1.0
       mocha:
         specifier: 11.7.0
         version: 11.7.0
@@ -586,15 +577,15 @@ importers:
       '@booster-ai/eslint-config':
         specifier: workspace:^3.2.0
         version: link:../../tools/eslint-config
+      '@faker-js/faker':
+        specifier: ^7.6.0
+        version: 7.6.0
       '@types/chai':
         specifier: 5.2.2
         version: 5.2.2
       '@types/chai-as-promised':
         specifier: 8.0.2
         version: 8.0.2
-      '@types/faker':
-        specifier: 5.1.5
-        version: 5.1.5
       '@types/mocha':
         specifier: 10.0.10
         version: 10.0.10
@@ -616,9 +607,6 @@ importers:
       chai-as-promised:
         specifier: 8.0.1
         version: 8.0.1(chai@5.2.0)
-      faker:
-        specifier: 5.1.0
-        version: 5.1.0
       mocha:
         specifier: 11.7.0
         version: 11.7.0
@@ -1640,9 +1628,6 @@ packages:
   '@types/express@4.17.23':
     resolution: {integrity: sha512-Crp6WY9aTYP3qPi2wGDo9iUe/rceX01UMhnF1jmwDcKCFM6cx7YhGP/Mpr3y9AASpfHixIG0E6azCcL5OcDHsQ==}
 
-  '@types/faker@5.1.5':
-    resolution: {integrity: sha512-2uEQFb7bsx68rqD4F8q95wZq6LTLOyexjv6BnvJogCO4jStkyc6IDEkODPQcWfovI6g6M3uPQ2/uD/oedJKkNw==}
-
   '@types/fs-extra@11.0.4':
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
 
@@ -2438,9 +2423,6 @@ packages:
   external-editor@3.1.0:
     resolution: {integrity: sha512-hMQ4CX1p1izmuLYyZqLMO/qGNw10wSv9QDCPfzXfyFrOaCSSoRfqE1Kf1s5an66J5JZC62NewG+mK49jOCtQew==}
     engines: {node: '>=4'}
-
-  faker@5.1.0:
-    resolution: {integrity: sha512-RrWKFSSA/aNLP0g3o2WW1Zez7/MnMr7xkiZmoCfAGZmdkDQZ6l2KtuXHN5XjdvpRjDl8+3vf+Rrtl06Z352+Mw==}
 
   fancy-test@3.0.16:
     resolution: {integrity: sha512-y1xZFpyYbE2TMiT+agOW2Emv8gr73zvDrKKbcXc8L+gMyIVJFn71cc4ICfzu2zEXjHirpHpdDJN0JBX99wwDXQ==}
@@ -5324,8 +5306,6 @@ snapshots:
       '@types/qs': 6.14.0
       '@types/serve-static': 1.15.8
 
-  '@types/faker@5.1.5': {}
-
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
@@ -6327,8 +6307,6 @@ snapshots:
       chardet: 0.7.0
       iconv-lite: 0.4.24
       tmp: 0.0.33
-
-  faker@5.1.0: {}
 
   fancy-test@3.0.16:
     dependencies:

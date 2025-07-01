@@ -1,8 +1,8 @@
  
 import { ProjectionFor, ReadModelEnvelope } from '@booster-ai/common'
 import { expect } from '../expect'
-import * as faker from 'faker'
-import { random } from 'faker'
+import { faker } from '@faker-js/faker'
+
 import { restore, stub } from 'sinon'
 import { ReadModelRegistry } from '../../src/services'
 import {
@@ -18,7 +18,7 @@ describe('the read model registry', () => {
   let readModelRegistry: ReadModelRegistry
 
   beforeEach(async () => {
-    initialReadModelsCount = random.number({ min: 2, max: 10 })
+    initialReadModelsCount = faker.datatype.number({ min: 2, max: 10 })
     readModelRegistry = new ReadModelRegistry()
 
     // Clear all read models
@@ -76,7 +76,7 @@ describe('the read model registry', () => {
 
     it('should return no results when id do not match', async () => {
       const result = await readModelRegistry.query({
-        'value.id': random.uuid(),
+        'value.id': faker.datatype.uuid(),
         typeName: mockReadModel.typeName,
       })
 
@@ -86,7 +86,7 @@ describe('the read model registry', () => {
     it('should return no results when typeName do not match', async () => {
       const result = await readModelRegistry.query({
         'value.id': mockReadModel.value.id,
-        typeName: random.words(),
+        typeName: faker.lorem.words(),
       })
 
       expect(result.length).to.be.equal(0)
@@ -228,22 +228,22 @@ describe('the read model registry', () => {
 
     it('should return only projected fields for complex read models', async () => {
       const complexReadModel: ReadModelEnvelope = {
-        typeName: random.word(),
+        typeName: faker.lorem.word(),
         value: {
-          id: random.uuid(),
+          id: faker.datatype.uuid(),
           x: {
-            arr: [{ y: random.word(), z: random.number() }],
+            arr: [{ y: faker.lorem.word(), z: faker.datatype.number() }],
           },
           foo: {
             bar: {
-              items: [{ id: random.uuid(), name: random.word() }],
-              baz: { items: [{ id: random.uuid(), name: random.word() }] },
+              items: [{ id: faker.datatype.uuid(), name: faker.lorem.word() }],
+              baz: { items: [{ id: faker.datatype.uuid(), name: faker.lorem.word() }] },
             },
           },
           arr: [
             {
-              id: random.uuid(),
-              subArr: [{ id: random.uuid(), name: random.word() }],
+              id: faker.datatype.uuid(),
+              subArr: [{ id: faker.datatype.uuid(), name: faker.lorem.word() }],
             },
           ],
           boosterMetadata: {
@@ -335,12 +335,12 @@ describe('the read model registry', () => {
     it('should throw if the database `insert` fails', async () => {
       const readModel: ReadModelEnvelope = {
         value: {
-          id: faker.random.uuid(),
+          id: faker.datatype.uuid(),
         },
-        typeName: faker.random.word(),
+        typeName: faker.lorem.word(),
       }
 
-      const error = new Error(faker.random.words())
+      const error = new Error(faker.lorem.words())
 
       readModelRegistry.readModels.update = stub().yields(error, null)
 

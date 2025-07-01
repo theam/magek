@@ -12,7 +12,7 @@ import {
   UUID,
 } from '@booster-ai/common'
 import { expect } from '../expect'
-import { random } from 'faker'
+import { faker } from '@faker-js/faker'
 import { createMockReadModelEnvelope } from '../helpers/read-model-helper'
 import {
   deleteReadModel,
@@ -133,8 +133,8 @@ describe('read-models-adapter', () => {
     let mockReadModelID: UUID
 
     beforeEach(() => {
-      mockReadModelTypeName = random.alphaNumeric(10)
-      mockReadModelID = random.uuid()
+      mockReadModelTypeName = faker.random.alphaNumeric(10)
+      mockReadModelID = faker.datatype.uuid()
     })
 
     it('should call read model registry query and return a value', async () => {
@@ -522,12 +522,12 @@ describe('read-models-adapter', () => {
 
   describe('deleteReadModel', () => {
     it('delete one read model', async () => {
-      const expectedId = random.uuid()
+      const expectedId = faker.datatype.uuid()
       const mockReadModelInterface: ReadModelInterface = {
         id: expectedId,
-        age: random.number(40),
-        foo: random.word(),
-        bar: random.float(),
+        age: faker.datatype.number(40),
+        foo: faker.lorem.word(),
+        bar: faker.datatype.float(),
         boosterMetadata: {
           version: 1,
           schemaVersion: 1,

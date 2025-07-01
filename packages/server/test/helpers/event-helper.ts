@@ -1,8 +1,8 @@
 import { EntitySnapshotEnvelope, EventEnvelope, NonPersistedEventEnvelope } from '@booster-ai/common'
-import { random, date } from 'faker'
+import { faker } from '@faker-js/faker'
 
 export function createMockNonPersistedEventEnvelop(): NonPersistedEventEnvelope {
-  return createMockNonPersistedEventEnvelopeForEntity(random.word(), random.uuid())
+  return createMockNonPersistedEventEnvelopeForEntity(faker.lorem.word(), faker.datatype.uuid())
 }
 
 export function createMockNonPersistedEventEnvelopeForEntity(
@@ -15,16 +15,16 @@ export function createMockNonPersistedEventEnvelopeForEntity(
     entityID: entityID,
     entityTypeName: entityTypeName,
     value: {
-      id: random.uuid(),
+      id: faker.datatype.uuid(),
     },
-    requestID: random.uuid(),
-    typeName: random.word(),
-    version: random.number(),
+    requestID: faker.datatype.uuid(),
+    typeName: faker.lorem.word(),
+    version: faker.datatype.number(),
   }
 }
 
 export function createMockEventEnvelope(): EventEnvelope {
-  return createMockEventEnvelopeForEntity(random.word(), random.uuid())
+  return createMockEventEnvelopeForEntity(faker.lorem.word(), faker.datatype.uuid())
 }
 
 export function createMockEventEnvelopeForEntity(entityTypeName: string, entityID: string): EventEnvelope {
@@ -34,31 +34,31 @@ export function createMockEventEnvelopeForEntity(entityTypeName: string, entityI
     entityID: entityID,
     entityTypeName: entityTypeName,
     value: {
-      id: random.uuid(),
+      id: faker.datatype.uuid(),
     },
-    createdAt: date.past().toISOString(),
-    requestID: random.uuid(),
-    typeName: random.word(),
-    version: random.number(),
+    createdAt: faker.date.past().toISOString(),
+    requestID: faker.datatype.uuid(),
+    typeName: faker.lorem.word(),
+    version: faker.datatype.number(),
   }
 }
 
 export function createMockEntitySnapshotEnvelope(entityTypeName?: string, entityId?: string): EntitySnapshotEnvelope {
-  const creationDate = date.past()
+  const creationDate = faker.date.past()
   const snapshottedEventCreatedAt = creationDate.toISOString()
   return {
     kind: 'snapshot',
     superKind: 'domain',
-    entityID: entityId ?? random.uuid(),
-    entityTypeName: entityTypeName ?? random.word(),
+    entityID: entityId ?? faker.datatype.uuid(),
+    entityTypeName: entityTypeName ?? faker.lorem.word(),
     value: {
-      id: random.uuid(),
+      id: faker.datatype.uuid(),
     },
     createdAt: snapshottedEventCreatedAt,
     persistedAt: new Date(creationDate.getTime() + 1000).toISOString(),
-    requestID: random.uuid(),
-    typeName: random.word(),
-    version: random.number(),
+    requestID: faker.datatype.uuid(),
+    typeName: faker.lorem.word(),
+    version: faker.datatype.number(),
     snapshottedEventCreatedAt,
   }
 }

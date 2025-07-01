@@ -1,8 +1,8 @@
  
 import { EntitySnapshotEnvelope, EventEnvelope } from '@booster-ai/common'
 import { expect } from '../expect'
-import * as faker from 'faker'
-import { date, random } from 'faker'
+import { faker } from '@faker-js/faker'
+
 import { restore, stub } from 'sinon'
 import {
   createMockEntitySnapshotEnvelope,
@@ -18,7 +18,7 @@ describe('the event registry', () => {
   let eventRegistry: EventRegistry
 
   beforeEach(async () => {
-    initialEventsCount = random.number({ min: 2, max: 10 })
+    initialEventsCount = faker.datatype.number({ min: 2, max: 10 })
     eventRegistry = new EventRegistry()
 
     // Clear all events
@@ -62,8 +62,8 @@ describe('the event registry', () => {
     })
 
     describe('with events of the same entity', () => {
-      const entityName: string = random.word()
-      const entityId: string = random.uuid()
+      const entityName: string = faker.lorem.word()
+      const entityId: string = faker.datatype.uuid()
 
       beforeEach(async () => {
         const publishPromises: Array<Promise<any>> = []
@@ -73,7 +73,7 @@ describe('the event registry', () => {
         }
 
         for (let i = 0; i < initialEventsCount; i++) {
-          publishPromises.push(eventRegistry.store(createMockEventEnvelopeForEntity(entityName, random.uuid())))
+          publishPromises.push(eventRegistry.store(createMockEventEnvelopeForEntity(entityName, faker.datatype.uuid())))
         }
 
         for (let i = 0; i < initialEventsCount; i++) {
@@ -107,7 +107,7 @@ describe('the event registry', () => {
       mockTargetSnapshot = createMockEntitySnapshotEnvelope()
       await eventRegistry.store(mockTargetSnapshot)
 
-      newerMockDate = date.recent().toISOString()
+      newerMockDate = faker.date.recent().toISOString()
       copyOfMockTargetSnapshot = {
         ...mockTargetSnapshot,
         snapshottedEventCreatedAt: newerMockDate,
@@ -129,7 +129,7 @@ describe('the event registry', () => {
 
     it('should return null', async () => {
       const result = await eventRegistry.queryLatestSnapshot({
-        entityID: random.uuid(),
+        entityID: faker.datatype.uuid(),
         entityTypeName: mockTargetSnapshot.entityTypeName,
       })
 
@@ -165,18 +165,18 @@ describe('the event registry', () => {
       const event: EventEnvelope = {
         kind: 'event',
         superKind: 'domain',
-        entityID: faker.random.uuid(),
-        entityTypeName: faker.random.word(),
+        entityID: faker.datatype.uuid(),
+        entityTypeName: faker.lorem.word(),
         value: {
-          id: faker.random.uuid(),
+          id: faker.datatype.uuid(),
         },
         createdAt: faker.date.past().toISOString(),
-        requestID: faker.random.uuid(),
-        typeName: faker.random.word(),
-        version: faker.random.number(),
+        requestID: faker.datatype.uuid(),
+        typeName: faker.lorem.word(),
+        version: faker.datatype.number(),
       }
 
-      const error = new Error(faker.random.words())
+      const error = new Error(faker.lorem.words())
 
       eventRegistry.events.insertAsync = stub().throws(error)
 

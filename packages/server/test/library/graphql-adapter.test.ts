@@ -3,7 +3,7 @@ import { SinonStub, stub, replace, restore, fake } from 'sinon'
 import { rawGraphQLRequestToEnvelope } from '../../src/library/graphql-adapter'
 import { expect } from '../expect'
 import { BoosterConfig, UUID } from '@booster-ai/common'
-import { random } from 'faker'
+import { faker } from '@faker-js/faker'
 import { FastifyRequest } from 'fastify'
 
 describe('Local provider graphql-adapter', () => {
@@ -23,8 +23,8 @@ describe('Local provider graphql-adapter', () => {
     let generateStub: SinonStub
 
     beforeEach(() => {
-      mockUuid = random.uuid()
-      mockUserToken = random.uuid()
+      mockUuid = faker.datatype.uuid()
+      mockUserToken = faker.datatype.uuid()
       mockBody = {
         query: '',
         variables: {},
