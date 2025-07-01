@@ -40,10 +40,8 @@ jobs:
           file: ./e2e/Dockerfile
           tags: booster-e2e:latest
           load: true
-          # Disable cache for pull requests to ensure fresh builds with latest changes
-          # Keep cache enabled for main branch to maintain performance
-          cache-from: ${{ github.event_name == 'pull_request' && '' || 'type=gha' }}
-          cache-to: ${{ github.event_name == 'pull_request' && '' || 'type=gha,mode=max' }}
+          # Disable cache entirely to ensure fresh builds for both main branch and PRs
+          no-cache: true
 
       - name: Run E2E tests in Docker
         run: |
