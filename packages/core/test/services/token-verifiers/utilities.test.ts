@@ -1,5 +1,5 @@
 import { expect } from '../../expect'
-import { fake, match, replace, restore, stub } from 'sinon'
+import { fake, match, replace, restore } from 'sinon'
 import { getJwksClient, getKeyWithClient, verifyJWT } from '../../../src/services/token-verifiers/utilities'
 import { JwksClient } from 'jwks-rsa'
 import * as jwt from 'jsonwebtoken'

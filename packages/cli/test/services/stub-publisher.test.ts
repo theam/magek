@@ -1,4 +1,4 @@
-import { restore, stub, fake, SinonSpy, replace } from 'sinon'
+import { restore, stub, fake, SinonSpy, replace, spy } from 'sinon'
 import { join } from 'path'
 import * as fs from 'fs-extra'
 import { expect } from '../expect'
@@ -15,6 +15,7 @@ import {
 const rewire = require('rewire')
 
 describe('stub publisher', () => {
+  let readdirSyncSpy: SinonSpy
   const directoryFileMocks: fs.Dirent[] = [
     {
       name: 'fake-command.stub',
@@ -249,7 +250,15 @@ describe('stub publisher', () => {
 
   describe('publishStubFiles', () => {
     beforeEach(() => {
-      replace(fs, 'readdirSync', fake.returns(directoryFileMocks))
+      readdirSyncSpy = spy()
+      replace(fs, 'readdirSync', ((path: any, options?: any) => {
+        readdirSyncSpy(path, options)
+        if (options?.withFileTypes) {
+          return directoryFileMocks
+        }
+        // Fallback for other calls (return file names only)
+        return directoryFileMocks.filter(d => d.isFile()).map(d => d.name)
+      }) as typeof fs.readdirSync)
     })
 
     it('copies template files', () => {
@@ -261,8 +270,7 @@ describe('stub publisher', () => {
 
       void publishStubFiles()
 
-      expect(fs.readdirSync).to.have.been.calledOnceWith(resourceTemplatesPath, { withFileTypes: true })
-      expect(fs.readdirSync).to.have.returned(directoryFileMocks)
+      expect(readdirSyncSpy).to.have.been.calledOnceWith(resourceTemplatesPath, { withFileTypes: true })
 
       expect(fakeWriteFileSync).to.have.been.calledTwice
       expect(fakeReadFileSync).to.have.been.calledTwice
@@ -288,12 +296,16 @@ describe('stub publisher', () => {
     it('should copy stub file', () => {
       const from = 'from/test.stub'
       const to = 'to/test.stub'
-      const fakeContent = 'file content!'
+      const fakeContent = Buffer.from('file content!', 'utf8')
 
       const fakeWriteFileSync: SinonSpy = fake()
+      const readFileSyncSpy: SinonSpy = spy()
 
       replace(fs, 'writeFileSync', fakeWriteFileSync)
-      replace(fs, 'readFileSync', fake.returns(fakeContent))
+      replace(fs, 'readFileSync', ((path: any, options?: any) => {
+        readFileSyncSpy(path, options)
+        return fakeContent
+      }) as unknown as typeof fs.readFileSync)
 
       copyStubFile(from, to)
 
@@ -301,8 +313,7 @@ describe('stub publisher', () => {
       expect(fakeWriteFileSync).to.have.been.calledOnce
       expect(fakeWriteFileSync).to.have.been.calledOnceWith(to, fakeContent)
 
-      expect(fs.readFileSync).to.have.been.calledOnceWith(from)
-      expect(fs.readFileSync).to.returned(fakeContent)
+      expect(readFileSyncSpy).to.have.been.calledOnceWith(from, undefined)
     })
   })
 })

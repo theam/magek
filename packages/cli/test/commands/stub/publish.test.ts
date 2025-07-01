@@ -14,6 +14,7 @@ describe('stub', async () => {
     let fakeMkdirSync: SinonSpy
     let fakeWriteFileSync: SinonSpy
     let fakeReadFileSync: SinonSpy
+    let readdirSyncSpy: SinonSpy
 
     const directoryFileMocks: fs.Dirent[] = [
       {
@@ -58,6 +59,7 @@ describe('stub', async () => {
       fakeMkdirSync = fake()
       fakeWriteFileSync = fake()
       fakeReadFileSync = fake()
+      readdirSyncSpy = spy()
 
       stub(ProjectChecker, 'checkCurrentDirIsABoosterProject').returnsThis()
       replace(ProjectChecker, 'checkCurrentDirBoosterVersion', fake.resolves({}))
@@ -66,7 +68,14 @@ describe('stub', async () => {
       replace(fs, 'mkdirSync', fakeMkdirSync)
       replace(fs, 'writeFileSync', fakeWriteFileSync)
       replace(fs, 'readFileSync', fakeReadFileSync)
-      replace(fs, 'readdirSync', fake.returns(directoryFileMocks))
+      replace(fs, 'readdirSync', ((path: any, options?: any) => {
+        readdirSyncSpy(path, options)
+        if (options?.withFileTypes) {
+          return directoryFileMocks
+        }
+        // Fallback for other calls (return file names only)
+        return directoryFileMocks.filter(d => d.isFile()).map(d => d.name)
+      }) as typeof fs.readdirSync)
     })
 
     afterEach(() => {
@@ -97,8 +106,7 @@ describe('stub', async () => {
         expect(ProjectChecker.checkCurrentDirIsABoosterProject).to.have.been.calledOnce
         expect(Prompter.confirmPrompt).not.to.have.been.called
 
-        expect(fs.readdirSync).to.have.been.calledOnceWith(resourceTemplatesPath, { withFileTypes: true })
-        expect(fs.readdirSync).to.have.returned(directoryFileMocks)
+        expect(readdirSyncSpy).to.have.been.calledOnceWith(resourceTemplatesPath, { withFileTypes: true })
 
         expect(fakeReadFileSync).to.have.been.calledTwice
         expect(fakeWriteFileSync).to.have.been.calledTwice
@@ -123,8 +131,7 @@ describe('stub', async () => {
 
         expect(Prompter.confirmPrompt).to.have.been.called
 
-        expect(fs.readdirSync).to.have.been.calledOnceWith(resourceTemplatesPath, { withFileTypes: true })
-        expect(fs.readdirSync).to.have.returned(directoryFileMocks)
+        expect(readdirSyncSpy).to.have.been.calledOnceWith(resourceTemplatesPath, { withFileTypes: true })
 
         expect(fakeReadFileSync).to.have.been.calledTwice
         expect(fakeWriteFileSync).to.have.been.calledTwice
@@ -148,8 +155,7 @@ describe('stub', async () => {
 
         expect(Prompter.confirmPrompt).not.to.have.been.called
 
-        expect(fs.readdirSync).to.have.been.calledOnceWith(resourceTemplatesPath, { withFileTypes: true })
-        expect(fs.readdirSync).to.have.returned(directoryFileMocks)
+        expect(readdirSyncSpy).to.have.been.calledOnceWith(resourceTemplatesPath, { withFileTypes: true })
 
         expect(fakeReadFileSync).to.have.been.calledTwice
         expect(fakeWriteFileSync).to.have.been.calledTwice
@@ -179,7 +185,7 @@ describe('stub', async () => {
           'Stubs folder already exists. Use --force option to overwrite files in it'
         )
 
-        expect(fs.readdirSync).not.to.have.been.called
+        expect(readdirSyncSpy).not.to.have.been.called
         expect(fakeReadFileSync).not.to.have.been.called
         expect(fakeWriteFileSync).not.to.have.been.called
       })

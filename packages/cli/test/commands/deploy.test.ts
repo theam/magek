@@ -101,7 +101,7 @@ describe('deploy', () => {
       const config = new BoosterConfig('fake_environment')
       replace(configService, 'compileProjectAndLoadConfig', fake.resolves(config))
       replace(providerService, 'deployToCloudProvider', fake.resolves({}))
-      replace(configService, 'createDeploymentSandbox', fake.returns('fake/path'))
+      replace(configService, 'createDeploymentSandbox', fake.resolves('fake/path'))
       replace(configService, 'cleanDeploymentSandbox', fake.resolves({}))
       replace(projectChecker, 'checkCurrentDirBoosterVersion', fake.resolves({}))
       replace(oraLogger, 'fail', fake.resolves({}))
