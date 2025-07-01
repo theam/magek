@@ -40,8 +40,10 @@ jobs:
           file: ./e2e/Dockerfile
           tags: booster-e2e:latest
           load: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # Disable cache for pull requests to ensure fresh builds with latest changes
+          # Keep cache enabled for main branch to maintain performance
+          cache-from: ${{ github.event_name == 'pull_request' && '' || 'type=gha' }}
+          cache-to: ${{ github.event_name == 'pull_request' && '' || 'type=gha,mode=max' }}
 
       - name: Run E2E tests in Docker
         run: |
