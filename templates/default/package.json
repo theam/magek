@@ -17,7 +17,7 @@
     "{{providerPackageName}}-infrastructure": "^{{boosterVersion}}",
     "rimraf": "^5.0.0",
     "@booster-ai/eslint-config": "^${VERSION}",
-    "mocha": "11.7.0",
+    "mocha": "11.7.1",
     "@types/mocha": "10.0.1",
     "@types/jsonwebtoken": "9.0.1",
     "nyc": "15.1.0",
