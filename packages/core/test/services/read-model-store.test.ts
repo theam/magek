@@ -15,7 +15,7 @@ import {
   EntityInterface,
 } from '@booster-ai/common'
 import { expect } from '../expect'
-import { BoosterAuthorizer } from '../../src/booster-authorizer'
+import { Authorizer } from '../../src/authorizer'
 import { fake, match, replace, restore, SinonFakeTimers, spy, stub, useFakeTimers } from 'sinon'
 import { Booster } from '../../src/booster'
 
@@ -102,25 +102,25 @@ describe('ReadModelStore', () => {
   } as unknown as ProviderLibrary
   config.entities[AnImportantEntity.name] = {
     class: AnImportantEntity,
-    eventStreamAuthorizer: BoosterAuthorizer.authorizeRoles.bind(null, []),
+    eventStreamAuthorizer: Authorizer.authorizeRoles.bind(null, []),
   }
   config.entities[AnEntity.name] = {
     class: AnEntity,
-    eventStreamAuthorizer: BoosterAuthorizer.authorizeRoles.bind(null, []),
+    eventStreamAuthorizer: Authorizer.authorizeRoles.bind(null, []),
   }
   config.entities[AnImportantEntityWithArray.name] = {
     class: AnImportantEntityWithArray,
-    eventStreamAuthorizer: BoosterAuthorizer.authorizeRoles.bind(null, []),
+    eventStreamAuthorizer: Authorizer.authorizeRoles.bind(null, []),
   }
   config.readModels[SomeReadModel.name] = {
     class: SomeReadModel,
-    authorizer: BoosterAuthorizer.allowAccess,
+    authorizer: Authorizer.allowAccess,
     properties: [],
     before: [],
   }
   config.readModels[AnotherReadModel.name] = {
     class: AnotherReadModel,
-    authorizer: BoosterAuthorizer.allowAccess,
+    authorizer: Authorizer.allowAccess,
     properties: [],
     before: [],
   }

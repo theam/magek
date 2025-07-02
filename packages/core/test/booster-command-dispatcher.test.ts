@@ -7,7 +7,7 @@ import { BoosterCommandDispatcher } from '../src/booster-command-dispatcher'
 import { CommandBeforeFunction, Register, NotAuthorizedError } from '@booster-ai/common'
 import { Command, RegisterHandler } from '../src'
 import { faker } from '@faker-js/faker'
-import { BoosterAuthorizer } from '../src/booster-authorizer'
+import { Authorizer } from '../src/authorizer'
 
 describe('the `BoosterCommandsDispatcher`', () => {
   afterEach(() => {
@@ -52,7 +52,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
       const config = {
         commandHandlers: {
           UnauthorizedCommand: {
-            authorizer: BoosterAuthorizer.authorizeRoles.bind(null, [Thor]),
+            authorizer: Authorizer.authorizeRoles.bind(null, [Thor]),
           },
         },
       }
@@ -82,7 +82,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
       const config = {
         commandHandlers: {
           ProperlyHandledCommand: {
-            authorizer: BoosterAuthorizer.allowAccess,
+            authorizer: Authorizer.allowAccess,
             before: [],
             class: ProperlyHandledCommand,
           },
@@ -121,7 +121,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
       const config = {
         commandHandlers: {
           ProperlyHandledCommand: {
-            authorizer: BoosterAuthorizer.allowAccess,
+            authorizer: Authorizer.allowAccess,
             before: [],
             class: ProperlyHandledCommand,
           },
@@ -176,7 +176,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
       const config = {
         commandHandlers: {
           ProperlyHandledCommand: {
-            authorizer: BoosterAuthorizer.allowAccess,
+            authorizer: Authorizer.allowAccess,
             before: [],
             class: ProperlyHandledCommand,
           },

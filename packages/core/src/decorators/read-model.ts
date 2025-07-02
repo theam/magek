@@ -6,7 +6,7 @@ import {
   ReadModelRoleAccess,
 } from '@booster-ai/common'
 import { Booster } from '../booster'
-import { BoosterAuthorizer } from '../booster-authorizer'
+import { Authorizer } from '../authorizer'
 import { getClassMetadata } from './metadata'
 import { getMetadata, defineMetadata } from '@booster-ai/metadata'
 
@@ -24,7 +24,7 @@ export function ReadModel(
         If you think that this is an error, try performing a clean build.`)
       }
 
-      const authorizer = BoosterAuthorizer.build(attributes) as ReadModelAuthorizer
+      const authorizer = Authorizer.build(attributes) as ReadModelAuthorizer
       const classMetadata = getClassMetadata(readModelClass)
       const dynamicDependencies =
         getMetadata<Record<string, string[]>>('dynamic:dependencies', readModelClass as object) || {}

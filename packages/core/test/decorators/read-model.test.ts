@@ -3,7 +3,7 @@ import { expect } from '../expect'
 import { describe } from 'mocha'
 import { ReadModel, Booster, Entity, Projects, sequencedBy, Role, CalculatedField } from '../../src'
 import { UUID, ProjectionResult, UserEnvelope } from '@booster-ai/common'
-import { BoosterAuthorizer } from '../../src/booster-authorizer'
+import { Authorizer } from '../../src/authorizer'
 import { fake, restore } from 'sinon'
 
 describe('the `ReadModel` decorator', () => {
@@ -25,7 +25,7 @@ describe('the `ReadModel` decorator', () => {
 
       expect(Booster.config.readModels['Post']).to.deep.equal({
         class: Post,
-        authorizer: BoosterAuthorizer.denyAccess,
+        authorizer: Authorizer.denyAccess,
         before: [],
         properties: [
           {
@@ -72,7 +72,7 @@ describe('the `ReadModel` decorator', () => {
       }
 
       expect(Booster.config.readModels['Post'].class).to.equal(Post)
-      expect(Booster.config.readModels['Post'].authorizer).to.be.equal(BoosterAuthorizer.denyAccess)
+      expect(Booster.config.readModels['Post'].authorizer).to.be.equal(Authorizer.denyAccess)
       expect(Booster.config.readModels['Post'].before).to.be.an('Array')
       expect(Booster.config.readModels['Post'].before).to.have.lengthOf(1)
       expect(Booster.config.readModels['Post'].before[0]).to.be.equal(fakeBeforeFilter)
@@ -95,7 +95,7 @@ describe('the `ReadModel` decorator', () => {
 
       expect(Booster.config.readModels['SomeReadModel']).to.be.deep.equal({
         class: SomeReadModel,
-        authorizer: BoosterAuthorizer.allowAccess,
+        authorizer: Authorizer.allowAccess,
         before: [],
         properties: [
           {
@@ -327,7 +327,7 @@ describe('the `CalculatedField` decorator', () => {
 
     expect(Booster.config.readModels['PersonReadModel']).to.be.deep.equal({
       class: PersonReadModel,
-      authorizer: BoosterAuthorizer.allowAccess,
+      authorizer: Authorizer.allowAccess,
       before: [],
       properties: [
         {

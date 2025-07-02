@@ -19,7 +19,7 @@ import { BoosterDataMigrationEntity } from './core-concepts/data-migration/entit
 import { BoosterDataMigrationStarted } from './core-concepts/data-migration/events/booster-data-migration-started'
 import { BoosterDataMigrationFinished } from './core-concepts/data-migration/events/booster-data-migration-finished'
 import { JwksUriTokenVerifier, JWT_ENV_VARS } from './services/token-verifiers'
-import { BoosterAuthorizer } from './booster-authorizer'
+import { Authorizer } from './authorizer'
 import { BoosterEntityTouched } from './core-concepts/touch-entity/events/booster-entity-touched'
 import { readModelSearcher } from './services/read-model-searcher'
 import { BoosterDeleteEventDispatcher } from './booster-delete-event-dispatcher'
@@ -167,7 +167,7 @@ export class Booster {
 
     this.config.entities[BoosterDataMigrationEntity.name] = {
       class: BoosterDataMigrationEntity,
-      eventStreamAuthorizer: BoosterAuthorizer.denyAccess,
+      eventStreamAuthorizer: Authorizer.denyAccess,
     }
   }
 

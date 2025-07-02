@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker'
 import { BoosterEventsReader } from '../src/booster-events-reader'
 import { expect } from './expect'
 import { Booster } from '../src'
-import { BoosterAuthorizer } from '../src/booster-authorizer'
+import { Authorizer } from '../src/authorizer'
 
 describe('BoosterEventsReader', () => {
   class TestEntity {
@@ -41,7 +41,7 @@ describe('BoosterEventsReader', () => {
   ]
 
   beforeEach(() => {
-    const eventStreamAuthorizer = BoosterAuthorizer.authorizeRoles.bind(null, [CanReadEventsRole])
+    const eventStreamAuthorizer = Authorizer.authorizeRoles.bind(null, [CanReadEventsRole])
     Booster.configureCurrentEnv((config) => {
       providerEventsSearch = fake.returns(searchResult)
 

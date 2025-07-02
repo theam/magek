@@ -1,20 +1,20 @@
 import { expect } from './expect'
 import { NotAuthorizedError, UserEnvelope } from '@booster-ai/common'
 
-import { BoosterAuthorizer } from '../src/booster-authorizer'
+import { Authorizer } from '../src/authorizer'
 
 describe('BoosterAuthorizer', () => {
   class Admin {}
 
   describe('The `allowAccess` method', () => {
     it('should return a resolved promise', async () => {
-      await expect(BoosterAuthorizer.allowAccess()).to.eventually.be.fulfilled
+      await expect(Authorizer.allowAccess()).to.eventually.be.fulfilled
     })
   })
 
   describe('The `denyAccess` method', () => {
     it('should return a rejected promise', async () => {
-      await expect(BoosterAuthorizer.denyAccess()).to.eventually.be.rejectedWith(NotAuthorizedError)
+      await expect(Authorizer.denyAccess()).to.eventually.be.rejectedWith(NotAuthorizedError)
     })
   })
 
@@ -24,7 +24,7 @@ describe('BoosterAuthorizer', () => {
         roles: ['Admin', 'Developer'],
       } as unknown as UserEnvelope
 
-      await expect(BoosterAuthorizer.authorizeRoles([Admin], user)).to.eventually.be.fulfilled
+      await expect(Authorizer.authorizeRoles([Admin], user)).to.eventually.be.fulfilled
     })
 
     it('should return a rejected promise if the user does not have any of the authorized roles', async () => {
@@ -32,7 +32,7 @@ describe('BoosterAuthorizer', () => {
         roles: ['Reader'],
       } as unknown as UserEnvelope
 
-      await expect(BoosterAuthorizer.authorizeRoles([Admin], user)).to.eventually.be.rejectedWith(NotAuthorizedError)
+      await expect(Authorizer.authorizeRoles([Admin], user)).to.eventually.be.rejectedWith(NotAuthorizedError)
     })
   })
 })

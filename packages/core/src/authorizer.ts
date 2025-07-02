@@ -13,7 +13,7 @@ import {
   HealthAuthorizer,
 } from '@booster-ai/common'
 
-export class BoosterAuthorizer {
+export class Authorizer {
   public static allowAccess(): Promise<void> {
     return Promise.resolve()
   }
@@ -24,20 +24,20 @@ export class BoosterAuthorizer {
 
   public static authorizeRoles(authorizedRoles: Array<Class<RoleInterface>>, user?: UserEnvelope): Promise<void> {
     if (user && userHasSomeRole(user, authorizedRoles)) {
-      return BoosterAuthorizer.allowAccess()
+      return Authorizer.allowAccess()
     }
-    return BoosterAuthorizer.denyAccess()
+    return Authorizer.denyAccess()
   }
 
   public static build(
     attributes: CommandRoleAccess | QueryRoleAccess | ReadModelRoleAccess | HealthRoleAccess
   ): CommandAuthorizer | QueryAuthorizer | ReadModelAuthorizer | HealthAuthorizer {
     let authorizer: CommandAuthorizer | QueryAuthorizer | ReadModelAuthorizer | HealthAuthorizer =
-      BoosterAuthorizer.denyAccess
+      Authorizer.denyAccess
     if (attributes.authorize === 'all') {
-      authorizer = BoosterAuthorizer.allowAccess
+      authorizer = Authorizer.allowAccess
     } else if (Array.isArray(attributes.authorize)) {
-      authorizer = BoosterAuthorizer.authorizeRoles.bind(null, attributes.authorize)
+      authorizer = Authorizer.authorizeRoles.bind(null, attributes.authorize)
     } else if (typeof attributes.authorize === 'function') {
       authorizer = attributes.authorize
     }

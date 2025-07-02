@@ -5,7 +5,7 @@ import { expect } from '../expect'
 import { Event, Entity, Reduces, Role } from '../../src/decorators/'
 import { Booster } from '../../src'
 import { UserEnvelope, UUID } from '@booster-ai/common'
-import { BoosterAuthorizer } from '../../src/booster-authorizer'
+import { Authorizer } from '../../src/authorizer'
 import { fake, replace } from 'sinon'
 
 describe('the `Entity` decorator', () => {
@@ -45,7 +45,7 @@ describe('the `Entity` decorator', () => {
       }
 
       expect(Booster.config.entities['Comment'].class).to.be.equal(Comment)
-      expect(Booster.config.entities['Comment'].eventStreamAuthorizer).to.be.equal(BoosterAuthorizer.denyAccess)
+      expect(Booster.config.entities['Comment'].eventStreamAuthorizer).to.be.equal(Authorizer.denyAccess)
 
       expect(Booster.config.reducers['CommentPosted']).to.deep.include({
         class: Comment,
@@ -65,7 +65,7 @@ describe('the `Entity` decorator', () => {
 
       expect(Booster.config.entities['Comment']).to.deep.equal({
         class: Comment,
-        eventStreamAuthorizer: BoosterAuthorizer.allowAccess,
+        eventStreamAuthorizer: Authorizer.allowAccess,
       })
     })
   })
@@ -73,7 +73,7 @@ describe('the `Entity` decorator', () => {
   context('when `authorizeRoleAccess` is set to an array of roles', () => {
     it('injects the entity metadata and sets up the reducers in the booster config allowing event reads to the specified roles', async () => {
       const fakeAuthorizeRoles = fake()
-      replace(BoosterAuthorizer, 'authorizeRoles', fakeAuthorizeRoles)
+      replace(Authorizer, 'authorizeRoles', fakeAuthorizeRoles)
 
       @Role({
         auth: {},

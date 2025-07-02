@@ -13,7 +13,7 @@ import {
 import { childHealthProviders, isEnabled, metadataFromId, rootHealthProviders } from './health-utils'
 import { defaultBoosterHealthIndicators } from './health-indicators'
 import { BoosterTokenVerifier } from '../../booster-token-verifier'
-import { BoosterAuthorizer } from '../../booster-authorizer'
+import { Authorizer } from '../../authorizer'
 
 /**
  * This class is in charge of handling the health check requests
@@ -42,7 +42,7 @@ export class BoosterHealthService {
 
   private async validate(healthEnvelope: HealthEnvelope): Promise<void> {
     const userEnvelope = await this.verify(healthEnvelope)
-    const authorizer = BoosterAuthorizer.build(
+    const authorizer = Authorizer.build(
       this.config.sensorConfiguration.health.globalAuthorizer
     ) as HealthAuthorizer
     await authorizer(userEnvelope, healthEnvelope)

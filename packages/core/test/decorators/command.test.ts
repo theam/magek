@@ -5,7 +5,7 @@ import { Register } from '@booster-ai/common'
 import { Command } from '../../src/decorators'
 import { Booster } from '../../src'
 import { fake } from 'sinon'
-import { BoosterAuthorizer } from '../../src/booster-authorizer'
+import { Authorizer } from '../../src/authorizer'
 
 describe('the `Command` decorator', () => {
   afterEach(() => {
@@ -62,7 +62,7 @@ describe('the `Command` decorator', () => {
       expect(commandMetadata.properties[0].typeInfo.name).to.equal('string')
       expect(commandMetadata.methods[0].name).to.equal('handle')
       expect(commandMetadata.methods[0].typeInfo.name).to.equal('Promise<void>')
-      expect(commandMetadata.authorizer).to.equal(BoosterAuthorizer.denyAccess)
+      expect(commandMetadata.authorizer).to.equal(Authorizer.denyAccess)
       expect(commandMetadata.before).to.be.an('Array')
       expect(commandMetadata.before).to.be.empty
     })
@@ -90,7 +90,7 @@ describe('the `Command` decorator', () => {
       expect(commandMetadata.properties[0].typeInfo.name).to.equal('string')
       expect(commandMetadata.methods[0].name).to.equal('handle')
       expect(commandMetadata.methods[0].typeInfo.name).to.equal('Promise<void>')
-      expect(commandMetadata.authorizer).to.equal(BoosterAuthorizer.denyAccess)
+      expect(commandMetadata.authorizer).to.equal(Authorizer.denyAccess)
       expect(commandMetadata.before).to.be.an('Array')
       expect(commandMetadata.before).to.include(fakeBeforeHook)
     })

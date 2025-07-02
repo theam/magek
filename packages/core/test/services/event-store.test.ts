@@ -15,7 +15,7 @@ import { fake, replace, restore, stub, match, spy } from 'sinon'
 import { EventStore } from '../../src/services/event-store'
 import { expect } from '../expect'
 import { BoosterEntityMigrated } from '../../src/core-concepts/data-migration/events/booster-entity-migrated'
-import { BoosterAuthorizer } from '../../src/booster-authorizer'
+import { Authorizer } from '../../src/authorizer'
 
 describe('EventStore', () => {
   afterEach(() => {
@@ -70,7 +70,7 @@ describe('EventStore', () => {
   } as any as ProviderLibrary
   config.entities[AnEntity.name] = {
     class: AnEntity,
-    eventStreamAuthorizer: BoosterAuthorizer.authorizeRoles.bind(null, []),
+    eventStreamAuthorizer: Authorizer.authorizeRoles.bind(null, []),
   }
   config.reducers[AnEvent.name] = {
     class: AnEntity,

@@ -9,7 +9,7 @@ import {
   Register,
 } from '@booster-ai/common'
 import { getClassMetadata } from './metadata'
-import { BoosterAuthorizer } from '../booster-authorizer'
+import { Authorizer } from '../authorizer'
 
 /**
  * Annotation to tell Booster which classes are your entities
@@ -29,7 +29,7 @@ export function Command(
       const metadata = getClassMetadata(commandClass)
       config.commandHandlers[commandClass.name] = {
         class: commandClass,
-        authorizer: BoosterAuthorizer.build(attributes) as CommandAuthorizer,
+        authorizer: Authorizer.build(attributes) as CommandAuthorizer,
         before: attributes.before ?? [],
         properties: metadata.fields,
         methods: metadata.methods,

@@ -9,7 +9,7 @@ import {
   AnyClass,
   EventStreamAuthorizer,
 } from '@booster-ai/common'
-import { BoosterAuthorizer } from '../booster-authorizer'
+import { Authorizer } from '../authorizer'
 
 type EntityAttributes = EventStreamRoleAccess
 
@@ -38,11 +38,11 @@ export function Entity<TEntity extends EntityInterface, TParam extends EntityDec
         If you think that this is an error, try performing a clean build..`)
       }
 
-      let eventStreamAuthorizer: EventStreamAuthorizer = BoosterAuthorizer.denyAccess
+      let eventStreamAuthorizer: EventStreamAuthorizer = Authorizer.denyAccess
       if (authorizeReadEvents === 'all') {
-        eventStreamAuthorizer = BoosterAuthorizer.allowAccess
+        eventStreamAuthorizer = Authorizer.allowAccess
       } else if (Array.isArray(authorizeReadEvents)) {
-        eventStreamAuthorizer = BoosterAuthorizer.authorizeRoles.bind(null, authorizeReadEvents)
+        eventStreamAuthorizer = Authorizer.authorizeRoles.bind(null, authorizeReadEvents)
       } else if (typeof authorizeReadEvents === 'function') {
         eventStreamAuthorizer = authorizeReadEvents
       }

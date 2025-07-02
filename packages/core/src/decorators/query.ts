@@ -8,7 +8,7 @@ import {
   QueryRoleAccess,
 } from '@booster-ai/common'
 import { getClassMetadata } from './metadata'
-import { BoosterAuthorizer } from '../booster-authorizer'
+import { Authorizer } from '../authorizer'
 
 export function Query(
   attributes: QueryRoleAccess & CommandFilterHooks
@@ -23,7 +23,7 @@ export function Query(
       const metadata = getClassMetadata(queryClass)
       config.queryHandlers[queryClass.name] = {
         class: queryClass,
-        authorizer: BoosterAuthorizer.build(attributes) as QueryAuthorizer,
+        authorizer: Authorizer.build(attributes) as QueryAuthorizer,
         properties: metadata.fields,
         methods: metadata.methods,
         before: attributes.before ?? [],
