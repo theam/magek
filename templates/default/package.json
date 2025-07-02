@@ -16,7 +16,7 @@
     "@boostercloud/metadata-booster": "^{{boosterVersion}}",
     "{{providerPackageName}}-infrastructure": "^{{boosterVersion}}",
     "rimraf": "^5.0.0",
-    "@booster-ai/eslint-config": "^${VERSION}",
+    "@booster-ai/eslint-config": "^{{VERSION}}",
     "mocha": "11.7.0",
     "@types/mocha": "10.0.1",
     "@types/jsonwebtoken": "9.0.1",

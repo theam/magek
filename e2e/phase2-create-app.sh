@@ -27,9 +27,11 @@ cd /work
 
 # Use the default template
 echo "📦 Creating test-app with default template..."
+export CI=true
 npm create booster-ai@latest test-app \
   --template /workspace/templates/default \
-  --description "Test app"
+  --description "Test app" \
+  --non-interactive
 
 APP_DIR="test-app"
 

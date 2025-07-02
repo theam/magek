@@ -169,11 +169,14 @@ async function collectProjectInfo(args: string[]): Promise<ProjectConfig> {
   }
 
   // Check if we should skip prompts (any required flags provided or skip flags set)
+  const isCI = process.env.CI === 'true' || process.env.CI === '1' || !!process.env.GITHUB_ACTIONS || !!process.env.GITLAB_CI || !!process.env.JENKINS_URL
   const shouldSkipPrompts =
+    isCI ||
+    flags['non-interactive'] ||
     flags['skip-install'] ||
     flags['skip-git'] ||
     Object.keys(flags).some((key) =>
-      ['description', 'version', 'author', 'homepage', 'license', 'repository', 'package-manager'].includes(key)
+      ['description', 'version', 'author', 'homepage', 'license', 'repository', 'package-manager', 'template'].includes(key)
     )
 
   let config: ProjectConfig
@@ -310,6 +313,8 @@ async function createProject(config: ProjectConfig): Promise<void> {
       license: config.license,
       repository: config.repository,
       boosterVersion: getBoosterVersion(),
+      providerPackageName: '@booster-ai/server', // Default provider
+      VERSION: getBoosterVersion(), // Use same version as boosterVersion
     }
 
     await replaceInAllFiles(targetDir, replacements)
