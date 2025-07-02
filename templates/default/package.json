@@ -4,28 +4,28 @@
   "version": "{{version}}",
   "author": "{{author}}",
   "dependencies": {
-    "tslib": "^2.4.0",
-    "@booster-ai/core": "^{{boosterVersion}}",
-    "@booster-ai/common": "^{{boosterVersion}}",
-    "@booster-ai/cli": "^{{boosterVersion}}",
-    "{{providerPackageName}}": "^{{boosterVersion}}"
+    "tslib": "2.4.0",
+    "@booster-ai/core": "{{boosterVersion}}",
+    "@booster-ai/common": "{{boosterVersion}}",
+    "@booster-ai/cli": "{{boosterVersion}}",
+    "{{providerPackageName}}": "{{boosterVersion}}"
   },
   "devDependencies": {
-    "@booster-ai/server": "^{{boosterVersion}}",
-    "@booster-ai/server-infrastructure": "^{{boosterVersion}}",
-    "@boostercloud/metadata-booster": "^{{boosterVersion}}",
-    "{{providerPackageName}}-infrastructure": "^{{boosterVersion}}",
-    "rimraf": "^5.0.0",
-    "@booster-ai/eslint-config": "^${VERSION}",
+    "@booster-ai/server": "{{boosterVersion}}",
+    "@booster-ai/server-infrastructure": "{{boosterVersion}}",
+    "@boostercloud/metadata-booster": "{{boosterVersion}}",
+    "{{providerPackageName}}-infrastructure": "{{boosterVersion}}",
+    "rimraf": "5.0.0",
+    "@booster-ai/eslint-config": "${VERSION}",
     "mocha": "11.7.1",
     "@types/mocha": "10.0.1",
     "@types/jsonwebtoken": "9.0.1",
     "nyc": "15.1.0",
     "typescript": "5.1.6",
     "ts-node": "9.1.1",
-    "@types/node": "^20.17.17",
+    "@types/node": "20.17.17",
     "ts-patch": "3.1.2",
-    "graphql": "^16.6.0"
+    "graphql": "16.6.0"
   },
   "engines": {
     "node": ">=22.0.0 <23.0.0"

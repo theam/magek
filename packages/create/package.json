@@ -32,26 +32,26 @@
   "author": "Boosterin Labs SLU",
   "license": "Apache-2.0",
   "dependencies": {
-    "degit": "^2.8.4",
-    "prompts": "^2.4.2",
-    "kleur": "^4.1.5",
-    "globby": "^14.0.2"
+    "degit": "2.8.4",
+    "prompts": "2.4.2",
+    "kleur": "4.1.5",
+    "globby": "14.0.2"
   },
   "devDependencies": {
     "@booster-ai/eslint-config": "workspace:^3.2.0",
-    "@types/node": "^22.15.21",
-    "@types/prompts": "^2.4.9",
+    "@types/node": "22.15.21",
+    "@types/prompts": "2.4.9",
     "@types/chai": "5.2.2",
     "@types/mocha": "10.0.10",
     "@types/sinon": "17.0.4",
     "chai": "5.2.0",
     "mocha": "11.7.1",
     "sinon": "21.0.0",
-    "ts-node": "^10.9.1",
-    "tsup": "^8.0.0",
+    "ts-node": "10.9.1",
+    "tsup": "8.0.0",
     "typescript": "5.8.3",
     "@types/degit": "~2.8.6",
-    "rimraf": "^6.0.1"
+    "rimraf": "6.0.1"
   },
   "publishConfig": {
     "access": "public"

@@ -9,7 +9,7 @@ RUN git config --global user.email "test@example.com" && \
     git config --global init.defaultBranch main
 
 # Install Verdaccio and pnpm globally
-RUN npm install -g verdaccio@5 pnpm@10.12.1
+RUN npm install -g verdaccio@5 pnpm@10.12.4
 
 # Set working directory
 WORKDIR /work

@@ -25,13 +25,13 @@
   "dependencies": {
     "@booster-ai/common": "workspace:^3.2.0",
     "@booster-ai/server": "workspace:^3.2.0",
-    "fastify": "^5.3.3",
-    "@fastify/websocket": "^11.1.0",
-    "fastify-sse-v2": "^4.2.1",
-    "@fastify/cors": "^11.0.1",
-    "node-schedule": "^2.1.0",
-    "tslib": "^2.4.0",
-    "@effect-ts/core": "^0.60.4"
+    "fastify": "5.3.3",
+    "@fastify/websocket": "11.1.0",
+    "fastify-sse-v2": "4.2.1",
+    "@fastify/cors": "11.0.1",
+    "node-schedule": "2.1.0",
+    "tslib": "2.4.0",
+    "@effect-ts/core": "0.60.4"
   },
   "scripts": {
     "format": "prettier --write --ext '.js,.ts' **/*.ts **/*/*.ts",
@@ -51,19 +51,19 @@
     "@types/chai": "5.2.2",
     "@types/chai-as-promised": "8.0.2",
     "@types/mocha": "10.0.10",
-    "@types/node": "^22.15.21",
-    "@types/node-schedule": "^2.1.7",
+    "@types/node": "22.15.21",
+    "@types/node-schedule": "2.1.7",
     "@types/sinon": "17.0.4",
     "@types/sinon-chai": "4.0.0",
     "chai": "5.2.0",
     "chai-as-promised": "8.0.1",
-    "@faker-js/faker": "^7.6.0",
+    "@faker-js/faker": "7.6.0",
     "mocha": "11.7.1",
-    "nyc": "^17.1.0",
-    "rimraf": "^6.0.1",
+    "nyc": "17.1.0",
+    "rimraf": "6.0.1",
     "sinon": "21.0.0",
     "sinon-chai": "4.0.0",
-    "ts-node": "^10.9.1",
+    "ts-node": "10.9.1",
     "typescript": "5.8.3"
   }
 }

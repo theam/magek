@@ -4,20 +4,20 @@
   "version": "0.1.0",
   "author": "",
   "dependencies": {
-    "@booster-ai/core": "^1.11.2",
-    "@booster-ai/common": "^1.11.2",
-    "@booster-ai/server": "^1.11.2",
-    "tslib": "^2.0.3"
+    "@booster-ai/core": "1.11.2",
+    "@booster-ai/common": "1.11.2",
+    "@booster-ai/server": "1.11.2",
+    "tslib": "2.0.3"
   },
   "devDependencies": {
-    "@booster-ai/server-infrastructure": "^1.11.2",
-    "rimraf": "^5.0.0",
-    "@booster-ai/eslint-config": "^1.11.2",
+    "@booster-ai/server-infrastructure": "1.11.2",
+    "rimraf": "5.0.0",
+    "@booster-ai/eslint-config": "1.11.2",
     "mocha": "11.7.1",
-    "nyc": "^15.1.0",
+    "nyc": "15.1.0",
     "typescript": "5.1.6",
-    "ts-node": "^10.9.1",
-    "@types/node": "^13.5.1"
+    "ts-node": "10.9.1",
+    "@types/node": "13.5.1"
   },
   "engines": {
     "node": ">=22.0.0 <23.0.0"
