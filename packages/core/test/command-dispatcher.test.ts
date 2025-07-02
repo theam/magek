@@ -3,7 +3,7 @@
 import { Booster } from '../src/booster'
 import { fake, replace, restore, spy } from 'sinon'
 import { expect } from './expect'
-import { BoosterCommandDispatcher } from '../src/booster-command-dispatcher'
+import { CommandDispatcher } from '../src/command-dispatcher'
 import { CommandBeforeFunction, Register, NotAuthorizedError } from '@booster-ai/common'
 import { Command, RegisterHandler } from '../src'
 import { faker } from '@faker-js/faker'
@@ -28,7 +28,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
       }
       Booster.configure('test', async (config) => {
         await expect(
-          new BoosterCommandDispatcher(config).dispatchCommand(command as any, {} as any)
+          new CommandDispatcher(config).dispatchCommand(command as any, {} as any)
         ).to.be.eventually.rejectedWith('The required command "version" was not present')
       })
     })
@@ -41,7 +41,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
       }
       Booster.configure('test', async (config) => {
         await expect(
-          new BoosterCommandDispatcher(config).dispatchCommand(command as any, {} as any)
+          new CommandDispatcher(config).dispatchCommand(command as any, {} as any)
         ).to.be.eventually.rejectedWith('Could not find a proper handler for PostComment')
       })
     })
@@ -66,7 +66,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
       }
 
       await expect(
-        new BoosterCommandDispatcher(config as any).dispatchCommand(commandEnvelope as any, {} as any)
+        new CommandDispatcher(config as any).dispatchCommand(commandEnvelope as any, {} as any)
       ).to.be.eventually.rejectedWith(NotAuthorizedError)
     })
 
@@ -103,7 +103,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
         requestID: '42',
       }
 
-      await new BoosterCommandDispatcher(config as any).dispatchCommand(commandEnvelope as any, {} as any)
+      await new CommandDispatcher(config as any).dispatchCommand(commandEnvelope as any, {} as any)
 
       expect(fakeHandler).to.have.been.calledWithMatch(commandValue)
     })
@@ -146,7 +146,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
         responseHeaders: {},
       }
 
-      await new BoosterCommandDispatcher(config as any).dispatchCommand(commandEnvelope as any, context as any)
+      await new CommandDispatcher(config as any).dispatchCommand(commandEnvelope as any, context as any)
 
       expect(ProperlyHandledCommand.handle).to.have.been.calledWithMatch(commandValue, { responseHeaders: {} })
       expect(context.responseHeaders).to.deep.equal({ 'Test-Header': 'test' })
@@ -197,7 +197,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
         requestID: '42',
       }
 
-      await new BoosterCommandDispatcher(config as any).dispatchCommand(commandEnvelope as any, {} as any)
+      await new CommandDispatcher(config as any).dispatchCommand(commandEnvelope as any, {} as any)
 
       expect(fakeHandler).to.have.been.calledWithMatch(commandValue)
       expect(RegisterHandler.handle).to.have.been.calledWithMatch(config, {
@@ -227,7 +227,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
         boosterConfig = config
       })
 
-      await new BoosterCommandDispatcher(boosterConfig).dispatchCommand(
+      await new CommandDispatcher(boosterConfig).dispatchCommand(
         {
           requestID: '1234',
           version: 1,
@@ -276,7 +276,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
           boosterConfig = config
         })
 
-        await new BoosterCommandDispatcher(boosterConfig).dispatchCommand(
+        await new CommandDispatcher(boosterConfig).dispatchCommand(
           {
             requestID: '1234',
             version: 1,
@@ -307,7 +307,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
           boosterConfig = config
         })
 
-        await new BoosterCommandDispatcher(boosterConfig).dispatchCommand(
+        await new CommandDispatcher(boosterConfig).dispatchCommand(
           {
             requestID: '1234',
             version: 1,

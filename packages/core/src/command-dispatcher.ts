@@ -17,7 +17,7 @@ import { SchemaMigrator } from './schema-migrator'
 import { GraphQLResolverContext } from './services/graphql/common'
 import { Trace } from './instrumentation'
 
-export class BoosterCommandDispatcher {
+export class CommandDispatcher {
   private readonly globalErrorDispatcher: BoosterGlobalErrorDispatcher
 
   public constructor(readonly config: BoosterConfig) {

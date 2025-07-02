@@ -1,6 +1,6 @@
  
 import { fake, replace, restore, SinonStub, spy, stub } from 'sinon'
-import { BoosterCommandDispatcher } from '../../../src/booster-command-dispatcher'
+import { CommandDispatcher } from '../../../src/command-dispatcher'
 import { BoosterReadModelsReader } from '../../../src/booster-read-models-reader'
 import { GraphQLGenerator } from '../../../src/services/graphql/graphql-generator'
 import {
@@ -287,7 +287,7 @@ describe('GraphQL generator', () => {
         }
 
         dispatchCommandStub = stub()
-        replace(BoosterCommandDispatcher.prototype, 'dispatchCommand', dispatchCommandStub)
+        replace(CommandDispatcher.prototype, 'dispatchCommand', dispatchCommandStub)
 
         returnedFunction = GraphQLGenerator.commandResolverBuilder(mockType)
       })

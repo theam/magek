@@ -31,7 +31,7 @@ import {
   Kind,
 } from 'graphql'
 import { pluralize } from 'inflected'
-import { BoosterCommandDispatcher } from '../../booster-command-dispatcher'
+import { CommandDispatcher } from '../../command-dispatcher'
 import { BoosterEventsReader } from '../../booster-events-reader'
 import { BoosterReadModelsReader } from '../../booster-read-models-reader'
 import { GraphQLResolverContext } from './common'
@@ -44,7 +44,7 @@ import { SelectionSetNode } from 'graphql/language/ast'
 import { GraphQLInputType, GraphQLNamedInputType } from 'graphql/type/definition'
 
 export class GraphQLGenerator {
-  private static commandsDispatcher: BoosterCommandDispatcher
+  private static commandsDispatcher: CommandDispatcher
   private static queriesDispatcher: BoosterQueryDispatcher
   private static readModelsReader: BoosterReadModelsReader
   private static eventsReader: BoosterEventsReader
@@ -54,7 +54,7 @@ export class GraphQLGenerator {
     const logger = getLogger(config, 'GraphQLGenerator#generateSchema')
     if (!this.schema) {
       logger.debug('Generating GraphQL schema...')
-      this.commandsDispatcher = new BoosterCommandDispatcher(config)
+      this.commandsDispatcher = new CommandDispatcher(config)
       this.queriesDispatcher = new BoosterQueryDispatcher(config)
       this.readModelsReader = new BoosterReadModelsReader(config)
       this.eventsReader = new BoosterEventsReader(config)
