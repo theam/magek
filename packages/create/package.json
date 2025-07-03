@@ -1,8 +1,15 @@
 {
   "name": "create-booster-ai",
   "version": "3.2.0",
+  "type": "module",
   "description": "Create Booster AI applications with one command",
   "main": "dist/cli.js",
+  "exports": {
+    ".": {
+      "import": "./dist/cli.js",
+      "types": "./dist/cli.d.ts"
+    }
+  },
   "bin": {
     "create-booster-ai": "dist/cli.js"
   },
@@ -16,11 +23,11 @@
     "format": "prettier --write --ext '.js,.ts' **/*.ts **/*/*.ts",
     "lint:check": "eslint \"**/*.ts\"",
     "lint:fix": "eslint --quiet --fix \"**/*.ts\"",
-    "build": "tsup src/cli.ts --format cjs --target node22 --outDir dist --clean",
+    "build": "tsup src/cli.ts --format esm --target node22 --outDir dist --clean",
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "prepack": "npm run build",
     "test:create": "npm run test",
-    "test": "mocha test/**/*.test.ts"
+    "test": "mocha --loader ts-node/esm test/**/*.test.ts"
   },
   "keywords": [
     "booster",
@@ -55,5 +62,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "ts-node": {
+    "esm": true
   }
 }

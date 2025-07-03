@@ -2,6 +2,7 @@
   "name": "@booster-ai/cli",
   "description": "CLI of the Booster Framework, the next level of abstraction for cloud-native applications",
   "version": "3.2.0",
+  "type": "module",
   "author": "Boosterin Labs SLU",
   "homepage": "https://boosterframework.com",
   "publishConfig": {
@@ -70,6 +71,12 @@
   ],
   "license": "Apache-2.0",
   "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "oclif": {
     "commands": "./dist/commands",
     "bin": "boost",
@@ -89,7 +96,10 @@
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "prepack": "tsc -b tsconfig.json",
     "test:cli": "npm run test",
-    "test": "nyc --extension .ts mocha --forbid-only  \"test/**/*.test.ts\""
+    "test": "nyc --extension .ts mocha --loader ts-node/esm --forbid-only  \"test/**/*.test.ts\""
   },
-  "types": "lib/index.d.ts"
+  "types": "lib/index.d.ts",
+  "ts-node": {
+    "esm": true
+  }
 }

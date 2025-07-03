@@ -1,6 +1,7 @@
 {
   "name": "@booster-ai/server-infrastructure",
   "version": "3.2.0",
+  "type": "module",
   "description": "Handle the Booster running process of the local runtime",
   "keywords": [
     "server-infrastructure"
@@ -12,6 +13,12 @@
     "access": "public"
   },
   "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "files": [
     "dist"
   ],
@@ -41,7 +48,7 @@
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "prepack": "tsc -b tsconfig.json",
     "test:provider-local-infrastructure": "npm run test",
-    "test": "BOOSTER_ENV=test nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
+    "test": "BOOSTER_ENV=test nyc --extension .ts mocha --loader ts-node/esm --forbid-only \"test/**/*.test.ts\""
   },
   "bugs": {
     "url": "https://github.com/boostercloud/booster/issues"
@@ -65,5 +72,8 @@
     "sinon-chai": "4.0.0",
     "ts-node": "10.9.1",
     "typescript": "5.8.3"
+  },
+  "ts-node": {
+    "esm": true
   }
 }
