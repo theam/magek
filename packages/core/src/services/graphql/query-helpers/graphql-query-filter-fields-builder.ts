@@ -1,7 +1,7 @@
 import { AnyClass, BoosterConfig } from '@booster-ai/common'
 import { GraphQLBoolean, GraphQLFieldConfigArgumentMap, GraphQLInputObjectType, GraphQLList } from 'graphql'
 import { GraphQLTypeInformer } from '../graphql-type-informer.js'
-import { GraphqlQueryFilterArgumentsBuilder } from './graphql-query-filter-arguments-builder'
+import { GraphqlQueryFilterArgumentsBuilder } from './graphql-query-filter-arguments-builder.js'
 
 export class GraphqlQueryFilterFieldsBuilder {
   private graphqlQueryFilterArgumentsBuilder: GraphqlQueryFilterArgumentsBuilder

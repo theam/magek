@@ -21,10 +21,11 @@ import {
   createInstanceWithCalculatedProperties,
   getLogger,
 } from '@booster-ai/common'
-import { Booster } from './booster'
+import { Booster } from './booster.js'
 import { applyReadModelRequestBeforeFunctions } from './services/filter-helpers.js'
-import { ReadModelSchemaMigrator } from './read-model-schema-migrator'
-import { Trace } from './instrumentation'
+import { ReadModelSchemaMigrator } from './read-model-schema-migrator.js'
+// @ts-expect-error re-export issues
+import { Trace } from './instrumentation/index.js'
 import { PropertyMetadata } from '@booster-ai/metadata'
 
 export class BoosterReadModelsReader {

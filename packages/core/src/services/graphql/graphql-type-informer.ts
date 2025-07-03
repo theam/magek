@@ -16,7 +16,7 @@ import {
 } from 'graphql'
 import { GraphQLJSON } from 'graphql-scalars'
 import { ClassMetadata, ClassType, PropertyMetadata, TypeMetadata } from '@booster-ai/metadata'
-import { DateScalar, isExternalType, nonExcludedFields } from './common'
+import { DateScalar, isExternalType, nonExcludedFields } from './common.js'
 import { Logger } from '@booster-ai/common'
 
 export class GraphQLTypeInformer {

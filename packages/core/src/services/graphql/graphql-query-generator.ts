@@ -2,11 +2,11 @@ import { AnyClass, BoosterConfig } from '@booster-ai/common'
 import { GraphQLFieldResolver, GraphQLInputObjectType, GraphQLObjectType } from 'graphql'
 import { GraphQLResolverContext, ResolverBuilder, TargetTypesMap } from './common'
 import { GraphQLTypeInformer } from './graphql-type-informer.js'
-import { GraphqlQueryEventsGenerator } from './query-generators/graphql-query-events-generator'
-import { GraphqlQueryByKeysGenerator } from './query-generators/graphql-query-by-keys-generator'
-import { GraphqlQueryFiltersGenerator } from './query-generators/graphql-query-filters-generator'
-import { GraphqlQueryListedGenerator } from './query-generators/graphql-query-listed-generator'
-import { GraphqlQueryGenerator } from './query-generators/graphql-query-generator'
+import { GraphqlQueryEventsGenerator } from './query-generators/graphql-query-events-generator.js'
+import { GraphqlQueryByKeysGenerator } from './query-generators/graphql-query-by-keys-generator.js'
+import { GraphqlQueryFiltersGenerator } from './query-generators/graphql-query-filters-generator.js'
+import { GraphqlQueryListedGenerator } from './query-generators/graphql-query-listed-generator.js'
+import { GraphqlQueryGenerator } from './query-generators/graphql-query-generator.js'
 
 export class GraphQLQueryGenerator {
   private graphqlQueryByKeysGenerator: GraphqlQueryByKeysGenerator

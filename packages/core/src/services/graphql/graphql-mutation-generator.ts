@@ -1,7 +1,7 @@
-import { ResolverBuilder, TargetTypesMap } from './common'
+import { ResolverBuilder, TargetTypesMap } from './common.js'
 import { GraphQLTypeInformer } from './graphql-type-informer.js'
 import { GraphQLObjectType } from 'graphql'
-import { GraphQLHandledFieldsGenerator } from './query-helpers/graphql-handled-fields-generator'
+import { GraphQLHandledFieldsGenerator } from './query-helpers/graphql-handled-fields-generator.js'
 import { BoosterConfig } from '@booster-ai/common'
 
 export class GraphQLMutationGenerator {

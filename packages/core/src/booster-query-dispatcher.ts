@@ -9,8 +9,8 @@ import {
   createInstance,
   getLogger,
 } from '@booster-ai/common'
-import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher'
-import { GraphQLResolverContext } from './services/graphql/common'
+import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher.js'
+import { GraphQLResolverContext } from './services/graphql/common.js'
 import { applyBeforeFunctions } from './services/filter-helpers.js'
 
 export class BoosterQueryDispatcher {
