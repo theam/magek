@@ -10,7 +10,7 @@ import {
 } from '@booster-ai/common'
 import { RegisterHandler } from './booster-register-handler.js'
 import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher.js'
-import { Trace } from './instrumentation.js'
+import { Trace } from './instrumentation/index.js'
 
 export class BoosterScheduledCommandDispatcher {
   private readonly globalErrorDispatcher: BoosterGlobalErrorDispatcher

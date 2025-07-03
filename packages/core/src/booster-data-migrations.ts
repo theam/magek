@@ -15,7 +15,7 @@ import { BoosterDataMigrationEntity } from './core-concepts/data-migration/entit
 import { BoosterEntityMigrated } from './core-concepts/data-migration/events/booster-entity-migrated.js'
 import { Booster } from './index.js'
 import { BoosterDataMigrationStarted } from './core-concepts/data-migration/events/booster-data-migration-started.js'
-import { Trace } from './instrumentation.js'
+import { Trace } from './instrumentation/index.js'
 
 export class BoosterDataMigrations {
   @Trace(TraceActionTypes.MIGRATION_RUN)

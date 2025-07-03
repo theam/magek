@@ -1,4 +1,3 @@
- 
 import {
   BoosterConfig,
   InvalidParameterError,
@@ -18,7 +17,7 @@ import { GraphQLResolverContext } from './services/graphql/common.js'
 import { NoopReadModelPubSub } from './services/pub-sub/noop-read-model-pub-sub.js'
 import { GraphQLWebsocketHandler } from './services/graphql/websocket-protocol/graphql-websocket-protocol.js'
 import { BoosterTokenVerifier } from './booster-token-verifier.js'
-import { Trace } from './instrumentation.js'
+import { Trace } from './instrumentation/index.js'
 
 type DispatchResult = AsyncIterableIterator<ExecutionResult> | ExecutionResult | void
 

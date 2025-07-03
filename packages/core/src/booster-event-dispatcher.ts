@@ -2,7 +2,7 @@ import { BoosterConfig, TraceActionTypes, getLogger } from '@booster-ai/common'
 import { EventStore } from './services/event-store.js'
 import { RawEventsParser } from './services/raw-events-parser.js'
 import { ReadModelStore } from './services/read-model-store.js'
-import { Trace } from './instrumentation.js'
+import { Trace } from './instrumentation/index.js'
 import { BoosterEventProcessor } from './booster-event-processor.js'
 
 export class BoosterEventDispatcher {

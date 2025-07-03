@@ -11,7 +11,7 @@ import {
   TraceActionTypes,
   getLogger,
 } from '@booster-ai/common'
-import { Trace } from './instrumentation.js'
+import { Trace } from './instrumentation/index.js'
 
 type SchemaMigrableEnvelope = CommandEnvelope | EventEnvelope | EntitySnapshotEnvelope
 type SchemaMigrableValue = CommandInterface | EventInterface | EntityInterface

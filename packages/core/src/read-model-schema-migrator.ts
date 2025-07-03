@@ -6,7 +6,7 @@ import {
   TraceActionTypes,
   getLogger,
 } from '@booster-ai/common'
-import { Trace } from './instrumentation.js'
+import { Trace } from './instrumentation/index.js'
 
 export class ReadModelSchemaMigrator {
   public constructor(private config: BoosterConfig) {}

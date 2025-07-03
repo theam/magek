@@ -1,4 +1,4 @@
-import { Trace } from './instrumentation.js'
+import { Trace } from './instrumentation/index.js'
 import { BoosterConfig, TraceActionTypes, getLogger } from '@booster-ai/common'
 import { RawEventsParser } from './services/raw-events-parser.js'
 

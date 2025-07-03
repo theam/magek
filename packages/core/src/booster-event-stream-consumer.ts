@@ -1,4 +1,4 @@
-import { Trace } from './instrumentation.js'
+import { Trace } from './instrumentation/index.js'
 import { BoosterConfig, EventStream, TraceActionTypes, getLogger } from '@booster-ai/common'
 import { EventStore } from './services/event-store.js'
 import { ReadModelStore } from './services/read-model-store.js'
