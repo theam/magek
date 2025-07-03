@@ -2,7 +2,8 @@ import { GraphQLEnumType, GraphQLFieldConfigArgumentMap, GraphQLInputObjectType,
 import { PropertyMetadata } from '@booster-ai/metadata'
 import { getClassMetadata } from '../../../decorators/metadata.js'
 import { buildGraphqlSimpleEnumFor, isExternalType, nonExcludedFields } from '../common.js'
-import { GraphQLInputFieldConfig } from 'graphql/type/definition'
+// @ts-expect-error GraphQL types path resolution
+import type { GraphQLInputFieldConfig } from 'graphql'
 import { GraphQLTypeInformer } from '../graphql-type-informer.js'
 import { AnyClass, BoosterConfig } from '@booster-ai/common'
 

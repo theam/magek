@@ -1,6 +1,6 @@
 import { AnyClass, BoosterConfig } from '@booster-ai/common'
 import { GraphQLFieldResolver, GraphQLInputObjectType, GraphQLObjectType } from 'graphql'
-import { GraphQLResolverContext, ResolverBuilder, TargetTypesMap } from './common'
+import { GraphQLResolverContext, ResolverBuilder, TargetTypesMap } from './common.js'
 import { GraphQLTypeInformer } from './graphql-type-informer.js'
 import { GraphqlQueryEventsGenerator } from './query-generators/graphql-query-events-generator.js'
 import { GraphqlQueryByKeysGenerator } from './query-generators/graphql-query-by-keys-generator.js'

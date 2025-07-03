@@ -8,5 +8,9 @@
   },
   "ts-node": {
     "esm": true
+  },
+  "devDependencies": {
+    "typescript": "^5.4.2",
+    "@types/graphql": "^16.0.0"
   }
 }

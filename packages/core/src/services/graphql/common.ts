@@ -1,4 +1,5 @@
-import { GraphQLScalarType } from 'graphql/type/definition'
+// @ts-expect-error The GraphQL module types are provided via dependency, but IDE may not detect before install
+import { GraphQLScalarType } from 'graphql'
 import {
   AnyClass,
   UserEnvelope,
