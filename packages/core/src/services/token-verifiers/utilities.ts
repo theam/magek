@@ -38,7 +38,7 @@ export function getKeyWithClient(client: JwksClient, header: jwt.JwtHeader, call
     callback(new Error('JWT kid not found'))
     return
   }
-  client.getSigningKey(header.kid, function (err: Error | null, key?: SigningKey) {
+  client.getSigningKey(header.kid, function (err: Error | null, key?: SigningKey): void {
     if (err) {
       callback(err)
       return
@@ -72,7 +72,7 @@ export async function verifyJWT(
         issuer,
         complete: true, // To return headers, payload and other useful token information
       },
-      (err, decoded) => {
+      (err: jwt.VerifyErrors | null, decoded: jwt.JwtPayload | string | undefined): void => {
         if (err) {
           return reject(err)
         }

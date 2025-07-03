@@ -11,7 +11,7 @@ import {
   getLogger,
 } from '@booster-ai/common'
 import { RegisterHandler } from './booster-register-handler'
-import { applyBeforeFunctions } from './services/filter-helpers'
+import { applyBeforeFunctions } from './services/filter-helpers.js'
 import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher'
 import { SchemaMigrator } from './schema-migrator'
 import { GraphQLResolverContext } from './services/graphql/common'

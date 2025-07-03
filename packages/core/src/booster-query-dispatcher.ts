@@ -11,7 +11,7 @@ import {
 } from '@booster-ai/common'
 import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher'
 import { GraphQLResolverContext } from './services/graphql/common'
-import { applyBeforeFunctions } from './services/filter-helpers'
+import { applyBeforeFunctions } from './services/filter-helpers.js'
 
 export class BoosterQueryDispatcher {
   private readonly globalErrorDispatcher: BoosterGlobalErrorDispatcher

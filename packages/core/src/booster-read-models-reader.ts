@@ -1,4 +1,3 @@
- 
 import {
   AnyClass,
   BoosterConfig,
@@ -23,7 +22,7 @@ import {
   getLogger,
 } from '@booster-ai/common'
 import { Booster } from './booster'
-import { applyReadModelRequestBeforeFunctions } from './services/filter-helpers'
+import { applyReadModelRequestBeforeFunctions } from './services/filter-helpers.js'
 import { ReadModelSchemaMigrator } from './read-model-schema-migrator'
 import { Trace } from './instrumentation'
 import { PropertyMetadata } from '@booster-ai/metadata'

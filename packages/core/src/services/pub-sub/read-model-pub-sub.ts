@@ -7,7 +7,7 @@ import {
   ReadModelRequestProperties,
   FilterFor,
 } from '@booster-ai/common'
-import { applyReadModelRequestBeforeFunctions } from '../filter-helpers'
+import { applyReadModelRequestBeforeFunctions } from '../filter-helpers.js'
 
 export interface ReadModelPubSub<TReadModel extends ReadModelInterface> {
   asyncIterator(
