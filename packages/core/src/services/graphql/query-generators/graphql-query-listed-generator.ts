@@ -7,14 +7,14 @@ import {
   GraphQLNonNull,
   GraphQLObjectType,
 } from 'graphql'
-import { GraphQLResolverContext, ResolverBuilder } from '../common'
+import { GraphQLResolverContext, ResolverBuilder } from '../common.js'
 // @ts-expect-error plur has no TypeScript types yet
 import plur from 'plur'
 import { GraphQLJSON } from 'graphql-scalars'
 
-import { GraphQLTypeInformer } from '../graphql-type-informer'
-import { GraphqlQuerySortBuilder } from '../query-helpers/graphql-query-sort-builder'
-import { GraphqlQueryFilterArgumentsBuilder } from '../query-helpers/graphql-query-filter-arguments-builder'
+import { GraphQLTypeInformer } from '../graphql-type-informer.js'
+import { GraphqlQuerySortBuilder } from '../query-helpers/graphql-query-sort-builder.js'
+import { GraphqlQueryFilterArgumentsBuilder } from '../query-helpers/graphql-query-filter-arguments-builder.js'
 import { AnyClass, BoosterConfig } from '@booster-ai/common'
 
 export class GraphqlQueryListedGenerator {

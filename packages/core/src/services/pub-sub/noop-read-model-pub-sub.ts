@@ -1,5 +1,5 @@
 import { ReadModelRequestEnvelope, ReadModelInterface } from '@booster-ai/common'
-import { ReadModelPubSub } from './read-model-pub-sub'
+import { ReadModelPubSub } from './read-model-pub-sub.js'
 
 export class NoopReadModelPubSub implements ReadModelPubSub<ReadModelInterface> {
   public async asyncIterator(

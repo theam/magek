@@ -1,9 +1,9 @@
 import { GraphQLFieldConfigMap, GraphQLInputObjectType, GraphQLList, GraphQLNonNull } from 'graphql'
-import { GraphQLResolverContext, ResolverBuilder } from '../common'
+import { GraphQLResolverContext, ResolverBuilder } from '../common.js'
 // @ts-expect-error plur has no TypeScript types yet
 import plur from 'plur'
-import { GraphQLTypeInformer } from '../graphql-type-informer'
-import { GraphqlQueryFilterFieldsBuilder } from '../query-helpers/graphql-query-filter-fields-builder'
+import { GraphQLTypeInformer } from '../graphql-type-informer.js'
+import { GraphqlQueryFilterFieldsBuilder } from '../query-helpers/graphql-query-filter-fields-builder.js'
 import { AnyClass, BoosterConfig } from '@booster-ai/common'
 
 export class GraphqlQueryFiltersGenerator {

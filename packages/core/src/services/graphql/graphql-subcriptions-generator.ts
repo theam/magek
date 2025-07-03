@@ -1,10 +1,10 @@
 import { GraphQLFieldConfigMap, GraphQLID, GraphQLInputObjectType, GraphQLNonNull, GraphQLObjectType } from 'graphql'
-import { ResolverBuilder } from './common'
-import { GraphQLTypeInformer } from './graphql-type-informer'
+import { ResolverBuilder } from './common.js'
+import { GraphQLTypeInformer } from './graphql-type-informer.js'
 // @ts-expect-error plur has no TypeScript types yet
 import plur from 'plur'
 import { AnyClass, BoosterConfig } from '@booster-ai/common'
-import { GraphqlQueryFilterFieldsBuilder } from './query-helpers/graphql-query-filter-fields-builder'
+import { GraphqlQueryFilterFieldsBuilder } from './query-helpers/graphql-query-filter-fields-builder.js'
 
 export class GraphQLSubscriptionGenerator {
   private graphqlQueryFilterFieldsBuilder: GraphqlQueryFilterFieldsBuilder
@@ -47,7 +47,7 @@ export class GraphQLSubscriptionGenerator {
         args: {
           id: { type: new GraphQLNonNull(GraphQLID) },
         },
-        resolve: (source) => source,
+        resolve: (source: unknown) => source,
         subscribe: this.byIDResolverBuilder(readModel),
       }
     }
@@ -66,7 +66,7 @@ export class GraphQLSubscriptionGenerator {
           readModel,
           excludeProps
         ),
-        resolve: (source) => source,
+        resolve: (source: unknown) => source,
         subscribe: this.filterResolverBuilder(readModel),
       }
     }
