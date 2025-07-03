@@ -30,7 +30,8 @@ import {
   isObjectType,
   Kind,
 } from 'graphql'
-import { pluralize } from 'inflected'
+// @ts-expect-error plur has no TypeScript types yet
+import plur from 'plur'
 import { BoosterCommandDispatcher } from '../../booster-command-dispatcher'
 import { BoosterEventsReader } from '../../booster-events-reader'
 import { BoosterReadModelsReader } from '../../booster-read-models-reader'
@@ -108,7 +109,7 @@ export class GraphQLGenerator {
       let isPaginated = false
       const fields: ProjectionFor<unknown> = this.getFields(info) as ProjectionFor<unknown>
       let select: ProjectionFor<unknown> | undefined = fields.length > 0 ? fields : undefined
-      if (info?.fieldName === `List${pluralize(readModelClass.name)}`) {
+      if (info?.fieldName === `List${plur(readModelClass.name)}`) {
         isPaginated = true
         if (select) {
           // In paginated queries, the `items[].` field needs to be removed from the select fields before querying the database

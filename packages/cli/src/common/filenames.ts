@@ -1,7 +1,16 @@
-import * as inflected from 'inflected'
+function underscore(str: string): string {
+  return str
+    .replace(/([A-Z])/g, '_$1')
+    .replace(/^_/, '')
+    .toLowerCase()
+}
+
+function dasherize(str: string): string {
+  return str.replace(/_/g, '-')
+}
 
 export function classNameToFileName(name: string): string {
-  return inflected.dasherize(inflected.underscore(name))
+  return dasherize(underscore(name))
 }
 
 export function fileNameWithExtension(name: string, extension = 'ts'): string {

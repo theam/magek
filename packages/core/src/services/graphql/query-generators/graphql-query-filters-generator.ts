@@ -1,6 +1,7 @@
 import { GraphQLFieldConfigMap, GraphQLInputObjectType, GraphQLList, GraphQLNonNull } from 'graphql'
 import { GraphQLResolverContext, ResolverBuilder } from '../common'
-import * as inflected from 'inflected'
+// @ts-expect-error plur has no TypeScript types yet
+import plur from 'plur'
 import { GraphQLTypeInformer } from '../graphql-type-informer'
 import { GraphqlQueryFilterFieldsBuilder } from '../query-helpers/graphql-query-filter-fields-builder'
 import { AnyClass, BoosterConfig } from '@booster-ai/common'
@@ -27,7 +28,7 @@ export class GraphqlQueryFiltersGenerator {
     for (const readModel of this.readModels) {
       const excludeProp = this.config.nonExposedGraphQLMetadataKey[readModel.name]
       const graphQLType = this.typeInformer.generateGraphQLTypeForClass(readModel, excludeProp)
-      queries[inflected.pluralize(readModel.name)] = {
+      queries[plur(readModel.name)] = {
         type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(graphQLType))),
         args: this.graphqlQueryFilterFieldsBuilder.generateFilterQueriesFields(readModel.name, readModel, excludeProp),
         resolve: this.filterResolverBuilder(readModel),

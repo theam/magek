@@ -1,6 +1,13 @@
 import { DecodedToken } from '@booster-ai/common'
 import * as jwt from 'jsonwebtoken'
-import { JwksClient, SigningKey } from 'jwks-rsa'
+// @ts-expect-error jwks-client has no TypeScript types yet
+import jwksClient from 'jwks-client'
+
+type JwksClient = ReturnType<typeof jwksClient>
+
+interface SigningKey {
+  getPublicKey(): string
+}
 
 /**
  * Initializes a jwksRSA client that can be used to get the public key of a JWKS URI using the
@@ -10,8 +17,7 @@ import { JwksClient, SigningKey } from 'jwks-rsa'
  * @returns A JwksRSA client
  */
 export function getJwksClient(jwksUri: string): JwksClient {
-  const jwksRSA = require('jwks-rsa') // Manually loading the default export here to be able to stub it
-  return jwksRSA({
+  return jwksClient({
     jwksUri,
     cache: true,
     cacheMaxAge: 15 * 60 * 1000, // 15 Minutes, at least to be equal to AWS max lambda limit runtime

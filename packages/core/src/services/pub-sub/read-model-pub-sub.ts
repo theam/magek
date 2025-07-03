@@ -1,4 +1,3 @@
-import { createAsyncIterator } from 'iterall'
 import {
   ReadModelRequestEnvelope,
   ReadModelInterface,
@@ -133,4 +132,16 @@ function includes(readModelPropValue: any, element: any): boolean {
     return readModelPropValue.includes(element)
   }
   return false
+}
+
+function createAsyncIterator<T>(iterable: Iterable<T>): AsyncIterator<T> {
+  const iterator = iterable[Symbol.iterator]()
+  const asyncIter: any = {
+    next(): Promise<IteratorResult<T>> {
+      const { value, done } = iterator.next()
+      return Promise.resolve({ value, done })
+    },
+  }
+  asyncIter[Symbol.asyncIterator] = () => asyncIter
+  return asyncIter as AsyncIterator<T>
 }

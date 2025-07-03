@@ -8,7 +8,8 @@ import {
   GraphQLObjectType,
 } from 'graphql'
 import { GraphQLResolverContext, ResolverBuilder } from '../common'
-import * as inflected from 'inflected'
+// @ts-expect-error plur has no TypeScript types yet
+import plur from 'plur'
 import { GraphQLJSON } from 'graphql-scalars'
 
 import { GraphQLTypeInformer } from '../graphql-type-informer'
@@ -40,7 +41,7 @@ export class GraphqlQueryListedGenerator {
     for (const readModel of this.readModels) {
       const excludeProp = this.config.nonExposedGraphQLMetadataKey[readModel.name]
       const graphQLType = this.typeInformer.generateGraphQLTypeForClass(readModel, excludeProp)
-      queries[`List${inflected.pluralize(readModel.name)}`] = {
+      queries[`List${plur(readModel.name)}`] = {
         type: new GraphQLNonNull(
           new GraphQLObjectType({
             name: `${readModel.name}Connection`,

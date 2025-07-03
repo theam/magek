@@ -1,5 +1,4 @@
 import { ReadModelRequestEnvelope, ReadModelInterface } from '@booster-ai/common'
-import { createAsyncIterator } from 'iterall'
 import { ReadModelPubSub } from './read-model-pub-sub'
 
 export class NoopReadModelPubSub implements ReadModelPubSub<ReadModelInterface> {
@@ -8,4 +7,16 @@ export class NoopReadModelPubSub implements ReadModelPubSub<ReadModelInterface> 
   ): Promise<AsyncIterator<ReadModelInterface>> {
     return createAsyncIterator([])
   }
+}
+
+function createAsyncIterator<T>(iterable: Iterable<T>): AsyncIterator<T> {
+  const iterator = iterable[Symbol.iterator]()
+  const asyncIter: any = {
+    next(): Promise<IteratorResult<T>> {
+      const { value, done } = iterator.next()
+      return Promise.resolve({ value, done })
+    },
+  }
+  asyncIter[Symbol.asyncIterator] = () => asyncIter
+  return asyncIter as AsyncIterator<T>
 }
