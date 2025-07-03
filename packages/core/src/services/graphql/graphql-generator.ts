@@ -32,9 +32,9 @@ import {
 } from 'graphql'
 // @ts-expect-error plur has no TypeScript types yet
 import plur from 'plur'
-import { BoosterCommandDispatcher } from '../../booster-command-dispatcher'
-import { BoosterEventsReader } from '../../booster-events-reader'
-import { BoosterReadModelsReader } from '../../booster-read-models-reader'
+import { BoosterCommandDispatcher } from '../../booster-command-dispatcher.js'
+import { BoosterEventsReader } from '../../booster-events-reader.js'
+import { BoosterReadModelsReader } from '../../booster-read-models-reader.js'
 import { GraphQLResolverContext } from './common.js'
 import { GraphQLMutationGenerator } from './graphql-mutation-generator.js'
 import { GraphQLQueryGenerator } from './graphql-query-generator.js'
@@ -105,7 +105,12 @@ export class GraphQLGenerator {
   public static readModelResolverBuilder(
     readModelClass: AnyClass
   ): GraphQLFieldResolver<unknown, GraphQLResolverContext, ReadModelRequestArgs<ReadModelInterface>> {
-    return (parent, args, context, info) => {
+    return (
+      _parent: unknown,
+      args: ReadModelRequestArgs<ReadModelInterface>,
+      context: GraphQLResolverContext,
+      info: GraphQLResolveInfo
+    ) => {
       let isPaginated = false
       const fields: ProjectionFor<unknown> = this.getFields(info) as ProjectionFor<unknown>
       let select: ProjectionFor<unknown> | undefined = fields.length > 0 ? fields : undefined
@@ -130,7 +135,12 @@ export class GraphQLGenerator {
     readModelClass: AnyClass
   ): GraphQLFieldResolver<unknown, GraphQLResolverContext, ReadModelByIdRequestArgs> {
     const sequenceKeyName = config.readModelSequenceKeys[readModelClass.name]
-    return async (parent, args, context) => {
+    return async (
+      _parent: unknown,
+      args: ReadModelByIdRequestArgs,
+      context: GraphQLResolverContext,
+      _info: GraphQLResolveInfo
+    ) => {
       const readModelRequestEnvelope = this.toReadModelByIdRequestEnvelope(
         readModelClass,
         args,
@@ -153,7 +163,11 @@ export class GraphQLGenerator {
   public static commandResolverBuilder(
     commandClass: AnyClass
   ): GraphQLFieldResolver<unknown, GraphQLResolverContext, { input: unknown }> {
-    return async (parent, args, context) => {
+    return async (
+      _parent: unknown,
+      args: { input: unknown },
+      context: GraphQLResolverContext
+    ) => {
       const commandEnvelope = toEnvelope(commandClass.name, args.input, context) as CommandEnvelope
       const result = await this.commandsDispatcher.dispatchCommand(commandEnvelope, context)
       // It could be that the command didn't return anything
@@ -165,7 +179,11 @@ export class GraphQLGenerator {
   public static queriesResolverBuilder(
     queryClass: AnyClass
   ): GraphQLFieldResolver<unknown, GraphQLResolverContext, { input: unknown }> {
-    return async (parent, args, context) => {
+    return async (
+      _parent: unknown,
+      args: { input: unknown },
+      context: GraphQLResolverContext
+    ) => {
       const queryEnvelope = toEnvelope(queryClass.name, args.input, context) as QueryEnvelope
       return await this.queriesDispatcher.dispatchQuery(queryEnvelope, context)
     }
@@ -175,9 +193,14 @@ export class GraphQLGenerator {
     config: BoosterConfig,
     readModelClass: AnyClass
   ): GraphQLFieldResolver<unknown, GraphQLResolverContext, ReadModelRequestProperties<ReadModelInterface>> {
-    return async (parent, args, context, info) => {
+    return async (
+      _parent: unknown,
+      args: ReadModelRequestProperties<ReadModelInterface>,
+      context: GraphQLResolverContext,
+      info: GraphQLResolveInfo
+    ) => {
       const filterArgs = { filter: { id: { eq: args.id } } }
-      return this.subscriptionResolverBuilder(config, readModelClass)(parent, filterArgs, context, info)
+      return this.subscriptionResolverBuilder(config, readModelClass)(_parent, filterArgs, context, info)
     }
   }
 

@@ -3,7 +3,7 @@
     "baseUrl": "./packages",
     "declaration": true,
     "importHelpers": true,
-    "module": "ESNext",
+    "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "strict": true,
     "target": "ES2022",
