@@ -15,7 +15,6 @@ import { applyBeforeFunctions } from './services/filter-helpers.js'
 import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher.js'
 import { SchemaMigrator } from './schema-migrator.js'
 import { GraphQLResolverContext } from './services/graphql/common.js'
-// @ts-expect-error TypeScript complains about directory import with .js extension mapping
 import { Trace } from './instrumentation/index.js'
 
 export class BoosterCommandDispatcher {

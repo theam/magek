@@ -42,7 +42,6 @@ import { GraphQLSubscriptionGenerator } from './graphql-subcriptions-generator.j
 import { GraphQLTypeInformer } from './graphql-type-informer.js'
 import { BoosterQueryDispatcher } from '../../booster-query-dispatcher.js'
 import { SelectionSetNode } from 'graphql/language/ast'
-// @ts-expect-error GraphQL submodule types resolution depends on installed types
 import type { GraphQLInputType, GraphQLNamedInputType } from 'graphql'
 
 export class GraphQLGenerator {

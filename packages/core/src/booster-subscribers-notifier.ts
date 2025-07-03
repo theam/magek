@@ -15,7 +15,6 @@ import { GraphQLGenerator } from './services/graphql/graphql-generator.js'
 import { FilteredReadModelPubSub, ReadModelPubSub } from './services/pub-sub/read-model-pub-sub.js'
 import { GraphQLResolverContext } from './services/graphql/common.js'
 import { ExecutionResult } from 'graphql/execution/execute'
-// @ts-expect-error re-export path
 import { Trace } from './instrumentation/index.js'
 
 export class BoosterSubscribersNotifier {
