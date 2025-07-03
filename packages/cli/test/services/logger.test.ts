@@ -2,7 +2,7 @@ import { logger, oraLogger, appendOnErrorsFile } from '../../src/services/logger
 import * as fs from 'fs'
 import * as path from 'path'
 import { restore, replace, fake } from 'sinon'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 
 describe('Booster logger', (): void => {
   afterEach(() => {

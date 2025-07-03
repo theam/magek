@@ -1,4 +1,4 @@
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { restore, fake, replace } from 'sinon'
 import * as Clean from '../../src/commands/clean'
 import * as configService from '../../src/services/config-service'

@@ -1,7 +1,7 @@
 import { BoosterConfig } from '@booster-ai/common'
 import { createStubInstance, replace, restore, SinonStub, SinonStubbedInstance, stub } from 'sinon'
 import { searchEntitiesIds } from '../../src/library/events-search-adapter'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { WebSocketRegistry } from '../../src/services/web-socket-registry'
 
 describe('The "searchEntitiesIDs" method', () => {

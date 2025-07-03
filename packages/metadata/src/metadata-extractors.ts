@@ -3,7 +3,7 @@
 import { ClassDeclaration, ClassInstancePropertyTypes, createWrappedNode, Node, SyntaxKind, Type } from 'ts-morph'
 // TODO: Import properly
 import * as ts from 'typescript'
-import { TypeGroup } from './metadata-types'
+import { TypeGroup } from './metadata-types.js'
 
 export interface TypeInfo {
   name: string // e.g. Array<string>

@@ -1,4 +1,4 @@
-import { UserEnvelope } from '../envelope'
+import { UserEnvelope } from '../envelope.js'
 
 export interface DecodedToken {
    

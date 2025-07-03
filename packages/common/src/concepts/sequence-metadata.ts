@@ -1,4 +1,4 @@
-import { TimeKey } from './uuid'
+import { TimeKey } from './uuid.js'
 
 export interface SequenceKey {
   name: string

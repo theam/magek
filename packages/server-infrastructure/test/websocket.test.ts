@@ -1,6 +1,6 @@
 import { restore, createStubInstance, SinonStubbedInstance } from 'sinon'
 import { GraphQLService } from '@booster-ai/server'
-import { expect } from './expect'
+import { expect } from './expect.js'
 
 /**
  * Test WebSocket functionality integration with actual server

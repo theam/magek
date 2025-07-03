@@ -1,7 +1,7 @@
 import { restore, stub, fake, SinonSpy, replace, spy } from 'sinon'
 import { join } from 'path'
 import * as fs from 'fs-extra'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import {
   checkResourceStubFileExists,
   checkStubsFolderExists,

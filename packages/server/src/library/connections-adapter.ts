@@ -1,5 +1,5 @@
 import { BoosterConfig, ConnectionDataEnvelope, getLogger } from '@booster-ai/common'
-import { WebSocketRegistry } from '../services/web-socket-registry'
+import { WebSocketRegistry } from '../services/web-socket-registry.js'
 
 export async function storeConnectionData(
   db: WebSocketRegistry,

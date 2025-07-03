@@ -6,10 +6,10 @@ import {
   ReadModelInterface,
   SequenceKey,
   UUID,
-} from './concepts'
-import { GraphQLClientMessage } from './graphql-websocket-messages'
-import { FilterFor, ProjectionFor, SortFor } from './searcher'
-import { Class } from './typelevel'
+} from './concepts.js'
+import { GraphQLClientMessage } from './graphql-websocket-messages.js'
+import { FilterFor, ProjectionFor, SortFor } from './searcher.js'
+import { Class } from './typelevel.js'
 
 /**
  * An `Envelope` carries a command/event body together with the name

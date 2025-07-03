@@ -6,10 +6,10 @@ import {
   storeDispatchedEvent,
   storeEvents,
   storeSnapshot,
-} from './library/events-adapter'
-import { healthRequestResult, requestFailed, requestSucceeded } from './library/api-adapter'
-import { EventRegistry, GraphQLService, ReadModelRegistry } from './services'
-import { rawGraphQLRequestToEnvelope } from './library/graphql-adapter'
+} from './library/events-adapter.js'
+import { healthRequestResult, requestFailed, requestSucceeded } from './library/api-adapter.js'
+import { EventRegistry, GraphQLService, ReadModelRegistry } from './services.js'
+import { rawGraphQLRequestToEnvelope } from './library/graphql-adapter.js'
 
 import * as path from 'path'
 
@@ -19,24 +19,24 @@ import {
   rawReadModelEventsToEnvelopes,
   searchReadModel,
   storeReadModel,
-} from './library/read-model-adapter'
-import { searchEntitiesIds, searchEvents } from './library/events-search-adapter'
-import { rawScheduledInputToEnvelope } from './library/scheduled-adapter'
+} from './library/read-model-adapter.js'
+import { searchEntitiesIds, searchEvents } from './library/events-search-adapter.js'
+import { rawScheduledInputToEnvelope } from './library/scheduled-adapter.js'
 import {
   deleteConnectionData,
   fetchConnectionData,
   sendMessageToConnection,
   storeConnectionData,
-} from './library/connections-adapter'
+} from './library/connections-adapter.js'
 import {
   deleteAllSubscriptions,
   deleteSubscription,
   fetchSubscriptions,
   subscribeToReadModel,
-} from './library/subscription-adapter'
-import { WebSocketRegistry } from './services/web-socket-registry'
-import { connectionsDatabase, subscriptionDatabase } from './paths'
-import { rawRocketInputToEnvelope } from './library/rocket-adapter'
+} from './library/subscription-adapter.js'
+import { WebSocketRegistry } from './services/web-socket-registry.js'
+import { connectionsDatabase, subscriptionDatabase } from './paths.js'
+import { rawRocketInputToEnvelope } from './library/rocket-adapter.js'
 import {
   areDatabaseReadModelsUp,
   areRocketFunctionsUp,
@@ -47,13 +47,13 @@ import {
   isDatabaseEventUp,
   isGraphQLFunctionUp,
   rawRequestToSensorHealth,
-} from './library/health-adapter'
-import { deleteEvent, deleteSnapshot, findDeletableEvent, findDeletableSnapshot } from './library/event-delete-adapter'
+} from './library/health-adapter.js'
+import { deleteEvent, deleteSnapshot, findDeletableEvent, findDeletableSnapshot } from './library/event-delete-adapter.js'
 import * as process from 'process'
 
-export * from './paths'
-export * from './services'
-export * from './library/graphql-adapter'
+export * from './paths.js'
+export * from './services.js'
+export * from './library/graphql-adapter.js'
 
 const eventRegistry = new EventRegistry()
 const readModelRegistry = new ReadModelRegistry()

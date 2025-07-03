@@ -1,10 +1,10 @@
 import { ProviderLibrary, EventSearchRequest, EventSearchResponse, UUID } from '@booster-ai/common'
 import { restore, fake, SinonSpy, match } from 'sinon'
 import { faker } from '@faker-js/faker'
-import { BoosterEventsReader } from '../src/booster-events-reader'
-import { expect } from './expect'
-import { Booster } from '../src'
-import { BoosterAuthorizer } from '../src/booster-authorizer'
+import { BoosterEventsReader } from '../src/booster-events-reader.js'
+import { expect } from './expect.js'
+import { Booster } from '../src.js'
+import { BoosterAuthorizer } from '../src/booster-authorizer.js'
 
 describe('BoosterEventsReader', () => {
   class TestEntity {

@@ -1,6 +1,6 @@
 import inquirer from 'inquirer'
 import Prompter from '../../src/services/user-prompt'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { restore, stub } from 'sinon'
 
 describe('user prompt', () => {

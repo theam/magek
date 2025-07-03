@@ -5,8 +5,8 @@ import {
   CommandEnvelope,
   QueryEnvelope,
   HealthEnvelope,
-} from '../envelope'
-import { ReadModelInterface } from './read-model'
+} from '../envelope.js'
+import { ReadModelInterface } from './read-model.js'
 
 export type CommandAuthorizer = (currentUser?: UserEnvelope, commandEnvelope?: CommandEnvelope) => Promise<void>
 

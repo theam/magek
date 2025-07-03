@@ -1,7 +1,7 @@
-import { AnyClass } from '../typelevel'
-import { ReadModelInterface } from './read-model'
-import { EntityInterface } from './entity'
-import { FilterFor } from '../searcher'
+import { AnyClass } from '../typelevel.js'
+import { ReadModelInterface } from './read-model.js'
+import { EntityInterface } from './entity.js'
+import { FilterFor } from '../searcher.js'
 
 export type ReadModelJoinKeyFunction<TEntity extends EntityInterface, TReadModel extends ReadModelInterface> = (
   entity: TEntity

@@ -1,4 +1,4 @@
-import { Booster } from '../booster'
+import { Booster } from '../booster.js'
 import { Class, RoleMetadata, RoleInterface } from '@booster-ai/common'
 
 /**

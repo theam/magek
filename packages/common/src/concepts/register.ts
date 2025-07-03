@@ -1,7 +1,7 @@
-import { EventInterface } from './event'
-import { UserEnvelope, ContextEnvelope } from '../envelope'
-import { UUID } from './uuid'
-import { NotificationInterface } from './notification'
+import { EventInterface } from './event.js'
+import { UserEnvelope, ContextEnvelope } from '../envelope.js'
+import { UUID } from './uuid.js'
+import { NotificationInterface } from './notification.js'
 
 export type FlusherFunction = (record: Register) => Promise<void>
 

@@ -1,6 +1,6 @@
-import { GlobalErrorContainer } from './global-error-container'
-import { EntityInterface, ProjectionMetadata, ReadModelInterface } from '../concepts'
-import { EntitySnapshotEnvelope } from '../envelope'
+import { GlobalErrorContainer } from './global-error-container.js'
+import { EntityInterface, ProjectionMetadata, ReadModelInterface } from '../concepts.js'
+import { EntitySnapshotEnvelope } from '../envelope.js'
 
 export class ProjectionGlobalError extends GlobalErrorContainer {
   constructor(

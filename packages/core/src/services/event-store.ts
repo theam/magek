@@ -19,11 +19,11 @@ import {
   createInstance,
   getLogger,
 } from '@booster-ai/common'
-import { BoosterGlobalErrorDispatcher } from '../booster-global-error-dispatcher'
-import { SchemaMigrator } from '../schema-migrator'
-import { BoosterEntityMigrated } from '../core-concepts/data-migration/events/booster-entity-migrated'
-import { BoosterEntityTouched } from '../core-concepts/touch-entity/events/booster-entity-touched'
-import { Trace } from '../instrumentation'
+import { BoosterGlobalErrorDispatcher } from '../booster-global-error-dispatcher.js'
+import { SchemaMigrator } from '../schema-migrator.js'
+import { BoosterEntityMigrated } from '../core-concepts/data-migration/events/booster-entity-migrated.js'
+import { BoosterEntityTouched } from '../core-concepts/touch-entity/events/booster-entity-touched.js'
+import { Trace } from '../instrumentation.js'
 
 const originOfTime = new Date(0).toISOString() // Unix epoch
 

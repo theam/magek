@@ -5,8 +5,8 @@ import {
   HealthIndicatorInterface,
   HealthIndicatorMetadata,
 } from '@booster-ai/common'
-import { Booster } from '../booster'
-import { defaultBoosterHealthIndicators } from '../sensor/health/health-indicators'
+import { Booster } from '../booster.js'
+import { defaultBoosterHealthIndicators } from '../sensor/health/health-indicators.js'
 
 /**
  *

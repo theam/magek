@@ -10,8 +10,8 @@ import {
   UserEnvelope,
   createInstance,
 } from '@booster-ai/common'
-import { childHealthProviders, isEnabled, metadataFromId, rootHealthProviders } from './health-utils'
-import { defaultBoosterHealthIndicators } from './health-indicators'
+import { childHealthProviders, isEnabled, metadataFromId, rootHealthProviders } from './health-utils.js'
+import { defaultBoosterHealthIndicators } from './health-indicators.js'
 import { BoosterTokenVerifier } from '../../booster-token-verifier'
 import { BoosterAuthorizer } from '../../booster-authorizer'
 

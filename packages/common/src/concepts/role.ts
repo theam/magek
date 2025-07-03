@@ -1,11 +1,11 @@
-import { Class } from '../typelevel'
+import { Class } from '../typelevel.js'
 import {
   CommandAuthorizer,
   EventStreamAuthorizer,
   HealthAuthorizer,
   QueryAuthorizer,
   ReadModelAuthorizer,
-} from './authorizers'
+} from './authorizers.js'
 
  
 export interface RoleInterface {}

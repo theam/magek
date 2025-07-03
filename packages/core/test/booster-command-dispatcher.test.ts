@@ -1,13 +1,13 @@
  
  
-import { Booster } from '../src/booster'
+import { Booster } from '../src/booster.js'
 import { fake, replace, restore, spy } from 'sinon'
-import { expect } from './expect'
-import { BoosterCommandDispatcher } from '../src/booster-command-dispatcher'
+import { expect } from './expect.js'
+import { BoosterCommandDispatcher } from '../src/booster-command-dispatcher.js'
 import { CommandBeforeFunction, Register, NotAuthorizedError } from '@booster-ai/common'
-import { Command, RegisterHandler } from '../src'
+import { Command, RegisterHandler } from '../src.js'
 import { faker } from '@faker-js/faker'
-import { BoosterAuthorizer } from '../src/booster-authorizer'
+import { BoosterAuthorizer } from '../src/booster-authorizer.js'
 
 describe('the `BoosterCommandsDispatcher`', () => {
   afterEach(() => {

@@ -1,4 +1,4 @@
-import { Class } from '../typelevel'
+import { Class } from '../typelevel.js'
 
 /**
  * All Notification classes of your application must implement this interface.

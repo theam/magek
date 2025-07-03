@@ -1,4 +1,4 @@
-import { BoosterConfig } from './config'
+import { BoosterConfig } from './config.js'
 
 export enum Level {
   debug = 0,

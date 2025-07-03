@@ -1,7 +1,7 @@
 import { expect } from './expect.js'
-import { Booster } from '../src/'
+import { Booster } from '../src/.js'
 import { replace, fake, restore, match, replaceGetter } from 'sinon'
-import { Importer } from '../src/importer'
+import { Importer } from '../src/importer.js'
 import {
   BoosterConfig,
   EventParametersFilterByType,
@@ -11,9 +11,9 @@ import {
   UUID,
   NotificationInterface,
 } from '@booster-ai/common'
-import { EventStore } from '../src/services/event-store'
+import { EventStore } from '../src/services/event-store.js'
 import { faker } from '@faker-js/faker'
-import { JwksUriTokenVerifier } from '../src/services/token-verifiers'
+import { JwksUriTokenVerifier } from '../src/services/token-verifiers.js'
 import { afterEach } from 'mocha'
 
 describe('the `Booster` class', () => {

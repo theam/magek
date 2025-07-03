@@ -1,5 +1,5 @@
 import { BoosterConfig, EventDeleteParameters } from '@booster-ai/common'
-import { ReadModelStore } from './services/read-model-store'
+import { ReadModelStore } from './services/read-model-store.js'
 
 export class BoosterDeleteEventDispatcher {
   public static async deleteEvent(config: BoosterConfig, parameters: EventDeleteParameters): Promise<boolean> {

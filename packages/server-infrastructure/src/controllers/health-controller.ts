@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { HttpCodes, requestFailed } from '../http'
+import { HttpCodes, requestFailed } from '../http.js'
 import { HealthService } from '@booster-ai/server'
 
 export class HealthController {

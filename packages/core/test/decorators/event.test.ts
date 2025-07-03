@@ -1,7 +1,7 @@
  
  
  
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { Event } from '../../src/decorators'
 import { UUID } from '@booster-ai/common'
 import { Booster } from '../../src'

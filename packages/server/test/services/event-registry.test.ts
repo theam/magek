@@ -1,6 +1,6 @@
  
 import { EntitySnapshotEnvelope, EventEnvelope } from '@booster-ai/common'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { faker } from '@faker-js/faker'
 
 import { restore, stub } from 'sinon'
@@ -8,7 +8,7 @@ import {
   createMockEntitySnapshotEnvelope,
   createMockEventEnvelope,
   createMockEventEnvelopeForEntity,
-} from '../helpers/event-helper'
+} from '../helpers/event-helper.js'
 import { EventRegistry } from '../../src/services'
 
 describe('the event registry', () => {

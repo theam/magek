@@ -1,5 +1,5 @@
  
-import { Booster } from '../booster'
+import { Booster } from '../booster.js'
 import {
   CommandFilterHooks,
   QueryAuthorizer,
@@ -7,8 +7,8 @@ import {
   QueryMetadata,
   QueryRoleAccess,
 } from '@booster-ai/common'
-import { getClassMetadata } from './metadata'
-import { BoosterAuthorizer } from '../booster-authorizer'
+import { getClassMetadata } from './metadata.js'
+import { BoosterAuthorizer } from '../booster-authorizer.js'
 
 export function Query(
   attributes: QueryRoleAccess & CommandFilterHooks

@@ -2,7 +2,7 @@ import { restore, SinonStub, SinonStubbedInstance, createStubInstance, stub, rep
 import { GraphQLService } from '@booster-ai/server'
 import { GraphQLController } from '../../src/controllers/graphql'
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { faker } from '@faker-js/faker'
 
 // Helper to create a mock FastifyRequest

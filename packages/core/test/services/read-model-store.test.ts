@@ -14,7 +14,7 @@ import {
   UUID,
   EntityInterface,
 } from '@booster-ai/common'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { BoosterAuthorizer } from '../../src/booster-authorizer'
 import { fake, match, replace, restore, SinonFakeTimers, spy, stub, useFakeTimers } from 'sinon'
 import { Booster } from '../../src/booster'

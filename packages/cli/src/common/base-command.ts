@@ -1,6 +1,6 @@
 import { Command } from '@oclif/core'
-import { checkCurrentDirBoosterVersion } from '../services/project-checker'
-import { appendOnErrorsFile } from '../services/logger'
+import { checkCurrentDirBoosterVersion } from '../services/project-checker.js'
+import { appendOnErrorsFile } from '../services/logger.js'
 
 export default abstract class BaseCommand extends Command {
   async init() {

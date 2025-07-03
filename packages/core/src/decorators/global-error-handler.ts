@@ -1,4 +1,4 @@
-import { Booster } from '../booster'
+import { Booster } from '../booster.js'
 import { GlobalErrorHandlerInterface } from '@booster-ai/common'
 
 export function GlobalErrorHandler(): (errorHandlerClass: GlobalErrorHandlerInterface) => void {

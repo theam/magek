@@ -1,6 +1,6 @@
  
 import { ProjectionFor, ReadModelEnvelope } from '@booster-ai/common'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { faker } from '@faker-js/faker'
 
 import { restore, stub } from 'sinon'
@@ -9,7 +9,7 @@ import {
   assertOrderByAgeAndIdDesc,
   assertOrderByAgeDesc,
   createMockReadModelEnvelope,
-} from '../helpers/read-model-helper'
+} from '../helpers/read-model-helper.js'
 
 describe('the read model registry', () => {
   let initialReadModelsCount: number

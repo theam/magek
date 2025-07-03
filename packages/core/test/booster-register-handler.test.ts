@@ -1,10 +1,10 @@
  
  
-import { expect } from './expect'
+import { expect } from './expect.js'
 import { Register, BoosterConfig, Level, UserEnvelope, UUID } from '@booster-ai/common'
 import { replace, fake, restore, spy } from 'sinon'
-import { RegisterHandler } from '../src'
-import { BoosterEntityMigrated } from '../src/core-concepts/data-migration/events/booster-entity-migrated'
+import { RegisterHandler } from '../src.js'
+import { BoosterEntityMigrated } from '../src/core-concepts/data-migration/events/booster-entity-migrated.js'
 
 class SomeEntity {
   public constructor(readonly id: UUID) {}

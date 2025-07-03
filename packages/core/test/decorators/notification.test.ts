@@ -1,7 +1,7 @@
  
  
  
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { Notification, partitionKey } from '../../src/decorators'
 import { Booster } from '../../src'
 

@@ -1,6 +1,6 @@
-import { GlobalErrorContainer } from './global-error-container'
-import { EntityInterface, EventInterface, ReducerMetadata } from '../concepts'
-import { EventEnvelope } from '../envelope'
+import { GlobalErrorContainer } from './global-error-container.js'
+import { EntityInterface, EventInterface, ReducerMetadata } from '../concepts.js'
+import { EventEnvelope } from '../envelope.js'
 
 export class ReducerGlobalError extends GlobalErrorContainer {
   constructor(

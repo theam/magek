@@ -1,6 +1,6 @@
  
  
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { GlobalErrorHandler, Booster } from '../../src'
 import {
   CommandEnvelope,

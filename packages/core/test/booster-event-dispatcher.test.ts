@@ -1,11 +1,11 @@
  
  
-import { BoosterEventDispatcher } from '../src/booster-event-dispatcher'
+import { BoosterEventDispatcher } from '../src/booster-event-dispatcher.js'
 import { fake, replace, restore, SinonSpy } from 'sinon'
 import { BoosterConfig, ProviderLibrary, UUID } from '@booster-ai/common'
-import { expect } from './expect'
-import { RawEventsParser } from '../src/services/raw-events-parser'
-import { BoosterEventProcessor } from '../src/booster-event-processor'
+import { expect } from './expect.js'
+import { RawEventsParser } from '../src/services/raw-events-parser.js'
+import { BoosterEventProcessor } from '../src/booster-event-processor.js'
 
 class SomeEvent {
   public constructor(readonly id: UUID) {}

@@ -8,9 +8,9 @@ import {
   TraceActionTypes,
   getLogger,
 } from '@booster-ai/common'
-import { RegisterHandler } from './booster-register-handler'
-import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher'
-import { Trace } from './instrumentation'
+import { RegisterHandler } from './booster-register-handler.js'
+import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher.js'
+import { Trace } from './instrumentation.js'
 
 export class BoosterScheduledCommandDispatcher {
   private readonly globalErrorDispatcher: BoosterGlobalErrorDispatcher

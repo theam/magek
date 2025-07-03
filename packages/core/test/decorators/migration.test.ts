@@ -1,6 +1,6 @@
  
  
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { SchemaMigration, ToVersion } from '../../src/decorators'
 import { Booster } from '../../src'
 import { SchemaMigrationMetadata } from '@booster-ai/common'

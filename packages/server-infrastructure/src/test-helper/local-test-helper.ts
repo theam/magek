@@ -1,5 +1,5 @@
-import { LocalQueries } from './local-queries'
-import { LocalCounters } from './local-counters'
+import { LocalQueries } from './local-queries.js'
+import { LocalCounters } from './local-counters.js'
 
 interface ApplicationOutputs {
   graphqlURL: string

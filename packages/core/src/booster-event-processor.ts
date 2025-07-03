@@ -13,13 +13,13 @@ import {
   Promises,
   PromisesError,
 } from '@booster-ai/common'
-import { EventStore } from './services/event-store'
-import { EventsStreamingCallback } from './services/raw-events-parser'
-import { ReadModelStore } from './services/read-model-store'
-import { RegisterHandler } from './booster-register-handler'
-import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher'
-import { Trace } from './instrumentation'
-import { BOOSTER_GLOBAL_EVENT_HANDLERS } from './decorators'
+import { EventStore } from './services/event-store.js'
+import { EventsStreamingCallback } from './services/raw-events-parser.js'
+import { ReadModelStore } from './services/read-model-store.js'
+import { RegisterHandler } from './booster-register-handler.js'
+import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher.js'
+import { Trace } from './instrumentation.js'
+import { BOOSTER_GLOBAL_EVENT_HANDLERS } from './decorators.js'
 
 export class BoosterEventProcessor {
   /**

@@ -3,7 +3,7 @@
 import { describe, it, afterEach } from 'mocha'
 import { stub, replace, restore, fake } from 'sinon'
 import { Script } from '../../src/common/script'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import Brand from '../../src/common/brand'
 
 interface TestContext {

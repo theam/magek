@@ -1,7 +1,7 @@
-import { Class } from '../typelevel'
+import { Class } from '../typelevel.js'
 import { PropertyMetadata } from '@booster-ai/metadata'
 import { QueryAuthorizer, QueryFilterHooks, UUID } from './.'
-import { ContextEnvelope, UserEnvelope } from '../envelope'
+import { ContextEnvelope, UserEnvelope } from '../envelope.js'
 
 export type QueryInput = Record<string, any>
 

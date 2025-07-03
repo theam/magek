@@ -1,6 +1,6 @@
  
  
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { EventHandler } from '../../src/decorators'
 import { Booster } from '../../src'
 import { Event } from '../../src/decorators'

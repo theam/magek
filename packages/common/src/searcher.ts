@@ -1,7 +1,7 @@
  
-import { SequenceKey, UUID } from './concepts'
-import { ReadModelListResult } from './envelope'
-import { AnyClass, Class, ReadOnlyNonEmptyArray } from './typelevel'
+import { SequenceKey, UUID } from './concepts.js'
+import { ReadModelListResult } from './envelope.js'
+import { AnyClass, Class, ReadOnlyNonEmptyArray } from './typelevel.js'
 
 export type SearcherFunction<TObject, TResult> = (
   objectClass: AnyClass,

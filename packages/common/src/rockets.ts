@@ -1,4 +1,4 @@
-import { BoosterConfig } from './config'
+import { BoosterConfig } from './config.js'
 
 export const rocketFunctionIDEnvVar = 'BOOSTER_ROCKET_FUNCTION_ID'
 

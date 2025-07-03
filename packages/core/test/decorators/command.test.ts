@@ -1,6 +1,6 @@
  
  
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { Register } from '@booster-ai/common'
 import { Command } from '../../src/decorators'
 import { Booster } from '../../src'

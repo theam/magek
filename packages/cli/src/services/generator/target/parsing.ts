@@ -8,7 +8,7 @@ import {
   HasProjections,
   HasEvent,
   HasProjection,
-} from './types'
+} from './types.js'
 
  
 

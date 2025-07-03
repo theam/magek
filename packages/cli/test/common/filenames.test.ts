@@ -1,5 +1,5 @@
 import { checkResourceNameIsValid, classNameToFileName, fileNameWithExtension } from '../../src/common/filenames'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 
 const rewire = require('rewire')
 const filenames = rewire('../../src/common/filenames')

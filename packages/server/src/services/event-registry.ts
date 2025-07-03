@@ -1,6 +1,6 @@
  
 import { EntitySnapshotEnvelope, EventEnvelope, EventStoreEntryEnvelope } from '@booster-ai/common'
-import { eventsDatabase } from '../paths'
+import { eventsDatabase } from '../paths.js'
 
 const DataStore = require('@seald-io/nedb')
 

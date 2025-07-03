@@ -1,4 +1,4 @@
-import { Booster } from '../booster'
+import { Booster } from '../booster.js'
 import { Class, AnyClass, SchemaMigrationMetadata, BoosterConfig, Instance } from '@booster-ai/common'
 import { getMetadata, defineMetadata } from '@booster-ai/metadata'
 

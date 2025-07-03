@@ -1,11 +1,11 @@
 import { BoosterConfig, UserApp } from '@booster-ai/common'
 import { Effect, pipe } from 'effect'
 import * as path from 'path'
-import { guardError } from '../common/errors'
-import { checkItIsABoosterProject } from './project-checker'
-import { currentEnvironment } from './environment'
-import { createSandboxProject, removeSandboxProject } from '../common/sandbox'
-import { PackageManagerService, type PackageManagerError } from './package-manager'
+import { guardError } from '../common/errors.js'
+import { checkItIsABoosterProject } from './project-checker.js'
+import { currentEnvironment } from './environment.js'
+import { createSandboxProject, removeSandboxProject } from '../common/sandbox.js'
+import { PackageManagerService, type PackageManagerError } from './package-manager.js'
 import { LivePackageManager } from './package-manager/live.impl'
 
 export const DEPLOYMENT_SANDBOX = path.join(process.cwd(), '.deploy')

@@ -1,7 +1,7 @@
-import { expect } from './expect'
+import { expect } from './expect.js'
 import { NotAuthorizedError, UserEnvelope } from '@booster-ai/common'
 
-import { BoosterAuthorizer } from '../src/booster-authorizer'
+import { BoosterAuthorizer } from '../src/booster-authorizer.js'
 
 describe('BoosterAuthorizer', () => {
   class Admin {}

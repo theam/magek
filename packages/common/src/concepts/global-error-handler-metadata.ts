@@ -1,4 +1,4 @@
-import { AnyClass } from '../typelevel'
+import { AnyClass } from '../typelevel.js'
 import {
   CommandEnvelope,
   EntitySnapshotEnvelope,
@@ -6,15 +6,15 @@ import {
   NonPersistedEntitySnapshotEnvelope,
   QueryEnvelope,
   ScheduledCommandEnvelope,
-} from '../envelope'
-import { EventInterface } from './event'
-import { ReadModelInterface } from './read-model'
-import { EntityInterface } from './entity'
-import { ReducerMetadata } from './reducer-metadata'
-import { ScheduledCommandMetadata } from './scheduled-command'
-import { CommandMetadata } from './command'
-import { ProjectionMetadata } from './projection-metadata'
-import { NotificationInterface } from './notification'
+} from '../envelope.js'
+import { EventInterface } from './event.js'
+import { ReadModelInterface } from './read-model.js'
+import { EntityInterface } from './entity.js'
+import { ReducerMetadata } from './reducer-metadata.js'
+import { ScheduledCommandMetadata } from './scheduled-command.js'
+import { CommandMetadata } from './command.js'
+import { ProjectionMetadata } from './projection-metadata.js'
+import { NotificationInterface } from './notification.js'
 
 export interface GlobalErrorHandlerInterface extends AnyClass {
   onCommandHandlerError?(

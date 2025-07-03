@@ -1,6 +1,6 @@
-import { Booster } from '../booster'
+import { Booster } from '../booster.js'
 import { Class, ReadModelInterface } from '@booster-ai/common'
-import { getFunctionArguments } from './metadata'
+import { getFunctionArguments } from './metadata.js'
 
 export function sequencedBy(klass: Class<ReadModelInterface>, _: string | undefined, parameterIndex: number): void {
   const args = getFunctionArguments(klass)

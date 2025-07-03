@@ -8,7 +8,7 @@ import {
   getLogger,
   unique,
 } from '@booster-ai/common'
-import { buildFiltersForByFilters, buildFiltersForByTime, resultToEventSearchResponse } from './events-searcher-builder'
+import { buildFiltersForByFilters, buildFiltersForByTime, resultToEventSearchResponse } from './events-searcher-builder.js'
 import { EventRegistry } from '..'
 
 const DEFAULT_CREATED_AT_SORT_ORDER = -1

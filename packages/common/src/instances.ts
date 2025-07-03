@@ -1,7 +1,7 @@
  
-import { Class } from './typelevel'
-import { ProjectionFor } from './searcher'
-import { ReadModelInterface } from './concepts'
+import { Class } from './typelevel.js'
+import { ProjectionFor } from './searcher.js'
+import { ReadModelInterface } from './concepts.js'
 
 /**
  * Creates an instance of the given class from the given raw object.
@@ -14,7 +14,7 @@ import { ReadModelInterface } from './concepts'
  * @example
  * ```typescript
  * import { createInstance } from '@booster-ai/common'
- * import { User } from './entities/user'
+ * import { User } from './entities/user.js'
  *
  * const rawUser = {
  *   id: '123',

@@ -1,7 +1,7 @@
 import { BoosterConfig, EventSearchParameters, EventSearchResponse } from '@booster-ai/common'
-import { eventSearch } from '../src/booster-event-search'
+import { eventSearch } from '../src/booster-event-search.js'
 import { fake, restore } from 'sinon'
-import { expect } from './expect'
+import { expect } from './expect.js'
 
 class TestEvent {
   public constructor(readonly id: string) {}

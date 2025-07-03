@@ -1,4 +1,4 @@
-import { expect } from './expect'
+import { expect } from './expect.js'
 import {
   Booster,
   boosterEventDispatcher,
@@ -9,16 +9,16 @@ import {
   boosterConsumeEventStream,
   boosterProduceEventStream,
   boosterHealth,
-} from '../src/'
+} from '../src/.js'
 import { fake, replace, restore } from 'sinon'
-import { BoosterEventDispatcher } from '../src/booster-event-dispatcher'
-import { BoosterGraphQLDispatcher } from '../src/booster-graphql-dispatcher'
-import { BoosterScheduledCommandDispatcher } from '../src/booster-scheduled-command-dispatcher'
-import { BoosterSubscribersNotifier } from '../src/booster-subscribers-notifier'
-import { BoosterRocketDispatcher } from '../src/booster-rocket-dispatcher'
-import { BoosterEventStreamConsumer } from '../src/booster-event-stream-consumer'
-import { BoosterEventStreamProducer } from '../src/booster-event-stream-producer'
-import { BoosterHealthService } from '../src/sensor'
+import { BoosterEventDispatcher } from '../src/booster-event-dispatcher.js'
+import { BoosterGraphQLDispatcher } from '../src/booster-graphql-dispatcher.js'
+import { BoosterScheduledCommandDispatcher } from '../src/booster-scheduled-command-dispatcher.js'
+import { BoosterSubscribersNotifier } from '../src/booster-subscribers-notifier.js'
+import { BoosterRocketDispatcher } from '../src/booster-rocket-dispatcher.js'
+import { BoosterEventStreamConsumer } from '../src/booster-event-stream-consumer.js'
+import { BoosterEventStreamProducer } from '../src/booster-event-stream-producer.js'
+import { BoosterHealthService } from '../src/sensor.js'
 
 describe('framework-core package', () => {
   afterEach(() => {

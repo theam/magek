@@ -1,4 +1,4 @@
-import { isRejected } from './promise_utils'
+import { isRejected } from './promise_utils.js'
 
 export class Promises {
   /**

@@ -10,7 +10,7 @@ import {
   EventParametersFilterByType,
   getLogger,
 } from '@booster-ai/common'
-import { Booster } from './booster'
+import { Booster } from './booster.js'
 
 export class BoosterEventsReader {
   public constructor(readonly config: BoosterConfig) {}

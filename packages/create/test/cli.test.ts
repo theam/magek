@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import { stub, restore, SinonStub } from 'sinon'
 import * as fs from 'fs'
 import * as path from 'path'
-import { assertNameIsCorrect, checkProjectAlreadyExists, replaceInFile } from '../src/cli'
+import { assertNameIsCorrect, checkProjectAlreadyExists, replaceInFile } from '../src/cli.js'
 
 describe('create-booster-ai CLI', () => {
   let fsExistsStub: SinonStub

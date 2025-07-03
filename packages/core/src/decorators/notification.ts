@@ -1,6 +1,6 @@
 import { Class, NotificationInterface } from '@booster-ai/common'
-import { Booster } from '../booster'
-import { getFunctionArguments } from './metadata'
+import { Booster } from '../booster.js'
+import { getFunctionArguments } from './metadata.js'
 
 export type NotificationOptions = {
   topic?: string

@@ -11,7 +11,7 @@ import { logger } from '../../src/services/logger'
 import * as fs from 'fs-extra'
 import * as process from 'process'
 import Prompter from '../../src/services/user-prompt'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 
 // Helper function to create project directory path (same as the one in project-checker)
 function projectDir(projectName: string): string {

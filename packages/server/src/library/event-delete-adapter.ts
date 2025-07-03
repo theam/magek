@@ -9,8 +9,8 @@ import {
   EntitySnapshotEnvelope,
   getLogger,
 } from '@booster-ai/common'
-import { EventRegistry } from '../services'
-import { QueryOperation, QueryValue } from './searcher-adapter'
+import { EventRegistry } from '../services.js'
+import { QueryOperation, QueryValue } from './searcher-adapter.js'
 
 type DatabaseEventEnvelopeWithId = EventEnvelope & { _id: string }
 type DatabaseEntitySnapshotEnvelopeWithId = EntitySnapshotEnvelope & { _id: string }

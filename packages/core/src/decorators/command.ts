@@ -1,5 +1,5 @@
  
-import { Booster } from '../booster'
+import { Booster } from '../booster.js'
 import {
   Class,
   CommandAuthorizer,
@@ -8,8 +8,8 @@ import {
   CommandRoleAccess,
   Register,
 } from '@booster-ai/common'
-import { getClassMetadata } from './metadata'
-import { BoosterAuthorizer } from '../booster-authorizer'
+import { getClassMetadata } from './metadata.js'
+import { BoosterAuthorizer } from '../booster-authorizer.js'
 
 /**
  * Annotation to tell Booster which classes are your entities

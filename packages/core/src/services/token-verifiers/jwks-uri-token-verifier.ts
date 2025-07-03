@@ -1,6 +1,6 @@
 import { DecodedToken } from '@booster-ai/common'
-import { getJwksClient, getKeyWithClient, verifyJWT } from './utilities'
-import { RoleBasedTokenVerifier } from './role-based-token-verifier'
+import { getJwksClient, getKeyWithClient, verifyJWT } from './utilities.js'
+import { RoleBasedTokenVerifier } from './role-based-token-verifier.js'
 
 /**
  * Environment variables that are used to configure a default JWKs URI Token Verifier

@@ -1,9 +1,9 @@
  
  
 
-import { expect } from './expect'
+import { expect } from './expect.js'
 import { BoosterConfig, CommandEnvelope, SchemaMigrationMetadata } from '@booster-ai/common'
-import { SchemaMigrator } from '../src/schema-migrator'
+import { SchemaMigrator } from '../src/schema-migrator.js'
 
 class TestConceptV1 {
   public constructor(readonly field1: string) {}

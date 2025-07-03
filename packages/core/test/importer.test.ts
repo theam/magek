@@ -4,8 +4,8 @@
 import { restore, replace, stub, spy } from 'sinon'
 import * as fs from 'fs'
 import * as path from 'path'
-import { Importer } from '../src/importer'
-import { expect } from './expect'
+import { Importer } from '../src/importer.js'
+import { expect } from './expect.js'
 
 describe('the `importer` service', () => {
   afterEach(() => {

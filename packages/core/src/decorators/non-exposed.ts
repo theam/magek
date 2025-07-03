@@ -1,6 +1,6 @@
-import { Booster } from '../booster'
+import { Booster } from '../booster.js'
 import { AnyClass } from '@booster-ai/common'
-import { getFunctionArguments } from './metadata'
+import { getFunctionArguments } from './metadata.js'
 
 export function NonExposed(
   target: AnyClass | InstanceType<AnyClass>,

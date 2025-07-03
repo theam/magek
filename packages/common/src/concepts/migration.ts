@@ -1,4 +1,4 @@
-import { AnyClass } from '../typelevel'
+import { AnyClass } from '../typelevel.js'
 
 export interface SchemaMigrationMetadata {
   migrationClass: AnyClass

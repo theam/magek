@@ -15,8 +15,8 @@ import {
   BoosterConfig,
   NonPersistedEventEnvelope,
 } from '@booster-ai/common'
-import { expect } from '../expect'
-import { createMockNonPersistedEventEnvelop, createMockEntitySnapshotEnvelope } from '../helpers/event-helper'
+import { expect } from '../expect.js'
+import { createMockNonPersistedEventEnvelop, createMockEntitySnapshotEnvelope } from '../helpers/event-helper.js'
 import { faker } from '@faker-js/faker'
 
 describe('events-adapter', () => {

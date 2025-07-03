@@ -1,9 +1,9 @@
  
  
 
-import { expect } from './expect'
+import { expect } from './expect.js'
 import { BoosterConfig, SchemaMigrationMetadata, ReadModelInterface, UUID } from '@booster-ai/common'
-import { ReadModelSchemaMigrator } from '../src/read-model-schema-migrator'
+import { ReadModelSchemaMigrator } from '../src/read-model-schema-migrator.js'
 
 class TestConceptV1 {
   public constructor(

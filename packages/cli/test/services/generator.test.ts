@@ -5,7 +5,7 @@ import { Target, HasName, HasFields, HasReaction, HasEvent, HasProjections } fro
 import * as projectChecker from '../../src/services/project-checker'
 import { generate, template } from '../../src/services/generator'
 import { restore, replace, fake } from 'sinon'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 
 describe('generate service', (): void => {
   beforeEach(() => {

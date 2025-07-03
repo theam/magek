@@ -1,4 +1,4 @@
-import { EntityInterface, EventInterface } from './concepts'
+import { EntityInterface, EventInterface } from './concepts.js'
 
 export class BoosterError extends Error {
   readonly code: string

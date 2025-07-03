@@ -12,11 +12,11 @@ import {
   NotificationInterface,
   ReducerMetadata,
 } from '@booster-ai/common'
-import { BoosterEntityMigrated } from './core-concepts/data-migration/events/booster-entity-migrated'
-import { BoosterDataMigrationStarted } from './core-concepts/data-migration/events/booster-data-migration-started'
-import { BoosterDataMigrationFinished } from './core-concepts/data-migration/events/booster-data-migration-finished'
-import { Booster } from './booster'
-import { BoosterEntityTouched } from './core-concepts/touch-entity/events/booster-entity-touched'
+import { BoosterEntityMigrated } from './core-concepts/data-migration/events/booster-entity-migrated.js'
+import { BoosterDataMigrationStarted } from './core-concepts/data-migration/events/booster-data-migration-started.js'
+import { BoosterDataMigrationFinished } from './core-concepts/data-migration/events/booster-data-migration-finished.js'
+import { Booster } from './booster.js'
+import { BoosterEntityTouched } from './core-concepts/touch-entity/events/booster-entity-touched.js'
 
 const boosterEventsTypesNames: Array<string> = [
   BoosterEntityMigrated.name,

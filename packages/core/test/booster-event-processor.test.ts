@@ -12,12 +12,12 @@ import {
   UUID,
   PromisesError,
 } from '@booster-ai/common'
-import { expect } from './expect'
-import { ReadModelStore } from '../src/services/read-model-store'
-import { EventStore } from '../src/services/event-store'
-import { RegisterHandler } from '../src/booster-register-handler'
+import { expect } from './expect.js'
+import { ReadModelStore } from '../src/services/read-model-store.js'
+import { EventStore } from '../src/services/event-store.js'
+import { RegisterHandler } from '../src/booster-register-handler.js'
 import { faker } from '@faker-js/faker'
-import { BoosterEventProcessor } from '../src/booster-event-processor'
+import { BoosterEventProcessor } from '../src/booster-event-processor.js'
 
 class SomeEvent {
   public constructor(readonly id: UUID) {}

@@ -13,7 +13,7 @@ import {
 } from '@booster-ai/common'
 import { fake, replace, restore, stub, match, spy } from 'sinon'
 import { EventStore } from '../../src/services/event-store'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { BoosterEntityMigrated } from '../../src/core-concepts/data-migration/events/booster-entity-migrated'
 import { BoosterAuthorizer } from '../../src/booster-authorizer'
 

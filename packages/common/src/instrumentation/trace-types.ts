@@ -1,5 +1,5 @@
-import { UUID } from '../concepts'
-import { BoosterConfig } from '../config'
+import { UUID } from '../concepts.js'
+import { BoosterConfig } from '../config.js'
 
 export enum TraceTypes {
   START,

@@ -1,5 +1,5 @@
  
-import { expect } from './expect'
+import { expect } from './expect.js'
 import {
   BoosterConfig,
   FilterFor,
@@ -14,11 +14,11 @@ import {
   UUID,
 } from '@booster-ai/common'
 import { fake, match, replace, restore, SinonStub, stub } from 'sinon'
-import { BoosterReadModelsReader } from '../src/booster-read-models-reader'
+import { BoosterReadModelsReader } from '../src/booster-read-models-reader.js'
 import { faker } from '@faker-js/faker'
-import { Booster } from '../src/booster'
-import { BoosterAuthorizer } from '../src/booster-authorizer'
-import { ReadModelSchemaMigrator } from '../src/read-model-schema-migrator'
+import { Booster } from '../src/booster.js'
+import { BoosterAuthorizer } from '../src/booster-authorizer.js'
+import { ReadModelSchemaMigrator } from '../src/read-model-schema-migrator.js'
 
 describe('BoosterReadModelReader', () => {
   const config = new BoosterConfig('test')

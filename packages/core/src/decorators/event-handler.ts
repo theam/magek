@@ -5,7 +5,7 @@ import {
   BoosterConfig,
   NotificationInterface,
 } from '@booster-ai/common'
-import { Booster } from '../booster'
+import { Booster } from '../booster.js'
 
 export function EventHandler<TEvent extends EventInterface | NotificationInterface>(
   event: Class<TEvent>

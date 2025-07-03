@@ -1,5 +1,5 @@
 import { fake, replace, restore, SinonSpy, stub } from 'sinon'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import * as fs from 'fs'
 import * as fse from 'fs-extra'
 import { createSandboxProject } from '../../src/common/sandbox'

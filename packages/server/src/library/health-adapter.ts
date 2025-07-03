@@ -1,5 +1,5 @@
-import { EventRegistry, ReadModelRegistry } from '../services'
-import { eventsDatabase, readModelsDatabase } from '../paths'
+import { EventRegistry, ReadModelRegistry } from '../services.js'
+import { eventsDatabase, readModelsDatabase } from '../paths.js'
 import { BoosterConfig, boosterLocalPort, HealthEnvelope, UUID, request } from '@booster-ai/common'
 import { existsSync } from 'fs'
 import { FastifyRequest } from 'fastify'

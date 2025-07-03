@@ -1,7 +1,7 @@
 import type { Dirent } from 'fs-extra'
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'fs-extra'
 import { join } from 'path'
-import { wrapExecError } from '../common/errors'
+import { wrapExecError } from '../common/errors.js'
 
 export type TemplateType =
   | 'command'

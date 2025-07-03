@@ -1,4 +1,4 @@
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { queryRecordFor } from '../../src/library/searcher-adapter'
 
 describe('searcher-adapter', () => {

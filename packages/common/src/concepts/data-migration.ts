@@ -1,6 +1,6 @@
-import { AnyClass } from '../typelevel'
-import { Register } from './register'
-import { DataMigrationParameters } from '../data-migration-parameters'
+import { AnyClass } from '../typelevel.js'
+import { Register } from './register.js'
+import { DataMigrationParameters } from '../data-migration-parameters.js'
 
 export enum DataMigrationStatus {
   'RUNNING',

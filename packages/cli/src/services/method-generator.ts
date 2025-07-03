@@ -7,8 +7,8 @@ import {
   Scope,
   SourceFile,
 } from 'ts-morph'
-import { Projection, ReactionEvent } from './generator/target'
-import { fileNameWithExtension } from '../common/filenames'
+import { Projection, ReactionEvent } from './generator/target.js'
+import { fileNameWithExtension } from '../common/filenames.js'
 
 export function getResourceSourceFile(name: string): SourceFile {
   const project = new Project({

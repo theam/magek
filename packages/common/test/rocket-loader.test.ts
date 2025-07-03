@@ -1,7 +1,7 @@
  
 import { fake, replace, restore } from 'sinon'
-import { expect } from './helpers/expect'
-import { RocketDescriptor, RocketLoader } from '../src'
+import { expect } from './helpers/expect.js'
+import { RocketDescriptor, RocketLoader } from '../src.js'
 
 const rocketDescriptor: RocketDescriptor = {
   packageName: 'some-package-name',

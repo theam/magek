@@ -1,6 +1,6 @@
 import { BoosterDataMigrationEntityDuration, DataMigrationStatus } from '@booster-ai/common'
-import { BoosterDataMigrationStarted } from '../events/booster-data-migration-started'
-import { BoosterDataMigrationFinished } from '../events/booster-data-migration-finished'
+import { BoosterDataMigrationStarted } from '../events/booster-data-migration-started.js'
+import { BoosterDataMigrationFinished } from '../events/booster-data-migration-finished.js'
 
 export class BoosterDataMigrationEntity {
   public constructor(

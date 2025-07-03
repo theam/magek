@@ -1,5 +1,5 @@
-import { retryIfError } from '../src'
-import { expect } from './helpers/expect'
+import { retryIfError } from '../src.js'
+import { expect } from './helpers/expect.js'
 
 class ErrorToRetry extends Error {}
 

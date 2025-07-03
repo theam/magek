@@ -1,2 +1,2 @@
-export * from './trace-notifier'
-export * from './decorator/trace'
+export * from './trace-notifier.js'
+export * from './decorator/trace.js'

@@ -1,5 +1,5 @@
-import { GlobalErrorContainer } from './global-error-container'
-import { NonPersistedEntitySnapshotEnvelope } from '../envelope'
+import { GlobalErrorContainer } from './global-error-container.js'
+import { NonPersistedEntitySnapshotEnvelope } from '../envelope.js'
 
 /**
  * @deprecated [EOL v3] Errors when persisting snapshots can be safely ignored because

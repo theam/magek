@@ -1,5 +1,5 @@
  
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { describe } from 'mocha'
 import { ReadModel, Booster, Entity, Projects, sequencedBy, Role, CalculatedField } from '../../src'
 import { UUID, ProjectionResult, UserEnvelope } from '@booster-ai/common'

@@ -1,6 +1,6 @@
 import { ReadModelEnvelope, UserApp } from '@booster-ai/common'
 import { FastifyRequest } from 'fastify'
-import { WebSocketMessage } from '../library/graphql-adapter'
+import { WebSocketMessage } from '../library/graphql-adapter.js'
 
 export class GraphQLService {
   public constructor(readonly userApp: UserApp) {}

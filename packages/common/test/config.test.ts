@@ -1,6 +1,6 @@
  
-import { expect } from './helpers/expect'
-import { SchemaMigrationMetadata, ProviderLibrary, BoosterConfig } from '../src'
+import { expect } from './helpers/expect.js'
+import { SchemaMigrationMetadata, ProviderLibrary, BoosterConfig } from '../src.js'
 
 describe('the config type', () => {
   describe('resourceNames', () => {

@@ -3,9 +3,9 @@
  
  
 
-import { expect } from './helpers/expect'
+import { expect } from './helpers/expect.js'
 import { fake, replace, restore } from 'sinon'
-import { BoosterConfig, Level, getLogger } from '../src'
+import { BoosterConfig, Level, getLogger } from '../src.js'
 
 describe('the `getLogger method`', () => {
   afterEach(() => {

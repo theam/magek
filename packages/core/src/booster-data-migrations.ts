@@ -9,13 +9,13 @@ import {
   UUID,
   getLogger,
 } from '@booster-ai/common'
-import { RegisterHandler } from './booster-register-handler'
-import { EventStore } from './services/event-store'
-import { BoosterDataMigrationEntity } from './core-concepts/data-migration/entities/booster-data-migration-entity'
-import { BoosterEntityMigrated } from './core-concepts/data-migration/events/booster-entity-migrated'
-import { Booster } from './index'
-import { BoosterDataMigrationStarted } from './core-concepts/data-migration/events/booster-data-migration-started'
-import { Trace } from './instrumentation'
+import { RegisterHandler } from './booster-register-handler.js'
+import { EventStore } from './services/event-store.js'
+import { BoosterDataMigrationEntity } from './core-concepts/data-migration/entities/booster-data-migration-entity.js'
+import { BoosterEntityMigrated } from './core-concepts/data-migration/events/booster-entity-migrated.js'
+import { Booster } from './index.js'
+import { BoosterDataMigrationStarted } from './core-concepts/data-migration/events/booster-data-migration-started.js'
+import { Trace } from './instrumentation.js'
 
 export class BoosterDataMigrations {
   @Trace(TraceActionTypes.MIGRATION_RUN)

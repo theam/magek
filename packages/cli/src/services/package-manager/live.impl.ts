@@ -1,5 +1,5 @@
-import { FileSystemService } from '../file-system'
-import { ProcessService } from '../process'
+import { FileSystemService } from '../file-system.js'
+import { ProcessService } from '../process.js'
 import { PackageManagerService } from '.'
 import { Effect, Layer } from 'effect'
 import { makeRushPackageManager } from './rush.impl'

@@ -11,9 +11,9 @@ import {
   UserApp,
   UUID,
 } from '@booster-ai/common'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { faker } from '@faker-js/faker'
-import { createMockReadModelEnvelope } from '../helpers/read-model-helper'
+import { createMockReadModelEnvelope } from '../helpers/read-model-helper.js'
 import {
   deleteReadModel,
   fetchReadModel,

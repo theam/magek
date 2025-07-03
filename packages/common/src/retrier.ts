@@ -1,5 +1,5 @@
-import { Class } from './typelevel'
-import { Logger } from './logger'
+import { Class } from './typelevel.js'
+import { Logger } from './logger.js'
 
 /**
  * Retries an async function if it fails with an error that matches the given class.

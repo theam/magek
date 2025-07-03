@@ -8,7 +8,7 @@ import {
   EntitySnapshotEnvelope,
 } from '@booster-ai/common'
 import { RawEventsParser } from '../../src/services/raw-events-parser'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { faker } from '@faker-js/faker'
 
 describe('RawEventsParser', () => {

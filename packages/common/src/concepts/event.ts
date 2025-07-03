@@ -1,5 +1,5 @@
-import { UUID } from './uuid'
-import { Class } from '../typelevel'
+import { UUID } from './uuid.js'
+import { Class } from '../typelevel.js'
 
 /**
  * An `Event` is a fact that has happened in your system.

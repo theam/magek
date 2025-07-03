@@ -3,8 +3,8 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import { fold } from 'fp-ts/lib/Either'
 import { tryCatch } from 'fp-ts/lib/TaskEither'
 import { constVoid } from 'fp-ts/lib/function'
-import { oraLogger } from '../services/logger'
-import Brand from './brand'
+import { oraLogger } from '../services/logger.js'
+import Brand from './brand.js'
 
 /**
  * A Script represents some steps in a booster command, it stores the initial context

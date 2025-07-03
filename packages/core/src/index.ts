@@ -11,7 +11,7 @@ import { BoosterHealthService } from './sensor/health/booster-health-service.js'
 // Exports
 export { Booster } from './booster.js'
 export { RegisterHandler } from './booster-register-handler.js'
-export * from './decorators'
+export * from './decorators.js'
 export { BoosterDataMigrations } from './booster-data-migrations.js'
 export { BoosterDataMigrationFinished } from './core-concepts/data-migration/events/booster-data-migration-finished.js'
 export { BoosterDataMigrationEntity } from './core-concepts/data-migration/entities/booster-data-migration-entity.js'

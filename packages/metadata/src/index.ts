@@ -1,6 +1,6 @@
 import * as ts from 'typescript'
-import { getClassInfo } from './metadata-extractors'
-import { createClassMetadataDecorator, createFilterInterfaceFunction } from './statement-creators'
+import { getClassInfo } from './metadata-extractors.js'
+import { createClassMetadataDecorator, createFilterInterfaceFunction } from './statement-creators.js'
 
 const transformer: (program: ts.Program) => ts.TransformerFactory<ts.SourceFile> = (program) => {
   const checker = program.getTypeChecker()
@@ -61,5 +61,5 @@ const transformer: (program: ts.Program) => ts.TransformerFactory<ts.SourceFile>
 }
 
 export default transformer
-export * from './metadata-types'
-export * from './metadata-reflector'
+export * from './metadata-types.js'
+export * from './metadata-reflector.js'

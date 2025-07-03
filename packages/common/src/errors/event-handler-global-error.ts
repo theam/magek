@@ -1,6 +1,6 @@
-import { GlobalErrorContainer } from './global-error-container'
-import { EventInterface, NotificationInterface } from '../concepts'
-import { EventEnvelope } from '../envelope'
+import { GlobalErrorContainer } from './global-error-container.js'
+import { EventInterface, NotificationInterface } from '../concepts.js'
+import { EventEnvelope } from '../envelope.js'
 
 export class EventHandlerGlobalError extends GlobalErrorContainer {
   constructor(

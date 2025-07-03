@@ -1,4 +1,4 @@
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { restore, fake, replace } from 'sinon'
 import { ProviderLibrary, BoosterConfig } from '@booster-ai/common'
 import * as Start from '../../src/commands/start'

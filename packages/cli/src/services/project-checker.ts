@@ -1,11 +1,11 @@
 import { readFileSync, existsSync, removeSync } from 'fs-extra'
 import * as path from 'path'
-import Brand from '../common/brand'
-import { filePath, getResourceType } from './generator'
-import { classNameToFileName } from '../common/filenames'
-import { logger } from '../services/logger'
-import Prompter from '../services/user-prompt'
-import Semver from '../services/semver'
+import Brand from '../common/brand.js'
+import { filePath, getResourceType } from './generator.js'
+import { classNameToFileName } from '../common/filenames.js'
+import { logger } from '../services/logger.js'
+import Prompter from '../services/user-prompt.js'
+import Semver from '../services/semver.js'
 
 function projectDir(projectName: string): string {
   return path.join(process.cwd(), projectName)

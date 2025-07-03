@@ -1,5 +1,5 @@
 import { Class, EventInterface } from '@booster-ai/common'
-import { Booster } from '../booster'
+import { Booster } from '../booster.js'
 
 /**
  * Annotation to tell Booster which classes are your Events

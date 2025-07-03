@@ -1,19 +1,19 @@
  
 import { fake, match, replace, restore, spy } from 'sinon'
 import { faker } from '@faker-js/faker'
-import { expect } from './expect'
+import { expect } from './expect.js'
 import { BoosterConfig, GraphQLRequestEnvelope, GraphQLRequestEnvelopeError, UserEnvelope } from '@booster-ai/common'
-import { BoosterGraphQLDispatcher } from '../src/booster-graphql-dispatcher'
+import { BoosterGraphQLDispatcher } from '../src/booster-graphql-dispatcher.js'
 import * as gqlParser from 'graphql/language/parser'
 import * as gqlValidator from 'graphql/validation/validate'
 import * as gqlExecutor from 'graphql/execution/execute'
 import * as gqlSubscriptor from 'graphql/execution/subscribe'
-import { GraphQLResolverContext } from '../src/services/graphql/common'
-import { NoopReadModelPubSub } from '../src/services/pub-sub/noop-read-model-pub-sub'
-import { GraphQLWebsocketHandler } from '../src/services/graphql/websocket-protocol/graphql-websocket-protocol'
+import { GraphQLResolverContext } from '../src/services/graphql/common.js'
+import { NoopReadModelPubSub } from '../src/services/pub-sub/noop-read-model-pub-sub.js'
+import { GraphQLWebsocketHandler } from '../src/services/graphql/websocket-protocol/graphql-websocket-protocol.js'
 import { ExecutionResult } from 'graphql/execution/execute'
 import { GraphQLError } from 'graphql'
-import { BoosterTokenVerifier } from '../src/booster-token-verifier'
+import { BoosterTokenVerifier } from '../src/booster-token-verifier.js'
 
 describe('the `BoosterGraphQLDispatcher`', () => {
   afterEach(() => {

@@ -4,7 +4,7 @@ import {
   HealthIndicatorResult,
   HealthStatus,
 } from '@booster-ai/common'
-import { osInfo } from './os-info'
+import { osInfo } from './os-info.js'
 
 export class BoosterFunctionHealthIndicator {
   public async health(

@@ -1,6 +1,6 @@
-import { HealthRoleAccess } from '../concepts'
-import { BoosterConfig } from '../config'
-import { Class } from '../typelevel'
+import { HealthRoleAccess } from '../concepts.js'
+import { BoosterConfig } from '../config.js'
+import { Class } from '../typelevel.js'
 
 export enum HealthStatus {
   UP = 'UP', // The component or subsystem is working as expected

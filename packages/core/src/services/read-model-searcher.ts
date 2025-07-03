@@ -6,7 +6,7 @@ import {
   Searcher,
   SearcherFunction,
 } from '@booster-ai/common'
-import { BoosterReadModelsReader } from '../booster-read-models-reader'
+import { BoosterReadModelsReader } from '../booster-read-models-reader.js'
 
 export function readModelSearcher<TReadModel extends ReadModelInterface>(
   config: BoosterConfig,

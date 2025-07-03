@@ -1,6 +1,6 @@
-import { AnyClass } from '../typelevel'
-import { ScheduleInterface } from '../schedule'
-import { Register } from './register'
+import { AnyClass } from '../typelevel.js'
+import { ScheduleInterface } from '../schedule.js'
+import { Register } from './register.js'
 
 export interface ScheduledCommandInterface extends AnyClass {
   handle(register: Register): Promise<void>

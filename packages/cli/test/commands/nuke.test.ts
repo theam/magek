@@ -1,4 +1,4 @@
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { fancy } from 'fancy-test'
 import { restore, replace, fake } from 'sinon'
 import Prompter from '../../src/services/user-prompt'

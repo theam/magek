@@ -1,5 +1,5 @@
 import * as ts from 'typescript'
-import { ClassInfo, PropertyInfo, TypeInfo } from './metadata-extractors'
+import { ClassInfo, PropertyInfo, TypeInfo } from './metadata-extractors.js'
 
 export function createClassMetadataDecorator(
   f: ts.NodeFactory,

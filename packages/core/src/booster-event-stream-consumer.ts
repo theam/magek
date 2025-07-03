@@ -1,9 +1,9 @@
-import { Trace } from './instrumentation'
+import { Trace } from './instrumentation.js'
 import { BoosterConfig, EventStream, TraceActionTypes, getLogger } from '@booster-ai/common'
-import { EventStore } from './services/event-store'
-import { ReadModelStore } from './services/read-model-store'
-import { RawEventsParser } from './services/raw-events-parser'
-import { BoosterEventProcessor } from './booster-event-processor'
+import { EventStore } from './services/event-store.js'
+import { ReadModelStore } from './services/read-model-store.js'
+import { RawEventsParser } from './services/raw-events-parser.js'
+import { BoosterEventProcessor } from './booster-event-processor.js'
 
 /**
  * This class consumes events from the event stream and dispatches them to the event handlers

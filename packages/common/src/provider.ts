@@ -1,5 +1,5 @@
-import { ReadModelInterface, SequenceKey, UUID } from './concepts'
-import { BoosterConfig } from './config'
+import { ReadModelInterface, SequenceKey, UUID } from './concepts.js'
+import { BoosterConfig } from './config.js'
 import {
   ConnectionDataEnvelope,
   EntitySnapshotEnvelope,
@@ -20,11 +20,11 @@ import {
   ScheduledCommandEnvelope,
   SnapshotDeleteParameters,
   SubscriptionEnvelope,
-} from './envelope'
-import { FilterFor, ProjectionFor, SortFor } from './searcher'
-import { ReadOnlyNonEmptyArray } from './typelevel'
-import { RocketDescriptor, RocketEnvelope } from './rockets'
-import { EventStream } from './stream-types'
+} from './envelope.js'
+import { FilterFor, ProjectionFor, SortFor } from './searcher.js'
+import { ReadOnlyNonEmptyArray } from './typelevel.js'
+import { RocketDescriptor, RocketEnvelope } from './rockets.js'
+import { EventStream } from './stream-types.js'
 
 export interface ProviderLibrary {
   events: ProviderEventsLibrary

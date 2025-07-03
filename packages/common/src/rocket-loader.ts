@@ -1,4 +1,4 @@
-import { RocketDescriptor } from './rockets'
+import { RocketDescriptor } from './rockets.js'
 
 export class RocketLoader {
   // Separate function to make it easier to mock in tests

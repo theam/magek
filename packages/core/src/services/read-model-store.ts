@@ -22,9 +22,9 @@ import {
   Promises,
   retryIfError,
 } from '@booster-ai/common'
-import { BoosterGlobalErrorDispatcher } from '../booster-global-error-dispatcher'
-import { readModelSearcher } from './read-model-searcher'
-import { ReadModelSchemaMigrator } from '../read-model-schema-migrator'
+import { BoosterGlobalErrorDispatcher } from '../booster-global-error-dispatcher.js'
+import { readModelSearcher } from './read-model-searcher.js'
+import { ReadModelSchemaMigrator } from '../read-model-schema-migrator.js'
 
 export class ReadModelStore {
   public constructor(readonly config: BoosterConfig) {}

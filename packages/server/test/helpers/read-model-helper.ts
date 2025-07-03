@@ -1,6 +1,6 @@
 import { ReadModelEnvelope } from '@booster-ai/common'
 import { faker } from '@faker-js/faker'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 
 export function createMockReadModelEnvelope(): ReadModelEnvelope {
   return {

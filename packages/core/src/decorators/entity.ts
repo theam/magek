@@ -1,5 +1,5 @@
  
-import { Booster } from '../booster'
+import { Booster } from '../booster.js'
 import {
   Class,
   EntityInterface,
@@ -9,7 +9,7 @@ import {
   AnyClass,
   EventStreamAuthorizer,
 } from '@booster-ai/common'
-import { BoosterAuthorizer } from '../booster-authorizer'
+import { BoosterAuthorizer } from '../booster-authorizer.js'
 
 type EntityAttributes = EventStreamRoleAccess
 

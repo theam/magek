@@ -17,14 +17,14 @@ import {
   ScheduledCommandMetadata,
   SchemaMigrationMetadata,
   TokenVerifier,
-} from './concepts'
-import { ProviderLibrary } from './provider'
-import { Level } from './logger'
+} from './concepts.js'
+import { ProviderLibrary } from './provider.js'
+import { Level } from './logger.js'
 import * as path from 'path'
-import { RocketDescriptor, RocketFunction } from './rockets'
+import { RocketDescriptor, RocketFunction } from './rockets.js'
 import { DEFAULT_SENSOR_HEALTH_BOOSTER_CONFIGURATIONS, HealthIndicatorMetadata, Logger, SensorConfiguration } from '.'
-import { TraceConfiguration } from './instrumentation/trace-types'
-import { AzureConfiguration, DEFAULT_CHUNK_SIZE } from './provider/azure-configuration'
+import { TraceConfiguration } from './instrumentation/trace-types.js'
+import { AzureConfiguration, DEFAULT_CHUNK_SIZE } from './provider/azure-configuration.js'
 import { Context } from 'effect'
 
 /**

@@ -1,4 +1,4 @@
-import { BoosterConfig } from './config'
+import { BoosterConfig } from './config.js'
 
 /**
  * `UserApp` represents the expected interface when we `require` the `dist/index.js` file of a Booster app

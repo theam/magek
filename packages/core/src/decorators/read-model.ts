@@ -5,9 +5,9 @@ import {
   ReadModelInterface,
   ReadModelRoleAccess,
 } from '@booster-ai/common'
-import { Booster } from '../booster'
-import { BoosterAuthorizer } from '../booster-authorizer'
-import { getClassMetadata } from './metadata'
+import { Booster } from '../booster.js'
+import { BoosterAuthorizer } from '../booster-authorizer.js'
+import { getClassMetadata } from './metadata.js'
 import { getMetadata, defineMetadata } from '@booster-ai/metadata'
 
 /**

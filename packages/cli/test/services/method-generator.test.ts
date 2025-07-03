@@ -1,5 +1,5 @@
 import { HasName, HasProjection, HasReaction } from '../../src/services/generator/target'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { generateProjection, generateReducers, getResourceSourceFile } from '../../src/services/method-generator'
 import { fake, replace, restore, stub } from 'sinon'
 import * as Filenames from '../../src/common/filenames'

@@ -1,13 +1,13 @@
 import { Flags } from '@oclif/core'
-import BaseCommand from '../common/base-command'
-import { nukeCloudProviderResources } from '../services/provider-service'
-import { compileProjectAndLoadConfig } from '../services/config-service'
+import BaseCommand from '../common/base-command.js'
+import { nukeCloudProviderResources } from '../services/provider-service.js'
+import { compileProjectAndLoadConfig } from '../services/config-service.js'
 import { BoosterConfig } from '@booster-ai/common'
-import { Script } from '../common/script'
-import Brand from '../common/brand'
-import Prompter from '../services/user-prompt'
-import { logger } from '../services/logger'
-import { currentEnvironment, initializeEnvironment } from '../services/environment'
+import { Script } from '../common/script.js'
+import Brand from '../common/brand.js'
+import Prompter from '../services/user-prompt.js'
+import { logger } from '../services/logger.js'
+import { currentEnvironment, initializeEnvironment } from '../services/environment.js'
 
 const runTasks = async (
   compileAndLoad: Promise<BoosterConfig>,

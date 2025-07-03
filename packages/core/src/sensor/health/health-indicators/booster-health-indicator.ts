@@ -4,7 +4,7 @@ import {
   HealthIndicatorMetadata,
   HealthStatus,
 } from '@booster-ai/common'
-import { boosterVersion } from './booster-version'
+import { boosterVersion } from './booster-version.js'
 
 export class BoosterHealthIndicator {
   public async health(
