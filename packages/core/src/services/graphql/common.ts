@@ -17,7 +17,7 @@ import {
   Kind,
   ValueNode,
 } from 'graphql'
-import { ReadModelPubSub } from '../pub-sub/read-model-pub-sub'
+import { ReadModelPubSub } from '../pub-sub/read-model-pub-sub.js'
 import { PropertyMetadata, TypeMetadata } from '@booster-ai/metadata'
 
 export type TargetTypesMap = Record<string, TargetTypeMetadata>

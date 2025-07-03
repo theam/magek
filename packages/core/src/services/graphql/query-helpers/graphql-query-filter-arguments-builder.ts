@@ -10,12 +10,12 @@ import {
   GraphQLString,
   ThunkObjMap,
 } from 'graphql'
-import { getClassMetadata } from '../../../decorators/metadata'
+import { getClassMetadata } from '../../../decorators/metadata.js'
 import { PropertyMetadata, TypeMetadata } from '@booster-ai/metadata'
 import { GraphQLJSON } from 'graphql-scalars'
 import { AnyClass, BoosterConfig, UUID } from '@booster-ai/common'
-import { GraphQLTypeInformer } from '../graphql-type-informer'
-import { DateScalar, isExternalType, nonExcludedFields } from '../common'
+import { GraphQLTypeInformer } from '../graphql-type-informer.js'
+import { DateScalar, isExternalType, nonExcludedFields } from '../common.js'
 
 export class GraphqlQueryFilterArgumentsBuilder {
   constructor(

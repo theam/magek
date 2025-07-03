@@ -9,7 +9,7 @@ import {
   GraphQLOutputType,
   GraphQLString,
 } from 'graphql'
-import { buildGraphqlSimpleEnumFor, GraphQLResolverContext, ResolverBuilder } from '../common'
+import { buildGraphqlSimpleEnumFor, GraphQLResolverContext, ResolverBuilder } from '../common.js'
 import { GraphQLJSON } from 'graphql-scalars'
 import { BoosterConfig } from '@booster-ai/common'
 

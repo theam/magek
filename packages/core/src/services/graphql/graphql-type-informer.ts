@@ -1,4 +1,4 @@
-import { getClassMetadata } from './../../decorators/metadata'
+import { getClassMetadata } from './../../decorators/metadata.js'
 import {
   GraphQLBoolean,
   GraphQLEnumType,

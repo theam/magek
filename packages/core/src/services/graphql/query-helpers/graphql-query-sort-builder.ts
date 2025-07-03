@@ -1,9 +1,9 @@
 import { GraphQLEnumType, GraphQLFieldConfigArgumentMap, GraphQLInputObjectType, ThunkObjMap } from 'graphql'
 import { PropertyMetadata } from '@booster-ai/metadata'
-import { getClassMetadata } from '../../../decorators/metadata'
-import { buildGraphqlSimpleEnumFor, isExternalType, nonExcludedFields } from '../common'
+import { getClassMetadata } from '../../../decorators/metadata.js'
+import { buildGraphqlSimpleEnumFor, isExternalType, nonExcludedFields } from '../common.js'
 import { GraphQLInputFieldConfig } from 'graphql/type/definition'
-import { GraphQLTypeInformer } from '../graphql-type-informer'
+import { GraphQLTypeInformer } from '../graphql-type-informer.js'
 import { AnyClass, BoosterConfig } from '@booster-ai/common'
 
 export class GraphqlQuerySortBuilder {

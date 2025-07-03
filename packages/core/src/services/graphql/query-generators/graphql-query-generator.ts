@@ -1,7 +1,7 @@
-import { GraphQLTypeInformer } from '../graphql-type-informer'
-import { GraphQLResolverContext, ResolverBuilder, TargetTypesMap } from '../common'
+import { GraphQLTypeInformer } from '../graphql-type-informer.js'
+import { GraphQLResolverContext, ResolverBuilder, TargetTypesMap } from '../common.js'
 import { GraphQLFieldConfigMap } from 'graphql'
-import { GraphQLHandledFieldsGenerator } from '../query-helpers/graphql-handled-fields-generator'
+import { GraphQLHandledFieldsGenerator } from '../query-helpers/graphql-handled-fields-generator.js'
 import { BoosterConfig } from '@booster-ai/common'
 
 export class GraphqlQueryGenerator {

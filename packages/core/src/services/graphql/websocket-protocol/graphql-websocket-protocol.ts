@@ -18,7 +18,7 @@ import {
   UserEnvelope,
   getLogger,
 } from '@booster-ai/common'
-import { BoosterTokenVerifier } from '../../../booster-token-verifier'
+import { BoosterTokenVerifier } from '../../../booster-token-verifier.js'
 
 export interface GraphQLWebsocketHandlerCallbacks {
   onStartOperation: (

@@ -1,7 +1,7 @@
 import { GraphQLFieldConfig, GraphQLFieldConfigMap, GraphQLID, GraphQLList, GraphQLNonNull } from 'graphql'
-import { GraphQLResolverContext, ResolverBuilder } from '../common'
+import { GraphQLResolverContext, ResolverBuilder } from '../common.js'
 import { AnyClass, BoosterConfig } from '@booster-ai/common'
-import { GraphQLTypeInformer } from '../graphql-type-informer'
+import { GraphQLTypeInformer } from '../graphql-type-informer.js'
 
 export class GraphqlQueryByKeysGenerator {
   public constructor(
