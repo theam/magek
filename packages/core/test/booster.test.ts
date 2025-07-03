@@ -1,6 +1,4 @@
- 
- 
-import { expect } from './expect'
+import { expect } from './expect.js'
 import { Booster } from '../src/'
 import { replace, fake, restore, match, replaceGetter } from 'sinon'
 import { Importer } from '../src/importer'
