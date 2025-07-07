@@ -1,6 +1,7 @@
-import { AnyClass } from '..'
+import { AnyClass } from '../typelevel.js'
 
 export interface ReducerMetadata {
   class: AnyClass
   methodName: string
+  eventHandlerName: string
 }

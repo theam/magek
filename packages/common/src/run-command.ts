@@ -12,11 +12,11 @@ export function runCommandAsync(path: string, command: string, ignoreLogs = fals
   })
 
   if (!ignoreLogs) {
-    subprocess.stdout.on('data', (data) => {
+    subprocess.stdout.on('data', (data: Buffer) => {
       console.log(data.toString())
     })
 
-    subprocess.stderr.on('data', (data) => {
+    subprocess.stderr.on('data', (data: Buffer) => {
       console.error(data.toString())
     })
   }
@@ -32,15 +32,15 @@ export function runCommand(path: string, command: string, ignoreLogs = false): P
     let stderr = ''
 
     if (subprocess) {
-      subprocess.stdout.on('data', (data) => {
+      subprocess.stdout.on('data', (data: Buffer) => {
         stdout += data.toString()
       })
 
-      subprocess.stderr.on('data', (data) => {
+      subprocess.stderr.on('data', (data: Buffer) => {
         stderr += data.toString()
       })
 
-      subprocess.on('close', (code) => {
+      subprocess.on('close', (code: number | null) => {
         if (code === 0) {
           resolve(stdout)
         } else {

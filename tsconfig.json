@@ -16,10 +16,11 @@
     "experimentalDecorators": true,
     "useUnknownInCatchVariables": false,
     "skipLibCheck": true,
-    "typeRoots": [
-      "./node_modules/@types",
-      "./types"
+    "lib": [
+      "ES2022"
     ],
-    "lib": ["ES2022"]
+    "types": [
+      "node"
+    ]
   }
 }

@@ -45,6 +45,7 @@ All production code is TypeScript; tests use Mocha.  Standard utilities such as 
 * **Language**: TypeScript (ES2022).  No default exports, prefer named exports.
 * **Style**: The project ships its own ESLint & Prettier config (`@booster-ai/eslint-config`).  Always run `rush lint:fix` before committing.
 * **Functional-first**: Favour pure functions over classes unless state is required.  Prefer `const`/immutability.
+* **Type safety**: Avoid using `any` type at all costs. Always use explicit types as `any` is a potential source of unnoticed errors. Use `unknown` if the type is truly unknown and add proper type guards.
 * **Commit messages** must follow the *Conventional Commits* spec.  Examples:
   * `feat(core): add optimistic concurrency control`
   * `fix(cli): validate project name before scaffolding`

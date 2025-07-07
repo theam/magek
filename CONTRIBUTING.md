@@ -6,7 +6,7 @@
 Thanks for taking the time to contribute to Booster. It is an open-source project and it wouldn't be possible without people like you 🙏🎉
 
 This document is a set of guidelines to help you contribute to Booster, which is hosted on the [`boostercloud`](https://github.com/boostercloud) GitHub
-organization. These aren’t absolute laws, use your judgment and common sense 😀.
+organization. These aren't absolute laws, use your judgment and common sense 😀.
 Remember that if something here doesn't make sense, you can also propose a change to this document.
 
 <!-- toc -->
@@ -32,6 +32,7 @@ Remember that if something here doesn't make sense, you can also propose a chang
   - [Importing other files and libraries](#importing-other-files-and-libraries)
   - [Functional style](#functional-style)
   - [Use `const` and `let`](#use-const-and-let)
+  - [Type Safety](#type-safety)
 
 <!-- tocstop -->
 
@@ -146,7 +147,7 @@ Keep it simple intentionally omitting details.
 **3. Coherent**
 
 The documentation tells a story. Every section should integrate naturally without making the reader switch between different contexts. Text, diagrams,
-and code examples should support each other without introducing abrupt changes breaking the reader’s flow. Also, the font, colors, diagrams, code samples,
+and code examples should support each other without introducing abrupt changes breaking the reader's flow. Also, the font, colors, diagrams, code samples,
 animations, and all the visual elements we include, should support the story we are telling.
 
 **4. Explicit**
@@ -169,7 +170,7 @@ approach than s/he or similars.
 
 **7. Cohesive**
 
-Writing short and concise sentences is good, but remember to use proper connectors (“Therefore”, “Besides”, “However”, “thus”, etc) that provide a
+Writing short and concise sentences is good, but remember to use proper connectors ("Therefore", "Besides", "However", "thus", etc) that provide a
 sense of continuation to the whole paragraph. If not, when people read the paragraphs, their internal voice sounds like a robot with unnatural stops.
 
 For example, read this paragraph and try to hear your internal voice:
@@ -188,10 +189,10 @@ Did you feel the difference? The latter makes you feel that everything is connec
 
 There are many writing styles depending on the type of document. It is common within technical and scientific writing to use Inductive and/or Deductive styles
 for paragraphs. They have different outcomes and one style may suit better in one case or another, that is why it is important to know them, and decide which
-one to use in every moment. Let’s see the difference with 2 recursive examples.
+one to use in every moment. Let's see the difference with 2 recursive examples.
 
 **Deductive paragraphs ease the reading for advanced users but still allows you to elaborate on ideas and concepts for newcomers**. In deductive paragraphs,
-the conclusions or definitions appear at the beginning, and then, details, facts, or supporting phrases complete the paragraph’s idea. By placing the
+the conclusions or definitions appear at the beginning, and then, details, facts, or supporting phrases complete the paragraph's idea. By placing the
 conclusion in the first sentence, the reader immediately identifies the main point so they can decide to skip the whole paragraph or keep reading.
 If you take a look at the structure of this paragraph, it is deductive.
 
@@ -389,4 +390,26 @@ a = a + b
 // Less Good
 var c = 0
 let d = 3 // Never updated
+```
+
+### Type Safety
+
+Avoid using `any` type at all costs. The `any` type defeats the purpose of using TypeScript and is a potential source of unnoticed errors. Always use explicit types. If the type is truly unknown, use `unknown` instead and add proper type guards.
+
+```typescript
+// Good
+function processData(data: Buffer): string {
+  return data.toString()
+}
+
+function handleUnknown(value: unknown): void {
+  if (typeof value === 'string') {
+    console.log(value.toUpperCase())
+  }
+}
+
+// Bad
+function processData(data: any): string {
+  return data.toString() // Could fail at runtime
+}
 ```

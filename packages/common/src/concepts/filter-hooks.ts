@@ -1,6 +1,7 @@
-import { QueryInput, ReadModelInterface } from '.'
 import { UserEnvelope, ReadModelRequestEnvelope } from '../envelope.js'
 import { CommandInput } from './command.js'
+import { QueryInput } from './query.js'
+import { ReadModelInterface } from './read-model.js'
 
 export interface CommandFilterHooks {
   readonly before?: Array<CommandBeforeFunction>

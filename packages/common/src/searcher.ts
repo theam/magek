@@ -1,5 +1,4 @@
- 
-import { SequenceKey, UUID } from './concepts.js'
+import { SequenceKey, UUID } from './concepts/index.js'
 import { ReadModelListResult } from './envelope.js'
 import { AnyClass, Class, ReadOnlyNonEmptyArray } from './typelevel.js'
 

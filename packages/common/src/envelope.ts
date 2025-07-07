@@ -6,7 +6,7 @@ import {
   ReadModelInterface,
   SequenceKey,
   UUID,
-} from './concepts.js'
+} from './concepts/index.js'
 import { GraphQLClientMessage } from './graphql-websocket-messages.js'
 import { FilterFor, ProjectionFor, SortFor } from './searcher.js'
 import { Class } from './typelevel.js'

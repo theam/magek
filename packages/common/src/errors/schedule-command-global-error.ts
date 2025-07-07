@@ -1,5 +1,5 @@
 import { GlobalErrorContainer } from './global-error-container.js'
-import { ScheduledCommandMetadata } from '../concepts.js'
+import { ScheduledCommandMetadata } from '../concepts/index.js'
 import { ScheduledCommandEnvelope } from '../envelope.js'
 
 export class ScheduleCommandGlobalError extends GlobalErrorContainer {

@@ -1,4 +1,4 @@
-import { ReadModelInterface, SequenceKey, UUID } from './concepts.js'
+import { ReadModelInterface, SequenceKey, UUID } from './concepts/index.js'
 import { BoosterConfig } from './config.js'
 import {
   ConnectionDataEnvelope,
