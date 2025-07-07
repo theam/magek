@@ -29,6 +29,7 @@ import {
   GraphQLSchema,
   isObjectType,
   Kind,
+  SelectionSetNode,
 } from 'graphql'
 // @ts-expect-error plur has no TypeScript types yet
 import plur from 'plur'
@@ -41,7 +42,6 @@ import { GraphQLQueryGenerator } from './graphql-query-generator.js'
 import { GraphQLSubscriptionGenerator } from './graphql-subcriptions-generator.js'
 import { GraphQLTypeInformer } from './graphql-type-informer.js'
 import { BoosterQueryDispatcher } from '../../booster-query-dispatcher.js'
-import { SelectionSetNode } from 'graphql/language/ast'
 import type { GraphQLInputType, GraphQLNamedInputType } from 'graphql'
 
 export class GraphQLGenerator {

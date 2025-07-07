@@ -55,8 +55,7 @@ function filterByOperation<TReadModel extends ReadModelInterface>(
   readModelPropValue: any
 ): boolean {
   for (const [op, value] of Object.entries(filter as Operation<any>)) {
-    const operation = op as keyof Operation<any>
-    switch (operation) {
+    switch (op) {
       case 'eq':
         if (readModelPropValue !== value) return false
         break
@@ -94,7 +93,7 @@ function filterByOperation<TReadModel extends ReadModelInterface>(
         break
       default:
         if (typeof value === 'object') {
-          return filterByOperation(value, readModelPropValue[operation])
+          return filterByOperation(value, readModelPropValue[op])
         }
     }
   }

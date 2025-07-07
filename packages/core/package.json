@@ -51,6 +51,7 @@
     "plur": "4.0.0",
     "tslib": "2.4.0",
     "effect": "3.16.11",
+    "@effect/cli": "0.61.10",
     "validator": "13.15.15",
     "@effect/platform-node": "0.86.5",
     "@effect/platform": "^0.85.2",

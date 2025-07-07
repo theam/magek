@@ -1,4 +1,3 @@
- 
 import { Booster } from '../booster.js'
 import {
   Class,
@@ -83,6 +82,7 @@ export function Reduces<TEvent extends EventInterface>(
     registerReducer(eventClass.name, {
       class: entityClass,
       methodName: methodName,
+      eventHandlerName: eventClass.name,
     })
   }
 }

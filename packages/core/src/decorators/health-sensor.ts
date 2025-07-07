@@ -1,4 +1,3 @@
- 
 import {
   Class,
   HealthIndicatorConfiguration,
@@ -6,7 +5,7 @@ import {
   HealthIndicatorMetadata,
 } from '@booster-ai/common'
 import { Booster } from '../booster.js'
-import { defaultBoosterHealthIndicators } from '../sensor/health/health-indicators.js'
+import { defaultBoosterHealthIndicators } from '../sensor/health/health-indicators/index.js'
 
 /**
  *

@@ -1,15 +1,14 @@
-import { EventRegistry, ReadModelRegistry } from '../services.js'
+import { EventRegistry, ReadModelRegistry } from '../services/index.js'
 import { eventsDatabase, readModelsDatabase } from '../paths.js'
 import { BoosterConfig, boosterLocalPort, HealthEnvelope, UUID, request } from '@booster-ai/common'
 import { existsSync } from 'fs'
 import { FastifyRequest } from 'fastify'
-import Nedb from '@seald-io/nedb'
 
 export async function databaseUrl(): Promise<Array<string>> {
   return [eventsDatabase, readModelsDatabase]
 }
 
-export async function countAll(database: Nedb): Promise<number> {
+export async function countAll(database: any): Promise<number> {
   await database.loadDatabaseAsync()
   const count = await database.countAsync({})
   return count ?? 0

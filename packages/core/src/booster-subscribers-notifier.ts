@@ -14,7 +14,6 @@ import * as graphql from 'graphql'
 import { GraphQLGenerator } from './services/graphql/graphql-generator.js'
 import { FilteredReadModelPubSub, ReadModelPubSub } from './services/pub-sub/read-model-pub-sub.js'
 import { GraphQLResolverContext } from './services/graphql/common.js'
-// @ts-expect-error types from graphql root may not resolve in editor until install
 import { ExecutionResult } from 'graphql'
 import { Trace } from './instrumentation/index.js'
 

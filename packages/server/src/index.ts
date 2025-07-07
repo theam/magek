@@ -8,7 +8,7 @@ import {
   storeSnapshot,
 } from './library/events-adapter.js'
 import { healthRequestResult, requestFailed, requestSucceeded } from './library/api-adapter.js'
-import { EventRegistry, GraphQLService, ReadModelRegistry } from './services.js'
+import { EventRegistry, GraphQLService, ReadModelRegistry } from './services/index.js'
 import { rawGraphQLRequestToEnvelope } from './library/graphql-adapter.js'
 
 import * as path from 'path'
@@ -52,7 +52,7 @@ import { deleteEvent, deleteSnapshot, findDeletableEvent, findDeletableSnapshot 
 import * as process from 'process'
 
 export * from './paths.js'
-export * from './services.js'
+export * from './services/index.js'
 export * from './library/graphql-adapter.js'
 
 const eventRegistry = new EventRegistry()

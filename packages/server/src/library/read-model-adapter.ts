@@ -11,7 +11,7 @@ import {
   UUID,
   getLogger,
 } from '@booster-ai/common'
-import { GraphQLService, NedbError, ReadModelRegistry, UNIQUE_VIOLATED_ERROR_TYPE } from '../services.js'
+import { GraphQLService, NedbError, ReadModelRegistry, UNIQUE_VIOLATED_ERROR_TYPE } from '../services/index.js'
 import { queryRecordFor } from './searcher-adapter.js'
 
 export async function rawReadModelEventsToEnvelopes(
