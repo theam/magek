@@ -2,7 +2,8 @@
  * Holds information about a user class annotated with `@Entity`
  */
 import { Class } from '../typelevel.js'
-import { EventStreamAuthorizer, UUID } from '.'
+import { UUID } from './uuid.js'
+import { EventStreamAuthorizer } from './authorizers.js'
 
 export interface EntityInterface {
   id: UUID

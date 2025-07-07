@@ -1,4 +1,4 @@
-import { HealthRoleAccess } from '../concepts.js'
+import { HealthRoleAccess } from '../concepts/role.js'
 import { BoosterConfig } from '../config.js'
 import { Class } from '../typelevel.js'
 

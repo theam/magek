@@ -1,6 +1,8 @@
-import { ReadModelAuthorizer, ReadModelFilterHooks, UUID } from '.'
 import { Class } from '../typelevel.js'
+import { UUID } from './uuid.js'
 import { PropertyMetadata } from '@booster-ai/metadata'
+import { ReadModelAuthorizer } from './authorizers.js'
+import { ReadModelFilterHooks } from './filter-hooks.js'
 
 export interface BoosterMetadata {
   version: number

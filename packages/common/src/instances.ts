@@ -1,7 +1,7 @@
  
 import { Class } from './typelevel.js'
 import { ProjectionFor } from './searcher.js'
-import { ReadModelInterface } from './concepts.js'
+import { ReadModelInterface } from './concepts/index.js'
 
 /**
  * Creates an instance of the given class from the given raw object.

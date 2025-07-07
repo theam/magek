@@ -9,7 +9,7 @@ import {
   EventSearchResponse,
   PaginatedEntitiesIdsResult,
   EventDeleteParameters,
-} from '.'
+} from './index.js'
 
 /**
  * `BoosterApp` is the interface of the user-facing functions that

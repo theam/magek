@@ -1,6 +1,6 @@
 import { Class } from '../typelevel.js'
 import { PropertyMetadata } from '@booster-ai/metadata'
-import { Register, CommandAuthorizer, CommandFilterHooks } from './.'
+import { Register, CommandAuthorizer, CommandFilterHooks } from './index.js'
 
 export type CommandInput = Record<string, any>
 
