@@ -59,7 +59,7 @@
     "@types/sinon": "17.0.4",
     "@types/sinon-chai": "4.0.0",
     "@types/uuid": "10.0.0",
-    "@types/graphql": "16.0.0",
+    "@types/graphql": "14.5.0",
     "chai": "5.2.0",
     "chai-as-promised": "8.0.1",
     "mocha": "11.7.1",
