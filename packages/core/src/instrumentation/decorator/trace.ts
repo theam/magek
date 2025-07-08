@@ -1,6 +1,6 @@
 import { BoosterConfig, TraceActionTypes, TraceInfo, TraceTypes, UUID } from '@booster-ai/common'
 import { isTraceEnabled, notifyTrace } from '../trace-notifier.js'
-import { Booster } from '../../booster'
+import { Booster } from '../../booster.js'
 
 export function Trace(actionType: string = TraceActionTypes.CUSTOM, description?: string) {
   return (

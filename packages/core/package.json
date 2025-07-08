@@ -62,7 +62,8 @@
     "fast-check": "4.1.1",
     "@effect/printer": "~0.44.11",
     "@effect/printer-ansi": "~0.44.11",
-    "@effect/typeclass": "~0.35.11"
+    "@effect/typeclass": "~0.35.11",
+    "@effect/cli": "0.64.0"
   },
   "devDependencies": {
     "@booster-ai/eslint-config": "workspace:^3.2.0",

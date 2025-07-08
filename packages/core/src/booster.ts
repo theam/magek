@@ -18,7 +18,7 @@ import { BoosterEntityMigrated } from './core-concepts/data-migration/events/boo
 import { BoosterDataMigrationEntity } from './core-concepts/data-migration/entities/booster-data-migration-entity.js'
 import { BoosterDataMigrationStarted } from './core-concepts/data-migration/events/booster-data-migration-started.js'
 import { BoosterDataMigrationFinished } from './core-concepts/data-migration/events/booster-data-migration-finished.js'
-import { JwksUriTokenVerifier, JWT_ENV_VARS } from './services/token-verifiers.js'
+import { JwksUriTokenVerifier, JWT_ENV_VARS } from './services/token-verifiers/index.js'
 import { BoosterAuthorizer } from './booster-authorizer.js'
 import { BoosterEntityTouched } from './core-concepts/touch-entity/events/booster-entity-touched.js'
 import { readModelSearcher } from './services/read-model-searcher.js'
@@ -27,7 +27,7 @@ import { eventSearch } from './booster-event-search.js'
 import { Effect, pipe } from 'effect'
 import { Command } from '@effect/cli'
 import * as path from 'path'
-import * as Injectable from './injectable.js'
+import * as Injectable from './injectable/index.js'
 import { NodeContext, NodeRuntime } from '@effect/platform-node'
 
 /**

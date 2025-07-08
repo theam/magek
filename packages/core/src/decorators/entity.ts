@@ -1,4 +1,3 @@
- 
 import { Booster } from '../booster.js'
 import {
   Class,

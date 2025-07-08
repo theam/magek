@@ -10,7 +10,7 @@ import {
   retryIfError,
   getLogger,
 } from '@booster-ai/common'
-import { EventRegistry } from '..'
+import { EventRegistry } from '../index.js'
 
  
 const originOfTime = new Date(0).toISOString()

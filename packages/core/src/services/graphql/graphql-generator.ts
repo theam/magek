@@ -29,8 +29,8 @@ import {
   GraphQLSchema,
   isObjectType,
   Kind,
+  SelectionSetNode,
 } from 'graphql'
-// @ts-expect-error plur has no TypeScript types yet
 import plur from 'plur'
 import { BoosterCommandDispatcher } from '../../booster-command-dispatcher.js'
 import { BoosterEventsReader } from '../../booster-events-reader.js'
@@ -38,10 +38,9 @@ import { BoosterReadModelsReader } from '../../booster-read-models-reader.js'
 import { GraphQLResolverContext } from './common.js'
 import { GraphQLMutationGenerator } from './graphql-mutation-generator.js'
 import { GraphQLQueryGenerator } from './graphql-query-generator.js'
-import { GraphQLSubscriptionGenerator } from './graphql-subcriptions-generator.js'
+import { GraphQLSubscriptionGenerator } from './graphql-subscriptions-generator.js'
 import { GraphQLTypeInformer } from './graphql-type-informer.js'
 import { BoosterQueryDispatcher } from '../../booster-query-dispatcher.js'
-import { SelectionSetNode } from 'graphql/language/ast'
 import type { GraphQLInputType, GraphQLNamedInputType } from 'graphql'
 
 export class GraphQLGenerator {
@@ -114,7 +113,7 @@ export class GraphQLGenerator {
       let isPaginated = false
       const fields: ProjectionFor<unknown> = this.getFields(info) as ProjectionFor<unknown>
       let select: ProjectionFor<unknown> | undefined = fields.length > 0 ? fields : undefined
-      if (info?.fieldName === `List${plur(readModelClass.name)}`) {
+      if (info?.fieldName === `List${plur(readModelClass.name, 2)}`) {
         isPaginated = true
         if (select) {
           // In paginated queries, the `items[].` field needs to be removed from the select fields before querying the database

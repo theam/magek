@@ -1,4 +1,4 @@
-import { EventRegistry, ReadModelRegistry } from '../services.js'
+import { EventRegistry, ReadModelRegistry } from '../services/index.js'
 import { eventsDatabase, readModelsDatabase } from '../paths.js'
 import { BoosterConfig, boosterLocalPort, HealthEnvelope, UUID, request } from '@booster-ai/common'
 import { existsSync } from 'fs'

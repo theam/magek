@@ -1,7 +1,6 @@
 import { GraphQLFieldConfigMap, GraphQLID, GraphQLInputObjectType, GraphQLNonNull, GraphQLObjectType } from 'graphql'
 import { ResolverBuilder } from './common.js'
 import { GraphQLTypeInformer } from './graphql-type-informer.js'
-// @ts-expect-error plur has no TypeScript types yet
 import plur from 'plur'
 import { AnyClass, BoosterConfig } from '@booster-ai/common'
 import { GraphqlQueryFilterFieldsBuilder } from './query-helpers/graphql-query-filter-fields-builder.js'
@@ -59,7 +58,7 @@ export class GraphQLSubscriptionGenerator {
     for (const readModel of this.readModels) {
       const excludeProps = this.config.nonExposedGraphQLMetadataKey[readModel.name]
       const graphQLType = this.typeInformer.generateGraphQLTypeForClass(readModel, excludeProps)
-      subscriptions[plur(readModel.name)] = {
+      subscriptions[plur(readModel.name, 2)] = {
         type: graphQLType,
         args: this.graphqlQueryFilterFieldsBuilder.generateFilterQueriesFields(
           `${readModel.name}Subscription`,

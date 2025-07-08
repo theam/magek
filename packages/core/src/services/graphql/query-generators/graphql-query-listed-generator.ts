@@ -8,10 +8,8 @@ import {
   GraphQLObjectType,
 } from 'graphql'
 import { GraphQLResolverContext, ResolverBuilder } from '../common.js'
-// @ts-expect-error plur has no TypeScript types yet
 import plur from 'plur'
 import { GraphQLJSON } from 'graphql-scalars'
-
 import { GraphQLTypeInformer } from '../graphql-type-informer.js'
 import { GraphqlQuerySortBuilder } from '../query-helpers/graphql-query-sort-builder.js'
 import { GraphqlQueryFilterArgumentsBuilder } from '../query-helpers/graphql-query-filter-arguments-builder.js'
@@ -41,7 +39,7 @@ export class GraphqlQueryListedGenerator {
     for (const readModel of this.readModels) {
       const excludeProp = this.config.nonExposedGraphQLMetadataKey[readModel.name]
       const graphQLType = this.typeInformer.generateGraphQLTypeForClass(readModel, excludeProp)
-      queries[`List${plur(readModel.name)}`] = {
+      queries[`List${plur(readModel.name, 2)}`] = {
         type: new GraphQLNonNull(
           new GraphQLObjectType({
             name: `${readModel.name}Connection`,
