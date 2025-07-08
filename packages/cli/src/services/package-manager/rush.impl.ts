@@ -1,4 +1,4 @@
-import { InstallDependenciesError, PackageManagerService, RunScriptError } from '.'
+import { InstallDependenciesError, PackageManagerService, RunScriptError } from './index.js'
 import { Effect, Layer, pipe, Ref } from 'effect'
 import { makePackageManager, makeScopedRun } from './common.js'
 

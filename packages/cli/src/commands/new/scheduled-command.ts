@@ -1,11 +1,11 @@
 import { Flags, Args } from '@oclif/core'
-import BaseCommand from '../../common/base-command'
-import { Script } from '../../common/script'
-import Brand from '../../common/brand'
-import { generate, template } from '../../services/generator'
-import { HasName, joinParsers, parseName, ImportDeclaration } from '../../services/generator/target'
+import BaseCommand from '../../common/base-command.js'
+import { Script } from '../../common/script.js'
+import Brand from '../../common/brand.js'
+import { generate, template } from '../../services/generator.js'
+import { HasName, joinParsers, parseName, ImportDeclaration } from '../../services/generator/target/index.js'
 import * as path from 'path'
-import { checkCurrentDirIsABoosterProject } from '../../services/project-checker'
+import { checkCurrentDirIsABoosterProject } from '../../services/project-checker.js'
 
 export default class ScheduledCommand extends BaseCommand {
   public static description = "generate new scheduled command, write 'boost new:scheduled-command -h' to see options"

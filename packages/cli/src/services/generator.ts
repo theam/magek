@@ -1,7 +1,7 @@
 import * as path from 'path'
 import { outputFile, readFileSync } from 'fs-extra'
-import * as Mustache from 'mustache'
-import { Target, FileDir } from './generator/target.js'
+import Mustache from 'mustache'
+import { Target, FileDir } from './generator/target/index.js'
 import { classNameToFileName, checkResourceNameIsValid } from '../common/filenames.js'
 import { checkResourceExists } from './project-checker.js'
 import {

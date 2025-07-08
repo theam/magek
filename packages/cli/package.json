@@ -27,7 +27,7 @@
     "ts-morph": "26.0.0",
     "tslib": "2.4.0",
     "effect": "3.16.11",
-    "plur": "4.0.0",
+    "plur": "5.1.0",
     "@effect/platform": "^0.85.2"
   },
   "devDependencies": {

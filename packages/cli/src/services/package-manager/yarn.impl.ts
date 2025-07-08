@@ -1,4 +1,4 @@
-import { PackageManagerService } from '.'
+import { PackageManagerService } from './index.js'
 import { Effect, Layer } from 'effect'
 import { makePackageManager } from './common.js'
 

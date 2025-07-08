@@ -1,9 +1,9 @@
 import type { execaCommand as ExecaCommandFn } from 'execa'
 import { execaCommand as defaultExecaCommand } from 'execa'
 import * as process from 'process'
-import { ProcessError, ProcessService } from '.'
+import { ProcessError, ProcessService } from './index.js'
 import { Effect, Layer } from 'effect'
-import { unknownToError } from '../../common/errors'
+import { unknownToError } from '../../common/errors.js'
 
 export const makeLiveProcess = (execaCommand: typeof ExecaCommandFn) =>
   Layer.succeed(ProcessService, {

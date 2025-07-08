@@ -1,7 +1,7 @@
 import { Flags, Args } from '@oclif/core'
-import BaseCommand from '../../common/base-command'
-import { Script } from '../../common/script'
-import Brand from '../../common/brand'
+import BaseCommand from '../../common/base-command.js'
+import { Script } from '../../common/script.js'
+import Brand from '../../common/brand.js'
 import {
   HasFields,
   HasReaction,
@@ -11,11 +11,11 @@ import {
   parseFields,
   parseReaction,
   ImportDeclaration,
-} from '../../services/generator/target'
+} from '../../services/generator/target/index.js'
 import * as path from 'path'
-import { generate, template } from '../../services/generator'
-import { checkCurrentDirIsABoosterProject } from '../../services/project-checker'
-import { classNameToFileName } from '../../common/filenames'
+import { generate, template } from '../../services/generator.js'
+import { checkCurrentDirIsABoosterProject } from '../../services/project-checker.js'
+import { classNameToFileName } from '../../common/filenames.js'
 
 export default class Entity extends BaseCommand {
   public static description = 'create a new entity'

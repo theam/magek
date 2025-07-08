@@ -1,8 +1,8 @@
-import { ReaderTaskEither, rightIO, chain, ask, run, fromTaskEither } from 'fp-ts/lib/ReaderTaskEither'
-import { pipe } from 'fp-ts/lib/pipeable'
-import { fold } from 'fp-ts/lib/Either'
-import { tryCatch } from 'fp-ts/lib/TaskEither'
-import { constVoid } from 'fp-ts/lib/function'
+import { ReaderTaskEither, rightIO, chain, ask, run, fromTaskEither } from 'fp-ts/ReaderTaskEither'
+import { pipe } from 'fp-ts/function'
+import { fold } from 'fp-ts/Either'
+import { tryCatch } from 'fp-ts/TaskEither'
+import { constVoid } from 'fp-ts/function'
 import { oraLogger } from '../services/logger.js'
 import Brand from './brand.js'
 
