@@ -55,7 +55,9 @@
     "sinon-chai": "4.0.0",
     "ts-node": "10.9.1",
     "typescript": "5.8.3",
-    "ts-patch": "3.3.0"
+    "ts-patch": "3.3.0",
+    "tsconfig-paths": "^4.2.0",
+    "nyc": "17.1.0"
   },
   "engines": {
     "node": ">=22.0.0 <23.0.0"
@@ -96,7 +98,7 @@
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "prepack": "tsc -b tsconfig.json",
     "test:cli": "npm run test",
-    "test": "nyc --extension .ts mocha --loader ts-node/esm --forbid-only  \"test/**/*.test.ts\""
+    "test": "mocha"
   },
   "types": "lib/index.d.ts",
   "ts-node": {

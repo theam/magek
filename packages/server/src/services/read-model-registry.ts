@@ -1,6 +1,7 @@
 import { ProjectionFor, ReadModelEnvelope, SortFor, UUID } from '@booster-ai/common'
 import { readModelsDatabase } from '../paths.js'
-
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
 const DataStore = require('@seald-io/nedb')
 
 interface LocalSortedFor {

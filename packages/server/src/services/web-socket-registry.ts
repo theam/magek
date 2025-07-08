@@ -1,4 +1,6 @@
  
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
 const DataStore = require('@seald-io/nedb')
 import { ConnectionDataEnvelope, SubscriptionEnvelope, UUID } from '@booster-ai/common'
 

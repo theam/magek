@@ -2,9 +2,9 @@
 
 import * as fs from 'fs'
 import * as path from 'path'
-import degit = require('degit')
-import prompts = require('prompts')
-import kleur = require('kleur')
+import degit from 'degit'
+import prompts from 'prompts'
+import kleur from 'kleur'
 import { globby } from 'globby'
 import { spawn } from 'child_process'
 
@@ -12,7 +12,8 @@ import { spawn } from 'child_process'
 function getBoosterVersion(): string {
   try {
     // Read from the create package itself
-    return require('../package.json').version
+    const packageJson = JSON.parse(fs.readFileSync(new URL('../package.json', import.meta.url), 'utf-8'))
+    return packageJson.version
   } catch {
     return '3.2.0'
   }
@@ -384,7 +385,11 @@ async function main(): Promise<void> {
   }
 }
 
-if (require.main === module) {
+// Check if this file is being run directly
+import { fileURLToPath } from 'url'
+const __filename = fileURLToPath(import.meta.url)
+
+if (process.argv[1] === __filename) {
   main().catch((error) => {
     console.error(kleur.red('❌ Unexpected error:'), error)
     process.exit(1)

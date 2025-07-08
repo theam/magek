@@ -8,12 +8,8 @@
     "src/**/*"
   ],
   "ts-node": {
-    "compilerOptions": {
-      "plugins": [
-        {
-          "transform": "@booster-ai/metadata"
-        }
-      ]
-    }
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
+    "transpileOnly": true
   }
 }

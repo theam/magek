@@ -1,7 +1,8 @@
  
 import { EntitySnapshotEnvelope, EventEnvelope, EventStoreEntryEnvelope } from '@booster-ai/common'
 import { eventsDatabase } from '../paths.js'
-
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
 const DataStore = require('@seald-io/nedb')
 
 export class EventRegistry {

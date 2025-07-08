@@ -5,7 +5,8 @@ import {
   UserEnvelope,
   BoosterConfig,
 } from '@booster-ai/common'
-import { NotBeforeError, TokenExpiredError } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
+const { NotBeforeError, TokenExpiredError } = jwt
 
 export class BoosterTokenVerifier {
   public constructor(private config: BoosterConfig) {}

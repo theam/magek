@@ -59,8 +59,8 @@ const eventRegistry = new EventRegistry()
 const readModelRegistry = new ReadModelRegistry()
 const connectionRegistry = new WebSocketRegistry(connectionsDatabase)
 const subscriptionRegistry = new WebSocketRegistry(subscriptionDatabase)
-const userApp: UserApp = require(path.join(process.cwd(), 'dist', 'index.js'))
-const graphQLService = new GraphQLService(userApp)
+let userApp: UserApp
+let graphQLService: GraphQLService
 
 /* We load the infrastructure package dynamically here to avoid including it in the
  * dependencies that are deployed in the lambda functions. The infrastructure
@@ -70,7 +70,19 @@ export function loadInfrastructurePackage(packageName: string): HasInfrastructur
   return require(packageName)
 }
 
-export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrary => ({
+export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrary => {
+  // Load userApp synchronously for now - will need to be refactored
+  if (!userApp) {
+    try {
+      userApp = require(path.join(process.cwd(), 'dist', 'index.js'))
+      graphQLService = new GraphQLService(userApp)
+    } catch (e) {
+      console.error('Failed to load user app:', e)
+      throw e
+    }
+  }
+  
+  return {
   // ProviderEventsLibrary
   events: {
     rawToEnvelopes: rawEventsToEnvelopes,
@@ -153,6 +165,7 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
 
     return infrastructure.Infrastructure(rocketDescriptors)
   },
-})
+  }
+}
 
 function notImplemented(): void {}

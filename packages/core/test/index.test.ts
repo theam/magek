@@ -18,7 +18,7 @@ import { BoosterSubscribersNotifier } from '../src/booster-subscribers-notifier.
 import { BoosterRocketDispatcher } from '../src/booster-rocket-dispatcher.js'
 import { BoosterEventStreamConsumer } from '../src/booster-event-stream-consumer.js'
 import { BoosterEventStreamProducer } from '../src/booster-event-stream-producer.js'
-import { BoosterHealthService } from '../src/sensor.js'
+import { BoosterHealthService } from '../src/sensor/index.js'
 
 describe('framework-core package', () => {
   afterEach(() => {

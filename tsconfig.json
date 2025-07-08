@@ -3,8 +3,9 @@
     "baseUrl": "./packages",
     "declaration": true,
     "importHelpers": true,
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "node16",
+    "moduleResolution": "node16",
+    "allowImportingTsExtensions": false,
     "strict": true,
     "target": "ES2022",
     "noImplicitReturns": true,
@@ -20,7 +21,13 @@
       "ES2022"
     ],
     "types": [
-      "node"
+      "node", "mocha", "sinon"
     ]
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "swc": false,
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
   }
 }

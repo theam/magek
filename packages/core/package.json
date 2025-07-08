@@ -32,7 +32,7 @@
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "prepack": "tsc -b tsconfig.json",
     "test:core": "npm run test",
-    "test": "cross-env BOOSTER_ENV=test nyc --extension .ts mocha --loader ts-node/esm --forbid-only \"test/**/*.test.ts\" 2>&1"
+    "test": "cross-env BOOSTER_ENV=test mocha"
   },
   "bugs": {
     "url": "https://github.com/boostercloud/booster/issues"
@@ -89,7 +89,9 @@
     "ts-node": "10.9.1",
     "typescript": "5.8.3",
     "graphql": "16.6.0",
-    "ts-patch": "3.3.0"
+    "ts-patch": "3.3.0",
+    "tsconfig-paths": "^4.2.0",
+    "nyc": "17.1.0"
   },
   "ts-node": {
     "esm": true

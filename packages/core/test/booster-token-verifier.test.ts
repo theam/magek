@@ -3,7 +3,8 @@
  
 import { expect } from './expect.js'
 import { BoosterConfig, UserEnvelope, DecodedToken } from '@booster-ai/common'
-import createJWKSMock from 'mock-jwks'
+import jwksClient from 'mock-jwks'
+const createJWKSMock = jwksClient.default || jwksClient
 import { faker } from '@faker-js/faker'
 import { BoosterTokenVerifier } from '../src/booster-token-verifier.js'
 import { JwksUriTokenVerifier } from '../src/services/token-verifiers/jwks-uri-token-verifier.js'
