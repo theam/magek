@@ -9,7 +9,7 @@ export async function databaseUrl(): Promise<Array<string>> {
   return [eventsDatabase, readModelsDatabase]
 }
 
-export async function countAll(database: Nedb): Promise<number> {
+export async function countAll(database: Nedb.default): Promise<number> {
   await database.loadDatabaseAsync()
   const count = await database.countAsync({})
   return count ?? 0
