@@ -30,7 +30,7 @@ export default class Build extends BaseCommand {
   async catch(fullError: Error) {
     const {
       flags: { verbose },
-    } = await this.parse(Build)
+    } = await this.parse(Build as any)
 
     if (verbose) {
       console.error(fullError.message)

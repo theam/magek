@@ -39,7 +39,7 @@ export default class Start extends BaseCommand {
   }
 
   public async run(): Promise<void> {
-    const { flags } = await this.parse(Start)
+    const { flags } = await this.parse(Start as any)
 
     if (initializeEnvironment(logger, flags.environment)) {
       process.env[BOOSTER_LOCAL_PORT] = flags.port ? flags.port.toString() : '3000'
@@ -50,7 +50,7 @@ export default class Start extends BaseCommand {
   async catch(fullError: Error) {
     const {
       flags: { verbose },
-    } = await this.parse(Start)
+    } = await this.parse(Start as any)
 
     if (verbose) {
       console.error(fullError.message)

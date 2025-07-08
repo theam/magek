@@ -1,10 +1,10 @@
 import { Flags } from '@oclif/core'
-import BaseCommand from '../../common/base-command'
-import { HasName, HasProjection, joinParsers, parseName, parseProjectionField } from '../../services/generator/target'
-import { Script } from '../../common/script'
-import Brand from '../../common/brand'
-import { checkCurrentDirIsABoosterProject } from '../../services/project-checker'
-import { generateProjection, getResourceSourceFile } from '../../services/method-generator'
+import BaseCommand from '../../common/base-command.js'
+import { HasName, HasProjection, joinParsers, parseName, parseProjectionField } from '../../services/generator/target/index.js'
+import { Script } from '../../common/script.js'
+import Brand from '../../common/brand.js'
+import { checkCurrentDirIsABoosterProject } from '../../services/project-checker.js'
+import { generateProjection, getResourceSourceFile } from '../../services/method-generator.js'
 
 export default class Projection extends BaseCommand {
   public static description = 'add new projection to read model'
@@ -33,7 +33,7 @@ export default class Projection extends BaseCommand {
   }
 
   public async run(): Promise<void> {
-    const { flags } = await this.parse(Projection)
+    const { flags } = await this.parse(Projection as any)
     const readModel = flags['read-model']
     const entity = flags.entity
 

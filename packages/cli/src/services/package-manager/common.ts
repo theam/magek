@@ -1,7 +1,7 @@
 import { Effect, Ref, pipe } from 'effect'
-import { InstallDependenciesError, PackageManagerService, RunScriptError } from '.'
-import { ProcessService } from '../process.js'
-import { FileSystemService } from '../file-system.js'
+import { InstallDependenciesError, PackageManagerService, RunScriptError } from './index.js'
+import { ProcessService } from '../process/index.js'
+import { FileSystemService } from '../file-system/index.js'
 
 /**
  * Gets the project root directory from the reference.
@@ -78,22 +78,22 @@ export const makePackageManager = (packageManagerCommand: string) =>
       runScript: (scriptName: string, args: ReadonlyArray<string>) =>
         pipe(
           run('run', scriptName, args),
-          Effect.mapError((error) => new RunScriptError(error.error))
+          Effect.mapError((error: any) => new RunScriptError(error.error))
         ),
       build: (args: ReadonlyArray<string>) =>
         pipe(
           runBuild(args),
-          Effect.mapError((error) => new RunScriptError(error.error))
+          Effect.mapError((error: any) => new RunScriptError(error.error))
         ),
       installProductionDependencies: () =>
         pipe(
           run('install', null, ['--omit=dev', '--omit=optional', '--no-bin-links']),
-          Effect.mapError((error) => new InstallDependenciesError(error.error))
+          Effect.mapError((error: any) => new InstallDependenciesError(error.error))
         ),
       installAllDependencies: () =>
         pipe(
           run('install', null, []),
-          Effect.mapError((error) => new InstallDependenciesError(error.error))
+          Effect.mapError((error: any) => new InstallDependenciesError(error.error))
         ),
     }
     return service

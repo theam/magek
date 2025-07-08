@@ -38,7 +38,7 @@ export default class Deploy extends BaseCommand {
   }
 
   public async run(): Promise<void> {
-    const { flags } = await this.parse(Deploy)
+    const { flags } = await this.parse(Deploy as any)
 
     if (initializeEnvironment(logger, flags.environment)) {
       const deploymentProjectPath = await createDeploymentSandbox()
@@ -49,7 +49,7 @@ export default class Deploy extends BaseCommand {
   async catch(fullError: Error) {
     const {
       flags: { verbose },
-    } = await this.parse(Deploy)
+    } = await this.parse(Deploy as any)
 
     if (verbose) {
       console.error(fullError.message)

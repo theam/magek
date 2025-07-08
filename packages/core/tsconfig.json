@@ -3,7 +3,8 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "types": ["node", "mocha", "sinon-chai"]
+    "types": ["node", "mocha", "sinon-chai"],
+    "typeRoots": ["./node_modules/@types", "../../types"]
   },
   "include": ["src/**/*"],
   "ts-node": {

@@ -1,4 +1,4 @@
-import { InstallDependenciesError, PackageManagerService, RunScriptError } from '.'
+import { InstallDependenciesError, PackageManagerService, RunScriptError } from './index.js'
 import { Effect, Layer, pipe, Ref } from 'effect'
 import { makePackageManager, makeScopedRun } from './common.js'
 
@@ -18,12 +18,12 @@ export const makeRushPackageManager = Effect.gen(function* () {
     runScript: (scriptName: string, args: ReadonlyArray<string>) =>
       pipe(
         runRushX(scriptName, null, args),
-        Effect.mapError((error) => new RunScriptError(error.error))
+        Effect.mapError((error: any) => new RunScriptError(error.error))
       ),
     build: (args: ReadonlyArray<string>) =>
       pipe(
         runRush('build', null, args),
-        Effect.mapError((error) => new RunScriptError(error.error))
+        Effect.mapError((error: any) => new RunScriptError(error.error))
       ),
     installProductionDependencies: () =>
       Effect.fail(
@@ -34,7 +34,8 @@ export const makeRushPackageManager = Effect.gen(function* () {
     installAllDependencies: () =>
       pipe(
         runRush('update', null, []),
-        Effect.mapError((error) => new InstallDependenciesError(error.error))
+        Effect.mapError((error: any) => new InstallDependenciesError(error.error)),
+        Effect.map(() => undefined as void)
       ),
   }
   return service

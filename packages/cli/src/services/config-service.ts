@@ -5,8 +5,8 @@ import { guardError } from '../common/errors.js'
 import { checkItIsABoosterProject } from './project-checker.js'
 import { currentEnvironment } from './environment.js'
 import { createSandboxProject, removeSandboxProject } from '../common/sandbox.js'
-import { PackageManagerService, type PackageManagerError } from './package-manager.js'
-import { LivePackageManager } from './package-manager/live.impl'
+import { PackageManagerService, type PackageManagerError } from './package-manager/index.js'
+import { LivePackageManager } from './package-manager/live.impl.js'
 
 export const DEPLOYMENT_SANDBOX = path.join(process.cwd(), '.deploy')
 

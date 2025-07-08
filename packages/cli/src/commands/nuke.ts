@@ -58,7 +58,7 @@ export default class Nuke extends BaseCommand {
   }
 
   public async run(): Promise<void> {
-    const { flags } = await this.parse(Nuke)
+    const { flags } = await this.parse(Nuke as any)
 
     if (initializeEnvironment(logger, flags.environment)) {
       await runTasks(
@@ -71,7 +71,7 @@ export default class Nuke extends BaseCommand {
   async catch(fullError: Error) {
     const {
       flags: { verbose },
-    } = await this.parse(Nuke)
+    } = await this.parse(Nuke as any)
 
     if (verbose) {
       console.error(fullError.message)

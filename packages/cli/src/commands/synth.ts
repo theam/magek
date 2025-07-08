@@ -38,7 +38,7 @@ export default class Synth extends BaseCommand {
   }
 
   public async run(): Promise<void> {
-    const { flags } = await this.parse(Synth)
+    const { flags } = await this.parse(Synth as any)
 
     if (initializeEnvironment(logger, flags.environment)) {
       const deploymentProjectPath = await createDeploymentSandbox()
@@ -49,7 +49,7 @@ export default class Synth extends BaseCommand {
   async catch(fullError: Error) {
     const {
       flags: { verbose },
-    } = await this.parse(Synth)
+    } = await this.parse(Synth as any)
 
     if (verbose) {
       console.error(fullError.message)

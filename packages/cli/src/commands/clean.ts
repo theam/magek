@@ -30,7 +30,7 @@ export default class Clean extends BaseCommand {
   async catch(fullError: Error) {
     const {
       flags: { verbose },
-    } = await this.parse(Clean)
+    } = await this.parse(Clean as any)
 
     if (verbose) {
       console.error(fullError.message)

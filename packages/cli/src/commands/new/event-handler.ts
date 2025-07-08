@@ -1,5 +1,5 @@
 import { Flags, Args } from '@oclif/core'
-import BaseCommand from '../../common/base-command'
+import BaseCommand from '../../common/base-command.js'
 import {
   HasEvent,
   HasName,
@@ -7,13 +7,13 @@ import {
   joinParsers,
   parseEvent,
   parseName,
-} from '../../services/generator/target'
-import { Script } from '../../common/script'
-import Brand from '../../common/brand'
-import { checkCurrentDirIsABoosterProject } from '../../services/project-checker'
-import { generate, template } from '../../services/generator'
+} from '../../services/generator/target/index.js'
+import { Script } from '../../common/script.js'
+import Brand from '../../common/brand.js'
+import { checkCurrentDirIsABoosterProject } from '../../services/project-checker.js'
+import { generate, template } from '../../services/generator.js'
 import * as path from 'path'
-import { classNameToFileName } from '../../common/filenames'
+import { classNameToFileName } from '../../common/filenames.js'
 
 export default class EventHandler extends BaseCommand {
   public static description = 'create a new event handler'
@@ -31,7 +31,7 @@ export default class EventHandler extends BaseCommand {
   }
 
   public async run(): Promise<void> {
-    const { args, flags } = await this.parse(EventHandler)
+    const { args, flags } = await this.parse(EventHandler as any)
 
     try {
       const event = flags.event

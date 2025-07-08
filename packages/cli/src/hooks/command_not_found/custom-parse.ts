@@ -1,8 +1,8 @@
 import { Hook } from '@oclif/core'
 import path = require('path')
 import * as process from 'process'
-import { logger } from '../../services/logger'
-import { initializeEnvironment } from '../../services/environment'
+import { logger } from '../../services/logger.js'
+import { initializeEnvironment } from '../../services/environment.js'
 
 // Function to find and remove the `-e` argument and its accompanying value
 const extractEnvironmentArg = (): string | undefined => {
