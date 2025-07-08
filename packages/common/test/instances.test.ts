@@ -1,5 +1,5 @@
  
-import { createInstanceWithCalculatedProperties, ProjectionFor, ReadModelInterface, UUID } from '../src.js'
+import { createInstanceWithCalculatedProperties, ProjectionFor, ReadModelInterface, UUID } from '../src/index.js'
 import { expect } from './helpers/expect.js'
 import { faker } from '@faker-js/faker'
 

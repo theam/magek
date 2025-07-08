@@ -3,7 +3,7 @@
 import { expect } from './expect.js'
 import { Register, BoosterConfig, Level, UserEnvelope, UUID } from '@booster-ai/common'
 import { replace, fake, restore, spy } from 'sinon'
-import { RegisterHandler } from '../src.js'
+import { RegisterHandler } from '../src/index.js'
 import { BoosterEntityMigrated } from '../src/core-concepts/data-migration/events/booster-entity-migrated.js'
 
 class SomeEntity {

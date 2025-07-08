@@ -20,7 +20,7 @@ import {
   ScheduledCommandEnvelope,
   ScheduledCommandMetadata,
 } from '@booster-ai/common'
-import { GlobalErrorHandler } from '../src.js'
+import { GlobalErrorHandler } from '../src/index.js'
 import { restore } from 'sinon'
 import { Booster } from '../src/booster.js'
 import { BoosterGlobalErrorDispatcher } from '../src/booster-global-error-dispatcher.js'

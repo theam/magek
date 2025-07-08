@@ -1,4 +1,4 @@
-import { retryIfError } from '../src.js'
+import { retryIfError } from '../src/index.js'
 import { expect } from './helpers/expect.js'
 
 class ErrorToRetry extends Error {}

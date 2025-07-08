@@ -1,5 +1,5 @@
 import { fake } from 'sinon'
-import { FilterFor, Searcher, SequenceKey } from '../src.js'
+import { FilterFor, Searcher, SequenceKey } from '../src/index.js'
 import { expect } from './helpers/expect.js'
 
 describe('the `Searcher` class', () => {

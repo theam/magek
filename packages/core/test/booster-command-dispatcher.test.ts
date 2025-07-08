@@ -5,7 +5,7 @@ import { fake, replace, restore, spy } from 'sinon'
 import { expect } from './expect.js'
 import { BoosterCommandDispatcher } from '../src/booster-command-dispatcher.js'
 import { CommandBeforeFunction, Register, NotAuthorizedError } from '@booster-ai/common'
-import { Command, RegisterHandler } from '../src.js'
+import { Command, RegisterHandler } from '../src/index.js'
 import { faker } from '@faker-js/faker'
 import { BoosterAuthorizer } from '../src/booster-authorizer.js'
 

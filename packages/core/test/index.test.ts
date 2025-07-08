@@ -9,7 +9,7 @@ import {
   boosterConsumeEventStream,
   boosterProduceEventStream,
   boosterHealth,
-} from '../src/.js'
+} from '../src/index.js'
 import { fake, replace, restore } from 'sinon'
 import { BoosterEventDispatcher } from '../src/booster-event-dispatcher.js'
 import { BoosterGraphQLDispatcher } from '../src/booster-graphql-dispatcher.js'

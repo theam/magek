@@ -3,7 +3,7 @@ import { restore, fake, SinonSpy, match } from 'sinon'
 import { faker } from '@faker-js/faker'
 import { BoosterEventsReader } from '../src/booster-events-reader.js'
 import { expect } from './expect.js'
-import { Booster } from '../src.js'
+import { Booster } from '../src/index.js'
 import { BoosterAuthorizer } from '../src/booster-authorizer.js'
 
 describe('BoosterEventsReader', () => {

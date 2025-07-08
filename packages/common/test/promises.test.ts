@@ -1,4 +1,4 @@
-import { Promises, PromisesError } from '../src.js'
+import { Promises, PromisesError } from '../src/index.js'
 import { expect } from './helpers/expect.js'
 
 describe('the `Promises` helpers', () => {
