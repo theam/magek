@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@booster-ai/eslint-config": "workspace:^3.2.0",
-    "@types/node": "22.15.21",
+    "@types/node": "22.16.2",
     "ts-node": "10.9.1",
     "ts-patch": "3.3.0",
     "typescript": "5.8.3",
