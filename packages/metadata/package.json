@@ -33,7 +33,7 @@
     "reflect-metadata": "0.2.2",
     "ts-morph": "26.0.0",
     "tslib": "2.4.0",
-    "@effect-ts/core": "0.60.4"
+    "@effect-ts/core": "0.60.5"
   },
   "devDependencies": {
     "@booster-ai/eslint-config": "workspace:^0.0.1",
