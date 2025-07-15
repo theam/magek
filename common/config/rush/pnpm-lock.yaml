@@ -26,8 +26,8 @@ importers:
         specifier: workspace:^0.0.1
         version: link:../../../tools/eslint-config
       '@faker-js/faker':
-        specifier: 7.6.0
-        version: 7.6.0
+        specifier: 9.9.0
+        version: 9.9.0
       '@types/chai':
         specifier: 5.2.2
         version: 5.2.2
@@ -126,8 +126,8 @@ importers:
         specifier: workspace:^0.0.1
         version: link:../../tools/eslint-config
       '@faker-js/faker':
-        specifier: 7.6.0
-        version: 7.6.0
+        specifier: 9.9.0
+        version: 9.9.0
       '@oclif/test':
         specifier: 4.1.10
         version: 4.1.10(@oclif/core@4.4.0)
@@ -223,8 +223,8 @@ importers:
         specifier: workspace:^0.0.1
         version: link:../metadata
       '@faker-js/faker':
-        specifier: 7.6.0
-        version: 7.6.0
+        specifier: 9.9.0
+        version: 9.9.0
       '@types/chai':
         specifier: 5.2.2
         version: 5.2.2
@@ -365,8 +365,8 @@ importers:
         specifier: workspace:^0.0.1
         version: link:../../tools/eslint-config
       '@faker-js/faker':
-        specifier: 7.6.0
-        version: 7.6.0
+        specifier: 9.9.0
+        version: 9.9.0
       '@types/chai':
         specifier: 5.2.2
         version: 5.2.2
@@ -560,8 +560,8 @@ importers:
         specifier: workspace:^0.0.1
         version: link:../../tools/eslint-config
       '@faker-js/faker':
-        specifier: 7.6.0
-        version: 7.6.0
+        specifier: 9.9.0
+        version: 9.9.0
       '@types/chai':
         specifier: 5.2.2
         version: 5.2.2
@@ -642,8 +642,8 @@ importers:
         specifier: workspace:^0.0.1
         version: link:../../tools/eslint-config
       '@faker-js/faker':
-        specifier: 7.6.0
-        version: 7.6.0
+        specifier: 9.9.0
+        version: 9.9.0
       '@types/chai':
         specifier: 5.2.2
         version: 5.2.2
@@ -1104,9 +1104,9 @@ packages:
     resolution: {integrity: sha512-4SaFZCNfJqvk/kenHpI8xvN42DMaoycy4PzKc5otHxRswww1kAt82OlBuwRVLofCACCTZEcla2Ydxv8scMXaTg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@faker-js/faker@7.6.0':
-    resolution: {integrity: sha512-XK6BTq1NDMo9Xqw/YkYyGjSsg44fbNwYRx7QK2CuoQgyy+f1rrTDHoExVM5PsyXCtfl2vs2vVJ0MN0yN6LppRw==}
-    engines: {node: '>=14.0.0', npm: '>=6.0.0'}
+  '@faker-js/faker@9.9.0':
+    resolution: {integrity: sha512-OEl393iCOoo/z8bMezRlJu+GlRGlsKbUAN7jKB6LhnKoqKve5DXRpalbItIIcwnCjs1k/FOPjFzcA6Qn+H+YbA==}
+    engines: {node: '>=18.0.0', npm: '>=9.0.0'}
 
   '@fastify/ajv-compiler@4.0.2':
     resolution: {integrity: sha512-Rkiu/8wIjpsf46Rr+Fitd3HRP+VsxUFDDeag0hs9L0ksfnwx2g7SPQQTFL0E8Qv+rfXzQOxBJnjUB9ITUDjfWQ==}
@@ -4824,7 +4824,7 @@ snapshots:
       '@eslint/core': 0.15.0
       levn: 0.4.1
 
-  '@faker-js/faker@7.6.0': {}
+  '@faker-js/faker@9.9.0': {}
 
   '@fastify/ajv-compiler@4.0.2':
     dependencies:

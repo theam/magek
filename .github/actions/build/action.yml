@@ -29,4 +29,4 @@ runs:
     - id: rush-build
       uses: ./.github/actions/call-rush
       with:
-        command: build
+        command: rebuild
