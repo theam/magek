@@ -8,7 +8,8 @@ import {
   storeSnapshot,
 } from './library/events-adapter'
 import { healthRequestResult, requestFailed, requestSucceeded } from './library/api-adapter'
-import { EventRegistry, GraphQLService, ReadModelRegistry } from './services'
+import { GraphQLService, ReadModelRegistry } from './services'
+import { EventRegistry } from '@magek/adapter-event-store-nedb'
 import { rawGraphQLRequestToEnvelope } from './library/graphql-adapter'
 
 import * as path from 'path'

@@ -1,4 +1,5 @@
-import { EventRegistry, ReadModelRegistry } from '../services'
+import { ReadModelRegistry } from '../services'
+import { EventRegistry } from '@magek/adapter-event-store-nedb'
 import { eventsDatabase, readModelsDatabase } from '../paths'
 import { BoosterConfig, boosterLocalPort, HealthEnvelope, UUID, request } from '@booster-ai/common'
 import { existsSync } from 'fs'
