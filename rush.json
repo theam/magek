@@ -173,7 +173,7 @@
    * and set projectFolderMaxDepth to a large number.
    */
   // "projectFolderMinDepth": 2,
-  // "projectFolderMaxDepth": 2,
+  "projectFolderMaxDepth": 3,
 
   /**
    * Today the npmjs.com registry enforces fairly strict naming rules for packages, but in the early
@@ -421,6 +421,12 @@
       "shouldPublish": true,
       "versionPolicyName": "booster",
       "projectFolder": "packages/metadata"
+    },
+    {
+      "packageName": "@magek/adapter-event-store-nedb",
+      "shouldPublish": true,
+      "versionPolicyName": "booster",
+      "projectFolder": "adapters/nedb/event-store"
     }
   ]
 }

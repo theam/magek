@@ -9,7 +9,7 @@ import {
   EntitySnapshotEnvelope,
   getLogger,
 } from '@booster-ai/common'
-import { EventRegistry } from '../services'
+import { EventRegistry } from '@magek/adapter-event-store-nedb'
 import { QueryOperation, QueryValue } from './searcher-adapter'
 
 type DatabaseEventEnvelopeWithId = EventEnvelope & { _id: string }

@@ -1,34 +1,27 @@
 {
-  "name": "@booster-ai/server",
+  "name": "@magek/adapter-event-store-nedb",
   "version": "0.0.1",
-  "description": "Debug your Booster projects locally",
-  "keywords": [
-    "server"
-  ],
+  "description": "Nedb-based event store adapter for the Magek framework",
+  "keywords": ["event-store", "nedb"],
   "author": "Boosterin Labs SLU",
-  "homepage": "https://boosterframework.com",
+  "homepage": "https://magek.ai",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
   },
   "main": "dist/index.js",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/boostercloud/booster.git"
+    "url": "git+https://github.com/theam/magek.git"
   },
   "engines": {
     "node": ">=22.0.0 <23.0.0"
   },
   "dependencies": {
     "@booster-ai/common": "workspace:^0.0.1",
-    "@magek/adapter-event-store-nedb": "workspace:^0.0.1",
     "@seald-io/nedb": "4.1.1",
-    "tslib": "2.4.0",
-    "@effect-ts/core": "0.60.4",
-    "fastify": "5.3.3"
+    "tslib": "2.4.0"
   },
   "scripts": {
     "format": "prettier --write --ext '.js,.ts' **/*.ts **/*/*.ts",
@@ -37,11 +30,10 @@
     "build": "tsc -b tsconfig.json",
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "prepack": "tsc -b tsconfig.json",
-    "test:provider-local": "npm run test",
-    "test": "BOOSTER_ENV=test nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
+    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
   },
   "bugs": {
-    "url": "https://github.com/boostercloud/booster/issues"
+    "url": "https://github.com/theam/magek/issues"
   },
   "devDependencies": {
     "@booster-ai/eslint-config": "workspace:^0.0.1",
