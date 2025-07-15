@@ -1,8 +1,10 @@
 import { ProjectionFor, ReadModelEnvelope, SortFor, UUID } from '@booster-ai/common'
 import { readModelsDatabase } from '../paths.js'
+import { createRequire } from 'node:module'
 
 // TODO: This is a requirement to be able to use the nedb package, which is commonjs, in our esm project.
-const { default: DataStore } = await import('@seald-io/nedb')
+const require = createRequire(import.meta.url)
+const DataStore = require('@seald-io/nedb')
 
 interface LocalSortedFor {
   [key: string]: number

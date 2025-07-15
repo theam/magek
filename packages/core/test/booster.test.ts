@@ -13,7 +13,7 @@ import {
 } from '@booster-ai/common'
 import { EventStore } from '../src/services/event-store.js'
 import { faker } from '@faker-js/faker'
-import { JwksUriTokenVerifier } from '../src/services/token-verifiers.js'
+import { JwksUriTokenVerifier } from '../src/services/token-verifiers/index.js'
 import { afterEach } from 'mocha'
 
 describe('the `Booster` class', () => {

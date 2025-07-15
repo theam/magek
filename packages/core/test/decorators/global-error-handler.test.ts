@@ -71,7 +71,7 @@ describe('the `GlobalErrorHandler` decorator', () => {
         projectionMetadata: ProjectionMetadata<EntityInterface, ReadModelInterface>,
         entity: EntityInterface,
         readModel: ReadModelInterface | undefined
-      ): Promise<Error> {
+      ): Promise<Error | undefined> {
         return new Error('')
       }
 
@@ -81,7 +81,7 @@ describe('the `GlobalErrorHandler` decorator', () => {
         reducerMetadata: ReducerMetadata,
         eventInstance: EventInterface,
         snapshotInstance: EntityInterface | null
-      ): Promise<Error> {
+      ): Promise<Error | undefined> {
         return new Error('')
       }
     }

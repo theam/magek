@@ -1,8 +1,8 @@
  
 import { fake, replace, restore, SinonStub, spy, stub } from 'sinon'
-import { BoosterCommandDispatcher } from '../../../src/booster-command-dispatcher'
-import { BoosterReadModelsReader } from '../../../src/booster-read-models-reader'
-import { GraphQLGenerator } from '../../../src/services/graphql/graphql-generator'
+import { BoosterCommandDispatcher } from '../../../src/booster-command-dispatcher.js'
+import { BoosterReadModelsReader } from '../../../src/booster-read-models-reader.js'
+import { GraphQLGenerator } from '../../../src/services/graphql/graphql-generator.js'
 import {
   BoosterConfig,
   EventParametersFilterByEntity,
@@ -13,14 +13,14 @@ import {
   ReadModelRequestArgs,
   ReadModelRequestProperties,
 } from '@booster-ai/common'
-import { expect } from '../../expect'
-import { GraphQLQueryGenerator } from '../../../src/services/graphql/graphql-query-generator'
-import { GraphQLMutationGenerator } from '../../../src/services/graphql/graphql-mutation-generator'
-import { GraphQLSubscriptionGenerator } from '../../../src/services/graphql/graphql-subcriptions-generator'
+import { expect } from '../../expect.js'
+import { GraphQLQueryGenerator } from '../../../src/services/graphql/graphql-query-generator.js'
+import { GraphQLMutationGenerator } from '../../../src/services/graphql/graphql-mutation-generator.js'
+import { GraphQLSubscriptionGenerator } from '../../../src/services/graphql/graphql-subscriptions-generator.js'
 import { faker } from '@faker-js/faker'
-import { BoosterEventsReader } from '../../../src/booster-events-reader'
+import { BoosterEventsReader } from '../../../src/booster-events-reader.js'
 
-import { GraphQLResolverContext } from '../../../src/services/graphql/common'
+import { GraphQLResolverContext } from '../../../src/services/graphql/common.js'
 import { GraphQLFieldResolver } from 'graphql'
 
 describe('GraphQL generator', () => {

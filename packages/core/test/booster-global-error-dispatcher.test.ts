@@ -171,7 +171,7 @@ describe('BoosterGlobalErrorDispatcher', () => {
         reducerMetadata: ReducerMetadata,
         eventInstance: EventInterface,
         snapshotInstance: EntityInterface | null
-      ): Promise<Error> {
+      ): Promise<Error | undefined> {
         return new Error(`${error}.onReducerError`)
       }
     }
