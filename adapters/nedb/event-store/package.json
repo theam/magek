@@ -13,7 +13,7 @@
   "files": ["dist"],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/boostercloud/booster.git"
+    "url": "git+https://github.com/theam/magek.git"
   },
   "engines": {
     "node": ">=22.0.0 <23.0.0"
