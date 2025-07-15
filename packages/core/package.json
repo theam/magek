@@ -1,6 +1,6 @@
 {
   "name": "@booster-ai/core",
-  "version": "3.2.0",
+  "version": "0.0.1",
   "description": "Library for your Booster apps",
   "author": "Boosterin Labs SLU",
   "homepage": "https://boosterframework.com",
@@ -34,8 +34,8 @@
     "node": ">=22.0.0 <23.0.0"
   },
   "dependencies": {
-    "@booster-ai/common": "workspace:^3.2.0",
-    "@booster-ai/metadata": "workspace:^3.2.0",
+    "@booster-ai/common": "workspace:^0.0.1",
+    "@booster-ai/metadata": "workspace:^0.0.1",
     "fp-ts": "2.11.0",
     "graphql-scalars": "1.24.1",
     "graphql-subscriptions": "3.0.0",
@@ -60,7 +60,7 @@
     "@effect/typeclass": "~0.35.11"
   },
   "devDependencies": {
-    "@booster-ai/eslint-config": "workspace:^3.2.0",
+    "@booster-ai/eslint-config": "workspace:^0.0.1",
     "@types/chai": "5.2.2",
     "@types/chai-as-promised": "8.0.2",
     "@types/inflected": "2.1.3",
