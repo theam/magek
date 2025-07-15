@@ -4,7 +4,7 @@
   "description": "Nedb-based event store adapter for the Magek framework",
   "keywords": ["event-store", "nedb"],
   "author": "Boosterin Labs SLU",
-  "homepage": "https://boosterframework.com",
+  "homepage": "https://magek.ai",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
