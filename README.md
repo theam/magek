@@ -61,6 +61,15 @@ Booster Framework follows the next principles:
 * *Self-documenting APIs:* We adopted GraphQL because it's a self-documenting standard. You can grab a standard GraphQL client like [ApolloClient](https://github.com/apollographql/apollo-client) and start using a Booster backend right away with no complicated integrations.
 * *Developer productivity:* Software development is fun, and a modern tool should make it even more fun, reducing the need for mundane tasks. Booster provides code generators to help you quickstart new projects and objects, and the framework types and APIs are hand-crafted to help your IDE help you.
 
+## Development
+
+After installing dependencies with `rush install`, compile the packages before running the tests:
+
+```bash
+rush rebuild
+rush test
+```
+
 # Contributing
 
 You can join the conversation and start contributing in any of the following ways:
