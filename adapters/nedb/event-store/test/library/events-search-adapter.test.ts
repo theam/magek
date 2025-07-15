@@ -1,20 +1,20 @@
 import { BoosterConfig } from '@booster-ai/common'
 import { createStubInstance, replace, restore, SinonStub, SinonStubbedInstance, stub } from 'sinon'
-import { searchEntitiesIds } from '../../src/library/events-search-adapter'
+import { searchEntitiesIds } from '../../src'
 import { expect } from '../expect'
-import { WebSocketRegistry } from '../../src/services/web-socket-registry'
+import { EventRegistry } from '../../src'
 
 describe('The "searchEntitiesIDs" method', () => {
   let mockConfig: BoosterConfig
   let queryStub: SinonStub
   type StubbedClass<T> = SinonStubbedInstance<T> & T
-  let mockEventRegistry: SinonStubbedInstance<WebSocketRegistry>
+  let mockEventRegistry: SinonStubbedInstance<EventRegistry>
 
   beforeEach(() => {
     mockConfig = new BoosterConfig('test')
     queryStub = stub()
 
-    mockEventRegistry = createStubInstance(WebSocketRegistry) as StubbedClass<WebSocketRegistry>
+    mockEventRegistry = createStubInstance(EventRegistry) as StubbedClass<EventRegistry>
      
     replace(mockEventRegistry, 'query', queryStub as any)
   })

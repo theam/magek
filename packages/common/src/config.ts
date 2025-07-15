@@ -19,6 +19,7 @@ import {
   TokenVerifier,
 } from './concepts'
 import { ProviderLibrary } from './provider'
+import { EventStoreAdapter } from './event-store-adapter'
 import { Level } from './logger'
 import * as path from 'path'
 import { RocketDescriptor, RocketFunction } from './rockets'
@@ -38,6 +39,8 @@ export class BoosterConfig {
 
   private _provider?: ProviderLibrary
   public providerPackage?: string
+
+  private _eventStore?: EventStoreAdapter
 
   public rockets?: Array<RocketDescriptor>
 
@@ -213,6 +216,16 @@ export class BoosterConfig {
 
   public set provider(provider: ProviderLibrary) {
     this._provider = provider
+  }
+
+  public get eventStore(): EventStoreAdapter {
+    if (!this._eventStore)
+      throw new Error('It is required to set a valid event store runtime in your configuration files')
+    return this._eventStore
+  }
+
+  public set eventStore(eventStore: EventStoreAdapter) {
+    this._eventStore = eventStore
   }
 
   public get userProjectRootPath(): string {

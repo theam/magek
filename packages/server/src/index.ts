@@ -1,12 +1,5 @@
 import { HasInfrastructure, ProviderLibrary, RocketDescriptor, UserApp } from '@booster-ai/common'
-import {
-  rawEventsToEnvelopes,
-  readEntityEventsSince,
-  readEntityLatestSnapshot,
-  storeDispatchedEvent,
-  storeEvents,
-  storeSnapshot,
-} from './library/events-adapter'
+
 import { healthRequestResult, requestFailed, requestSucceeded } from './library/api-adapter'
 import { GraphQLService, ReadModelRegistry } from './services'
 import { EventRegistry } from '@magek/adapter-event-store-nedb'
@@ -21,7 +14,6 @@ import {
   searchReadModel,
   storeReadModel,
 } from './library/read-model-adapter'
-import { searchEntitiesIds, searchEvents } from './library/events-search-adapter'
 import { rawScheduledInputToEnvelope } from './library/scheduled-adapter'
 import {
   deleteConnectionData,
@@ -49,7 +41,6 @@ import {
   isGraphQLFunctionUp,
   rawRequestToSensorHealth,
 } from './library/health-adapter'
-import { deleteEvent, deleteSnapshot, findDeletableEvent, findDeletableSnapshot } from './library/event-delete-adapter'
 import * as process from 'process'
 
 export * from './paths'
@@ -72,24 +63,6 @@ export function loadInfrastructurePackage(packageName: string): HasInfrastructur
 }
 
 export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrary => ({
-  // ProviderEventsLibrary
-  events: {
-    rawToEnvelopes: rawEventsToEnvelopes,
-    rawStreamToEnvelopes: notImplemented as any,
-    dedupEventStream: notImplemented as any,
-    produce: notImplemented as any,
-    forEntitySince: readEntityEventsSince.bind(null, eventRegistry),
-    latestEntitySnapshot: readEntityLatestSnapshot.bind(null, eventRegistry),
-    store: storeEvents.bind(null, userApp, eventRegistry),
-    storeSnapshot: storeSnapshot.bind(null, eventRegistry),
-    search: searchEvents.bind(null, eventRegistry),
-    searchEntitiesIDs: searchEntitiesIds.bind(null, eventRegistry),
-    storeDispatched: storeDispatchedEvent,
-    findDeletableEvent: findDeletableEvent.bind(null, eventRegistry),
-    findDeletableSnapshot: findDeletableSnapshot.bind(null, eventRegistry),
-    deleteEvent: deleteEvent.bind(null, eventRegistry),
-    deleteSnapshot: deleteSnapshot.bind(null, eventRegistry),
-  },
   // ProviderReadModelsLibrary
   readModels: {
     rawToEnvelopes: rawReadModelEventsToEnvelopes,

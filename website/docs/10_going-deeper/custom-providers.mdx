@@ -49,7 +49,7 @@ The runtime interface ([ProviderLibrary](https://github.com/boostercloud/booster
 This section is in charge of all operations related to events. the methods of this section are the following:
 
 ```ts
-export interface ProviderEventsLibrary {
+export interface EventStoreAdapter {
   rawToEnvelopes(rawEvents: unknown): Array<EventEnvelope>
   forEntitySince(config: BoosterConfig, entityTypeName: string, entityID: UUID, since?: string): Promise<Array<EventEnvelope>>
   latestEntitySnapshot(config: BoosterConfig, entityTypeName: string, entityID: UUID): Promise<EventEnvelope | null>

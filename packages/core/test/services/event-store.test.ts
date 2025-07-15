@@ -61,13 +61,11 @@ describe('EventStore', () => {
   }
 
   const config = new BoosterConfig('test')
-  config.provider = {
-    events: {
-      storeSnapshot: () => {},
-      latestEntitySnapshot: () => {},
-      forEntitySince: () => {},
-    },
-  } as any as ProviderLibrary
+  config.eventStore = {
+    storeSnapshot: () => {},
+    latestEntitySnapshot: () => {},
+    forEntitySince: () => {},
+  } as any
   config.entities[AnEntity.name] = {
     class: AnEntity,
     eventStreamAuthorizer: BoosterAuthorizer.authorizeRoles.bind(null, []),
@@ -587,7 +585,7 @@ describe('EventStore', () => {
           })
           replace(eventStore, 'entityReducer', reducer)
           spy(eventStore, 'storeSnapshot')
-          replace(config.provider.events, 'storeSnapshot', fake.rejects(new Error('Error on persist')))
+          replace(config.eventStore, 'storeSnapshot', fake.rejects(new Error('Error on persist')))
 
           // A list of pending events for entityID = 42 and for BEM 90, 91 and 92
           const someEventEnvelope = eventEnvelopeFor(someEvent, AnEvent.name)
@@ -635,7 +633,7 @@ describe('EventStore', () => {
           }
 
           expect(eventStore.storeSnapshot).to.have.been.calledOnce
-          expect(config.provider.events.storeSnapshot).to.have.been.calledOnce
+          expect(config.eventStore.storeSnapshot).to.have.been.calledOnce
           expect(entity).to.be.undefined
         })
       })
@@ -708,7 +706,7 @@ describe('EventStore', () => {
     describe('storeSnapshot', () => {
       it('stores a snapshot in the event store', async () => {
         const eventStore = new EventStore(config) as any
-        replace(config.provider.events, 'storeSnapshot', fake())
+        replace(config.eventStore, 'storeSnapshot', fake())
 
         const someSnapshot = snapshotEnvelopeFor({
           id: '42',
@@ -717,7 +715,7 @@ describe('EventStore', () => {
 
         await eventStore.storeSnapshot(someSnapshot)
 
-        expect(config.provider.events.storeSnapshot).to.have.been.calledOnceWith(someSnapshot, config)
+        expect(config.eventStore.storeSnapshot).to.have.been.calledOnceWith(someSnapshot, config)
       })
 
       context('when there is an error storing the snapshot', () => {
@@ -728,7 +726,7 @@ describe('EventStore', () => {
             count: 666,
           })
           const someError = new Error('some error')
-          replace(config.provider.events, 'storeSnapshot', fake.rejects(someError))
+          replace(config.eventStore, 'storeSnapshot', fake.rejects(someError))
 
           await eventStore.storeSnapshot(someSnapshot)
 
@@ -750,13 +748,13 @@ describe('EventStore', () => {
 
     describe('loadLatestSnapshot', () => {
       it('looks for the latest snapshot stored in the event stream', async () => {
-        replace(config.provider.events, 'latestEntitySnapshot', fake())
+        replace(config.eventStore, 'latestEntitySnapshot', fake())
 
         const entityTypeName = AnEntity.name
         const entityID = '42'
         await eventStore.loadLatestSnapshot(entityTypeName, entityID)
 
-        expect(config.provider.events.latestEntitySnapshot).to.have.been.calledOnceWith(
+        expect(config.eventStore.latestEntitySnapshot).to.have.been.calledOnceWith(
           config,
           entityTypeName,
           entityID
@@ -766,13 +764,13 @@ describe('EventStore', () => {
 
     describe('loadEventStreamSince', () => {
       it('loads a event stream starting from a specific timestapm', async () => {
-        replace(config.provider.events, 'forEntitySince', fake())
+        replace(config.eventStore, 'forEntitySince', fake())
 
         const entityTypeName = AnEntity.name
         const entityID = '42'
         await eventStore.loadEventStreamSince(entityTypeName, entityID, originOfTime)
 
-        expect(config.provider.events.forEntitySince).to.have.been.calledOnceWith(
+        expect(config.eventStore.forEntitySince).to.have.been.calledOnceWith(
           config,
           entityTypeName,
           entityID,

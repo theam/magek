@@ -12,7 +12,7 @@ export async function eventSearch(
   config: BoosterConfig,
   request: EventSearchParameters
 ): Promise<Array<EventSearchResponse>> {
-  const events: Array<EventSearchResponse> = await config.provider.events.search(config, request)
+  const events: Array<EventSearchResponse> = await config.eventStore.search(config, request)
   return events.map((event) => createEventValueInstance(config, event))
 }
 
