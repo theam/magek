@@ -33,7 +33,7 @@
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
   },
   "bugs": {
-    "url": "https://github.com/boostercloud/booster/issues"
+    "url": "https://github.com/theam/magek/issues"
   },
   "devDependencies": {
     "@booster-ai/eslint-config": "workspace:^0.0.1",
