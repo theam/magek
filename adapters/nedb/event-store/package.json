@@ -1,7 +1,7 @@
 {
   "name": "@magek/adapter-event-store-nedb",
   "version": "0.0.1",
-  "description": "Nedb-based event store adapter",
+  "description": "Nedb-based event store adapter for the Magek framework",
   "keywords": ["event-store", "nedb"],
   "author": "Boosterin Labs SLU",
   "homepage": "https://boosterframework.com",
