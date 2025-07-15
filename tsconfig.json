@@ -5,6 +5,7 @@
     "importHelpers": true,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "allowImportingTsExtensions": false,
     "strict": true,
     "target": "ES2022",
     "noImplicitReturns": true,
@@ -16,11 +17,18 @@
     "experimentalDecorators": true,
     "useUnknownInCatchVariables": false,
     "skipLibCheck": true,
+    "emitDecoratorMetadata": true,
     "lib": [
       "ES2022"
     ],
     "types": [
-      "node"
+      "node",
     ]
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "swc": false,
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
   }
 }

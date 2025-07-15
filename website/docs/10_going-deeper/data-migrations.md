@@ -155,7 +155,6 @@ export class CartIdDataMigrateV2 {
     "eslint-plugin-prettier": "3.4.0",
     "mocha": "10.2.0",
     "@types/mocha": "10.0.1",
-    "nyc": "15.1.0",
     "prettier":  "2.3.0",
     "typescript": "4.5.4",
     "ts-node": "9.1.1",

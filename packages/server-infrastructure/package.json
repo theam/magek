@@ -48,7 +48,7 @@
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "prepack": "tsc -b tsconfig.json",
     "test:provider-local-infrastructure": "npm run test",
-    "test": "BOOSTER_ENV=test nyc --extension .ts mocha --loader ts-node/esm --forbid-only \"test/**/*.test.ts\""
+    "test": "BOOSTER_ENV=test mocha"
   },
   "bugs": {
     "url": "https://github.com/boostercloud/booster/issues"
@@ -66,12 +66,12 @@
     "chai-as-promised": "8.0.1",
     "@faker-js/faker": "7.6.0",
     "mocha": "11.7.1",
-    "nyc": "17.1.0",
     "rimraf": "6.0.1",
     "sinon": "21.0.0",
     "sinon-chai": "4.0.0",
     "ts-node": "10.9.1",
-    "typescript": "5.8.3"
+    "typescript": "5.8.3",
+    "tsconfig-paths": "^4.2.0"
   },
   "ts-node": {
     "esm": true

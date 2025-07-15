@@ -1,5 +1,5 @@
- 
-const DataStore = require('@seald-io/nedb')
+// TODO: This is a requirement to be able to use the nedb package, which is commonjs, in our esm project.
+const { default: DataStore } = await import('@seald-io/nedb')
 import { ConnectionDataEnvelope, SubscriptionEnvelope, UUID } from '@booster-ai/common'
 
 export interface ConnectionData extends ConnectionDataEnvelope {

@@ -27,7 +27,7 @@
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "prepack": "npm run build",
     "test:create": "npm run test",
-    "test": "mocha --loader ts-node/esm test/**/*.test.ts"
+    "test": "BOOSTER_ENV=test mocha"
   },
   "keywords": [
     "booster",
@@ -58,7 +58,8 @@
     "tsup": "8.0.0",
     "typescript": "5.8.3",
     "@types/degit": "~2.8.6",
-    "rimraf": "6.0.1"
+    "rimraf": "6.0.1",
+    "tsconfig-paths": "^4.2.0"
   },
   "publishConfig": {
     "access": "public"

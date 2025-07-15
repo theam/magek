@@ -2,7 +2,8 @@
 import { EntitySnapshotEnvelope, EventEnvelope, EventStoreEntryEnvelope } from '@booster-ai/common'
 import { eventsDatabase } from '../paths.js'
 
-const DataStore = require('@seald-io/nedb')
+// TODO: This is a requirement to be able to use the nedb package, which is commonjs, in our esm project.
+const { default: DataStore } = await import('@seald-io/nedb')
 
 export class EventRegistry {
   public readonly events
