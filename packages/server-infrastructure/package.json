@@ -1,6 +1,6 @@
 {
   "name": "@booster-ai/server-infrastructure",
-  "version": "3.2.0",
+  "version": "0.0.1",
   "description": "Handle the Booster running process of the local runtime",
   "keywords": [
     "server-infrastructure"
@@ -23,8 +23,8 @@
     "node": ">=22.0.0 <23.0.0"
   },
   "dependencies": {
-    "@booster-ai/common": "workspace:^3.2.0",
-    "@booster-ai/server": "workspace:^3.2.0",
+    "@booster-ai/common": "workspace:^0.0.1",
+    "@booster-ai/server": "workspace:^0.0.1",
     "fastify": "5.3.3",
     "@fastify/websocket": "11.1.0",
     "fastify-sse-v2": "4.2.1",
@@ -47,7 +47,7 @@
     "url": "https://github.com/boostercloud/booster/issues"
   },
   "devDependencies": {
-    "@booster-ai/eslint-config": "workspace:^3.2.0",
+    "@booster-ai/eslint-config": "workspace:^0.0.1",
     "@types/chai": "5.2.2",
     "@types/chai-as-promised": "8.0.2",
     "@types/mocha": "10.0.10",

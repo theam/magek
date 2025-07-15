@@ -1,6 +1,6 @@
 {
   "name": "create-booster-ai",
-  "version": "3.2.0",
+  "version": "0.0.1",
   "description": "Create Booster AI applications with one command",
   "main": "dist/cli.js",
   "bin": {
@@ -38,7 +38,7 @@
     "globby": "14.0.2"
   },
   "devDependencies": {
-    "@booster-ai/eslint-config": "workspace:^3.2.0",
+    "@booster-ai/eslint-config": "workspace:^0.0.1",
     "@types/node": "22.15.21",
     "@types/prompts": "2.4.9",
     "@types/chai": "5.2.2",

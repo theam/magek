@@ -14,7 +14,7 @@ function getBoosterVersion(): string {
     // Read from the create package itself
     return require('../package.json').version
   } catch {
-    return '3.2.0'
+    return '0.0.1'
   }
 }
 

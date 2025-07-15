@@ -1,6 +1,6 @@
 {
   "name": "@booster-ai/server",
-  "version": "3.2.0",
+  "version": "0.0.1",
   "description": "Debug your Booster projects locally",
   "keywords": [
     "server"
@@ -23,7 +23,7 @@
     "node": ">=22.0.0 <23.0.0"
   },
   "dependencies": {
-    "@booster-ai/common": "workspace:^3.2.0",
+    "@booster-ai/common": "workspace:^0.0.1",
     "@seald-io/nedb": "4.1.1",
     "tslib": "2.4.0",
     "@effect-ts/core": "0.60.4",
@@ -43,7 +43,7 @@
     "url": "https://github.com/boostercloud/booster/issues"
   },
   "devDependencies": {
-    "@booster-ai/eslint-config": "workspace:^3.2.0",
+    "@booster-ai/eslint-config": "workspace:^0.0.1",
     "@types/chai": "5.2.2",
     "@types/chai-as-promised": "8.0.2",
     "@types/mocha": "10.0.10",
