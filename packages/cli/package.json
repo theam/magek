@@ -15,7 +15,7 @@
     "@booster-ai/core": "workspace:^0.0.1",
     "@booster-ai/common": "workspace:^0.0.1",
     "@oclif/core": "4.4.0",
-    "@oclif/plugin-help": "6.2.25",
+    "@oclif/plugin-help": "6.2.31",
     "chalk": "5.4.1",
     "execa": "9.6.0",
     "fp-ts": "2.11.0",
