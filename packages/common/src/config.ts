@@ -209,10 +209,6 @@ export class BoosterConfig {
 
   public set provider(provider: ProviderLibrary) {
     this._provider = provider
-    // Bridge mode: copy provider.events to eventStoreAdapter for backward compatibility
-    if (provider.events) {
-      this.eventStoreAdapter = provider.events
-    }
   }
 
   public get userProjectRootPath(): string {

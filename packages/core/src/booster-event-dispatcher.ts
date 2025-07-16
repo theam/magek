@@ -18,7 +18,10 @@ export class BoosterEventDispatcher {
     const readModelStore = new ReadModelStore(config)
     logger.debug('Event workflow started for raw events:', require('util').inspect(rawEvents, false, null, false))
     try {
-      const eventEnvelopes = config.provider.events.rawToEnvelopes(rawEvents)
+      if (!config.eventStoreAdapter) {
+        throw new Error('EventStoreAdapter is not configured. Please set config.eventStoreAdapter.')
+      }
+      const eventEnvelopes = config.eventStoreAdapter.rawToEnvelopes(rawEvents)
       await RawEventsParser.streamPerEntityEvents(
         config,
         eventEnvelopes,

@@ -71,6 +71,25 @@ export function loadInfrastructurePackage(packageName: string): HasInfrastructur
   return require(packageName)
 }
 
+// Standalone EventStoreAdapter export using NeDB adapter
+export const eventStoreAdapter = {
+  rawToEnvelopes: rawEventsToEnvelopes,
+  rawStreamToEnvelopes: notImplemented as any,
+  dedupEventStream: notImplemented as any,
+  produce: notImplemented as any,
+  forEntitySince: readEntityEventsSince.bind(null, eventRegistry),
+  latestEntitySnapshot: readEntityLatestSnapshot.bind(null, eventRegistry),
+  store: storeEvents.bind(null, userApp, eventRegistry),
+  storeSnapshot: storeSnapshot.bind(null, eventRegistry),
+  search: searchEvents.bind(null, eventRegistry),
+  searchEntitiesIDs: searchEntitiesIds.bind(null, eventRegistry),
+  storeDispatched: storeDispatchedEvent,
+  findDeletableEvent: findDeletableEvent.bind(null, eventRegistry),
+  findDeletableSnapshot: findDeletableSnapshot.bind(null, eventRegistry),
+  deleteEvent: deleteEvent.bind(null, eventRegistry),
+  deleteSnapshot: deleteSnapshot.bind(null, eventRegistry),
+}
+
 export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrary => ({
   // EventStoreAdapter
   events: {

@@ -47,7 +47,7 @@ describe('eventSearch function', () => {
         value: { id: 'u1' },
       } as EventSearchResponse,
     ])
-    config.provider = { events: { search: providerSearch } } as any
+    config.eventStoreAdapter = { search: providerSearch } as any
     config.events[TestEvent.name] = { class: TestEvent }
     config.notifications[TestNotification.name] = { class: TestNotification }
 

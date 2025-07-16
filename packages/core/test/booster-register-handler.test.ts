@@ -31,10 +31,8 @@ describe('the `RegisterHandler` class', () => {
 
   it('handles a register', async () => {
     const config = new BoosterConfig('test')
-    config.provider = {
-      events: {
-        store: fake(),
-      },
+    config.eventStoreAdapter = {
+      store: fake(),
     } as any
     config.reducers['SomeEvent'] = { class: SomeEntity, methodName: 'whatever' }
 
@@ -51,30 +49,26 @@ describe('the `RegisterHandler` class', () => {
     expect(registerHandler.wrapEvent).to.have.been.calledTwice
     expect(registerHandler.wrapEvent).to.have.been.calledWith(config, event1, register)
     expect(registerHandler.wrapEvent).to.have.been.calledWith(config, event2, register)
-    expect(config.provider.events.store).to.have.been.calledOnce
+    expect(config.eventStoreAdapter.store).to.have.been.calledOnce
   })
 
   it('does nothing when there are no events', async () => {
     const config = new BoosterConfig('test')
-    config.provider = {
-      events: {
-        store: fake(),
-      },
+    config.eventStoreAdapter = {
+      store: fake(),
     } as any
     config.reducers['SomeEvent'] = { class: SomeEntity, methodName: 'whatever' }
 
     const register = new Register('1234', {} as any, RegisterHandler.flush)
     await RegisterHandler.handle(config, register)
 
-    expect(config.provider.events.store).to.not.have.been.called
+    expect(config.eventStoreAdapter.store).to.not.have.been.called
   })
 
   it('stores wrapped events', async () => {
     const config = new BoosterConfig('test')
-    config.provider = {
-      events: {
-        store: fake(),
-      },
+    config.eventStoreAdapter = {
+      store: fake(),
     } as any
     config.reducers['SomeEvent'] = {
       class: SomeEntity,
@@ -90,8 +84,8 @@ describe('the `RegisterHandler` class', () => {
 
     await RegisterHandler.handle(config, register)
 
-    expect(config.provider.events.store).to.have.been.calledOnce
-    expect(config.provider.events.store).to.have.been.calledWithMatch(
+    expect(config.eventStoreAdapter.store).to.have.been.calledOnce
+    expect(config.eventStoreAdapter.store).to.have.been.calledWithMatch(
       [
         {
           currentUser: undefined,

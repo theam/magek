@@ -134,7 +134,7 @@ describe('the config type', () => {
       expect(() => config.provider).to.not.throw()
     })
 
-    it('copies provider.events to eventStoreAdapter when provider is set (bridge mode)', () => {
+    it('does not set eventStoreAdapter when provider is set (bridge mode removed)', () => {
       const config = new BoosterConfig('test')
       const mockEventStoreAdapter = {} as EventStoreAdapter
       const mockProvider = {
@@ -143,7 +143,7 @@ describe('the config type', () => {
 
       config.provider = mockProvider
 
-      expect(config.eventStoreAdapter).to.equal(mockEventStoreAdapter)
+      expect(config.eventStoreAdapter).to.be.undefined
     })
 
     it('does not set eventStoreAdapter when provider.events is undefined', () => {
@@ -164,7 +164,7 @@ describe('the config type', () => {
       expect(config.eventStoreAdapter).to.equal(mockEventStoreAdapter)
     })
 
-    it('bridge mode: eventStoreAdapter gets overwritten when provider is set after direct assignment', () => {
+    it('eventStoreAdapter remains unchanged when provider is set after direct assignment', () => {
       const config = new BoosterConfig('test')
       const directlySetAdapter = {} as EventStoreAdapter
       const providerAdapter = {} as EventStoreAdapter
@@ -176,9 +176,9 @@ describe('the config type', () => {
       config.eventStoreAdapter = directlySetAdapter
       expect(config.eventStoreAdapter).to.equal(directlySetAdapter)
 
-      // Then set via provider - should overwrite
+      // Then set provider - should NOT overwrite
       config.provider = mockProvider
-      expect(config.eventStoreAdapter).to.equal(providerAdapter)
+      expect(config.eventStoreAdapter).to.equal(directlySetAdapter)
     })
   })
 })

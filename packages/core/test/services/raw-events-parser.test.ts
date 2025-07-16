@@ -63,11 +63,9 @@ describe('RawEventsParser', () => {
 
     fakeRawToEnvelopes = fake.returns(eventSource)
     config = new BoosterConfig('test')
-    config.provider = {
-      events: {
-        rawToEnvelopes: fakeRawToEnvelopes,
-      },
-    } as unknown as ProviderLibrary
+    config.eventStoreAdapter = {
+      rawToEnvelopes: fakeRawToEnvelopes,
+    } as unknown as any
     config.logger = {
       error: fake(),
       info: fake(),
@@ -79,14 +77,14 @@ describe('RawEventsParser', () => {
   describe('streamPerEntityEvents', () => {
     it('strips all snapshots', async () => {
       const callbackFunction = fake()
-      const events = config.provider.events.rawToEnvelopes(rawEvents)
+      const events = config.eventStoreAdapter.rawToEnvelopes(rawEvents)
       await RawEventsParser.streamPerEntityEvents(config, events, callbackFunction)
       expect(callbackFunction).not.to.have.been.calledWith(snapshottedEntityName)
     })
 
     it('calls the callback function with ordered groups of event envelopes per entity name and ID', async () => {
       const callbackFunction = fake()
-      const events = config.provider.events.rawToEnvelopes(rawEvents)
+      const events = config.eventStoreAdapter.rawToEnvelopes(rawEvents)
       await RawEventsParser.streamPerEntityEvents(config, events, callbackFunction)
       expect(callbackFunction).to.have.been.calledTwice
       expect(callbackFunction).to.have.been.calledWithExactly(
@@ -119,7 +117,7 @@ describe('RawEventsParser', () => {
           events.push(...eventEnvelopes)
         }
       )
-      const eventsEnvelopes = config.provider.events.rawToEnvelopes(rawEvents)
+      const eventsEnvelopes = config.eventStoreAdapter.rawToEnvelopes(rawEvents)
       await expect(RawEventsParser.streamPerEntityEvents(config, eventsEnvelopes, callbackFunction)).to.be.eventually
         .fulfilled
 
