@@ -641,7 +641,7 @@ describe('EventStore', () => {
           }
 
           expect(eventStore.storeSnapshot).to.have.been.calledOnce
-          expect(config.eventStoreAdapter.storeSnapshot).to.have.been.calledOnce
+          expect(config.eventStore.storeSnapshot).to.have.been.calledOnce
           expect(entity).to.be.undefined
         })
       })
@@ -714,7 +714,7 @@ describe('EventStore', () => {
     describe('storeSnapshot', () => {
       it('stores a snapshot in the event store', async () => {
         const eventStore = new EventStore(config) as any
-        replace(config.eventStoreAdapter, 'storeSnapshot', fake())
+        replace(config.eventStore, 'storeSnapshot', fake())
 
         const someSnapshot = snapshotEnvelopeFor({
           id: '42',
@@ -723,7 +723,7 @@ describe('EventStore', () => {
 
         await eventStore.storeSnapshot(someSnapshot)
 
-        expect(config.eventStoreAdapter.storeSnapshot).to.have.been.calledOnceWith(someSnapshot, config)
+        expect(config.eventStore.storeSnapshot).to.have.been.calledOnceWith(someSnapshot, config)
       })
 
       context('when there is an error storing the snapshot', () => {
@@ -734,7 +734,7 @@ describe('EventStore', () => {
             count: 666,
           })
           const someError = new Error('some error')
-          replace(config.eventStoreAdapter, 'storeSnapshot', fake.rejects(someError))
+          replace(config.eventStore, 'storeSnapshot', fake.rejects(someError))
 
           await eventStore.storeSnapshot(someSnapshot)
 
@@ -756,13 +756,13 @@ describe('EventStore', () => {
 
     describe('loadLatestSnapshot', () => {
       it('looks for the latest snapshot stored in the event stream', async () => {
-        replace(config.eventStoreAdapter, 'latestEntitySnapshot', fake())
+        replace(config.eventStore, 'latestEntitySnapshot', fake())
 
         const entityTypeName = AnEntity.name
         const entityID = '42'
         await eventStore.loadLatestSnapshot(entityTypeName, entityID)
 
-        expect(config.eventStoreAdapter.latestEntitySnapshot).to.have.been.calledOnceWith(
+        expect(config.eventStore.latestEntitySnapshot).to.have.been.calledOnceWith(
           config,
           entityTypeName,
           entityID
@@ -772,13 +772,13 @@ describe('EventStore', () => {
 
     describe('loadEventStreamSince', () => {
       it('loads a event stream starting from a specific timestapm', async () => {
-        replace(config.eventStoreAdapter, 'forEntitySince', fake())
+        replace(config.eventStore, 'forEntitySince', fake())
 
         const entityTypeName = AnEntity.name
         const entityID = '42'
         await eventStore.loadEventStreamSince(entityTypeName, entityID, originOfTime)
 
-        expect(config.eventStoreAdapter.forEntitySince).to.have.been.calledOnceWith(
+        expect(config.eventStore.forEntitySince).to.have.been.calledOnceWith(
           config,
           entityTypeName,
           entityID,

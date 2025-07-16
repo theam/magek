@@ -49,14 +49,14 @@ describe('the `RegisterHandler` class', () => {
     expect(registerHandler.wrapEvent).to.have.been.calledTwice
     expect(registerHandler.wrapEvent).to.have.been.calledWith(config, event1, register)
     expect(registerHandler.wrapEvent).to.have.been.calledWith(config, event2, register)
-    expect(config.eventStoreAdapter.store).to.have.been.calledOnce
+    expect(config.eventStore.store).to.have.been.calledOnce
   })
 
   it('does nothing when there are no events', async () => {
     const config = new BoosterConfig('test')
-    config.eventStoreAdapter = {
+    config.eventStoreAdapter = createMockEventStoreAdapter({
       store: fake(),
-    } as any
+    })
     config.reducers['SomeEvent'] = { class: SomeEntity, methodName: 'whatever' }
 
     const register = new Register('1234', {} as any, RegisterHandler.flush)
