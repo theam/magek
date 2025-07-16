@@ -1,6 +1,6 @@
  
 import { expect } from './helpers/expect'
-import { SchemaMigrationMetadata, ProviderLibrary, BoosterConfig } from '../src'
+import { SchemaMigrationMetadata, ProviderLibrary, BoosterConfig, EventStoreAdapter } from '../src'
 
 describe('the config type', () => {
   describe('resourceNames', () => {
@@ -132,6 +132,53 @@ describe('the config type', () => {
       config.provider = {} as ProviderLibrary
 
       expect(() => config.provider).to.not.throw()
+    })
+
+    it('copies provider.events to eventStoreAdapter when provider is set (bridge mode)', () => {
+      const config = new BoosterConfig('test')
+      const mockEventStoreAdapter = {} as EventStoreAdapter
+      const mockProvider = {
+        events: mockEventStoreAdapter,
+      } as ProviderLibrary
+
+      config.provider = mockProvider
+
+      expect(config.eventStoreAdapter).to.equal(mockEventStoreAdapter)
+    })
+
+    it('does not set eventStoreAdapter when provider.events is undefined', () => {
+      const config = new BoosterConfig('test')
+      const mockProvider = {} as ProviderLibrary
+
+      config.provider = mockProvider
+
+      expect(config.eventStoreAdapter).to.be.undefined
+    })
+
+    it('allows eventStoreAdapter to be set directly', () => {
+      const config = new BoosterConfig('test')
+      const mockEventStoreAdapter = {} as EventStoreAdapter
+
+      config.eventStoreAdapter = mockEventStoreAdapter
+
+      expect(config.eventStoreAdapter).to.equal(mockEventStoreAdapter)
+    })
+
+    it('bridge mode: eventStoreAdapter gets overwritten when provider is set after direct assignment', () => {
+      const config = new BoosterConfig('test')
+      const directlySetAdapter = {} as EventStoreAdapter
+      const providerAdapter = {} as EventStoreAdapter
+      const mockProvider = {
+        events: providerAdapter,
+      } as ProviderLibrary
+
+      // First set directly
+      config.eventStoreAdapter = directlySetAdapter
+      expect(config.eventStoreAdapter).to.equal(directlySetAdapter)
+
+      // Then set via provider - should overwrite
+      config.provider = mockProvider
+      expect(config.eventStoreAdapter).to.equal(providerAdapter)
     })
   })
 })
