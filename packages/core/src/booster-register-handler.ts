@@ -31,11 +31,7 @@ export class RegisterHandler {
       return
     }
 
-    if (!config.eventStoreAdapter) {
-      throw new Error('EventStoreAdapter is not configured. Please set config.eventStoreAdapter.')
-    }
-
-    await config.eventStoreAdapter.store(
+    await config.eventStore.store(
       register.eventList.map((event) => RegisterHandler.wrapEvent(config, event, register)),
       config
     )

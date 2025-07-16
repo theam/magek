@@ -1,10 +1,9 @@
- 
- 
 import { expect } from './expect'
 import { Register, BoosterConfig, Level, UserEnvelope, UUID } from '@booster-ai/common'
 import { replace, fake, restore, spy } from 'sinon'
 import { RegisterHandler } from '../src'
 import { BoosterEntityMigrated } from '../src/core-concepts/data-migration/events/booster-entity-migrated'
+import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
 
 class SomeEntity {
   public constructor(readonly id: UUID) {}
@@ -31,9 +30,10 @@ describe('the `RegisterHandler` class', () => {
 
   it('handles a register', async () => {
     const config = new BoosterConfig('test')
-    config.eventStoreAdapter = {
-      store: fake(),
-    } as any
+    const mockStore = fake()
+    config.eventStoreAdapter = createMockEventStoreAdapter({
+      store: mockStore,
+    })
     config.reducers['SomeEvent'] = { class: SomeEntity, methodName: 'whatever' }
 
     const register = new Register('1234', {} as any, RegisterHandler.flush)
@@ -62,14 +62,15 @@ describe('the `RegisterHandler` class', () => {
     const register = new Register('1234', {} as any, RegisterHandler.flush)
     await RegisterHandler.handle(config, register)
 
-    expect(config.eventStoreAdapter.store).to.not.have.been.called
+    expect(mockStore).to.not.have.been.called
   })
 
   it('stores wrapped events', async () => {
     const config = new BoosterConfig('test')
-    config.eventStoreAdapter = {
-      store: fake(),
-    } as any
+    const mockStore = fake()
+    config.eventStoreAdapter = createMockEventStoreAdapter({
+      store: mockStore,
+    })
     config.reducers['SomeEvent'] = {
       class: SomeEntity,
       methodName: 'aReducer',
@@ -84,8 +85,8 @@ describe('the `RegisterHandler` class', () => {
 
     await RegisterHandler.handle(config, register)
 
-    expect(config.eventStoreAdapter.store).to.have.been.calledOnce
-    expect(config.eventStoreAdapter.store).to.have.been.calledWithMatch(
+    expect(mockStore).to.have.been.calledOnce
+    expect(mockStore).to.have.been.calledWithMatch(
       [
         {
           currentUser: undefined,

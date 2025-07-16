@@ -19,11 +19,8 @@ export class BoosterEventStreamConsumer {
       require('util').inspect(rawEvents, false, null, false)
     )
     try {
-      if (!config.eventStoreAdapter) {
-        throw new Error('EventStoreAdapter is not configured. Please set config.eventStoreAdapter.')
-      }
-      const dedupEvents: EventStream = await config.eventStoreAdapter.dedupEventStream(config, rawEvents)
-      const eventEnvelopes = config.eventStoreAdapter.rawStreamToEnvelopes(config, rawEvents, dedupEvents)
+      const dedupEvents: EventStream = await config.eventStore.dedupEventStream(config, rawEvents)
+      const eventEnvelopes = config.eventStore.rawStreamToEnvelopes(config, rawEvents, dedupEvents)
       await RawEventsParser.streamPerEntityEvents(
         config,
         eventEnvelopes,

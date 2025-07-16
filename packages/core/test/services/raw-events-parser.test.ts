@@ -10,6 +10,7 @@ import {
 import { RawEventsParser } from '../../src/services/raw-events-parser'
 import { expect } from '../expect'
 import { faker } from '@faker-js/faker'
+import { createMockEventStoreAdapter } from '../helpers/event-store-adapter-helper'
 
 describe('RawEventsParser', () => {
   afterEach(() => {
@@ -63,9 +64,9 @@ describe('RawEventsParser', () => {
 
     fakeRawToEnvelopes = fake.returns(eventSource)
     config = new BoosterConfig('test')
-    config.eventStoreAdapter = {
+    config.eventStoreAdapter = createMockEventStoreAdapter({
       rawToEnvelopes: fakeRawToEnvelopes,
-    } as unknown as any
+    })
     config.logger = {
       error: fake(),
       info: fake(),

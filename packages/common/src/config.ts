@@ -221,6 +221,13 @@ export class BoosterConfig {
     this._userProjectRootPath = path
   }
 
+  public get eventStore(): EventStoreAdapter {
+    if (!this.eventStoreAdapter) {
+      throw new Error('EventStoreAdapter is not configured. Please set config.eventStoreAdapter.')
+    }
+    return this.eventStoreAdapter
+  }
+
   public mustGetEnvironmentVar(varName: string): string {
     const value = process.env[varName]
     if (value == undefined) {

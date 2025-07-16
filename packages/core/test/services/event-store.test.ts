@@ -13,6 +13,7 @@ import {
 } from '@booster-ai/common'
 import { fake, replace, restore, stub, match, spy } from 'sinon'
 import { EventStore } from '../../src/services/event-store'
+import { createMockEventStoreAdapter } from '../helpers/event-store-adapter-helper'
 import { expect } from '../expect'
 import { BoosterEntityMigrated } from '../../src/core-concepts/data-migration/events/booster-entity-migrated'
 import { BoosterAuthorizer } from '../../src/booster-authorizer'
@@ -68,11 +69,11 @@ describe('EventStore', () => {
       forEntitySince: () => {},
     },
   } as any as ProviderLibrary
-  config.eventStoreAdapter = {
+  config.eventStoreAdapter = createMockEventStoreAdapter({
     storeSnapshot: () => {},
     latestEntitySnapshot: () => {},
     forEntitySince: () => {},
-  } as any
+  })
   config.entities[AnEntity.name] = {
     class: AnEntity,
     eventStreamAuthorizer: BoosterAuthorizer.authorizeRoles.bind(null, []),

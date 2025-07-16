@@ -1,4 +1,4 @@
-import { HasInfrastructure, ProviderLibrary, RocketDescriptor, UserApp } from '@booster-ai/common'
+import { HasInfrastructure, ProviderLibrary, RocketDescriptor, UserApp, EventStoreAdapter } from '@booster-ai/common'
 import {
   rawEventsToEnvelopes,
   readEntityEventsSince,
@@ -72,7 +72,7 @@ export function loadInfrastructurePackage(packageName: string): HasInfrastructur
 }
 
 // Standalone EventStoreAdapter export using NeDB adapter
-export const eventStoreAdapter = {
+export const eventStoreAdapter: EventStoreAdapter = {
   rawToEnvelopes: rawEventsToEnvelopes,
   rawStreamToEnvelopes: notImplemented as any,
   dedupEventStream: notImplemented as any,

@@ -2,6 +2,7 @@ import { BoosterConfig, EventSearchParameters, EventSearchResponse } from '@boos
 import { eventSearch } from '../src/booster-event-search'
 import { fake, restore } from 'sinon'
 import { expect } from './expect'
+import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
 
 class TestEvent {
   public constructor(readonly id: string) {}
@@ -47,7 +48,7 @@ describe('eventSearch function', () => {
         value: { id: 'u1' },
       } as EventSearchResponse,
     ])
-    config.eventStoreAdapter = { search: providerSearch } as any
+    config.eventStoreAdapter = createMockEventStoreAdapter({ search: providerSearch })
     config.events[TestEvent.name] = { class: TestEvent }
     config.notifications[TestNotification.name] = { class: TestNotification }
 

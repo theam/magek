@@ -12,10 +12,7 @@ export async function eventSearch(
   config: BoosterConfig,
   request: EventSearchParameters
 ): Promise<Array<EventSearchResponse>> {
-  if (!config.eventStoreAdapter) {
-    throw new Error('EventStoreAdapter is not configured. Please set config.eventStoreAdapter.')
-  }
-  const events: Array<EventSearchResponse> = await config.eventStoreAdapter.search(config, request)
+  const events: Array<EventSearchResponse> = await config.eventStore.search(config, request)
   return events.map((event) => createEventValueInstance(config, event))
 }
 

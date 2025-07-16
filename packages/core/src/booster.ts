@@ -116,10 +116,7 @@ export class Booster {
     limit: number,
     afterCursor?: Record<string, string>
   ): Promise<PaginatedEntitiesIdsResult> {
-    if (!this.config.eventStoreAdapter) {
-      throw new Error('EventStoreAdapter is not configured. Please set config.eventStoreAdapter.')
-    }
-    return await this.config.eventStoreAdapter.searchEntitiesIDs(this.config, limit, afterCursor, entityTypeName)
+    return await this.config.eventStore.searchEntitiesIDs(this.config, limit, afterCursor, entityTypeName)
   }
 
   public static async deleteEvent(parameters: EventDeleteParameters): Promise<boolean> {

@@ -103,11 +103,8 @@ export class EventStore {
   public async storeDispatchedEvent(eventEnvelope: EventEnvelope): Promise<boolean | undefined> {
     const logger = getLogger(this.config, 'EventStore#storeDispatchedEvent')
     try {
-      if (!this.config.eventStoreAdapter) {
-        throw new Error('EventStoreAdapter is not configured. Please set config.eventStoreAdapter.')
-      }
       logger.debug('Storing event in the dispatched event store:', eventEnvelope)
-      return await this.config.eventStoreAdapter.storeDispatched(eventEnvelope, this.config)
+      return await this.config.eventStore.storeDispatched(eventEnvelope, this.config)
     } catch (e) {
       logger.debug('Could not store dispatched event. Continue its processing.', { error: e, eventEnvelope })
       return true
@@ -120,11 +117,8 @@ export class EventStore {
   ): Promise<EntitySnapshotEnvelope | undefined> {
     const logger = getLogger(this.config, 'EventStore#storeSnapshot')
     try {
-      if (!this.config.eventStoreAdapter) {
-        throw new Error('EventStoreAdapter is not configured. Please set config.eventStoreAdapter.')
-      }
       logger.debug('Storing snapshot in the event store:', snapshot)
-      return await this.config.eventStoreAdapter.storeSnapshot(snapshot, this.config)
+      return await this.config.eventStore.storeSnapshot(snapshot, this.config)
     } catch (e) {
       logger.error(
         `The snapshot for entity ${snapshot.typeName} with ID ${
@@ -141,11 +135,8 @@ export class EventStore {
   @Trace(TraceActionTypes.LOAD_LATEST_SNAPSHOT)
   private async loadLatestSnapshot(entityName: string, entityID: UUID): Promise<EntitySnapshotEnvelope | undefined> {
     const logger = getLogger(this.config, 'EventStore#loadLatestSnapshot')
-    if (!this.config.eventStoreAdapter) {
-      throw new Error('EventStoreAdapter is not configured. Please set config.eventStoreAdapter.')
-    }
     logger.debug(`Loading latest snapshot for entity ${entityName} and ID ${entityID}`)
-    const latestSnapshot = await this.config.eventStoreAdapter.latestEntitySnapshot(this.config, entityName, entityID)
+    const latestSnapshot = await this.config.eventStore.latestEntitySnapshot(this.config, entityName, entityID)
     if (latestSnapshot) {
       return new SchemaMigrator(this.config).migrate(latestSnapshot)
     }
@@ -159,11 +150,8 @@ export class EventStore {
     timestamp: string
   ): Promise<EventEnvelope[]> {
     const logger = getLogger(this.config, 'EventStore#loadEventStreamSince')
-    if (!this.config.eventStoreAdapter) {
-      throw new Error('EventStoreAdapter is not configured. Please set config.eventStoreAdapter.')
-    }
     logger.debug(`Loading list of pending events for entity ${entityTypeName} with ID ${entityID} since ${timestamp}`)
-    return this.config.eventStoreAdapter.forEntitySince(this.config, entityTypeName, entityID, timestamp)
+    return this.config.eventStore.forEntitySince(this.config, entityTypeName, entityID, timestamp)
   }
 
   @Trace(TraceActionTypes.ENTITY_REDUCER)
