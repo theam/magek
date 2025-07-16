@@ -21,10 +21,11 @@ Here is an example of how to configure a `JwksUriTokenVerifier`:
 ```typescript title="src/config/config.ts"
 import { Booster, JwksUriTokenVerifier } from '@booster-ai/core'
 import { BoosterConfig } from '@booster-ai/common'
+import { Provider } from '@booster-ai/server'
 
 Booster.configure('production', (config: BoosterConfig): void => {
   config.appName = 'app-name'
-  config.providerPackage = '@booster-ai/server'
+  config.provider = Provider()
   config.tokenVerifiers = [
       new JwksUriTokenVerifier(
         'https://my-auth0-tenant.auth0.com/', // Issuer
@@ -73,7 +74,7 @@ function publicKeyResolver(): Promise<string> {
 
 Booster.configure('production', (config: BoosterConfig): void => {
   config.appName = 'app-name'
-  config.providerPackage = '@booster-ai/server'
+  config.provider = Provider()
   config.tokenVerifiers = [
     new PublicKeyTokenVerifier(
       'issuer-name', // Issuer name
@@ -130,7 +131,7 @@ class CustomTokenVerifier implements TokenVerifier {
 
 Booster.configure('production', (config: BoosterConfig): void => {
   config.appName = 'app-name'
-  config.providerPackage = '@booster-ai/server'
+  config.provider = Provider()
   config.tokenVerifiers = [new CustomTokenVerifier()]
 })
 ```
