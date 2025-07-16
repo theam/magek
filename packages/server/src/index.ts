@@ -72,7 +72,7 @@ export function loadInfrastructurePackage(packageName: string): HasInfrastructur
 }
 
 export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrary => ({
-  // ProviderEventsLibrary
+  // EventStoreAdapter
   events: {
     rawToEnvelopes: rawEventsToEnvelopes,
     rawStreamToEnvelopes: notImplemented as any,
