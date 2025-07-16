@@ -64,7 +64,7 @@ const rocketFilesConfigurationCms: RocketFilesUserConfiguration = {
 
 Booster.configure('production', (config: BoosterConfig): void => {
   config.appName = 'TEST_APP_NAME'
-  config.providerPackage = '@booster-ai/server'
+  config.provider = Provider()
   config.rockets = [
     new BoosterRocketFiles(config, [rocketFilesConfigurationDefault, rocketFilesConfigurationCms]).rocketForAzure(),
   ]
@@ -317,7 +317,7 @@ const rocketFilesConfigurationCms: RocketFilesUserConfiguration = {
 
 Booster.configure('production', (config: BoosterConfig): void => {
   config.appName = 'TEST_APP_NAME'
-  config.providerPackage = '@booster-ai/server'
+  config.provider = Provider()
   config.rockets = [
     new BoosterRocketFiles(config, [rocketFilesConfigurationDefault, rocketFilesConfigurationCms]).rocketForAWS(),
   ]
@@ -591,7 +591,7 @@ const rocketFilesConfigurationCms: RocketFilesUserConfiguration = {
 
 Booster.configure('local', (config: BoosterConfig): void => {
   config.appName = 'TEST_APP_NAME'
-  config.providerPackage = '@booster-ai/server'
+  config.provider = Provider()
   config.rockets = [
     new BoosterRocketFiles(config, [rocketFilesConfigurationDefault, rocketFilesConfigurationCms]).rocketForLocal(),
   ]

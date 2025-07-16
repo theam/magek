@@ -104,9 +104,11 @@ Note that *Infrastructure Rockets* must not be part of the Booster application c
 _src/config/production.ts:_
 
 ```typescript
+import { Provider } from '@booster-ai/server'
+
 Booster.configure('development', (config: BoosterConfig): void => {
   config.appName = 'my-store'
-  config.providerPackage = '@booster-ai/server'
+  config.provider = Provider()
   config.rockets = [
     {
       packageName: 'rocket-your-rocket-name-aws-infrastructure', // Your infrastructure rocket package name
