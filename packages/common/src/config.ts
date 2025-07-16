@@ -19,6 +19,7 @@ import {
   TokenVerifier,
 } from './concepts'
 import { ProviderLibrary } from './provider'
+import { EventStoreAdapter } from './event-store-adapter'
 import { Level } from './logger'
 import * as path from 'path'
 import { RocketDescriptor, RocketFunction } from './rockets'
@@ -38,6 +39,7 @@ export class BoosterConfig {
 
   private _provider?: ProviderLibrary
   public providerPackage?: string
+  public eventStoreAdapter?: EventStoreAdapter
 
   public rockets?: Array<RocketDescriptor>
 
@@ -213,6 +215,10 @@ export class BoosterConfig {
 
   public set provider(provider: ProviderLibrary) {
     this._provider = provider
+    // Bridge mode: copy provider.events to eventStoreAdapter for backward compatibility
+    if (provider.events) {
+      this.eventStoreAdapter = provider.events
+    }
   }
 
   public get userProjectRootPath(): string {
