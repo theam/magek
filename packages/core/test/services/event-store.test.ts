@@ -593,7 +593,7 @@ describe('EventStore', () => {
           })
           replace(eventStore, 'entityReducer', reducer)
           spy(eventStore, 'storeSnapshot')
-          replace(config.eventStoreAdapter, 'storeSnapshot', fake.rejects(new Error('Error on persist')))
+          replace(config.eventStore, 'storeSnapshot', fake.rejects(new Error('Error on persist')))
 
           // A list of pending events for entityID = 42 and for BEM 90, 91 and 92
           const someEventEnvelope = eventEnvelopeFor(someEvent, AnEvent.name)
