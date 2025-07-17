@@ -593,7 +593,10 @@ describe('EventStore', () => {
           })
           replace(eventStore, 'entityReducer', reducer)
           spy(eventStore, 'storeSnapshot')
-          replace(config.eventStoreAdapter, 'storeSnapshot', fake.rejects(new Error('Error on persist')))
+          const mockStoreSnapshot = fake.rejects(new Error('Error on persist'))
+          config.eventStoreAdapter = createMockEventStoreAdapter({ 
+            storeSnapshot: mockStoreSnapshot
+          })
 
           // A list of pending events for entityID = 42 and for BEM 90, 91 and 92
           const someEventEnvelope = eventEnvelopeFor(someEvent, AnEvent.name)
@@ -641,7 +644,7 @@ describe('EventStore', () => {
           }
 
           expect(eventStore.storeSnapshot).to.have.been.calledOnce
-          expect(config.eventStoreAdapter.storeSnapshot).to.have.been.calledOnce
+          expect(mockStoreSnapshot).to.have.been.calledOnce
           expect(entity).to.be.undefined
         })
       })
@@ -714,7 +717,10 @@ describe('EventStore', () => {
     describe('storeSnapshot', () => {
       it('stores a snapshot in the event store', async () => {
         const eventStore = new EventStore(config) as any
-        replace(config.eventStoreAdapter, 'storeSnapshot', fake())
+        const mockStoreSnapshot = fake()
+        config.eventStoreAdapter = createMockEventStoreAdapter({ 
+          storeSnapshot: mockStoreSnapshot
+        })
 
         const someSnapshot = snapshotEnvelopeFor({
           id: '42',
@@ -723,7 +729,7 @@ describe('EventStore', () => {
 
         await eventStore.storeSnapshot(someSnapshot)
 
-        expect(config.eventStoreAdapter.storeSnapshot).to.have.been.calledOnceWith(someSnapshot, config)
+        expect(mockStoreSnapshot).to.have.been.calledOnceWith(someSnapshot, config)
       })
 
       context('when there is an error storing the snapshot', () => {
@@ -734,7 +740,9 @@ describe('EventStore', () => {
             count: 666,
           })
           const someError = new Error('some error')
-          replace(config.eventStoreAdapter, 'storeSnapshot', fake.rejects(someError))
+          config.eventStoreAdapter = createMockEventStoreAdapter({ 
+            storeSnapshot: fake.rejects(someError)
+          })
 
           await eventStore.storeSnapshot(someSnapshot)
 
@@ -756,13 +764,16 @@ describe('EventStore', () => {
 
     describe('loadLatestSnapshot', () => {
       it('looks for the latest snapshot stored in the event stream', async () => {
-        replace(config.eventStoreAdapter, 'latestEntitySnapshot', fake())
+        const mockLatestEntitySnapshot = fake()
+        config.eventStoreAdapter = createMockEventStoreAdapter({ 
+          latestEntitySnapshot: mockLatestEntitySnapshot
+        })
 
         const entityTypeName = AnEntity.name
         const entityID = '42'
         await eventStore.loadLatestSnapshot(entityTypeName, entityID)
 
-        expect(config.eventStoreAdapter.latestEntitySnapshot).to.have.been.calledOnceWith(
+        expect(mockLatestEntitySnapshot).to.have.been.calledOnceWith(
           config,
           entityTypeName,
           entityID
@@ -772,13 +783,16 @@ describe('EventStore', () => {
 
     describe('loadEventStreamSince', () => {
       it('loads a event stream starting from a specific timestapm', async () => {
-        replace(config.eventStoreAdapter, 'forEntitySince', fake())
+        const mockForEntitySince = fake()
+        config.eventStoreAdapter = createMockEventStoreAdapter({ 
+          forEntitySince: mockForEntitySince
+        })
 
         const entityTypeName = AnEntity.name
         const entityID = '42'
         await eventStore.loadEventStreamSince(entityTypeName, entityID, originOfTime)
 
-        expect(config.eventStoreAdapter.forEntitySince).to.have.been.calledOnceWith(
+        expect(mockForEntitySince).to.have.been.calledOnceWith(
           config,
           entityTypeName,
           entityID,
