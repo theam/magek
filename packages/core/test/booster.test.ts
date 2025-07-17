@@ -35,7 +35,7 @@ describe('the `Booster` class', () => {
 
       Booster.configure('test', (config) => {
         config.appName = 'test-app-name'
-        config.providerPackage = 'some-provider'
+        config.provider = {} as ProviderLibrary
       })
 
       Booster.configure('another-environment', (config) => {
@@ -45,7 +45,7 @@ describe('the `Booster` class', () => {
       expect(booster.configuredEnvironments).to.have.lengthOf(2)
       expect(booster.configuredEnvironments).to.include.keys(['test', 'another-environment'])
       expect(booster.config.appName).to.equal('test-app-name')
-      expect(booster.config.providerPackage).to.equal('some-provider')
+      expect(booster.config.provider).to.be.an('object')
     })
   })
 

@@ -18,9 +18,11 @@ To enable the Health functionality in your Booster application, follow these ste
 2. Enable the Booster Health endpoints in your application's configuration file. Example configuration in config.ts:
 
 ```typescript
+import { Provider } from '@booster-ai/server'
+
 Booster.configure('local', (config: BoosterConfig): void => {
   config.appName = 'my-store'
-  config.providerPackage = '@booster-ai/server'
+  config.provider = Provider()
   Object.values(config.sensorConfiguration.health.booster).forEach((indicator) => {
     indicator.enabled = true
   })
@@ -31,7 +33,7 @@ Or enable only the components you want:
 ```typescript
 Booster.configure('local', (config: BoosterConfig): void => {
   config.appName = 'my-store'
-  config.providerPackage = '@booster-ai/server'
+  config.provider = Provider()
   const sensors = config.sensorConfiguration.health.booster
   sensors[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].enabled = true
 })

@@ -71,9 +71,11 @@ For example, given the following setup:
 <TabItem value="booster-config" label="Booster Config" default>
 
 ```typescript title="src/config/config.ts"
+import { Provider } from '@booster-ai/server'
+
 Booster.configure('production', (config: BoosterConfig): void => {
   config.appName = 'my-store'
-  config.providerPackage = '@booster-ai/server'
+  config.provider = Provider()
   config.tokenVerifiers = [
     new JwksUriTokenVerifier(
       'https://my-auth0-tenant.auth0.com/', // Issuer

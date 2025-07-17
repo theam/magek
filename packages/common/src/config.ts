@@ -38,7 +38,6 @@ export class BoosterConfig {
   public logger?: Logger
 
   private _provider?: ProviderLibrary
-  public providerPackage?: string
   public eventStoreAdapter?: EventStoreAdapter
 
   public rockets?: Array<RocketDescriptor>
@@ -204,11 +203,6 @@ export class BoosterConfig {
   }
 
   public get provider(): ProviderLibrary {
-    if (!this._provider && this.providerPackage) {
-      const rockets = this.rockets ?? []
-      const provider = require(this.providerPackage)
-      this._provider = provider.Provider(rockets)
-    }
     if (!this._provider) throw new Error('It is required to set a valid provider runtime in your configuration files')
     return this._provider
   }

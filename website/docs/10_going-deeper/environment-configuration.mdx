@@ -6,16 +6,17 @@ You can create multiple environments calling the `Booster.configure` function se
 // Here we use a single file called src/config.ts, but you can use separate files for each environment too.
 import { Booster } from '@booster-ai/core'
 import { BoosterConfig } from '@booster-ai/common'
+import { Provider } from '@booster-ai/server'
 // A provider that deploys your app to AWS:
 
 Booster.configure('stage', (config: BoosterConfig): void => {
   config.appName = 'fruit-store-stage'
-  config.providerPackage = '@booster-ai/server'
+  config.provider = Provider()
 })
 
 Booster.configure('prod', (config: BoosterConfig): void => {
   config.appName = 'fruit-store-prod'
-  config.providerPackage = '@booster-ai/server'
+  config.provider = Provider()
 })
 ```
 
@@ -24,11 +25,11 @@ It is also possible to place an environment configuration in a separated file. L
 ```typescript
 import { Booster } from '@booster-ai/core'
 import { BoosterConfig } from '@booster-ai/common'
-import * as AWS from
+import { Provider } from '@booster-ai/server'
 
 Booster.configure('john', (config: BoosterConfig): void => {
   config.appName = 'john-fruit-store'
-  config.providerPackage = '@booster-ai/server'
+  config.provider = Provider()
 })
 ```
 
