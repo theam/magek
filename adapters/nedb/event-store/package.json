@@ -2,7 +2,10 @@
   "name": "@magek/adapter-event-store-nedb",
   "version": "0.0.1",
   "description": "Nedb-based event store adapter for the Magek framework",
-  "keywords": ["event-store", "nedb"],
+  "keywords": [
+    "event-store",
+    "nedb"
+  ],
   "author": "Boosterin Labs SLU",
   "homepage": "https://magek.ai",
   "license": "Apache-2.0",
@@ -10,7 +13,9 @@
     "access": "public"
   },
   "main": "dist/index.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/theam/magek.git"
@@ -30,7 +35,7 @@
     "build": "tsc -b tsconfig.json",
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "prepack": "tsc -b tsconfig.json",
-    "test": "tsc --noEmit && nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
+    "test": "tsc --noEmit -p tsconfig.test.json && nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
   },
   "bugs": {
     "url": "https://github.com/theam/magek/issues"
