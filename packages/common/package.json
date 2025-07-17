@@ -62,7 +62,7 @@
     "sinon-chai": "4.0.0",
     "ts-node": "10.9.1",
     "typescript": "5.8.3",
-    "@faker-js/faker": "7.6.0",
+    "@faker-js/faker": "9.9.0",
     "fast-check": "4.1.1",
     "graphql": "16.6.0"
   }
