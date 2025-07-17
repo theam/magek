@@ -72,6 +72,12 @@ You can join the conversation and start contributing in any of the following way
 Please refer to [`CONTRIBUTING.md`](./CONTRIBUTING.md) for more details. Pull requests are welcome. For major changes, please
 open an issue first to discuss what you would like to change.
 
+# Testing
+
+Run `rush test` to execute the unit tests across all packages. Each package's test script
+first runs `tsc --noEmit` before invoking Mocha, so the suite fails fast if TypeScript
+compilation errors are detected.
+
 # License
 
 The Booster Framework is licensed under the Apache License, Version 2.0. See the [LICENSE](LICENSE) file for more details.

@@ -30,7 +30,7 @@
     "build": "tsc -b tsconfig.json",
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "prepack": "tsc -b tsconfig.json",
-    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
+    "test": "tsc --noEmit && nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
   },
   "bugs": {
     "url": "https://github.com/theam/magek/issues"
