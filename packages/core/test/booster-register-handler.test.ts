@@ -54,8 +54,9 @@ describe('the `RegisterHandler` class', () => {
 
   it('does nothing when there are no events', async () => {
     const config = new BoosterConfig('test')
+    const mockStore = fake()
     config.eventStoreAdapter = createMockEventStoreAdapter({
-      store: fake(),
+      store: mockStore,
     })
     config.reducers['SomeEvent'] = { class: SomeEntity, methodName: 'whatever' }
 
