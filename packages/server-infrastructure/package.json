@@ -30,7 +30,7 @@
     "fastify-sse-v2": "4.2.1",
     "@fastify/cors": "11.0.1",
     "node-schedule": "2.1.0",
-    "tslib": "2.4.0",
+    "tslib": "2.8.1",
     "@effect-ts/core": "0.60.4"
   },
   "scripts": {
