@@ -75,8 +75,8 @@ open an issue first to discuss what you would like to change.
 # Testing
 
 Run `rush test` to execute the unit tests across all packages. Each package's test script
-first runs `tsc --noEmit` before invoking Mocha, so the suite fails fast if TypeScript
-compilation errors are detected.
+first runs `tsc --noEmit -p tsconfig.test.json` before invoking Mocha, so the suite fails
+fast if TypeScript compilation errors are detected.
 
 # License
 

@@ -89,7 +89,7 @@
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "prepack": "tsc -b tsconfig.json",
     "test:cli": "npm run test",
-    "test": "tsc --noEmit && nyc --extension .ts mocha --forbid-only  \"test/**/*.test.ts\""
+    "test": "tsc --noEmit -p tsconfig.test.json && nyc --extension .ts mocha --forbid-only  \"test/**/*.test.ts\""
   },
   "types": "lib/index.d.ts"
 }
