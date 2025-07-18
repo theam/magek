@@ -134,19 +134,7 @@ describe('the config type', () => {
       expect(() => config.provider).to.not.throw()
     })
 
-    it('does not set eventStoreAdapter when provider is set (bridge mode removed)', () => {
-      const config = new BoosterConfig('test')
-      const mockEventStoreAdapter = {} as EventStoreAdapter
-      const mockProvider = {
-        events: mockEventStoreAdapter,
-      } as ProviderLibrary
-
-      config.provider = mockProvider
-
-      expect(config.eventStoreAdapter).to.be.undefined
-    })
-
-    it('does not set eventStoreAdapter when provider.events is undefined', () => {
+    it('does not set eventStoreAdapter when provider is set (direct assignment required)', () => {
       const config = new BoosterConfig('test')
       const mockProvider = {} as ProviderLibrary
 
@@ -167,10 +155,7 @@ describe('the config type', () => {
     it('eventStoreAdapter remains unchanged when provider is set after direct assignment', () => {
       const config = new BoosterConfig('test')
       const directlySetAdapter = {} as EventStoreAdapter
-      const providerAdapter = {} as EventStoreAdapter
-      const mockProvider = {
-        events: providerAdapter,
-      } as ProviderLibrary
+      const mockProvider = {} as ProviderLibrary
 
       // First set directly
       config.eventStoreAdapter = directlySetAdapter

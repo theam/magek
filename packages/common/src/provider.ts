@@ -13,13 +13,8 @@ import {
 import { FilterFor, ProjectionFor, SortFor } from './searcher'
 import { ReadOnlyNonEmptyArray } from './typelevel'
 import { RocketDescriptor, RocketEnvelope } from './rockets'
-import { EventStoreAdapter } from './event-store-adapter'
 
 export interface ProviderLibrary {
-  /**
-   * @deprecated Use EventStoreAdapter instead. This field will be removed in a future version.
-   */
-  events: EventStoreAdapter
   readModels: ProviderReadModelsLibrary
   graphQL: ProviderGraphQLLibrary
   api: ProviderAPIHandling
