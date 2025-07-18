@@ -31,7 +31,7 @@ export class RegisterHandler {
       return
     }
 
-    await config.provider.events.store(
+    await config.eventStore.store(
       register.eventList.map((event) => RegisterHandler.wrapEvent(config, event, register)),
       config
     )

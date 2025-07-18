@@ -104,7 +104,7 @@ export class EventStore {
     const logger = getLogger(this.config, 'EventStore#storeDispatchedEvent')
     try {
       logger.debug('Storing event in the dispatched event store:', eventEnvelope)
-      return await this.config.provider.events.storeDispatched(eventEnvelope, this.config)
+      return await this.config.eventStore.storeDispatched(eventEnvelope, this.config)
     } catch (e) {
       logger.debug('Could not store dispatched event. Continue its processing.', { error: e, eventEnvelope })
       return true
@@ -118,7 +118,7 @@ export class EventStore {
     const logger = getLogger(this.config, 'EventStore#storeSnapshot')
     try {
       logger.debug('Storing snapshot in the event store:', snapshot)
-      return await this.config.provider.events.storeSnapshot(snapshot, this.config)
+      return await this.config.eventStore.storeSnapshot(snapshot, this.config)
     } catch (e) {
       logger.error(
         `The snapshot for entity ${snapshot.typeName} with ID ${
@@ -136,7 +136,7 @@ export class EventStore {
   private async loadLatestSnapshot(entityName: string, entityID: UUID): Promise<EntitySnapshotEnvelope | undefined> {
     const logger = getLogger(this.config, 'EventStore#loadLatestSnapshot')
     logger.debug(`Loading latest snapshot for entity ${entityName} and ID ${entityID}`)
-    const latestSnapshot = await this.config.provider.events.latestEntitySnapshot(this.config, entityName, entityID)
+    const latestSnapshot = await this.config.eventStore.latestEntitySnapshot(this.config, entityName, entityID)
     if (latestSnapshot) {
       return new SchemaMigrator(this.config).migrate(latestSnapshot)
     }
@@ -151,7 +151,7 @@ export class EventStore {
   ): Promise<EventEnvelope[]> {
     const logger = getLogger(this.config, 'EventStore#loadEventStreamSince')
     logger.debug(`Loading list of pending events for entity ${entityTypeName} with ID ${entityID} since ${timestamp}`)
-    return this.config.provider.events.forEntitySince(this.config, entityTypeName, entityID, timestamp)
+    return this.config.eventStore.forEntitySince(this.config, entityTypeName, entityID, timestamp)
   }
 
   @Trace(TraceActionTypes.ENTITY_REDUCER)

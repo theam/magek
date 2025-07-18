@@ -5,6 +5,7 @@ import { BoosterEventsReader } from '../src/booster-events-reader'
 import { expect } from './expect'
 import { Booster } from '../src'
 import { BoosterAuthorizer } from '../src/booster-authorizer'
+import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
 
 describe('BoosterEventsReader', () => {
   class TestEntity {
@@ -45,11 +46,10 @@ describe('BoosterEventsReader', () => {
     Booster.configureCurrentEnv((config) => {
       providerEventsSearch = fake.returns(searchResult)
 
-      config.provider = {
-        events: {
-          search: providerEventsSearch,
-        },
-      } as unknown as ProviderLibrary
+      config.provider = {} as ProviderLibrary
+      config.eventStoreAdapter = createMockEventStoreAdapter({
+        search: providerEventsSearch,
+      })
 
       config.entities[TestEntity.name] = {
         class: TestEntity,

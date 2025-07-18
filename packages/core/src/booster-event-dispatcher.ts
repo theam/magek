@@ -18,7 +18,7 @@ export class BoosterEventDispatcher {
     const readModelStore = new ReadModelStore(config)
     logger.debug('Event workflow started for raw events:', require('util').inspect(rawEvents, false, null, false))
     try {
-      const eventEnvelopes = config.provider.events.rawToEnvelopes(rawEvents)
+      const eventEnvelopes = config.eventStore.rawToEnvelopes(rawEvents)
       await RawEventsParser.streamPerEntityEvents(
         config,
         eventEnvelopes,

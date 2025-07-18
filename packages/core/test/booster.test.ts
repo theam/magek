@@ -17,6 +17,7 @@ import { EventStore } from '../src/services/event-store'
 import { faker } from '@faker-js/faker'
 import { JwksUriTokenVerifier } from '../src/services/token-verifiers'
 import { afterEach } from 'mocha'
+import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
 
 describe('the `Booster` class', () => {
   afterEach(() => {
@@ -108,13 +109,12 @@ describe('the `Booster` class', () => {
   })
   describe('the `entitiesIDs` method', () => {
     it('has an instance method', async () => {
-      const providerSearchEntitiesIds = fake.returns([])
+      const providerSearchEntitiesIds = fake.resolves([])
       Booster.configureCurrentEnv((config) => {
-        config.provider = {
-          events: {
-            searchEntitiesIDs: providerSearchEntitiesIds,
-          },
-        } as unknown as ProviderLibrary
+        config.provider = {} as ProviderLibrary
+        config.eventStoreAdapter = createMockEventStoreAdapter({
+          searchEntitiesIDs: providerSearchEntitiesIds,
+        })
       })
       await Booster.entitiesIDs('TestEvent', 1, undefined)
       expect(providerSearchEntitiesIds).to.have.been.calledOnce
@@ -178,13 +178,12 @@ describe('the `Booster` class', () => {
           } as EventInterface,
         },
       ]
-      const providerEventsSearch = fake.returns(searchResult)
+      const providerEventsSearch = fake.resolves(searchResult)
       Booster.configureCurrentEnv((config) => {
-        config.provider = {
-          events: {
-            search: providerEventsSearch,
-          },
-        } as unknown as ProviderLibrary
+        config.provider = {} as ProviderLibrary
+        config.eventStoreAdapter = createMockEventStoreAdapter({
+          search: providerEventsSearch,
+        })
         config.events[TestEvent.name] = { class: TestEvent }
         config.events[BestEvent.name] = { class: BestEvent }
       })
@@ -239,13 +238,12 @@ describe('the `Booster` class', () => {
           } as EventInterface,
         },
       ]
-      const providerEventsSearch = fake.returns(searchResult)
+      const providerEventsSearch = fake.resolves(searchResult)
       Booster.configureCurrentEnv((config) => {
-        config.provider = {
-          events: {
-            search: providerEventsSearch,
-          },
-        } as unknown as ProviderLibrary
+        config.provider = {} as ProviderLibrary
+        config.eventStoreAdapter = createMockEventStoreAdapter({
+          search: providerEventsSearch,
+        })
         config.events[TestEvent.name] = { class: TestEvent }
       })
 
@@ -288,13 +286,12 @@ describe('the `Booster` class', () => {
           } as NotificationInterface,
         },
       ]
-      const providerEventsSearch = fake.returns(searchResult)
+      const providerEventsSearch = fake.resolves(searchResult)
       Booster.configureCurrentEnv((config) => {
-        config.provider = {
-          events: {
-            search: providerEventsSearch,
-          },
-        } as unknown as ProviderLibrary
+        config.provider = {} as ProviderLibrary
+        config.eventStoreAdapter = createMockEventStoreAdapter({
+          search: providerEventsSearch,
+        })
         config.notifications[TestEvent.name] = { class: TestEvent }
       })
 
