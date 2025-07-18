@@ -1,8 +1,5 @@
- 
 import { EntitySnapshotEnvelope, EventEnvelope, EventStoreEntryEnvelope } from '@booster-ai/common'
-import * as path from 'path'
-
-export const eventsDatabase = path.normalize(path.join('.', '.booster', 'events.json'))
+import { eventsDatabase } from './paths'
 
 const DataStore = require('@seald-io/nedb')
 
@@ -83,3 +80,8 @@ export class EventRegistry {
     return await this.events.countAsync(query)
   }
 }
+
+// Export all services and types
+export { WebSocketRegistry, ConnectionData, SimpleRegistryTypes } from './web-socket-registry'
+export { ReadModelRegistry, NedbError, UNIQUE_VIOLATED_ERROR_TYPE } from './read-model-registry'
+export * from './paths'

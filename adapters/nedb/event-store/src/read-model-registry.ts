@@ -1,5 +1,5 @@
 import { ProjectionFor, ReadModelEnvelope, SortFor, UUID } from '@booster-ai/common'
-import { readModelsDatabase } from '../paths'
+import { readModelsDatabase } from './paths'
 
 const DataStore = require('@seald-io/nedb')
 

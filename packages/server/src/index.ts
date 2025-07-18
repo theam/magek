@@ -8,8 +8,8 @@ import {
   storeSnapshot,
 } from './library/events-adapter'
 import { healthRequestResult, requestFailed, requestSucceeded } from './library/api-adapter'
-import { GraphQLService, ReadModelRegistry } from './services'
-import { EventRegistry } from '@magek/adapter-event-store-nedb'
+import { GraphQLService } from './services'
+import { EventRegistry, ReadModelRegistry, WebSocketRegistry, connectionsDatabase, subscriptionDatabase } from '@magek/adapter-event-store-nedb'
 import { rawGraphQLRequestToEnvelope } from './library/graphql-adapter'
 
 import * as path from 'path'
@@ -29,14 +29,7 @@ import {
   sendMessageToConnection,
   storeConnectionData,
 } from './library/connections-adapter'
-import {
-  deleteAllSubscriptions,
-  deleteSubscription,
-  fetchSubscriptions,
-  subscribeToReadModel,
-} from './library/subscription-adapter'
-import { WebSocketRegistry } from './services/web-socket-registry'
-import { connectionsDatabase, subscriptionDatabase } from './paths'
+import { deleteAllSubscriptions, deleteSubscription, fetchSubscriptions, subscribeToReadModel } from './library/subscription-adapter'
 import { rawRocketInputToEnvelope } from './library/rocket-adapter'
 import {
   areDatabaseReadModelsUp,
@@ -52,7 +45,6 @@ import {
 import { deleteEvent, deleteSnapshot, findDeletableEvent, findDeletableSnapshot } from './library/event-delete-adapter'
 import * as process from 'process'
 
-export * from './paths'
 export * from './services'
 export * from './library/graphql-adapter'
 

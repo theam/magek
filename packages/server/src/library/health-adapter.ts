@@ -1,23 +1,22 @@
-import { ReadModelRegistry } from '../services'
-import { EventRegistry } from '@magek/adapter-event-store-nedb'
-import { eventsDatabase, readModelsDatabase } from '../paths'
+import { EventRegistry, ReadModelRegistry, eventsDatabase, readModelsDatabase } from '@magek/adapter-event-store-nedb'
 import { BoosterConfig, boosterLocalPort, HealthEnvelope, UUID, request } from '@booster-ai/common'
 import { existsSync } from 'fs'
 import { FastifyRequest } from 'fastify'
-import Nedb from '@seald-io/nedb'
 
 export async function databaseUrl(): Promise<Array<string>> {
   return [eventsDatabase, readModelsDatabase]
 }
 
-export async function countAll(database: Nedb): Promise<number> {
+export async function countAll(registry: { events?: any; readModels?: any }): Promise<number> {
+  const database = registry.events || registry.readModels
+  if (!database) return 0
   await database.loadDatabaseAsync()
   const count = await database.countAsync({})
   return count ?? 0
 }
 
 export async function databaseEventsHealthDetails(eventRegistry: EventRegistry): Promise<unknown> {
-  const count = await countAll(eventRegistry.events)
+  const count = await countAll(eventRegistry)
   return {
     file: eventsDatabase,
     count: count,
@@ -87,7 +86,7 @@ export function rawRequestToSensorHealth(rawRequest: FastifyRequest): HealthEnve
 }
 
 export async function databaseReadModelsHealthDetails(readModelRegistry: ReadModelRegistry): Promise<unknown> {
-  const count = await countAll(readModelRegistry.readModels)
+  const count = await countAll(readModelRegistry)
   return {
     file: readModelsDatabase,
     count: count,

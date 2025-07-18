@@ -1,5 +1,5 @@
 import { BoosterConfig, SubscriptionEnvelope } from '@booster-ai/common'
-import { WebSocketRegistry } from '../services/web-socket-registry'
+import { WebSocketRegistry } from '@magek/adapter-event-store-nedb'
 
 export async function subscribeToReadModel(
   db: WebSocketRegistry,
