@@ -6,6 +6,7 @@ import { BoosterConfig, ProviderLibrary, UUID } from '@booster-ai/common'
 import { expect } from './expect'
 import { RawEventsParser } from '../src/services/raw-events-parser'
 import { BoosterEventProcessor } from '../src/booster-event-processor'
+import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
 
 class SomeEvent {
   public constructor(readonly id: UUID) {}
@@ -40,11 +41,9 @@ describe('BoosterEventDispatcher', () => {
   const rawEvents = [{ some: 'raw event' }, { some: 'other raw event' }]
   const events = [{ some: 'raw event' }, { some: 'other raw event' }]
   const fakeRawToEnvelopes: SinonSpy = fake.returns(events)
-  config.provider = {
-    events: {
-      rawToEnvelopes: fakeRawToEnvelopes,
-    },
-  } as unknown as ProviderLibrary
+  config.eventStoreAdapter = createMockEventStoreAdapter({
+    rawToEnvelopes: fakeRawToEnvelopes,
+  })
 
   context('with a configured provider', () => {
     describe('the `dispatch` method', () => {

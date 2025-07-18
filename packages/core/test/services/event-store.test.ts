@@ -70,9 +70,9 @@ describe('EventStore', () => {
     },
   } as any as ProviderLibrary
   config.eventStoreAdapter = createMockEventStoreAdapter({
-    storeSnapshot: () => {},
-    latestEntitySnapshot: () => {},
-    forEntitySince: () => {},
+    storeSnapshot: async () => ({} as any),
+    latestEntitySnapshot: async () => undefined,
+    forEntitySince: async () => [],
   })
   config.entities[AnEntity.name] = {
     class: AnEntity,
