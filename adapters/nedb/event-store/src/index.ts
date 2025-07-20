@@ -1,85 +1,76 @@
- 
-import { EntitySnapshotEnvelope, EventEnvelope, EventStoreEntryEnvelope } from '@booster-ai/common'
-import * as path from 'path'
+import {
+  UUID,
+  UserApp,
+  BoosterConfig,
+  NonPersistedEventEnvelope,
+  NonPersistedEntitySnapshotEnvelope,
+  EventSearchParameters,
+  EventDeleteParameters,
+  EventEnvelopeFromDatabase,
+  SnapshotDeleteParameters,
+  EntitySnapshotEnvelopeFromDatabase,
+  EventStoreAdapter,
+} from '@booster-ai/common'
+import { EventRegistry } from './event-registry'
+import {
+  rawEventsToEnvelopes,
+  readEntityEventsSince,
+  readEntityLatestSnapshot,
+  storeEvents,
+  storeSnapshot,
+  storeDispatchedEvent,
+} from './library/events-adapter'
+import { searchEntitiesIds, searchEvents } from './library/events-search-adapter'
+import {
+  deleteEvent,
+  deleteSnapshot,
+  findDeletableEvent,
+  findDeletableSnapshot,
+} from './library/event-delete-adapter'
 
-export const eventsDatabase = path.normalize(path.join('.', '.booster', 'events.json'))
+// Export the EventRegistry for backward compatibility
+export { EventRegistry } from './event-registry'
 
-const DataStore = require('@seald-io/nedb')
+// Create the NeDB Event Store Adapter
+export function createNeDBEventStoreAdapter(userApp: UserApp): EventStoreAdapter {
+  const eventRegistry = new EventRegistry()
 
-export class EventRegistry {
-  public readonly events
-  public isLoaded = false
-
-  constructor() {
-    this.events = new DataStore({ filename: eventsDatabase })
+  function notImplemented(): any {
+    throw new Error('Not implemented for NeDB adapter')
   }
 
-  async loadDatabaseIfNeeded(): Promise<void> {
-    if (!this.isLoaded) {
-      this.isLoaded = true
-      await this.events.loadDatabaseAsync()
-    }
-  }
-
-  getCursor(query: object, createdAt = 1, projections?: unknown) {
-    const cursor = this.events.findAsync(query, projections)
-    return cursor.sort({ createdAt: createdAt })
-  }
-
-  public async query(
-    query: object,
-    createdAt = 1,
-    limit?: number,
-    projections?: unknown
-  ): Promise<EventStoreEntryEnvelope[]> {
-    await this.loadDatabaseIfNeeded()
-    let cursor = this.getCursor(query, createdAt, projections)
-    if (limit) {
-      cursor = cursor.limit(Number(limit))
-    }
-    return await cursor.execAsync()
-  }
-
-  public async replaceOrDeleteItem(id: string, newValue?: EventEnvelope | EntitySnapshotEnvelope): Promise<void> {
-    if (newValue) {
-      await new Promise((resolve, reject) =>
-        this.events.update({ _id: id }, newValue, { multi: true }, (err: any, numRemoved: number) => {
-          if (err) reject(err)
-          else resolve(numRemoved)
-        })
-      )
-    } else {
-      await new Promise((resolve, reject) =>
-        this.events.remove({ _id: id }, { multi: true }, (err: any, numRemoved: number) => {
-          if (err) reject(err)
-          else resolve(numRemoved)
-        })
-      )
-    }
-  }
-
-  public async queryLatestSnapshot(query: object): Promise<EntitySnapshotEnvelope | undefined> {
-    await this.loadDatabaseIfNeeded()
-    const cursor = this.events.findAsync({ ...query, kind: 'snapshot' }).sort({ snapshottedEventCreatedAt: -1 }) // Sort in descending order (newer timestamps first)
-    const results = await cursor.execAsync()
-    if (results.length <= 0) {
-      return undefined
-    }
-    return results[0] as EntitySnapshotEnvelope
-  }
-
-  public async store(storableObject: EventEnvelope | EntitySnapshotEnvelope): Promise<void> {
-    await this.loadDatabaseIfNeeded()
-    await this.events.insertAsync(storableObject)
-  }
-
-  public async deleteAll(): Promise<number> {
-    await this.loadDatabaseIfNeeded()
-    return await this.events.removeAsync({}, { multi: true })
-  }
-
-  public async count(query?: object): Promise<number> {
-    await this.loadDatabaseIfNeeded()
-    return await this.events.countAsync(query)
+  return {
+    rawToEnvelopes: rawEventsToEnvelopes,
+    rawStreamToEnvelopes: notImplemented,
+    dedupEventStream: notImplemented,
+    produce: notImplemented,
+    forEntitySince: (config: BoosterConfig, entityTypeName: string, entityID: UUID, since?: string) =>
+      readEntityEventsSince(eventRegistry, config, entityTypeName, entityID, since),
+    latestEntitySnapshot: (config: BoosterConfig, entityTypeName: string, entityID: UUID) =>
+      readEntityLatestSnapshot(eventRegistry, config, entityTypeName, entityID),
+    store: (eventEnvelopes: Array<NonPersistedEventEnvelope>, config: BoosterConfig) =>
+      storeEvents(userApp, eventRegistry, eventEnvelopes, config),
+    storeSnapshot: (snapshotEnvelope: NonPersistedEntitySnapshotEnvelope, config: BoosterConfig) =>
+      storeSnapshot(eventRegistry, snapshotEnvelope, config),
+    search: (config: BoosterConfig, parameters: EventSearchParameters) =>
+      searchEvents(eventRegistry, config, parameters),
+    searchEntitiesIDs: (
+      config: BoosterConfig,
+      limit: number,
+      afterCursor: Record<string, string> | undefined,
+      entityTypeName: string
+    ) => searchEntitiesIds(eventRegistry, config, limit, afterCursor, entityTypeName),
+    storeDispatched: () => storeDispatchedEvent(),
+    findDeletableEvent: (config: BoosterConfig, parameters: EventDeleteParameters) =>
+      findDeletableEvent(eventRegistry, config, parameters),
+    findDeletableSnapshot: (config: BoosterConfig, parameters: SnapshotDeleteParameters) =>
+      findDeletableSnapshot(eventRegistry, config, parameters),
+    deleteEvent: (config: BoosterConfig, events: Array<EventEnvelopeFromDatabase>) =>
+      deleteEvent(eventRegistry, config, events),
+    deleteSnapshot: (config: BoosterConfig, snapshots: Array<EntitySnapshotEnvelopeFromDatabase>) =>
+      deleteSnapshot(eventRegistry, config, snapshots),
   }
 }
+
+// Default export for convenience
+export default createNeDBEventStoreAdapter

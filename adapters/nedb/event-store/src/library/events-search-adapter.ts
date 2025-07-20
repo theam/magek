@@ -9,7 +9,7 @@ import {
   unique,
 } from '@booster-ai/common'
 import { buildFiltersForByFilters, buildFiltersForByTime, resultToEventSearchResponse } from './events-searcher-builder'
-import { EventRegistry } from '@magek/adapter-event-store-nedb'
+import { EventRegistry } from '../event-registry'
 
 const DEFAULT_CREATED_AT_SORT_ORDER = -1
 const DEFAULT_KIND_FILTER = { kind: 'event' }

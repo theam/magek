@@ -9,8 +9,23 @@ import {
   EntitySnapshotEnvelope,
   getLogger,
 } from '@booster-ai/common'
-import { EventRegistry } from '@magek/adapter-event-store-nedb'
-import { QueryOperation, QueryValue } from './searcher-adapter'
+import { EventRegistry } from '../event-registry'
+
+// NeDB query types
+export type QueryValue = number | string | boolean
+export type QueryOperation<TValue> =
+  | TValue
+  | {
+      $lt?: TValue
+      $lte?: TValue
+      $gt?: TValue
+      $gte?: TValue
+      $ne?: TValue
+      $in?: Array<TValue>
+      $nin?: Array<TValue>
+      $exists?: boolean
+      $regex?: RegExp | string
+    }
 
 type DatabaseEventEnvelopeWithId = EventEnvelope & { _id: string }
 type DatabaseEntitySnapshotEnvelopeWithId = EntitySnapshotEnvelope & { _id: string }
