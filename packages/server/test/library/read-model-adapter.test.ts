@@ -1,7 +1,7 @@
  
 import { createStubInstance, fake, SinonStub, SinonStubbedInstance, replace, stub } from 'sinon'
 import { GraphQLService } from '../../src'
-import { ReadModelRegistry } from '@magek/adapter-event-store-nedb'
+import { ReadModelRegistry } from '../../src/services'
 import {
   BoosterConfig,
   FilterFor,

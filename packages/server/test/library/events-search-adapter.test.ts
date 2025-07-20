@@ -2,7 +2,7 @@ import { BoosterConfig } from '@booster-ai/common'
 import { createStubInstance, replace, restore, SinonStub, SinonStubbedInstance, stub } from 'sinon'
 import { searchEntitiesIds } from '../../src/library/events-search-adapter'
 import { expect } from '../expect'
-import { WebSocketRegistry } from '@magek/adapter-event-store-nedb'
+import { WebSocketRegistry } from '../../src/services'
 
 describe('The "searchEntitiesIDs" method', () => {
   let mockConfig: BoosterConfig

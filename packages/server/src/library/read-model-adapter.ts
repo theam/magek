@@ -12,7 +12,7 @@ import {
   getLogger,
 } from '@booster-ai/common'
 import { GraphQLService } from '../services'
-import { ReadModelRegistry, NedbError, UNIQUE_VIOLATED_ERROR_TYPE } from '@magek/adapter-event-store-nedb'
+import { ReadModelRegistry, NedbError, UNIQUE_VIOLATED_ERROR_TYPE } from '../services'
 import { queryRecordFor } from './searcher-adapter'
 
 export async function rawReadModelEventsToEnvelopes(

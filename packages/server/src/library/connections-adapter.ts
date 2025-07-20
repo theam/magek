@@ -1,5 +1,5 @@
 import { BoosterConfig, ConnectionDataEnvelope, getLogger } from '@booster-ai/common'
-import { WebSocketRegistry } from '@magek/adapter-event-store-nedb'
+import { WebSocketRegistry } from '../services'
 
 export async function storeConnectionData(
   db: WebSocketRegistry,

@@ -25,6 +25,7 @@
   "dependencies": {
     "@booster-ai/common": "workspace:^0.0.1",
     "@magek/adapter-event-store-nedb": "workspace:^0.0.1",
+    "@seald-io/nedb": "4.1.1",
     "tslib": "2.4.0",
     "@effect-ts/core": "0.60.4",
     "fastify": "5.3.3"

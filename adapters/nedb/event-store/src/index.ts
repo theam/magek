@@ -1,7 +1,14 @@
 import { EntitySnapshotEnvelope, EventEnvelope, EventStoreEntryEnvelope } from '@booster-ai/common'
-import { eventsDatabase } from './paths'
+import * as path from 'path'
 
 const DataStore = require('@seald-io/nedb')
+
+// Database path for events (only events in this adapter)
+function internalPath(filename: string): string {
+  return path.join(process.cwd(), '.magek', 'databases', filename)
+}
+
+export const eventsDatabase = internalPath('events.json')
 
 export class EventRegistry {
   public readonly events
@@ -80,8 +87,3 @@ export class EventRegistry {
     return await this.events.countAsync(query)
   }
 }
-
-// Export all services and types
-export { WebSocketRegistry, ConnectionData, SimpleRegistryTypes } from './web-socket-registry'
-export { ReadModelRegistry, NedbError, UNIQUE_VIOLATED_ERROR_TYPE } from './read-model-registry'
-export * from './paths'

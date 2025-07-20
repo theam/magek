@@ -1,6 +1,5 @@
-// Paths used by the NeDB adapter internally
+// Paths used by the local provider internally
 import * as path from 'path'
-
 export const registeredUsersDatabase = internalPath('registered_users.json')
 export const authenticatedUsersDatabase = internalPath('authenticated_users.json')
 export const eventsDatabase = internalPath('events.json')
