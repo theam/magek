@@ -5,7 +5,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { assertNameIsCorrect, checkProjectAlreadyExists, replaceInFile } from '../src/cli'
 
-describe('create-booster-ai CLI', () => {
+describe('create-magek CLI', () => {
   let fsExistsStub: SinonStub
   let fsReadFileStub: SinonStub
   let fsWriteFileStub: SinonStub
