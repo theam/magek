@@ -2,7 +2,7 @@ import { GraphQLFieldConfigMap, GraphQLID, GraphQLInputObjectType, GraphQLNonNul
 import { ResolverBuilder } from './common'
 import { GraphQLTypeInformer } from './graphql-type-informer'
 import * as inflected from 'inflected'
-import { AnyClass, BoosterConfig } from '@booster-ai/common'
+import { AnyClass, BoosterConfig } from '@magek/common'
 import { GraphqlQueryFilterFieldsBuilder } from './query-helpers/graphql-query-filter-fields-builder'
 
 export class GraphQLSubscriptionGenerator {

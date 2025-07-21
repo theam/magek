@@ -1,4 +1,4 @@
-import { Logger } from '@booster-ai/common'
+import { Logger } from '@magek/common'
 
 /**
  * Logger that doesn't do anything

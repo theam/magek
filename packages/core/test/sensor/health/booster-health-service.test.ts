@@ -6,7 +6,7 @@ import {
   ProviderLibrary,
   HealthIndicatorsResult,
   HealthStatus,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { fake } from 'sinon'
 import createJWKSMock from 'mock-jwks'
 import { faker } from '@faker-js/faker'

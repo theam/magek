@@ -1,4 +1,4 @@
-import { BoosterConfig, RocketEnvelope, rocketFunctionIDEnvVar } from '@booster-ai/common'
+import { BoosterConfig, RocketEnvelope, rocketFunctionIDEnvVar } from '@magek/common'
 
 export function rawRocketInputToEnvelope(config: BoosterConfig, request: unknown): RocketEnvelope {
   const idFromRequest = (request as any)[rocketFunctionIDEnvVar]

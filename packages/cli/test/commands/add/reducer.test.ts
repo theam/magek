@@ -12,8 +12,8 @@ describe('add', async () => {
   describe('reducer', async () => {
     const entityName = 'Post'
     const sourceFileText = `
-    import { Entity } from '@booster-ai/core'
-    import { UUID } from '@booster-ai/common'
+    import { Entity } from '@magek/core'
+    import { UUID } from '@magek/common'
     
     @Entity
     export class Post {

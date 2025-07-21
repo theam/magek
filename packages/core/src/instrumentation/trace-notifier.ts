@@ -1,4 +1,4 @@
-import { BoosterConfig, TraceInfo, TraceTypes } from '@booster-ai/common'
+import { BoosterConfig, TraceInfo, TraceTypes } from '@magek/common'
 
 export async function notifyTrace(
   type: TraceTypes,

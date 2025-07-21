@@ -1,5 +1,5 @@
 import { expect } from './expect'
-import { Register, BoosterConfig, Level, UserEnvelope, UUID } from '@booster-ai/common'
+import { Register, BoosterConfig, Level, UserEnvelope, UUID } from '@magek/common'
 import { replace, fake, restore, spy } from 'sinon'
 import { RegisterHandler } from '../src'
 import { BoosterEntityMigrated } from '../src/core-concepts/data-migration/events/booster-entity-migrated'

@@ -7,7 +7,7 @@ import {
   CommandInterface,
   CommandRoleAccess,
   Register,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { getClassMetadata } from './metadata'
 import { BoosterAuthorizer } from '../booster-authorizer'
 

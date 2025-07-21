@@ -1,6 +1,6 @@
 import { Booster } from '../booster'
-import { Class, AnyClass, SchemaMigrationMetadata, BoosterConfig, Instance } from '@booster-ai/common'
-import { getMetadata, defineMetadata } from '@booster-ai/metadata'
+import { Class, AnyClass, SchemaMigrationMetadata, BoosterConfig, Instance } from '@magek/common'
+import { getMetadata, defineMetadata } from '@magek/metadata'
 
 const migrationMethodsMetadataKey = 'booster:migrationsMethods'
 

@@ -1,4 +1,4 @@
-import { BoosterConfig } from '@booster-ai/common'
+import { BoosterConfig } from '@magek/common'
 
 export function assertNameIsCorrect(name: string): void {
   // Current characters max length: 37

@@ -153,15 +153,15 @@ Here are the steps:
     npm install --save-dev "ts-patch"
     ```
 
-2. Add `@booster-ai/metadata` to your `"dependencies"` and use the helper
+2. Add `@magek/metadata` to your `"dependencies"` and use the helper
    functions it exposes to read and write metadata
 
     ```shell
-    npm install --save-prod "@booster-ai/metadata"
+    npm install --save-prod "@magek/metadata"
     ```
 
     ```typescript
-    import { defineMetadata, getMetadata } from '@booster-ai/metadata'
+    import { defineMetadata, getMetadata } from '@magek/metadata'
     defineMetadata('my:key', 42, MyClass)
     const value = getMetadata<number>('my:key', MyClass)
     ```

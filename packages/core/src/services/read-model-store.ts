@@ -21,7 +21,7 @@ import {
   getLogger,
   Promises,
   retryIfError,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { BoosterGlobalErrorDispatcher } from '../booster-global-error-dispatcher'
 import { readModelSearcher } from './read-model-searcher'
 import { ReadModelSchemaMigrator } from '../read-model-schema-migrator'

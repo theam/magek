@@ -1,4 +1,4 @@
-import { httpStatusCodeFor, toClassTitle } from '@booster-ai/common'
+import { httpStatusCodeFor, toClassTitle } from '@magek/common'
 
 export type APIResult =
   | { status: 'success'; result: unknown; headers?: Record<string, number | string | ReadonlyArray<string>> }

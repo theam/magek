@@ -1,5 +1,5 @@
 {
-  "name": "@booster-ai/metadata",
+  "name": "@magek/metadata",
   "version": "0.0.1",
   "description": "Emits detailed metadata of your types. You can then get it in runtime to deal with schema-aware operation, like defining GraphQL schemas, ORM operations, etc.",
   "repository": "https://github.com/boostercloud/booster.git",
@@ -36,7 +36,7 @@
     "@effect-ts/core": "0.60.4"
   },
   "devDependencies": {
-    "@booster-ai/eslint-config": "workspace:^0.0.1",
+    "@magek/eslint-config": "workspace:^0.0.1",
     "@types/node": "22.15.21",
     "ts-node": "10.9.1",
     "ts-patch": "3.3.0",

@@ -43,11 +43,11 @@ function generateImports(): Array<ImportDeclaration> {
   const componentsFromBoosterTypes = ['Register']
   return [
     {
-      packagePath: '@booster-ai/core',
+      packagePath: '@magek/core',
       commaSeparatedComponents: 'ScheduledCommand',
     },
     {
-      packagePath: '@booster-ai/common',
+      packagePath: '@magek/common',
       commaSeparatedComponents: componentsFromBoosterTypes.join(', '),
     },
   ]

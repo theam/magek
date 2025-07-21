@@ -14,21 +14,21 @@ describe('new', (): void => {
     const typePath = `${typesRoot}example-type.ts`
     const defaultTypeImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'Type',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'Register',
       },
     ]
     const uuidTypeImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'Type',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'Register, UUID',
       },
     ]

@@ -10,7 +10,7 @@ import {
   SnapshotDeleteParameters,
   EntitySnapshotEnvelopeFromDatabase,
   EventStoreAdapter,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { EventRegistry } from './event-registry'
 import {
   rawEventsToEnvelopes,

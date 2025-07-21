@@ -87,7 +87,7 @@ async function getBoosterVersion(projectPath: string): Promise<string> {
   const projectAbsolutePath = path.resolve(projectPath)
   try {
     const packageJsonContents = require(path.join(projectAbsolutePath, 'package.json'))
-    const version = packageJsonContents.dependencies['@booster-ai/core']
+    const version = packageJsonContents.dependencies['@magek/core']
     const versionParts = version
       .replace('workspace:', '') // We remove the workspace protocol in case we're in the Booster monorepo
       .replace('^', '')
@@ -112,7 +112,7 @@ class HigherCliVersionError extends Error {
 class LowerCliVersionError extends Error {
   constructor(public cliVersion: string, public projectVersion: string, public section: string) {
     super(
-      `CLI version ${cliVersion} is lower than your project Booster version ${projectVersion}. Please upgrade your @booster-ai/cli to the same version with "npm install -g @booster-ai/cli@${projectVersion}"`
+      `CLI version ${cliVersion} is lower than your project Booster version ${projectVersion}. Please upgrade your @magek/cli to the same version with "npm install -g @magek/cli@${projectVersion}"`
     )
   }
 }

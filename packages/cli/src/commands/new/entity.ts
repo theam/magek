@@ -79,11 +79,11 @@ function generateImports(info: EntityInfo): Array<ImportDeclaration> {
 
   return [
     {
-      packagePath: '@booster-ai/core',
+      packagePath: '@magek/core',
       commaSeparatedComponents: coreComponents.join(', '),
     },
     {
-      packagePath: '@booster-ai/common',
+      packagePath: '@magek/common',
       commaSeparatedComponents: 'UUID',
     },
     ...eventsImports,

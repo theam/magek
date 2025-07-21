@@ -1,5 +1,5 @@
  
-import { BoosterConfig, TraceActionTypes, TraceInfo } from '@booster-ai/common'
+import { BoosterConfig, TraceActionTypes, TraceInfo } from '@magek/common'
 import { Booster, Trace } from '../../../src'
 import { expect } from '../../expect'
 import { stub } from 'sinon'

@@ -14,11 +14,11 @@ describe('new', (): void => {
     const eventPath = `${eventsRoot}example-event.ts`
     const defaultEventImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'Event',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'UUID',
       },
     ]

@@ -18,7 +18,7 @@ import {
   ReducerMetadata,
   createInstance,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { BoosterGlobalErrorDispatcher } from '../booster-global-error-dispatcher'
 import { SchemaMigrator } from '../schema-migrator'
 import { BoosterEntityMigrated } from '../core-concepts/data-migration/events/booster-entity-migrated'

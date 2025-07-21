@@ -14,21 +14,21 @@ describe('new', (): void => {
     const commandPath = `${commandsRoot}example-command.ts`
     const defaultCommandImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'Command',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'Register',
       },
     ]
     const uuidCommandImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'Command',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'Register, UUID',
       },
     ]

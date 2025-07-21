@@ -1,4 +1,4 @@
-import { BoosterConfig, ConnectionDataEnvelope, getLogger } from '@booster-ai/common'
+import { BoosterConfig, ConnectionDataEnvelope, getLogger } from '@magek/common'
 import { WebSocketRegistry } from '../services/web-socket-registry'
 
 export async function storeConnectionData(

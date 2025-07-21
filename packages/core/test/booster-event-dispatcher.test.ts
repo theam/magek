@@ -2,7 +2,7 @@
  
 import { BoosterEventDispatcher } from '../src/booster-event-dispatcher'
 import { fake, replace, restore, SinonSpy } from 'sinon'
-import { BoosterConfig, ProviderLibrary, UUID } from '@booster-ai/common'
+import { BoosterConfig, ProviderLibrary, UUID } from '@magek/common'
 import { expect } from './expect'
 import { RawEventsParser } from '../src/services/raw-events-parser'
 import { BoosterEventProcessor } from '../src/booster-event-processor'

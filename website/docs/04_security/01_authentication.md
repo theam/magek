@@ -19,9 +19,9 @@ The `TokenVerifier` class is a simple interface that you can implement to define
 Here is an example of how to configure a `JwksUriTokenVerifier`:
 
 ```typescript title="src/config/config.ts"
-import { Booster, JwksUriTokenVerifier } from '@booster-ai/core'
-import { BoosterConfig } from '@booster-ai/common'
-import { Provider } from '@booster-ai/server'
+import { Booster, JwksUriTokenVerifier } from '@magek/core'
+import { BoosterConfig } from '@magek/common'
+import { Provider } from '@magek/server'
 import { eventStore } from '@magek/adapter-event-store-nedb'
 
 Booster.configure('production', (config: BoosterConfig): void => {
@@ -67,8 +67,8 @@ The `PublicKeyTokenVerifier` class uses the public key of the issuer to verify t
 This is useful when the token issuer doesn't provide a JWKS URI, when you're implementing your own authentication mechanism or you're issuing self-signed tokens.
 
 ```typescript title="src/config/config.ts"
-import { Booster, PublicKeyTokenVerifier } from '@booster-ai/core'
-import { BoosterConfig } from '@booster-ai/common'
+import { Booster, PublicKeyTokenVerifier } from '@magek/core'
+import { BoosterConfig } from '@magek/common'
 
 function publicKeyResolver(): Promise<string> {
   // Your implementation here
@@ -119,8 +119,8 @@ interface TokenVerifier {
 Here is an example of how to implement a custom `TokenVerifier`:
 
 ```typescript title="src/config/config.ts"
-import { Booster, TokenVerifier } from '@booster-ai/core'
-import { BoosterConfig, DecodedToken, TokenVerifier, UserEnvelope } from '@booster-ai/common'
+import { Booster, TokenVerifier } from '@magek/core'
+import { BoosterConfig, DecodedToken, TokenVerifier, UserEnvelope } from '@magek/common'
 
 class CustomTokenVerifier implements TokenVerifier {
   public async verify(token: string): Promise<DecodedToken> {

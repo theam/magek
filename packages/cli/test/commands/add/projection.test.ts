@@ -13,8 +13,8 @@ describe('add', async () => {
     const readModelName = 'PostReadModel'
     const projectionName = 'Post:id'
     const sourceFileText = `
-      import { ReadModel } from '@booster-ai/core'
-      import { UUID } from '@booster-ai/common'
+      import { ReadModel } from '@magek/core'
+      import { UUID } from '@magek/common'
       
       @ReadModel({
         authorize: 'all',

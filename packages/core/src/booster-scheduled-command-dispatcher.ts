@@ -7,7 +7,7 @@ import {
   ScheduleCommandGlobalError,
   TraceActionTypes,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { RegisterHandler } from './booster-register-handler'
 import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher'
 import { Trace } from './instrumentation'

@@ -7,7 +7,7 @@ import {
   ReadModelInterface,
   QueryInput,
   QueryBeforeFunction,
-} from '@booster-ai/common'
+} from '@magek/common'
 
 export const applyReadModelRequestBeforeFunctions = async (
   readModelRequestEnvelope: ReadModelRequestEnvelope<ReadModelInterface>,

@@ -1,4 +1,4 @@
-import { Class, NotificationInterface } from '@booster-ai/common'
+import { Class, NotificationInterface } from '@magek/common'
 import { Booster } from '../booster'
 import { getFunctionArguments } from './metadata'
 

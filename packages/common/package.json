@@ -1,5 +1,5 @@
 {
-  "name": "@booster-ai/common",
+  "name": "@magek/common",
   "version": "0.0.1",
   "description": "Contains Booster common helpers used by the core and provider packages",
   "keywords": [
@@ -42,8 +42,8 @@
     "effect": "3.16.11"
   },
   "devDependencies": {
-    "@booster-ai/eslint-config": "workspace:^0.0.1",
-    "@booster-ai/metadata": "workspace:^0.0.1",
+    "@magek/eslint-config": "workspace:^0.0.1",
+    "@magek/metadata": "workspace:^0.0.1",
     "@types/chai": "5.2.2",
     "@types/chai-as-promised": "8.0.2",
     "@types/mocha": "10.0.10",

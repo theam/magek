@@ -1,5 +1,10 @@
 {
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
   "mocha.options": {
     "compilers": "ts-node/register",
     "watchExtensions": "ts",
@@ -7,13 +12,19 @@
     "reporter": "spec",
     "timeout": 5000
   },
-  "mocha.requires": ["ts-node/register"],
+  "mocha.requires": [
+    "ts-node/register"
+  ],
   "mocha.files.glob": "packages/*/test/**/*.ts",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "never"
   },
   "monorepoWorkspace.includeRoot": false,
-  "cSpell.words": ["codeql", "codesee"],
+  "cSpell.words": [
+    "codeql",
+    "codesee",
+    "Magek"
+  ],
   "mochaExplorer.files": "packages/**test/**/*.test.ts",
   "mochaExplorer.require": "ts-node/register",
   "typescript.tsdk": "packages/framework-core/node_modules/typescript/lib",

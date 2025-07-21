@@ -1,5 +1,5 @@
 import { Booster } from '../booster'
-import { ScheduledCommandInterface, ScheduleInterface } from '@booster-ai/common'
+import { ScheduledCommandInterface, ScheduleInterface } from '@magek/common'
 
 /**
  * Annotation to tell Booster which classes are scheduled commands

@@ -15,18 +15,18 @@ A rocket is an npm package that extends your current Booster architecture. The s
 
 *Infrastructure Rocket* interfaces are provider-dependent because each provider defines their own way to manage context, so *Infrastructure Rockets* must import the corresponding booster infrastructure package for their chosen provider:
 
-All providers use the same package: `@booster-ai/server-infrastructure`.
+All providers use the same package: `@magek/server-infrastructure`.
  
 Notice that, as the only thing you'll need from that package is the `InfrastructureRocket` interface, it is preferable to import it as a dev dependency to avoid including such a big package in your deployed lambdas.
 
-So let's start by creating a new package and adding the provider-dependent dependency as well as the `typescript` and `@booster-ai/common` packages:
+So let's start by creating a new package and adding the provider-dependent dependency as well as the `typescript` and `@magek/common` packages:
 
 ```sh
 mkdir rocket-your-rocket-name-aws-infrastructure
 cd rocket-your-rocket-name-aws-infrastructure
 npm init
 ...
-npm install --save-dev @booster-ai/server-infrastructure @booster-ai/common typescript
+npm install --save-dev @magek/server-infrastructure @magek/common typescript
 ```
 
 In the case of AWS we use the [AWS CDK for TypeScript](https://docs.aws.amazon.com/cdk/v2/guide/work-with-cdk-typescript.html), so you'll also need to import the AWS CDK package:
@@ -49,8 +49,8 @@ rocket-your-rocket-name-aws-infrastructure
 `<your-main-class>.ts`  can be named as you want and this is where we define the mountStack and unmount methods.
 
 ```typescript
-import { RocketUtils } from '@booster-ai/server-infrastructure'
-import { BoosterConfig } from '@booster-ai/common'
+import { RocketUtils } from '@magek/server-infrastructure'
+import { BoosterConfig } from '@magek/common'
 import { Stack } from '@aws-cdk/core'
 import { YourRocketParams } from '.'
 
@@ -84,7 +84,7 @@ export interface InfrastructureRocket {
 You'll have to implement a default exported function that accepts a parameters object and returns an initialized `InfrastructureRocket` object:
 
 ```typescript
-import { InfrastructureRocket } from '@booster-ai/server-infrastructure'
+import { InfrastructureRocket } from '@magek/server-infrastructure'
 import { YourMainClass } from './your-main-class';
 
 export interface YourRocketParams {
@@ -104,7 +104,7 @@ Note that *Infrastructure Rockets* must not be part of the Booster application c
 _src/config/production.ts:_
 
 ```typescript
-import { Provider } from '@booster-ai/server'
+import { Provider } from '@magek/server'
 
 Booster.configure('development', (config: BoosterConfig): void => {
   config.appName = 'my-store'

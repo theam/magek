@@ -7,7 +7,7 @@ import {
   BoosterConfig,
   ReadModelRequestProperties,
   FilterFor,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { applyReadModelRequestBeforeFunctions } from '../filter-helpers'
 
 export interface ReadModelPubSub<TReadModel extends ReadModelInterface> {

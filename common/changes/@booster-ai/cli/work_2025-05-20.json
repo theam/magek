@@ -1,11 +1,11 @@
 {
   "changes": [
     {
-      "comment": "rename package to @booster-ai/cli",
+      "comment": "rename package to @magek/cli",
       "type": "patch",
-      "packageName": "@booster-ai/cli"
+      "packageName": "@magek/cli"
     }
   ],
-  "packageName": "@booster-ai/cli",
+  "packageName": "@magek/cli",
   "email": "codex@openai.com"
 }

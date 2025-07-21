@@ -1,5 +1,5 @@
 import { Booster } from '../booster'
-import { AnyClass } from '@booster-ai/common'
+import { AnyClass } from '@magek/common'
 import { getFunctionArguments } from './metadata'
 
 export function NonExposed(

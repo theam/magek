@@ -12,7 +12,7 @@ import {
   ReadModelInterface,
   ReadModelRequestArgs,
   ReadModelRequestProperties,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { expect } from '../../expect'
 import { GraphQLQueryGenerator } from '../../../src/services/graphql/graphql-query-generator'
 import { GraphQLMutationGenerator } from '../../../src/services/graphql/graphql-mutation-generator'

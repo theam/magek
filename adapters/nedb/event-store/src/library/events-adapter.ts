@@ -9,7 +9,7 @@ import {
   NonPersistedEntitySnapshotEnvelope,
   retryIfError,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { EventRegistry, eventsDatabase } from '../event-registry'
 
  

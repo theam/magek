@@ -10,7 +10,7 @@ import {
   NonPersistedEntitySnapshotEnvelope,
   ProviderLibrary,
   UUID,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { fake, replace, restore, stub, match, spy } from 'sinon'
 import { EventStore } from '../../src/services/event-store'
 import { createMockEventStoreAdapter } from '../helpers/event-store-adapter-helper'

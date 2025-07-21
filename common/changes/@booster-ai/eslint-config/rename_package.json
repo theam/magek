@@ -1,8 +1,8 @@
 {
   "changes": [
     {
-      "comment": "Rename package to @booster-ai/eslint-config",
-      "packageName": "@booster-ai/eslint-config",
+      "comment": "Rename package to @magek/eslint-config",
+      "packageName": "@magek/eslint-config",
       "type": "patch"
     }
   ]

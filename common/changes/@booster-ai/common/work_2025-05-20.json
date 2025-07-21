@@ -1,11 +1,11 @@
 {
   "changes": [
     {
-      "comment": "rename package to @booster-ai/common",
+      "comment": "rename package to @magek/common",
       "type": "patch",
-      "packageName": "@booster-ai/common"
+      "packageName": "@magek/common"
     }
   ],
-  "packageName": "@booster-ai/common",
+  "packageName": "@magek/common",
   "email": "codex@openai.com"
 }

@@ -1,4 +1,4 @@
-import { FilterFor } from '@booster-ai/common'
+import { FilterFor } from '@magek/common'
 
 /**
  * Creates a query record out of the read mode name and

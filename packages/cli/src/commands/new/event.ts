@@ -54,11 +54,11 @@ const run = async (name: string, rawFields: Array<string>): Promise<void> =>
 function generateImports(): Array<ImportDeclaration> {
   return [
     {
-      packagePath: '@booster-ai/core',
+      packagePath: '@magek/core',
       commaSeparatedComponents: 'Event',
     },
     {
-      packagePath: '@booster-ai/common',
+      packagePath: '@magek/common',
       commaSeparatedComponents: 'UUID',
     },
   ]

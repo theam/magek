@@ -1,4 +1,4 @@
-# Change Log - @booster-ai/core
+# Change Log - @magek/core
 
 This log was last generated on Tue, 22 Apr 2025 14:30:07 GMT and should not be manually modified.
 

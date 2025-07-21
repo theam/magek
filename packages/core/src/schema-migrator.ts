@@ -10,7 +10,7 @@ import {
   EntitySnapshotEnvelope,
   TraceActionTypes,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { Trace } from './instrumentation'
 
 type SchemaMigrableEnvelope = CommandEnvelope | EventEnvelope | EntitySnapshotEnvelope

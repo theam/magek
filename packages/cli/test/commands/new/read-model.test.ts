@@ -14,21 +14,21 @@ describe('new', (): void => {
     const readModelPath = `${readModelsRoot}example-read-model.ts`
     const defaultReadModelImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'ReadModel',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'UUID',
       },
     ]
     const projectingReadModelImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'ReadModel, Projects',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'UUID, ProjectionResult',
       },
       {
@@ -38,11 +38,11 @@ describe('new', (): void => {
     ]
     const projectingTwoReadModelImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'ReadModel, Projects',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'UUID, ProjectionResult',
       },
       {

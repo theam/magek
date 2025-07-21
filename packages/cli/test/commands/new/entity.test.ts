@@ -14,21 +14,21 @@ describe('new', (): void => {
     const entityPath = `${entitysRoot}example-entity.ts`
     const defaultEntityImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'Entity',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'UUID',
       },
     ]
     const reducingEntityImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'Entity, Reduces',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'UUID',
       },
       {
@@ -38,11 +38,11 @@ describe('new', (): void => {
     ]
     const reducingTwoEntityImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'Entity, Reduces',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'UUID',
       },
       {

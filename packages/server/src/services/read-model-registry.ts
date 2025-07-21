@@ -1,4 +1,4 @@
-import { ProjectionFor, ReadModelEnvelope, SortFor, UUID } from '@booster-ai/common'
+import { ProjectionFor, ReadModelEnvelope, SortFor, UUID } from '@magek/common'
 import { readModelsDatabase } from '../paths'
 
 const DataStore = require('@seald-io/nedb')

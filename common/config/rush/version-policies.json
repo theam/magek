@@ -102,7 +102,7 @@
   {
     "definitionName": "lockStepVersion",
     "policyName": "booster",
-    "mainProject": "@booster-ai/core",
+    "mainProject": "@magek/core",
     "version": "0.0.1"
   }
 ]

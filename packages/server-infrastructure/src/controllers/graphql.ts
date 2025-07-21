@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { HttpCodes, requestFailed } from '../http'
-import { GraphQLService } from '@booster-ai/server'
+import { GraphQLService } from '@magek/server'
 
 export class GraphQLController {
   constructor(readonly graphQLService: GraphQLService) {}

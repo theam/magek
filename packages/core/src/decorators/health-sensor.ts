@@ -4,7 +4,7 @@ import {
   HealthIndicatorConfiguration,
   HealthIndicatorInterface,
   HealthIndicatorMetadata,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { Booster } from '../booster'
 import { defaultBoosterHealthIndicators } from '../sensor/health/health-indicators'
 

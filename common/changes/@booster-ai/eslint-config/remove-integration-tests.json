@@ -2,7 +2,7 @@
   "changes": [
     {
       "comment": "Remove integration test settings",
-      "packageName": "@booster-ai/eslint-config",
+      "packageName": "@magek/eslint-config",
       "type": "patch"
     }
   ]

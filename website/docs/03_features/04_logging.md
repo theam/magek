@@ -14,7 +14,7 @@ In this regard, there's no distinction from any other node process and you'll fi
 
 You may need some advanced logging capabilities, such as redirecting your logs to a log aggregator. Booster also supports overriding the default behavior by providing custom loggers. The only thing you need to do is to provide an object that implements the `Logger` interface at config time:
 
-```typescript title="@booster-ai/common/lib/logger.ts"
+```typescript title="@magek/common/lib/logger.ts"
 interface Logger {
   debug(message?: any, ...optionalParams: any[]): void
   info(message?: any, ...optionalParams: any[]): void
@@ -24,7 +24,7 @@ interface Logger {
 ```
 
 ```typescript title="src/config/config.ts"
-import { Provider } from '@booster-ai/server'
+import { Provider } from '@magek/server'
 import { eventStore } from '@magek/adapter-event-store-nedb'
 
 Booster.configure('development', (config: BoosterConfig): void => {

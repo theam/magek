@@ -21,12 +21,12 @@ import {
   createInstances,
   createInstanceWithCalculatedProperties,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { Booster } from './booster'
 import { applyReadModelRequestBeforeFunctions } from './services/filter-helpers'
 import { ReadModelSchemaMigrator } from './read-model-schema-migrator'
 import { Trace } from './instrumentation'
-import { PropertyMetadata } from '@booster-ai/metadata'
+import { PropertyMetadata } from '@magek/metadata'
 
 export class BoosterReadModelsReader {
   public constructor(readonly config: BoosterConfig) {}

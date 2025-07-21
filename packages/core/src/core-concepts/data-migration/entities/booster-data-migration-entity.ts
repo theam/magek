@@ -1,4 +1,4 @@
-import { BoosterDataMigrationEntityDuration, DataMigrationStatus } from '@booster-ai/common'
+import { BoosterDataMigrationEntityDuration, DataMigrationStatus } from '@magek/common'
 import { BoosterDataMigrationStarted } from '../events/booster-data-migration-started'
 import { BoosterDataMigrationFinished } from '../events/booster-data-migration-finished'
 

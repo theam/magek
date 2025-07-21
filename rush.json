@@ -375,49 +375,49 @@
    */
   "projects": [
     {
-      "packageName": "@booster-ai/eslint-config",
+      "packageName": "@magek/eslint-config",
       "shouldPublish": false,
       "versionPolicyName": "booster",
       "projectFolder": "tools/eslint-config"
     },
     {
-      "packageName": "@booster-ai/cli",
+      "packageName": "@magek/cli",
       "shouldPublish": true,
       "versionPolicyName": "booster",
       "projectFolder": "packages/cli"
     },
     {
-      "packageName": "create-booster-ai",
+      "packageName": "create-magek",
       "shouldPublish": true,
       "versionPolicyName": "booster",
       "projectFolder": "packages/create"
     },
     {
-      "packageName": "@booster-ai/common",
+      "packageName": "@magek/common",
       "shouldPublish": true,
       "versionPolicyName": "booster",
       "projectFolder": "packages/common"
     },
     {
-      "packageName": "@booster-ai/core",
+      "packageName": "@magek/core",
       "shouldPublish": true,
       "versionPolicyName": "booster",
       "projectFolder": "packages/core"
     },
     {
-      "packageName": "@booster-ai/server",
+      "packageName": "@magek/server",
       "shouldPublish": true,
       "versionPolicyName": "booster",
       "projectFolder": "packages/server"
     },
     {
-      "packageName": "@booster-ai/server-infrastructure",
+      "packageName": "@magek/server-infrastructure",
       "shouldPublish": true,
       "versionPolicyName": "booster",
       "projectFolder": "packages/server-infrastructure"
     },
     {
-      "packageName": "@booster-ai/metadata",
+      "packageName": "@magek/metadata",
       "shouldPublish": true,
       "versionPolicyName": "booster",
       "projectFolder": "packages/metadata"

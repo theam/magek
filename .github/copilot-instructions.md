@@ -43,7 +43,7 @@ All production code is TypeScript; tests use Mocha.  Standard utilities such as 
 ## 4. Coding Conventions to Follow
 
 * **Language**: TypeScript (ES2022).  No default exports, prefer named exports.
-* **Style**: The project ships its own ESLint & Prettier config (`@booster-ai/eslint-config`).  Always run `rush lint:fix` before committing.
+* **Style**: The project ships its own ESLint & Prettier config (`@magek/eslint-config`).  Always run `rush lint:fix` before committing.
 * **Functional-first**: Favour pure functions over classes unless state is required.  Prefer `const`/immutability.
 * **Commit messages** must follow the *Conventional Commits* spec.  Examples:
   * `feat(core): add optimistic concurrency control`

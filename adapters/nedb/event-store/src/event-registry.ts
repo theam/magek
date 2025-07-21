@@ -1,5 +1,5 @@
  
-import { EntitySnapshotEnvelope, EventEnvelope, EventStoreEntryEnvelope } from '@booster-ai/common'
+import { EntitySnapshotEnvelope, EventEnvelope, EventStoreEntryEnvelope } from '@magek/common'
 import * as path from 'path'
 
 export const eventsDatabase = path.normalize(path.join('.', '.booster', 'events.json'))

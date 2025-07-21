@@ -241,7 +241,7 @@ describe('project checker', () => {
           exceptionMessage = e.message
         })
         expect(exceptionThrown).to.be.equal(true)
-        expect(exceptionMessage).to.contain('Please upgrade your @booster-ai/cli to the same version with "npm')
+        expect(exceptionMessage).to.contain('Please upgrade your @magek/cli to the same version with "npm')
         expect(logger.info).have.not.been.called
       })
 
@@ -254,7 +254,7 @@ describe('project checker', () => {
           exceptionMessage = e.message
         })
         expect(exceptionThrown).to.be.equal(true)
-        expect(exceptionMessage).to.contain('Please upgrade your @booster-ai/cli to the same version with "npm')
+        expect(exceptionMessage).to.contain('Please upgrade your @magek/cli to the same version with "npm')
         expect(logger.info).have.not.been.called
       })
 

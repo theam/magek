@@ -14,11 +14,11 @@ describe('new', (): void => {
     const scheduledCommandPath = `${scheduledCommandRoot}example-scheduled-command.ts`
     const defaultScheduledCommandImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'ScheduledCommand',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'Register',
       },
     ]

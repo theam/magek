@@ -9,7 +9,7 @@ import {
   HealthStatus,
   UserEnvelope,
   createInstance,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { childHealthProviders, isEnabled, metadataFromId, rootHealthProviders } from './health-utils'
 import { defaultBoosterHealthIndicators } from './health-indicators'
 import { BoosterTokenVerifier } from '../../booster-token-verifier'

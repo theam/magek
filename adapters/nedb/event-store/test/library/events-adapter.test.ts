@@ -14,7 +14,7 @@ import {
   UUID,
   BoosterConfig,
   NonPersistedEventEnvelope,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { expect } from '../expect'
 import { createMockNonPersistedEventEnvelop, createMockEntitySnapshotEnvelope } from '../helpers/event-helper'
 import { faker } from '@faker-js/faker'

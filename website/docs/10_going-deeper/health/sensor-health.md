@@ -18,7 +18,7 @@ To enable the Health functionality in your Booster application, follow these ste
 2. Enable the Booster Health endpoints in your application's configuration file. Example configuration in config.ts:
 
 ```typescript
-import { Provider } from '@booster-ai/server'
+import { Provider } from '@magek/server'
 
 Booster.configure('local', (config: BoosterConfig): void => {
   config.appName = 'my-store'
@@ -48,8 +48,8 @@ import {
   HealthIndicatorResult,
   HealthIndicatorMetadata,
   HealthStatus,
-} from '@booster-ai/common'
-import { HealthSensor } from '@booster-ai/core'
+} from '@magek/common'
+import { HealthSensor } from '@magek/core'
 
 @HealthSensor({
   id: 'application',
@@ -259,8 +259,8 @@ import {
   HealthIndicatorResult,
   HealthIndicatorMetadata,
   HealthStatus,
-} from '@booster-ai/common'
-import { HealthSensor } from '@booster-ai/core'
+} from '@magek/common'
+import { HealthSensor } from '@magek/core'
 
 @HealthSensor({
   id: 'application',

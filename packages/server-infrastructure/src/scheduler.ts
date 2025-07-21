@@ -1,4 +1,4 @@
-import { ScheduledCommandMetadata, BoosterConfig } from '@booster-ai/common'
+import { ScheduledCommandMetadata, BoosterConfig } from '@magek/common'
 import * as scheduler from 'node-schedule'
 
 interface ScheduledCommandInfo {

@@ -1,10 +1,10 @@
 {
-  "name": "create-booster-ai",
+  "name": "create-magek",
   "version": "0.0.1",
-  "description": "Create Booster AI applications with one command",
+  "description": "Create Magek AI applications with one command",
   "main": "dist/cli.js",
   "bin": {
-    "create-booster-ai": "dist/cli.js"
+    "create-magek": "dist/cli.js"
   },
   "files": [
     "dist/**/*"
@@ -38,7 +38,7 @@
     "globby": "14.1.0"
   },
   "devDependencies": {
-    "@booster-ai/eslint-config": "workspace:^0.0.1",
+    "@magek/eslint-config": "workspace:^0.0.1",
     "@types/node": "22.15.21",
     "@types/prompts": "2.4.9",
     "@types/chai": "5.2.2",

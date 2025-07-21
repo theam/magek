@@ -30,7 +30,7 @@ Booster is divided in many different packages. The criteria to split the code in
 
 The packages are managed using [rush](https://rushjs.io/) and [npm](https://npmjs.com), if you run `rush build`, it will build all the packages.
 
-The packages are published to `npmjs` under the prefix `@booster-ai/`, their purpose is as follows:
+The packages are published to `npmjs` under the prefix `@magek/`, their purpose is as follows:
 
 - `cli` - You guessed it! This package is the `boost` command-line tool, it interacts only with the core package in order to load the project configuration. The specific provider packages to interact with the cloud providers are loaded dynamically from the project config.
 - `core` - This one contains all the framework runtime vendor-independent logic. Stuff like the generation of the config or the commands and events handling happens here. The specific provider packages to interact with the cloud providers are loaded dynamically from the project config.

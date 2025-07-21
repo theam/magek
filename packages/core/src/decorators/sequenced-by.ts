@@ -1,5 +1,5 @@
 import { Booster } from '../booster'
-import { Class, ReadModelInterface } from '@booster-ai/common'
+import { Class, ReadModelInterface } from '@magek/common'
 import { getFunctionArguments } from './metadata'
 
 export function sequencedBy(klass: Class<ReadModelInterface>, _: string | undefined, parameterIndex: number): void {

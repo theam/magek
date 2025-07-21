@@ -1,4 +1,4 @@
-import { Logger } from '@booster-ai/common'
+import { Logger } from '@magek/common'
 
 export function initializeEnvironment(logger: Logger, environment?: string): boolean {
   // We override the environment with the one passed via flags

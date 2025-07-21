@@ -9,7 +9,7 @@ import {
   graphQLWebsocketSubprotocolHeaders,
   TraceActionTypes,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { GraphQLSchema, DocumentNode, ExecutionResult, GraphQLError, OperationTypeNode } from 'graphql'
 import * as graphql from 'graphql'
 import { GraphQLGenerator } from './services/graphql/graphql-generator'

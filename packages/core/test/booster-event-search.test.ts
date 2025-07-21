@@ -1,4 +1,4 @@
-import { BoosterConfig, EventSearchParameters, EventSearchResponse } from '@booster-ai/common'
+import { BoosterConfig, EventSearchParameters, EventSearchResponse } from '@magek/common'
 import { eventSearch } from '../src/booster-event-search'
 import { fake, restore } from 'sinon'
 import { expect } from './expect'

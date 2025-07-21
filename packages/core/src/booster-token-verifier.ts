@@ -4,7 +4,7 @@ import {
   BoosterTokenNotBeforeError,
   UserEnvelope,
   BoosterConfig,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { NotBeforeError, TokenExpiredError } from 'jsonwebtoken'
 
 export class BoosterTokenVerifier {

@@ -8,7 +8,7 @@ import {
   ReadModelInterface,
   ReadModelJoinKeyFunction,
   UUID,
-} from '@booster-ai/common'
+} from '@magek/common'
 
 type PropertyType<TObj, TProp extends keyof TObj> = TObj[TProp]
 type JoinKeyType<TEntity extends EntityInterface, TReadModel extends ReadModelInterface> =

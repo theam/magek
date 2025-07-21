@@ -1,6 +1,6 @@
-import { Booster } from '@booster-ai/core'
-import { BoosterConfig } from '@booster-ai/common'
-import { Provider } from '@booster-ai/server'
+import { Booster } from '@magek/core'
+import { BoosterConfig } from '@magek/common'
+import { Provider } from '@magek/server'
 import { eventStore } from '@magek/adapter-event-store-nedb'
 
 Booster.configure('local', (config: BoosterConfig): void => {

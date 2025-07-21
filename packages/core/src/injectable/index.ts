@@ -1,5 +1,5 @@
  
-import { BoosterConfig } from '@booster-ai/common'
+import { BoosterConfig } from '@magek/common'
 import { PlatformError } from '@effect/platform/Error'
 import { CliApp, Command } from '@effect/cli'
 import { RunMain } from '@effect/platform/Runtime'

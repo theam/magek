@@ -1,5 +1,5 @@
-import { AnyClass } from '@booster-ai/common'
-import { ClassMetadata, getMetadata } from '@booster-ai/metadata'
+import { AnyClass } from '@magek/common'
+import { ClassMetadata, getMetadata } from '@magek/metadata'
 
 export function getClassMetadata(classType: AnyClass): ClassMetadata {
   const meta = getMetadata<ClassMetadata>('booster:typeinfo', classType as object)

@@ -1,4 +1,4 @@
-import { BoosterConfig } from '@booster-ai/common'
+import { BoosterConfig } from '@magek/common'
 
 export interface InfrastructureRocketMetadata {
   port: number

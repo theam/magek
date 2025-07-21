@@ -4,7 +4,7 @@ import {
   EventParametersFilterByType,
   EventSearchResponse,
   UUID,
-} from '@booster-ai/common'
+} from '@magek/common'
 
 interface QueryFields {
   createdAt?: unknown

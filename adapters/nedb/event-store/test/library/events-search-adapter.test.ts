@@ -1,4 +1,4 @@
-import { BoosterConfig } from '@booster-ai/common'
+import { BoosterConfig } from '@magek/common'
 import { createStubInstance, replace, restore, SinonStub, SinonStubbedInstance, stub } from 'sinon'
 import { searchEntitiesIds } from '../../src/library/events-search-adapter'
 import { expect } from '../expect'

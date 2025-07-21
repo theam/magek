@@ -4,11 +4,11 @@ import {
   ReadModelFilterHooks,
   ReadModelInterface,
   ReadModelRoleAccess,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { Booster } from '../booster'
 import { BoosterAuthorizer } from '../booster-authorizer'
 import { getClassMetadata } from './metadata'
-import { getMetadata, defineMetadata } from '@booster-ai/metadata'
+import { getMetadata, defineMetadata } from '@magek/metadata'
 
 /**
  * Decorator to register a class as a ReadModel

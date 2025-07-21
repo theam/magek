@@ -15,7 +15,7 @@ In Booster, notifications are defined as classes decorated with the `@Notificati
 <TerminalWindow>
 
 ```typescript title="src/notifications/cart-abandoned.ts"
-import { Notification } from '@booster-ai/core'
+import { Notification } from '@magek/core'
 
 @Notification()
 export class CartAbandoned {}
@@ -23,7 +23,7 @@ export class CartAbandoned {}
 
 </TerminalWindow>
 
-As you can see, to define a notification you simply need to import the `@Notification` decorator from the @booster-ai/core library and use it to decorate a class. In this case, the class `CartAbandoned` represents a notification that informs interested parties that a cart has been abandoned.
+As you can see, to define a notification you simply need to import the `@Notification` decorator from the @magek/core library and use it to decorate a class. In this case, the class `CartAbandoned` represents a notification that informs interested parties that a cart has been abandoned.
 
 ## Separating by topic
 
@@ -32,7 +32,7 @@ By default, all notifications in the application will be sent to the same topic 
 <TerminalWindow>
 
 ```typescript title="src/notifications/cart-abandoned-topic.ts"
-import { Notification } from '@booster-ai/core'
+import { Notification } from '@magek/core'
 
 @Notification({ topic: 'cart-abandoned' })
 export class CartAbandoned {}
@@ -51,7 +51,7 @@ To change this, you can use the @partitionKey decorator to specify a field that 
 <TerminalWindow>
 
 ```typescript title="src/notifications/cart-abandoned-partition-key.ts"
-import { Notification, partitionKey } from '@booster-ai/core'
+import { Notification, partitionKey } from '@magek/core'
 
 @Notification({ topic: 'cart-abandoned' })
 export class CartAbandoned {

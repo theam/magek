@@ -7,7 +7,7 @@ import {
   PaginatedEntityIdResult,
   getLogger,
   unique,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { buildFiltersForByFilters, buildFiltersForByTime, resultToEventSearchResponse } from './events-searcher-builder'
 import { EventRegistry } from '../event-registry'
 

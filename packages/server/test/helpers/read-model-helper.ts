@@ -1,4 +1,4 @@
-import { ReadModelEnvelope } from '@booster-ai/common'
+import { ReadModelEnvelope } from '@magek/common'
 import { faker } from '@faker-js/faker'
 import { expect } from '../expect'
 

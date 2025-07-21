@@ -6,7 +6,7 @@ import {
   GraphQLOperation,
   ReadModelInterface,
   ContextEnvelope,
-} from '@booster-ai/common'
+} from '@magek/common'
 import {
   GraphQLEnumType,
   GraphQLEnumValueConfigMap,
@@ -18,7 +18,7 @@ import {
   ValueNode,
 } from 'graphql'
 import { ReadModelPubSub } from '../pub-sub/read-model-pub-sub'
-import { PropertyMetadata, TypeMetadata } from '@booster-ai/metadata'
+import { PropertyMetadata, TypeMetadata } from '@magek/metadata'
 
 export type TargetTypesMap = Record<string, TargetTypeMetadata>
 export interface TargetTypeMetadata {

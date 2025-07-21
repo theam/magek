@@ -1,4 +1,4 @@
-import { BoosterConfig, ScheduledCommandEnvelope, UUID, getLogger } from '@booster-ai/common'
+import { BoosterConfig, ScheduledCommandEnvelope, UUID, getLogger } from '@magek/common'
 
 interface LocalScheduleCommandEnvelope {
   typeName: string

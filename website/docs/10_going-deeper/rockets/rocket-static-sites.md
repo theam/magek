@@ -11,20 +11,20 @@ This package is a configurable Booster rocket to add static site deployment to y
  Install this package as a dev dependency in your Booster project (It's a dev dependency because it's only used during deployment, but we don't want this code to be uploaded to the project lambdas)
 
  ```bash
- npm install --save-dev @booster-ai/rocket-static-sites-aws-infrastructure
+ npm install --save-dev @magek/rocket-static-sites-aws-infrastructure
  ```
 
  In your Booster config file, pass a RocketDescriptor in the config.rockets array to configuring the static site rocket:
 
  ```typescript
-import { Booster } from '@booster-ai/core'
-import { BoosterConfig } from '@booster-ai/common'
+import { Booster } from '@magek/core'
+import { BoosterConfig } from '@magek/common'
 
 Booster.configure('development', (config: BoosterConfig): void => {
   config.appName = 'my-store'
   config.rockets = [
     {
-      packageName: '@booster-ai/rocket-static-sites-aws-infrastructure', 
+      packageName: '@magek/rocket-static-sites-aws-infrastructure', 
       parameters: {
       bucketName: 'test-bucket-name', // Required
       rootPath: './frontend/dist', // Defaults to ./public

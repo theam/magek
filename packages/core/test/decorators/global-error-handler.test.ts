@@ -15,7 +15,7 @@ import {
   ReducerMetadata,
   ScheduledCommandEnvelope,
   ScheduledCommandMetadata,
-} from '@booster-ai/common'
+} from '@magek/common'
 
 describe('the `GlobalErrorHandler` decorator', () => {
   afterEach(() => {

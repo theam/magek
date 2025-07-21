@@ -1,4 +1,4 @@
-import { BoosterConfig, TraceActionTypes, TraceInfo, TraceTypes, UUID } from '@booster-ai/common'
+import { BoosterConfig, TraceActionTypes, TraceInfo, TraceTypes, UUID } from '@magek/common'
 import { isTraceEnabled, notifyTrace } from '../trace-notifier'
 import { Booster } from '../../booster'
 

@@ -1,5 +1,5 @@
 import { GraphQLTypeInformer } from '../../../src/services/graphql/graphql-type-informer'
-import { AnyClass, Logger } from '@booster-ai/common'
+import { AnyClass, Logger } from '@magek/common'
 import { expect } from '../../expect'
 import {
   GraphQLBoolean,
@@ -11,7 +11,7 @@ import {
   GraphQLObjectType,
   GraphQLString,
 } from 'graphql'
-import { TypeMetadata } from '@booster-ai/metadata'
+import { TypeMetadata } from '@magek/metadata'
 import { GraphQLJSON } from 'graphql-scalars'
 import { faker } from '@faker-js/faker'
 import { GraphQLEnumValueConfig, GraphQLEnumValueConfigMap } from 'graphql/type/definition'

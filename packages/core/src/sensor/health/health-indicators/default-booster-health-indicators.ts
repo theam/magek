@@ -4,7 +4,7 @@ import {
   Class,
   HealthIndicatorInterface,
   HealthIndicatorMetadata,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { BoosterHealthIndicator } from './booster-health-indicator'
 import { BoosterDatabaseHealthIndicator } from './booster-database-health-indicator'
 import { BoosterDatabaseEventsHealthIndicator } from './booster-database-events-health-indicator'

@@ -1,4 +1,4 @@
-import { EntityInterface, Instance, UUID } from '@booster-ai/common'
+import { EntityInterface, Instance, UUID } from '@magek/common'
 
 export class BoosterEntityMigrated {
   public constructor(

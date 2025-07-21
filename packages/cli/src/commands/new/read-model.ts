@@ -80,11 +80,11 @@ function generateImports(info: ReadModelInfo): Array<ImportDeclaration> {
 
   return [
     {
-      packagePath: '@booster-ai/core',
+      packagePath: '@magek/core',
       commaSeparatedComponents: coreComponents.join(', '),
     },
     {
-      packagePath: '@booster-ai/common',
+      packagePath: '@magek/common',
       commaSeparatedComponents: info.projections.length > 0 ? 'UUID, ProjectionResult' : 'UUID',
     },
     ...eventsImports,

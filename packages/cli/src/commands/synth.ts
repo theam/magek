@@ -9,7 +9,7 @@ import { Script } from '../common/script'
 import Brand from '../common/brand'
 import { currentEnvironment, initializeEnvironment } from '../services/environment'
 import { logger } from '../services/logger'
-import { BoosterConfig } from '@booster-ai/common'
+import { BoosterConfig } from '@magek/common'
 import { synthToProvider } from '../services/provider-service'
 
 const runTasks = async (

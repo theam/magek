@@ -12,7 +12,7 @@ import {
   ProviderLibrary,
   UUID,
   NotificationInterface,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { EventStore } from '../src/services/event-store'
 import { faker } from '@faker-js/faker'
 import { JwksUriTokenVerifier } from '../src/services/token-verifiers'

@@ -18,11 +18,11 @@ describe('new', (): void => {
         commaSeparatedComponents: 'CommentPosted',
       },
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'EventHandler',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'Register',
       },
     ]

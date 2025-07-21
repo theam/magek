@@ -5,11 +5,11 @@
       "path": "."
     },
     {
-      "name": "📦 @booster-ai/cli",
+      "name": "📦 @magek/cli",
       "path": "packages/cli"
     },
     {
-      "name": "📦 @booster-ai/common",
+      "name": "📦 @magek/common",
       "path": "packages/common"
     },
     {
@@ -25,7 +25,7 @@
       "path": "packages/framework-provider-local-infrastructure"
     },
     {
-      "name": "📦 @booster-ai/metadata",
+      "name": "📦 @magek/metadata",
       "path": "packages/metadata"
     },
     {

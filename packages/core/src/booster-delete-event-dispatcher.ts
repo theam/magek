@@ -1,4 +1,4 @@
-import { BoosterConfig, EventDeleteParameters } from '@booster-ai/common'
+import { BoosterConfig, EventDeleteParameters } from '@magek/common'
 import { ReadModelStore } from './services/read-model-store'
 
 export class BoosterDeleteEventDispatcher {

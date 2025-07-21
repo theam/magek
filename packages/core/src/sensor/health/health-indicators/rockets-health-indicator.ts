@@ -4,7 +4,7 @@ import {
   HealthIndicatorMetadata,
   HealthIndicatorsResult,
   HealthStatus,
-} from '@booster-ai/common'
+} from '@magek/common'
 
 export class RocketsHealthIndicator {
   public async health(

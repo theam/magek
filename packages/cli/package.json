@@ -1,5 +1,5 @@
 {
-  "name": "@booster-ai/cli",
+  "name": "@magek/cli",
   "description": "CLI of the Booster Framework, the next level of abstraction for cloud-native applications",
   "version": "0.0.1",
   "author": "Boosterin Labs SLU",
@@ -12,8 +12,8 @@
   },
   "bugs": "https://github.com/boostercloud/booster/issues",
   "dependencies": {
-    "@booster-ai/core": "workspace:^0.0.1",
-    "@booster-ai/common": "workspace:^0.0.1",
+    "@magek/core": "workspace:^0.0.1",
+    "@magek/common": "workspace:^0.0.1",
     "@oclif/core": "4.4.0",
     "@oclif/plugin-help": "6.2.31",
     "chalk": "5.4.1",
@@ -29,7 +29,7 @@
     "effect": "3.16.11"
   },
   "devDependencies": {
-    "@booster-ai/eslint-config": "workspace:^0.0.1",
+    "@magek/eslint-config": "workspace:^0.0.1",
     "@oclif/test": "4.1.10",
     "@types/chai": "5.2.2",
     "@types/chai-as-promised": "8.0.2",

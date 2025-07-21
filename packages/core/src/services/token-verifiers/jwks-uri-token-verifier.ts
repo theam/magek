@@ -1,4 +1,4 @@
-import { DecodedToken } from '@booster-ai/common'
+import { DecodedToken } from '@magek/common'
 import { getJwksClient, getKeyWithClient, verifyJWT } from './utilities'
 import { RoleBasedTokenVerifier } from './role-based-token-verifier'
 

@@ -2,7 +2,7 @@
  
 
 import { expect } from './expect'
-import { BoosterConfig, CommandEnvelope, SchemaMigrationMetadata } from '@booster-ai/common'
+import { BoosterConfig, CommandEnvelope, SchemaMigrationMetadata } from '@magek/common'
 import { SchemaMigrator } from '../src/schema-migrator'
 
 class TestConceptV1 {

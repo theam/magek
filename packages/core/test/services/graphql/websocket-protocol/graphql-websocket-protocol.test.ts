@@ -11,7 +11,7 @@ import {
   GraphQLRequestEnvelopeError,
   UserEnvelope,
   ConnectionDataEnvelope,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { GraphQLWebsocketHandler } from '../../../../src/services/graphql/websocket-protocol/graphql-websocket-protocol'
 import { ExecutionResult } from 'graphql'
 import { expect } from '../../../expect'

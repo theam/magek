@@ -1,6 +1,6 @@
 import { expect } from '../expect'
 import { restore, fake, replace } from 'sinon'
-import { ProviderLibrary, BoosterConfig } from '@booster-ai/common'
+import { ProviderLibrary, BoosterConfig } from '@magek/common'
 import * as Start from '../../src/commands/start'
 import * as providerService from '../../src/services/provider-service'
 import { oraLogger } from '../../src/services/logger'

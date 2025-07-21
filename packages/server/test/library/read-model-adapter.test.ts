@@ -10,7 +10,7 @@ import {
   SortFor,
   UserApp,
   UUID,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { expect } from '../expect'
 import { faker } from '@faker-js/faker'
 import { createMockReadModelEnvelope } from '../helpers/read-model-helper'

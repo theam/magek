@@ -1,7 +1,7 @@
  
  
 import { expect } from '../expect'
-import { Register } from '@booster-ai/common'
+import { Register } from '@magek/common'
 import { Command } from '../../src/decorators'
 import { Booster } from '../../src'
 import { fake } from 'sinon'

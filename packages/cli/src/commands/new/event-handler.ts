@@ -62,11 +62,11 @@ function generateImports(info: EventHandlerInfo): Array<ImportDeclaration> {
       commaSeparatedComponents: info.event,
     },
     {
-      packagePath: '@booster-ai/core',
+      packagePath: '@magek/core',
       commaSeparatedComponents: 'EventHandler',
     },
     {
-      packagePath: '@booster-ai/common',
+      packagePath: '@magek/common',
       commaSeparatedComponents: 'Register',
     },
   ]

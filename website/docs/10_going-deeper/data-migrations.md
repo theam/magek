@@ -161,7 +161,7 @@ export class CartIdDataMigrateV2 {
     "ts-node": "9.1.1",
     "@types/node": "15.0.2",
     "ts-patch": "3.1.2",
-    "@booster-ai/metadata": "0.30.2"
+    "@magek/metadata": "0.30.2"
   },
 ```
 
@@ -170,7 +170,7 @@ export class CartIdDataMigrateV2 {
 Booster version 1.19.0 requires updating your index.ts file to export the `boosterHealth` method. If you have an index.ts file created from a previous Booster version, update it accordingly. Example:
 
 ```typescript
-import { Booster } from '@booster-ai/core'
+import { Booster } from '@magek/core'
 export {
   Booster,
   boosterEventDispatcher,
@@ -179,7 +179,7 @@ export {
   boosterNotifySubscribers,
   boosterTriggerScheduledCommand,
   boosterRocketDispatcher,
-} from '@booster-ai/core'
+} from '@magek/core'
 
 Booster.start(__dirname)
 

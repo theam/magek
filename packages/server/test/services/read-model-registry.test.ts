@@ -1,5 +1,5 @@
  
-import { ProjectionFor, ReadModelEnvelope } from '@booster-ai/common'
+import { ProjectionFor, ReadModelEnvelope } from '@magek/common'
 import { expect } from '../expect'
 import { faker } from '@faker-js/faker'
 

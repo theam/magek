@@ -1,4 +1,4 @@
-import { ProviderLibrary, EventSearchRequest, EventSearchResponse, UUID } from '@booster-ai/common'
+import { ProviderLibrary, EventSearchRequest, EventSearchResponse, UUID } from '@magek/common'
 import { restore, fake, SinonSpy, match } from 'sinon'
 import { faker } from '@faker-js/faker'
 import { BoosterEventsReader } from '../src/booster-events-reader'

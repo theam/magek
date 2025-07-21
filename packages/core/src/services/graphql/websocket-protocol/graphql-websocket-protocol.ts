@@ -17,7 +17,7 @@ import {
   ProviderConnectionsLibrary,
   UserEnvelope,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { BoosterTokenVerifier } from '../../../booster-token-verifier'
 
 export interface GraphQLWebsocketHandlerCallbacks {

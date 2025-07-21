@@ -1,5 +1,5 @@
 {
-  "changes": [{"comment": "remove unused pnpm overrides", "type": "patch", "packageName": "@booster-ai/metadata"}],
-  "packageName": "@booster-ai/metadata",
+  "changes": [{ "comment": "remove unused pnpm overrides", "type": "patch", "packageName": "@magek/metadata" }],
+  "packageName": "@magek/metadata",
   "email": "codex@openai.com"
 }

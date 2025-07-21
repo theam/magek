@@ -1,4 +1,4 @@
-import { EventHandlerInterface } from '@booster-ai/common'
+import { EventHandlerInterface } from '@magek/common'
 import { registerEventHandler } from './event-handler'
 
 export const BOOSTER_GLOBAL_EVENT_HANDLERS = 'BOOSTER_GLOBAL_EVENT_HANDLERS'

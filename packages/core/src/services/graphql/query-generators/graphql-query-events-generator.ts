@@ -11,7 +11,7 @@ import {
 } from 'graphql'
 import { buildGraphqlSimpleEnumFor, GraphQLResolverContext, ResolverBuilder } from '../common'
 import { GraphQLJSON } from 'graphql-scalars'
-import { BoosterConfig } from '@booster-ai/common'
+import { BoosterConfig } from '@magek/common'
 
 export class GraphqlQueryEventsGenerator {
   constructor(

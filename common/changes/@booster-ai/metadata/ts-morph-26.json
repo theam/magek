@@ -1,5 +1,7 @@
 {
-  "changes": [{"comment": "upgrade ts-morph to v26 and TypeScript 5.8", "type": "patch", "packageName": "@booster-ai/metadata"}],
-  "packageName": "@booster-ai/metadata",
+  "changes": [
+    { "comment": "upgrade ts-morph to v26 and TypeScript 5.8", "type": "patch", "packageName": "@magek/metadata" }
+  ],
+  "packageName": "@magek/metadata",
   "email": "codex@openai.com"
 }

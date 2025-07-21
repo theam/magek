@@ -2,7 +2,7 @@
 import { expect } from '../expect'
 import { describe } from 'mocha'
 import { ReadModel, Booster, Entity, Projects, sequencedBy, Role, CalculatedField } from '../../src'
-import { UUID, ProjectionResult, UserEnvelope } from '@booster-ai/common'
+import { UUID, ProjectionResult, UserEnvelope } from '@magek/common'
 import { BoosterAuthorizer } from '../../src/booster-authorizer'
 import { fake, restore } from 'sinon'
 
@@ -31,7 +31,7 @@ describe('the `ReadModel` decorator', () => {
           {
             name: 'id',
             typeInfo: {
-              importPath: '@booster-ai/common',
+              importPath: '@magek/common',
               isNullable: false,
               isGetAccessor: false,
               name: 'UUID',
@@ -101,7 +101,7 @@ describe('the `ReadModel` decorator', () => {
           {
             name: 'id',
             typeInfo: {
-              importPath: '@booster-ai/common',
+              importPath: '@magek/common',
               isNullable: false,
               isGetAccessor: false,
               name: 'UUID',
@@ -333,7 +333,7 @@ describe('the `CalculatedField` decorator', () => {
         {
           name: 'id',
           typeInfo: {
-            importPath: '@booster-ai/common',
+            importPath: '@magek/common',
             isNullable: false,
             isGetAccessor: false,
             name: 'UUID',

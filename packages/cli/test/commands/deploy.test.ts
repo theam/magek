@@ -1,7 +1,7 @@
 import { expect } from '../expect'
 import { fancy } from 'fancy-test'
 import { restore, fake, replace } from 'sinon'
-import { ProviderLibrary, BoosterConfig } from '@booster-ai/common'
+import { ProviderLibrary, BoosterConfig } from '@magek/common'
 import { runCommand } from '@oclif/test'
 import * as Deploy from '../../src/commands/deploy'
 import * as providerService from '../../src/services/provider-service'

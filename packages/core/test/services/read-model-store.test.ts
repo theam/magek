@@ -13,7 +13,7 @@ import {
   ReadModelInterface,
   UUID,
   EntityInterface,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { expect } from '../expect'
 import { BoosterAuthorizer } from '../../src/booster-authorizer'
 import { fake, match, replace, restore, SinonFakeTimers, spy, stub, useFakeTimers } from 'sinon'

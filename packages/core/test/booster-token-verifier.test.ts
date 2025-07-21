@@ -2,7 +2,7 @@
  
  
 import { expect } from './expect'
-import { BoosterConfig, UserEnvelope, DecodedToken } from '@booster-ai/common'
+import { BoosterConfig, UserEnvelope, DecodedToken } from '@magek/common'
 import createJWKSMock from 'mock-jwks'
 import { faker } from '@faker-js/faker'
 import { BoosterTokenVerifier } from '../src/booster-token-verifier'

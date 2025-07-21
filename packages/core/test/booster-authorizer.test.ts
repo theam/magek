@@ -1,5 +1,5 @@
 import { expect } from './expect'
-import { NotAuthorizedError, UserEnvelope } from '@booster-ai/common'
+import { NotAuthorizedError, UserEnvelope } from '@magek/common'
 
 import { BoosterAuthorizer } from '../src/booster-authorizer'
 

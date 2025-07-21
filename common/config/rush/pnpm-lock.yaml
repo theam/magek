@@ -12,7 +12,7 @@ importers:
 
   ../../adapters/nedb/event-store:
     dependencies:
-      '@booster-ai/common':
+      '@magek/common':
         specifier: workspace:^0.0.1
         version: link:../../../packages/common
       '@seald-io/nedb':
@@ -22,7 +22,7 @@ importers:
         specifier: 2.4.0
         version: 2.4.0
     devDependencies:
-      '@booster-ai/eslint-config':
+      '@magek/eslint-config':
         specifier: workspace:^0.0.1
         version: link:../../../tools/eslint-config
       '@faker-js/faker':
@@ -140,10 +140,10 @@ importers:
 
   ../../packages/cli:
     dependencies:
-      '@booster-ai/common':
+      '@magek/common':
         specifier: workspace:^0.0.1
         version: link:../common
-      '@booster-ai/core':
+      '@magek/core':
         specifier: workspace:^0.0.1
         version: link:../core
       '@oclif/core':
@@ -186,7 +186,7 @@ importers:
         specifier: 2.4.0
         version: 2.4.0
     devDependencies:
-      '@booster-ai/eslint-config':
+      '@magek/eslint-config':
         specifier: workspace:^0.0.1
         version: link:../../tools/eslint-config
       '@faker-js/faker':
@@ -280,10 +280,10 @@ importers:
         specifier: 2.4.0
         version: 2.4.0
     devDependencies:
-      '@booster-ai/eslint-config':
+      '@magek/eslint-config':
         specifier: workspace:^0.0.1
         version: link:../../tools/eslint-config
-      '@booster-ai/metadata':
+      '@magek/metadata':
         specifier: workspace:^0.0.1
         version: link:../metadata
       '@faker-js/faker':
@@ -352,10 +352,10 @@ importers:
 
   ../../packages/core:
     dependencies:
-      '@booster-ai/common':
+      '@magek/common':
         specifier: workspace:^0.0.1
         version: link:../common
-      '@booster-ai/metadata':
+      '@magek/metadata':
         specifier: workspace:^0.0.1
         version: link:../metadata
       '@effect/cli':
@@ -425,7 +425,7 @@ importers:
         specifier: 13.15.15
         version: 13.15.15
     devDependencies:
-      '@booster-ai/eslint-config':
+      '@magek/eslint-config':
         specifier: workspace:^0.0.1
         version: link:../../tools/eslint-config
       '@faker-js/faker':
@@ -513,7 +513,7 @@ importers:
         specifier: 2.4.2
         version: 2.4.2
     devDependencies:
-      '@booster-ai/eslint-config':
+      '@magek/eslint-config':
         specifier: workspace:^0.0.1
         version: link:../../tools/eslint-config
       '@types/chai':
@@ -571,7 +571,7 @@ importers:
         specifier: 2.4.0
         version: 2.4.0
     devDependencies:
-      '@booster-ai/eslint-config':
+      '@magek/eslint-config':
         specifier: workspace:^0.0.1
         version: link:../../tools/eslint-config
       '@types/chai-as-promised':
@@ -601,7 +601,7 @@ importers:
 
   ../../packages/server:
     dependencies:
-      '@booster-ai/common':
+      '@magek/common':
         specifier: workspace:^0.0.1
         version: link:../common
       '@effect-ts/core':
@@ -623,7 +623,7 @@ importers:
         specifier: 2.4.0
         version: 2.4.0
     devDependencies:
-      '@booster-ai/eslint-config':
+      '@magek/eslint-config':
         specifier: workspace:^0.0.1
         version: link:../../tools/eslint-config
       '@faker-js/faker':
@@ -677,10 +677,10 @@ importers:
 
   ../../packages/server-infrastructure:
     dependencies:
-      '@booster-ai/common':
+      '@magek/common':
         specifier: workspace:^0.0.1
         version: link:../common
-      '@booster-ai/server':
+      '@magek/server':
         specifier: workspace:^0.0.1
         version: link:../server
       '@effect-ts/core':
@@ -705,7 +705,7 @@ importers:
         specifier: 2.4.0
         version: 2.4.0
     devDependencies:
-      '@booster-ai/eslint-config':
+      '@magek/eslint-config':
         specifier: workspace:^0.0.1
         version: link:../../tools/eslint-config
       '@faker-js/faker':

@@ -3,8 +3,8 @@
 import { expect } from '../expect'
 import { SchemaMigration, ToVersion } from '../../src/decorators'
 import { Booster } from '../../src'
-import { SchemaMigrationMetadata } from '@booster-ai/common'
-import { getMetadata } from '@booster-ai/metadata'
+import { SchemaMigrationMetadata } from '@magek/common'
+import { getMetadata } from '@magek/metadata'
 
 // Entities to test the annotations
 class Product {}

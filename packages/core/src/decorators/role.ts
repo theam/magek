@@ -1,5 +1,5 @@
 import { Booster } from '../booster'
-import { Class, RoleMetadata, RoleInterface } from '@booster-ai/common'
+import { Class, RoleMetadata, RoleInterface } from '@magek/common'
 
 /**
  * Annotation to tell Booster which classes represent your roles

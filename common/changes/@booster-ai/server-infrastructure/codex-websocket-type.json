@@ -3,9 +3,9 @@
     {
       "comment": "fix: update websocket type",
       "type": "patch",
-      "packageName": "@booster-ai/server-infrastructure"
+      "packageName": "@magek/server-infrastructure"
     }
   ],
-  "packageName": "@booster-ai/server-infrastructure",
+  "packageName": "@magek/server-infrastructure",
   "email": "codex@openai.com"
 }

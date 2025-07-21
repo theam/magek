@@ -8,7 +8,7 @@ import {
   EntitySnapshotEnvelopeFromDatabase,
   EntitySnapshotEnvelope,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { EventRegistry } from '../event-registry'
 
 // NeDB query types

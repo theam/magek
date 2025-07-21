@@ -1,4 +1,4 @@
-import { BoosterConfig, UserApp } from '@booster-ai/common'
+import { BoosterConfig, UserApp } from '@magek/common'
 import { Effect, pipe } from 'effect'
 import * as path from 'path'
 import { guardError } from '../common/errors'

@@ -1,4 +1,4 @@
-import { UserApp } from '@booster-ai/common'
+import { UserApp } from '@magek/common'
 import { FastifyRequest } from 'fastify'
 
 export class HealthService {

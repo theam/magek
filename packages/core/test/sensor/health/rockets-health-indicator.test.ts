@@ -4,7 +4,7 @@ import {
   HealthIndicatorMetadata,
   HealthStatus,
   ProviderLibrary,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { fake } from 'sinon'
 import { RocketsHealthIndicator } from '../../../src/sensor/health/health-indicators/rockets-health-indicator'
 import { expect } from '../../expect'

@@ -2,7 +2,7 @@
 import { fake, match, replace, restore, spy } from 'sinon'
 import { faker } from '@faker-js/faker'
 import { expect } from './expect'
-import { BoosterConfig, GraphQLRequestEnvelope, GraphQLRequestEnvelopeError, UserEnvelope } from '@booster-ai/common'
+import { BoosterConfig, GraphQLRequestEnvelope, GraphQLRequestEnvelopeError, UserEnvelope } from '@magek/common'
 import { BoosterGraphQLDispatcher } from '../src/booster-graphql-dispatcher'
 import * as gqlParser from 'graphql/language/parser'
 import * as gqlValidator from 'graphql/validation/validate'

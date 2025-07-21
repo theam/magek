@@ -1,6 +1,6 @@
 import { ReadModelAuthorizer, ReadModelFilterHooks, UUID } from '.'
 import { Class } from '../typelevel'
-import { PropertyMetadata } from '@booster-ai/metadata'
+import { PropertyMetadata } from '@magek/metadata'
 
 export interface BoosterMetadata {
   version: number

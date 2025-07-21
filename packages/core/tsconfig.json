@@ -3,14 +3,20 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "types": ["node", "mocha", "sinon-chai"]
+    "types": [
+      "node",
+      "mocha",
+      "sinon-chai"
+    ]
   },
-  "include": ["src/**/*"],
+  "include": [
+    "src/**/*"
+  ],
   "ts-node": {
     "compilerOptions": {
       "plugins": [
         {
-          "transform": "@booster-ai/metadata"
+          "transform": "@magek/metadata"
         }
       ]
     }

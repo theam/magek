@@ -19,7 +19,7 @@ import {
   ScheduleCommandGlobalError,
   ScheduledCommandEnvelope,
   ScheduledCommandMetadata,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { GlobalErrorHandler } from '../src'
 import { restore } from 'sinon'
 import { Booster } from '../src/booster'

@@ -15,7 +15,7 @@ import {
   ReadModelRequestProperties,
   TimeKey,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import {
   FieldNode,
   FragmentDefinitionNode,

@@ -11,7 +11,7 @@ import {
   Register,
   UUID,
   PromisesError,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { expect } from './expect'
 import { ReadModelStore } from '../src/services/read-model-store'
 import { EventStore } from '../src/services/event-store'

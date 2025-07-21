@@ -5,7 +5,7 @@ import {
   EventEnvelope,
   UUID,
   EntitySnapshotEnvelope,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { RawEventsParser } from '../../src/services/raw-events-parser'
 import { expect } from '../expect'
 import { faker } from '@faker-js/faker'

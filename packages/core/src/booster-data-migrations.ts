@@ -8,7 +8,7 @@ import {
   Register,
   UUID,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { RegisterHandler } from './booster-register-handler'
 import { EventStore } from './services/event-store'
 import { BoosterDataMigrationEntity } from './core-concepts/data-migration/entities/booster-data-migration-entity'

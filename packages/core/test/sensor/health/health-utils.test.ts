@@ -1,4 +1,4 @@
-import { HealthIndicatorMetadata } from '@booster-ai/common'
+import { HealthIndicatorMetadata } from '@magek/common'
 import 'mocha'
 import {
   childHealthProviders,

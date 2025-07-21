@@ -1,4 +1,4 @@
-import { ReadModelEnvelope, UserApp } from '@booster-ai/common'
+import { ReadModelEnvelope, UserApp } from '@magek/common'
 import { FastifyRequest } from 'fastify'
 import { WebSocketMessage } from '../library/graphql-adapter'
 

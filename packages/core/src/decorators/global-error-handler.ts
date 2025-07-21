@@ -1,5 +1,5 @@
 import { Booster } from '../booster'
-import { GlobalErrorHandlerInterface } from '@booster-ai/common'
+import { GlobalErrorHandlerInterface } from '@magek/common'
 
 export function GlobalErrorHandler(): (errorHandlerClass: GlobalErrorHandlerInterface) => void {
   return (errorHandlerClass) => {

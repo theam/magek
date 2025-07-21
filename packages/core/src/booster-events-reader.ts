@@ -9,7 +9,7 @@ import {
   EventParametersFilterByEntity,
   EventParametersFilterByType,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { Booster } from './booster'
 
 export class BoosterEventsReader {

@@ -61,11 +61,11 @@ function generateImports(info: QueryInfo): Array<ImportDeclaration> {
 
   return [
     {
-      packagePath: '@booster-ai/core',
+      packagePath: '@magek/core',
       commaSeparatedComponents: 'Query',
     },
     {
-      packagePath: '@booster-ai/common',
+      packagePath: '@magek/common',
       commaSeparatedComponents: componentsFromBoosterTypes.join(', '),
     },
   ]

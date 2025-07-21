@@ -1,4 +1,4 @@
-import { Booster } from '@booster-ai/core'
+import { Booster } from '@magek/core'
 export {
   Booster,
   boosterEventDispatcher,
@@ -9,4 +9,4 @@ export {
   boosterConsumeEventStream,
   boosterProduceEventStream,
   boosterHealth,
-} from '@booster-ai/core'
+} from '@magek/core'

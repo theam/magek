@@ -3,9 +3,9 @@
     {
       "comment": "Bump fast-check to v4.1.1",
       "type": "patch",
-      "packageName": "@booster-ai/common"
+      "packageName": "@magek/common"
     }
   ],
-  "packageName": "@booster-ai/common",
+  "packageName": "@magek/common",
   "email": "codex@openai.com"
 }

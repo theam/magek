@@ -11,7 +11,7 @@ import {
   QueryHandlerGlobalError,
   EventGlobalError,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 
 export class BoosterGlobalErrorDispatcher {
   public readonly errorHandler: GlobalErrorHandlerInterface | undefined

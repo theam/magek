@@ -7,7 +7,7 @@ import {
   GraphQLRequestEnvelopeError,
   UUID,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { FastifyRequest } from 'fastify'
 
 export interface WebSocketMessage {

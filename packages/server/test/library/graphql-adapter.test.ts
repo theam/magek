@@ -2,7 +2,7 @@
 import { SinonStub, stub, replace, restore, fake } from 'sinon'
 import { rawGraphQLRequestToEnvelope } from '../../src/library/graphql-adapter'
 import { expect } from '../expect'
-import { BoosterConfig, UUID } from '@booster-ai/common'
+import { BoosterConfig, UUID } from '@magek/common'
 import { faker } from '@faker-js/faker'
 import { FastifyRequest } from 'fastify'
 

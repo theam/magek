@@ -5,7 +5,7 @@ import {
   ReadModelInterface,
   TraceActionTypes,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { Trace } from './instrumentation'
 
 export class ReadModelSchemaMigrator {

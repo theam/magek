@@ -4,7 +4,7 @@ import {
   Class,
   BoosterConfig,
   NotificationInterface,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { Booster } from '../booster'
 
 export function EventHandler<TEvent extends EventInterface | NotificationInterface>(

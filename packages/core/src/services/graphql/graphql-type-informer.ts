@@ -15,9 +15,9 @@ import {
   GraphQLUnionType,
 } from 'graphql'
 import { GraphQLJSON } from 'graphql-scalars'
-import { ClassMetadata, ClassType, PropertyMetadata, TypeMetadata } from '@booster-ai/metadata'
+import { ClassMetadata, ClassType, PropertyMetadata, TypeMetadata } from '@magek/metadata'
 import { DateScalar, isExternalType, nonExcludedFields } from './common'
-import { Logger } from '@booster-ai/common'
+import { Logger } from '@magek/common'
 
 export class GraphQLTypeInformer {
   private graphQLTypes: Record<string, GraphQLType> = {}

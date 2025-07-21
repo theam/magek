@@ -4,7 +4,7 @@
 import { expect } from '../expect'
 import { Event, Entity, Reduces, Role } from '../../src/decorators/'
 import { Booster } from '../../src'
-import { UserEnvelope, UUID } from '@booster-ai/common'
+import { UserEnvelope, UUID } from '@magek/common'
 import { BoosterAuthorizer } from '../../src/booster-authorizer'
 import { fake, replace } from 'sinon'
 

@@ -8,7 +8,7 @@ import {
   EventStreamRoleAccess,
   AnyClass,
   EventStreamAuthorizer,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { BoosterAuthorizer } from '../booster-authorizer'
 
 type EntityAttributes = EventStreamRoleAccess

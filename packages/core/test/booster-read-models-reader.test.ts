@@ -12,7 +12,7 @@ import {
   ReadModelRequestEnvelope,
   SubscriptionEnvelope,
   UUID,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { fake, match, replace, restore, SinonStub, stub } from 'sinon'
 import { BoosterReadModelsReader } from '../src/booster-read-models-reader'
 import { faker } from '@faker-js/faker'

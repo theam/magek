@@ -1,4 +1,4 @@
-import { Class, EventInterface } from '@booster-ai/common'
+import { Class, EventInterface } from '@magek/common'
 import { Booster } from '../booster'
 
 /**

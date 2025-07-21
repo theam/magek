@@ -1,6 +1,6 @@
 import { ReadModelRegistry } from '../services'
 import { eventsDatabase, readModelsDatabase } from '../paths'
-import { BoosterConfig, boosterLocalPort, HealthEnvelope, UUID, request } from '@booster-ai/common'
+import { BoosterConfig, boosterLocalPort, HealthEnvelope, UUID, request } from '@magek/common'
 import { existsSync } from 'fs'
 import { FastifyRequest } from 'fastify'
 import Nedb from '@seald-io/nedb'

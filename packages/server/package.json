@@ -1,5 +1,5 @@
 {
-  "name": "@booster-ai/server",
+  "name": "@magek/server",
   "version": "0.0.1",
   "description": "Debug your Booster projects locally",
   "keywords": [
@@ -23,7 +23,7 @@
     "node": ">=22.0.0 <23.0.0"
   },
   "dependencies": {
-    "@booster-ai/common": "workspace:^0.0.1",
+    "@magek/common": "workspace:^0.0.1",
     "@magek/adapter-event-store-nedb": "workspace:^0.0.1",
     "@magek/adapter-read-model-store-nedb": "workspace:^0.0.1",
     "@seald-io/nedb": "4.1.1",
@@ -45,7 +45,7 @@
     "url": "https://github.com/boostercloud/booster/issues"
   },
   "devDependencies": {
-    "@booster-ai/eslint-config": "workspace:^0.0.1",
+    "@magek/eslint-config": "workspace:^0.0.1",
     "@types/chai": "5.2.2",
     "@types/chai-as-promised": "8.0.2",
     "@types/mocha": "10.0.10",

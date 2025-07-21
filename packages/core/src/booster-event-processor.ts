@@ -12,7 +12,7 @@ import {
   getLogger,
   Promises,
   PromisesError,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { EventStore } from './services/event-store'
 import { EventsStreamingCallback } from './services/raw-events-parser'
 import { ReadModelStore } from './services/read-model-store'

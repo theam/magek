@@ -1,4 +1,4 @@
-import { Register, UUID } from '@booster-ai/common'
+import { Register, UUID } from '@magek/common'
 import { RegisterHandler } from './booster-register-handler'
 import { Booster } from './index'
 import { BoosterEntityTouched } from './core-concepts/touch-entity/events/booster-entity-touched'

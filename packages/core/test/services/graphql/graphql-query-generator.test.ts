@@ -18,8 +18,8 @@ import {
 } from 'graphql'
 import { faker } from '@faker-js/faker'
 import { GraphQLJSON } from 'graphql-scalars'
-import { AnyClass, BoosterConfig, QueryMetadata } from '@booster-ai/common'
-import { ClassMetadata } from '@booster-ai/metadata'
+import { AnyClass, BoosterConfig, QueryMetadata } from '@magek/common'
+import { ClassMetadata } from '@magek/metadata'
 import * as metadata from '../../../src/decorators/metadata'
 
 describe('GraphQLQueryGenerator', () => {

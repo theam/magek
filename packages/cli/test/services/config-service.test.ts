@@ -1,6 +1,6 @@
 import { fake, replace, restore, SinonStub, stub } from 'sinon'
 import * as projectChecker from '../../src/services/project-checker'
-import { BoosterConfig } from '@booster-ai/common'
+import { BoosterConfig } from '@magek/common'
 import { expect } from '../expect'
 import * as environment from '../../src/services/environment'
 import * as PackageManager from '../../src/services/package-manager/live.impl'

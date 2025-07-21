@@ -6,7 +6,7 @@ import {
   NotificationMetadata,
   createInstance,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 
 export async function eventSearch(
   config: BoosterConfig,

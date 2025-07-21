@@ -3,7 +3,7 @@ import {
   HealthIndicatorResult,
   HealthIndicatorMetadata,
   HealthStatus,
-} from '@booster-ai/common'
+} from '@magek/common'
 
 export class BoosterDatabaseReadModelsHealthIndicator {
   public async health(

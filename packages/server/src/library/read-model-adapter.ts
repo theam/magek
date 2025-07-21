@@ -10,7 +10,7 @@ import {
   SortFor,
   UUID,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { GraphQLService, NedbError, ReadModelRegistry, UNIQUE_VIOLATED_ERROR_TYPE } from '../services'
 import { queryRecordFor } from './searcher-adapter'
 
