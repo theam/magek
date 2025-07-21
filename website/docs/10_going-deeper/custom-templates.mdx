@@ -1,6 +1,6 @@
 # Customizing CLI resource templates
 
-You can change what the newly created Booster resources will contain by customizing the resource template files.
+You can change what the newly created Magek resources will contain by customizing the resource template files.
 
 To do this, you first need to publish the resource templates by running the `npx boost stub:publish` command. This will create a folder `stubs` in the root directory of the project, and it will contain all the resources that you can customize:
 
@@ -15,7 +15,7 @@ stubs/
 └─ type.stub
 ```
 
-After that, Booster CLI will start using your local templates instead of the default ones.
+After that, Magek CLI will start using your local templates instead of the default ones.
 Let's try this by adding a simple comment to the `type.stub` file.
 
 ```
@@ -94,7 +94,7 @@ Here are some answers to questions you may have:
     npm create booster-ai@latest my-app -- --template ./path/to/local/template
     ```
 
-    The template should contain a Booster project structure with mustache placeholders like `{{PROJECT_NAME}}`, `{{description}}`, etc.
+    The template should contain a Magek project structure with mustache placeholders like `{{PROJECT_NAME}}`, `{{description}}`, etc.
 </details>
 
 <details>

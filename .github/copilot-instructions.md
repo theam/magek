@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This file provides high-level guidance for **AI agents (e.g. OpenAI Codex)** that interact with the Booster Framework repository.  Follow these instructions to reliably set up the development environment, run the full test & lint suite, and keep your contributions consistent with the project's conventions.
+This file provides high-level guidance for **AI agents (e.g. OpenAI Codex)** that interact with the Magek Framework repository.  Follow these instructions to reliably set up the development environment, run the full test & lint suite, and keep your contributions consistent with the project's conventions.
 
 ## 1. Repository Overview
 

@@ -1,6 +1,6 @@
 import {
   EventSearchRequest,
-  BoosterConfig,
+  MagekConfig,
   EventSearchResponse,
   NotFoundError,
   EntityMetadata,
@@ -10,10 +10,10 @@ import {
   EventParametersFilterByType,
   getLogger,
 } from '@magek/common'
-import { Booster } from './magek'
+import { Magek } from './magek'
 
-export class BoosterEventsReader {
-  public constructor(readonly config: BoosterConfig) {}
+export class MagekEventsReader {
+  public constructor(readonly config: MagekConfig) {}
 
   public async fetch(eventRequest: EventSearchRequest): Promise<Array<EventSearchResponse>> {
     await this.validateRequest(eventRequest)
@@ -21,7 +21,7 @@ export class BoosterEventsReader {
   }
 
   private async validateRequest(eventRequest: EventSearchRequest): Promise<void> {
-    const logger = getLogger(this.config, 'BoosterEventsReader#validateRequest')
+    const logger = getLogger(this.config, 'MagekEventsReader#validateRequest')
     logger.debug('Validating the following event request: ', eventRequest)
     const entityMetadata = this.entityMetadataFromRequest(eventRequest)
 
@@ -69,7 +69,7 @@ export class BoosterEventsReader {
   }
 
   private async processFetch(eventRequest: EventSearchRequest): Promise<Array<EventSearchResponse>> {
-    return Booster.events(eventRequest.parameters)
+    return Magek.events(eventRequest.parameters)
   }
 }
 

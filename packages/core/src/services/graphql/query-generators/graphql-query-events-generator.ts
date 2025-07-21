@@ -11,11 +11,11 @@ import {
 } from 'graphql'
 import { buildGraphqlSimpleEnumFor, GraphQLResolverContext, ResolverBuilder } from '../common'
 import { GraphQLJSON } from 'graphql-scalars'
-import { BoosterConfig } from '@magek/common'
+import { MagekConfig } from '@magek/common'
 
 export class GraphqlQueryEventsGenerator {
   constructor(
-    private readonly config: BoosterConfig,
+    private readonly config: MagekConfig,
     protected readonly byIDResolverBuilder: ResolverBuilder,
     private readonly eventsResolver: GraphQLFieldResolver<unknown, GraphQLResolverContext, any>
   ) {}

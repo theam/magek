@@ -1,12 +1,12 @@
-import { BoosterConfig } from './config'
+import { MagekConfig } from './config'
 
 /**
- * `UserApp` represents the expected interface when we `require` the `dist/index.js` file of a Booster app
+ * `UserApp` represents the expected interface when we `require` the `dist/index.js` file of a Magek app
  */
 export interface UserApp {
-  Booster: {
-    config: BoosterConfig
-    configureCurrentEnv(configurator: (config: BoosterConfig) => void): void
+  Magek: {
+    config: MagekConfig
+    configureCurrentEnv(configurator: (config: MagekConfig) => void): void
     configuredEnvironments: Set<string>
   }
   boosterEventDispatcher(_: unknown): Promise<void>

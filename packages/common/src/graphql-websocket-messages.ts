@@ -41,7 +41,7 @@ export interface GraphQLTerminate {
 }
 
 // Server -> Client messages shapes
-// They are classes because they need to be built by the server (Booster)
+// They are classes because they need to be built by the server (Magek)
 export type GraphQLServerMessage = GraphQLInitError | GraphQLInitAck | GraphQLData | GraphQLError | GraphQLComplete
 
 export class GraphQLInitError {

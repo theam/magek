@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 
 /**
- * Class to output text with proper Booster brand colors
+ * Class to output text with proper Magek brand colors
  */
 export default class Brand {
   /**

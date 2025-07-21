@@ -1,6 +1,6 @@
-import { Booster } from '@magek/core'
+import { Magek } from '@magek/core'
 export {
-  Booster,
+  Magek,
   boosterEventDispatcher,
   boosterServeGraphQL,
   boosterTriggerScheduledCommands,
@@ -11,4 +11,4 @@ export {
   boosterHealth,
 } from '@magek/core'
 
-Booster.start(__dirname)
+Magek.start(__dirname)

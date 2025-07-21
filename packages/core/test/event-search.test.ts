@@ -1,4 +1,4 @@
-import { BoosterConfig, EventSearchParameters, EventSearchResponse } from '@magek/common'
+import { MagekConfig, EventSearchParameters, EventSearchResponse } from '@magek/common'
 import { eventSearch } from '../src/event-search'
 import { fake, restore } from 'sinon'
 import { expect } from './expect'
@@ -21,7 +21,7 @@ describe('eventSearch function', () => {
   })
 
   it('instantiates event and notification classes for returned events', async () => {
-    const config = new BoosterConfig('test')
+    const config = new MagekConfig('test')
     const providerSearch = fake.resolves([
       {
         requestID: '1',

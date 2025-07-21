@@ -1,7 +1,7 @@
  
  
 import { expect } from '../expect'
-import { GlobalErrorHandler, Booster } from '../../src'
+import { GlobalErrorHandler, Magek } from '../../src'
 import {
   CommandEnvelope,
   CommandMetadata,
@@ -19,24 +19,24 @@ import {
 
 describe('the `GlobalErrorHandler` decorator', () => {
   afterEach(() => {
-    Booster.configure('test', (config) => {
+    Magek.configure('test', (config) => {
       config.appName = ''
       config.globalErrorsHandler = undefined
     })
   })
 
-  it('adds the error handler class as an error handler in the Booster configuration', () => {
+  it('adds the error handler class as an error handler in the Magek configuration', () => {
     // Register command
     @GlobalErrorHandler()
     class ErrorHandler {}
 
-    // Make Booster be of any type to access private members
-    const booster = Booster as any
+    // Make Magek be of any type to access private members
+    const booster = Magek as any
 
     expect(booster.config.globalErrorsHandler.class).to.be.eq(ErrorHandler)
   })
 
-  it('adds the error handler class as an error handler in the Booster configuration with expected methods', () => {
+  it('adds the error handler class as an error handler in the Magek configuration with expected methods', () => {
     // Register command
     @GlobalErrorHandler()
     class ErrorHandler {
@@ -86,8 +86,8 @@ describe('the `GlobalErrorHandler` decorator', () => {
       }
     }
 
-    // Make Booster be of any type to access private members
-    const booster = Booster as any
+    // Make Magek be of any type to access private members
+    const booster = Magek as any
 
     expect(booster.config.globalErrorsHandler.class).to.be.eq(ErrorHandler)
   })

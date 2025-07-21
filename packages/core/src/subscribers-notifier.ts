@@ -1,6 +1,6 @@
  
 import {
-  BoosterConfig,
+  MagekConfig,
   Instance,
   ReadModelEnvelope,
   ReadModelInterface,
@@ -18,16 +18,16 @@ import { GraphQLResolverContext } from './services/graphql/common'
 import { ExecutionResult } from 'graphql/execution/execute'
 import { Trace } from './instrumentation'
 
-export class BoosterSubscribersNotifier {
+export class MagekSubscribersNotifier {
   private readonly graphQLSchema: GraphQLSchema
 
-  public constructor(private config: BoosterConfig) {
+  public constructor(private config: MagekConfig) {
     this.graphQLSchema = GraphQLGenerator.generateSchema(config)
   }
 
   @Trace(TraceActionTypes.DISPATCH_SUBSCRIBER_NOTIFIER)
   public async dispatch(request: unknown): Promise<void> {
-    const logger = getLogger(this.config, 'BoosterSubscribersNotifier#dispatch')
+    const logger = getLogger(this.config, 'MagekSubscribersNotifier#dispatch')
     try {
       logger.debug('Received the following event for subscription dispatching: ', request)
       const readModelEnvelopes = await this.config.provider.readModels.rawToEnvelopes(this.config, request)
@@ -70,7 +70,7 @@ export class BoosterSubscribersNotifier {
     pubSub: ReadModelPubSub<ReadModelInterface>,
     subscription: SubscriptionEnvelope
   ): Promise<unknown> {
-    const logger = getLogger(this.config, 'BoosterSubscribersNotifier#runSubscriptionAndNotify')
+    const logger = getLogger(this.config, 'MagekSubscribersNotifier#runSubscriptionAndNotify')
     const context: GraphQLResolverContext = {
       connectionID: subscription.connectionID,
       responseHeaders: {},
@@ -118,7 +118,7 @@ export class BoosterSubscribersNotifier {
   }
 
   private async notifyWithGraphQLResult(subscription: SubscriptionEnvelope, result: ExecutionResult): Promise<void> {
-    const logger = getLogger(this.config, 'BoosterSubscribersNotifier#notifyWithGraphQLResult')
+    const logger = getLogger(this.config, 'MagekSubscribersNotifier#notifyWithGraphQLResult')
     if (result.errors) {
       throw result.errors
     }

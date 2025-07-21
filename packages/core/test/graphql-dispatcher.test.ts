@@ -2,8 +2,8 @@
 import { fake, match, replace, restore, spy } from 'sinon'
 import { faker } from '@faker-js/faker'
 import { expect } from './expect'
-import { BoosterConfig, GraphQLRequestEnvelope, GraphQLRequestEnvelopeError, UserEnvelope } from '@magek/common'
-import { BoosterGraphQLDispatcher } from '../src/graphql-dispatcher'
+import { MagekConfig, GraphQLRequestEnvelope, GraphQLRequestEnvelopeError, UserEnvelope } from '@magek/common'
+import { MagekGraphQLDispatcher } from '../src/graphql-dispatcher'
 import * as gqlParser from 'graphql/language/parser'
 import * as gqlValidator from 'graphql/validation/validate'
 import * as gqlExecutor from 'graphql/execution/execute'
@@ -13,9 +13,9 @@ import { NoopReadModelPubSub } from '../src/services/pub-sub/noop-read-model-pub
 import { GraphQLWebsocketHandler } from '../src/services/graphql/websocket-protocol/graphql-websocket-protocol'
 import { ExecutionResult } from 'graphql/execution/execute'
 import { GraphQLError } from 'graphql'
-import { BoosterTokenVerifier } from '../src/token-verifier'
+import { MagekTokenVerifier } from '../src/token-verifier'
 
-describe('the `BoosterGraphQLDispatcher`', () => {
+describe('the `MagekGraphQLDispatcher`', () => {
   afterEach(() => {
     restore()
   })
@@ -35,7 +35,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
         }
 
         const config = mockConfigForGraphQLEnvelope(messageEnvelope)
-        const dispatcher = new BoosterGraphQLDispatcher(config)
+        const dispatcher = new MagekGraphQLDispatcher(config)
         const parseSpy = spy(gqlParser.parse)
         replace(gqlParser, 'parse', parseSpy)
         replace(gqlValidator, 'validate', fake.returns([]))
@@ -61,7 +61,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
 
         const config = mockConfigForGraphQLEnvelope(messageEnvelope)
         config.enableGraphQLIntrospection = false
-        const dispatcher = new BoosterGraphQLDispatcher(config)
+        const dispatcher = new MagekGraphQLDispatcher(config)
         const parseSpy = spy(gqlParser.parse)
         replace(gqlParser, 'parse', parseSpy)
         replace(gqlValidator, 'validate', fake.returns([]))
@@ -90,7 +90,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
           requestID: faker.datatype.uuid(),
           eventType: 'CONNECT',
         })
-        const dispatcher = new BoosterGraphQLDispatcher(config)
+        const dispatcher = new MagekGraphQLDispatcher(config)
         await dispatcher.dispatch({})
 
         expect(config.provider.graphQL.handleResult).to.have.been.calledOnceWithExactly(null, {
@@ -106,7 +106,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
           eventType: 'DISCONNECT',
           connectionID: undefined,
         })
-        const dispatcher = new BoosterGraphQLDispatcher(config)
+        const dispatcher = new MagekGraphQLDispatcher(config)
         await dispatcher.dispatch({})
 
         expect(config.provider.readModels.deleteAllSubscriptions).not.to.have.been.called
@@ -121,7 +121,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
           eventType: 'DISCONNECT',
           connectionID: mockConnectionID,
         })
-        const dispatcher = new BoosterGraphQLDispatcher(config)
+        const dispatcher = new MagekGraphQLDispatcher(config)
         await dispatcher.dispatch({})
 
         expect(config.provider.connections.deleteData).to.have.been.calledOnceWithExactly(config, mockConnectionID)
@@ -143,7 +143,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
           }
           const config = mockConfigForGraphQLEnvelope(messageEnvelope)
 
-          const dispatcher = new BoosterGraphQLDispatcher(config)
+          const dispatcher = new MagekGraphQLDispatcher(config)
 
           const fakeWebsocketHandleMethod = fake()
           replace(GraphQLWebsocketHandler.prototype, 'handle', fakeWebsocketHandleMethod)
@@ -160,7 +160,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
             requestID: faker.datatype.uuid(),
             eventType: 'MESSAGE',
           })
-          const dispatcher = new BoosterGraphQLDispatcher(config)
+          const dispatcher = new MagekGraphQLDispatcher(config)
           const fakeWebsocketHandleMethod = fake()
           replace(GraphQLWebsocketHandler.prototype, 'handle', fakeWebsocketHandleMethod)
 
@@ -176,7 +176,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
             eventType: 'MESSAGE',
             error: new Error(errorMessage),
           })
-          const dispatcher = new BoosterGraphQLDispatcher(config)
+          const dispatcher = new MagekGraphQLDispatcher(config)
 
           await dispatcher.dispatch({})
 
@@ -193,7 +193,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
             requestID: faker.datatype.uuid(),
             eventType: 'MESSAGE',
           })
-          const dispatcher = new BoosterGraphQLDispatcher(config)
+          const dispatcher = new MagekGraphQLDispatcher(config)
 
           await dispatcher.dispatch({})
 
@@ -214,7 +214,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
                
             } as any, // If not, the compiler does not allow us to provide an empty query
           })
-          const dispatcher = new BoosterGraphQLDispatcher(config)
+          const dispatcher = new MagekGraphQLDispatcher(config)
 
           await dispatcher.dispatch({})
 
@@ -235,7 +235,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
               query: 'subscription { a { x }}',
             },
           })
-          const dispatcher = new BoosterGraphQLDispatcher(config)
+          const dispatcher = new MagekGraphQLDispatcher(config)
           replace(gqlValidator, 'validate', fake.returns([]))
 
           //await expect(dispatcher.dispatch({})).to.be.rejectedWith(errorRegex)
@@ -272,7 +272,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
             responseHeaders: {},
           }
           const config = mockConfigForGraphQLEnvelope(graphQLEnvelope)
-          const dispatcher = new BoosterGraphQLDispatcher(config)
+          const dispatcher = new MagekGraphQLDispatcher(config)
           const executeFake = fake.returns(graphQLResult)
           const parseSpy = spy(gqlParser.parse)
           replace(gqlParser, 'parse', parseSpy)
@@ -315,7 +315,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
             responseHeaders: {},
           }
           const config = mockConfigForGraphQLEnvelope(graphQLEnvelope)
-          const dispatcher = new BoosterGraphQLDispatcher(config)
+          const dispatcher = new MagekGraphQLDispatcher(config)
           const parseSpy = spy(gqlParser, 'parse')
           replace(gqlValidator, 'validate', fake.returns([]))
 
@@ -373,7 +373,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
           }
 
           const config = mockConfigForGraphQLEnvelope(graphQLEnvelope)
-          const dispatcher = new BoosterGraphQLDispatcher(config)
+          const dispatcher = new MagekGraphQLDispatcher(config)
           const executeFake = fake.returns(graphQLResult)
           const parseSpy = spy(gqlParser.parse)
           replace(gqlParser, 'parse', parseSpy)
@@ -381,7 +381,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
           replace(gqlExecutor, 'execute', executeFake)
 
           const fakeVerifier = fake.resolves(currentUser)
-          replace(BoosterTokenVerifier.prototype, 'verify', fakeVerifier)
+          replace(MagekTokenVerifier.prototype, 'verify', fakeVerifier)
           resolverContext.user = currentUser
 
           await dispatcher.dispatch({})
@@ -418,7 +418,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
               },
             })
 
-            const dispatcher = new BoosterGraphQLDispatcher(config)
+            const dispatcher = new MagekGraphQLDispatcher(config)
             await dispatcher.dispatch({})
 
             // Check that the handled error includes all the errors that GraphQL reported
@@ -434,7 +434,7 @@ describe('the `BoosterGraphQLDispatcher`', () => {
               },
             })
 
-            const dispatcher = new BoosterGraphQLDispatcher(config)
+            const dispatcher = new MagekGraphQLDispatcher(config)
             await dispatcher.dispatch({})
 
             // Check that the handled error includes all the errors that GraphQL reported
@@ -446,8 +446,8 @@ describe('the `BoosterGraphQLDispatcher`', () => {
   })
 })
 
-function mockConfigForGraphQLEnvelope(envelope: GraphQLRequestEnvelope | GraphQLRequestEnvelopeError): BoosterConfig {
-  const config = new BoosterConfig('test')
+function mockConfigForGraphQLEnvelope(envelope: GraphQLRequestEnvelope | GraphQLRequestEnvelopeError): MagekConfig {
+  const config = new MagekConfig('test')
   config.provider = {
     graphQL: {
       rawToEnvelope: fake.resolves(envelope),

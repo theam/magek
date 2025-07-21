@@ -1,5 +1,5 @@
 import {
-  BoosterConfig,
+  MagekConfig,
   FilterFor,
   OptimisticConcurrencyUnexpectedVersionError,
   ProjectionFor,
@@ -15,7 +15,7 @@ import { GraphQLService, NedbError, ReadModelRegistry, UNIQUE_VIOLATED_ERROR_TYP
 import { queryRecordFor } from './searcher-adapter'
 
 export async function rawReadModelEventsToEnvelopes(
-  config: BoosterConfig,
+  config: MagekConfig,
   rawEvents: Array<unknown>
 ): Promise<Array<ReadModelEnvelope>> {
   return rawEvents as Array<ReadModelEnvelope>
@@ -23,7 +23,7 @@ export async function rawReadModelEventsToEnvelopes(
 
 export async function fetchReadModel(
   db: ReadModelRegistry,
-  config: BoosterConfig,
+  config: MagekConfig,
   readModelName: string,
   readModelID: UUID
 ): Promise<ReadOnlyNonEmptyArray<ReadModelInterface>> {
@@ -42,7 +42,7 @@ export async function fetchReadModel(
 export async function storeReadModel(
   graphQLService: GraphQLService,
   db: ReadModelRegistry,
-  config: BoosterConfig,
+  config: MagekConfig,
   readModelName: string,
   readModel: ReadModelInterface,
   expectedCurrentVersion: number
@@ -77,7 +77,7 @@ export async function storeReadModel(
 
 export async function searchReadModel(
   db: ReadModelRegistry,
-  config: BoosterConfig,
+  config: MagekConfig,
   readModelName: string,
   filters: FilterFor<unknown>,
   sortBy?: SortFor<unknown>,
@@ -108,7 +108,7 @@ export async function searchReadModel(
 
 export async function deleteReadModel(
   db: ReadModelRegistry,
-  config: BoosterConfig,
+  config: MagekConfig,
   readModelName: string,
   readModel: ReadModelInterface
 ): Promise<void> {

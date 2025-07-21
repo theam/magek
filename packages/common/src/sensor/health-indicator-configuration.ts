@@ -1,5 +1,5 @@
 import { HealthRoleAccess } from '../concepts'
-import { BoosterConfig } from '../config'
+import { MagekConfig } from '../config'
 import { Class } from '../typelevel'
 
 export enum HealthStatus {
@@ -32,7 +32,7 @@ export enum BOOSTER_HEALTH_INDICATORS_IDS {
   ROCKETS = 'rockets',
 }
 
-export const DEFAULT_HEALTH_CONFIGURATION_BOOSTER: SensorBoosterHealthConfigurationDetails = {
+export const DEFAULT_HEALTH_CONFIGURATION_BOOSTER: SensorMagekHealthConfigurationDetails = {
   enabled: false,
   details: true,
   showChildren: true,
@@ -40,7 +40,7 @@ export const DEFAULT_HEALTH_CONFIGURATION_BOOSTER: SensorBoosterHealthConfigurat
 
 export const DEFAULT_SENSOR_HEALTH_BOOSTER_CONFIGURATIONS: Record<
   BOOSTER_HEALTH_INDICATORS_IDS,
-  SensorBoosterHealthConfigurationDetails
+  SensorMagekHealthConfigurationDetails
 > = {
   [BOOSTER_HEALTH_INDICATORS_IDS.ROOT]: { ...DEFAULT_HEALTH_CONFIGURATION_BOOSTER },
   [BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION]: { ...DEFAULT_HEALTH_CONFIGURATION_BOOSTER },
@@ -50,26 +50,26 @@ export const DEFAULT_SENSOR_HEALTH_BOOSTER_CONFIGURATIONS: Record<
   [BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS]: { ...DEFAULT_HEALTH_CONFIGURATION_BOOSTER },
 }
 
-export type SensorBoosterHealthConfigurationDetails = HealthIndicatorConfigurationBase
+export type SensorMagekHealthConfigurationDetails = HealthIndicatorConfigurationBase
 
-export interface SensorBoosterHealthConfiguration {
+export interface SensorMagekHealthConfiguration {
   globalAuthorizer: HealthRoleAccess
   booster: {
-    [BOOSTER_HEALTH_INDICATORS_IDS.ROOT]: SensorBoosterHealthConfigurationDetails
-    [BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION]: SensorBoosterHealthConfigurationDetails
-    [BOOSTER_HEALTH_INDICATORS_IDS.DATABASE]: SensorBoosterHealthConfigurationDetails
-    [BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS]: SensorBoosterHealthConfigurationDetails
-    [BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS]: SensorBoosterHealthConfigurationDetails
-    [BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS]: SensorBoosterHealthConfigurationDetails
+    [BOOSTER_HEALTH_INDICATORS_IDS.ROOT]: SensorMagekHealthConfigurationDetails
+    [BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION]: SensorMagekHealthConfigurationDetails
+    [BOOSTER_HEALTH_INDICATORS_IDS.DATABASE]: SensorMagekHealthConfigurationDetails
+    [BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS]: SensorMagekHealthConfigurationDetails
+    [BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS]: SensorMagekHealthConfigurationDetails
+    [BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS]: SensorMagekHealthConfigurationDetails
   }
 }
 
 export interface SensorConfiguration {
-  health: SensorBoosterHealthConfiguration
+  health: SensorMagekHealthConfiguration
 }
 
 export interface HealthIndicatorInterface {
-  health: (config: BoosterConfig, healthIndicatorMetadata: HealthIndicatorMetadata) => Promise<HealthIndicatorResult>
+  health: (config: MagekConfig, healthIndicatorMetadata: HealthIndicatorMetadata) => Promise<HealthIndicatorResult>
 }
 
 export interface HealthIndicatorConfigurationBase {

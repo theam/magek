@@ -1,14 +1,14 @@
 import {
   NotAuthorizedError,
-  BoosterTokenExpiredError,
-  BoosterTokenNotBeforeError,
+  MagekTokenExpiredError,
+  MagekTokenNotBeforeError,
   UserEnvelope,
-  BoosterConfig,
+  MagekConfig,
 } from '@magek/common'
 import { NotBeforeError, TokenExpiredError } from 'jsonwebtoken'
 
-export class BoosterTokenVerifier {
-  public constructor(private config: BoosterConfig) {}
+export class MagekTokenVerifier {
+  public constructor(private config: MagekConfig) {}
 
   public async verify(token: string): Promise<UserEnvelope> {
     const userEnvelopes = await Promise.allSettled(
@@ -24,17 +24,17 @@ export class BoosterTokenVerifier {
   private rejectVerification(results: Array<PromiseSettledResult<UserEnvelope>>): Promise<UserEnvelope> {
     const tokenExpiredErrors = this.getTokenExpiredErrors(results)
     if (tokenExpiredErrors && tokenExpiredErrors.length > 0) {
-      const reasons = BoosterTokenVerifier.joinReasons(tokenExpiredErrors)
-      return Promise.reject(new BoosterTokenExpiredError(reasons))
+      const reasons = MagekTokenVerifier.joinReasons(tokenExpiredErrors)
+      return Promise.reject(new MagekTokenExpiredError(reasons))
     }
 
     const tokenNotBeforeErrors = this.getTokenNotBeforeErrors(results)
     if (tokenNotBeforeErrors && tokenNotBeforeErrors.length > 0) {
-      const reasons = BoosterTokenVerifier.joinReasons(tokenNotBeforeErrors)
-      return Promise.reject(new BoosterTokenNotBeforeError(reasons))
+      const reasons = MagekTokenVerifier.joinReasons(tokenNotBeforeErrors)
+      return Promise.reject(new MagekTokenNotBeforeError(reasons))
     }
 
-    const reasons = BoosterTokenVerifier.joinReasons(results as Array<PromiseRejectedResult>)
+    const reasons = MagekTokenVerifier.joinReasons(results as Array<PromiseRejectedResult>)
     return Promise.reject(new NotAuthorizedError(reasons))
   }
 

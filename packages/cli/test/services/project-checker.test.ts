@@ -1,10 +1,10 @@
 import * as path from 'path'
 import {
-  checkItIsABoosterProject,
-  checkCurrentDirIsABoosterProject,
+  checkItIsAMagekProject,
+  checkCurrentDirIsAMagekProject,
   checkProjectAlreadyExists,
   checkResourceExists,
-  checkCurrentDirBoosterVersion,
+  checkCurrentDirMagekVersion,
 } from '../../src/services/project-checker'
 import { restore, replace, fake, spy, stub } from 'sinon'
 import { logger } from '../../src/services/logger'
@@ -23,52 +23,52 @@ describe('project checker', () => {
     restore()
   })
 
-  describe('checkCurrentDirIsABoosterProject', () => {
+  describe('checkCurrentDirIsAMagekProject', () => {
     beforeEach(() => {
       restore()
     })
 
-    it('is a Booster project', async () => {
+    it('is a Magek project', async () => {
       replace(process, 'cwd', fake.returns(path.join(process.cwd(), 'test', 'fixtures', 'mock_project')))
       let exceptionThrown = false
-      await checkCurrentDirIsABoosterProject().catch(() => (exceptionThrown = true))
+      await checkCurrentDirIsAMagekProject().catch(() => (exceptionThrown = true))
       expect(exceptionThrown).to.be.equal(false)
     })
 
-    it('is a Booster project with bad index.ts', async () => {
+    it('is a Magek project with bad index.ts', async () => {
       replace(process, 'cwd', fake.returns(path.join(process.cwd(), 'test', 'fixtures', 'mock_project_bad_index')))
       let exceptionThrown = false
-      await checkCurrentDirIsABoosterProject().catch(() => (exceptionThrown = true))
+      await checkCurrentDirIsAMagekProject().catch(() => (exceptionThrown = true))
       expect(exceptionThrown).to.be.equal(true)
     })
 
-    it('is not a Booster project', async () => {
+    it('is not a Magek project', async () => {
       replace(process, 'cwd', fake.returns(path.join(process.cwd(), 'test', 'fixtures')))
       let exceptionThrown = false
-      await checkCurrentDirIsABoosterProject().catch(() => (exceptionThrown = true))
+      await checkCurrentDirIsAMagekProject().catch(() => (exceptionThrown = true))
       expect(exceptionThrown).to.be.equal(true)
     })
   })
 
-  describe('checkItIsABoosterProject', (): void => {
-    it('is a Booster project', async () => {
+  describe('checkItIsAMagekProject', (): void => {
+    it('is a Magek project', async () => {
       const projectPath = path.join(process.cwd(), 'test', 'fixtures', 'mock_project')
       let exceptionThrown = false
-      await checkItIsABoosterProject(projectPath).catch(() => (exceptionThrown = true))
+      await checkItIsAMagekProject(projectPath).catch(() => (exceptionThrown = true))
       expect(exceptionThrown).to.be.equal(false)
     })
 
-    it('is a Booster project with bad index.ts', async () => {
+    it('is a Magek project with bad index.ts', async () => {
       const projectPath = path.join(process.cwd(), 'test', 'fixtures', 'mock_project_bad_index')
       let exceptionThrown = false
-      await checkItIsABoosterProject(projectPath).catch(() => (exceptionThrown = true))
+      await checkItIsAMagekProject(projectPath).catch(() => (exceptionThrown = true))
       expect(exceptionThrown).to.be.equal(true)
     })
 
-    it('is not a Booster project', async () => {
+    it('is not a Magek project', async () => {
       const projectPath = path.join(process.cwd(), 'test', 'fixtures')
       let exceptionThrown = false
-      await checkItIsABoosterProject(projectPath).catch(() => (exceptionThrown = true))
+      await checkItIsAMagekProject(projectPath).catch(() => (exceptionThrown = true))
       expect(exceptionThrown).to.be.equal(true)
     })
   })
@@ -189,7 +189,7 @@ describe('project checker', () => {
     })
   })
 
-  describe('checkCurrentDirBoosterVersion', (): void => {
+  describe('checkCurrentDirMagekVersion', (): void => {
     beforeEach(() => {
       replace(logger, 'info', fake.resolves({}))
     })
@@ -198,7 +198,7 @@ describe('project checker', () => {
       restore()
     })
 
-    describe('inside a Booster project', () => {
+    describe('inside a Magek project', () => {
       //project version in mocked package.json is 1.11.2
       beforeEach(() => {
         replace(process, 'cwd', fake.returns(path.join(process.cwd(), 'test', 'fixtures', 'mock_project')))
@@ -211,7 +211,7 @@ describe('project checker', () => {
       it('versions match', async () => {
         const cliVersion = '1.11.2'
         let exceptionThrown = false
-        await checkCurrentDirBoosterVersion(cliVersion).catch(() => (exceptionThrown = true))
+        await checkCurrentDirMagekVersion(cliVersion).catch(() => (exceptionThrown = true))
         expect(exceptionThrown).to.be.equal(false)
         expect(logger.info).have.not.been.called
       })
@@ -219,24 +219,24 @@ describe('project checker', () => {
       it('versions differs in fix number with cli version greater than project version', async () => {
         const cliVersion = '1.11.3'
         let exceptionThrown = false
-        await checkCurrentDirBoosterVersion(cliVersion).catch(() => (exceptionThrown = true))
+        await checkCurrentDirMagekVersion(cliVersion).catch(() => (exceptionThrown = true))
         expect(exceptionThrown).to.be.equal(false)
-        expect(logger.info).have.been.calledWithMatch(/WARNING: Project Booster version differs in the 'fix' section/)
+        expect(logger.info).have.been.calledWithMatch(/WARNING: Project Magek version differs in the 'fix' section/)
       })
 
       it('versions differs in fix number with cli version lower than project version', async () => {
         const cliVersion = '1.11.0'
         let exceptionThrown = false
-        await checkCurrentDirBoosterVersion(cliVersion).catch(() => (exceptionThrown = true))
+        await checkCurrentDirMagekVersion(cliVersion).catch(() => (exceptionThrown = true))
         expect(exceptionThrown).to.be.equal(false)
-        expect(logger.info).have.been.calledWithMatch(/WARNING: Project Booster version differs in the 'fix' section/)
+        expect(logger.info).have.been.calledWithMatch(/WARNING: Project Magek version differs in the 'fix' section/)
       })
 
       it('cli lower than project version in <feature> section', async () => {
         const cliVersion = '1.10.2'
         let exceptionThrown = false
         let exceptionMessage = ''
-        await checkCurrentDirBoosterVersion(cliVersion).catch((e) => {
+        await checkCurrentDirMagekVersion(cliVersion).catch((e) => {
           exceptionThrown = true
           exceptionMessage = e.message
         })
@@ -249,7 +249,7 @@ describe('project checker', () => {
         const cliVersion = '0.11.2'
         let exceptionThrown = false
         let exceptionMessage = ''
-        await checkCurrentDirBoosterVersion(cliVersion).catch((e) => {
+        await checkCurrentDirMagekVersion(cliVersion).catch((e) => {
           exceptionThrown = true
           exceptionMessage = e.message
         })
@@ -262,12 +262,12 @@ describe('project checker', () => {
         const cliVersion = '1.12.2'
         let exceptionThrown = false
         let exceptionMessage = ''
-        await checkCurrentDirBoosterVersion(cliVersion).catch((e) => {
+        await checkCurrentDirMagekVersion(cliVersion).catch((e) => {
           exceptionThrown = true
           exceptionMessage = e.message
         })
         expect(exceptionThrown).to.be.equal(true)
-        expect(exceptionMessage).to.contain('Please upgrade your project Booster dependencies')
+        expect(exceptionMessage).to.contain('Please upgrade your project Magek dependencies')
         expect(logger.info).have.not.been.called
       })
 
@@ -275,12 +275,12 @@ describe('project checker', () => {
         const cliVersion = '2.11.2'
         let exceptionThrown = false
         let exceptionMessage = ''
-        await checkCurrentDirBoosterVersion(cliVersion).catch((e) => {
+        await checkCurrentDirMagekVersion(cliVersion).catch((e) => {
           exceptionThrown = true
           exceptionMessage = e.message
         })
         expect(exceptionThrown).to.be.equal(true)
-        expect(exceptionMessage).to.contain('Please upgrade your project Booster dependencies')
+        expect(exceptionMessage).to.contain('Please upgrade your project Magek dependencies')
         expect(logger.info).have.not.been.called
       })
 
@@ -288,7 +288,7 @@ describe('project checker', () => {
         const cliVersion = '1.11'
         let exceptionThrown = false
         let exceptionMessage = ''
-        await checkCurrentDirBoosterVersion(cliVersion).catch((e) => {
+        await checkCurrentDirMagekVersion(cliVersion).catch((e) => {
           exceptionThrown = true
           exceptionMessage = e.message
         })
@@ -301,7 +301,7 @@ describe('project checker', () => {
         const cliVersion = '1.11.2.1'
         let exceptionThrown = false
         let exceptionMessage = ''
-        await checkCurrentDirBoosterVersion(cliVersion).catch((e) => {
+        await checkCurrentDirMagekVersion(cliVersion).catch((e) => {
           exceptionThrown = true
           exceptionMessage = e.message
         })
@@ -311,12 +311,12 @@ describe('project checker', () => {
       })
     })
 
-    it('outside a Booster project', async () => {
+    it('outside a Magek project', async () => {
       replace(process, 'cwd', fake.returns(path.join(process.cwd(), 'test', 'fixtures')))
       const cliVersion = '1.11.2'
       let exceptionThrown = false
       let exceptionMessage = ''
-      await checkCurrentDirBoosterVersion(cliVersion).catch((e) => {
+      await checkCurrentDirMagekVersion(cliVersion).catch((e) => {
         exceptionThrown = true
         exceptionMessage = e.message
       })

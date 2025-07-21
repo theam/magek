@@ -2,7 +2,7 @@
 import { describe } from 'mocha'
 import {
   BOOSTER_SUPER_KIND,
-  BoosterConfig,
+  MagekConfig,
   EntityInterface,
   EventEnvelope,
   EventInterface,
@@ -15,14 +15,14 @@ import { fake, replace, restore, stub, match, spy } from 'sinon'
 import { EventStore } from '../../src/services/event-store'
 import { createMockEventStoreAdapter } from '../helpers/event-store-adapter-helper'
 import { expect } from '../expect'
-import { BoosterEntityMigrated } from '../../src/core-concepts/data-migration/events/entity-migrated'
-import { BoosterAuthorizer } from '../../src/authorizer'
+import { MagekEntityMigrated } from '../../src/core-concepts/data-migration/events/entity-migrated'
+import { MagekAuthorizer } from '../../src/authorizer'
 
 describe('EventStore', () => {
   afterEach(() => {
     restore()
   })
-  const testConfig = new BoosterConfig('Test')
+  const testConfig = new MagekConfig('Test')
   testConfig.logLevel = Level.error
 
   class AnEvent {
@@ -61,7 +61,7 @@ describe('EventStore', () => {
     }
   }
 
-  const config = new BoosterConfig('test')
+  const config = new MagekConfig('test')
   config.provider = {
     events: {
       storeSnapshot: () => {},
@@ -76,7 +76,7 @@ describe('EventStore', () => {
   })
   config.entities[AnEntity.name] = {
     class: AnEntity,
-    eventStreamAuthorizer: BoosterAuthorizer.authorizeRoles.bind(null, []),
+    eventStreamAuthorizer: MagekAuthorizer.authorizeRoles.bind(null, []),
   }
   config.reducers[AnEvent.name] = {
     class: AnEntity,
@@ -895,7 +895,7 @@ describe('EventStore', () => {
                 },
               },
               requestID: 'whatever',
-              typeName: BoosterEntityMigrated.name,
+              typeName: MagekEntityMigrated.name,
               superKind: 'booster',
               createdAt: fakeTime.toISOString(),
             }

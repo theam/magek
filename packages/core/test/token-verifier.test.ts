@@ -2,10 +2,10 @@
  
  
 import { expect } from './expect'
-import { BoosterConfig, UserEnvelope, DecodedToken } from '@magek/common'
+import { MagekConfig, UserEnvelope, DecodedToken } from '@magek/common'
 import createJWKSMock from 'mock-jwks'
 import { faker } from '@faker-js/faker'
-import { BoosterTokenVerifier } from '../src/token-verifier'
+import { MagekTokenVerifier } from '../src/token-verifier'
 import { JwksUriTokenVerifier } from '../src/services/token-verifiers/jwks-uri-token-verifier'
 
 describe('the "verifyToken" method', () => {
@@ -15,8 +15,8 @@ describe('the "verifyToken" method', () => {
   const email = faker.internet.email()
   const phoneNumber = faker.phone.number()
   const userId = faker.datatype.uuid()
-  const config = new BoosterConfig('test')
-  let boosterTokenVerifier: BoosterTokenVerifier
+  const config = new MagekConfig('test')
+  let boosterTokenVerifier: MagekTokenVerifier
 
   config.tokenVerifiers = [new JwksUriTokenVerifier(issuer, auth0VerifierUri + '.well-known/jwks.json')]
 
@@ -24,7 +24,7 @@ describe('the "verifyToken" method', () => {
 
   beforeEach(() => {
     stop = jwks.start()
-    boosterTokenVerifier = new BoosterTokenVerifier(config)
+    boosterTokenVerifier = new MagekTokenVerifier(config)
   })
 
   afterEach(() => {
@@ -266,12 +266,12 @@ describe('the "verifyToken" method', () => {
       }
     }
 
-    const configWithExtraValidation = new BoosterConfig('test with extra validation')
+    const configWithExtraValidation = new MagekConfig('test with extra validation')
     configWithExtraValidation.tokenVerifiers = [
       new ExtendedJwksUriTokenVerifier(issuer, auth0VerifierUri + '.well-known/jwks.json'),
     ]
 
-    const tokenVerifier = new BoosterTokenVerifier(configWithExtraValidation)
+    const tokenVerifier = new MagekTokenVerifier(configWithExtraValidation)
     const verifyFunction = tokenVerifier.verify(token)
 
     await expect(verifyFunction).to.eventually.be.rejectedWith('Unauthorized')
@@ -298,12 +298,12 @@ describe('the "verifyToken" method', () => {
       }
     }
 
-    const configWithExtraValidation = new BoosterConfig('test with extra validation')
+    const configWithExtraValidation = new MagekConfig('test with extra validation')
     configWithExtraValidation.tokenVerifiers = [
       new ExtendedJwksUriTokenVerifier2(issuer, auth0VerifierUri + '.well-known/jwks.json'),
     ]
 
-    const tokenVerifier = new BoosterTokenVerifier(configWithExtraValidation)
+    const tokenVerifier = new MagekTokenVerifier(configWithExtraValidation)
     const verifyFunction = tokenVerifier.verify(token)
 
     await expect(verifyFunction).to.eventually.be.rejectedWith('Invalid token encoding')

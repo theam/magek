@@ -1,11 +1,11 @@
 import { GraphQLFieldConfig, GraphQLFieldConfigMap, GraphQLID, GraphQLList, GraphQLNonNull } from 'graphql'
 import { GraphQLResolverContext, ResolverBuilder } from '../common'
-import { AnyClass, BoosterConfig } from '@magek/common'
+import { AnyClass, MagekConfig } from '@magek/common'
 import { GraphQLTypeInformer } from '../graphql-type-informer'
 
 export class GraphqlQueryByKeysGenerator {
   public constructor(
-    private readonly config: BoosterConfig,
+    private readonly config: MagekConfig,
     private readonly readModels: AnyClass[],
     private readonly typeInformer: GraphQLTypeInformer,
     private readonly byIDResolverBuilder: ResolverBuilder

@@ -4,13 +4,13 @@ import { getClassMetadata } from '../../../decorators/metadata'
 import { buildGraphqlSimpleEnumFor, isExternalType, nonExcludedFields } from '../common'
 import { GraphQLInputFieldConfig } from 'graphql/type/definition'
 import { GraphQLTypeInformer } from '../graphql-type-informer'
-import { AnyClass, BoosterConfig } from '@magek/common'
+import { AnyClass, MagekConfig } from '@magek/common'
 
 export class GraphqlQuerySortBuilder {
   private generatedSortByByTypeName: Record<string, GraphQLInputObjectType> = {}
   private orderType = buildGraphqlSimpleEnumFor('orderProperty', ['ASC', 'DESC'])
 
-  constructor(protected readonly typeInformer: GraphQLTypeInformer, protected readonly config: BoosterConfig) {}
+  constructor(protected readonly typeInformer: GraphQLTypeInformer, protected readonly config: MagekConfig) {}
 
   public generateSortArguments(type: AnyClass, excludeProps: Array<string>): GraphQLFieldConfigArgumentMap {
     const metadata = getClassMetadata(type)

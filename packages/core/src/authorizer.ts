@@ -13,7 +13,7 @@ import {
   HealthAuthorizer,
 } from '@magek/common'
 
-export class BoosterAuthorizer {
+export class MagekAuthorizer {
   public static allowAccess(): Promise<void> {
     return Promise.resolve()
   }
@@ -24,20 +24,20 @@ export class BoosterAuthorizer {
 
   public static authorizeRoles(authorizedRoles: Array<Class<RoleInterface>>, user?: UserEnvelope): Promise<void> {
     if (user && userHasSomeRole(user, authorizedRoles)) {
-      return BoosterAuthorizer.allowAccess()
+      return MagekAuthorizer.allowAccess()
     }
-    return BoosterAuthorizer.denyAccess()
+    return MagekAuthorizer.denyAccess()
   }
 
   public static build(
     attributes: CommandRoleAccess | QueryRoleAccess | ReadModelRoleAccess | HealthRoleAccess
   ): CommandAuthorizer | QueryAuthorizer | ReadModelAuthorizer | HealthAuthorizer {
     let authorizer: CommandAuthorizer | QueryAuthorizer | ReadModelAuthorizer | HealthAuthorizer =
-      BoosterAuthorizer.denyAccess
+      MagekAuthorizer.denyAccess
     if (attributes.authorize === 'all') {
-      authorizer = BoosterAuthorizer.allowAccess
+      authorizer = MagekAuthorizer.allowAccess
     } else if (Array.isArray(attributes.authorize)) {
-      authorizer = BoosterAuthorizer.authorizeRoles.bind(null, attributes.authorize)
+      authorizer = MagekAuthorizer.authorizeRoles.bind(null, attributes.authorize)
     } else if (typeof attributes.authorize === 'function') {
       authorizer = attributes.authorize
     }

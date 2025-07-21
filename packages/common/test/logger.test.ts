@@ -5,7 +5,7 @@
 
 import { expect } from './helpers/expect'
 import { fake, replace, restore } from 'sinon'
-import { BoosterConfig, Level, getLogger } from '../src'
+import { MagekConfig, Level, getLogger } from '../src'
 
 describe('the `getLogger method`', () => {
   afterEach(() => {
@@ -23,7 +23,7 @@ describe('the `getLogger method`', () => {
       replace(console, 'warn', fakeConsoleWarn)
       replace(console, 'error', fakeConsoleError)
 
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
       config.logLevel = Level.debug
       const logger = getLogger(config)
       logger.debug('a')
@@ -49,7 +49,7 @@ describe('the `getLogger method`', () => {
       replace(console, 'warn', fakeConsoleWarn)
       replace(console, 'error', fakeConsoleError)
 
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
       config.logLevel = Level.info
       const logger = getLogger(config)
       logger.debug('a')
@@ -75,7 +75,7 @@ describe('the `getLogger method`', () => {
       replace(console, 'warn', fakeConsoleWarn)
       replace(console, 'error', fakeConsoleError)
 
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
       config.logLevel = Level.warn
       const logger = getLogger(config)
       logger.debug('a')
@@ -101,7 +101,7 @@ describe('the `getLogger method`', () => {
       replace(console, 'warn', fakeConsoleWarn)
       replace(console, 'error', fakeConsoleError)
 
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
       config.logLevel = Level.error
       const logger = getLogger(config)
       logger.debug('a')
@@ -124,7 +124,7 @@ describe('the `getLogger method`', () => {
         const fakeConsoleWarn = fake()
         const fakeConsoleError = fake()
 
-        const config = new BoosterConfig('test')
+        const config = new MagekConfig('test')
         config.logger = {
           debug: fakeConsoleDebug,
           info: fakeConsoleInfo,
@@ -137,10 +137,10 @@ describe('the `getLogger method`', () => {
         logger.warn('c')
         logger.error('d')
 
-        expect(fakeConsoleDebug).to.have.been.calledOnceWith('[Booster]: ', 'a')
-        expect(fakeConsoleInfo).to.have.been.calledOnceWith('[Booster]: ', 'b')
-        expect(fakeConsoleWarn).to.have.been.calledOnceWith('[Booster]: ', 'c')
-        expect(fakeConsoleError).to.have.been.calledOnceWith('[Booster]: ', 'd')
+        expect(fakeConsoleDebug).to.have.been.calledOnceWith('[Magek]: ', 'a')
+        expect(fakeConsoleInfo).to.have.been.calledOnceWith('[Magek]: ', 'b')
+        expect(fakeConsoleWarn).to.have.been.calledOnceWith('[Magek]: ', 'c')
+        expect(fakeConsoleError).to.have.been.calledOnceWith('[Magek]: ', 'd')
       })
 
       context('and a location is set', () => {
@@ -150,7 +150,7 @@ describe('the `getLogger method`', () => {
           const fakeConsoleWarn = fake()
           const fakeConsoleError = fake()
 
-          const config = new BoosterConfig('test')
+          const config = new MagekConfig('test')
           config.logger = {
             debug: fakeConsoleDebug,
             info: fakeConsoleInfo,
@@ -163,10 +163,10 @@ describe('the `getLogger method`', () => {
           logger.warn('c')
           logger.error('d')
 
-          expect(fakeConsoleDebug).to.have.been.calledOnceWith('[Booster]|test-location: ', 'a')
-          expect(fakeConsoleInfo).to.have.been.calledOnceWith('[Booster]|test-location: ', 'b')
-          expect(fakeConsoleWarn).to.have.been.calledOnceWith('[Booster]|test-location: ', 'c')
-          expect(fakeConsoleError).to.have.been.calledOnceWith('[Booster]|test-location: ', 'd')
+          expect(fakeConsoleDebug).to.have.been.calledOnceWith('[Magek]|test-location: ', 'a')
+          expect(fakeConsoleInfo).to.have.been.calledOnceWith('[Magek]|test-location: ', 'b')
+          expect(fakeConsoleWarn).to.have.been.calledOnceWith('[Magek]|test-location: ', 'c')
+          expect(fakeConsoleError).to.have.been.calledOnceWith('[Magek]|test-location: ', 'd')
         })
       })
     })
@@ -178,7 +178,7 @@ describe('the `getLogger method`', () => {
         const fakeConsoleWarn = fake()
         const fakeConsoleError = fake()
 
-        const config = new BoosterConfig('test')
+        const config = new MagekConfig('test')
         config.logger = {
           debug: fakeConsoleDebug,
           info: fakeConsoleInfo,
@@ -206,7 +206,7 @@ describe('the `getLogger method`', () => {
         const fakeConsoleWarn = fake()
         const fakeConsoleError = fake()
 
-        const config = new BoosterConfig('test')
+        const config = new MagekConfig('test')
         config.logger = {
           debug: fakeConsoleDebug,
           info: fakeConsoleInfo,
@@ -219,10 +219,10 @@ describe('the `getLogger method`', () => {
         logger.warn('c')
         logger.error('d')
 
-        expect(fakeConsoleDebug).to.have.been.calledOnceWith('[Booster]|ParameterLogger: ', 'a')
-        expect(fakeConsoleInfo).to.have.been.calledOnceWith('[Booster]|ParameterLogger: ', 'b')
-        expect(fakeConsoleWarn).to.have.been.calledOnceWith('[Booster]|ParameterLogger: ', 'c')
-        expect(fakeConsoleError).to.have.been.calledOnceWith('[Booster]|ParameterLogger: ', 'd')
+        expect(fakeConsoleDebug).to.have.been.calledOnceWith('[Magek]|ParameterLogger: ', 'a')
+        expect(fakeConsoleInfo).to.have.been.calledOnceWith('[Magek]|ParameterLogger: ', 'b')
+        expect(fakeConsoleWarn).to.have.been.calledOnceWith('[Magek]|ParameterLogger: ', 'c')
+        expect(fakeConsoleError).to.have.been.calledOnceWith('[Magek]|ParameterLogger: ', 'd')
       })
     })
 
@@ -233,7 +233,7 @@ describe('the `getLogger method`', () => {
         const fakeConsoleWarn = fake()
         const fakeConsoleError = fake()
 
-        const config = new BoosterConfig('test')
+        const config = new MagekConfig('test')
         config.logger = {
           debug: fakeConsoleDebug,
           info: fakeConsoleInfo,
@@ -261,7 +261,7 @@ describe('the `getLogger method`', () => {
         const fakeConsoleWarn = fake()
         const fakeConsoleError = fake()
 
-        const config = new BoosterConfig('test')
+        const config = new MagekConfig('test')
         config.logger = {
           debug: fakeConsoleDebug,
           info: fakeConsoleInfo,

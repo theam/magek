@@ -15,7 +15,7 @@ on:
         required: false
         type: string
       azure-publisher-name:
-        default: Booster App
+        default: Magek App
         required: false
         type: string
 

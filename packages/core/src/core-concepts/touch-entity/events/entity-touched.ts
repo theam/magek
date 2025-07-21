@@ -1,6 +1,6 @@
 import { UUID } from '@magek/common'
 
-export class BoosterEntityTouched {
+export class MagekEntityTouched {
   public constructor(readonly entityName: string, readonly entityId: UUID) {}
 
   public entityID(): UUID {

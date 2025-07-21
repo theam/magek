@@ -1,8 +1,8 @@
-import { Booster } from '../magek'
+import { Magek } from '../magek'
 import { ScheduledCommandInterface, ScheduleInterface } from '@magek/common'
 
 /**
- * Annotation to tell Booster which classes are scheduled commands
+ * Annotation to tell Magek which classes are scheduled commands
  * @param attributes
  * @constructor
  */
@@ -10,7 +10,7 @@ export function ScheduledCommand(
   attributes: ScheduleInterface
 ): (scheduledCommandClass: ScheduledCommandInterface) => void {
   return (commandClass) => {
-    Booster.configureCurrentEnv((config): void => {
+    Magek.configureCurrentEnv((config): void => {
       if (config.scheduledCommandHandlers[commandClass.name]) {
         throw new Error(`A command called ${commandClass.name} is already registered.
         If you think that this is an error, try performing a clean build.`)

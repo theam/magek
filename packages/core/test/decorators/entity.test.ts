@@ -3,14 +3,14 @@
  
 import { expect } from '../expect'
 import { Event, Entity, Reduces, Role } from '../../src/decorators/'
-import { Booster } from '../../src'
+import { Magek } from '../../src'
 import { UserEnvelope, UUID } from '@magek/common'
-import { BoosterAuthorizer } from '../../src/authorizer'
+import { MagekAuthorizer } from '../../src/authorizer'
 import { fake, replace } from 'sinon'
 
 describe('the `Entity` decorator', () => {
   afterEach(() => {
-    Booster.configure('test', (config) => {
+    Magek.configure('test', (config) => {
       config.appName = ''
       for (const propName in config.reducers) {
         delete config.reducers[propName]
@@ -44,10 +44,10 @@ describe('the `Entity` decorator', () => {
         }
       }
 
-      expect(Booster.config.entities['Comment'].class).to.be.equal(Comment)
-      expect(Booster.config.entities['Comment'].eventStreamAuthorizer).to.be.equal(BoosterAuthorizer.denyAccess)
+      expect(Magek.config.entities['Comment'].class).to.be.equal(Comment)
+      expect(Magek.config.entities['Comment'].eventStreamAuthorizer).to.be.equal(MagekAuthorizer.denyAccess)
 
-      expect(Booster.config.reducers['CommentPosted']).to.deep.include({
+      expect(Magek.config.reducers['CommentPosted']).to.deep.include({
         class: Comment,
         methodName: 'react',
       })
@@ -63,9 +63,9 @@ describe('the `Entity` decorator', () => {
         public constructor(readonly id: UUID, readonly content: string) {}
       }
 
-      expect(Booster.config.entities['Comment']).to.deep.equal({
+      expect(Magek.config.entities['Comment']).to.deep.equal({
         class: Comment,
-        eventStreamAuthorizer: BoosterAuthorizer.allowAccess,
+        eventStreamAuthorizer: MagekAuthorizer.allowAccess,
       })
     })
   })
@@ -73,7 +73,7 @@ describe('the `Entity` decorator', () => {
   context('when `authorizeRoleAccess` is set to an array of roles', () => {
     it('injects the entity metadata and sets up the reducers in the booster config allowing event reads to the specified roles', async () => {
       const fakeAuthorizeRoles = fake()
-      replace(BoosterAuthorizer, 'authorizeRoles', fakeAuthorizeRoles)
+      replace(MagekAuthorizer, 'authorizeRoles', fakeAuthorizeRoles)
 
       @Role({
         auth: {},
@@ -87,11 +87,11 @@ describe('the `Entity` decorator', () => {
         public constructor(readonly id: UUID, readonly content: string) {}
       }
 
-      expect(Booster.config.entities['User'].class).to.be.equal(User)
+      expect(Magek.config.entities['User'].class).to.be.equal(User)
       const fakeUserEnvelope = {
         username: 'asdf',
       } as UserEnvelope
-      await Booster.config.entities['User'].eventStreamAuthorizer(fakeUserEnvelope)
+      await Magek.config.entities['User'].eventStreamAuthorizer(fakeUserEnvelope)
       expect(fakeAuthorizeRoles).to.have.been.calledWithMatch([Manager], fakeUserEnvelope)
     })
   })
@@ -108,16 +108,16 @@ describe('the `Entity` decorator', () => {
         public constructor(readonly id: UUID, readonly content: string) {}
       }
 
-      expect(Booster.config.entities['User'].class).to.be.equal(User)
+      expect(Magek.config.entities['User'].class).to.be.equal(User)
       const fakeUserEnvelope = {
         username: 'asdf',
       } as UserEnvelope
-      await expect(Booster.config.entities['User'].eventStreamAuthorizer(fakeUserEnvelope)).to.be.fulfilled
+      await expect(Magek.config.entities['User'].eventStreamAuthorizer(fakeUserEnvelope)).to.be.fulfilled
 
       const fakeUserEnvelope2 = {
         username: 'qwer',
       } as UserEnvelope
-      await expect(Booster.config.entities['User'].eventStreamAuthorizer(fakeUserEnvelope2)).to.be.rejected
+      await expect(Magek.config.entities['User'].eventStreamAuthorizer(fakeUserEnvelope2)).to.be.rejected
     })
   })
 })

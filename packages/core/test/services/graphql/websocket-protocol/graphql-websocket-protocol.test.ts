@@ -6,7 +6,7 @@ import {
   GraphQLStart,
   GraphQLStop,
   MessageTypes,
-  BoosterConfig,
+  MagekConfig,
   ProviderConnectionsLibrary,
   GraphQLRequestEnvelopeError,
   UserEnvelope,
@@ -15,10 +15,10 @@ import {
 import { GraphQLWebsocketHandler } from '../../../../src/services/graphql/websocket-protocol/graphql-websocket-protocol'
 import { ExecutionResult } from 'graphql'
 import { expect } from '../../../expect'
-import { BoosterTokenVerifier } from '../../../../src/token-verifier'
+import { MagekTokenVerifier } from '../../../../src/token-verifier'
 
 describe('the `GraphQLWebsocketHandler`', () => {
-  let config: BoosterConfig
+  let config: MagekConfig
   let websocketHandler: GraphQLWebsocketHandler
   let connectionsManager: ProviderConnectionsLibrary
   let onStartCallback: (
@@ -27,17 +27,17 @@ describe('the `GraphQLWebsocketHandler`', () => {
   let onStopCallback: (connectionID: string, messageID: string) => Promise<void>
   let onTerminateCallback: (connectionID: string) => Promise<void>
   let envelope: GraphQLRequestEnvelope
-  let boosterTokenVerifier: BoosterTokenVerifier
+  let boosterTokenVerifier: MagekTokenVerifier
 
   beforeEach(() => {
-    config = new BoosterConfig('test')
+    config = new MagekConfig('test')
     config.logger = {
       debug: fake(),
       info: fake(),
       warn: fake(),
       error: fake(),
     }
-    boosterTokenVerifier = new BoosterTokenVerifier(config)
+    boosterTokenVerifier = new MagekTokenVerifier(config)
     connectionsManager = {
       sendMessage: stub(),
       deleteData: stub(),

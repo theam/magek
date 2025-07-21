@@ -1,13 +1,13 @@
 import { Flags } from '@oclif/core'
 import BaseCommand from '../common/base-command'
 import { compileProject } from '../services/config-service'
-import { checkCurrentDirIsABoosterProject } from '../services/project-checker'
+import { checkCurrentDirIsAMagekProject } from '../services/project-checker'
 import { Script } from '../common/script'
 import Brand from '../common/brand'
 
 const runTasks = async (compileAndLoad: (ctx: string) => Promise<void>): Promise<void> =>
   Script.init(`boost ${Brand.dangerize('build')} 🚀`, Promise.resolve(process.cwd()))
-    .step('Checking project structure', checkCurrentDirIsABoosterProject)
+    .step('Checking project structure', checkCurrentDirIsAMagekProject)
     .step('Building project', compileAndLoad)
     .info('Build complete!')
     .done()

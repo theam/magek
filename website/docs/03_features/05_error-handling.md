@@ -1,14 +1,14 @@
 # Error handling
 
-## Error handling in Booster
+## Error handling in Magek
 
-Booster provides a default error handling mechanism that will try to catch all the errors that are thrown in the application and will log them. This is useful for debugging purposes, but you may want to customize the error handling in your application. For example, you may want to email the administrator when an error occurs.
+Magek provides a default error handling mechanism that will try to catch all the errors that are thrown in the application and will log them. This is useful for debugging purposes, but you may want to customize the error handling in your application. For example, you may want to email the administrator when an error occurs.
 
 ### Custom error handling
 
 To customize the error handling, you need to create a class decorated with the `@GlobalErrorHandler` decorator. This class will contain the methods that will be called when an error is thrown. There is one method for each component in the application where an error can be thrown. All these functions receive the error that was thrown and the information about the component that was being executed when the error occurred. 
 
-They must return a promise that resolves to an `Error` object or `undefined`. If the promise resolves to `undefined`, the error will be ignored and **Booster** will continue working. If the promise resolves to an `Error` object, the error will be thrown and **Booster** will handle it on a case-by-case basis in the default way.
+They must return a promise that resolves to an `Error` object or `undefined`. If the promise resolves to `undefined`, the error will be ignored and **Magek** will continue working. If the promise resolves to an `Error` object, the error will be thrown and **Magek** will handle it on a case-by-case basis in the default way.
 
 ### Command handle errors
 
@@ -46,7 +46,7 @@ export class MyErrorHandler {
 }
 ```
 
-Note that if an error is thrown on a ScheduleCommand, **Booster** will stop working.
+Note that if an error is thrown on a ScheduleCommand, **Magek** will stop working.
 
 ### Event handler errors
 

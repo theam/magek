@@ -5,7 +5,7 @@ import Brand from '../../common/brand'
 import { HasFields, HasName, joinParsers, parseName, parseFields } from '../../services/generator/target'
 import { generate, template } from '../../services/generator'
 import * as path from 'path'
-import { checkCurrentDirIsABoosterProject } from '../../services/project-checker'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker'
 
 export default class Type extends BaseCommand {
   public static description = 'create a new type'
@@ -40,7 +40,7 @@ type TypeInfo = HasName & HasFields
 
 const run = async (name: string, rawFields: Array<string>): Promise<void> =>
   Script.init(`boost ${Brand.energize('new:type')} 🚧`, joinParsers(parseName(name), parseFields(rawFields)))
-    .step('Verifying project', checkCurrentDirIsABoosterProject)
+    .step('Verifying project', checkCurrentDirIsAMagekProject)
     .step('Creating new type', generateType)
     .info('Type generated!')
     .done()

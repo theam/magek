@@ -3,7 +3,7 @@ import Tabs from '@theme/Tabs'
 
 # Webhook Rocket
 
-This rocket adds a Webhook to your Booster application. When the webhook is called, a function will be executed in your Booster application with request as a parameter.
+This rocket adds a Webhook to your Magek application. When the webhook is called, a function will be executed in your Magek application with request as a parameter.
 
 :::info
 [GitHub Repo](https://github.com/boostercloud/rocket-webhook)
@@ -15,28 +15,28 @@ This rocket adds a Webhook to your Booster application. When the webhook is call
 
 ## Usage
 
-Add your rocket to your application in the Booster configuration file:
+Add your rocket to your application in the Magek configuration file:
 <Tabs groupId="providers-usage">
 <TabItem value="azure-provider" label="Azure Provider" default>
 
 ```typescript
-config.rockets = [buildBoosterWebhook(config).rocketForAzure()]
+config.rockets = [buildMagekWebhook(config).rocketForAzure()]
 ```
 </TabItem>
 <TabItem value="local-provider" label="Local Provider" default>
 
 ```typescript
-config.rockets = [buildBoosterWebhook(config).rocketForLocal()]
+config.rockets = [buildMagekWebhook(config).rocketForLocal()]
 ```
 
 </TabItem>
 </Tabs>
 
 
-Then declare the function to initialize the `BoosterWebhook`:
+Then declare the function to initialize the `MagekWebhook`:
 ```typescript
-function buildBoosterWebhook(config: BoosterConfig): BoosterWebhook {
-    return new BoosterWebhook(config, [
+function buildMagekWebhook(config: MagekConfig): MagekWebhook {
+    return new MagekWebhook(config, [
         {
             origin: 'test',
             handlerClass: TestHandler,

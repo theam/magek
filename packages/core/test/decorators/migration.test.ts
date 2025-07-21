@@ -2,7 +2,7 @@
  
 import { expect } from '../expect'
 import { SchemaMigration, ToVersion } from '../../src/decorators'
-import { Booster } from '../../src'
+import { Magek } from '../../src'
 import { SchemaMigrationMetadata } from '@magek/common'
 import { getMetadata } from '@magek/metadata'
 
@@ -76,7 +76,7 @@ describe('the `ToVersion` decorator', () => {
 
 describe('the `Migrates` annotation', () => {
   afterEach(() => {
-    Booster.configure('test', (config) => {
+    Magek.configure('test', (config) => {
       config.appName = ''
       for (const propName in config.schemaMigrations) {
         delete config.schemaMigrations[propName]
@@ -111,7 +111,7 @@ describe('the `Migrates` annotation', () => {
       }
     }
 
-    Booster.configure('test', (config) => {
+    Magek.configure('test', (config) => {
       expect(Object.keys(config.schemaMigrations).length).to.be.equal(1)
       const productMigrations = config.schemaMigrations[Product.name]
       expect(productMigrations.size).to.be.equal(4)

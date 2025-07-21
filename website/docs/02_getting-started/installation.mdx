@@ -1,30 +1,30 @@
 ---
-description: How to install Booster locally, and start a Booster project in no time.
+description: How to install Magek locally, and start a Magek project in no time.
 ---
 
 import TerminalWindow from '@site/src/components/TerminalWindow/TerminalWindow'
-import {CLInstallBooster} from '@site/src/components/CustomLinkWrappers'
+import {CLInstallMagek} from '@site/src/components/CustomLinkWrappers'
 import TabItem from '@theme/TabItem'
 import Tabs from '@theme/Tabs'
 
 # Installation
 
-You can develop with Booster using any of the following operating systems:
+You can develop with Magek using any of the following operating systems:
 
 - Linux
 - macOS
 - Windows (Native and WSL)
 
-## Booster Prerequisites
+## Magek Prerequisites
 
 ### Install Node.js
 
-The latest version of Booster (`3.x`) requires the current LTS version of Node.js which is `20.x`. Booster releases with versions `2.x` will only work with the previous Node.js LTS version (`18.x`).
+The latest version of Magek (`3.x`) requires the current LTS version of Node.js which is `20.x`. Magek releases with versions `2.x` will only work with the previous Node.js LTS version (`18.x`).
 
 :::info
-For more information on upgrades between Booster v2.x.x and v3.x.x, read [this page](https://github.com/boostercloud/booster/blob/main/upgrade-v3.md).
+For more information on upgrades between Magek v2.x.x and v3.x.x, read [this page](https://github.com/boostercloud/booster/blob/main/upgrade-v3.md).
 
-For more information on upgrades between Booster v1.x.x and v2.x.x, read [this page](https://github.com/boostercloud/booster/blob/main/upgrade-v2.md).
+For more information on upgrades between Magek v1.x.x and v2.x.x, read [this page](https://github.com/boostercloud/booster/blob/main/upgrade-v2.md).
 :::
 
 Download the installer [from Node.js website](https://nodejs.org/en/), or install it using your system's package
@@ -107,7 +107,7 @@ versions:
 
 ### Install Git
 
-Booster will initialize a Git repository when you create a new project (unless you use the `--skipGit` flag), so it is required that you have it already installed in your system.
+Magek will initialize a Git repository when you create a new project (unless you use the `--skipGit` flag), so it is required that you have it already installed in your system.
 
 <Tabs groupId="os">
 <TabItem value="windows" label="Windows">
@@ -162,11 +162,11 @@ git config --global user.email "your_email@youremail.com"
 </TerminalWindow>
 
 
-## Creating Projects and Installing the Booster CLI
+## Creating Projects and Installing the Magek CLI
 
 ### Quick Start: No Installation Required
 
-To create a new Booster project, you don't need to install anything, if you have node installed in your machine, you can run:
+To create a new Magek project, you don't need to install anything, if you have node installed in your machine, you can run:
 
 <TerminalWindow>
 
@@ -178,9 +178,9 @@ npm create booster-ai@latest my-project
 
 This command will create a new project using the latest version without requiring any global installations.
 
-### Installing the Booster CLI (No Global Installation Required)
+### Installing the Magek CLI (No Global Installation Required)
 
-For project development after creation, Booster includes the CLI as a dependency in your project. There's no need for global installation - the CLI is automatically available via `npx` after creating your project.
+For project development after creation, Magek includes the CLI as a dependency in your project. There's no need for global installation - the CLI is automatically available via `npx` after creating your project.
 
 When you create a project using `npm create booster-ai@latest`, the CLI is added as a dependency and can be used immediately:
 
@@ -194,7 +194,7 @@ npx boost version
 
 </TerminalWindow>
 
-Verify the Booster CLI installation with the `npx boost version` command. You should get back something like
+Verify the Magek CLI installation with the `npx boost version` command. You should get back something like
 
 <TerminalWindow>
 
@@ -207,5 +207,5 @@ npx boost version
 </TerminalWindow>
 
 :::tip
-The CLI is automatically included in every Booster project - no global installation needed! Use `npx boost` for all CLI commands within your project directory.
+The CLI is automatically included in every Magek project - no global installation needed! Use `npx boost` for all CLI commands within your project directory.
 :::

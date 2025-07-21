@@ -1,5 +1,5 @@
 import {
-  BoosterConfig,
+  MagekConfig,
   EventEnvelope,
   EventDeleteParameters,
   SnapshotDeleteParameters,
@@ -32,7 +32,7 @@ type DatabaseEntitySnapshotEnvelopeWithId = EntitySnapshotEnvelope & { _id: stri
 
 export async function findDeletableEvent(
   eventRegistry: EventRegistry,
-  config: BoosterConfig,
+  config: MagekConfig,
   parameters: EventDeleteParameters
 ): Promise<Array<EventEnvelopeFromDatabase>> {
   const logger = getLogger(config, 'events-delete-adapter#findDeletableEvent')
@@ -53,7 +53,7 @@ export async function findDeletableEvent(
 
 export async function findDeletableSnapshot(
   eventRegistry: EventRegistry,
-  config: BoosterConfig,
+  config: MagekConfig,
   parameters: SnapshotDeleteParameters
 ): Promise<Array<EntitySnapshotEnvelopeFromDatabase>> {
   const logger = getLogger(config, 'events-delete-adapter#findDeletableSnapshot')
@@ -74,7 +74,7 @@ export async function findDeletableSnapshot(
 
 export async function deleteEvent(
   eventRegistry: EventRegistry,
-  config: BoosterConfig,
+  config: MagekConfig,
   events: Array<EventEnvelopeFromDatabase>
 ): Promise<void> {
   const logger = getLogger(config, 'events-delete-adapter#deleteEvent')
@@ -94,7 +94,7 @@ export async function deleteEvent(
 
 export async function deleteSnapshot(
   eventRegistry: EventRegistry,
-  config: BoosterConfig,
+  config: MagekConfig,
   snapshots: Array<EntitySnapshotEnvelopeFromDatabase>
 ): Promise<void> {
   const logger = getLogger(config, 'events-delete-adapter#deleteSnapshot')

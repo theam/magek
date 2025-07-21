@@ -1,6 +1,6 @@
 import {
   BOOSTER_HEALTH_INDICATORS_IDS,
-  BoosterConfig,
+  MagekConfig,
   HealthIndicatorMetadata,
   HealthStatus,
   ProviderLibrary,
@@ -10,11 +10,11 @@ import { RocketsHealthIndicator } from '../../../src/sensor/health/health-indica
 import { expect } from '../../expect'
 
 describe('RocketsHealthIndicator', () => {
-  let config: BoosterConfig
+  let config: MagekConfig
   let healthIndicatorMetadata: HealthIndicatorMetadata
 
   beforeEach(() => {
-    config = new BoosterConfig('test')
+    config = new MagekConfig('test')
     healthIndicatorMetadata = {
       class: RocketsHealthIndicator,
       healthIndicatorConfiguration: {

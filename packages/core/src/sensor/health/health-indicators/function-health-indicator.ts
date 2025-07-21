@@ -1,14 +1,14 @@
 import {
-  BoosterConfig,
+  MagekConfig,
   HealthIndicatorMetadata,
   HealthIndicatorResult,
   HealthStatus,
 } from '@magek/common'
 import { osInfo } from './os-info'
 
-export class BoosterFunctionHealthIndicator {
+export class MagekFunctionHealthIndicator {
   public async health(
-    config: BoosterConfig,
+    config: MagekConfig,
     healthIndicatorMetadata: HealthIndicatorMetadata
   ): Promise<HealthIndicatorResult> {
     try {
@@ -29,7 +29,7 @@ export class BoosterFunctionHealthIndicator {
     }
   }
 
-  private async isUp(config: BoosterConfig): Promise<HealthStatus> {
+  private async isUp(config: MagekConfig): Promise<HealthStatus> {
     return (await config.provider.sensor.isGraphQLFunctionUp(config)) ? HealthStatus.UP : HealthStatus.DOWN
   }
 }

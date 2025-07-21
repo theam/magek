@@ -2,7 +2,7 @@ import { GraphQLFieldConfigMap, GraphQLID, GraphQLInputObjectType, GraphQLNonNul
 import { ResolverBuilder } from './common'
 import { GraphQLTypeInformer } from './graphql-type-informer'
 import * as inflected from 'inflected'
-import { AnyClass, BoosterConfig } from '@magek/common'
+import { AnyClass, MagekConfig } from '@magek/common'
 import { GraphqlQueryFilterFieldsBuilder } from './query-helpers/graphql-query-filter-fields-builder'
 
 export class GraphQLSubscriptionGenerator {
@@ -14,7 +14,7 @@ export class GraphQLSubscriptionGenerator {
     private readonly byIDResolverBuilder: ResolverBuilder,
     private readonly filterResolverBuilder: ResolverBuilder,
     protected generatedFiltersByTypeName: Record<string, GraphQLInputObjectType> = {},
-    private readonly config: BoosterConfig
+    private readonly config: MagekConfig
   ) {
     this.graphqlQueryFilterFieldsBuilder = new GraphqlQueryFilterFieldsBuilder(
       typeInformer,

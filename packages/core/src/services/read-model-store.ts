@@ -1,7 +1,7 @@
  
 import {
-  BoosterConfig,
-  BoosterMetadata,
+  MagekConfig,
+  MagekMetadata,
   EntityInterface,
   EntityMetadata,
   EntitySnapshotEnvelope,
@@ -22,12 +22,12 @@ import {
   Promises,
   retryIfError,
 } from '@magek/common'
-import { BoosterGlobalErrorDispatcher } from '../global-error-dispatcher'
+import { MagekGlobalErrorDispatcher } from '../global-error-dispatcher'
 import { readModelSearcher } from './read-model-searcher'
 import { ReadModelSchemaMigrator } from '../read-model-schema-migrator'
 
 export class ReadModelStore {
-  public constructor(readonly config: BoosterConfig) {}
+  public constructor(readonly config: MagekConfig) {}
 
   public async project(entitySnapshotEnvelope: EntitySnapshotEnvelope, deleteEvent = false): Promise<void> {
     const logger = getLogger(this.config, 'ReadModelStore#project')
@@ -400,7 +400,7 @@ export class ReadModelStore {
         projectionInfo
       )
     } catch (e) {
-      const globalErrorDispatcher = new BoosterGlobalErrorDispatcher(this.config)
+      const globalErrorDispatcher = new MagekGlobalErrorDispatcher(this.config)
       const error = await globalErrorDispatcher.dispatch(
         new ProjectionGlobalError(entitySnapshotEnvelope, entity, migratedReadModel, projectionMetadata, e)
       )
@@ -453,7 +453,7 @@ export class ReadModelStore {
         entityUpdatedAt: lastProjectedEntity?.createdAt,
         projectionMethod: `${projectionMetadata.class.name}.${projectionMetadata.methodName}`,
       },
-    } as BoosterMetadata
+    } as MagekMetadata
     logger.debug(
       `Storing new version of read model ${readModelName} with ID ${readModelID}, version ${newReadModel.boosterMetadata.version} and expected database version ${expectedCurrentDatabaseVersion}:`,
       newReadModel
@@ -484,7 +484,7 @@ export class ReadModelStore {
       }
       return projectionFunction(entity, readModelID, migratedReadModel || null)
     } catch (e) {
-      const globalErrorDispatcher = new BoosterGlobalErrorDispatcher(this.config)
+      const globalErrorDispatcher = new MagekGlobalErrorDispatcher(this.config)
       const error = await globalErrorDispatcher.dispatch(
         new ProjectionGlobalError(entitySnapshotEnvelope, entity, migratedReadModel, projectionMetadata, e)
       )

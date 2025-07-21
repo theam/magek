@@ -1,6 +1,6 @@
 import { EntityInterface, Instance, UUID } from '@magek/common'
 
-export class BoosterEntityMigrated {
+export class MagekEntityMigrated {
   public constructor(
     readonly oldEntityName: string,
     readonly oldEntityId: UUID,

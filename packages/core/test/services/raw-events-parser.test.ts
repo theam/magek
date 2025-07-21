@@ -1,7 +1,7 @@
 import { describe } from 'mocha'
 import { fake, restore, SinonSpy } from 'sinon'
 import {
-  BoosterConfig,
+  MagekConfig,
   EventEnvelope,
   UUID,
   EntitySnapshotEnvelope,
@@ -33,7 +33,7 @@ describe('RawEventsParser', () => {
 
   let eventSource: Array<EventEnvelope | EntitySnapshotEnvelope>
   let fakeRawToEnvelopes: SinonSpy
-  let config: BoosterConfig
+  let config: MagekConfig
 
   beforeEach(() => {
     persistedEventEnvelopeForEntityA1 = createPersistedEventEnvelope(entityAName, entityAID)
@@ -62,7 +62,7 @@ describe('RawEventsParser', () => {
     ]
 
     fakeRawToEnvelopes = fake.returns(eventSource)
-    config = new BoosterConfig('test')
+    config = new MagekConfig('test')
     config.eventStoreAdapter = createMockEventStoreAdapter({
       rawToEnvelopes: fakeRawToEnvelopes,
     })
@@ -138,7 +138,7 @@ describe('RawEventsParser', () => {
       expect(events).to.deep.equal(entityBEvents)
 
       expect(config.logger?.error).to.have.been.calledWithExactly(
-        '[Booster]|RawEventsParser#streamPerEntityEvents: ',
+        '[Magek]|RawEventsParser#streamPerEntityEvents: ',
         `An error occurred while processing events for entity ${entityAName} with ID ${entityAID}`,
         error
       )

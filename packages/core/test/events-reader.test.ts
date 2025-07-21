@@ -1,13 +1,13 @@
 import { ProviderLibrary, EventSearchRequest, EventSearchResponse, UUID } from '@magek/common'
 import { restore, fake, SinonSpy, match } from 'sinon'
 import { faker } from '@faker-js/faker'
-import { BoosterEventsReader } from '../src/events-reader'
+import { MagekEventsReader } from '../src/events-reader'
 import { expect } from './expect'
-import { Booster } from '../src'
-import { BoosterAuthorizer } from '../src/authorizer'
+import { Magek } from '../src'
+import { MagekAuthorizer } from '../src/authorizer'
 import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
 
-describe('BoosterEventsReader', () => {
+describe('MagekEventsReader', () => {
   class TestEntity {
     public id = 'testID'
   }
@@ -26,7 +26,7 @@ describe('BoosterEventsReader', () => {
   class TestEventReducedByNonRegisteredEntity {}
   class CanReadEventsRole {}
 
-  let eventsReader: BoosterEventsReader
+  let eventsReader: MagekEventsReader
   let providerEventsSearch: SinonSpy
   const searchResult: EventSearchResponse[] = [
     {
@@ -42,8 +42,8 @@ describe('BoosterEventsReader', () => {
   ]
 
   beforeEach(() => {
-    const eventStreamAuthorizer = BoosterAuthorizer.authorizeRoles.bind(null, [CanReadEventsRole])
-    Booster.configureCurrentEnv((config) => {
+    const eventStreamAuthorizer = MagekAuthorizer.authorizeRoles.bind(null, [CanReadEventsRole])
+    Magek.configureCurrentEnv((config) => {
       providerEventsSearch = fake.returns(searchResult)
 
       config.provider = {} as ProviderLibrary
@@ -64,7 +64,7 @@ describe('BoosterEventsReader', () => {
         methodName: 'testReducerMethod',
       }
       config.events[TestEvent.name] = { class: TestEvent }
-      eventsReader = new BoosterEventsReader(config)
+      eventsReader = new MagekEventsReader(config)
     })
   })
 

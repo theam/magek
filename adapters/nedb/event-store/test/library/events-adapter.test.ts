@@ -12,7 +12,7 @@ import {
   EventEnvelope,
   EntitySnapshotEnvelope,
   UUID,
-  BoosterConfig,
+  MagekConfig,
   NonPersistedEventEnvelope,
 } from '@magek/common'
 import { expect } from '../expect'
@@ -20,7 +20,7 @@ import { createMockNonPersistedEventEnvelop, createMockEntitySnapshotEnvelope } 
 import { faker } from '@faker-js/faker'
 
 describe('events-adapter', () => {
-  let mockConfig: BoosterConfig
+  let mockConfig: MagekConfig
   let mockEventEnvelop: NonPersistedEventEnvelope
   let mockSnapshot: EntitySnapshotEnvelope
 
@@ -34,7 +34,7 @@ describe('events-adapter', () => {
   let mockEventRegistry: SinonStubbedInstance<EventRegistry>
 
   beforeEach(() => {
-    mockConfig = new BoosterConfig('test')
+    mockConfig = new MagekConfig('test')
     mockConfig.appName = 'nuke-button'
 
     mockEventEnvelop = createMockNonPersistedEventEnvelop()
@@ -100,7 +100,7 @@ describe('events-adapter', () => {
 
       expect(result).to.be.deep.equal([mockEventEnvelop])
       expect(mockConfig.logger?.debug).to.be.calledWith(
-        '[Booster]|events-adapter#readEntityEventsSince: ',
+        '[Magek]|events-adapter#readEntityEventsSince: ',
         expectedLogMessage,
         [mockEventEnvelop]
       )
@@ -132,7 +132,7 @@ describe('events-adapter', () => {
       it('should call logger with message', async () => {
         const expectedLogMessage = `Loaded events for entity ${mockEntityTypeName} with ID ${mockEntityID} with result:`
         expect(mockConfig.logger?.debug).to.be.calledWith(
-          '[Booster]|events-adapter#readEntityEventsSince: ',
+          '[Magek]|events-adapter#readEntityEventsSince: ',
           expectedLogMessage,
           [mockEventEnvelop]
         )
@@ -161,7 +161,7 @@ describe('events-adapter', () => {
       it('should call logger with message', async () => {
         const expectedLogMessage = `Loaded events for entity ${mockEntityTypeName} with ID ${mockEntityID} with result:`
         expect(mockConfig.logger?.debug).to.be.calledWith(
-          '[Booster]|events-adapter#readEntityEventsSince: ',
+          '[Magek]|events-adapter#readEntityEventsSince: ',
           expectedLogMessage,
           [mockEventEnvelop]
         )
@@ -199,7 +199,7 @@ describe('events-adapter', () => {
         await readEntityLatestSnapshot(mockEventRegistry, mockConfig, mockEntityTypeName, mockEntityID)
 
         expect(loggerDebugStub).to.have.been.calledOnceWithExactly(
-          '[Booster]|events-adapter#readEntityLatestSnapshot: ',
+          '[Magek]|events-adapter#readEntityLatestSnapshot: ',
           `Snapshot found for entity ${mockEntityTypeName} with ID ${mockEntityID}:`,
           mockSnapshot
         )
@@ -221,7 +221,7 @@ describe('events-adapter', () => {
         await readEntityLatestSnapshot(mockEventRegistry, mockConfig, mockEntityTypeName, mockEntityID)
 
         expect(loggerDebugStub).to.have.been.calledOnceWithExactly(
-          '[Booster]|events-adapter#readEntityLatestSnapshot: ',
+          '[Magek]|events-adapter#readEntityLatestSnapshot: ',
           `No snapshot found for entity ${mockEntityTypeName} with ID ${mockEntityID}.`
         )
       })

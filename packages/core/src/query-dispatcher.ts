@@ -1,5 +1,5 @@
 import {
-  BoosterConfig,
+  MagekConfig,
   InvalidParameterError,
   NotFoundError,
   QueryEnvelope,
@@ -9,19 +9,19 @@ import {
   createInstance,
   getLogger,
 } from '@magek/common'
-import { BoosterGlobalErrorDispatcher } from './global-error-dispatcher'
+import { MagekGlobalErrorDispatcher } from './global-error-dispatcher'
 import { GraphQLResolverContext } from './services/graphql/common'
 import { applyBeforeFunctions } from './services/filter-helpers'
 
-export class BoosterQueryDispatcher {
-  private readonly globalErrorDispatcher: BoosterGlobalErrorDispatcher
+export class MagekQueryDispatcher {
+  private readonly globalErrorDispatcher: MagekGlobalErrorDispatcher
 
-  public constructor(readonly config: BoosterConfig) {
-    this.globalErrorDispatcher = new BoosterGlobalErrorDispatcher(config)
+  public constructor(readonly config: MagekConfig) {
+    this.globalErrorDispatcher = new MagekGlobalErrorDispatcher(config)
   }
 
   public async dispatchQuery(queryEnvelope: QueryEnvelope, context: GraphQLResolverContext): Promise<unknown> {
-    const logger = getLogger(this.config, 'BoosterQueryDispatcher#dispatchQuery')
+    const logger = getLogger(this.config, 'MagekQueryDispatcher#dispatchQuery')
     logger.debug('Dispatching the following query envelope: ', queryEnvelope)
     if (!queryEnvelope.version) {
       throw new InvalidParameterError('The required query "version" was not present')

@@ -1,5 +1,5 @@
 import {
-  BoosterConfig,
+  MagekConfig,
   GlobalErrorHandlerInterface,
   GlobalErrorContainer,
   CommandHandlerGlobalError,
@@ -13,15 +13,15 @@ import {
   getLogger,
 } from '@magek/common'
 
-export class BoosterGlobalErrorDispatcher {
+export class MagekGlobalErrorDispatcher {
   public readonly errorHandler: GlobalErrorHandlerInterface | undefined
 
-  public constructor(readonly config: BoosterConfig) {
+  public constructor(readonly config: MagekConfig) {
     this.errorHandler = this.config.globalErrorsHandler?.class
   }
 
   public async dispatch(error: GlobalErrorContainer): Promise<Error | undefined> {
-    const logger = getLogger(this.config, 'BoosterGlobalErrorDispatcher#dispatch')
+    const logger = getLogger(this.config, 'MagekGlobalErrorDispatcher#dispatch')
     if (!this.errorHandler) return error.originalError
 
     let newError: Error | undefined = error.originalError

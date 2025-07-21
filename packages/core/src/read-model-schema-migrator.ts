@@ -1,5 +1,5 @@
 import {
-  BoosterConfig,
+  MagekConfig,
   InvalidVersionError,
   SchemaMigrationMetadata,
   ReadModelInterface,
@@ -9,7 +9,7 @@ import {
 import { Trace } from './instrumentation'
 
 export class ReadModelSchemaMigrator {
-  public constructor(private config: BoosterConfig) {}
+  public constructor(private config: MagekConfig) {}
 
   /**
    * **NOTE:** Read model schema migration is deprecated. Prefer data migration.

@@ -10,8 +10,8 @@ describe('clean', () => {
   describe('Clean class', () => {
     beforeEach(() => {
       replace(configService, 'cleanProject', fake.resolves({}))
-      replace(projectChecker, 'checkCurrentDirIsABoosterProject', fake.resolves({}))
-      replace(projectChecker, 'checkCurrentDirBoosterVersion', fake.resolves({}))
+      replace(projectChecker, 'checkCurrentDirIsAMagekProject', fake.resolves({}))
+      replace(projectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
       replace(oraLogger, 'info', fake.resolves({}))
       replace(oraLogger, 'start', fake.resolves({}))
     })
@@ -20,14 +20,14 @@ describe('clean', () => {
       restore()
     })
 
-    it('init calls checkCurrentDirBoosterVersion', async () => {
+    it('init calls checkCurrentDirMagekVersion', async () => {
       await new Clean.default([], {} as Config).init()
-      expect(projectChecker.checkCurrentDirBoosterVersion).to.have.been.called
+      expect(projectChecker.checkCurrentDirMagekVersion).to.have.been.called
     })
 
     it('runs the command', async () => {
       await new Clean.default([], {} as Config).run()
-      expect(projectChecker.checkCurrentDirIsABoosterProject).to.have.been.called
+      expect(projectChecker.checkCurrentDirIsAMagekProject).to.have.been.called
       expect(configService.cleanProject).to.have.been.called
       expect(oraLogger.start).to.have.been.calledWithMatch('Checking project structure')
       expect(oraLogger.start).to.have.been.calledWithMatch('Cleaning project')

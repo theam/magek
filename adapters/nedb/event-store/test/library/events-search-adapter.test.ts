@@ -1,17 +1,17 @@
-import { BoosterConfig } from '@magek/common'
+import { MagekConfig } from '@magek/common'
 import { createStubInstance, replace, restore, SinonStub, SinonStubbedInstance, stub } from 'sinon'
 import { searchEntitiesIds } from '../../src/library/events-search-adapter'
 import { expect } from '../expect'
 import { EventRegistry } from '../../src/event-registry'
 
 describe('The "searchEntitiesIDs" method', () => {
-  let mockConfig: BoosterConfig
+  let mockConfig: MagekConfig
   let queryStub: SinonStub
   type StubbedClass<T> = SinonStubbedInstance<T> & T
   let mockEventRegistry: SinonStubbedInstance<EventRegistry>
 
   beforeEach(() => {
-    mockConfig = new BoosterConfig('test')
+    mockConfig = new MagekConfig('test')
     queryStub = stub()
 
     mockEventRegistry = createStubInstance(EventRegistry) as StubbedClass<EventRegistry>

@@ -6,7 +6,7 @@ const lightCodeTheme = themes.palenight
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Booster Framework',
+  title: 'Magek Framework',
   staticDirectories: ['static'],
   url: 'https://docs.boosterframework.com',
   baseUrl: '/',
@@ -45,7 +45,7 @@ const config = {
           exclude: ['README.md'],
           sortPosts: 'ascending',
           blogTitle: 'BEEP',
-          blogDescription: 'Booster Evolution Enhancement Proposals',
+          blogDescription: 'Magek Evolution Enhancement Proposals',
           blogSidebarTitle: 'Proposals Index',
           blogSidebarCount: 'ALL',
           editUrl: ({ locale, blogDirPath, blogPath, permalink }) =>
@@ -69,7 +69,7 @@ const config = {
     },
     navbar: {
       logo: {
-        alt: 'Booster Logo',
+        alt: 'Magek Logo',
         src: 'img/booster-logo.png',
       },
       items: [
@@ -109,7 +109,7 @@ const config = {
       ],
     },
     footer: {
-      copyright: `Booster is an open-source initiative from <a href="https://www.theagilemonkeys.com/">The Agile Monkeys.</a>`,
+      copyright: `Magek is an open-source initiative from <a href="https://www.theagilemonkeys.com/">The Agile Monkeys.</a>`,
       links: [
         {
           title: 'Join Us',

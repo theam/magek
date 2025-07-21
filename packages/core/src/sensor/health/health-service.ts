@@ -1,6 +1,6 @@
 import {
   BOOSTER_HEALTH_INDICATORS_IDS,
-  BoosterConfig,
+  MagekConfig,
   HealthAuthorizer,
   HealthEnvelope,
   HealthIndicatorMetadata,
@@ -11,16 +11,16 @@ import {
   createInstance,
 } from '@magek/common'
 import { childHealthProviders, isEnabled, metadataFromId, rootHealthProviders } from './health-utils'
-import { defaultBoosterHealthIndicators } from './health-indicators'
-import { BoosterTokenVerifier } from '../../token-verifier'
-import { BoosterAuthorizer } from '../../authorizer'
+import { defaultMagekHealthIndicators } from './health-indicators'
+import { MagekTokenVerifier } from '../../token-verifier'
+import { MagekAuthorizer } from '../../authorizer'
 
 /**
  * This class is in charge of handling the health check requests
  * and dispatching the health checks to the corresponding health indicators
  */
-export class BoosterHealthService {
-  constructor(readonly config: BoosterConfig) {}
+export class MagekHealthService {
+  constructor(readonly config: MagekConfig) {}
 
   public async boosterHealth(request: unknown): Promise<unknown> {
     try {
@@ -42,7 +42,7 @@ export class BoosterHealthService {
 
   private async validate(healthEnvelope: HealthEnvelope): Promise<void> {
     const userEnvelope = await this.verify(healthEnvelope)
-    const authorizer = BoosterAuthorizer.build(
+    const authorizer = MagekAuthorizer.build(
       this.config.sensorConfiguration.health.globalAuthorizer
     ) as HealthAuthorizer
     await authorizer(userEnvelope, healthEnvelope)
@@ -100,13 +100,13 @@ export class BoosterHealthService {
   }
 
   /**
-   * If there is not any indicator configured, then we will use only the Booster indicators.
+   * If there is not any indicator configured, then we will use only the Magek indicators.
    * @private
    */
   private getHealthProviders(): Record<string, HealthIndicatorMetadata> {
     return Object.keys(this.config.userHealthIndicators).length !== 0
       ? this.config.userHealthIndicators
-      : defaultBoosterHealthIndicators(this.config)
+      : defaultMagekHealthIndicators(this.config)
   }
 
   private parentsHealthProviders(
@@ -141,7 +141,7 @@ export class BoosterHealthService {
   }
 
   private async verify(envelope: HealthEnvelope): Promise<UserEnvelope | undefined> {
-    const boosterTokenVerifier = new BoosterTokenVerifier(this.config)
+    const boosterTokenVerifier = new MagekTokenVerifier(this.config)
     const token = envelope.token
     if (!token) {
       return

@@ -1,5 +1,5 @@
 import {
-  BoosterConfig,
+  MagekConfig,
   EventEnvelope,
   EventHandlerGlobalError,
   EventHandlerInterface,
@@ -17,11 +17,11 @@ import { EventStore } from './services/event-store'
 import { EventsStreamingCallback } from './services/raw-events-parser'
 import { ReadModelStore } from './services/read-model-store'
 import { RegisterHandler } from './register-handler'
-import { BoosterGlobalErrorDispatcher } from './global-error-dispatcher'
+import { MagekGlobalErrorDispatcher } from './global-error-dispatcher'
 import { Trace } from './instrumentation'
 import { BOOSTER_GLOBAL_EVENT_HANDLERS } from './decorators'
 
-export class BoosterEventProcessor {
+export class MagekEventProcessor {
   /**
    * Function that will be called once for each entity from the `RawEventsParser.streamPerEntityEvents` method
    * after the page of events is grouped by entity.
@@ -29,15 +29,15 @@ export class BoosterEventProcessor {
   public static eventProcessor(eventStore: EventStore, readModelStore: ReadModelStore): EventsStreamingCallback {
     return async (entityName, entityID, eventEnvelopes, config) => {
       // Filter events that have already been dispatched
-      const eventsNotDispatched = await BoosterEventProcessor.filterDispatched(config, eventEnvelopes, eventStore)
+      const eventsNotDispatched = await MagekEventProcessor.filterDispatched(config, eventEnvelopes, eventStore)
       const eventEnvelopesProcessors = [
-        BoosterEventProcessor.dispatchEntityEventsToEventHandlers(eventsNotDispatched, config),
+        MagekEventProcessor.dispatchEntityEventsToEventHandlers(eventsNotDispatched, config),
       ]
 
       // Read models are not updated for notification events (events that are not related to an entity but a topic)
       if (!(entityName in config.topicToEvent)) {
         eventEnvelopesProcessors.push(
-          BoosterEventProcessor.snapshotAndUpdateReadModels(config, entityName, entityID, eventStore, readModelStore)
+          MagekEventProcessor.snapshotAndUpdateReadModels(config, entityName, entityID, eventStore, readModelStore)
         )
       }
 
@@ -46,11 +46,11 @@ export class BoosterEventProcessor {
   }
 
   private static async filterDispatched(
-    config: BoosterConfig,
+    config: MagekConfig,
     eventEnvelopes: Array<EventEnvelope>,
     eventStore: EventStore
   ): Promise<Array<EventEnvelope>> {
-    const logger = getLogger(config, 'BoosterEventDispatcher#filterDispatched')
+    const logger = getLogger(config, 'MagekEventDispatcher#filterDispatched')
     const filteredResults = await Promise.all(
       eventEnvelopes.map(async (eventEnvelope) => {
         const result = await eventStore.storeDispatchedEvent(eventEnvelope)
@@ -65,13 +65,13 @@ export class BoosterEventProcessor {
   }
 
   private static async snapshotAndUpdateReadModels(
-    config: BoosterConfig,
+    config: MagekConfig,
     entityName: string,
     entityID: UUID,
     eventStore: EventStore,
     readModelStore: ReadModelStore
   ): Promise<void> {
-    const logger = getLogger(config, 'BoosterEventDispatcher#snapshotAndUpdateReadModels')
+    const logger = getLogger(config, 'MagekEventDispatcher#snapshotAndUpdateReadModels')
     let entitySnapshot = undefined
     try {
       entitySnapshot = await eventStore.fetchEntitySnapshot(entityName, entityID)
@@ -89,9 +89,9 @@ export class BoosterEventProcessor {
   @Trace(TraceActionTypes.EVENT_HANDLERS_PROCESS)
   private static async dispatchEntityEventsToEventHandlers(
     entityEventEnvelopes: Array<EventEnvelope | NotificationInterface>,
-    config: BoosterConfig
+    config: MagekConfig
   ): Promise<void> {
-    const logger = getLogger(config, 'BoosterEventDispatcher.dispatchEntityEventsToEventHandlers')
+    const logger = getLogger(config, 'MagekEventDispatcher.dispatchEntityEventsToEventHandlers')
     try {
       await Promises.allSettledAndFulfilled(
         entityEventEnvelopes.map(async (eventEnvelope) => {
@@ -133,7 +133,7 @@ export class BoosterEventProcessor {
   }
 
   private static getEventInstance(
-    config: BoosterConfig,
+    config: MagekConfig,
     eventEnvelope: EventEnvelope | NotificationInterface
   ): EventInterface {
     const eventClass = config.events[eventEnvelope.typeName] ?? config.notifications[eventEnvelope.typeName]
@@ -144,15 +144,15 @@ export class BoosterEventProcessor {
     eventHandler: EventHandlerInterface,
     eventInstance: EventInterface,
     eventEnvelope: EventEnvelope | NotificationInterface,
-    config: BoosterConfig
+    config: MagekConfig
   ): Promise<void> {
     const register = new Register(eventEnvelope.requestID, {}, RegisterHandler.flush, eventEnvelope.currentUser)
     try {
-      const logger = getLogger(config, 'BoosterEventProcessor#handleEvent')
+      const logger = getLogger(config, 'MagekEventProcessor#handleEvent')
       logger.debug('Calling "handle" method on event handler: ', eventHandler)
       await eventHandler.handle(eventInstance, register)
     } catch (e) {
-      const globalErrorDispatcher = new BoosterGlobalErrorDispatcher(config)
+      const globalErrorDispatcher = new MagekGlobalErrorDispatcher(config)
       const error = await globalErrorDispatcher.dispatch(
         new EventHandlerGlobalError(eventEnvelope, eventInstance, e.eventHandlerMetadata, e)
       )

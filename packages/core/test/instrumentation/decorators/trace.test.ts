@@ -1,18 +1,18 @@
  
-import { BoosterConfig, TraceActionTypes, TraceInfo } from '@magek/common'
-import { Booster, Trace } from '../../../src'
+import { MagekConfig, TraceActionTypes, TraceInfo } from '@magek/common'
+import { Magek, Trace } from '../../../src'
 import { expect } from '../../expect'
 import { stub } from 'sinon'
 
 describe('the `Trace` decorator', async () => {
   afterEach(() => {
-    const booster = Booster as any
+    const booster = Magek as any
     delete booster.config.traceConfiguration
   })
 
   context('When a method is called', async () => {
     it('Injects the correct `this` to the traced method', async () => {
-      Booster.config.traceConfiguration = {
+      Magek.config.traceConfiguration = {
         enableTraceNotification: true,
         includeInternal: false,
         onStart: CustomTracer.onStart,
@@ -27,16 +27,16 @@ describe('the `Trace` decorator', async () => {
     it('onStart and onEnd methods are called in the expected order', async () => {
       const executedMethods: Array<string> = []
       stub(CustomTracer, 'onStart').callsFake(
-        async (_config: BoosterConfig, _actionType: string, _traceInfo: TraceInfo): Promise<void> => {
+        async (_config: MagekConfig, _actionType: string, _traceInfo: TraceInfo): Promise<void> => {
           executedMethods.push('onStart')
         }
       )
       stub(CustomTracer, 'onEnd').callsFake(
-        async (_config: BoosterConfig, _actionType: string, _traceInfo: TraceInfo): Promise<void> => {
+        async (_config: MagekConfig, _actionType: string, _traceInfo: TraceInfo): Promise<void> => {
           executedMethods.push('onEnd')
         }
       )
-      Booster.config.traceConfiguration = {
+      Magek.config.traceConfiguration = {
         enableTraceNotification: true,
         includeInternal: false,
         onStart: CustomTracer.onStart,
@@ -62,7 +62,7 @@ class TestClass {
 }
 
 class CustomTracer {
-  static async onStart(_config: BoosterConfig, _actionType: string, _traceInfo: TraceInfo): Promise<void> {}
+  static async onStart(_config: MagekConfig, _actionType: string, _traceInfo: TraceInfo): Promise<void> {}
 
-  static async onEnd(_config: BoosterConfig, _actionType: string, _traceInfo: TraceInfo): Promise<void> {}
+  static async onEnd(_config: MagekConfig, _actionType: string, _traceInfo: TraceInfo): Promise<void> {}
 }

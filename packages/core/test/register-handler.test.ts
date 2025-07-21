@@ -1,8 +1,8 @@
 import { expect } from './expect'
-import { Register, BoosterConfig, Level, UserEnvelope, UUID } from '@magek/common'
+import { Register, MagekConfig, Level, UserEnvelope, UUID } from '@magek/common'
 import { replace, fake, restore, spy } from 'sinon'
 import { RegisterHandler } from '../src'
-import { BoosterEntityMigrated } from '../src/core-concepts/data-migration/events/entity-migrated'
+import { MagekEntityMigrated } from '../src/core-concepts/data-migration/events/entity-migrated'
 import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
 
 class SomeEntity {
@@ -21,7 +21,7 @@ class SomeNotification {
 }
 
 describe('the `RegisterHandler` class', () => {
-  const testConfig = new BoosterConfig('Test')
+  const testConfig = new MagekConfig('Test')
   testConfig.logLevel = Level.debug
 
   afterEach(() => {
@@ -29,7 +29,7 @@ describe('the `RegisterHandler` class', () => {
   })
 
   it('handles a register', async () => {
-    const config = new BoosterConfig('test')
+    const config = new MagekConfig('test')
     const mockStore = fake()
     config.eventStoreAdapter = createMockEventStoreAdapter({
       store: mockStore,
@@ -53,7 +53,7 @@ describe('the `RegisterHandler` class', () => {
   })
 
   it('does nothing when there are no events', async () => {
-    const config = new BoosterConfig('test')
+    const config = new MagekConfig('test')
     const mockStore = fake()
     config.eventStoreAdapter = createMockEventStoreAdapter({
       store: mockStore,
@@ -67,7 +67,7 @@ describe('the `RegisterHandler` class', () => {
   })
 
   it('stores wrapped events', async () => {
-    const config = new BoosterConfig('test')
+    const config = new MagekConfig('test')
     const mockStore = fake()
     config.eventStoreAdapter = createMockEventStoreAdapter({
       store: mockStore,
@@ -117,7 +117,7 @@ describe('the `RegisterHandler` class', () => {
   })
 
   it('can wrap events to produce eventEnvelopes', () => {
-    const config = new BoosterConfig('test')
+    const config = new MagekConfig('test')
     config.reducers['SomeEvent'] = {
       class: SomeEntity,
       methodName: 'someReducer',
@@ -145,7 +145,7 @@ describe('the `RegisterHandler` class', () => {
   })
 
   it('can wrap notifications to produce eventEnvelopes', () => {
-    const config = new BoosterConfig('test')
+    const config = new MagekConfig('test')
     config.notifications[SomeNotification.name] = {
       class: SomeNotification,
     }
@@ -174,8 +174,8 @@ describe('the `RegisterHandler` class', () => {
   })
 
   it('can wrap internal events to produce eventEnvelopes', () => {
-    const config = new BoosterConfig('test')
-    config.reducers['BoosterEntityMigrated'] = {
+    const config = new MagekConfig('test')
+    config.reducers['MagekEntityMigrated'] = {
       class: SomeEntity,
       methodName: 'someReducer',
     }
@@ -186,7 +186,7 @@ describe('the `RegisterHandler` class', () => {
     }
     const register = new Register('1234', {}, RegisterHandler.flush, user)
     const someEntity = new SomeEntity('42')
-    const event = new BoosterEntityMigrated('oldEntity', 'oldEntityId', 'newEntityName', someEntity)
+    const event = new MagekEntityMigrated('oldEntity', 'oldEntityId', 'newEntityName', someEntity)
 
     const registerHandler = RegisterHandler as any
     expect(registerHandler.wrapEvent(config, event, register)).to.deep.equal({
@@ -198,7 +198,7 @@ describe('the `RegisterHandler` class', () => {
       requestID: '1234',
       value: event,
       currentUser: user,
-      typeName: 'BoosterEntityMigrated',
+      typeName: 'MagekEntityMigrated',
     })
   })
 })

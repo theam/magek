@@ -1,6 +1,6 @@
 # Static Sites Rocket
 
-This package is a configurable Booster rocket to add static site deployment to your Booster applications. It uploads your root.
+This package is a configurable Magek rocket to add static site deployment to your Magek applications. It uploads your root.
 
 :::info
 [GitHub Repo](https://github.com/boostercloud/rocket-static-sites-aws-infrastructure)
@@ -8,19 +8,19 @@ This package is a configurable Booster rocket to add static site deployment to y
 
 ## Usage
  
- Install this package as a dev dependency in your Booster project (It's a dev dependency because it's only used during deployment, but we don't want this code to be uploaded to the project lambdas)
+ Install this package as a dev dependency in your Magek project (It's a dev dependency because it's only used during deployment, but we don't want this code to be uploaded to the project lambdas)
 
  ```bash
  npm install --save-dev @magek/rocket-static-sites-aws-infrastructure
  ```
 
- In your Booster config file, pass a RocketDescriptor in the config.rockets array to configuring the static site rocket:
+ In your Magek config file, pass a RocketDescriptor in the config.rockets array to configuring the static site rocket:
 
  ```typescript
-import { Booster } from '@magek/core'
-import { BoosterConfig } from '@magek/common'
+import { Magek } from '@magek/core'
+import { MagekConfig } from '@magek/common'
 
-Booster.configure('development', (config: BoosterConfig): void => {
+Magek.configure('development', (config: MagekConfig): void => {
   config.appName = 'my-store'
   config.rockets = [
     {

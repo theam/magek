@@ -2,7 +2,7 @@ import { expect } from '../expect'
 import { fancy } from 'fancy-test'
 import { restore, replace, fake } from 'sinon'
 import Prompter from '../../src/services/user-prompt'
-import { ProviderLibrary, BoosterConfig } from '@magek/common'
+import { ProviderLibrary, MagekConfig } from '@magek/common'
 import * as Nuke from '../../src/commands/nuke'
 import * as providerService from '../../src/services/provider-service'
 import { oraLogger } from '../../src/services/logger'
@@ -100,7 +100,7 @@ describe('nuke', () => {
         const prompter = new Prompter()
         const fakePrompter = fake.resolves('fake app')
         replace(prompter, 'defaultOrPrompt', fakePrompter)
-        const fakeNuke = fake((config: BoosterConfig) => {
+        const fakeNuke = fake((config: MagekConfig) => {
           config.logger?.info('this is a progress update')
         })
 
@@ -125,20 +125,20 @@ describe('nuke', () => {
 
   describe('command class', () => {
     beforeEach(() => {
-      const config = new BoosterConfig('fake_environment')
+      const config = new MagekConfig('fake_environment')
       replace(configService, 'compileProjectAndLoadConfig', fake.resolves(config))
       replace(providerService, 'nukeCloudProviderResources', fake.resolves({}))
-      replace(projectChecker, 'checkCurrentDirBoosterVersion', fake.resolves({}))
+      replace(projectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
       replace(oraLogger, 'fail', fake.resolves({}))
       replace(oraLogger, 'info', fake.resolves({}))
       replace(oraLogger, 'start', fake.resolves({}))
       replace(oraLogger, 'succeed', fake.resolves({}))
     })
 
-    it('init calls checkCurrentDirBoosterVersion', async () => {
+    it('init calls checkCurrentDirMagekVersion', async () => {
       const config = await Config.load()
       await new Nuke.default([], config).init()
-      expect(projectChecker.checkCurrentDirBoosterVersion).to.have.been.called
+      expect(projectChecker.checkCurrentDirMagekVersion).to.have.been.called
     })
 
     it('without flags', async () => {

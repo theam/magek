@@ -34,7 +34,7 @@ import { Context } from 'effect'
  * Class used by external packages that needs to get a representation of
  * the booster config. Used mainly for vendor-specific deployment packages
  */
-export class BoosterConfig {
+export class MagekConfig {
   public logLevel: Level = Level.debug
   public logPrefix?: string
   public logger?: Logger
@@ -217,7 +217,7 @@ export class BoosterConfig {
 
   public get userProjectRootPath(): string {
     if (!this._userProjectRootPath)
-      throw new Error('Property "userProjectRootPath" is not set. Ensure you have called "Booster.start"')
+      throw new Error('Property "userProjectRootPath" is not set. Ensure you have called "Magek.start"')
     return this._userProjectRootPath
   }
 
@@ -276,7 +276,7 @@ export class BoosterConfig {
   }
 }
 
-export const BoosterConfigTag = Context.GenericTag<BoosterConfig>('BoosterConfig')
+export const MagekConfigTag = Context.GenericTag<MagekConfig>('MagekConfig')
 
 interface ResourceNames {
   applicationStack: string

@@ -1,6 +1,6 @@
  
 import {
-  BoosterConfig,
+  MagekConfig,
   InvalidParameterError,
   GraphQLRequestEnvelope,
   InvalidProtocolError,
@@ -13,25 +13,25 @@ import {
 import { GraphQLSchema, DocumentNode, ExecutionResult, GraphQLError, OperationTypeNode } from 'graphql'
 import * as graphql from 'graphql'
 import { GraphQLGenerator } from './services/graphql/graphql-generator'
-import { BoosterReadModelsReader } from './read-models-reader'
+import { MagekReadModelsReader } from './read-models-reader'
 import { GraphQLResolverContext } from './services/graphql/common'
 import { NoopReadModelPubSub } from './services/pub-sub/noop-read-model-pub-sub'
 import { GraphQLWebsocketHandler } from './services/graphql/websocket-protocol/graphql-websocket-protocol'
-import { BoosterTokenVerifier } from './token-verifier'
+import { MagekTokenVerifier } from './token-verifier'
 import { Trace } from './instrumentation'
 
 type DispatchResult = AsyncIterableIterator<ExecutionResult> | ExecutionResult | void
 
-export class BoosterGraphQLDispatcher {
+export class MagekGraphQLDispatcher {
   private readonly graphQLSchema: GraphQLSchema
   private readonly websocketHandler: GraphQLWebsocketHandler
-  private readonly readModelDispatcher: BoosterReadModelsReader
-  private readonly boosterTokenVerifier: BoosterTokenVerifier
+  private readonly readModelDispatcher: MagekReadModelsReader
+  private readonly boosterTokenVerifier: MagekTokenVerifier
 
-  public constructor(private config: BoosterConfig) {
-    this.readModelDispatcher = new BoosterReadModelsReader(config)
+  public constructor(private config: MagekConfig) {
+    this.readModelDispatcher = new MagekReadModelsReader(config)
     this.graphQLSchema = GraphQLGenerator.generateSchema(config)
-    this.boosterTokenVerifier = new BoosterTokenVerifier(config)
+    this.boosterTokenVerifier = new MagekTokenVerifier(config)
     this.websocketHandler = new GraphQLWebsocketHandler(
       config,
       this.config.provider.connections,
@@ -46,7 +46,7 @@ export class BoosterGraphQLDispatcher {
 
   @Trace(TraceActionTypes.GRAPHQL_DISPATCH)
   public async dispatch(request: unknown): Promise<unknown> {
-    const logger = getLogger(this.config, 'BoosterGraphQLDispatcher#dispatch')
+    const logger = getLogger(this.config, 'MagekGraphQLDispatcher#dispatch')
     const envelopeOrError = await this.config.provider.graphQL.rawToEnvelope(this.config, request)
     logger.debug('Received the following GraphQL envelope: ', envelopeOrError)
 
@@ -69,7 +69,7 @@ export class BoosterGraphQLDispatcher {
   private async verifyTokenFromEnvelope(
     envelope: GraphQLRequestEnvelope
   ): Promise<GraphQLRequestEnvelope | GraphQLRequestEnvelopeError> {
-    const logger = getLogger(this.config, 'BoosterGraphQLDispatcher#verifyTokenFromEnvelop')
+    const logger = getLogger(this.config, 'MagekGraphQLDispatcher#verifyTokenFromEnvelop')
     if (envelope.token) {
       try {
         logger.debug(`Decoding current user from auth token: ${envelope.token}`)
@@ -89,7 +89,7 @@ export class BoosterGraphQLDispatcher {
     envelope: GraphQLRequestEnvelope | GraphQLRequestEnvelopeError,
     responseHeaders: Record<string, string>
   ): Promise<DispatchResult> {
-    const logger = getLogger(this.config, 'BoosterGraphQLDispatcher#handleMessage')
+    const logger = getLogger(this.config, 'MagekGraphQLDispatcher#handleMessage')
     logger.debug('Starting GraphQL operation:', envelope)
 
     const envelopeOrError = await this.verifyTokenFromEnvelope(envelope)
@@ -105,7 +105,7 @@ export class BoosterGraphQLDispatcher {
     envelope: GraphQLRequestEnvelope | GraphQLRequestEnvelopeError,
     responseHeaders: Record<string, string> = {}
   ): Promise<AsyncIterableIterator<ExecutionResult> | ExecutionResult> {
-    const logger = getLogger(this.config, 'BoosterGraphQLDispatcher#runGraphQLOperation')
+    const logger = getLogger(this.config, 'MagekGraphQLDispatcher#runGraphQLOperation')
     try {
       if ('error' in envelope) {
         throw envelope.error
@@ -171,7 +171,7 @@ export class BoosterGraphQLDispatcher {
     queryDocument: DocumentNode,
     resolverContext: GraphQLResolverContext
   ): Promise<ExecutionResult> {
-    const logger = getLogger(this.config, 'BoosterGraphQLDispatcher#handleQueryOrMutation')
+    const logger = getLogger(this.config, 'MagekGraphQLDispatcher#handleQueryOrMutation')
     const result = await graphql.execute({
       schema: this.graphQLSchema,
       document: queryDocument,
@@ -188,7 +188,7 @@ export class BoosterGraphQLDispatcher {
     queryDocument: DocumentNode,
     resolverContext: GraphQLResolverContext
   ): Promise<AsyncIterableIterator<ExecutionResult> | ExecutionResult> {
-    const logger = getLogger(this.config, 'BoosterGraphQLDispatcher#handleSubscription')
+    const logger = getLogger(this.config, 'MagekGraphQLDispatcher#handleSubscription')
     if (!cameThroughSocket(resolverContext)) {
       throw new InvalidProtocolError(
         'This API and protocol does not support "subscription" operations, only "query" and "mutation". Use the socket API for "subscription"'
@@ -206,7 +206,7 @@ export class BoosterGraphQLDispatcher {
   }
 
   private async handleDisconnect(connectionID?: string): Promise<void> {
-    const logger = getLogger(this.config, 'BoosterGraphQLDispatcher#handleDisconnect')
+    const logger = getLogger(this.config, 'MagekGraphQLDispatcher#handleDisconnect')
     if (!connectionID) {
       // This should be impossible, but just in case
       logger.info("Received a DISCONNECT message but field 'connectionID' is missing. Doing nothing")
@@ -222,10 +222,10 @@ function cameThroughSocket(withConnectionID: { connectionID?: string }): boolean
   return withConnectionID.connectionID != undefined
 }
 
-type BoosterError = Error & { code?: unknown; data?: unknown }
-function toGraphQLErrorWithExtensions(e: BoosterError | GraphQLError): GraphQLError {
+type MagekError = Error & { code?: unknown; data?: unknown }
+function toGraphQLErrorWithExtensions(e: MagekError | GraphQLError): GraphQLError {
   if (e instanceof GraphQLError) {
-    const originalError = e.originalError as BoosterError
+    const originalError = e.originalError as MagekError
     return new GraphQLError(e.message, e.nodes, e.source, e.positions, e.path, originalError, {
       code: originalError?.code,
       data: originalError?.data,

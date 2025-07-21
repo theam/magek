@@ -1,11 +1,11 @@
  
  
-import { BoosterEventDispatcher } from '../src/event-dispatcher'
+import { MagekEventDispatcher } from '../src/event-dispatcher'
 import { fake, replace, restore, SinonSpy } from 'sinon'
-import { BoosterConfig, ProviderLibrary, UUID } from '@magek/common'
+import { MagekConfig, ProviderLibrary, UUID } from '@magek/common'
 import { expect } from './expect'
 import { RawEventsParser } from '../src/services/raw-events-parser'
-import { BoosterEventProcessor } from '../src/event-processor'
+import { MagekEventProcessor } from '../src/event-processor'
 import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
 
 class SomeEvent {
@@ -23,12 +23,12 @@ class SomeNotification {
   public constructor() {}
 }
 
-describe('BoosterEventDispatcher', () => {
+describe('MagekEventDispatcher', () => {
   afterEach(() => {
     restore()
   })
 
-  const config = new BoosterConfig('test')
+  const config = new MagekConfig('test')
   config.provider = {} as ProviderLibrary
   config.events[SomeEvent.name] = { class: SomeEvent }
   config.notifications[SomeNotification.name] = { class: SomeNotification }
@@ -50,12 +50,12 @@ describe('BoosterEventDispatcher', () => {
       it('calls the raw events parser once and processes all messages', async () => {
         replace(RawEventsParser, 'streamPerEntityEvents', fake())
 
-        await BoosterEventDispatcher.dispatch(rawEvents, config)
+        await MagekEventDispatcher.dispatch(rawEvents, config)
 
         expect(RawEventsParser.streamPerEntityEvents).to.have.been.calledWithMatch(
           config,
           events,
-          (BoosterEventProcessor as any).eventProcessor
+          (MagekEventProcessor as any).eventProcessor
         )
       })
 
@@ -64,10 +64,10 @@ describe('BoosterEventDispatcher', () => {
         replace(RawEventsParser, 'streamPerEntityEvents', fake.rejects(error))
 
         const rawEvents = [{ some: 'raw event' }, { some: 'other raw event' }]
-        await expect(BoosterEventDispatcher.dispatch(rawEvents, config)).not.to.be.rejected
+        await expect(MagekEventDispatcher.dispatch(rawEvents, config)).not.to.be.rejected
 
         expect(config.logger?.error).to.have.been.calledWith(
-          '[Booster]|BoosterEventDispatcher#dispatch: ',
+          '[Magek]|MagekEventDispatcher#dispatch: ',
           'Unhandled error while dispatching event: ',
           error
         )

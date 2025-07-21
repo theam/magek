@@ -11,17 +11,17 @@ import {
 } from '@magek/common'
 import { RegisterHandler } from './register-handler'
 import { EventStore } from './services/event-store'
-import { BoosterDataMigrationEntity } from './core-concepts/data-migration/entities/data-migration-entity'
-import { BoosterEntityMigrated } from './core-concepts/data-migration/events/entity-migrated'
-import { Booster } from './index'
-import { BoosterDataMigrationStarted } from './core-concepts/data-migration/events/data-migration-started'
+import { MagekDataMigrationEntity } from './core-concepts/data-migration/entities/data-migration-entity'
+import { MagekEntityMigrated } from './core-concepts/data-migration/events/entity-migrated'
+import { Magek } from './index'
+import { MagekDataMigrationStarted } from './core-concepts/data-migration/events/data-migration-started'
 import { Trace } from './instrumentation'
 
-export class BoosterDataMigrations {
+export class MagekDataMigrations {
   @Trace(TraceActionTypes.MIGRATION_RUN)
   public static async run(): Promise<boolean> {
-    const config = Booster.config
-    const logger = getLogger(config, 'BoosterDataMigrationDispatcher#dispatch')
+    const config = Magek.config
+    const logger = getLogger(config, 'MagekDataMigrationDispatcher#dispatch')
     let migrating = false
 
     const configuredMigrations = config.dataMigrationHandlers
@@ -30,19 +30,19 @@ export class BoosterDataMigrations {
       return false
     }
 
-    const sortedConfiguredMigrations = BoosterDataMigrations.sortConfiguredMigrations(configuredMigrations)
+    const sortedConfiguredMigrations = MagekDataMigrations.sortConfiguredMigrations(configuredMigrations)
     const eventStore = new EventStore(config)
     for (const configuredMigration of Object.values(sortedConfiguredMigrations)) {
       const migrationEntityForConfiguredMigration = await eventStore.fetchEntitySnapshot(
-        BoosterDataMigrationEntity.name,
+        MagekDataMigrationEntity.name,
         configuredMigration.class.name
       )
       if (!migrationEntityForConfiguredMigration) {
         logger.debug('Not found running or finished migrations for the DataMigration', configuredMigration)
         migrating = true
-        await BoosterDataMigrations.migrate(configuredMigration)
+        await MagekDataMigrations.migrate(configuredMigration)
       } else {
-        const boosterDataMigrationEntity = migrationEntityForConfiguredMigration.value as BoosterDataMigrationEntity
+        const boosterDataMigrationEntity = migrationEntityForConfiguredMigration.value as MagekDataMigrationEntity
         if (boosterDataMigrationEntity.status === DataMigrationStatus.RUNNING) {
           logger.debug('Found running migrations for the DataMigration', configuredMigration)
           migrating = true
@@ -60,8 +60,8 @@ export class BoosterDataMigrations {
   ): Promise<void> {
     const requestID = UUID.generate()
     const register = new Register(requestID, {}, RegisterHandler.flush)
-    register.events(new BoosterEntityMigrated(oldEntityName, oldEntityId, newEntity.constructor.name, newEntity))
-    return RegisterHandler.handle(Booster.config, register)
+    register.events(new MagekEntityMigrated(oldEntityName, oldEntityId, newEntity.constructor.name, newEntity))
+    return RegisterHandler.handle(Magek.config, register)
   }
 
   private static sortConfiguredMigrations(
@@ -75,17 +75,17 @@ export class BoosterDataMigrations {
   private static async migrate(migrationHandler: DataMigrationMetadata): Promise<void> {
     const startedRegister = new Register(UUID.generate(), {}, RegisterHandler.flush)
 
-    await BoosterDataMigrations.emitStarted(startedRegister, migrationHandler.class.name)
-    await RegisterHandler.handle(Booster.config, startedRegister)
+    await MagekDataMigrations.emitStarted(startedRegister, migrationHandler.class.name)
+    await RegisterHandler.handle(Magek.config, startedRegister)
 
     const finishedRegister = new Register(UUID.generate(), {}, RegisterHandler.flush)
     await (migrationHandler.class as DataMigrationInterface).start(finishedRegister)
-    await RegisterHandler.handle(Booster.config, finishedRegister)
+    await RegisterHandler.handle(Magek.config, finishedRegister)
   }
 
   private static async emitStarted(register: Register, configuredMigrationName: string): Promise<void> {
-    const logger = getLogger(Booster.config, 'BoosterMigration#emitStarted')
+    const logger = getLogger(Magek.config, 'MagekMigration#emitStarted')
     logger.info('Migration started', configuredMigrationName)
-    register.events(new BoosterDataMigrationStarted(configuredMigrationName, new Date().toISOString()))
+    register.events(new MagekDataMigrationStarted(configuredMigrationName, new Date().toISOString()))
   }
 }

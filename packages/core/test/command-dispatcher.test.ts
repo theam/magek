@@ -1,18 +1,18 @@
  
  
-import { Booster } from '../src/magek'
+import { Magek } from '../src/magek'
 import { fake, replace, restore, spy } from 'sinon'
 import { expect } from './expect'
-import { BoosterCommandDispatcher } from '../src/command-dispatcher'
+import { MagekCommandDispatcher } from '../src/command-dispatcher'
 import { CommandBeforeFunction, Register, NotAuthorizedError } from '@magek/common'
 import { Command, RegisterHandler } from '../src'
 import { faker } from '@faker-js/faker'
-import { BoosterAuthorizer } from '../src/authorizer'
+import { MagekAuthorizer } from '../src/authorizer'
 
-describe('the `BoosterCommandsDispatcher`', () => {
+describe('the `MagekCommandsDispatcher`', () => {
   afterEach(() => {
     restore()
-    Booster.configure('test', (config) => {
+    Magek.configure('test', (config) => {
       config.appName = ''
       for (const propName in config.commandHandlers) {
         delete config.commandHandlers[propName]
@@ -26,9 +26,9 @@ describe('the `BoosterCommandsDispatcher`', () => {
         typeName: 'PostComment',
         value: { comment: 'This comment is pointless' },
       }
-      Booster.configure('test', async (config) => {
+      Magek.configure('test', async (config) => {
         await expect(
-          new BoosterCommandDispatcher(config).dispatchCommand(command as any, {} as any)
+          new MagekCommandDispatcher(config).dispatchCommand(command as any, {} as any)
         ).to.be.eventually.rejectedWith('The required command "version" was not present')
       })
     })
@@ -39,9 +39,9 @@ describe('the `BoosterCommandsDispatcher`', () => {
         typeName: 'PostComment',
         value: { comment: 'This comment is pointless' },
       }
-      Booster.configure('test', async (config) => {
+      Magek.configure('test', async (config) => {
         await expect(
-          new BoosterCommandDispatcher(config).dispatchCommand(command as any, {} as any)
+          new MagekCommandDispatcher(config).dispatchCommand(command as any, {} as any)
         ).to.be.eventually.rejectedWith('Could not find a proper handler for PostComment')
       })
     })
@@ -52,7 +52,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
       const config = {
         commandHandlers: {
           UnauthorizedCommand: {
-            authorizer: BoosterAuthorizer.authorizeRoles.bind(null, [Thor]),
+            authorizer: MagekAuthorizer.authorizeRoles.bind(null, [Thor]),
           },
         },
       }
@@ -66,7 +66,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
       }
 
       await expect(
-        new BoosterCommandDispatcher(config as any).dispatchCommand(commandEnvelope as any, {} as any)
+        new MagekCommandDispatcher(config as any).dispatchCommand(commandEnvelope as any, {} as any)
       ).to.be.eventually.rejectedWith(NotAuthorizedError)
     })
 
@@ -82,7 +82,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
       const config = {
         commandHandlers: {
           ProperlyHandledCommand: {
-            authorizer: BoosterAuthorizer.allowAccess,
+            authorizer: MagekAuthorizer.allowAccess,
             before: [],
             class: ProperlyHandledCommand,
           },
@@ -103,7 +103,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
         requestID: '42',
       }
 
-      await new BoosterCommandDispatcher(config as any).dispatchCommand(commandEnvelope as any, {} as any)
+      await new MagekCommandDispatcher(config as any).dispatchCommand(commandEnvelope as any, {} as any)
 
       expect(fakeHandler).to.have.been.calledWithMatch(commandValue)
     })
@@ -121,7 +121,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
       const config = {
         commandHandlers: {
           ProperlyHandledCommand: {
-            authorizer: BoosterAuthorizer.allowAccess,
+            authorizer: MagekAuthorizer.allowAccess,
             before: [],
             class: ProperlyHandledCommand,
           },
@@ -146,7 +146,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
         responseHeaders: {},
       }
 
-      await new BoosterCommandDispatcher(config as any).dispatchCommand(commandEnvelope as any, context as any)
+      await new MagekCommandDispatcher(config as any).dispatchCommand(commandEnvelope as any, context as any)
 
       expect(ProperlyHandledCommand.handle).to.have.been.calledWithMatch(commandValue, { responseHeaders: {} })
       expect(context.responseHeaders).to.deep.equal({ 'Test-Header': 'test' })
@@ -176,7 +176,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
       const config = {
         commandHandlers: {
           ProperlyHandledCommand: {
-            authorizer: BoosterAuthorizer.allowAccess,
+            authorizer: MagekAuthorizer.allowAccess,
             before: [],
             class: ProperlyHandledCommand,
           },
@@ -197,7 +197,7 @@ describe('the `BoosterCommandsDispatcher`', () => {
         requestID: '42',
       }
 
-      await new BoosterCommandDispatcher(config as any).dispatchCommand(commandEnvelope as any, {} as any)
+      await new MagekCommandDispatcher(config as any).dispatchCommand(commandEnvelope as any, {} as any)
 
       expect(fakeHandler).to.have.been.calledWithMatch(commandValue)
       expect(RegisterHandler.handle).to.have.been.calledWithMatch(config, {
@@ -223,11 +223,11 @@ describe('the `BoosterCommandsDispatcher`', () => {
       replace(RegisterHandler, 'handle', fake())
 
       let boosterConfig: any
-      Booster.configure('test', (config) => {
+      Magek.configure('test', (config) => {
         boosterConfig = config
       })
 
-      await new BoosterCommandDispatcher(boosterConfig).dispatchCommand(
+      await new MagekCommandDispatcher(boosterConfig).dispatchCommand(
         {
           requestID: '1234',
           version: 1,
@@ -272,11 +272,11 @@ describe('the `BoosterCommandsDispatcher`', () => {
         replace(RegisterHandler, 'handle', fake())
 
         let boosterConfig: any
-        Booster.configure('test', (config) => {
+        Magek.configure('test', (config) => {
           boosterConfig = config
         })
 
-        await new BoosterCommandDispatcher(boosterConfig).dispatchCommand(
+        await new MagekCommandDispatcher(boosterConfig).dispatchCommand(
           {
             requestID: '1234',
             version: 1,
@@ -303,11 +303,11 @@ describe('the `BoosterCommandsDispatcher`', () => {
         replace(RegisterHandler, 'handle', fake())
 
         let boosterConfig: any
-        Booster.configure('test', (config) => {
+        Magek.configure('test', (config) => {
           boosterConfig = config
         })
 
-        await new BoosterCommandDispatcher(boosterConfig).dispatchCommand(
+        await new MagekCommandDispatcher(boosterConfig).dispatchCommand(
           {
             requestID: '1234',
             version: 1,

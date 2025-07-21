@@ -10,7 +10,7 @@ import {
 } from '../../services/generator/target'
 import { Script } from '../../common/script'
 import Brand from '../../common/brand'
-import { checkCurrentDirIsABoosterProject } from '../../services/project-checker'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker'
 import { generate, template } from '../../services/generator'
 import * as path from 'path'
 import { classNameToFileName } from '../../common/filenames'
@@ -49,7 +49,7 @@ type EventHandlerInfo = HasName & HasEvent
 
 const run = async (name: string, eventName: string): Promise<void> =>
   Script.init(`boost ${Brand.energize('new:event-handler')} 🚧`, joinParsers(parseName(name), parseEvent(eventName)))
-    .step('Verifying project', checkCurrentDirIsABoosterProject)
+    .step('Verifying project', checkCurrentDirIsAMagekProject)
     .step('Creating new event handler', generateEventHandler)
     .info('Event handler generated!')
     .done()

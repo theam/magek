@@ -1,8 +1,8 @@
 {
   "name": "@magek/core",
   "version": "0.0.1",
-  "description": "Library for your Booster apps",
-  "author": "Boosterin Labs SLU",
+  "description": "Library for your Magek apps",
+  "author": "Magekin Labs SLU",
   "homepage": "https://boosterframework.com",
   "license": "Apache-2.0",
   "publishConfig": {

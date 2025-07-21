@@ -1,7 +1,7 @@
 import {
   createInstance,
-  BoosterConfig,
-  BoosterConfigTag,
+  MagekConfig,
+  MagekConfigTag,
   Class,
   EntityInterface,
   EventDeleteParameters,
@@ -14,15 +14,15 @@ import {
 } from '@magek/common'
 import { Importer } from './importer'
 import { EventStore } from './services/event-store'
-import { BoosterEntityMigrated } from './core-concepts/data-migration/events/entity-migrated'
-import { BoosterDataMigrationEntity } from './core-concepts/data-migration/entities/data-migration-entity'
-import { BoosterDataMigrationStarted } from './core-concepts/data-migration/events/data-migration-started'
-import { BoosterDataMigrationFinished } from './core-concepts/data-migration/events/data-migration-finished'
+import { MagekEntityMigrated } from './core-concepts/data-migration/events/entity-migrated'
+import { MagekDataMigrationEntity } from './core-concepts/data-migration/entities/data-migration-entity'
+import { MagekDataMigrationStarted } from './core-concepts/data-migration/events/data-migration-started'
+import { MagekDataMigrationFinished } from './core-concepts/data-migration/events/data-migration-finished'
 import { JwksUriTokenVerifier, JWT_ENV_VARS } from './services/token-verifiers'
-import { BoosterAuthorizer } from './authorizer'
-import { BoosterEntityTouched } from './core-concepts/touch-entity/events/entity-touched'
+import { MagekAuthorizer } from './authorizer'
+import { MagekEntityTouched } from './core-concepts/touch-entity/events/entity-touched'
 import { readModelSearcher } from './services/read-model-searcher'
-import { BoosterDeleteEventDispatcher } from './delete-event-dispatcher'
+import { MagekDeleteEventDispatcher } from './delete-event-dispatcher'
 import { eventSearch } from './event-search'
 import { Effect, pipe } from 'effect'
 import { Command } from '@effect/cli'
@@ -31,28 +31,28 @@ import * as Injectable from './injectable'
 import { NodeContext, NodeRuntime } from '@effect/platform-node'
 
 /**
- * Main class to interact with Booster and configure it.
+ * Main class to interact with Magek and configure it.
  * Sensible defaults are used whenever possible:
  * - `provider`: `Provider.AWS`
  * - `appName`: `new-booster-app`
  * - `region`: 'eu-west-1'
  *
  */
-export class Booster {
+export class Magek {
   public static readonly configuredEnvironments: Set<string> = new Set<string>()
-  public static readonly config = new BoosterConfig(checkAndGetCurrentEnv())
+  public static readonly config = new MagekConfig(checkAndGetCurrentEnv())
 
-  public static configureCurrentEnv(configurator: (config: BoosterConfig) => void): void {
+  public static configureCurrentEnv(configurator: (config: MagekConfig) => void): void {
     configurator(this.config)
   }
 
   /**
-   * Allows to configure the Booster project.
+   * Allows to configure the Magek project.
    *
    * @param environment The name of the environment you want to configure
    * @param configurator A function that receives the configuration object to set the values
    */
-  public static configure(environment: string, configurator: (config: BoosterConfig) => void): void {
+  public static configure(environment: string, configurator: (config: MagekConfig) => void): void {
     this.configuredEnvironments.add(environment)
     if (this.config.environmentName === environment) {
       configurator(this.config)
@@ -60,7 +60,7 @@ export class Booster {
   }
 
   /**
-   * Initializes the Booster project
+   * Initializes the Magek project
    */
   public static start(codeRootPath: string): void {
     if (!this.config.eventStoreAdapter) {
@@ -69,7 +69,7 @@ export class Booster {
     const projectRootPath = codeRootPath.replace(new RegExp(this.config.codeRelativePath + '$'), '')
     this.config.userProjectRootPath = projectRootPath
     Importer.importUserProjectFiles(codeRootPath)
-    this.configureBoosterConcepts()
+    this.configureMagekConcepts()
     this.loadTokenVerifierFromEnv()
     this.config.validate()
     const args = process.argv
@@ -93,7 +93,7 @@ export class Booster {
         }),
         // TODO: Improve error messages
         Effect.provide(provider),
-        Effect.provideService(BoosterConfigTag, this.config),
+        Effect.provideService(MagekConfigTag, this.config),
         runner
       )
     }
@@ -123,7 +123,7 @@ export class Booster {
   }
 
   public static async deleteEvent(parameters: EventDeleteParameters): Promise<boolean> {
-    return await BoosterDeleteEventDispatcher.deleteEvent(this.config, parameters)
+    return await MagekDeleteEventDispatcher.deleteEvent(this.config, parameters)
   }
 
   /**
@@ -140,43 +140,43 @@ export class Booster {
     return entitySnapshotEnvelope ? createInstance(entityClass, entitySnapshotEnvelope.value) : undefined
   }
 
-  private static configureBoosterConcepts(): void {
+  private static configureMagekConcepts(): void {
     this.configureDataMigrations()
     this.configureTouchEntities()
   }
 
   private static configureDataMigrations(): void {
-    this.config.events[BoosterEntityMigrated.name] = {
-      class: BoosterEntityMigrated,
+    this.config.events[MagekEntityMigrated.name] = {
+      class: MagekEntityMigrated,
     }
 
-    this.config.events[BoosterDataMigrationStarted.name] = {
-      class: BoosterDataMigrationStarted,
+    this.config.events[MagekDataMigrationStarted.name] = {
+      class: MagekDataMigrationStarted,
     }
 
-    this.config.reducers[BoosterDataMigrationStarted.name] = {
-      class: BoosterDataMigrationEntity,
+    this.config.reducers[MagekDataMigrationStarted.name] = {
+      class: MagekDataMigrationEntity,
       methodName: 'started',
     }
 
-    this.config.events[BoosterDataMigrationFinished.name] = {
-      class: BoosterDataMigrationFinished,
+    this.config.events[MagekDataMigrationFinished.name] = {
+      class: MagekDataMigrationFinished,
     }
 
-    this.config.reducers[BoosterDataMigrationFinished.name] = {
-      class: BoosterDataMigrationEntity,
+    this.config.reducers[MagekDataMigrationFinished.name] = {
+      class: MagekDataMigrationEntity,
       methodName: 'finished',
     }
 
-    this.config.entities[BoosterDataMigrationEntity.name] = {
-      class: BoosterDataMigrationEntity,
-      eventStreamAuthorizer: BoosterAuthorizer.denyAccess,
+    this.config.entities[MagekDataMigrationEntity.name] = {
+      class: MagekDataMigrationEntity,
+      eventStreamAuthorizer: MagekAuthorizer.denyAccess,
     }
   }
 
   private static configureTouchEntities(): void {
-    this.config.events[BoosterEntityTouched.name] = {
-      class: BoosterEntityTouched,
+    this.config.events[MagekEntityTouched.name] = {
+      class: MagekEntityTouched,
     }
   }
 
@@ -184,7 +184,7 @@ export class Booster {
    * TODO: We're loading tokenVerifier options from environment variables here for backwards
    * compatibility reasons, but the preferred way to initialize the project token verifiers
    * is by setting an implementation of the `TokenVerifier` interface in the project's config.
-   * The Authentication Booster Rocket for AWS uses this initialization mechanism.
+   * The Authentication Magek Rocket for AWS uses this initialization mechanism.
    *
    * @deprecated [EOL v3] Please set your own implementation of the `TokenVerifier` interface in the project config.
    */
@@ -208,7 +208,7 @@ function checkAndGetCurrentEnv(): string {
   const env = process.env.MAGEK_ENV
   if (!env || env.trim().length == 0) {
     throw new Error(
-      'Booster environment is missing. You need to provide an environment to configure your Booster project'
+      'Magek environment is missing. You need to provide an environment to configure your Magek project'
     )
   }
   return env

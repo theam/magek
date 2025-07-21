@@ -1,17 +1,17 @@
 import { Trace } from './instrumentation'
-import { BoosterConfig, EventStream, TraceActionTypes, getLogger } from '@magek/common'
+import { MagekConfig, EventStream, TraceActionTypes, getLogger } from '@magek/common'
 import { EventStore } from './services/event-store'
 import { ReadModelStore } from './services/read-model-store'
 import { RawEventsParser } from './services/raw-events-parser'
-import { BoosterEventProcessor } from './event-processor'
+import { MagekEventProcessor } from './event-processor'
 
 /**
  * This class consumes events from the event stream and dispatches them to the event handlers
  */
-export class BoosterEventStreamConsumer {
+export class MagekEventStreamConsumer {
   @Trace(TraceActionTypes.CONSUME_STREAM_EVENTS)
-  public static async consume(rawEvents: unknown, config: BoosterConfig): Promise<void> {
-    const logger = getLogger(config, 'BoosterEventDispatcher#dispatch')
+  public static async consume(rawEvents: unknown, config: MagekConfig): Promise<void> {
+    const logger = getLogger(config, 'MagekEventDispatcher#dispatch')
     const eventStore = new EventStore(config)
     const readModelStore = new ReadModelStore(config)
     logger.debug(
@@ -24,7 +24,7 @@ export class BoosterEventStreamConsumer {
       await RawEventsParser.streamPerEntityEvents(
         config,
         eventEnvelopes,
-        BoosterEventProcessor.eventProcessor(eventStore, readModelStore)
+        MagekEventProcessor.eventProcessor(eventStore, readModelStore)
       )
     } catch (e) {
       logger.error('Unhandled error while consuming event: ', e)

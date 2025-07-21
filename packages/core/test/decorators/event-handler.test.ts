@@ -2,13 +2,13 @@
  
 import { expect } from '../expect'
 import { EventHandler } from '../../src/decorators'
-import { Booster } from '../../src'
+import { Magek } from '../../src'
 import { Event } from '../../src/decorators'
-import { UUID, Register, BoosterConfig } from '@magek/common'
+import { UUID, Register, MagekConfig } from '@magek/common'
 
 describe('the `EventHandler` decorator', () => {
   afterEach(() => {
-    Booster.configureCurrentEnv((config: BoosterConfig) => {
+    Magek.configureCurrentEnv((config: MagekConfig) => {
       for (const propName in config.events) {
         delete config.events[propName]
       }
@@ -18,7 +18,7 @@ describe('the `EventHandler` decorator', () => {
     })
   })
 
-  it('registers the event handler class as an event handler in Booster configuration', () => {
+  it('registers the event handler class as an event handler in Magek configuration', () => {
     @Event
     class SomeEvent {
       public entityID(): UUID {
@@ -33,7 +33,7 @@ describe('the `EventHandler` decorator', () => {
       }
     }
 
-    const booster = Booster as any
+    const booster = Magek as any
     const someEventHandlers = booster.config.eventHandlers['SomeEvent']
 
     expect(someEventHandlers).to.be.an('Array')

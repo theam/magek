@@ -4,13 +4,13 @@
 This feature is only available for the Azure provider.
 :::
 
-Booster will store events in batches by default, but this behavior can be disabled with some configuration. The
-`azureConfiguration` property of the `BoosterConfig` object contains properties for enabling/disabling batch storage of
+Magek will store events in batches by default, but this behavior can be disabled with some configuration. The
+`azureConfiguration` property of the `MagekConfig` object contains properties for enabling/disabling batch storage of
 events, setting the size of chunks of each batch, as well as some other options that are applied when events are stored
 in batches.
 
 ```typescript
-Booster.configure('azure', (config: BoosterConfig): void => {
+Magek.configure('azure', (config: MagekConfig): void => {
   // enable/disable event batching (default true)
   config.azureConfiguration.enableEventBatching = false
   config.azureConfiguration.cosmos = {

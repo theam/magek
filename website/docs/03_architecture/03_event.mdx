@@ -6,7 +6,7 @@ An event is a fact of something that has happened in your application. Every act
 
 ## Creating an event
 
-The Booster CLI will help you to create new events. You just need to run the following command and the CLI will generate all the boilerplate for you:
+The Magek CLI will help you to create new events. You just need to run the following command and the CLI will generate all the boilerplate for you:
 
 <TerminalWindow>
 
@@ -20,7 +20,7 @@ This will generate a new file called `stock-moved.ts` in the `src/events` direct
 
 ## Declaring an event
 
-Events are the cornerstone of Booster because of its event-driven and event-sourced nature. Booster events are TypeScript classes decorated with `@Event`. An event class may look like this:
+Events are the cornerstone of Magek because of its event-driven and event-sourced nature. Magek events are TypeScript classes decorated with `@Event`. An event class may look like this:
 
 ```typescript title="src/events/event-name.ts"
 @Event
@@ -33,7 +33,7 @@ The class name is the name of the event. The event name is used to identify the 
 
 ## Events and entities
 
-Events and [Entities](entity) are closely related. Each event will be aggregated (or _reduced_) into an entity. Therefore, Booster needs a way to know which entity is associated with each event. For that reason, it is required to provide an entity ID with each event. You can declare it with a class function named `entityID`. For example:
+Events and [Entities](entity) are closely related. Each event will be aggregated (or _reduced_) into an entity. Therefore, Magek needs a way to know which entity is associated with each event. For that reason, it is required to provide an entity ID with each event. You can declare it with a class function named `entityID`. For example:
 
 ```typescript title="src/events/cart-paid.ts"
 @Event
@@ -60,7 +60,7 @@ Make sure that the `entityID` method always returns the same value for the same 
 
 ## Registering events in the event store
 
-We have shown you how to _declare_ an event in Booster, but we haven't explained how to store them in the event store. In Booster terminology, creating an instance of an event and storing in the event store is known as `registering` it. You can do that on Booster using the `register.events(...)` function. The `register` object is provided as a parameter in the `handle` method of both [commands](command#registering-events) and the [event handlers](event-handler#registering-events). For example:
+We have shown you how to _declare_ an event in Magek, but we haven't explained how to store them in the event store. In Magek terminology, creating an instance of an event and storing in the event store is known as `registering` it. You can do that on Magek using the `register.events(...)` function. The `register` object is provided as a parameter in the `handle` method of both [commands](command#registering-events) and the [event handlers](event-handler#registering-events). For example:
 
 ### Registering events from command handlers
 
@@ -108,7 +108,7 @@ As with commands, you can name events in any way you want, depending on your app
 - CartItemChanged
 - StockMoved
 
-As with other Booster files, events have their own directory:
+As with other Magek files, events have their own directory:
 
 ```text
 <project-root>

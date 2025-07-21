@@ -1,5 +1,5 @@
 ---
-description: Learn how to get Booster health information
+description: Learn how to get Magek health information
 ---
 
 ## Health
@@ -12,15 +12,15 @@ The Health functionality allows users to easily monitor the health status of the
 
 ### Enabling Health Functionality
 
-To enable the Health functionality in your Booster application, follow these steps:
+To enable the Health functionality in your Magek application, follow these steps:
 
-1. Install or update to the latest version of the Booster framework, ensuring compatibility with the Health functionality. 
-2. Enable the Booster Health endpoints in your application's configuration file. Example configuration in config.ts:
+1. Install or update to the latest version of the Magek framework, ensuring compatibility with the Health functionality. 
+2. Enable the Magek Health endpoints in your application's configuration file. Example configuration in config.ts:
 
 ```typescript
 import { Provider } from '@magek/server'
 
-Booster.configure('local', (config: BoosterConfig): void => {
+Magek.configure('local', (config: MagekConfig): void => {
   config.appName = 'my-store'
   config.provider = Provider()
   Object.values(config.sensorConfiguration.health.booster).forEach((indicator) => {
@@ -31,7 +31,7 @@ Booster.configure('local', (config: BoosterConfig): void => {
 
 Or enable only the components you want:
 ```typescript
-Booster.configure('local', (config: BoosterConfig): void => {
+Magek.configure('local', (config: MagekConfig): void => {
   config.appName = 'my-store'
   config.provider = Provider()
   const sensors = config.sensorConfiguration.health.booster
@@ -44,7 +44,7 @@ Booster.configure('local', (config: BoosterConfig): void => {
 
 ```typescript
 import {
-  BoosterConfig,
+  MagekConfig,
   HealthIndicatorResult,
   HealthIndicatorMetadata,
   HealthStatus,
@@ -60,7 +60,7 @@ import { HealthSensor } from '@magek/core'
 })
 export class ApplicationHealthIndicator {
   public async health(
-    config: BoosterConfig,
+    config: MagekConfig,
     healthIndicatorMetadata: HealthIndicatorMetadata
   ): Promise<HealthIndicatorResult> {
     return {
@@ -70,21 +70,21 @@ export class ApplicationHealthIndicator {
 }
 ```
 4. A health check typically involves verifying the connectivity and status of the component, running any necessary tests, and returning an appropriate status code.
-5. Start or restart your Booster application. The Health functionality will be available at the https://your-application-url/sensor/health/ endpoint URL.
+5. Start or restart your Magek application. The Health functionality will be available at the https://your-application-url/sensor/health/ endpoint URL.
 
 
 ### Health Endpoint
 
 The Health functionality provides a dedicated endpoint where users can make GET requests to retrieve the health status of their application. The endpoint URL is: https://your-application-url/sensor/health/
 
-This endpoint will return all the enabled Booster and application components health status. To get specific component health status, add the component status to the url. For example, to get the events status use: https://your-application-url/sensor/health/booster/database/events   
+This endpoint will return all the enabled Magek and application components health status. To get specific component health status, add the component status to the url. For example, to get the events status use: https://your-application-url/sensor/health/booster/database/events   
 
 #### Available endpoints
 
-Booster provides the following endpoints to retrieve the enabled components:
+Magek provides the following endpoints to retrieve the enabled components:
 
 * https://your-application-url/sensor/health/: All the components status
-* https://your-application-url/sensor/health/booster: Booster status 
+* https://your-application-url/sensor/health/booster: Magek status 
 * https://your-application-url/sensor/health/booster/database: Database status
 * https://your-application-url/sensor/health/booster/database/events: Events status
 * https://your-application-url/sensor/health/booster/database/readmodels: ReadModels status
@@ -123,7 +123,7 @@ Example:
         "dbs/my-store-app"
       ]
     },
-    "name": "Booster Database",
+    "name": "Magek Database",
     "id": "booster/database",
     "components": [
       {
@@ -132,7 +132,7 @@ Example:
           "url": "dbs/my-store-app/colls/my-store-app-events-store",
           "count": 6
         },
-        "name": "Booster Database Events",
+        "name": "Magek Database Events",
         "id": "booster/database/events"
       },
       {
@@ -143,7 +143,7 @@ Example:
             "count": 1
           }
         ],
-        "name": "Booster Database ReadModels",
+        "name": "Magek Database ReadModels",
         "id": "booster/database/readmodels"
       }
     ]
@@ -165,7 +165,7 @@ status code.
 
 ### Get specific component health information
 
-Use the `id` field to get specific component health information. Booster provides the following ids:
+Use the `id` field to get specific component health information. Magek provides the following ids:
 
 * booster
 * booster/function
@@ -188,7 +188,7 @@ You can provide new components:
 })
 ```
 
-Add your own components to Booster:
+Add your own components to Magek:
 
 ```typescript
 @HealthSensor({
@@ -197,7 +197,7 @@ Add your own components to Booster:
 ```
 
 
-Or override Booster existing components with your own implementation:
+Or override Magek existing components with your own implementation:
 
 ```typescript
 @HealthSensor({
@@ -217,9 +217,9 @@ Configuration options:
   * Child components will be shown through child urls
 * authorize: Authorize configuration. [See security documentation](https://docs.boosterframework.com/security/security) 
 
-#### Booster components default configuration
+#### Magek components default configuration
 
-Booster sets the following default configuration for its own components:
+Magek sets the following default configuration for its own components:
 
 * enabled: false
 * details: true
@@ -228,7 +228,7 @@ Booster sets the following default configuration for its own components:
 Change this configuration using the `config.sensorConfiguration` object. This object provides:
 
 * config.sensorConfiguration.health.globalAuthorizer: Allow to define authorization configuration
-* config.sensorConfiguration.health.booster: Allow to override default Booster components configuration
+* config.sensorConfiguration.health.booster: Allow to override default Magek components configuration
   * config.sensorConfiguration.health.booster[BOOSTER_COMPONENT_ID].enabled
   * config.sensorConfiguration.health.booster[BOOSTER_COMPONENT_ID].details
   * config.sensorConfiguration.health.booster[BOOSTER_COMPONENT_ID].showChildren
@@ -255,7 +255,7 @@ should define a `health` method that returns a **HealthIndicatorResult**. Exampl
 
 ```typescript
 import {
-  BoosterConfig,
+  MagekConfig,
   HealthIndicatorResult,
   HealthIndicatorMetadata,
   HealthStatus,
@@ -271,7 +271,7 @@ import { HealthSensor } from '@magek/core'
 })
 export class ApplicationHealthIndicator {
   public async health(
-    config: BoosterConfig,
+    config: MagekConfig,
     healthIndicatorMetadata: HealthIndicatorMetadata
   ): Promise<HealthIndicatorResult> {
     return {
@@ -281,12 +281,12 @@ export class ApplicationHealthIndicator {
 }
 ```
 
-### Booster health endpoints
+### Magek health endpoints
 
 #### booster
 * status: UP if and only if graphql function is UP and events are UP
 * details: 
-  * boosterVersion: Booster version number
+  * boosterVersion: Magek version number
 
 #### booster/function
 * status: UP if and only if graphql function is UP
@@ -355,7 +355,7 @@ endpoint: http://your-application-url/sensor/health/rockets/rocket-name
 
 :::note
 Rocket health sensors are only available for the Azure provider. When using the local provider, rocket health status
-will always be UP since rockets run in the same process as the main Booster application. The health check behavior
+will always be UP since rockets run in the same process as the main Magek application. The health check behavior
 described above (UP, PARTIALLY_UP, DOWN, UNKNOWN) applies specifically to the Azure provider where rockets run as
 separate functions.
 :::

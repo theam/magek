@@ -1,7 +1,7 @@
  
 import {
   AnyClass,
-  BoosterConfig,
+  MagekConfig,
   FilterFor,
   GraphQLOperation,
   InvalidParameterError,
@@ -22,14 +22,14 @@ import {
   createInstanceWithCalculatedProperties,
   getLogger,
 } from '@magek/common'
-import { Booster } from './magek'
+import { Magek } from './magek'
 import { applyReadModelRequestBeforeFunctions } from './services/filter-helpers'
 import { ReadModelSchemaMigrator } from './read-model-schema-migrator'
 import { Trace } from './instrumentation'
 import { PropertyMetadata } from '@magek/metadata'
 
-export class BoosterReadModelsReader {
-  public constructor(readonly config: BoosterConfig) {}
+export class MagekReadModelsReader {
+  public constructor(readonly config: MagekConfig) {}
 
   @Trace(TraceActionTypes.READ_MODEL_FIND_BY_ID)
   public async findById(
@@ -48,7 +48,7 @@ export class BoosterReadModelsReader {
     if (!key) {
       throw 'Tried to run a findById operation without providing a key. An ID is required to perform this operation.'
     }
-    const currentReadModel = await Booster.readModel(readModelMetadata.class).findById(key.id, key.sequenceKey)
+    const currentReadModel = await Magek.readModel(readModelMetadata.class).findById(key.id, key.sequenceKey)
     if (currentReadModel) {
       const readModelInstance = createInstance(readModelMetadata.class, currentReadModel)
       const readModelName = readModelMetadata.class.name
@@ -215,7 +215,7 @@ export class BoosterReadModelsReader {
   }
 
   private async validateByIdRequest(readModelByIdRequest: ReadModelRequestEnvelope<ReadModelInterface>): Promise<void> {
-    const logger = getLogger(this.config, 'BoosterReadModelsReader#validateByIdRequest')
+    const logger = getLogger(this.config, 'MagekReadModelsReader#validateByIdRequest')
     logger.debug('Validating the following read model by id request: ', readModelByIdRequest)
     if (!readModelByIdRequest.version) {
       throw new InvalidParameterError('The required request "version" was not present')
@@ -239,7 +239,7 @@ export class BoosterReadModelsReader {
   }
 
   private async validateRequest(readModelRequest: ReadModelRequestEnvelope<ReadModelInterface>): Promise<void> {
-    const logger = getLogger(this.config, 'BoosterReadModelsReader#validateRequest')
+    const logger = getLogger(this.config, 'MagekReadModelsReader#validateRequest')
     logger.debug('Validating the following read model request: ', readModelRequest)
     if (!readModelRequest.version) {
       throw new InvalidParameterError('The required request "version" was not present')
@@ -258,7 +258,7 @@ export class BoosterReadModelsReader {
     readModelRequest: ReadModelRequestEnvelope<ReadModelInterface>,
     operation: GraphQLOperation
   ): Promise<void> {
-    const logger = getLogger(this.config, 'BoosterReadModelsReader#processSubscription')
+    const logger = getLogger(this.config, 'MagekReadModelsReader#processSubscription')
     logger.info(
       `Processing subscription of connection '${connectionID}' to read model '${readModelRequest.class.name}' with the following data: `,
       readModelRequest

@@ -2,7 +2,7 @@
 import { SinonStub, stub, replace, restore, fake } from 'sinon'
 import { rawGraphQLRequestToEnvelope } from '../../src/library/graphql-adapter'
 import { expect } from '../expect'
-import { BoosterConfig, UUID } from '@magek/common'
+import { MagekConfig, UUID } from '@magek/common'
 import { faker } from '@faker-js/faker'
 import { FastifyRequest } from 'fastify'
 
@@ -12,7 +12,7 @@ describe('Local provider graphql-adapter', () => {
     let mockBody: any
     let mockRequest: FastifyRequest
     let mockUserToken: string
-    const mockConfig = new BoosterConfig('test')
+    const mockConfig = new MagekConfig('test')
     mockConfig.logger = {
       debug: fake(),
       info: fake(),
@@ -51,7 +51,7 @@ describe('Local provider graphql-adapter', () => {
       await rawGraphQLRequestToEnvelope(mockConfig, mockRequest)
 
       expect(mockConfig.logger?.debug).to.have.been.calledOnceWith(
-        '[Booster]|graphql-adapter#httpMessageToEnvelope: ',
+        '[Magek]|graphql-adapter#httpMessageToEnvelope: ',
         'Received GraphQL request: \n- Headers: ',
         mockRequest.headers,
         '\n- Body: ',

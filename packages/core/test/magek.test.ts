@@ -1,9 +1,9 @@
 import { expect } from './expect'
-import { Booster } from '../src'
+import { Magek } from '../src'
 import { replace, fake, restore, match, replaceGetter } from 'sinon'
 import { Importer } from '../src/importer'
 import {
-  BoosterConfig,
+  MagekConfig,
   EventParametersFilterByType,
   EventInterface,
   EventSearchResponse,
@@ -18,10 +18,10 @@ import { afterEach } from 'mocha'
 import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
 import { createMockReadModelStoreAdapter } from './helpers/read-model-store-adapter-helper'
 
-describe('the `Booster` class', () => {
+describe('the `Magek` class', () => {
   afterEach(() => {
     restore()
-    Booster.configure('test', (config) => {
+    Magek.configure('test', (config) => {
       config.appName = ''
       for (const propName in config.commandHandlers) {
         delete config.commandHandlers[propName]
@@ -31,14 +31,14 @@ describe('the `Booster` class', () => {
 
   describe('the `configure` method', () => {
     it('can be used to configure the app', () => {
-      const booster = Booster as any
+      const booster = Magek as any
 
-      Booster.configure('test', (config) => {
+      Magek.configure('test', (config) => {
         config.appName = 'test-app-name'
         config.provider = {} as ProviderLibrary
       })
 
-      Booster.configure('another-environment', (config) => {
+      Magek.configure('another-environment', (config) => {
         config.appName = 'this-shouldnt-be-set'
       })
 
@@ -53,20 +53,20 @@ describe('the `Booster` class', () => {
     it('imports all the user files', () => {
       const fakeImporter = fake()
       replace(Importer, 'importUserProjectFiles', fakeImporter)
-      Booster.configureCurrentEnv((config) => {
+      Magek.configureCurrentEnv((config) => {
         config.eventStoreAdapter = createMockEventStoreAdapter()
         config.readModelStoreAdapter = createMockReadModelStoreAdapter()
       })
-      Booster.start('path/to/code')
+      Magek.start('path/to/code')
       expect(fakeImporter).to.have.been.calledOnce
     })
 
     it('throws an error when no eventStoreAdapter is configured', () => {
-      Booster.configureCurrentEnv((config) => {
+      Magek.configureCurrentEnv((config) => {
         config.eventStoreAdapter = undefined
         config.readModelStoreAdapter = createMockReadModelStoreAdapter()
       })
-      expect(() => Booster.start('path/to/code')).to.throw(
+      expect(() => Magek.start('path/to/code')).to.throw(
         'No eventStoreAdapter configured. Please add one in BoosterConfig.'
       )
     })
@@ -98,11 +98,11 @@ describe('the `Booster` class', () => {
       // TODO: Re-enable this test once the readModelStoreAdapter refactor is complete
       const fakeImporter = fake()
       replace(Importer, 'importUserProjectFiles', fakeImporter)
-      Booster.configureCurrentEnv((config) => {
+      Magek.configureCurrentEnv((config) => {
         config.eventStoreAdapter = createMockEventStoreAdapter()
         // config.readModelStoreAdapter = createMockReadModelStoreAdapter()
       })
-      expect(() => Booster.start('path/to/code')).to.not.throw()
+      expect(() => Magek.start('path/to/code')).to.not.throw()
       expect(fakeImporter).to.have.been.calledOnce
     })
   })
@@ -116,7 +116,7 @@ describe('the `Booster` class', () => {
     }
     it('returns a properly configured Searcher', async () => {
       const searcherFunctionFake = fake.resolves([])
-      Booster.configureCurrentEnv((config) => {
+      Magek.configureCurrentEnv((config) => {
         replaceGetter(config, 'provider', () => {
           return {
             readModels: {
@@ -125,7 +125,7 @@ describe('the `Booster` class', () => {
           } as any
         })
       })
-      await Booster.readModel(TestReadModel).search()
+      await Magek.readModel(TestReadModel).search()
       expect(searcherFunctionFake).to.have.been.calledOnceWithExactly(
         match.any,
         TestReadModel.name,
@@ -139,7 +139,7 @@ describe('the `Booster` class', () => {
     })
     it('has an instance method', async () => {
       const searcherFunctionFake = fake.returns([{ id: '42' }])
-      Booster.configureCurrentEnv((config) => {
+      Magek.configureCurrentEnv((config) => {
         replaceGetter(config, 'provider', () => {
           return {
             readModels: {
@@ -148,7 +148,7 @@ describe('the `Booster` class', () => {
           } as any
         })
       })
-      const readModels = (await Booster.readModel(TestReadModel).search()) as Array<TestReadModel>
+      const readModels = (await Magek.readModel(TestReadModel).search()) as Array<TestReadModel>
       for (const readModel of readModels) {
         expect(readModel.getId()).to.not.throw
       }
@@ -158,13 +158,13 @@ describe('the `Booster` class', () => {
   describe('the `entitiesIDs` method', () => {
     it('has an instance method', async () => {
       const providerSearchEntitiesIds = fake.resolves([])
-      Booster.configureCurrentEnv((config) => {
+      Magek.configureCurrentEnv((config) => {
         config.provider = {} as ProviderLibrary
         config.eventStoreAdapter = createMockEventStoreAdapter({
           searchEntitiesIDs: providerSearchEntitiesIds,
         })
       })
-      await Booster.entitiesIDs('TestEvent', 1, undefined)
+      await Magek.entitiesIDs('TestEvent', 1, undefined)
       expect(providerSearchEntitiesIds).to.have.been.calledOnce
     })
   })
@@ -190,7 +190,7 @@ describe('the `Booster` class', () => {
 
     afterEach(() => {
       restore()
-      Booster.configureCurrentEnv((config) => {
+      Magek.configureCurrentEnv((config) => {
         config.appName = ''
         for (const propName in config.events) {
           delete config.events[propName]
@@ -227,7 +227,7 @@ describe('the `Booster` class', () => {
         },
       ]
       const providerEventsSearch = fake.resolves(searchResult)
-      Booster.configureCurrentEnv((config) => {
+      Magek.configureCurrentEnv((config) => {
         config.provider = {} as ProviderLibrary
         config.eventStoreAdapter = createMockEventStoreAdapter({
           search: providerEventsSearch,
@@ -240,7 +240,7 @@ describe('the `Booster` class', () => {
         type: TestEvent.name,
       }
 
-      const events = await Booster.events(eventFilterByType)
+      const events = await Magek.events(eventFilterByType)
 
       for (const event of events) {
         let eventValue
@@ -287,7 +287,7 @@ describe('the `Booster` class', () => {
         },
       ]
       const providerEventsSearch = fake.resolves(searchResult)
-      Booster.configureCurrentEnv((config) => {
+      Magek.configureCurrentEnv((config) => {
         config.provider = {} as ProviderLibrary
         config.eventStoreAdapter = createMockEventStoreAdapter({
           search: providerEventsSearch,
@@ -299,7 +299,7 @@ describe('the `Booster` class', () => {
         type: TestEvent.name,
       }
 
-      const events = await Booster.events(eventFilterByType)
+      const events = await Magek.events(eventFilterByType)
 
       for (const event of events) {
         let eventValue
@@ -335,7 +335,7 @@ describe('the `Booster` class', () => {
         },
       ]
       const providerEventsSearch = fake.resolves(searchResult)
-      Booster.configureCurrentEnv((config) => {
+      Magek.configureCurrentEnv((config) => {
         config.provider = {} as ProviderLibrary
         config.eventStoreAdapter = createMockEventStoreAdapter({
           search: providerEventsSearch,
@@ -347,7 +347,7 @@ describe('the `Booster` class', () => {
         type: TestEvent.name,
       }
 
-      const events = await Booster.events(eventFilterByType)
+      const events = await Magek.events(eventFilterByType)
 
       for (const event of events) {
         let eventValue
@@ -366,8 +366,8 @@ describe('the `Booster` class', () => {
   })
 
   describe('The `entity` method', () => {
-    context('given a BoosterConfig', () => {
-      const config = new BoosterConfig('test')
+    context('given a MagekConfig', () => {
+      const config = new MagekConfig('test')
       config.provider = {} as ProviderLibrary
 
       it('the `entity` function calls to the `fetchEntitySnapshot` method in the EventStore', async () => {
@@ -376,7 +376,7 @@ describe('the `Booster` class', () => {
         class SomeEntity {
           public constructor(readonly id: UUID) {}
         }
-        const snapshot = await Booster.entity(SomeEntity, '42')
+        const snapshot = await Magek.entity(SomeEntity, '42')
 
         expect(snapshot).to.be.deep.equal({ id: '42' })
         expect(EventStore.prototype.fetchEntitySnapshot).to.have.been.calledOnceWith('SomeEntity', '42')
@@ -391,7 +391,7 @@ describe('the `Booster` class', () => {
             return this.id
           }
         }
-        const snapshot = await Booster.entity(SomeEntity, '42')
+        const snapshot = await Magek.entity(SomeEntity, '42')
         snapshot?.getId()
         if (snapshot) {
           expect(snapshot?.getId()).to.not.throw
@@ -413,16 +413,16 @@ describe('the `Booster` class', () => {
         delete process.env.BOOSTER_JWKS_URI
         delete process.env.BOOSTER_ROLES_CLAIM
 
-        Booster.config.tokenVerifiers = []
+        Magek.config.tokenVerifiers = []
       })
 
       it('does alter the token verifiers config', () => {
-        expect(Booster.config.tokenVerifiers).to.be.empty
+        expect(Magek.config.tokenVerifiers).to.be.empty
 
-        const booster = Booster as any
+        const booster = Magek as any
         booster.loadTokenVerifierFromEnv()
 
-        const tokenVerifierConfig = Booster.config.tokenVerifiers
+        const tokenVerifierConfig = Magek.config.tokenVerifiers
         expect(tokenVerifierConfig.length).to.be.equal(1)
         expect(tokenVerifierConfig[0]).to.be.an.instanceOf(JwksUriTokenVerifier)
         expect((tokenVerifierConfig[0] as JwksUriTokenVerifier).issuer).to.be.equal('BOOSTER_JWT_ISSUER_VALUE')
@@ -433,12 +433,12 @@ describe('the `Booster` class', () => {
 
     context('when the JWT_ENV_VARS are not set', () => {
       it('does not alter the token verifiers config', () => {
-        expect(Booster.config.tokenVerifiers).to.be.empty
+        expect(Magek.config.tokenVerifiers).to.be.empty
 
-        const booster = Booster as any
+        const booster = Magek as any
         booster.loadTokenVerifierFromEnv()
 
-        expect(Booster.config.tokenVerifiers).to.be.empty
+        expect(Magek.config.tokenVerifiers).to.be.empty
       })
     })
   })

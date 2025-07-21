@@ -24,7 +24,7 @@ export class ChatService {
     })
   }
 
-  static async answerBoosterQuestion(
+  static async answerMagekQuestion(
     question: string,
     callback: SubscribeFn,
     abortSignal?: AbortSignal

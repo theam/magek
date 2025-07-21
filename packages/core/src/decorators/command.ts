@@ -1,5 +1,5 @@
  
-import { Booster } from '../magek'
+import { Magek } from '../magek'
 import {
   Class,
   CommandAuthorizer,
@@ -9,10 +9,10 @@ import {
   Register,
 } from '@magek/common'
 import { getClassMetadata } from './metadata'
-import { BoosterAuthorizer } from '../authorizer'
+import { MagekAuthorizer } from '../authorizer'
 
 /**
- * Annotation to tell Booster which classes are your entities
+ * Annotation to tell Magek which classes are your entities
  * @param attributes
  * @constructor
  */
@@ -20,7 +20,7 @@ export function Command(
   attributes: CommandRoleAccess & CommandFilterHooks
 ): <TCommand>(commandClass: CommandInterface<TCommand>) => void {
   return (commandClass) => {
-    Booster.configureCurrentEnv((config): void => {
+    Magek.configureCurrentEnv((config): void => {
       if (config.commandHandlers[commandClass.name]) {
         throw new Error(`A command called ${commandClass.name} is already registered.
         If you think that this is an error, try performing a clean build.`)
@@ -29,7 +29,7 @@ export function Command(
       const metadata = getClassMetadata(commandClass)
       config.commandHandlers[commandClass.name] = {
         class: commandClass,
-        authorizer: BoosterAuthorizer.build(attributes) as CommandAuthorizer,
+        authorizer: MagekAuthorizer.build(attributes) as CommandAuthorizer,
         before: attributes.before ?? [],
         properties: metadata.fields,
         methods: metadata.methods,

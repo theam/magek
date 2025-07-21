@@ -12,7 +12,7 @@ import {
   ImportDeclaration,
 } from '../../services/generator/target'
 import * as path from 'path'
-import { checkCurrentDirIsABoosterProject } from '../../services/project-checker'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker'
 
 export default class Query extends BaseCommand {
   public static description = "generate new query resource, write 'boost new' to see options"
@@ -45,7 +45,7 @@ type QueryInfo = HasName & HasFields
 
 const run = async (name: string, rawFields: Array<string>): Promise<void> =>
   Script.init(`boost ${Brand.energize('new:query')} 🚧`, joinParsers(parseName(name), parseFields(rawFields)))
-    .step('Verifying project', checkCurrentDirIsABoosterProject)
+    .step('Verifying project', checkCurrentDirIsAMagekProject)
     .step('Creating new query', generateQuery)
     .info('Query generated!')
     .done()
@@ -54,9 +54,9 @@ function generateImports(info: QueryInfo): Array<ImportDeclaration> {
   const queryFieldTypes = info.fields.map((f) => f.type)
   const queryUsesUUID = queryFieldTypes.some((type) => type == 'UUID')
 
-  const componentsFromBoosterTypes = ['QueryInfo']
+  const componentsFromMagekTypes = ['QueryInfo']
   if (queryUsesUUID) {
-    componentsFromBoosterTypes.push('UUID')
+    componentsFromMagekTypes.push('UUID')
   }
 
   return [
@@ -66,7 +66,7 @@ function generateImports(info: QueryInfo): Array<ImportDeclaration> {
     },
     {
       packagePath: '@magek/common',
-      commaSeparatedComponents: componentsFromBoosterTypes.join(', '),
+      commaSeparatedComponents: componentsFromMagekTypes.join(', '),
     },
   ]
 }

@@ -1,5 +1,5 @@
 import {
-  BoosterConfig,
+  MagekConfig,
   EventEnvelope,
   EventSearchParameters,
   EventSearchResponse,
@@ -16,7 +16,7 @@ const DEFAULT_KIND_FILTER = { kind: 'event' }
 
 export async function searchEvents(
   eventRegistry: EventRegistry,
-  config: BoosterConfig,
+  config: MagekConfig,
   parameters: EventSearchParameters
 ): Promise<Array<EventSearchResponse>> {
   const logger = getLogger(config, 'events-searcher-adapter#searchEvents')
@@ -36,7 +36,7 @@ export async function searchEvents(
 
 export async function searchEntitiesIds(
   eventRegistry: EventRegistry,
-  config: BoosterConfig,
+  config: MagekConfig,
   limit: number,
   afterCursor: Record<string, string> | undefined,
   entityTypeName: string

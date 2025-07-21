@@ -1,5 +1,5 @@
 import {
-  BoosterConfig,
+  MagekConfig,
   EventMetadata,
   EventSearchParameters,
   EventSearchResponse,
@@ -9,14 +9,14 @@ import {
 } from '@magek/common'
 
 export async function eventSearch(
-  config: BoosterConfig,
+  config: MagekConfig,
   request: EventSearchParameters
 ): Promise<Array<EventSearchResponse>> {
   const events: Array<EventSearchResponse> = await config.eventStore.search(config, request)
   return events.map((event) => createEventValueInstance(config, event))
 }
 
-function createEventValueInstance(config: BoosterConfig, event: EventSearchResponse): EventSearchResponse {
+function createEventValueInstance(config: MagekConfig, event: EventSearchResponse): EventSearchResponse {
   const logger = getLogger(config, 'booster-event-search#createEventValueInstance')
   const eventMetadata: EventMetadata = config.events[event.type]
   if (eventMetadata) {

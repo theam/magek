@@ -4,7 +4,7 @@ import { FastifySSEPlugin } from 'fastify-sse-v2'
 import cors from '@fastify/cors'
 import * as http from 'node:http'
 import { GraphQLService, HealthService } from '@magek/server'
-import { BoosterConfig, ProviderInfrastructure, RocketDescriptor, UserApp, RocketLoader } from '@magek/common'
+import { MagekConfig, ProviderInfrastructure, RocketDescriptor, UserApp, RocketLoader } from '@magek/common'
 import * as path from 'path'
 import { requestFailed } from './http'
 import { GraphQLController } from './controllers/graphql'
@@ -45,7 +45,7 @@ export function sendWebSocketMessage(connectionId: string, data: unknown): void 
  * Build a Fastify server instance for testing purposes
  */
 export async function buildFastifyServer(
-  config: BoosterConfig,
+  config: MagekConfig,
   graphQLService: GraphQLService,
   healthService: HealthService
 ): Promise<FastifyInstance> {
@@ -222,7 +222,7 @@ export const Infrastructure = (rocketDescriptors?: RocketDescriptor[]): Provider
      * @param config The user's project config
      * @param port Port on which the fastify server will listen
      */
-    start: async (config: BoosterConfig, port: number): Promise<void> => {
+    start: async (config: MagekConfig, port: number): Promise<void> => {
       let httpServer: http.Server
 
       // Initialize WebSocket registry

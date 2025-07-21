@@ -38,7 +38,7 @@ export function queryRecordFor(
 }
 
 /**
- * Transforms a GraphQL Booster filter into an neDB query
+ * Transforms a GraphQL Magek filter into an neDB query
  */
 function filterToQuery(filter: FilterFor<any>): QueryOperation<QueryValue> {
   const [query] = Object.entries(filter).map(([propName, filter]) => {

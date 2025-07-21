@@ -1,5 +1,5 @@
 import {
-  BoosterConfig,
+  MagekConfig,
   CommandEnvelope,
   EventEnvelope,
   SchemaMigrationMetadata,
@@ -17,7 +17,7 @@ type SchemaMigrableEnvelope = CommandEnvelope | EventEnvelope | EntitySnapshotEn
 type SchemaMigrableValue = CommandInterface | EventInterface | EntityInterface
 
 export class SchemaMigrator {
-  public constructor(private config: BoosterConfig) {}
+  public constructor(private config: MagekConfig) {}
 
   @Trace(TraceActionTypes.SCHEMA_MIGRATOR_MIGRATE)
   public async migrate<TMigrableEnvelope extends SchemaMigrableEnvelope>(

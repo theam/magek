@@ -1,11 +1,11 @@
 {
   "name": "@magek/server",
   "version": "0.0.1",
-  "description": "Debug your Booster projects locally",
+  "description": "Debug your Magek projects locally",
   "keywords": [
     "server"
   ],
-  "author": "Boosterin Labs SLU",
+  "author": "Magekin Labs SLU",
   "homepage": "https://boosterframework.com",
   "license": "Apache-2.0",
   "publishConfig": {

@@ -1,15 +1,15 @@
 import * as path from 'path'
 import * as process from 'process'
-import { BoosterConfig, getLogger } from '@magek/common'
+import { MagekConfig, getLogger } from '@magek/common'
 
-export function boosterVersion(config: BoosterConfig) {
+export function boosterVersion(config: MagekConfig) {
   const projectAbsolutePath = path.resolve(process.cwd())
   const logger = getLogger(config, 'boosterVersion')
   try {
     const packageJsonContents = require(path.join(projectAbsolutePath, 'package.json'))
     const version = packageJsonContents.dependencies['@magek/core']
     if (!version) {
-      logger.warn('Could not get Booster Version')
+      logger.warn('Could not get Magek Version')
       return ''
     }
     const versionParts = version.replace('workspace:', '').replace('^', '').replace('.tgz', '').split('-')

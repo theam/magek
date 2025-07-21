@@ -1,5 +1,5 @@
 import { UUID } from './concepts'
-import { BoosterConfig } from './config'
+import { MagekConfig } from './config'
 import {
   EntitySnapshotEnvelope,
   EntitySnapshotEnvelopeFromDatabase,
@@ -24,28 +24,28 @@ export interface EventStoreAdapter {
    */
   rawToEnvelopes(rawEvents: unknown): Array<EventEnvelope>
 
-  rawStreamToEnvelopes(config: BoosterConfig, context: unknown, dedupEventStream: EventStream): Array<EventEnvelope>
+  rawStreamToEnvelopes(config: MagekConfig, context: unknown, dedupEventStream: EventStream): Array<EventEnvelope>
 
-  dedupEventStream(config: BoosterConfig, rawEvents: unknown): Promise<EventStream>
+  dedupEventStream(config: MagekConfig, rawEvents: unknown): Promise<EventStream>
 
   produce(
     entityName: string,
     entityID: UUID,
     eventEnvelopes: Array<EventEnvelope>,
-    config: BoosterConfig
+    config: MagekConfig
   ): Promise<void>
 
   /**
    * Retrieves events for a specific entity since a given time
    *
-   * @param config - The Booster configuration object
+   * @param config - The Magek configuration object
    * @param entityTypeName - The type name of the entity
    * @param entityID - The ID of the entity
    * @param since - The time to retrieve events since (optional)
    * @returns A promise that resolves to an array of EventEnvelope objects
    */
   forEntitySince(
-    config: BoosterConfig,
+    config: MagekConfig,
     entityTypeName: string,
     entityID: UUID,
     since?: string
@@ -54,13 +54,13 @@ export interface EventStoreAdapter {
   /**
    * Retrieves the latest snapshot of an entity
    *
-   * @param config - The Booster configuration object
+   * @param config - The Magek configuration object
    * @param entityTypeName - The type name of the entity
    * @param entityID - The ID of the entity
    * @returns A promise that resolves to the latest EventEnvelope for the entity, or null if none exist
    */
   latestEntitySnapshot(
-    config: BoosterConfig,
+    config: MagekConfig,
     entityTypeName: string,
     entityID: UUID
   ): Promise<EntitySnapshotEnvelope | undefined>
@@ -68,23 +68,23 @@ export interface EventStoreAdapter {
   /**
    * Searches for events based on specific parameters
    *
-   * @param config - The Booster configuration object
+   * @param config - The Magek configuration object
    * @param parameters - The search parameters
    * @returns A promise that resolves to an array of EventSearchResponse objects
    */
-  search(config: BoosterConfig, parameters: EventSearchParameters): Promise<Array<EventSearchResponse>>
+  search(config: MagekConfig, parameters: EventSearchParameters): Promise<Array<EventSearchResponse>>
 
   /**
    * Searches for entities IDs based on a specific entity type and pagination parameters
    *
-   * @param config - The Booster configuration object
+   * @param config - The Magek configuration object
    * @param limit - The maximum number of entities IDs to retrieve
    * @param afterCursor - The cursor to retrieve entities IDs after (optional)
    * @param entityTypeName - The type name of the entities to search for
    * @returns A promise that resolves to a PaginatedEntitiesIdsResult object
    */
   searchEntitiesIDs(
-    config: BoosterConfig,
+    config: MagekConfig,
     limit: number,
     afterCursor: Record<string, string> | undefined,
     entityTypeName: string
@@ -94,32 +94,32 @@ export interface EventStoreAdapter {
    * Streams an event to the corresponding event handler
    *
    * @param eventEnvelopes - The array of `NonPersistedEventEnvelope` objects to store
-   * @param config - The Booster configuration object
+   * @param config - The Magek configuration object
    * @returns A promise that resolves with the list of `EventEnvelope`s when the events have been stored
    */
-  store(eventEnvelopes: Array<NonPersistedEventEnvelope>, config: BoosterConfig): Promise<Array<EventEnvelope>>
+  store(eventEnvelopes: Array<NonPersistedEventEnvelope>, config: MagekConfig): Promise<Array<EventEnvelope>>
 
   /**
    * Stores a snapshot of an entity
    *
    * @param snapshotEnvelope - The `NonPersistedEntitySnapshotEnvelope` object to store
-   * @param config - The Booster configuration object
+   * @param config - The Magek configuration object
    * @returns A promise that resolves with the `EntitySnapshotEnvelope` when the snapshot has been stored
    */
   storeSnapshot(
     snapshotEnvelope: NonPersistedEntitySnapshotEnvelope,
-    config: BoosterConfig
+    config: MagekConfig
   ): Promise<EntitySnapshotEnvelope>
 
   /**
    * Stores an event envelope that has been dispatched in the dispatched events table.
    *
    * @param eventEnvelope - The `EventEnvelope` to store.
-   * @param config - The Booster configuration object.
+   * @param config - The Magek configuration object.
    * @returns `true` if the dispatched event was stored, `false` if the event already exists in the dispatched events
    * table, throws an error on any other type of error.
    */
-  storeDispatched(eventEnvelope: EventEnvelope, config: BoosterConfig): Promise<boolean>
+  storeDispatched(eventEnvelope: EventEnvelope, config: MagekConfig): Promise<boolean>
 
   /**
    * Find all events to be removed based on the parameters
@@ -128,7 +128,7 @@ export interface EventStoreAdapter {
    * @param parameters
    */
   findDeletableEvent(
-    config: BoosterConfig,
+    config: MagekConfig,
     parameters: EventDeleteParameters
   ): Promise<Array<EventEnvelopeFromDatabase>>
 
@@ -139,7 +139,7 @@ export interface EventStoreAdapter {
    * @param parameters
    */
   findDeletableSnapshot(
-    config: BoosterConfig,
+    config: MagekConfig,
     parameters: SnapshotDeleteParameters
   ): Promise<Array<EntitySnapshotEnvelopeFromDatabase>>
 
@@ -149,7 +149,7 @@ export interface EventStoreAdapter {
    * @param config
    * @param events
    */
-  deleteEvent(config: BoosterConfig, events: Array<EventEnvelopeFromDatabase>): Promise<void>
+  deleteEvent(config: MagekConfig, events: Array<EventEnvelopeFromDatabase>): Promise<void>
 
   /**
    * Delete snapshots
@@ -157,7 +157,7 @@ export interface EventStoreAdapter {
    * @param config
    * @param snapshots
    */
-  deleteSnapshot(config: BoosterConfig, snapshots: Array<EntitySnapshotEnvelopeFromDatabase>): Promise<void>
+  deleteSnapshot(config: MagekConfig, snapshots: Array<EntitySnapshotEnvelopeFromDatabase>): Promise<void>
 
   /**
    * Health check methods for the event store
@@ -166,16 +166,16 @@ export interface EventStoreAdapter {
     /**
      * Check if the event store is up and running
      */
-    isUp(config: BoosterConfig): Promise<boolean>
+    isUp(config: MagekConfig): Promise<boolean>
     
     /**
      * Get detailed health information about the event store
      */
-    details(config: BoosterConfig): Promise<unknown>
+    details(config: MagekConfig): Promise<unknown>
     
     /**
      * Get the URLs/endpoints of the event store
      */
-    urls(config: BoosterConfig): Promise<Array<string>>
+    urls(config: MagekConfig): Promise<Array<string>>
   }
 }

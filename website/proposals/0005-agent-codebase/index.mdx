@@ -9,13 +9,13 @@ date: 2024-01-25T00:04
 
 ## Introduction
 
-This document proposes a significant reorganization of the Booster Framework's folder structure to address current challenges in codebase management and to align with the principles of modularity and scalability. The current structure, `src/{commands,events,entities,read-models}/*.ts`, while functional, has shown limitations in managing complexity as the framework and the team grow.
+This document proposes a significant reorganization of the Magek Framework's folder structure to address current challenges in codebase management and to align with the principles of modularity and scalability. The current structure, `src/{commands,events,entities,read-models}/*.ts`, while functional, has shown limitations in managing complexity as the framework and the team grow.
 
-This proposal introduces a new structure based on the concept of "Agents" in event sourcing/event-driven systems, aiming to bring conceptual clarity and improved organization to the codebase. It can be thought as **the microservices approach, but more tailored to the event-driven** nature of Booster Framework.
+This proposal introduces a new structure based on the concept of "Agents" in event sourcing/event-driven systems, aiming to bring conceptual clarity and improved organization to the codebase. It can be thought as **the microservices approach, but more tailored to the event-driven** nature of Magek Framework.
 
 ## Current Challenges
 
-The existing folder structure in the Booster Framework presents several challenges:
+The existing folder structure in the Magek Framework presents several challenges:
 
 - **Lack of Modularity**: The mixed nature of components (commands, events, entities, read-models) in a flat structure leads to difficulties in isolating specific functionalities or use cases.
 - **Scalability Concerns**: As the team and the codebase grow, the lack of hierarchical organization makes it increasingly challenging to manage and navigate the codebase.
@@ -23,7 +23,7 @@ The existing folder structure in the Booster Framework presents several challeng
 
 ## Proposed Folder Structure
 
-The new folder structure is organized around the concept of "Agents", where each use case is encapsulated within its own subfolder. This approach mirrors the modular and event-driven nature of the Booster Framework.
+The new folder structure is organized around the concept of "Agents", where each use case is encapsulated within its own subfolder. This approach mirrors the modular and event-driven nature of the Magek Framework.
 
 ### Structure Overview
 
@@ -74,7 +74,7 @@ The new folder structure is organized around the concept of "Agents", where each
 
 ### Integration of AI Agents
 
-In line with the event-driven architecture of the Booster Framework, an intriguing extension to the proposed semantic codebase structure is the **incorporation of AI agents**. These agents, mirroring the structure of traditionally-programmed agents with `commands`, `events`, `read-models`, etc., would have their internal logic powered by **Large Language Models (LLMs)**.
+In line with the event-driven architecture of the Magek Framework, an intriguing extension to the proposed semantic codebase structure is the **incorporation of AI agents**. These agents, mirroring the structure of traditionally-programmed agents with `commands`, `events`, `read-models`, etc., would have their internal logic powered by **Large Language Models (LLMs)**.
 
 This integration aligns with the scalable and modular design of the framework, allowing AI agents to **autonomously handle specific tasks or workflows within their domain**. The use of AI agents could significantly enhance the framework's capabilities in areas such as:
 
@@ -84,8 +84,8 @@ This integration aligns with the scalable and modular design of the framework, a
 
 Each AI agent would operate within its designated subfolder, ensuring a **clear delineation and manageable interaction** with regular agents, while adhering to the same communication protocols and interface standards established in the overall framework.
 
-This innovative approach opens new avenues for efficiency, creativity, and advanced functionalities within the Booster Framework ecosystem.
+This innovative approach opens new avenues for efficiency, creativity, and advanced functionalities within the Magek Framework ecosystem.
 
 ## Conclusion
 
-The proposed semantic codebase structure for Booster Framework aims to address current challenges in codebase management while aligning with the principles of modularity and scalability. This reorganization, centered around the concept of "Agents", offers numerous benefits, including improved code separation, easier collaboration, and the potential for scalable codebase management.
+The proposed semantic codebase structure for Magek Framework aims to address current challenges in codebase management while aligning with the principles of modularity and scalability. This reorganization, centered around the concept of "Agents", offers numerous benefits, including improved code separation, easier collaboration, and the potential for scalable codebase management.

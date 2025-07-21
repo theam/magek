@@ -1,4 +1,4 @@
-import { BoosterConfig } from './config'
+import { MagekConfig } from './config'
 
 export enum Level {
   debug = 0,
@@ -18,9 +18,9 @@ export interface Logger {
   error(message?: any, ...optionalParams: any[]): void
 }
 
-const defaultLogPrefix = 'Booster'
+const defaultLogPrefix = 'Magek'
 
-export function getLogger(config: BoosterConfig, location?: string, overridenLogPrefix?: string): Logger {
+export function getLogger(config: MagekConfig, location?: string, overridenLogPrefix?: string): Logger {
   const debug = config.logger?.debug ?? console.debug
   const info = config.logger?.info ?? console.info
   const warn = config.logger?.warn ?? console.warn

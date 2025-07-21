@@ -1,8 +1,8 @@
 import { expect } from '../../expect'
-import { BoosterHealthService } from '../../../src/sensor'
+import { MagekHealthService } from '../../../src/sensor'
 import {
   BOOSTER_HEALTH_INDICATORS_IDS,
-  BoosterConfig,
+  MagekConfig,
   ProviderLibrary,
   HealthIndicatorsResult,
   HealthStatus,
@@ -15,8 +15,8 @@ import { JwksUriTokenVerifier } from '../../../src'
 const jwksUri = 'https://myauth0app.auth0.com/' + '.well-known/jwks.json'
 const issuer = 'auth0'
 
-describe('BoosterHealthService', () => {
-  const config = new BoosterConfig('test')
+describe('MagekHealthService', () => {
+  const config = new MagekConfig('test')
   let healthRequestResult: { body: HealthIndicatorsResult | Array<HealthIndicatorsResult>; isHealthy: boolean } | undefined
 
   before(() => {
@@ -45,14 +45,14 @@ describe('BoosterHealthService', () => {
   it('All indicators are UP', async () => {
     config.provider.sensor = defaultSensor()
     const boosterResult = await boosterHealth(config)
-    const boosterFunction = getBoosterFunction(boosterResult)
-    const boosterDatabase = getBoosterDatabase(boosterResult)
+    const boosterFunction = getMagekFunction(boosterResult)
+    const boosterDatabase = getMagekDatabase(boosterResult)
     const databaseEvents = getEventDatabase(boosterDatabase)
     const databaseReadModels = getReadModelsDatabase(boosterDatabase)
     const expectedStatus = 'UP'
-    expectBooster(boosterResult, '', expectedStatus)
-    expectBoosterFunction(boosterFunction, '', expectedStatus)
-    expectBoosterDatabase(boosterDatabase, expectedStatus)
+    expectMagek(boosterResult, '', expectedStatus)
+    expectMagekFunction(boosterFunction, '', expectedStatus)
+    expectMagekDatabase(boosterDatabase, expectedStatus)
     expectDatabaseEvents(databaseEvents, expectedStatus)
     expectDatabaseReadModels(databaseReadModels, expectedStatus)
   })
@@ -64,13 +64,13 @@ describe('BoosterHealthService', () => {
     config.provider.sensor.areDatabaseReadModelsUp = fake.resolves(false)
     const expectedStatus = 'DOWN'
     const boosterResult = await boosterHealth(config)
-    const boosterFunction = getBoosterFunction(boosterResult)
-    const boosterDatabase = getBoosterDatabase(boosterResult)
+    const boosterFunction = getMagekFunction(boosterResult)
+    const boosterDatabase = getMagekDatabase(boosterResult)
     const databaseEvents = getEventDatabase(boosterDatabase)
     const databaseReadModels = getReadModelsDatabase(boosterDatabase)
-    expectBooster(boosterResult, '', expectedStatus)
-    expectBoosterFunction(boosterFunction, '', expectedStatus)
-    expectBoosterDatabase(boosterDatabase, expectedStatus)
+    expectMagek(boosterResult, '', expectedStatus)
+    expectMagekFunction(boosterFunction, '', expectedStatus)
+    expectMagekDatabase(boosterDatabase, expectedStatus)
     expectDatabaseEvents(databaseEvents, expectedStatus)
     expectDatabaseReadModels(databaseReadModels, expectedStatus)
   })
@@ -84,14 +84,14 @@ describe('BoosterHealthService', () => {
       test: true,
     })
     const boosterResult = await boosterHealth(config)
-    const boosterFunction = getBoosterFunction(boosterResult)
-    const boosterDatabase = getBoosterDatabase(boosterResult)
+    const boosterFunction = getMagekFunction(boosterResult)
+    const boosterDatabase = getMagekDatabase(boosterResult)
     const databaseEvents = getEventDatabase(boosterDatabase)
     const databaseReadModels = getReadModelsDatabase(boosterDatabase)
     const expectedStatus = 'UP'
-    expectBooster(boosterResult, '', expectedStatus)
-    expectBoosterFunction(boosterFunction, '', expectedStatus)
-    expectBoosterDatabase(boosterDatabase, expectedStatus)
+    expectMagek(boosterResult, '', expectedStatus)
+    expectMagekFunction(boosterFunction, '', expectedStatus)
+    expectMagekDatabase(boosterDatabase, expectedStatus)
     expectDatabaseEventsWithDetails(databaseEvents, expectedStatus, {
       test: true,
     })
@@ -121,7 +121,7 @@ describe('BoosterHealthService', () => {
     ]
     const boosterResult = await boosterHealth(config)
     stop()
-    expectBooster(boosterResult, '', 'UP')
+    expectMagek(boosterResult, '', 'UP')
   })
 
   it('Validates fails with wrong role', async () => {
@@ -142,7 +142,7 @@ describe('BoosterHealthService', () => {
       authorize: [UserRole],
     }
     config.tokenVerifiers = [new JwksUriTokenVerifier(issuer, jwksUri)]
-    const boosterHealthService = new BoosterHealthService(config)
+    const boosterHealthService = new MagekHealthService(config)
     const boosterResult = (await boosterHealthService.boosterHealth(undefined)) as any
     stop()
     expect(boosterResult.code).to.be.eq('NotAuthorizedError')
@@ -170,13 +170,13 @@ describe('BoosterHealthService', () => {
     const boosterResult = await boosterHealth(config)
 
     // root without children and details
-    expectDefaultResult(boosterResult, 'UP', 'booster', 'Booster', 0)
+    expectDefaultResult(boosterResult, 'UP', 'booster', 'Magek', 0)
     expect(boosterResult.details).to.be.undefined
 
     // other indicators are undefined
-    expect(getBoosterDatabase(boosterResult)).to.be.undefined
+    expect(getMagekDatabase(boosterResult)).to.be.undefined
     expect(getEventDatabase(boosterResult)).to.be.undefined
-    expect(getBoosterFunction(boosterResult)).to.be.undefined
+    expect(getMagekFunction(boosterResult)).to.be.undefined
     expect(getReadModelsDatabase(boosterResult)).to.be.undefined
   })
 
@@ -277,8 +277,8 @@ function defaultSensor(token?: string, url?: string) {
   }
 }
 
-async function boosterHealth(config: BoosterConfig): Promise<HealthIndicatorsResult> {
-  const boosterHealthService = new BoosterHealthService(config)
+async function boosterHealth(config: MagekConfig): Promise<HealthIndicatorsResult> {
+  const boosterHealthService = new MagekHealthService(config)
   const result = (await boosterHealthService.boosterHealth(undefined)) as HealthIndicatorsResult | Array<HealthIndicatorsResult>
   // For backwards compatibility with existing tests that expect the first component
   if (Array.isArray(result)) {
@@ -287,11 +287,11 @@ async function boosterHealth(config: BoosterConfig): Promise<HealthIndicatorsRes
   return result
 }
 
-function getBoosterFunction(boosterResult: HealthIndicatorsResult | undefined) {
+function getMagekFunction(boosterResult: HealthIndicatorsResult | undefined) {
   return boosterResult?.components?.find((element: HealthIndicatorsResult) => element.id === 'booster/function')
 }
 
-function getBoosterDatabase(boosterResult: HealthIndicatorsResult | undefined) {
+function getMagekDatabase(boosterResult: HealthIndicatorsResult | undefined) {
   return boosterResult?.components?.find((element: HealthIndicatorsResult) => element.id === 'booster/database')
 }
 
@@ -322,21 +322,21 @@ function expectDefaultResult(
   }
 }
 
-function expectBooster(
+function expectMagek(
   boosterResult: HealthIndicatorsResult | undefined,
   version: string,
   status: HealthStatus | string
 ): void {
-  expectDefaultResult(boosterResult, status, 'booster', 'Booster', 2)
+  expectDefaultResult(boosterResult, status, 'booster', 'Magek', 2)
   expect(boosterResult!.details!.boosterVersion).to.be.eq(version)
 }
 
-function expectBoosterFunction(
+function expectMagekFunction(
   boosterFunction: HealthIndicatorsResult | undefined,
   url: string,
   status: HealthStatus | string
 ) {
-  expectDefaultResult(boosterFunction, status, 'booster/function', 'Booster Function', 0)
+  expectDefaultResult(boosterFunction, status, 'booster/function', 'Magek Function', 0)
   const details = boosterFunction!.details as any
   expect(details.cpus.length).to.be.gt(0)
   expect(details.cpus[0].timesPercentages.length).to.be.gt(0)
@@ -345,11 +345,11 @@ function expectBoosterFunction(
   expect(details.graphQL_url as string).to.be.eq(url)
 }
 
-function expectBoosterDatabase(
+function expectMagekDatabase(
   boosterDatabase: HealthIndicatorsResult | undefined,
   status: HealthStatus | string
 ): void {
-  expectDefaultResult(boosterDatabase, status, 'booster/database', 'Booster Database', 2)
+  expectDefaultResult(boosterDatabase, status, 'booster/database', 'Magek Database', 2)
   expect(boosterDatabase!.details).to.not.be.undefined
 }
 
@@ -357,7 +357,7 @@ function expectDatabaseEvents(
   databaseEvents: HealthIndicatorsResult | undefined,
   status: HealthStatus | string
 ): void {
-  expectDefaultResult(databaseEvents, status, 'booster/database/events', 'Booster Database Events', 0)
+  expectDefaultResult(databaseEvents, status, 'booster/database/events', 'Magek Database Events', 0)
   expect(databaseEvents!.details).to.be.undefined
 }
 
@@ -366,7 +366,7 @@ function expectDatabaseEventsWithDetails(
   status: HealthStatus | string,
   details: unknown
 ): void {
-  expectDefaultResult(databaseEvents, status, 'booster/database/events', 'Booster Database Events', 0)
+  expectDefaultResult(databaseEvents, status, 'booster/database/events', 'Magek Database Events', 0)
   expect(databaseEvents!.details).to.be.deep.eq(details)
 }
 
@@ -378,7 +378,7 @@ function expectDatabaseReadModels(
     databaseReadModels,
     status,
     'booster/database/readmodels',
-    'Booster Database ReadModels',
+    'Magek Database ReadModels',
     0
   )
   expect(databaseReadModels!.details).to.be.undefined
@@ -393,7 +393,7 @@ function expectDatabaseReadModelsWithDetails(
     databaseReadModels,
     status,
     'booster/database/readmodels',
-    'Booster Database ReadModels',
+    'Magek Database ReadModels',
     0
   )
   expect(databaseReadModels!.details).to.be.deep.eq(details)

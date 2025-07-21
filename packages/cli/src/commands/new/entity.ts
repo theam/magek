@@ -14,7 +14,7 @@ import {
 } from '../../services/generator/target'
 import * as path from 'path'
 import { generate, template } from '../../services/generator'
-import { checkCurrentDirIsABoosterProject } from '../../services/project-checker'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker'
 import { classNameToFileName } from '../../common/filenames'
 
 export default class Entity extends BaseCommand {
@@ -58,7 +58,7 @@ const run = async (name: string, rawFields: Array<string>, rawEvents: Array<stri
     `boost ${Brand.energize('new:entity')} 🚧`,
     joinParsers(parseName(name), parseFields(rawFields), parseReaction(rawEvents))
   )
-    .step('Verifying project', checkCurrentDirIsABoosterProject)
+    .step('Verifying project', checkCurrentDirIsAMagekProject)
     .step('Creating new entity', generateEntity)
     .info('Entity generated!')
     .done()

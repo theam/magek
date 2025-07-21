@@ -1,6 +1,6 @@
 import { expect } from './expect'
 import {
-  BoosterConfig,
+  MagekConfig,
   CommandEnvelope,
   CommandHandlerGlobalError,
   CommandMetadata,
@@ -22,20 +22,20 @@ import {
 } from '@magek/common'
 import { GlobalErrorHandler } from '../src'
 import { restore } from 'sinon'
-import { Booster } from '../src/magek'
-import { BoosterGlobalErrorDispatcher } from '../src/global-error-dispatcher'
+import { Magek } from '../src/magek'
+import { MagekGlobalErrorDispatcher } from '../src/global-error-dispatcher'
 import 'mocha'
 
-describe('BoosterGlobalErrorDispatcher', () => {
-  let config: BoosterConfig
+describe('MagekGlobalErrorDispatcher', () => {
+  let config: MagekConfig
   const baseError = new Error('test')
 
   beforeEach(() => {
-    config = new BoosterConfig('test')
+    config = new MagekConfig('test')
   })
 
   afterEach(() => {
-    Booster.configure('test', (config) => {
+    Magek.configure('test', (config) => {
       config.appName = ''
       config.globalErrorsHandler = undefined
     })
@@ -45,7 +45,7 @@ describe('BoosterGlobalErrorDispatcher', () => {
 
   it('should dispatch original error if none is defined as a globalErrorsHandler', async () => {
     const globalError = new GlobalErrorContainer(baseError)
-    const errorDispatcher = new BoosterGlobalErrorDispatcher(config)
+    const errorDispatcher = new MagekGlobalErrorDispatcher(config)
     await expect(errorDispatcher.dispatch(globalError)).to.eventually.eq(baseError)
   })
 
@@ -63,7 +63,7 @@ describe('BoosterGlobalErrorDispatcher', () => {
 
     const globalError = new GlobalErrorContainer(baseError)
     config.globalErrorsHandler = { class: ErrorHandler } as GlobalErrorHandlerMetadata
-    const errorDispatcher = new BoosterGlobalErrorDispatcher(config)
+    const errorDispatcher = new MagekGlobalErrorDispatcher(config)
     const result = await errorDispatcher.dispatch(globalError)
     expect(result).to.be.instanceof(Error)
     expect(result?.toString()).to.be.eq(`Error: Error: ${baseError.message}.updated error`)
@@ -89,7 +89,7 @@ describe('BoosterGlobalErrorDispatcher', () => {
     const metadata: ScheduledCommandMetadata = {} as ScheduledCommandMetadata
     const scheduleCommandGlobalError = new ScheduleCommandGlobalError(envelope, metadata, baseError)
     config.globalErrorsHandler = { class: ErrorHandler } as GlobalErrorHandlerMetadata
-    const errorDispatcher = new BoosterGlobalErrorDispatcher(config)
+    const errorDispatcher = new MagekGlobalErrorDispatcher(config)
     const result = await errorDispatcher.dispatch(scheduleCommandGlobalError)
     expect(result?.toString()).to.be.eq('Error: failed')
   })
@@ -114,7 +114,7 @@ describe('BoosterGlobalErrorDispatcher', () => {
     const metadata: ScheduledCommandMetadata = {} as ScheduledCommandMetadata
     const scheduleCommandGlobalError = new ScheduleCommandGlobalError(envelope, metadata, baseError)
     config.globalErrorsHandler = { class: ErrorHandler } as GlobalErrorHandlerMetadata
-    const errorDispatcher = new BoosterGlobalErrorDispatcher(config)
+    const errorDispatcher = new MagekGlobalErrorDispatcher(config)
     const result = await errorDispatcher.dispatch(scheduleCommandGlobalError)
     expect(result?.toString()).to.be.eq(
       `Error: Error: Error: ${baseError.message}.onScheduledCommandHandlerError.onError`
@@ -132,7 +132,7 @@ describe('BoosterGlobalErrorDispatcher', () => {
     const mockMetadata: CommandMetadata = {} as CommandMetadata
     const commandHandlerGlobalError = new CommandHandlerGlobalError(mockCommand, mockMetadata, baseError)
     config.globalErrorsHandler = { class: ErrorHandler } as GlobalErrorHandlerMetadata
-    const errorDispatcher = new BoosterGlobalErrorDispatcher(config)
+    const errorDispatcher = new MagekGlobalErrorDispatcher(config)
     const result = await errorDispatcher.dispatch(commandHandlerGlobalError)
     expect(result?.toString()).to.be.eq(`Error: Error: ${baseError.message}.onCommandHandlerError`)
   })
@@ -157,7 +157,7 @@ describe('BoosterGlobalErrorDispatcher', () => {
       baseError
     )
     config.globalErrorsHandler = { class: ErrorHandler } as GlobalErrorHandlerMetadata
-    const errorDispatcher = new BoosterGlobalErrorDispatcher(config)
+    const errorDispatcher = new MagekGlobalErrorDispatcher(config)
     const result = await errorDispatcher.dispatch(eventHandlerGlobalError)
     expect(result?.toString()).to.be.eq(`Error: Error: ${baseError.message}.onDispatchEventHandlerError`)
   })
@@ -187,7 +187,7 @@ describe('BoosterGlobalErrorDispatcher', () => {
       baseError
     )
     config.globalErrorsHandler = { class: ErrorHandler } as GlobalErrorHandlerMetadata
-    const errorDispatcher = new BoosterGlobalErrorDispatcher(config)
+    const errorDispatcher = new MagekGlobalErrorDispatcher(config)
     const result = await errorDispatcher.dispatch(reducerGlobalError)
     expect(result?.toString()).to.be.eq(`Error: Error: ${baseError.message}.onReducerError`)
   })
@@ -220,7 +220,7 @@ describe('BoosterGlobalErrorDispatcher', () => {
       baseError
     )
     config.globalErrorsHandler = { class: ErrorHandler } as GlobalErrorHandlerMetadata
-    const errorDispatcher = new BoosterGlobalErrorDispatcher(config)
+    const errorDispatcher = new MagekGlobalErrorDispatcher(config)
     const result = await errorDispatcher.dispatch(projectionGlobalError)
     expect(result?.toString()).to.be.eq(`Error: Error: ${baseError.message}.onProjectionError`)
   })
@@ -253,7 +253,7 @@ describe('BoosterGlobalErrorDispatcher', () => {
       baseError
     )
     config.globalErrorsHandler = { class: ErrorHandler } as GlobalErrorHandlerMetadata
-    const errorDispatcher = new BoosterGlobalErrorDispatcher(config)
+    const errorDispatcher = new MagekGlobalErrorDispatcher(config)
     const result = await errorDispatcher.dispatch(projectionGlobalError)
     expect(result).to.be.undefined
   })
@@ -278,7 +278,7 @@ describe('BoosterGlobalErrorDispatcher', () => {
     const metadata: ScheduledCommandMetadata = {} as ScheduledCommandMetadata
     const scheduleCommandGlobalError = new ScheduleCommandGlobalError(envelope, metadata, baseError)
     config.globalErrorsHandler = { class: ErrorHandler } as GlobalErrorHandlerMetadata
-    const errorDispatcher = new BoosterGlobalErrorDispatcher(config)
+    const errorDispatcher = new MagekGlobalErrorDispatcher(config)
     const result = await errorDispatcher.dispatch(scheduleCommandGlobalError)
     expect(result).to.be.undefined
   })

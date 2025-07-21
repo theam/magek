@@ -2,7 +2,7 @@
 import { createStubInstance, fake, SinonStub, SinonStubbedInstance, replace, stub } from 'sinon'
 import { GraphQLService, ReadModelRegistry } from '../../src'
 import {
-  BoosterConfig,
+  MagekConfig,
   FilterFor,
   ReadModelEnvelope,
   ReadModelInterface,
@@ -25,7 +25,7 @@ import { describe } from 'mocha'
 
 async function fetchMock(
   mockReadModelRegistry: SinonStubbedInstance<ReadModelRegistry>,
-  mockConfig: BoosterConfig,
+  mockConfig: MagekConfig,
   mockReadModelTypeName: string,
   mockReadModelID: UUID
 ): Promise<ReadOnlyNonEmptyArray<ReadModelInterface>> {
@@ -35,7 +35,7 @@ async function fetchMock(
 
 async function storeMock(
   mockReadModelRegistry: SinonStubbedInstance<ReadModelRegistry>,
-  mockConfig: BoosterConfig,
+  mockConfig: MagekConfig,
   mockReadModel: ReadModelEnvelope
 ): Promise<void> {
   const mockUserApp: UserApp = {} as any
@@ -54,7 +54,7 @@ async function storeMock(
 
 async function searchMock(
   mockReadModelRegistry: SinonStubbedInstance<ReadModelRegistry>,
-  mockConfig: BoosterConfig,
+  mockConfig: MagekConfig,
   mockReadModel: ReadModelEnvelope,
   filters: FilterFor<any>,
   sortBy?: SortFor<unknown>,
@@ -74,7 +74,7 @@ async function searchMock(
 }
 
 describe('read-models-adapter', () => {
-  let mockConfig: BoosterConfig
+  let mockConfig: MagekConfig
   let mockReadModel: ReadModelEnvelope
 
   let loggerDebugStub: SinonStub
@@ -86,7 +86,7 @@ describe('read-models-adapter', () => {
   let mockReadModelRegistry: SinonStubbedInstance<ReadModelRegistry>
 
   beforeEach(() => {
-    mockConfig = new BoosterConfig('test')
+    mockConfig = new MagekConfig('test')
     mockConfig.appName = 'nuke-button'
     mockConfig.enableSubscriptions = true
 
@@ -149,11 +149,11 @@ describe('read-models-adapter', () => {
       })
       expect(result).to.deep.equal(mockReadModel.value)
       expect(mockConfig.logger?.debug).to.not.be.calledWith(
-        '[Booster]|read-model-adapter#fetchReadModel: ',
+        '[Magek]|read-model-adapter#fetchReadModel: ',
         `Read model ${mockReadModelTypeName} with ID ${mockReadModelID} not found`
       )
       expect(mockConfig.logger?.debug).to.be.calledWith(
-        '[Booster]|read-model-adapter#fetchReadModel: ',
+        '[Magek]|read-model-adapter#fetchReadModel: ',
         `Loaded read model ${mockReadModelTypeName} with ID ${mockReadModelID} with result:`
       )
     })
@@ -168,7 +168,7 @@ describe('read-models-adapter', () => {
       })
       expect(result).to.be.undefined
       expect(mockConfig.logger?.debug).to.be.calledWith(
-        '[Booster]|read-model-adapter#fetchReadModel: ',
+        '[Magek]|read-model-adapter#fetchReadModel: ',
         `Read model ${mockReadModelTypeName} with ID ${mockReadModelID} not found`
       )
       expect(mockConfig.logger?.debug).to.not.be.calledWith(
@@ -192,7 +192,7 @@ describe('read-models-adapter', () => {
 
     it('should log the right debug message', () => {
       expect(mockConfig.logger?.debug).to.have.been.calledWithExactly(
-        '[Booster]|read-model-adapter#storeReadModel: ',
+        '[Magek]|read-model-adapter#storeReadModel: ',
         'Read model stored'
       )
     })

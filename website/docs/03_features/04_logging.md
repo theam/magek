@@ -1,6 +1,6 @@
-# Logging in Booster
+# Logging in Magek
 
-If no configuration is provided, Booster uses the default JavaScript logging capabilities. Depending on the log level, it will call different logging methods:
+If no configuration is provided, Magek uses the default JavaScript logging capabilities. Depending on the log level, it will call different logging methods:
 
 - `console.debug` for `Level.debug`
 - `console.info` for `Level.info`
@@ -12,7 +12,7 @@ In this regard, there's no distinction from any other node process and you'll fi
 
 ## Advanced logging
 
-You may need some advanced logging capabilities, such as redirecting your logs to a log aggregator. Booster also supports overriding the default behavior by providing custom loggers. The only thing you need to do is to provide an object that implements the `Logger` interface at config time:
+You may need some advanced logging capabilities, such as redirecting your logs to a log aggregator. Magek also supports overriding the default behavior by providing custom loggers. The only thing you need to do is to provide an object that implements the `Logger` interface at config time:
 
 ```typescript title="@magek/common/lib/logger.ts"
 interface Logger {
@@ -27,7 +27,7 @@ interface Logger {
 import { Provider } from '@magek/server'
 import { eventStore } from '@magek/adapter-event-store-nedb'
 
-Booster.configure('development', (config: BoosterConfig): void => {
+Magek.configure('development', (config: MagekConfig): void => {
   config.appName = 'my-store'
   config.provider = Provider()
   config.eventStoreAdapter = eventStore
@@ -39,7 +39,7 @@ Booster.configure('development', (config: BoosterConfig): void => {
 })
 ```
 
-## Using the Booster's logger
+## Using the Magek's logger
 
 All framework's components will use this logger by default and will generate logs that match the following pattern:
 
@@ -59,7 +59,7 @@ export class UpdateShippingAddress {
   public constructor(readonly cartId: UUID, readonly address: Address) {}
 
   public static async handle(command: UpdateShippingAddress, register: Register): Promise<void> {
-    const logger = getLogger(Booster.config, 'UpdateShippingCommand#handler', 'MyApp')
+    const logger = getLogger(Magek.config, 'UpdateShippingCommand#handler', 'MyApp')
     logger.debug(`User ${register.currentUser?.username} changed shipping address for cart ${command.cartId}: ${JSON.stringify(command.address}`)
     register.events(new ShippingAddressUpdated(command.cartId, command.address))
   }
@@ -74,5 +74,5 @@ When a `UpdateShippingAddress` command is handled, it wil log messages that look
 ```
 
 :::info
-Using the configured Booster logger is not mandatory for your application, but it might be convenient to centralize your logs and this is a standard way to do it.
+Using the configured Magek logger is not mandatory for your application, but it might be convenient to centralize your logs and this is a standard way to do it.
 :::

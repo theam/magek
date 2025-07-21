@@ -14,7 +14,7 @@ import {
 } from '../../services/generator/target'
 import * as path from 'path'
 import { generate, template } from '../../services/generator'
-import { checkCurrentDirIsABoosterProject } from '../../services/project-checker'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker'
 import { classNameToFileName } from '../../common/filenames'
 
 export default class ReadModel extends BaseCommand {
@@ -59,7 +59,7 @@ const run = async (name: string, rawFields: Array<string>, rawProjections: Array
     `boost ${Brand.energize('new:read-model')} 🚧`,
     joinParsers(parseName(name), parseFields(rawFields), parseProjections(rawProjections))
   )
-    .step('Verifying project', checkCurrentDirIsABoosterProject)
+    .step('Verifying project', checkCurrentDirIsAMagekProject)
     .step('Creating new read model', generateReadModel)
     .info('Read model generated!')
     .done()

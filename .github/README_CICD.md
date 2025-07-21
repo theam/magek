@@ -1,8 +1,8 @@
-# Booster GitHub CI/CD
+# Magek GitHub CI/CD
 
 This document describes the process and structure of the configuration of the project's GitHub actions and workflows.
 
-Booster as a project has some special needs in terms of CI/CD compared to your regular project because it is a framework,
+Magek as a project has some special needs in terms of CI/CD compared to your regular project because it is a framework,
 and it handles so much complexity. So we have to make sure that everything works flawlessly as much as possible. Take into
 account that:
 

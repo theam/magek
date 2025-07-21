@@ -1,6 +1,6 @@
-import { Booster } from '@magek/core'
+import { Magek } from '@magek/core'
 export {
-  Booster,
+  Magek,
   boosterEventDispatcher,
   boosterProduceEventStream,
   boosterConsumeEventStream,
@@ -11,4 +11,4 @@ export {
   boosterRocketDispatcher,
 } from '@magek/core'
 
-Booster.start(__dirname)
+Magek.start(__dirname)

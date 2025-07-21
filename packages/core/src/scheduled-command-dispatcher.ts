@@ -1,5 +1,5 @@
 import {
-  BoosterConfig,
+  MagekConfig,
   ScheduledCommandEnvelope,
   Register,
   NotFoundError,
@@ -9,19 +9,19 @@ import {
   getLogger,
 } from '@magek/common'
 import { RegisterHandler } from './register-handler'
-import { BoosterGlobalErrorDispatcher } from './global-error-dispatcher'
+import { MagekGlobalErrorDispatcher } from './global-error-dispatcher'
 import { Trace } from './instrumentation'
 
-export class BoosterScheduledCommandDispatcher {
-  private readonly globalErrorDispatcher: BoosterGlobalErrorDispatcher
+export class MagekScheduledCommandDispatcher {
+  private readonly globalErrorDispatcher: MagekGlobalErrorDispatcher
 
-  public constructor(readonly config: BoosterConfig) {
-    this.globalErrorDispatcher = new BoosterGlobalErrorDispatcher(config)
+  public constructor(readonly config: MagekConfig) {
+    this.globalErrorDispatcher = new MagekGlobalErrorDispatcher(config)
   }
 
   @Trace(TraceActionTypes.SCHEDULED_COMMAND_HANDLER)
   public async dispatchCommand(commandEnvelope: ScheduledCommandEnvelope): Promise<void> {
-    const logger = getLogger(this.config, 'BoosterScheduledCommandDispatcher#dispatchCommand')
+    const logger = getLogger(this.config, 'MagekScheduledCommandDispatcher#dispatchCommand')
     logger.debug('Dispatching the following scheduled command envelope: ', commandEnvelope)
 
     const commandMetadata = this.config.scheduledCommandHandlers[commandEnvelope.typeName]
@@ -58,7 +58,7 @@ export class BoosterScheduledCommandDispatcher {
    * @param logger
    */
   public async dispatch(request: unknown): Promise<void> {
-    const logger = getLogger(this.config, 'BoosterScheduledCommandDispatcher#dispatch')
+    const logger = getLogger(this.config, 'MagekScheduledCommandDispatcher#dispatch')
     const envelopeOrError = await this.config.provider.scheduled.rawToEnvelope(this.config, request)
     logger.debug('Received ScheduledCommand envelope...', envelopeOrError)
     await this.dispatchCommand(envelopeOrError)

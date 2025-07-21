@@ -6,15 +6,15 @@ import {
   compileProjectAndLoadConfig,
   createDeploymentSandbox,
 } from '../services/config-service'
-import { BoosterConfig } from '@magek/common'
+import { MagekConfig } from '@magek/common'
 import { Script } from '../common/script'
 import Brand from '../common/brand'
 import { logger } from '../services/logger'
 import { currentEnvironment, initializeEnvironment } from '../services/environment'
 
 const runTasks = async (
-  compileAndLoad: Promise<BoosterConfig>,
-  deployer: (config: BoosterConfig) => Promise<void>
+  compileAndLoad: Promise<MagekConfig>,
+  deployer: (config: MagekConfig) => Promise<void>
 ): Promise<void> =>
   Script.init(`boost ${Brand.dangerize('deploy')} [${currentEnvironment()}] 🚀`, compileAndLoad)
     .step('Deploying', (config) => deployer(config))

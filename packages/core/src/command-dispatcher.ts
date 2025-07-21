@@ -1,5 +1,5 @@
 import {
-  BoosterConfig,
+  MagekConfig,
   CommandEnvelope,
   Register,
   InvalidParameterError,
@@ -12,21 +12,21 @@ import {
 } from '@magek/common'
 import { RegisterHandler } from './register-handler'
 import { applyBeforeFunctions } from './services/filter-helpers'
-import { BoosterGlobalErrorDispatcher } from './global-error-dispatcher'
+import { MagekGlobalErrorDispatcher } from './global-error-dispatcher'
 import { SchemaMigrator } from './schema-migrator'
 import { GraphQLResolverContext } from './services/graphql/common'
 import { Trace } from './instrumentation'
 
-export class BoosterCommandDispatcher {
-  private readonly globalErrorDispatcher: BoosterGlobalErrorDispatcher
+export class MagekCommandDispatcher {
+  private readonly globalErrorDispatcher: MagekGlobalErrorDispatcher
 
-  public constructor(readonly config: BoosterConfig) {
-    this.globalErrorDispatcher = new BoosterGlobalErrorDispatcher(config)
+  public constructor(readonly config: MagekConfig) {
+    this.globalErrorDispatcher = new MagekGlobalErrorDispatcher(config)
   }
 
   @Trace(TraceActionTypes.COMMAND_HANDLER)
   public async dispatchCommand(commandEnvelope: CommandEnvelope, context: GraphQLResolverContext): Promise<unknown> {
-    const logger = getLogger(this.config, 'BoosterCommandDispatcher#dispatchCommand')
+    const logger = getLogger(this.config, 'MagekCommandDispatcher#dispatchCommand')
     logger.debug('Dispatching the following command envelope: ', commandEnvelope)
     if (!commandEnvelope.version) {
       throw new InvalidParameterError('The required command "version" was not present')

@@ -1,15 +1,15 @@
  
 import { expect } from '../expect'
 import { describe } from 'mocha'
-import { ReadModel, Booster, Entity, Projects, sequencedBy, Role, CalculatedField } from '../../src'
+import { ReadModel, Magek, Entity, Projects, sequencedBy, Role, CalculatedField } from '../../src'
 import { UUID, ProjectionResult, UserEnvelope } from '@magek/common'
-import { BoosterAuthorizer } from '../../src/authorizer'
+import { MagekAuthorizer } from '../../src/authorizer'
 import { fake, restore } from 'sinon'
 
 describe('the `ReadModel` decorator', () => {
   afterEach(() => {
     restore()
-    Booster.configure('test', (config) => {
+    Magek.configure('test', (config) => {
       for (const propName in config.readModels) {
         delete config.readModels[propName]
       }
@@ -17,15 +17,15 @@ describe('the `ReadModel` decorator', () => {
   })
 
   context('when the `authorize` parameter is not provided', () => {
-    it('injects the read model metadata in the Booster configuration and denies access', () => {
+    it('injects the read model metadata in the Magek configuration and denies access', () => {
       @ReadModel({})
       class Post {
         public constructor(readonly id: UUID, readonly title: string) {}
       }
 
-      expect(Booster.config.readModels['Post']).to.deep.equal({
+      expect(Magek.config.readModels['Post']).to.deep.equal({
         class: Post,
-        authorizer: BoosterAuthorizer.denyAccess,
+        authorizer: MagekAuthorizer.denyAccess,
         before: [],
         properties: [
           {
@@ -61,7 +61,7 @@ describe('the `ReadModel` decorator', () => {
   })
 
   context('when before filter functions are provided', () => {
-    it('injects the read model metadata in the Booster configuration with the provided before functions', () => {
+    it('injects the read model metadata in the Magek configuration with the provided before functions', () => {
       const fakeBeforeFilter = fake.resolves(undefined)
 
       @ReadModel({
@@ -71,16 +71,16 @@ describe('the `ReadModel` decorator', () => {
         public constructor(readonly id: UUID, readonly aStringProp: string) {}
       }
 
-      expect(Booster.config.readModels['Post'].class).to.equal(Post)
-      expect(Booster.config.readModels['Post'].authorizer).to.be.equal(BoosterAuthorizer.denyAccess)
-      expect(Booster.config.readModels['Post'].before).to.be.an('Array')
-      expect(Booster.config.readModels['Post'].before).to.have.lengthOf(1)
-      expect(Booster.config.readModels['Post'].before[0]).to.be.equal(fakeBeforeFilter)
+      expect(Magek.config.readModels['Post'].class).to.equal(Post)
+      expect(Magek.config.readModels['Post'].authorizer).to.be.equal(MagekAuthorizer.denyAccess)
+      expect(Magek.config.readModels['Post'].before).to.be.an('Array')
+      expect(Magek.config.readModels['Post'].before).to.have.lengthOf(1)
+      expect(Magek.config.readModels['Post'].before[0]).to.be.equal(fakeBeforeFilter)
     })
   })
 
   context('when the `authorize` parameter is set to `all`', () => {
-    it('registers the read model in Booster configuration and allows public access', () => {
+    it('registers the read model in Magek configuration and allows public access', () => {
       @ReadModel({
         authorize: 'all',
       })
@@ -93,9 +93,9 @@ describe('the `ReadModel` decorator', () => {
         ) {}
       }
 
-      expect(Booster.config.readModels['SomeReadModel']).to.be.deep.equal({
+      expect(Magek.config.readModels['SomeReadModel']).to.be.deep.equal({
         class: SomeReadModel,
-        authorizer: BoosterAuthorizer.allowAccess,
+        authorizer: MagekAuthorizer.allowAccess,
         before: [],
         properties: [
           {
@@ -167,7 +167,7 @@ describe('the `ReadModel` decorator', () => {
   })
 
   context('when the `authorize` parameter is set to an array of roles', () => {
-    it('registers the read model in Booster configuration and allows access to the specified roles', async () => {
+    it('registers the read model in Magek configuration and allows access to the specified roles', async () => {
       @Role({
         auth: {},
       })
@@ -180,9 +180,9 @@ describe('the `ReadModel` decorator', () => {
         public constructor(readonly id: UUID, readonly aStringProp: string) {}
       }
 
-      expect(Booster.config.readModels['SomeReadModel'].class).to.be.equal(SomeReadModel)
+      expect(Magek.config.readModels['SomeReadModel'].class).to.be.equal(SomeReadModel)
 
-      const authorizerFunction = Booster.config.readModels['SomeReadModel']?.authorizer
+      const authorizerFunction = Magek.config.readModels['SomeReadModel']?.authorizer
       console.log('-----------------------------------')
       console.log(authorizerFunction)
       console.log('-----------------------------------')
@@ -201,7 +201,7 @@ describe('the `ReadModel` decorator', () => {
   })
 
   context('when the `authorize` parameter is set to a function', () => {
-    it('registers the read model in Booster configuration and allows access when the authorizer function is fulfilled', async () => {
+    it('registers the read model in Magek configuration and allows access when the authorizer function is fulfilled', async () => {
       @ReadModel({
         authorize: async (currentUser?: UserEnvelope) => {
           const permissions = currentUser?.claims?.permissions as string[]
@@ -215,28 +215,28 @@ describe('the `ReadModel` decorator', () => {
         public constructor(readonly id: UUID, readonly aStringProp: string) {}
       }
 
-      expect(Booster.config.readModels['RockingData'].class).to.be.equal(RockingData)
+      expect(Magek.config.readModels['RockingData'].class).to.be.equal(RockingData)
 
       const fakeUser = {
         claims: {
           permissions: ['Rock'],
         },
       } as unknown as UserEnvelope
-      await expect(Booster.config.readModels['RockingData'].authorizer(fakeUser)).to.be.eventually.fulfilled
+      await expect(Magek.config.readModels['RockingData'].authorizer(fakeUser)).to.be.eventually.fulfilled
 
       const fakeUser2 = {
         claims: {
           permissions: ['Reaggeton'],
         },
       } as unknown as UserEnvelope
-      await expect(Booster.config.readModels['RockingData'].authorizer(fakeUser2)).not.to.be.eventually.fulfilled
+      await expect(Magek.config.readModels['RockingData'].authorizer(fakeUser2)).not.to.be.eventually.fulfilled
     })
   })
 })
 
 describe('the `Projects` decorator', () => {
   afterEach(() => {
-    Booster.configure('test', (config) => {
+    Magek.configure('test', (config) => {
       for (const propName in config.readModels) {
         delete config.readModels[propName]
       }
@@ -246,7 +246,7 @@ describe('the `Projects` decorator', () => {
     })
   })
 
-  it('registers a read model method as an entity projection in Booster configuration', () => {
+  it('registers a read model method as an entity projection in Magek configuration', () => {
     @Entity
     class SomeEntity {
       public constructor(readonly id: UUID) {}
@@ -264,9 +264,9 @@ describe('the `Projects` decorator', () => {
       }
     }
 
-    const someEntityObservers = Booster.config.projections['SomeEntity']
+    const someEntityObservers = Magek.config.projections['SomeEntity']
 
-    expect(Booster.config.readModels).to.contain(SomeReadModel)
+    expect(Magek.config.readModels).to.contain(SomeReadModel)
     expect(someEntityObservers).to.be.an('Array')
     expect(someEntityObservers).to.deep.include({
       class: SomeReadModel,
@@ -277,7 +277,7 @@ describe('the `Projects` decorator', () => {
 
   describe('the `sequencedBy` decorator', () => {
     afterEach(() => {
-      Booster.configure('test', (config) => {
+      Magek.configure('test', (config) => {
         for (const propName in config.readModels) {
           delete config.readModels[propName]
         }
@@ -295,9 +295,9 @@ describe('the `Projects` decorator', () => {
         public constructor(readonly id: UUID, @sequencedBy readonly timestamp: string) {}
       }
 
-      expect(Booster.config.readModelSequenceKeys).not.to.be.null
-      expect(Booster.config.readModelSequenceKeys[SequencedReadModel.name]).to.be.a('String')
-      expect(Booster.config.readModelSequenceKeys[SequencedReadModel.name]).to.be.equal('timestamp')
+      expect(Magek.config.readModelSequenceKeys).not.to.be.null
+      expect(Magek.config.readModelSequenceKeys[SequencedReadModel.name]).to.be.a('String')
+      expect(Magek.config.readModelSequenceKeys[SequencedReadModel.name]).to.be.equal('timestamp')
     })
   })
 })
@@ -305,7 +305,7 @@ describe('the `Projects` decorator', () => {
 describe('the `CalculatedField` decorator', () => {
   afterEach(() => {
     restore()
-    Booster.configure('test', (config) => {
+    Magek.configure('test', (config) => {
       for (const propName in config.readModels) {
         delete config.readModels[propName]
       }
@@ -325,9 +325,9 @@ describe('the `CalculatedField` decorator', () => {
       }
     }
 
-    expect(Booster.config.readModels['PersonReadModel']).to.be.deep.equal({
+    expect(Magek.config.readModels['PersonReadModel']).to.be.deep.equal({
       class: PersonReadModel,
-      authorizer: BoosterAuthorizer.allowAccess,
+      authorizer: MagekAuthorizer.allowAccess,
       before: [],
       properties: [
         {

@@ -1,6 +1,6 @@
 import {
   BOOSTER_SUPER_KIND,
-  BoosterConfig,
+  MagekConfig,
   EntityInterface,
   EntitySnapshotEnvelope,
   EventEnvelope,
@@ -19,18 +19,18 @@ import {
   createInstance,
   getLogger,
 } from '@magek/common'
-import { BoosterGlobalErrorDispatcher } from '../global-error-dispatcher'
+import { MagekGlobalErrorDispatcher } from '../global-error-dispatcher'
 import { SchemaMigrator } from '../schema-migrator'
-import { BoosterEntityMigrated } from '../core-concepts/data-migration/events/entity-migrated'
-import { BoosterEntityTouched } from '../core-concepts/touch-entity/events/entity-touched'
+import { MagekEntityMigrated } from '../core-concepts/data-migration/events/entity-migrated'
+import { MagekEntityTouched } from '../core-concepts/touch-entity/events/entity-touched'
 import { Trace } from '../instrumentation'
 
 const originOfTime = new Date(0).toISOString() // Unix epoch
 
-const boosterReducibleEventsTypesNames: Array<string> = [BoosterEntityMigrated.name, BoosterEntityTouched.name]
+const boosterReducibleEventsTypesNames: Array<string> = [MagekEntityMigrated.name, MagekEntityTouched.name]
 
 export class EventStore {
-  public constructor(readonly config: BoosterConfig) {}
+  public constructor(readonly config: MagekConfig) {}
 
   /**
    * Will fetch the latest snapshot for an entity by applying a reduction
@@ -62,12 +62,12 @@ export class EventStore {
             newEntitySnapshot = await this.entityReducer(pendingEvent, newEntitySnapshot)
           } catch (e) {
             if (e instanceof InvalidEventError) {
-              const globalErrorDispatcher = new BoosterGlobalErrorDispatcher(this.config)
+              const globalErrorDispatcher = new MagekGlobalErrorDispatcher(this.config)
               const error = await globalErrorDispatcher.dispatch(new EventGlobalError(pendingEvent, e))
               if (error) throw error
               continue
             } else if (e instanceof InvalidReducerError) {
-              const globalErrorDispatcher = new BoosterGlobalErrorDispatcher(this.config)
+              const globalErrorDispatcher = new MagekGlobalErrorDispatcher(this.config)
               const reducerMetadata = this.config.reducers[pendingEvent.typeName]
               const error = await globalErrorDispatcher.dispatch(
                 new ReducerGlobalError(pendingEvent, e.eventInstance, e.snapshotInstance, reducerMetadata, e)
@@ -161,7 +161,7 @@ export class EventStore {
   ): Promise<NonPersistedEntitySnapshotEnvelope | undefined> {
     const logger = getLogger(this.config, 'entityReducer')
     logger.debug('Calling reducer with event: ', eventEnvelope, ' and entity snapshot ', latestSnapshot)
-    if (this.shouldReduceBoosterSuperKind(eventEnvelope)) {
+    if (this.shouldReduceMagekSuperKind(eventEnvelope)) {
       return this.reduceSuperKind(eventEnvelope, latestSnapshot)
     }
 
@@ -180,7 +180,7 @@ export class EventStore {
     )
   }
 
-  private shouldReduceBoosterSuperKind(eventEnvelope: EventEnvelope) {
+  private shouldReduceMagekSuperKind(eventEnvelope: EventEnvelope) {
     const reducible = boosterReducibleEventsTypesNames.includes(eventEnvelope.typeName)
     return eventEnvelope.superKind && eventEnvelope.superKind === BOOSTER_SUPER_KIND && reducible
   }
@@ -224,7 +224,7 @@ export class EventStore {
       logger.debug('Reducer result: ', newSnapshot)
       return newSnapshot
     } catch (e) {
-      const globalErrorDispatcher = new BoosterGlobalErrorDispatcher(this.config)
+      const globalErrorDispatcher = new MagekGlobalErrorDispatcher(this.config)
       throw await globalErrorDispatcher.dispatch(
         new ReducerGlobalError(migratedEventEnvelope, eventInstance, snapshotInstance, reducerMetadata, e)
       )
@@ -235,18 +235,18 @@ export class EventStore {
     eventEnvelope: EventEnvelope,
     latestSnapshot?: NonPersistedEntitySnapshotEnvelope
   ): Promise<NonPersistedEntitySnapshotEnvelope | undefined> {
-    if (eventEnvelope.typeName === BoosterEntityTouched.name) {
+    if (eventEnvelope.typeName === MagekEntityTouched.name) {
       return this.reduceEntityTouched(eventEnvelope, latestSnapshot)
     }
-    if (eventEnvelope.typeName === BoosterEntityMigrated.name) {
+    if (eventEnvelope.typeName === MagekEntityMigrated.name) {
       return this.reduceEntityMigrated(eventEnvelope)
     }
     throw new InvalidParameterError(`Unexpected super kind ${eventEnvelope.superKind} to be reduced`)
   }
 
   private reduceEntityMigrated(eventEnvelope: EventEnvelope): NonPersistedEntitySnapshotEnvelope {
-    const event = eventEnvelope.value as BoosterEntityMigrated
-    return this.toBoosterEntitySnapshot(eventEnvelope, event.newEntity, event.newEntityName)
+    const event = eventEnvelope.value as MagekEntityMigrated
+    return this.toMagekEntitySnapshot(eventEnvelope, event.newEntity, event.newEntityName)
   }
 
   private reduceEntityTouched(
@@ -260,18 +260,18 @@ export class EventStore {
       return
     }
 
-    const event = eventEnvelope.value as BoosterEntityTouched
+    const event = eventEnvelope.value as MagekEntityTouched
     const entityMetadata = this.config.entities[event.entityName]
     const snapshotInstance = createInstance(entityMetadata.class, latestSnapshot.value)
-    return this.toBoosterEntitySnapshot(eventEnvelope, snapshotInstance, event.entityName)
+    return this.toMagekEntitySnapshot(eventEnvelope, snapshotInstance, event.entityName)
   }
 
-  private toBoosterEntitySnapshot(
+  private toMagekEntitySnapshot(
     eventEnvelope: EventEnvelope,
     entity: Instance & EntityInterface,
     className: string
   ): NonPersistedEntitySnapshotEnvelope {
-    const logger = getLogger(this.config, 'EventStore#toBoosterEntitySnapshot')
+    const logger = getLogger(this.config, 'EventStore#toMagekEntitySnapshot')
     const boosterMigratedSnapshot: NonPersistedEntitySnapshotEnvelope = {
       version: this.config.currentVersionFor(className),
       kind: 'snapshot',
@@ -283,7 +283,7 @@ export class EventStore {
       value: entity,
       snapshottedEventCreatedAt: eventEnvelope.createdAt,
     }
-    logger.debug('BoosterEntitySnapshot result: ', boosterMigratedSnapshot)
+    logger.debug('MagekEntitySnapshot result: ', boosterMigratedSnapshot)
     return boosterMigratedSnapshot
   }
 

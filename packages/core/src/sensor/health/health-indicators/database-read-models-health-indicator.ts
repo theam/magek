@@ -1,13 +1,13 @@
 import {
-  BoosterConfig,
+  MagekConfig,
   HealthIndicatorResult,
   HealthIndicatorMetadata,
   HealthStatus,
 } from '@magek/common'
 
-export class BoosterDatabaseReadModelsHealthIndicator {
+export class MagekDatabaseReadModelsHealthIndicator {
   public async health(
-    config: BoosterConfig,
+    config: MagekConfig,
     healthIndicatorMetadata: HealthIndicatorMetadata
   ): Promise<HealthIndicatorResult> {
     try {
@@ -24,7 +24,7 @@ export class BoosterDatabaseReadModelsHealthIndicator {
     }
   }
 
-  private async isUp(config: BoosterConfig): Promise<HealthStatus> {
+  private async isUp(config: MagekConfig): Promise<HealthStatus> {
     const databaseReadModels = await config.provider.sensor.areDatabaseReadModelsUp(config)
     return databaseReadModels ? HealthStatus.UP : HealthStatus.DOWN
   }

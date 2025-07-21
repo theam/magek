@@ -1,18 +1,18 @@
 import {
-  BoosterConfig,
+  MagekConfig,
   Class,
   FinderByKeyFunction,
   ReadModelInterface,
   Searcher,
   SearcherFunction,
 } from '@magek/common'
-import { BoosterReadModelsReader } from '../read-models-reader'
+import { MagekReadModelsReader } from '../read-models-reader'
 
 export function readModelSearcher<TReadModel extends ReadModelInterface>(
-  config: BoosterConfig,
+  config: MagekConfig,
   readModelClass: Class<TReadModel>
 ): Searcher<TReadModel> {
-  const boosterReadModelsReader = new BoosterReadModelsReader(config)
+  const boosterReadModelsReader = new MagekReadModelsReader(config)
    
   const searcherFunction: SearcherFunction<TReadModel, any> =
     boosterReadModelsReader.readModelSearch.bind(boosterReadModelsReader)

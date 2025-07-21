@@ -1,7 +1,7 @@
  
 import { expect } from './expect'
 import {
-  BoosterConfig,
+  MagekConfig,
   FilterFor,
   GraphQLOperation,
   InvalidParameterError,
@@ -14,14 +14,14 @@ import {
   UUID,
 } from '@magek/common'
 import { fake, match, replace, restore, SinonStub, stub } from 'sinon'
-import { BoosterReadModelsReader } from '../src/read-models-reader'
+import { MagekReadModelsReader } from '../src/read-models-reader'
 import { faker } from '@faker-js/faker'
-import { Booster } from '../src/magek'
-import { BoosterAuthorizer } from '../src/authorizer'
+import { Magek } from '../src/magek'
+import { MagekAuthorizer } from '../src/authorizer'
 import { ReadModelSchemaMigrator } from '../src/read-model-schema-migrator'
 
-describe('BoosterReadModelReader', () => {
-  const config = new BoosterConfig('test')
+describe('MagekReadModelReader', () => {
+  const config = new MagekConfig('test')
   config.provider = {
     readModels: {
       search: fake(),
@@ -56,7 +56,7 @@ describe('BoosterReadModelReader', () => {
   // Why sorting by salmon? Salmons are fun! https://youtu.be/dDj7DuHVV9E
   config.readModelSequenceKeys[SequencedReadModel.name] = 'salmon'
 
-  const readModelReader = new BoosterReadModelsReader(config)
+  const readModelReader = new MagekReadModelsReader(config)
 
   const noopGraphQLOperation: GraphQLOperation = {
     query: '',
@@ -92,13 +92,13 @@ describe('BoosterReadModelReader', () => {
     beforeEach(() => {
       config.readModels[TestReadModel.name] = {
         class: TestReadModel,
-        authorizer: BoosterAuthorizer.authorizeRoles.bind(null, [UserRole]),
+        authorizer: MagekAuthorizer.authorizeRoles.bind(null, [UserRole]),
         properties: [],
         before: [],
       }
       config.readModels[SequencedReadModel.name] = {
         class: SequencedReadModel,
-        authorizer: BoosterAuthorizer.authorizeRoles.bind(null, [UserRole]),
+        authorizer: MagekAuthorizer.authorizeRoles.bind(null, [UserRole]),
         properties: [],
         before: [],
       }
@@ -133,7 +133,7 @@ describe('BoosterReadModelReader', () => {
         await expect(validateByIdRequest(readModelByIdRequest)).to.be.eventually.rejectedWith(/Access denied/)
       })
 
-      it('throws an invalid parameter error when the request receives a sequence key but it cannot be found in the Booster metadata', async () => {
+      it('throws an invalid parameter error when the request receives a sequence key but it cannot be found in the Magek metadata', async () => {
         const readModel = {
           version: 1,
           class: TestReadModel,
@@ -187,7 +187,7 @@ describe('BoosterReadModelReader', () => {
         const fakeValidateByIdRequest = fake()
         replace(readModelReader as any, 'validateByIdRequest', fakeValidateByIdRequest)
         const fakeSearcher = createFakeSearcher()
-        replace(Booster, 'readModel', fake.returns(fakeSearcher))
+        replace(Magek, 'readModel', fake.returns(fakeSearcher))
 
         const currentUser = {
           id: 'a user',
@@ -221,7 +221,7 @@ describe('BoosterReadModelReader', () => {
         const fakeSearcher = createFakeSearcher({
           findById: fake.returns(new TestReadModel())
         })
-        replace(Booster, 'readModel', fake.returns(fakeSearcher))
+        replace(Magek, 'readModel', fake.returns(fakeSearcher))
 
         const readModelRequestEnvelope = {
           key: {
@@ -255,7 +255,7 @@ describe('BoosterReadModelReader', () => {
         const fakeSearcher = createFakeSearcher({
           findById: fake.returns([new TestReadModel(), new TestReadModel()])
         })
-        replace(Booster, 'readModel', fake.returns(fakeSearcher))
+        replace(Magek, 'readModel', fake.returns(fakeSearcher))
 
         const readModelRequestEnvelope = {
           key: {
@@ -289,7 +289,7 @@ describe('BoosterReadModelReader', () => {
     beforeEach(() => {
       config.readModels[TestReadModel.name] = {
         class: TestReadModel,
-        authorizer: BoosterAuthorizer.authorizeRoles.bind(null, [UserRole]),
+        authorizer: MagekAuthorizer.authorizeRoles.bind(null, [UserRole]),
         properties: [],
         before: [],
       }
@@ -385,7 +385,7 @@ describe('BoosterReadModelReader', () => {
       beforeEach(() => {
         config.readModels[TestReadModel.name] = {
           class: TestReadModel,
-          authorizer: BoosterAuthorizer.authorizeRoles.bind(null, [UserRole]),
+          authorizer: MagekAuthorizer.authorizeRoles.bind(null, [UserRole]),
           properties: [],
           before: [],
         }
@@ -402,7 +402,7 @@ describe('BoosterReadModelReader', () => {
         const providerSearcherFunctionFake = fake.resolves(expectedReadModels)
         replace(config.provider.readModels, 'search', providerSearcherFunctionFake)
 
-        replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
+        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
 
         migratorStub.callsFake(async (readModel, readModelName) => readModel)
 
@@ -426,7 +426,7 @@ describe('BoosterReadModelReader', () => {
         const providerSearcherFunctionFake = fake.resolves(expectedReadModels)
         replace(config.provider.readModels, 'search', providerSearcherFunctionFake)
 
-        replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
+        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
 
         migratorStub.callsFake(async (readModel, readModelName) => readModel)
 
@@ -456,7 +456,7 @@ describe('BoosterReadModelReader', () => {
         const providerSearcherFunctionFake = fake.resolves(searchResult)
         replace(config.provider.readModels, 'search', providerSearcherFunctionFake)
 
-        replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
+        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
 
         migratorStub.callsFake(async (readModel, readModelName) => readModel)
 
@@ -494,7 +494,7 @@ describe('BoosterReadModelReader', () => {
           const providerSearcherFunctionFake = fake.resolves(expectedReadModels)
           replace(config.provider.readModels, 'search', providerSearcherFunctionFake)
 
-          replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
+          replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
 
           migratorStub.callsFake(async (readModel, readModelName) => readModel)
 
@@ -529,7 +529,7 @@ describe('BoosterReadModelReader', () => {
           const providerSearcherFunctionFake = fake.resolves(expectedResult)
           replace(config.provider.readModels, 'search', providerSearcherFunctionFake)
 
-          replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
+          replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
 
           migratorStub.callsFake(async (readModel, readModelName) => readModel)
 
@@ -558,12 +558,12 @@ describe('BoosterReadModelReader', () => {
 
           config.readModels[TestReadModel.name] = {
             class: TestReadModel,
-            authorizer: BoosterAuthorizer.authorizeRoles.bind(null, [UserRole]),
+            authorizer: MagekAuthorizer.authorizeRoles.bind(null, [UserRole]),
             properties: [],
             before: [fakeBeforeFn],
           }
 
-          replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
+          replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
           replace(config.provider.readModels, 'search', providerSearcherFunctionFake)
         })
 
@@ -593,12 +593,12 @@ describe('BoosterReadModelReader', () => {
 
           config.readModels[TestReadModel.name] = {
             class: TestReadModel,
-            authorizer: BoosterAuthorizer.authorizeRoles.bind(null, [UserRole]),
+            authorizer: MagekAuthorizer.authorizeRoles.bind(null, [UserRole]),
             properties: [],
             before: [beforeFnSpy, beforeFnV2Spy],
           }
 
-          replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
+          replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
 
           replace(config.provider.readModels, 'search', providerSearcherFunctionFake)
         })
@@ -639,7 +639,7 @@ describe('BoosterReadModelReader', () => {
         beforeEach(() => {
           config.readModels[TestReadModel.name] = {
             class: TestReadModel,
-            authorizer: BoosterAuthorizer.authorizeRoles.bind(null, [UserRole]),
+            authorizer: MagekAuthorizer.authorizeRoles.bind(null, [UserRole]),
             properties: [],
             before: [],
           }
@@ -672,7 +672,7 @@ describe('BoosterReadModelReader', () => {
         beforeEach(() => {
           config.readModels[TestReadModel.name] = {
             class: TestReadModel,
-            authorizer: BoosterAuthorizer.authorizeRoles.bind(null, [UserRole]),
+            authorizer: MagekAuthorizer.authorizeRoles.bind(null, [UserRole]),
             properties: [],
             before: [beforeFn, beforeFnV2],
           }

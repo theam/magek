@@ -1,7 +1,7 @@
 import {
   UUID,
   UserApp,
-  BoosterConfig,
+  MagekConfig,
   NonPersistedEventEnvelope,
   NonPersistedEntitySnapshotEnvelope,
   EventSearchParameters,
@@ -47,7 +47,7 @@ async function countAll(database: any): Promise<number> {
 }
 
 // Function to get userApp from config or load it from standard location
-function getUserApp(config: BoosterConfig): UserApp {
+function getUserApp(config: MagekConfig): UserApp {
   // Check if userApp is attached to config
   if ((config as any).userApp) {
     return (config as any).userApp
@@ -66,32 +66,32 @@ export const eventStore: EventStoreAdapter = {
   rawStreamToEnvelopes: notImplemented,
   dedupEventStream: notImplemented,
   produce: notImplemented,
-  forEntitySince: (config: BoosterConfig, entityTypeName: string, entityID: UUID, since?: string) =>
+  forEntitySince: (config: MagekConfig, entityTypeName: string, entityID: UUID, since?: string) =>
     readEntityEventsSince(eventRegistry, config, entityTypeName, entityID, since),
-  latestEntitySnapshot: (config: BoosterConfig, entityTypeName: string, entityID: UUID) =>
+  latestEntitySnapshot: (config: MagekConfig, entityTypeName: string, entityID: UUID) =>
     readEntityLatestSnapshot(eventRegistry, config, entityTypeName, entityID),
-  store: (eventEnvelopes: Array<NonPersistedEventEnvelope>, config: BoosterConfig) => {
+  store: (eventEnvelopes: Array<NonPersistedEventEnvelope>, config: MagekConfig) => {
     const userApp = getUserApp(config)
     return storeEvents(userApp, eventRegistry, eventEnvelopes, config)
   },
-  storeSnapshot: (snapshotEnvelope: NonPersistedEntitySnapshotEnvelope, config: BoosterConfig) =>
+  storeSnapshot: (snapshotEnvelope: NonPersistedEntitySnapshotEnvelope, config: MagekConfig) =>
     storeSnapshot(eventRegistry, snapshotEnvelope, config),
-  search: (config: BoosterConfig, parameters: EventSearchParameters) =>
+  search: (config: MagekConfig, parameters: EventSearchParameters) =>
     searchEvents(eventRegistry, config, parameters),
   searchEntitiesIDs: (
-    config: BoosterConfig,
+    config: MagekConfig,
     limit: number,
     afterCursor: Record<string, string> | undefined,
     entityTypeName: string
   ) => searchEntitiesIds(eventRegistry, config, limit, afterCursor, entityTypeName),
   storeDispatched: () => storeDispatchedEvent(),
-  findDeletableEvent: (config: BoosterConfig, parameters: EventDeleteParameters) =>
+  findDeletableEvent: (config: MagekConfig, parameters: EventDeleteParameters) =>
     findDeletableEvent(eventRegistry, config, parameters),
-  findDeletableSnapshot: (config: BoosterConfig, parameters: SnapshotDeleteParameters) =>
+  findDeletableSnapshot: (config: MagekConfig, parameters: SnapshotDeleteParameters) =>
     findDeletableSnapshot(eventRegistry, config, parameters),
-  deleteEvent: (config: BoosterConfig, events: Array<EventEnvelopeFromDatabase>) =>
+  deleteEvent: (config: MagekConfig, events: Array<EventEnvelopeFromDatabase>) =>
     deleteEvent(eventRegistry, config, events),
-  deleteSnapshot: (config: BoosterConfig, snapshots: Array<EntitySnapshotEnvelopeFromDatabase>) =>
+  deleteSnapshot: (config: MagekConfig, snapshots: Array<EntitySnapshotEnvelopeFromDatabase>) =>
     deleteSnapshot(eventRegistry, config, snapshots),
   healthCheck: {
     isUp: async () => existsSync(eventsDatabase),

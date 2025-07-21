@@ -1,6 +1,6 @@
 import { UUID } from '@magek/common'
 
-export class BoosterDataMigrationFinished {
+export class MagekDataMigrationFinished {
   readonly lastUpdated: string
 
   public constructor(readonly name: string, lastUpdated?: string) {

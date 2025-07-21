@@ -11,7 +11,7 @@ All this is done through [GraphQL](https://graphql.org/), a query language for A
 If you are not familiar with GraphQL, then, first of all, don't worry!
 _Using_ a GraphQL API is simple and straightforward.
 _Implementing it_ on the server side is usually the hard part, as you need to define your schema, operations, resolvers, etc.
-Luckily, you can forget about that because Booster does all the work for you!
+Luckily, you can forget about that because Magek does all the work for you!
 
 The GraphQL API is fully **auto-generated** based on your _commands_ and _read models_.
 
@@ -47,7 +47,7 @@ GraphQL defines three kinds of operations that you can use: _mutations_, _querie
 The names are pretty meaningful, but we can say that you use a `mutation` when you want to change data, a `query` when you want to get
 data on-demand, and a `subscription` when you want to receive data at the moment it is updated.
 
-Knowing this, you can infer the relationship between those operations and your Booster components:
+Knowing this, you can infer the relationship between those operations and your Magek components:
 
 - You _send_ a **command** using a **mutation**.
 - You _read_ a **read model** using a **query**.
@@ -325,7 +325,7 @@ Remember that, in case you want to subscribe to a read model that is restricted 
 :::
 
 :::note
-You can disable the creation of all the infrastructure and functionality needed to manage subscriptions by setting `config.enableSubscriptions=false` in your `Booster.config` block
+You can disable the creation of all the infrastructure and functionality needed to manage subscriptions by setting `config.enableSubscriptions=false` in your `Magek.config` block
 :::
 
 
@@ -360,7 +360,7 @@ export class CartReadModel {
 
 ## Adding before hooks to your read models
 
-When you send queries or subscriptions to your read models, you can tell Booster to execute some code before executing the operation. These are called `before` hooks, and they receive a `ReadModelRequestEnvelope` object representing the current request.
+When you send queries or subscriptions to your read models, you can tell Magek to execute some code before executing the operation. These are called `before` hooks, and they receive a `ReadModelRequestEnvelope` object representing the current request.
 
 ```typescript
 interface ReadModelRequestEnvelope<TReadModel> {
@@ -630,7 +630,7 @@ query {
 
 ### Filtering a read model
 
-The Booster GraphQL API provides support for filtering Read Models on `queries` and `subscriptions`.
+The Magek GraphQL API provides support for filtering Read Models on `queries` and `subscriptions`.
 
 Using the GraphQL API endpoint you can retrieve the schema of your application so you can see what are the filters for every Read Model and its properties. You can filter like this:
 
@@ -800,7 +800,7 @@ query {
 
 ### Getting, filtering and projecting read models data at code level
 
-Booster allows you to get your read models data in your commands handlers and event handlers using the `Booster.readModel` method.
+Magek allows you to get your read models data in your commands handlers and event handlers using the `Magek.readModel` method.
 
 For example, you can filter and get the total number of the products that meet your criteria in your commands like this:
 
@@ -812,7 +812,7 @@ export class GetProductsCount {
   public constructor(readonly filters: Record<string, any>) {}
 
   public static async handle(): Promise<void> {
-    const searcher = Booster.readModel(ProductReadModel)
+    const searcher = Magek.readModel(ProductReadModel)
 
     searcher.filter({
       sku: { contains: 'toy' },
@@ -842,7 +842,7 @@ export class GetProductsCount {
   public constructor(readonly filters: Record<string, any>) {}
 
   public static async handle(): Promise<unknown> {
-    const searcher = Booster.readModel(ProductReadModel)
+    const searcher = Magek.readModel(ProductReadModel)
             .filter({
               sku: { contains: 'toy' },
               or: [
@@ -872,7 +872,7 @@ export class GetCartItems {
   public constructor(readonly filters: Record<string, any>) {}
 
   public static async handle(): Promise<unknown> {
-    const searcher = Booster.readModel(CartReadModel)
+    const searcher = Magek.readModel(CartReadModel)
             .select(['id', 'cartItems[].productId'])
     const result = await searcher.search()
     return { count: result.length }
@@ -895,12 +895,12 @@ Support for selecting fields from objects inside arrays is limited to arrays tha
 :::
 
 :::warning
-Notice that `ReadModel`s are eventually consistent objects that are calculated as all events in all entities that affect the read model are settled. You should not assume that a read model is a proper source of truth, so you shouldn't use this feature for data validations. If you need to query the most up-to-date current state, consider fetching your Entities, instead of ReadModels, with `Booster.entity`
+Notice that `ReadModel`s are eventually consistent objects that are calculated as all events in all entities that affect the read model are settled. You should not assume that a read model is a proper source of truth, so you shouldn't use this feature for data validations. If you need to query the most up-to-date current state, consider fetching your Entities, instead of ReadModels, with `Magek.entity`
 :::
 
 ### Using sorting
 
-Booster allows you to sort your read models data in your commands handlers and event handlers using the `Booster.readModel` method.
+Magek allows you to sort your read models data in your commands handlers and event handlers using the `Magek.readModel` method.
 
 For example, you can sort and get the products in your commands like this:
 
@@ -945,7 +945,7 @@ It is not possible to sort by fields defined as Interface, only classes or primi
 
 ### Using pagination
 
-The Booster GraphQL API includes a type for your read models that stands for `List{"your-read-model-name"}`, which is the official way to work with pagination. Alternative, there is another type without the `List` prefix, which will be deprecated in future versions.
+The Magek GraphQL API includes a type for your read models that stands for `List{"your-read-model-name"}`, which is the official way to work with pagination. Alternative, there is another type without the `List` prefix, which will be deprecated in future versions.
 
 The Read Model List type includes some new parameters that can be used on queries:
 
@@ -1080,7 +1080,7 @@ When you have a command or read model whose access is authorized to users with a
 
 You can use Authentication Rocket to authorize operations, see its [documentation](https://github.com/boostercloud/rocket-auth-aws-infrastructure) and, more especifically, the [Sign in](https://github.com/boostercloud/rocket-auth-aws-infrastructure#sign-in) section to know how to get a token. Once you have a token, the way to send it varies depending on the protocol you are using to send GraphQL operations:
 
-- For **HTTP**, you need to send the HTTP header `Authorization` with the token, making sure you prefix it with `Bearer` (the kind of token Booster uses). For example:
+- For **HTTP**, you need to send the HTTP header `Authorization` with the token, making sure you prefix it with `Bearer` (the kind of token Magek uses). For example:
 
 ```http request
 Authorization: Bearer <your token>
@@ -1221,10 +1221,10 @@ Sockets are channels for two-way communication that doesn't follow the request-r
 
 For these reasons, in order to have an effective non-trivial communication through sockets, a sub-protocol is needed. It would be in charge of making both parts understand each other, share authentication tokens, matching response to the corresponding requests, etc.
 
-The Booster WebSocket communication uses the "GraphQL over WebSocket" protocol as subprotocol. It is in charge of all the low level stuff needed to properly send subscription operations to read models and receive the corresponding data.
+The Magek WebSocket communication uses the "GraphQL over WebSocket" protocol as subprotocol. It is in charge of all the low level stuff needed to properly send subscription operations to read models and receive the corresponding data.
 
-You don't need to know anything about this to develop using Booster, neither in the backend side nor in the frontend side (as all the Apollo GraphQL clients uses this protocol), but it is good to know it is there to guarantee a proper communication. In case you are really curious, you can read about the protocol [here](https://github.com/apollographql/subscriptions-transport-ws/blob/master/PROTOCOL.md).
+You don't need to know anything about this to develop using Magek, neither in the backend side nor in the frontend side (as all the Apollo GraphQL clients uses this protocol), but it is good to know it is there to guarantee a proper communication. In case you are really curious, you can read about the protocol [here](https://github.com/apollographql/subscriptions-transport-ws/blob/master/PROTOCOL.md).
 
 :::note
-The WebSocket communication in Booster only supports this subprotocol, whose identifier is `graphql-ws`. For this reason, when you connect to the WebSocket provisioned by Booster, you must specify the `graphql-ws` subprotocol. If not, the connection won't succeed.
+The WebSocket communication in Magek only supports this subprotocol, whose identifier is `graphql-ws`. For this reason, when you connect to the WebSocket provisioned by Magek, you must specify the `graphql-ws` subprotocol. If not, the connection won't succeed.
 :::

@@ -2,7 +2,7 @@ import { Flags } from '@oclif/core'
 import BaseCommand from '../common/base-command'
 import { startProvider } from '../services/provider-service'
 import { compileProjectAndLoadConfig } from '../services/config-service'
-import { BOOSTER_LOCAL_PORT, BoosterConfig } from '@magek/common'
+import { BOOSTER_LOCAL_PORT, MagekConfig } from '@magek/common'
 import { Script } from '../common/script'
 import Brand from '../common/brand'
 import { logger } from '../services/logger'
@@ -11,8 +11,8 @@ import * as process from 'process'
 
 const runTasks = async (
   port: number,
-  loader: Promise<BoosterConfig>,
-  runner: (config: BoosterConfig) => Promise<void>
+  loader: Promise<MagekConfig>,
+  runner: (config: MagekConfig) => Promise<void>
 ): Promise<void> =>
   Script.init(`boost ${Brand.canarize('debug')} [${currentEnvironment()}] 🐛`, loader)
     .step(`Starting debug server on port ${port}`, runner)

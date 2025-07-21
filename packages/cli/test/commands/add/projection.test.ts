@@ -25,8 +25,8 @@ describe('add', async () => {
     `
 
     beforeEach(() => {
-      stub(ProjectChecker, 'checkCurrentDirIsABoosterProject').returnsThis()
-      replace(ProjectChecker, 'checkCurrentDirBoosterVersion', fake.resolves({}))
+      stub(ProjectChecker, 'checkCurrentDirIsAMagekProject').returnsThis()
+      replace(ProjectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
       replace(Filenames, 'fileNameWithExtension', fake.returns('post-read-model.ts'))
     })
 
@@ -34,10 +34,10 @@ describe('add', async () => {
       restore()
     })
 
-    it('init calls checkCurrentDirBoosterVersion', async () => {
+    it('init calls checkCurrentDirMagekVersion', async () => {
       const config = await Config.load()
       await new Projection([], config).init()
-      expect(ProjectChecker.checkCurrentDirBoosterVersion).to.have.been.called
+      expect(ProjectChecker.checkCurrentDirMagekVersion).to.have.been.called
     })
 
     it('generates projection correctly', async () => {

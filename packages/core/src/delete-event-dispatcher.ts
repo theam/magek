@@ -1,8 +1,8 @@
-import { BoosterConfig, EventDeleteParameters } from '@magek/common'
+import { MagekConfig, EventDeleteParameters } from '@magek/common'
 import { ReadModelStore } from './services/read-model-store'
 
-export class BoosterDeleteEventDispatcher {
-  public static async deleteEvent(config: BoosterConfig, parameters: EventDeleteParameters): Promise<boolean> {
+export class MagekDeleteEventDispatcher {
+  public static async deleteEvent(config: MagekConfig, parameters: EventDeleteParameters): Promise<boolean> {
     const readModelStore = new ReadModelStore(config)
     const events = await config.eventStore.findDeletableEvent(config, parameters)
     if (!events || events.length === 0) {

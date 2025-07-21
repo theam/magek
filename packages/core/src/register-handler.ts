@@ -1,6 +1,6 @@
 import {
   BOOSTER_SUPER_KIND,
-  BoosterConfig,
+  MagekConfig,
   DOMAIN_SUPER_KIND,
   EventInterface,
   Instance,
@@ -12,21 +12,21 @@ import {
   NotificationInterface,
   ReducerMetadata,
 } from '@magek/common'
-import { BoosterEntityMigrated } from './core-concepts/data-migration/events/entity-migrated'
-import { BoosterDataMigrationStarted } from './core-concepts/data-migration/events/data-migration-started'
-import { BoosterDataMigrationFinished } from './core-concepts/data-migration/events/data-migration-finished'
-import { Booster } from './magek'
-import { BoosterEntityTouched } from './core-concepts/touch-entity/events/entity-touched'
+import { MagekEntityMigrated } from './core-concepts/data-migration/events/entity-migrated'
+import { MagekDataMigrationStarted } from './core-concepts/data-migration/events/data-migration-started'
+import { MagekDataMigrationFinished } from './core-concepts/data-migration/events/data-migration-finished'
+import { Magek } from './magek'
+import { MagekEntityTouched } from './core-concepts/touch-entity/events/entity-touched'
 
 const boosterEventsTypesNames: Array<string> = [
-  BoosterEntityMigrated.name,
-  BoosterDataMigrationStarted.name,
-  BoosterDataMigrationFinished.name,
-  BoosterEntityTouched.name,
+  MagekEntityMigrated.name,
+  MagekDataMigrationStarted.name,
+  MagekDataMigrationFinished.name,
+  MagekEntityTouched.name,
 ]
 
 export class RegisterHandler {
-  public static async handle(config: BoosterConfig, register: Register): Promise<void> {
+  public static async handle(config: MagekConfig, register: Register): Promise<void> {
     if (register.eventList.length == 0) {
       return
     }
@@ -38,11 +38,11 @@ export class RegisterHandler {
   }
 
   public static async flush(record: Register): Promise<void> {
-    return RegisterHandler.handle(Booster.config, record)
+    return RegisterHandler.handle(Magek.config, record)
   }
 
   private static wrapEvent(
-    config: BoosterConfig,
+    config: MagekConfig,
     event: Instance & (EventInterface | NotificationInterface),
     register: Register
   ): NonPersistedEventEnvelope {
@@ -80,13 +80,13 @@ export class RegisterHandler {
   private static getTopicName(
     eventTypeName: string,
     event: Instance & (EventInterface | NotificationInterface),
-    config: BoosterConfig
+    config: MagekConfig
   ): string {
-    if (eventTypeName === BoosterEntityMigrated.name) {
-      return (event as BoosterEntityMigrated).oldEntityName
+    if (eventTypeName === MagekEntityMigrated.name) {
+      return (event as MagekEntityMigrated).oldEntityName
     }
-    if (eventTypeName === BoosterEntityTouched.name) {
-      return (event as BoosterEntityTouched).entityName
+    if (eventTypeName === MagekEntityTouched.name) {
+      return (event as MagekEntityTouched).entityName
     }
     if (eventTypeName in config.notifications) {
       return config.eventToTopic[eventTypeName] ?? 'defaultTopic'
@@ -97,7 +97,7 @@ export class RegisterHandler {
 
   private static getPartitionKey(
     event: Instance & (EventInterface | NotificationInterface),
-    config: BoosterConfig
+    config: MagekConfig
   ): UUID {
     const eventName = event.constructor.name
     const evtObject = event as Record<string, unknown>

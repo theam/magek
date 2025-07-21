@@ -61,8 +61,8 @@ describe('stub', async () => {
       fakeReadFileSync = fake()
       readdirSyncSpy = spy()
 
-      stub(ProjectChecker, 'checkCurrentDirIsABoosterProject').returnsThis()
-      replace(ProjectChecker, 'checkCurrentDirBoosterVersion', fake.resolves({}))
+      stub(ProjectChecker, 'checkCurrentDirIsAMagekProject').returnsThis()
+      replace(ProjectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
 
       replace(fs, 'outputFile', fake.resolves({}))
       replace(fs, 'mkdirSync', fakeMkdirSync)
@@ -82,10 +82,10 @@ describe('stub', async () => {
       restore()
     })
 
-    it('init calls checkCurrentDirBoosterVersion', async () => {
+    it('init calls checkCurrentDirMagekVersion', async () => {
       const config = await Config.load()
       await new Publish([], config).init()
-      expect(ProjectChecker.checkCurrentDirBoosterVersion).to.have.been.called
+      expect(ProjectChecker.checkCurrentDirMagekVersion).to.have.been.called
     })
 
     describe('Publishes stub files correctly', () => {
@@ -103,7 +103,7 @@ describe('stub', async () => {
         expect(fakeMkdirSync).to.have.been.calledOnce
         expect(fakeMkdirSync).to.have.been.calledOnceWith(join(process.cwd(), 'stubs'))
 
-        expect(ProjectChecker.checkCurrentDirIsABoosterProject).to.have.been.calledOnce
+        expect(ProjectChecker.checkCurrentDirIsAMagekProject).to.have.been.calledOnce
         expect(Prompter.confirmPrompt).not.to.have.been.called
 
         expect(readdirSyncSpy).to.have.been.calledOnceWith(resourceTemplatesPath, { withFileTypes: true })
@@ -127,7 +127,7 @@ describe('stub', async () => {
         expect(fakeMkdirSync).not.to.have.been.calledOnce
         expect(fakeMkdirSync).not.to.have.been.calledOnceWith(join(process.cwd(), 'stubs'))
 
-        expect(ProjectChecker.checkCurrentDirIsABoosterProject).to.have.been.calledOnce
+        expect(ProjectChecker.checkCurrentDirIsAMagekProject).to.have.been.calledOnce
 
         expect(Prompter.confirmPrompt).to.have.been.called
 
@@ -151,7 +151,7 @@ describe('stub', async () => {
         expect(fakeMkdirSync).not.to.have.been.calledOnce
         expect(fakeMkdirSync).not.to.have.been.calledOnceWith(join(process.cwd(), 'stubs'))
 
-        expect(ProjectChecker.checkCurrentDirIsABoosterProject).to.have.been.calledOnce
+        expect(ProjectChecker.checkCurrentDirIsAMagekProject).to.have.been.calledOnce
 
         expect(Prompter.confirmPrompt).not.to.have.been.called
 

@@ -1,4 +1,4 @@
-import { Booster } from '../magek'
+import { Magek } from '../magek'
 import {
   Class,
   EntityInterface,
@@ -59,7 +59,7 @@ function registerProjection(
   originName: string,
   projectionMetadata: ProjectionMetadata<EntityInterface, ReadModelInterface>
 ): void {
-  Booster.configureCurrentEnv((config): void => {
+  Magek.configureCurrentEnv((config): void => {
     configure(originName, projectionMetadata, config.projections)
   })
 }
@@ -68,7 +68,7 @@ function registerUnProjection(
   originName: string,
   projectionMetadata: ProjectionMetadata<EntityInterface, ReadModelInterface>
 ): void {
-  Booster.configureCurrentEnv((config): void => {
+  Magek.configureCurrentEnv((config): void => {
     configure(originName, projectionMetadata, config.unProjections)
   })
 }

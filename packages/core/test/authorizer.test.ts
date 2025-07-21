@@ -1,20 +1,20 @@
 import { expect } from './expect'
 import { NotAuthorizedError, UserEnvelope } from '@magek/common'
 
-import { BoosterAuthorizer } from '../src/authorizer'
+import { MagekAuthorizer } from '../src/authorizer'
 
-describe('BoosterAuthorizer', () => {
+describe('MagekAuthorizer', () => {
   class Admin {}
 
   describe('The `allowAccess` method', () => {
     it('should return a resolved promise', async () => {
-      await expect(BoosterAuthorizer.allowAccess()).to.eventually.be.fulfilled
+      await expect(MagekAuthorizer.allowAccess()).to.eventually.be.fulfilled
     })
   })
 
   describe('The `denyAccess` method', () => {
     it('should return a rejected promise', async () => {
-      await expect(BoosterAuthorizer.denyAccess()).to.eventually.be.rejectedWith(NotAuthorizedError)
+      await expect(MagekAuthorizer.denyAccess()).to.eventually.be.rejectedWith(NotAuthorizedError)
     })
   })
 
@@ -24,7 +24,7 @@ describe('BoosterAuthorizer', () => {
         roles: ['Admin', 'Developer'],
       } as unknown as UserEnvelope
 
-      await expect(BoosterAuthorizer.authorizeRoles([Admin], user)).to.eventually.be.fulfilled
+      await expect(MagekAuthorizer.authorizeRoles([Admin], user)).to.eventually.be.fulfilled
     })
 
     it('should return a rejected promise if the user does not have any of the authorized roles', async () => {
@@ -32,7 +32,7 @@ describe('BoosterAuthorizer', () => {
         roles: ['Reader'],
       } as unknown as UserEnvelope
 
-      await expect(BoosterAuthorizer.authorizeRoles([Admin], user)).to.eventually.be.rejectedWith(NotAuthorizedError)
+      await expect(MagekAuthorizer.authorizeRoles([Admin], user)).to.eventually.be.rejectedWith(NotAuthorizedError)
     })
   })
 })

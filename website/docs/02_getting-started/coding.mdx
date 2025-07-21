@@ -4,12 +4,12 @@ description: How to have the backend up and running for a blog application in a 
 import TerminalWindow from '@site/src/components/TerminalWindow/TerminalWindow'
 import {CLStepByStep, CLExampleApps, CLAskMeRepo} from '@site/src/components/CustomLinkWrappers'
 
-# Build a Booster app in minutes
+# Build a Magek app in minutes
 
 In this section, we will go through all the necessary steps to have the backend up and
 running for a blog application in just a few minutes.
 
-Before starting, make sure you have [Node.js installed](/getting-started/installation). You'll need the Booster CLI later for development tasks, but project creation doesn't require any global installations.
+Before starting, make sure you have [Node.js installed](/getting-started/installation). You'll need the Magek CLI later for development tasks, but project creation doesn't require any global installations.
 
 ### 1. Create the project
 
@@ -24,7 +24,7 @@ npm create booster-ai@latest boosted-blog
 
 </TerminalWindow>
 
-The create script will prompt you for project details like description, author, and license. You can press Enter to accept the defaults for any field. The script automatically configures your project to use **Booster Server**, which allows you to run and debug your application locally.
+The create script will prompt you for project details like description, author, and license. You can press Enter to accept the defaults for any field. The script automatically configures your project to use **Magek Server**, which allows you to run and debug your application locally.
 
 After filling in the details, you will see your project generated!:
 
@@ -55,7 +55,7 @@ Next steps:
 You can create a project non-interactively by providing command line options:
 
 ```shell
-npm create booster-ai@latest my-app -- --author "Your Name" --description "My awesome Booster app"
+npm create booster-ai@latest my-app -- --author "Your Name" --description "My awesome Magek app"
 ```
 
 Available options:
@@ -123,7 +123,7 @@ Now open the project in your favorite editor, e.g. [Visual Studio Code](https://
 
 ### 2. Setting up your development environment
 
-Now that you have a project, navigate to your project directory and set up your development environment. The project includes the Booster CLI as a dependency, so you can use it immediately:
+Now that you have a project, navigate to your project directory and set up your development environment. The project includes the Magek CLI as a dependency, so you can use it immediately:
 
 <TerminalWindow>
 
@@ -175,7 +175,7 @@ execute some business logic, and register one or more events. Therefore, we have
 1. Who is authorized to run this command.
 1. The events that it will trigger.
 
-Booster allows you to define authorization strategies (we will cover that
+Magek allows you to define authorization strategies (we will cover that
 later). Let's start by allowing anyone to send this command to our application.
 To do that, open the file we have just generated and add the string `'all'` to the
 `authorize` parameter of the `@Command` decorator. Your `CreatePost` command should look like this:
@@ -200,7 +200,7 @@ export class CreatePost {
 
 ### 4. First event
 
-Instead of creating, updating, or deleting objects, Booster stores data in the form of events.
+Instead of creating, updating, or deleting objects, Magek stores data in the form of events.
 They are records of facts and represent the source of truth. Let's generate an event called `PostCreated`
 that will contain the initial post info:
 
@@ -222,9 +222,9 @@ boosted-blog
         └── post-created.ts
 ```
 
-All events in Booster must target an entity, so we need to implement an `entityID`
+All events in Magek must target an entity, so we need to implement an `entityID`
 method. From there, we'll return the identifier of the post created, the field
-`postID`. This identifier will be used later by Booster to build the final state
+`postID`. This identifier will be used later by Magek to build the final state
 of the `Post` automatically. Edit the `entityID` method in `events/post-created.ts`
 to return our `postID`:
 
@@ -283,7 +283,7 @@ You should see now a new file called `post.ts` in the `src/entities` directory.
 
 This time, besides using the `--fields` flag, we use the `--reduces` flag to specify the events the entity will reduce and, this way, produce the Post current state. The generator will create one _reducer function_ for each event we have specified (only one in this case).
 
-Reducer functions in Booster work similarly to the `reduce` callbacks in Javascript: they receive an event
+Reducer functions in Magek work similarly to the `reduce` callbacks in Javascript: they receive an event
 and the current state of the entity, and returns the next version of the same entity.
 In this case, when we receive a `PostCreated` event, we can just return a new `Post` entity copying the fields
 from the event. There is no previous state of the Post as we are creating it for the first time:
@@ -340,7 +340,7 @@ There are two things to do when creating a read model:
 1. Add the logic of the projection functions, where you can filter, combine, etc., the entities fields.
 
 While commands define the input to our system, read models define the output, and together they compound
-the public API of a Booster application. Let's do the same we did in the command and authorize `all` to
+the public API of a Magek application. Let's do the same we did in the command and authorize `all` to
 query/subscribe the `PostReadModel`. Also, and for learning purposes, we will exclude the `content` field
 from the `Post` entity, so it won't be returned when users request the read model.
 
@@ -371,7 +371,7 @@ At this point, we've:
 - Projected the entity into a read model that is also publicly accessible.
 
 With this, you already know the basics to build event-driven, CQRS-based applications
-with Booster.
+with Magek.
 
 You can check that code compiles correctly by running the build command:
 
@@ -428,7 +428,7 @@ npx boost deploy -e production
 
 </TerminalWindow>
 
-This is the Booster magic! ✨ When running the start or the deploy commands, Booster will handle the creation of all the resources, _like Lambdas, API Gateway,_ and the "glue" between them; _permissions, events, triggers, etc._ It even creates a fully functional GraphQL API!
+This is the Magek magic! ✨ When running the start or the deploy commands, Magek will handle the creation of all the resources, _like Lambdas, API Gateway,_ and the "glue" between them; _permissions, events, triggers, etc._ It even creates a fully functional GraphQL API!
 
 :::note
 Deploy command automatically builds the project for you before performing updates in the cloud provider, so, build command it's not required beforehand.
@@ -462,7 +462,7 @@ Let's get started testing the project. We will perform three actions:
 - Retrieve all posts
 - Retrieve a specific post
 
-Booster applications provide you with a GraphQL API out of the box. You send commands using
+Magek applications provide you with a GraphQL API out of the box. You send commands using
 _mutations_ and get read models data using _queries_ or _subscriptions_.
 
 In this section, we will be sending requests by hand using the free [Altair](https://altair.sirmuel.design/) GraphQL client,
@@ -481,7 +481,7 @@ mutation {
   CreatePost(
     input: {
       postId: "95ddb544-4a60-439f-a0e4-c57e806f2f6e"
-      title: "Build a blog in 10 minutes with Booster"
+      title: "Build a blog in 10 minutes with Magek"
       content: "I am so excited to write my first post"
       author: "Boosted developer"
     }
@@ -494,7 +494,7 @@ mutation {
   CreatePost(
     input: {
       postId: "05670e55-fd31-490e-b585-3a0096db0412"
-      title: "Booster framework rocks"
+      title: "Magek framework rocks"
       content: "I am so excited for writing the second post"
       author: "Another boosted developer"
     }
@@ -538,12 +538,12 @@ It should respond with something like:
     "PostReadModels": [
       {
         "id": "05670e55-fd31-490e-b585-3a0096db0412",
-        "title": "Booster framework rocks",
+        "title": "Magek framework rocks",
         "author": "Another boosted developer"
       },
       {
         "id": "95ddb544-4a60-439f-a0e4-c57e806f2f6e",
-        "title": "Build a blog in 10 minutes with Booster",
+        "title": "Build a blog in 10 minutes with Magek",
         "author": "Boosted developer"
       }
     ]
@@ -572,7 +572,7 @@ You should get a response similar to this:
   "data": {
     "PostReadModel": {
       "id": "95ddb544-4a60-439f-a0e4-c57e806f2f6e",
-      "title": "Build a blog in 10 minutes with Booster",
+      "title": "Build a blog in 10 minutes with Magek",
       "author": "Boosted developer"
     }
   }
@@ -597,11 +597,11 @@ we ran the `npm create booster-ai` command.
 
 </TerminalWindow>
 
-> Congratulations! You've built a serverless backend in less than 10 minutes. We hope you have enjoyed discovering the magic of the Booster Framework.
+> Congratulations! You've built a serverless backend in less than 10 minutes. We hope you have enjoyed discovering the magic of the Magek Framework.
 
 ### 10. More functionalities
 
-This is a really basic example of a Booster application. The are many other features Booster provides like:
+This is a really basic example of a Magek application. The are many other features Magek provides like:
 
 - Use a more complex authorization schema for commands and read models based on user roles
 - Use GraphQL subscriptions to get updates in real-time
@@ -610,7 +610,7 @@ This is a really basic example of a Booster application. The are many other feat
 - Reading entities within command handlers to apply domain-driven decisions
 - And much more...
 
-Continue reading to dig more. You've just scratched the surface of all the Booster
+Continue reading to dig more. You've just scratched the surface of all the Magek
 capabilities!
 
 ## Examples and walkthroughs
@@ -635,4 +635,4 @@ You can find the code both for the frontend and the backend in <CLAskMeRepo>[thi
 
 ### All the guides and examples
 
-Check out the <CLExampleApps>[example apps repository](https://github.com/boostercloud/examples)</CLExampleApps> to see Booster in use.
+Check out the <CLExampleApps>[example apps repository](https://github.com/boostercloud/examples)</CLExampleApps> to see Magek in use.

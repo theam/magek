@@ -1,7 +1,7 @@
 import {
   UUID,
   UserApp,
-  BoosterConfig,
+  MagekConfig,
   EventEnvelope,
   OptimisticConcurrencyUnexpectedVersionError,
   EntitySnapshotEnvelope,
@@ -21,7 +21,7 @@ export function rawEventsToEnvelopes(rawEvents: Array<unknown>): Array<EventEnve
 
 export async function readEntityEventsSince(
   eventRegistry: EventRegistry,
-  config: BoosterConfig,
+  config: MagekConfig,
   entityTypeName: string,
   entityID: UUID,
   since?: string
@@ -46,7 +46,7 @@ export async function readEntityEventsSince(
 
 export async function readEntityLatestSnapshot(
   eventRegistry: EventRegistry,
-  config: BoosterConfig,
+  config: MagekConfig,
   entityTypeName: string,
   entityID: UUID
 ): Promise<EntitySnapshotEnvelope | undefined> {
@@ -72,7 +72,7 @@ export async function storeEvents(
   userApp: UserApp,
   eventRegistry: EventRegistry,
   nonPersistedEventEnvelopes: Array<NonPersistedEventEnvelope>,
-  config: BoosterConfig
+  config: MagekConfig
 ): Promise<Array<EventEnvelope>> {
   const logger = getLogger(config, 'events-adapter#storeEvents')
   logger.debug('Storing the following event envelopes:', nonPersistedEventEnvelopes)
@@ -97,7 +97,7 @@ export async function storeEvents(
 export async function storeSnapshot(
   eventRegistry: EventRegistry,
   snapshotEnvelope: NonPersistedEntitySnapshotEnvelope,
-  config: BoosterConfig
+  config: MagekConfig
 ): Promise<EntitySnapshotEnvelope> {
   const logger = getLogger(config, 'events-adapter#storeSnapshot')
   logger.debug('Storing the following snapshot envelope:', snapshotEnvelope)

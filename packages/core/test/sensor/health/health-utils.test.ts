@@ -9,7 +9,7 @@ import {
   showChildren,
 } from '../../../src/sensor/health/health-utils'
 import { expect } from '../../expect'
-import { BoosterHealthIndicator } from '../../../src/sensor'
+import { MagekHealthIndicator } from '../../../src/sensor'
 
 describe('Health utils', () => {
   let root: HealthIndicatorMetadata
@@ -20,7 +20,7 @@ describe('Health utils', () => {
   let healthProviders: Record<string, HealthIndicatorMetadata>
   beforeEach(() => {
     root = {
-      class: BoosterHealthIndicator,
+      class: MagekHealthIndicator,
       healthIndicatorConfiguration: {
         id: 'root',
         name: 'root',
@@ -30,7 +30,7 @@ describe('Health utils', () => {
       },
     }
     rootChildren1 = {
-      class: BoosterHealthIndicator,
+      class: MagekHealthIndicator,
       healthIndicatorConfiguration: {
         id: 'root/rootChildren1',
         name: 'root/rootChildren1',
@@ -40,7 +40,7 @@ describe('Health utils', () => {
       },
     }
     rootChildren2 = {
-      class: BoosterHealthIndicator,
+      class: MagekHealthIndicator,
       healthIndicatorConfiguration: {
         id: 'root/rootChildren2',
         name: 'root/rootChildren2',
@@ -50,7 +50,7 @@ describe('Health utils', () => {
       },
     }
     rootChildren1Children1 = {
-      class: BoosterHealthIndicator,
+      class: MagekHealthIndicator,
       healthIndicatorConfiguration: {
         id: 'root/rootChildren1/rootChildren1Children1',
         name: 'root/rootChildren1/rootChildren1Children1',
@@ -60,7 +60,7 @@ describe('Health utils', () => {
       },
     }
     rootChildren1Children2 = {
-      class: BoosterHealthIndicator,
+      class: MagekHealthIndicator,
       healthIndicatorConfiguration: {
         id: 'root/rootChildren1/rootChildren1Children2',
         name: 'root/rootChildren1/rootChildren1Children2',

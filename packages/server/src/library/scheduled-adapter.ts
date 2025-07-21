@@ -1,11 +1,11 @@
-import { BoosterConfig, ScheduledCommandEnvelope, UUID, getLogger } from '@magek/common'
+import { MagekConfig, ScheduledCommandEnvelope, UUID, getLogger } from '@magek/common'
 
 interface LocalScheduleCommandEnvelope {
   typeName: string
 }
 
 export async function rawScheduledInputToEnvelope(
-  config: BoosterConfig,
+  config: MagekConfig,
   input: Partial<LocalScheduleCommandEnvelope>
 ): Promise<ScheduledCommandEnvelope> {
   const logger = getLogger(config, 'rawScheduledInputToEnvelope')

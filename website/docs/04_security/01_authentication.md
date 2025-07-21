@@ -1,16 +1,16 @@
 ---
-description: Booster uses the OAuth 2.0 protocol to authenticate users. This section explains how to configure it.
+description: Magek uses the OAuth 2.0 protocol to authenticate users. This section explains how to configure it.
 ---
 
 # Authentication
 
-Booster uses the OAuth 2.0 protocol to authenticate users. That means that it uses tokens to identify users and authorize them. These tokens are called _access tokens_ and are issued by an _authentication provider_. The most common authentication provider is [Auth0](https://auth0.com/), but you can use any other provider that supports OAuth 2.0.
+Magek uses the OAuth 2.0 protocol to authenticate users. That means that it uses tokens to identify users and authorize them. These tokens are called _access tokens_ and are issued by an _authentication provider_. The most common authentication provider is [Auth0](https://auth0.com/), but you can use any other provider that supports OAuth 2.0.
 
 ## Configuring the authentication provider
 
-The first step to configure authentication in Booster is to configure the authentication provider. The provider must support OAuth 2.0 and must be able to issue _access tokens_. In order to validate incoming tokens and make sure that user requests come from trustable origins, you need to provide one or more `TokenVerifier` instances at config time for each of your environments.
+The first step to configure authentication in Magek is to configure the authentication provider. The provider must support OAuth 2.0 and must be able to issue _access tokens_. In order to validate incoming tokens and make sure that user requests come from trustable origins, you need to provide one or more `TokenVerifier` instances at config time for each of your environments.
 
-The `TokenVerifier` class is a simple interface that you can implement to define your own token verifiers. Booster provides a `JwksUriTokenVerifier` class that you can use to configure a JWT token verifier. The `JwksUriTokenVerifier` constructor accepts the following parameters:
+The `TokenVerifier` class is a simple interface that you can implement to define your own token verifiers. Magek provides a `JwksUriTokenVerifier` class that you can use to configure a JWT token verifier. The `JwksUriTokenVerifier` constructor accepts the following parameters:
 
 - `issuer`: The issuer of the tokens. This is a mandatory parameter. This is commonly found in the token payload under the `iss` key.
 - `jwksUri`: The URL of the JSON Web Key Set (JWKS) that contains the public keys used to verify the tokens. This is a mandatory parameter. You can find more information about JWKS [here](https://auth0.com/docs/jwks).
@@ -19,12 +19,12 @@ The `TokenVerifier` class is a simple interface that you can implement to define
 Here is an example of how to configure a `JwksUriTokenVerifier`:
 
 ```typescript title="src/config/config.ts"
-import { Booster, JwksUriTokenVerifier } from '@magek/core'
-import { BoosterConfig } from '@magek/common'
+import { Magek, JwksUriTokenVerifier } from '@magek/core'
+import { MagekConfig } from '@magek/common'
 import { Provider } from '@magek/server'
 import { eventStore } from '@magek/adapter-event-store-nedb'
 
-Booster.configure('production', (config: BoosterConfig): void => {
+Magek.configure('production', (config: MagekConfig): void => {
   config.appName = 'app-name'
   config.provider = Provider()
   config.eventStoreAdapter = eventStore
@@ -39,7 +39,7 @@ Booster.configure('production', (config: BoosterConfig): void => {
 ```
 
 :::info JWK Verifier
-One common way to validate JWT tokens is by using a issuer-provided well-known URI on which you can find their [JSON Web Key](https://datatracker.ietf.org/doc/html/rfc7517) sets (JWKS). If you use this method, you only need to provide the issuer's name, the JWKS URI and, if you're using role-based authentication, an optional `rolesClaim` option that sets the claim from which Booster will read the role names.
+One common way to validate JWT tokens is by using a issuer-provided well-known URI on which you can find their [JSON Web Key](https://datatracker.ietf.org/doc/html/rfc7517) sets (JWKS). If you use this method, you only need to provide the issuer's name, the JWKS URI and, if you're using role-based authentication, an optional `rolesClaim` option that sets the claim from which Magek will read the role names.
 :::
 
 ### JWKS URI glossary
@@ -67,14 +67,14 @@ The `PublicKeyTokenVerifier` class uses the public key of the issuer to verify t
 This is useful when the token issuer doesn't provide a JWKS URI, when you're implementing your own authentication mechanism or you're issuing self-signed tokens.
 
 ```typescript title="src/config/config.ts"
-import { Booster, PublicKeyTokenVerifier } from '@magek/core'
-import { BoosterConfig } from '@magek/common'
+import { Magek, PublicKeyTokenVerifier } from '@magek/core'
+import { MagekConfig } from '@magek/common'
 
 function publicKeyResolver(): Promise<string> {
   // Your implementation here
 }
 
-Booster.configure('production', (config: BoosterConfig): void => {
+Magek.configure('production', (config: MagekConfig): void => {
   config.appName = 'app-name'
   config.provider = Provider()
   config.eventStoreAdapter = eventStore
@@ -119,8 +119,8 @@ interface TokenVerifier {
 Here is an example of how to implement a custom `TokenVerifier`:
 
 ```typescript title="src/config/config.ts"
-import { Booster, TokenVerifier } from '@magek/core'
-import { BoosterConfig, DecodedToken, TokenVerifier, UserEnvelope } from '@magek/common'
+import { Magek, TokenVerifier } from '@magek/core'
+import { MagekConfig, DecodedToken, TokenVerifier, UserEnvelope } from '@magek/common'
 
 class CustomTokenVerifier implements TokenVerifier {
   public async verify(token: string): Promise<DecodedToken> {
@@ -132,7 +132,7 @@ class CustomTokenVerifier implements TokenVerifier {
   }
 }
 
-Booster.configure('production', (config: BoosterConfig): void => {
+Magek.configure('production', (config: MagekConfig): void => {
   config.appName = 'app-name'
   config.provider = Provider()
   config.eventStoreAdapter = eventStore
@@ -162,13 +162,13 @@ export class CustomValidator extends PrivateKeyValidator {
 
 ### Advanced authentication
 
-If you need to do more advanced checks, you can implement the whole verification algorithm yourself. For example, if you're using non-standard or legacy tokens. Booster exposes for convenience many of the utility functions that it uses in the default `TokenVerifier` implementations:
+If you need to do more advanced checks, you can implement the whole verification algorithm yourself. For example, if you're using non-standard or legacy tokens. Magek exposes for convenience many of the utility functions that it uses in the default `TokenVerifier` implementations:
 
 | Function           | Description                                                                                                                                                                                        |
 | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `getJwksClient`    | Initializes a jwksRSA client that can be used to get the public key of a JWKS URI using the `getKeyWithClient` function.                                                                           |
 | `getKeyWithClient` | Initializes a function that can be used to get the public key from a JWKS URI with the signature required by the `verifyJWT` function. You can create a client using the `getJwksClient` function. |
-| `verifyJWT`        | Verifies a JWT token using a key or key resolver function and returns a Booster UserEnvelope.                                                                                                      |
+| `verifyJWT`        | Verifies a JWT token using a key or key resolver function and returns a Magek UserEnvelope.                                                                                                      |
 
 ```typescript
 /**
@@ -192,7 +192,7 @@ export function getKeyWithClient(
 }
 
 /**
- * Verifies a JWT token using a key or key resolver function and returns a Booster UserEnvelope.
+ * Verifies a JWT token using a key or key resolver function and returns a Magek UserEnvelope.
  */
 export async function verifyJWT(
   token: string,

@@ -29,7 +29,7 @@
     "generator",
     "cli"
   ],
-  "author": "Boosterin Labs SLU",
+  "author": "Magekin Labs SLU",
   "license": "Apache-2.0",
   "dependencies": {
     "degit": "2.8.4",

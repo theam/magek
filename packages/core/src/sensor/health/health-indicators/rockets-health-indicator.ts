@@ -1,6 +1,6 @@
 import {
   BOOSTER_HEALTH_INDICATORS_IDS,
-  BoosterConfig,
+  MagekConfig,
   HealthIndicatorMetadata,
   HealthIndicatorsResult,
   HealthStatus,
@@ -8,7 +8,7 @@ import {
 
 export class RocketsHealthIndicator {
   public async health(
-    config: BoosterConfig,
+    config: MagekConfig,
     healthIndicatorMetadata: HealthIndicatorMetadata
   ): Promise<HealthIndicatorsResult> {
     const results = await config.provider.sensor.areRocketFunctionsUp(config)

@@ -1,4 +1,4 @@
-import { ScheduledCommandMetadata, BoosterConfig } from '@magek/common'
+import { ScheduledCommandMetadata, MagekConfig } from '@magek/common'
 import * as scheduler from 'node-schedule'
 
 interface ScheduledCommandInfo {
@@ -6,7 +6,7 @@ interface ScheduledCommandInfo {
   metadata: ScheduledCommandMetadata
 }
 
-export function configureScheduler(config: BoosterConfig, userProject: any): void {
+export function configureScheduler(config: MagekConfig, userProject: any): void {
   const triggerScheduleCommand = userProject['boosterTriggerScheduledCommand']
   Object.keys(config.scheduledCommandHandlers)
     .map((scheduledCommandName) => buildScheduledCommandInfo(config, scheduledCommandName))
@@ -23,7 +23,7 @@ function createCronExpression(scheduledCommandMetadata: ScheduledCommandMetadata
   return `${minute} ${hour} ${day} ${month} ${weekDay}`
 }
 
-function buildScheduledCommandInfo(config: BoosterConfig, scheduledCommandName: string): ScheduledCommandInfo {
+function buildScheduledCommandInfo(config: MagekConfig, scheduledCommandName: string): ScheduledCommandInfo {
   return {
     name: scheduledCommandName,
     metadata: config.scheduledCommandHandlers[scheduledCommandName],

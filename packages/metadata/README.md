@@ -1,4 +1,4 @@
-# Metadata Booster
+# Metadata Magek
 
 This is a transformer (also known as plugin) for Typescript to generate detailed metadata for all your classes.
 

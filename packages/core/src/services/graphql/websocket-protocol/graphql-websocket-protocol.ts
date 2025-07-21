@@ -1,6 +1,6 @@
 import { ExecutionResult } from 'graphql'
 import {
-  BoosterConfig,
+  MagekConfig,
   ConnectionDataEnvelope,
   GraphQLClientMessage,
   GraphQLComplete,
@@ -18,7 +18,7 @@ import {
   UserEnvelope,
   getLogger,
 } from '@magek/common'
-import { BoosterTokenVerifier } from '../../../token-verifier'
+import { MagekTokenVerifier } from '../../../token-verifier'
 
 export interface GraphQLWebsocketHandlerCallbacks {
   onStartOperation: (
@@ -30,10 +30,10 @@ export interface GraphQLWebsocketHandlerCallbacks {
 
 export class GraphQLWebsocketHandler {
   public constructor(
-    private readonly config: BoosterConfig,
+    private readonly config: MagekConfig,
     private readonly connectionManager: ProviderConnectionsLibrary,
     private readonly callbacks: GraphQLWebsocketHandlerCallbacks,
-    private readonly boosterTokenVerifier: BoosterTokenVerifier
+    private readonly boosterTokenVerifier: MagekTokenVerifier
   ) {}
 
   public async handle(envelope: GraphQLRequestEnvelope | GraphQLRequestEnvelopeError): Promise<void> {

@@ -1,11 +1,11 @@
 {
   "name": "@magek/server-infrastructure",
   "version": "0.0.1",
-  "description": "Handle the Booster running process of the local runtime",
+  "description": "Handle the Magek running process of the local runtime",
   "keywords": [
     "server-infrastructure"
   ],
-  "author": "Boosterin Labs SLU",
+  "author": "Magekin Labs SLU",
   "homepage": "https://boosterframework.com",
   "license": "Apache-2.0",
   "publishConfig": {

@@ -8,8 +8,8 @@ import kleur = require('kleur')
 import { globby } from 'globby'
 import { spawn } from 'child_process'
 
-// Get the Booster version from the current package or a reasonable default
-function getBoosterVersion(): string {
+// Get the Magek version from the current package or a reasonable default
+function getMagekVersion(): string {
   try {
     // Read from the create package itself
     return require('../package.json').version
@@ -309,7 +309,7 @@ async function createProject(config: ProjectConfig): Promise<void> {
       homepage: config.homepage,
       license: config.license,
       repository: config.repository,
-      boosterVersion: getBoosterVersion(),
+      boosterVersion: getMagekVersion(),
     }
 
     await replaceInAllFiles(targetDir, replacements)

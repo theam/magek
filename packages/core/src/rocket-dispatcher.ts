@@ -1,7 +1,7 @@
-import { BoosterConfig } from '@magek/common'
+import { MagekConfig } from '@magek/common'
 
-export class BoosterRocketDispatcher {
-  constructor(readonly config: BoosterConfig) {}
+export class MagekRocketDispatcher {
+  constructor(readonly config: MagekConfig) {}
 
   public dispatch(request: unknown): Promise<unknown> {
     const rawToEnvelopes = this.config.provider.rockets.rawToEnvelopes(this.config, request)

@@ -2,7 +2,7 @@
  
 
 import { expect } from './expect'
-import { BoosterConfig, SchemaMigrationMetadata, ReadModelInterface, UUID } from '@magek/common'
+import { MagekConfig, SchemaMigrationMetadata, ReadModelInterface, UUID } from '@magek/common'
 import { ReadModelSchemaMigrator } from '../src/read-model-schema-migrator'
 
 class TestConceptV1 {
@@ -55,7 +55,7 @@ describe('ReadModelSchemaMigrator', () => {
     migrationClass: TestConceptMigration,
     toVersion: 3,
   })
-  const config = new BoosterConfig('test')
+  const config = new MagekConfig('test')
   config.schemaMigrations['TestConcept'] = migrations
   const migrator = new ReadModelSchemaMigrator(config)
 

@@ -1,13 +1,13 @@
 import { Register, UUID } from '@magek/common'
 import { RegisterHandler } from './register-handler'
-import { Booster } from './index'
-import { BoosterEntityTouched } from './core-concepts/touch-entity/events/entity-touched'
+import { Magek } from './index'
+import { MagekEntityTouched } from './core-concepts/touch-entity/events/entity-touched'
 
-export class BoosterTouchEntityHandler {
+export class MagekTouchEntityHandler {
   public static async touchEntity(entityName: string, entityId: UUID): Promise<void> {
     const requestID = UUID.generate()
     const register = new Register(requestID, {}, RegisterHandler.flush)
-    register.events(new BoosterEntityTouched(entityName, entityId))
-    return RegisterHandler.handle(Booster.config, register)
+    register.events(new MagekEntityTouched(entityName, entityId))
+    return RegisterHandler.handle(Magek.config, register)
   }
 }

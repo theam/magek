@@ -32,7 +32,7 @@ export default function CustomNavbarItem(props: { imageURL: string; altText: str
     setSearchQuery(query)
     setHasFinished(false)
 
-    ChatService.answerBoosterQuestion(query, handleResponseUpdated, controller.signal)
+    ChatService.answerMagekQuestion(query, handleResponseUpdated, controller.signal)
       .catch((error) => {
         setResponse(ASK_AI_ERROR)
         AnalyticsClient.trackEvent('SFWQOOY0')

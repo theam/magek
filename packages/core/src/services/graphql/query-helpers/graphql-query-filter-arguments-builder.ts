@@ -13,7 +13,7 @@ import {
 import { getClassMetadata } from '../../../decorators/metadata'
 import { PropertyMetadata, TypeMetadata } from '@magek/metadata'
 import { GraphQLJSON } from 'graphql-scalars'
-import { AnyClass, BoosterConfig, UUID } from '@magek/common'
+import { AnyClass, MagekConfig, UUID } from '@magek/common'
 import { GraphQLTypeInformer } from '../graphql-type-informer'
 import { DateScalar, isExternalType, nonExcludedFields } from '../common'
 
@@ -21,7 +21,7 @@ export class GraphqlQueryFilterArgumentsBuilder {
   constructor(
     private readonly typeInformer: GraphQLTypeInformer,
     protected generatedFiltersByTypeName: Record<string, GraphQLInputObjectType> = {},
-    private readonly config: BoosterConfig
+    private readonly config: MagekConfig
   ) {}
 
   public generateFilterArguments(type: AnyClass, excludeProps: Array<string>): GraphQLFieldConfigArgumentMap {

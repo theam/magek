@@ -1,5 +1,5 @@
 ---
-description: Booster way to schedule an action to be performed at a specific moment in time
+description: Magek way to schedule an action to be performed at a specific moment in time
 ---
 
 import TerminalWindow from '@site/src/components/TerminalWindow/TerminalWindow'
@@ -10,9 +10,9 @@ There are many cases in which you want to trigger some action periodically. For 
 
 ## Scheduled command
 
-Commands represent an action. Therefore, the way to trigger an action periodically is by scheduling a command. Scheduled commands are the way to add automated tasks to your application, like cron jobs in other frameworks. Booster scheduled commands are TypeScript classes decorated with `@ScheduledCommand`. Unlike conventional commands, **the handle function doesn't have any parameters**.
+Commands represent an action. Therefore, the way to trigger an action periodically is by scheduling a command. Scheduled commands are the way to add automated tasks to your application, like cron jobs in other frameworks. Magek scheduled commands are TypeScript classes decorated with `@ScheduledCommand`. Unlike conventional commands, **the handle function doesn't have any parameters**.
 
-In Booster, a scheduled command looks like this:
+In Magek, a scheduled command looks like this:
 
 ```typescript
 @ScheduledCommand({

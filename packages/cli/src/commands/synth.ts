@@ -9,12 +9,12 @@ import { Script } from '../common/script'
 import Brand from '../common/brand'
 import { currentEnvironment, initializeEnvironment } from '../services/environment'
 import { logger } from '../services/logger'
-import { BoosterConfig } from '@magek/common'
+import { MagekConfig } from '@magek/common'
 import { synthToProvider } from '../services/provider-service'
 
 const runTasks = async (
-  compileAndLoad: Promise<BoosterConfig>,
-  synther: (config: BoosterConfig) => Promise<void>
+  compileAndLoad: Promise<MagekConfig>,
+  synther: (config: MagekConfig) => Promise<void>
 ): Promise<void> =>
   Script.init(`boost ${Brand.dangerize('synth')} [${currentEnvironment()}] 🚀`, compileAndLoad)
     .step('Synth', (config) => synther(config))

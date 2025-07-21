@@ -1,5 +1,5 @@
-import { Booster } from '../magek'
-import { Class, AnyClass, SchemaMigrationMetadata, BoosterConfig, Instance } from '@magek/common'
+import { Magek } from '../magek'
+import { Class, AnyClass, SchemaMigrationMetadata, MagekConfig, Instance } from '@magek/common'
 import { getMetadata, defineMetadata } from '@magek/metadata'
 
 const migrationMethodsMetadataKey = 'booster:migrationsMethods'
@@ -9,7 +9,7 @@ const migrationMethodsMetadataKey = 'booster:migrationsMethods'
  */
 export function SchemaMigration(conceptClass: AnyClass): (schemaMigrationClass: AnyClass) => void {
   return (schemaMigrationClass) => {
-    Booster.configureCurrentEnv((config) => {
+    Magek.configureCurrentEnv((config) => {
       const conceptMigrations = getConceptMigrations(config, conceptClass)
       const migrationMethodsMetadata = getMigrationMethods(schemaMigrationClass)
 
@@ -27,7 +27,7 @@ export function SchemaMigration(conceptClass: AnyClass): (schemaMigrationClass: 
   }
 }
 
-function getConceptMigrations(config: BoosterConfig, conceptClass: AnyClass): Map<number, SchemaMigrationMetadata> {
+function getConceptMigrations(config: MagekConfig, conceptClass: AnyClass): Map<number, SchemaMigrationMetadata> {
   if (!config.schemaMigrations[conceptClass.name]) {
     config.schemaMigrations[conceptClass.name] = new Map()
   }
@@ -46,7 +46,7 @@ function getMigrationMethods(migrationClass: AnyClass): Array<SchemaMigrationMet
 }
 
 /**
- * Decorator to tell Booster the version you are migrating to
+ * Decorator to tell Magek the version you are migrating to
  * @param toVersion
  * @param props
  */

@@ -1,15 +1,15 @@
-import { Booster } from '@magek/core'
-import { BoosterConfig } from '@magek/common'
+import { Magek } from '@magek/core'
+import { MagekConfig } from '@magek/common'
 import { Provider } from '@magek/server'
 import { eventStore } from '@magek/adapter-event-store-nedb'
 
-Booster.configure('local', (config: BoosterConfig): void => {
+Magek.configure('local', (config: MagekConfig): void => {
   config.appName = '{{PROJECT_NAME}}'
   config.provider = Provider()
   config.eventStoreAdapter = eventStore
 })
 
-Booster.configure('production', (config: BoosterConfig): void => {
+Magek.configure('production', (config: MagekConfig): void => {
   config.appName = '{{PROJECT_NAME}}'
   config.provider = Provider()
   config.eventStoreAdapter = eventStore
