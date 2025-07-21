@@ -27,7 +27,7 @@ cd /work
 
 # Use the default template
 echo "📦 Creating test-app with default template..."
-npx --yes create-magek@latest test-app \
+npm create magek@latest test-app \
   --template /workspace/templates/default \
   --skip-install \
   --skip-git \
