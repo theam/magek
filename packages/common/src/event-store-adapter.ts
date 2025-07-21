@@ -158,4 +158,24 @@ export interface EventStoreAdapter {
    * @param snapshots
    */
   deleteSnapshot(config: BoosterConfig, snapshots: Array<EntitySnapshotEnvelopeFromDatabase>): Promise<void>
+
+  /**
+   * Health check methods for the event store
+   */
+  healthCheck?: {
+    /**
+     * Check if the event store is up and running
+     */
+    isUp(config: BoosterConfig): Promise<boolean>
+    
+    /**
+     * Get detailed health information about the event store
+     */
+    details(config: BoosterConfig): Promise<unknown>
+    
+    /**
+     * Get the URLs/endpoints of the event store
+     */
+    urls(config: BoosterConfig): Promise<Array<string>>
+  }
 }
