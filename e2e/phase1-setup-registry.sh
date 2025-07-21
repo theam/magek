@@ -101,6 +101,6 @@ node common/scripts/install-run-rush.js rebuild
 
 # Publish packages to Verdaccio using Rush built-in publish command
 echo "📤 Publishing packages to local registry using Rush publish..."
-node common/scripts/install-run-rush.js publish --registry http://localhost:4873 --publish
+node common/scripts/install-run-rush.js publish --registry http://localhost:4873 --publish --include-all
 
 echo "✅ Phase 1 completed: Registry is running and packages are published" 
