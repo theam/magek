@@ -6,7 +6,7 @@ import { ChatResponse } from './ChatResponse'
 
 export const ASK_AI_ERROR = 'There was an unexpected error. Please try again 🙏'
 
-export default function BoosterChat(): JSX.Element {
+export default function MagekChat(): JSX.Element {
   const [response, setResponse] = useState(null)
   const [loading, setLoading] = useState(null)
   const [hasFinished, setHasFinished] = useState(false)

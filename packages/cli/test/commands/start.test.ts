@@ -16,7 +16,7 @@ const runTasks = start.__get__('runTasks')
 
 describe('start', () => {
   beforeEach(() => {
-    delete process.env.BOOSTER_ENV
+    delete process.env.MAGEK_ENV
   })
 
   afterEach(() => {

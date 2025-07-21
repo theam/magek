@@ -1,7 +1,0 @@
-{
-  "changes": [
-    { "comment": "use metadata helpers from @magek/metadata", "type": "patch", "packageName": "@magek/core" }
-  ],
-  "packageName": "@magek/core",
-  "email": "codex@openai.com"
-}

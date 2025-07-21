@@ -1,5 +1,0 @@
-{
-  "changes": [{ "comment": "remove unused pnpm overrides", "type": "patch", "packageName": "@magek/cli" }],
-  "packageName": "@magek/cli",
-  "email": "codex@openai.com"
-}

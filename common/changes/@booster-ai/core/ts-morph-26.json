@@ -1,7 +1,0 @@
-{
-  "changes": [
-    { "comment": "upgrade ts-morph to v26 and TypeScript 5.8", "type": "patch", "packageName": "@magek/core" }
-  ],
-  "packageName": "@magek/core",
-  "email": "codex@openai.com"
-}

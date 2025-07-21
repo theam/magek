@@ -205,7 +205,7 @@ export class Booster {
 }
 
 function checkAndGetCurrentEnv(): string {
-  const env = process.env.BOOSTER_ENV
+  const env = process.env.MAGEK_ENV
   if (!env || env.trim().length == 0) {
     throw new Error(
       'Booster environment is missing. You need to provide an environment to configure your Booster project'

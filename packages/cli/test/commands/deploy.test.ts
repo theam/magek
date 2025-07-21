@@ -22,7 +22,7 @@ const TestPackageManager = makeTestPackageManager()
 
 describe('deploy', () => {
   beforeEach(() => {
-    delete process.env.BOOSTER_ENV
+    delete process.env.MAGEK_ENV
   })
 
   afterEach(() => {

@@ -142,14 +142,14 @@ As you can see, you can now have runtime access to the information about all the
 
 ## How to use it
 
-"@boostercloud/metadata-booster" is a transformer so, until the Typescript team decides to accept plugins (you can track the status in [this issue](https://github.com/microsoft/TypeScript/issues/14419)), you would want to use [TS Patch](https://github.com/nonara/ts-patch).
+"@magek/metadata" is a transformer so, until the Typescript team decides to accept plugins (you can track the status in [this issue](https://github.com/microsoft/TypeScript/issues/14419)), you would want to use [TS Patch](https://github.com/nonara/ts-patch).
 
 Here are the steps:
 
-1. Add the "@boostercloud/metadata-booster" transformer and "ts-patch" to your `"devDependencies"`
+1. Add the "@magek/metadata" transformer and "ts-patch" to your `"devDependencies"`
 
     ```shell
-    npm install --save-dev "@boostercloud/metadata-booster"
+    npm install --save-dev "@magek/metadata"
     npm install --save-dev "ts-patch"
     ```
 
@@ -168,7 +168,7 @@ Here are the steps:
 
 3. Go to your `tsconfig.json` file and
    - a) Ensure you have the option `"experimentalDecorators": true`. The reason is that the metadata is automatically added as a decorator to the class. In any case, you don't need to write any decorator.
-   - b) Add "@boostercloud/metadata-booster" as a transformer plugin inside the `"compilerOptions"` section
+   - b) Add "@magek/metadata" as a transformer plugin inside the `"compilerOptions"` section
 
     ```shell
     {
@@ -176,7 +176,7 @@ Here are the steps:
         (...)
         "experimentalDecorators": true
         "plugins": [
-        { "transform": "@boostercloud/metadata-booster"}
+        { "transform": "@magek/metadata"}
         ]
     },
     }

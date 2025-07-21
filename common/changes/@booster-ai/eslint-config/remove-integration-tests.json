@@ -1,9 +1,0 @@
-{
-  "changes": [
-    {
-      "comment": "Remove integration test settings",
-      "packageName": "@magek/eslint-config",
-      "type": "patch"
-    }
-  ]
-}

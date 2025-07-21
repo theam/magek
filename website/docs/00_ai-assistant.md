@@ -2,8 +2,8 @@
 slug: /
 ---
 
-import BoosterChat from '@site/src/components/BoosterChat/BoosterChat'
+import MagekChat from '@site/src/components/MagekChat/MagekChat'
 
 # Ask about Booster Framework
 
-<BoosterChat/>
+<MagekChat/>

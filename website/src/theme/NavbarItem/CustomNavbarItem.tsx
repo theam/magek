@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import Modal from 'react-modal'
 import { ChatService } from '../chat-service'
 import { useState } from 'react'
-import { ChatResponse } from '../../components/BoosterChat/ChatResponse'
-import { AskAIBar, AskAIDisclaimer, ASK_AI_ERROR } from '../../components/BoosterChat/BoosterChat'
+import { ChatResponse } from '../../components/MagekChat/ChatResponse'
+import { AskAIBar, AskAIDisclaimer, ASK_AI_ERROR } from '../../components/MagekChat/MagekChat'
 import { AnalyticsClient } from '../../components/Analytics/analytics-client'
 
 // see https://github.com/facebook/docusaurus/issues/7227

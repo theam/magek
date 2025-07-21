@@ -14,11 +14,11 @@ When a Booster application is generated, you will have a script in a `package.js
 }
 ```
 
-The only thing that you should add to this line are the `AWS_SDK_LOAD_CONFIG=true` and `BOOSTER_ENV=test` environment variables, so the script will look like this:
+The only thing that you should add to this line are the `AWS_SDK_LOAD_CONFIG=true` and `MAGEK_ENV=test` environment variables, so the script will look like this:
 
 ```typescript
 "scripts": {
-  "test": "AWS_SDK_LOAD_CONFIG=true BOOSTER_ENV=test nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
+  "test": "AWS_SDK_LOAD_CONFIG=true MAGEK_ENV=test nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
 }
 ```
 

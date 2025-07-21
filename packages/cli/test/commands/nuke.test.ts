@@ -18,7 +18,7 @@ const loader = nuke.__get__('askToConfirmRemoval')
 
 describe('nuke', () => {
   beforeEach(() => {
-    delete process.env.BOOSTER_ENV
+    delete process.env.MAGEK_ENV
   })
 
   afterEach(() => {

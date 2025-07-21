@@ -1,9 +1,0 @@
-{
-  "changes": [
-    {
-      "comment": "Rename package to @magek/eslint-config",
-      "packageName": "@magek/eslint-config",
-      "type": "patch"
-    }
-  ]
-}
