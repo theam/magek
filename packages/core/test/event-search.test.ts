@@ -1,5 +1,5 @@
 import { BoosterConfig, EventSearchParameters, EventSearchResponse } from '@magek/common'
-import { eventSearch } from '../src/booster-event-search'
+import { eventSearch } from '../src/event-search'
 import { fake, restore } from 'sinon'
 import { expect } from './expect'
 import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'

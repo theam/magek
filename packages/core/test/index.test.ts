@@ -11,13 +11,13 @@ import {
   boosterHealth,
 } from '../src/'
 import { fake, replace, restore } from 'sinon'
-import { BoosterEventDispatcher } from '../src/booster-event-dispatcher'
-import { BoosterGraphQLDispatcher } from '../src/booster-graphql-dispatcher'
-import { BoosterScheduledCommandDispatcher } from '../src/booster-scheduled-command-dispatcher'
-import { BoosterSubscribersNotifier } from '../src/booster-subscribers-notifier'
-import { BoosterRocketDispatcher } from '../src/booster-rocket-dispatcher'
-import { BoosterEventStreamConsumer } from '../src/booster-event-stream-consumer'
-import { BoosterEventStreamProducer } from '../src/booster-event-stream-producer'
+import { BoosterEventDispatcher } from '../src/event-dispatcher'
+import { BoosterGraphQLDispatcher } from '../src/graphql-dispatcher'
+import { BoosterScheduledCommandDispatcher } from '../src/scheduled-command-dispatcher'
+import { BoosterSubscribersNotifier } from '../src/subscribers-notifier'
+import { BoosterRocketDispatcher } from '../src/rocket-dispatcher'
+import { BoosterEventStreamConsumer } from '../src/event-stream-consumer'
+import { BoosterEventStreamProducer } from '../src/event-stream-producer'
 import { BoosterHealthService } from '../src/sensor'
 
 describe('framework-core package', () => {

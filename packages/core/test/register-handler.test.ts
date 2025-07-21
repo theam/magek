@@ -2,7 +2,7 @@ import { expect } from './expect'
 import { Register, BoosterConfig, Level, UserEnvelope, UUID } from '@magek/common'
 import { replace, fake, restore, spy } from 'sinon'
 import { RegisterHandler } from '../src'
-import { BoosterEntityMigrated } from '../src/core-concepts/data-migration/events/booster-entity-migrated'
+import { BoosterEntityMigrated } from '../src/core-concepts/data-migration/events/entity-migrated'
 import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
 
 class SomeEntity {

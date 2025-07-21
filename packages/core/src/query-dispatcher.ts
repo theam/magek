@@ -9,7 +9,7 @@ import {
   createInstance,
   getLogger,
 } from '@magek/common'
-import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher'
+import { BoosterGlobalErrorDispatcher } from './global-error-dispatcher'
 import { GraphQLResolverContext } from './services/graphql/common'
 import { applyBeforeFunctions } from './services/filter-helpers'
 

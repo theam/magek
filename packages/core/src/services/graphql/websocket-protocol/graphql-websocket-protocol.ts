@@ -18,7 +18,7 @@ import {
   UserEnvelope,
   getLogger,
 } from '@magek/common'
-import { BoosterTokenVerifier } from '../../../booster-token-verifier'
+import { BoosterTokenVerifier } from '../../../token-verifier'
 
 export interface GraphQLWebsocketHandlerCallbacks {
   onStartOperation: (

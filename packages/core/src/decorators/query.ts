@@ -1,5 +1,5 @@
  
-import { Booster } from '../booster'
+import { Booster } from '../magek'
 import {
   CommandFilterHooks,
   QueryAuthorizer,
@@ -8,7 +8,7 @@ import {
   QueryRoleAccess,
 } from '@magek/common'
 import { getClassMetadata } from './metadata'
-import { BoosterAuthorizer } from '../booster-authorizer'
+import { BoosterAuthorizer } from '../authorizer'
 
 export function Query(
   attributes: QueryRoleAccess & CommandFilterHooks

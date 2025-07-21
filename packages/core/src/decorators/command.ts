@@ -1,5 +1,5 @@
  
-import { Booster } from '../booster'
+import { Booster } from '../magek'
 import {
   Class,
   CommandAuthorizer,
@@ -9,7 +9,7 @@ import {
   Register,
 } from '@magek/common'
 import { getClassMetadata } from './metadata'
-import { BoosterAuthorizer } from '../booster-authorizer'
+import { BoosterAuthorizer } from '../authorizer'
 
 /**
  * Annotation to tell Booster which classes are your entities

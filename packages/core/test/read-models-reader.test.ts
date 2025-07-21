@@ -14,10 +14,10 @@ import {
   UUID,
 } from '@magek/common'
 import { fake, match, replace, restore, SinonStub, stub } from 'sinon'
-import { BoosterReadModelsReader } from '../src/booster-read-models-reader'
+import { BoosterReadModelsReader } from '../src/read-models-reader'
 import { faker } from '@faker-js/faker'
-import { Booster } from '../src/booster'
-import { BoosterAuthorizer } from '../src/booster-authorizer'
+import { Booster } from '../src/magek'
+import { BoosterAuthorizer } from '../src/authorizer'
 import { ReadModelSchemaMigrator } from '../src/read-model-schema-migrator'
 
 describe('BoosterReadModelReader', () => {

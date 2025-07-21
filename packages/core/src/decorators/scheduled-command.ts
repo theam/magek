@@ -1,4 +1,4 @@
-import { Booster } from '../booster'
+import { Booster } from '../magek'
 import { ScheduledCommandInterface, ScheduleInterface } from '@magek/common'
 
 /**

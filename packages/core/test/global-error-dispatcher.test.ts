@@ -22,8 +22,8 @@ import {
 } from '@magek/common'
 import { GlobalErrorHandler } from '../src'
 import { restore } from 'sinon'
-import { Booster } from '../src/booster'
-import { BoosterGlobalErrorDispatcher } from '../src/booster-global-error-dispatcher'
+import { Booster } from '../src/magek'
+import { BoosterGlobalErrorDispatcher } from '../src/global-error-dispatcher'
 import 'mocha'
 
 describe('BoosterGlobalErrorDispatcher', () => {

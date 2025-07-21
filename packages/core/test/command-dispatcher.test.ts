@@ -1,13 +1,13 @@
  
  
-import { Booster } from '../src/booster'
+import { Booster } from '../src/magek'
 import { fake, replace, restore, spy } from 'sinon'
 import { expect } from './expect'
-import { BoosterCommandDispatcher } from '../src/booster-command-dispatcher'
+import { BoosterCommandDispatcher } from '../src/command-dispatcher'
 import { CommandBeforeFunction, Register, NotAuthorizedError } from '@magek/common'
 import { Command, RegisterHandler } from '../src'
 import { faker } from '@faker-js/faker'
-import { BoosterAuthorizer } from '../src/booster-authorizer'
+import { BoosterAuthorizer } from '../src/authorizer'
 
 describe('the `BoosterCommandsDispatcher`', () => {
   afterEach(() => {

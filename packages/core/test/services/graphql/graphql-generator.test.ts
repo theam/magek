@@ -1,7 +1,7 @@
  
 import { fake, replace, restore, SinonStub, spy, stub } from 'sinon'
-import { BoosterCommandDispatcher } from '../../../src/booster-command-dispatcher'
-import { BoosterReadModelsReader } from '../../../src/booster-read-models-reader'
+import { BoosterCommandDispatcher } from '../../../src/command-dispatcher'
+import { BoosterReadModelsReader } from '../../../src/read-models-reader'
 import { GraphQLGenerator } from '../../../src/services/graphql/graphql-generator'
 import {
   BoosterConfig,
@@ -18,7 +18,7 @@ import { GraphQLQueryGenerator } from '../../../src/services/graphql/graphql-que
 import { GraphQLMutationGenerator } from '../../../src/services/graphql/graphql-mutation-generator'
 import { GraphQLSubscriptionGenerator } from '../../../src/services/graphql/graphql-subcriptions-generator'
 import { faker } from '@faker-js/faker'
-import { BoosterEventsReader } from '../../../src/booster-events-reader'
+import { BoosterEventsReader } from '../../../src/events-reader'
 
 import { GraphQLResolverContext } from '../../../src/services/graphql/common'
 import { GraphQLFieldResolver } from 'graphql'

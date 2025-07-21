@@ -4,7 +4,7 @@ import {
   HealthIndicatorMetadata,
   HealthStatus,
 } from '@magek/common'
-import { boosterVersion } from './booster-version'
+import { boosterVersion } from './version'
 
 export class BoosterHealthIndicator {
   public async health(

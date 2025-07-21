@@ -3,7 +3,7 @@ import { fake, match, replace, restore, spy } from 'sinon'
 import { faker } from '@faker-js/faker'
 import { expect } from './expect'
 import { BoosterConfig, GraphQLRequestEnvelope, GraphQLRequestEnvelopeError, UserEnvelope } from '@magek/common'
-import { BoosterGraphQLDispatcher } from '../src/booster-graphql-dispatcher'
+import { BoosterGraphQLDispatcher } from '../src/graphql-dispatcher'
 import * as gqlParser from 'graphql/language/parser'
 import * as gqlValidator from 'graphql/validation/validate'
 import * as gqlExecutor from 'graphql/execution/execute'
@@ -13,7 +13,7 @@ import { NoopReadModelPubSub } from '../src/services/pub-sub/noop-read-model-pub
 import { GraphQLWebsocketHandler } from '../src/services/graphql/websocket-protocol/graphql-websocket-protocol'
 import { ExecutionResult } from 'graphql/execution/execute'
 import { GraphQLError } from 'graphql'
-import { BoosterTokenVerifier } from '../src/booster-token-verifier'
+import { BoosterTokenVerifier } from '../src/token-verifier'
 
 describe('the `BoosterGraphQLDispatcher`', () => {
   afterEach(() => {

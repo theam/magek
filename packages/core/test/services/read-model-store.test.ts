@@ -15,9 +15,9 @@ import {
   EntityInterface,
 } from '@magek/common'
 import { expect } from '../expect'
-import { BoosterAuthorizer } from '../../src/booster-authorizer'
+import { BoosterAuthorizer } from '../../src/authorizer'
 import { fake, match, replace, restore, SinonFakeTimers, spy, stub, useFakeTimers } from 'sinon'
-import { Booster } from '../../src/booster'
+import { Booster } from '../../src/magek'
 
 describe('ReadModelStore', () => {
   afterEach(() => {

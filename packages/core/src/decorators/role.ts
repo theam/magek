@@ -1,4 +1,4 @@
-import { Booster } from '../booster'
+import { Booster } from '../magek'
 import { Class, RoleMetadata, RoleInterface } from '@magek/common'
 
 /**

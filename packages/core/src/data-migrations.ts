@@ -9,12 +9,12 @@ import {
   UUID,
   getLogger,
 } from '@magek/common'
-import { RegisterHandler } from './booster-register-handler'
+import { RegisterHandler } from './register-handler'
 import { EventStore } from './services/event-store'
-import { BoosterDataMigrationEntity } from './core-concepts/data-migration/entities/booster-data-migration-entity'
-import { BoosterEntityMigrated } from './core-concepts/data-migration/events/booster-entity-migrated'
+import { BoosterDataMigrationEntity } from './core-concepts/data-migration/entities/data-migration-entity'
+import { BoosterEntityMigrated } from './core-concepts/data-migration/events/entity-migrated'
 import { Booster } from './index'
-import { BoosterDataMigrationStarted } from './core-concepts/data-migration/events/booster-data-migration-started'
+import { BoosterDataMigrationStarted } from './core-concepts/data-migration/events/data-migration-started'
 import { Trace } from './instrumentation'
 
 export class BoosterDataMigrations {

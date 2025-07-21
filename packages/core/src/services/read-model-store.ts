@@ -22,7 +22,7 @@ import {
   Promises,
   retryIfError,
 } from '@magek/common'
-import { BoosterGlobalErrorDispatcher } from '../booster-global-error-dispatcher'
+import { BoosterGlobalErrorDispatcher } from '../global-error-dispatcher'
 import { readModelSearcher } from './read-model-searcher'
 import { ReadModelSchemaMigrator } from '../read-model-schema-migrator'
 

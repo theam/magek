@@ -1,10 +1,10 @@
 import { ProviderLibrary, EventSearchRequest, EventSearchResponse, UUID } from '@magek/common'
 import { restore, fake, SinonSpy, match } from 'sinon'
 import { faker } from '@faker-js/faker'
-import { BoosterEventsReader } from '../src/booster-events-reader'
+import { BoosterEventsReader } from '../src/events-reader'
 import { expect } from './expect'
 import { Booster } from '../src'
-import { BoosterAuthorizer } from '../src/booster-authorizer'
+import { BoosterAuthorizer } from '../src/authorizer'
 import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
 
 describe('BoosterEventsReader', () => {

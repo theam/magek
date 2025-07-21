@@ -12,11 +12,11 @@ import {
   NotificationInterface,
   ReducerMetadata,
 } from '@magek/common'
-import { BoosterEntityMigrated } from './core-concepts/data-migration/events/booster-entity-migrated'
-import { BoosterDataMigrationStarted } from './core-concepts/data-migration/events/booster-data-migration-started'
-import { BoosterDataMigrationFinished } from './core-concepts/data-migration/events/booster-data-migration-finished'
-import { Booster } from './booster'
-import { BoosterEntityTouched } from './core-concepts/touch-entity/events/booster-entity-touched'
+import { BoosterEntityMigrated } from './core-concepts/data-migration/events/entity-migrated'
+import { BoosterDataMigrationStarted } from './core-concepts/data-migration/events/data-migration-started'
+import { BoosterDataMigrationFinished } from './core-concepts/data-migration/events/data-migration-finished'
+import { Booster } from './magek'
+import { BoosterEntityTouched } from './core-concepts/touch-entity/events/entity-touched'
 
 const boosterEventsTypesNames: Array<string> = [
   BoosterEntityMigrated.name,

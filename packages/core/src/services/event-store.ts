@@ -19,10 +19,10 @@ import {
   createInstance,
   getLogger,
 } from '@magek/common'
-import { BoosterGlobalErrorDispatcher } from '../booster-global-error-dispatcher'
+import { BoosterGlobalErrorDispatcher } from '../global-error-dispatcher'
 import { SchemaMigrator } from '../schema-migrator'
-import { BoosterEntityMigrated } from '../core-concepts/data-migration/events/booster-entity-migrated'
-import { BoosterEntityTouched } from '../core-concepts/touch-entity/events/booster-entity-touched'
+import { BoosterEntityMigrated } from '../core-concepts/data-migration/events/entity-migrated'
+import { BoosterEntityTouched } from '../core-concepts/touch-entity/events/entity-touched'
 import { Trace } from '../instrumentation'
 
 const originOfTime = new Date(0).toISOString() // Unix epoch

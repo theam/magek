@@ -1,3 +1,3 @@
-export * from './booster-health-indicator'
-export * from './default-booster-health-indicators'
-export * from './booster-function-health-indicator'
+export * from './health-indicator'
+export * from './default-health-indicators'
+export * from './function-health-indicator'

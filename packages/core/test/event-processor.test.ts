@@ -15,9 +15,9 @@ import {
 import { expect } from './expect'
 import { ReadModelStore } from '../src/services/read-model-store'
 import { EventStore } from '../src/services/event-store'
-import { RegisterHandler } from '../src/booster-register-handler'
+import { RegisterHandler } from '../src/register-handler'
 import { faker } from '@faker-js/faker'
-import { BoosterEventProcessor } from '../src/booster-event-processor'
+import { BoosterEventProcessor } from '../src/event-processor'
 
 class SomeEvent {
   public constructor(readonly id: UUID) {}

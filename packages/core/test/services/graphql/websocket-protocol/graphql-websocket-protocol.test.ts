@@ -15,7 +15,7 @@ import {
 import { GraphQLWebsocketHandler } from '../../../../src/services/graphql/websocket-protocol/graphql-websocket-protocol'
 import { ExecutionResult } from 'graphql'
 import { expect } from '../../../expect'
-import { BoosterTokenVerifier } from '../../../../src/booster-token-verifier'
+import { BoosterTokenVerifier } from '../../../../src/token-verifier'
 
 describe('the `GraphQLWebsocketHandler`', () => {
   let config: BoosterConfig

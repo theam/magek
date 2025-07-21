@@ -1,5 +1,5 @@
 import { Class, EventInterface } from '@magek/common'
-import { Booster } from '../booster'
+import { Booster } from '../magek'
 
 /**
  * Annotation to tell Booster which classes are your Events

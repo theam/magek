@@ -1,5 +1,5 @@
  
-import { Booster } from '../booster'
+import { Booster } from '../magek'
 import {
   Class,
   EntityInterface,
@@ -9,7 +9,7 @@ import {
   AnyClass,
   EventStreamAuthorizer,
 } from '@magek/common'
-import { BoosterAuthorizer } from '../booster-authorizer'
+import { BoosterAuthorizer } from '../authorizer'
 
 type EntityAttributes = EventStreamRoleAccess
 

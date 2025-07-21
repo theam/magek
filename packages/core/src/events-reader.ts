@@ -10,7 +10,7 @@ import {
   EventParametersFilterByType,
   getLogger,
 } from '@magek/common'
-import { Booster } from './booster'
+import { Booster } from './magek'
 
 export class BoosterEventsReader {
   public constructor(readonly config: BoosterConfig) {}

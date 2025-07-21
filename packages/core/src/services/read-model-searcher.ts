@@ -6,7 +6,7 @@ import {
   Searcher,
   SearcherFunction,
 } from '@magek/common'
-import { BoosterReadModelsReader } from '../booster-read-models-reader'
+import { BoosterReadModelsReader } from '../read-models-reader'
 
 export function readModelSearcher<TReadModel extends ReadModelInterface>(
   config: BoosterConfig,

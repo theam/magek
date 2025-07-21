@@ -1,5 +1,5 @@
 import { Class, NotificationInterface } from '@magek/common'
-import { Booster } from '../booster'
+import { Booster } from '../magek'
 import { getFunctionArguments } from './metadata'
 
 export type NotificationOptions = {

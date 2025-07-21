@@ -1,6 +1,6 @@
 import { BoosterConfig, TraceActionTypes, TraceInfo, TraceTypes, UUID } from '@magek/common'
 import { isTraceEnabled, notifyTrace } from '../trace-notifier'
-import { Booster } from '../../booster'
+import { Booster } from '../../magek'
 
 export function Trace(actionType: string = TraceActionTypes.CUSTOM, description?: string) {
   return (

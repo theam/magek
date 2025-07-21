@@ -5,7 +5,7 @@ import { Register } from '@magek/common'
 import { Command } from '../../src/decorators'
 import { Booster } from '../../src'
 import { fake } from 'sinon'
-import { BoosterAuthorizer } from '../../src/booster-authorizer'
+import { BoosterAuthorizer } from '../../src/authorizer'
 
 describe('the `Command` decorator', () => {
   afterEach(() => {

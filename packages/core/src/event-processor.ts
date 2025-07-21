@@ -16,8 +16,8 @@ import {
 import { EventStore } from './services/event-store'
 import { EventsStreamingCallback } from './services/raw-events-parser'
 import { ReadModelStore } from './services/read-model-store'
-import { RegisterHandler } from './booster-register-handler'
-import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher'
+import { RegisterHandler } from './register-handler'
+import { BoosterGlobalErrorDispatcher } from './global-error-dispatcher'
 import { Trace } from './instrumentation'
 import { BOOSTER_GLOBAL_EVENT_HANDLERS } from './decorators'
 

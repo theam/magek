@@ -3,7 +3,7 @@ import { BoosterConfig, EventStream, TraceActionTypes, getLogger } from '@magek/
 import { EventStore } from './services/event-store'
 import { ReadModelStore } from './services/read-model-store'
 import { RawEventsParser } from './services/raw-events-parser'
-import { BoosterEventProcessor } from './booster-event-processor'
+import { BoosterEventProcessor } from './event-processor'
 
 /**
  * This class consumes events from the event stream and dispatches them to the event handlers

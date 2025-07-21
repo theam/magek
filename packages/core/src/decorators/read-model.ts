@@ -5,8 +5,8 @@ import {
   ReadModelInterface,
   ReadModelRoleAccess,
 } from '@magek/common'
-import { Booster } from '../booster'
-import { BoosterAuthorizer } from '../booster-authorizer'
+import { Booster } from '../magek'
+import { BoosterAuthorizer } from '../authorizer'
 import { getClassMetadata } from './metadata'
 import { getMetadata, defineMetadata } from '@magek/metadata'
 

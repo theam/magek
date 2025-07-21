@@ -1,4 +1,4 @@
-import { Booster } from '../booster'
+import { Booster } from '../magek'
 import { Class, AnyClass, SchemaMigrationMetadata, BoosterConfig, Instance } from '@magek/common'
 import { getMetadata, defineMetadata } from '@magek/metadata'
 

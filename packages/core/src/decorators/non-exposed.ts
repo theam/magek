@@ -1,4 +1,4 @@
-import { Booster } from '../booster'
+import { Booster } from '../magek'
 import { AnyClass } from '@magek/common'
 import { getFunctionArguments } from './metadata'
 

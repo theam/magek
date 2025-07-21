@@ -8,8 +8,8 @@ import {
   TraceActionTypes,
   getLogger,
 } from '@magek/common'
-import { RegisterHandler } from './booster-register-handler'
-import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher'
+import { RegisterHandler } from './register-handler'
+import { BoosterGlobalErrorDispatcher } from './global-error-dispatcher'
 import { Trace } from './instrumentation'
 
 export class BoosterScheduledCommandDispatcher {

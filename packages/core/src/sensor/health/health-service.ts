@@ -12,8 +12,8 @@ import {
 } from '@magek/common'
 import { childHealthProviders, isEnabled, metadataFromId, rootHealthProviders } from './health-utils'
 import { defaultBoosterHealthIndicators } from './health-indicators'
-import { BoosterTokenVerifier } from '../../booster-token-verifier'
-import { BoosterAuthorizer } from '../../booster-authorizer'
+import { BoosterTokenVerifier } from '../../token-verifier'
+import { BoosterAuthorizer } from '../../authorizer'
 
 /**
  * This class is in charge of handling the health check requests

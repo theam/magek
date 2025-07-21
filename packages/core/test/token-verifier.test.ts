@@ -5,7 +5,7 @@ import { expect } from './expect'
 import { BoosterConfig, UserEnvelope, DecodedToken } from '@magek/common'
 import createJWKSMock from 'mock-jwks'
 import { faker } from '@faker-js/faker'
-import { BoosterTokenVerifier } from '../src/booster-token-verifier'
+import { BoosterTokenVerifier } from '../src/token-verifier'
 import { JwksUriTokenVerifier } from '../src/services/token-verifiers/jwks-uri-token-verifier'
 
 describe('the "verifyToken" method', () => {

@@ -22,7 +22,7 @@ import {
   createInstanceWithCalculatedProperties,
   getLogger,
 } from '@magek/common'
-import { Booster } from './booster'
+import { Booster } from './magek'
 import { applyReadModelRequestBeforeFunctions } from './services/filter-helpers'
 import { ReadModelSchemaMigrator } from './read-model-schema-migrator'
 import { Trace } from './instrumentation'

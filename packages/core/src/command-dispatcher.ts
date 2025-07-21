@@ -10,9 +10,9 @@ import {
   createInstance,
   getLogger,
 } from '@magek/common'
-import { RegisterHandler } from './booster-register-handler'
+import { RegisterHandler } from './register-handler'
 import { applyBeforeFunctions } from './services/filter-helpers'
-import { BoosterGlobalErrorDispatcher } from './booster-global-error-dispatcher'
+import { BoosterGlobalErrorDispatcher } from './global-error-dispatcher'
 import { SchemaMigrator } from './schema-migrator'
 import { GraphQLResolverContext } from './services/graphql/common'
 import { Trace } from './instrumentation'

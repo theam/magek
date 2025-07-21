@@ -3,7 +3,7 @@ import { expect } from '../expect'
 import { describe } from 'mocha'
 import { ReadModel, Booster, Entity, Projects, sequencedBy, Role, CalculatedField } from '../../src'
 import { UUID, ProjectionResult, UserEnvelope } from '@magek/common'
-import { BoosterAuthorizer } from '../../src/booster-authorizer'
+import { BoosterAuthorizer } from '../../src/authorizer'
 import { fake, restore } from 'sinon'
 
 describe('the `ReadModel` decorator', () => {

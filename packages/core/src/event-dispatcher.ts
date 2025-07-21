@@ -3,7 +3,7 @@ import { EventStore } from './services/event-store'
 import { RawEventsParser } from './services/raw-events-parser'
 import { ReadModelStore } from './services/read-model-store'
 import { Trace } from './instrumentation'
-import { BoosterEventProcessor } from './booster-event-processor'
+import { BoosterEventProcessor } from './event-processor'
 
 export class BoosterEventDispatcher {
   /**

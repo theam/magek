@@ -5,11 +5,11 @@ import {
   HealthIndicatorInterface,
   HealthIndicatorMetadata,
 } from '@magek/common'
-import { BoosterHealthIndicator } from './booster-health-indicator'
-import { BoosterDatabaseHealthIndicator } from './booster-database-health-indicator'
-import { BoosterDatabaseEventsHealthIndicator } from './booster-database-events-health-indicator'
-import { BoosterFunctionHealthIndicator } from './booster-function-health-indicator'
-import { BoosterDatabaseReadModelsHealthIndicator } from './booster-database-read-models-health-indicator'
+import { BoosterHealthIndicator } from './health-indicator'
+import { BoosterDatabaseHealthIndicator } from './database-health-indicator'
+import { BoosterDatabaseEventsHealthIndicator } from './database-events-health-indicator'
+import { BoosterFunctionHealthIndicator } from './function-health-indicator'
+import { BoosterDatabaseReadModelsHealthIndicator } from './database-read-models-health-indicator'
 import { RocketsHealthIndicator } from './rockets-health-indicator'
 
 function buildMetadata(

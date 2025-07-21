@@ -15,8 +15,8 @@ import { fake, replace, restore, stub, match, spy } from 'sinon'
 import { EventStore } from '../../src/services/event-store'
 import { createMockEventStoreAdapter } from '../helpers/event-store-adapter-helper'
 import { expect } from '../expect'
-import { BoosterEntityMigrated } from '../../src/core-concepts/data-migration/events/booster-entity-migrated'
-import { BoosterAuthorizer } from '../../src/booster-authorizer'
+import { BoosterEntityMigrated } from '../../src/core-concepts/data-migration/events/entity-migrated'
+import { BoosterAuthorizer } from '../../src/authorizer'
 
 describe('EventStore', () => {
   afterEach(() => {
