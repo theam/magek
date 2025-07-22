@@ -25,10 +25,12 @@ interface Logger {
 
 ```typescript title="src/config/config.ts"
 import { Provider } from '@booster-ai/server'
+import { eventStore } from '@magek/adapter-event-store-nedb'
 
 Booster.configure('development', (config: BoosterConfig): void => {
   config.appName = 'my-store'
   config.provider = Provider()
+  config.eventStoreAdapter = eventStore
   // highlight-start
   config.logger = new MyCustomLogger() // Overrides the default logger object
   config.logLevel = Level.debug        // Sets the log level at 'debug'     

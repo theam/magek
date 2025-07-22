@@ -8,6 +8,7 @@
     "@booster-ai/core": "{{boosterVersion}}",
     "@booster-ai/common": "{{boosterVersion}}",
     "@booster-ai/cli": "{{boosterVersion}}",
+    "@magek/adapter-event-store-nedb": "{{boosterVersion}}",
     "{{providerPackageName}}": "{{boosterVersion}}"
   },
   "devDependencies": {

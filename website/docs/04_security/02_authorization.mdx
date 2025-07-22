@@ -72,10 +72,12 @@ For example, given the following setup:
 
 ```typescript title="src/config/config.ts"
 import { Provider } from '@booster-ai/server'
+import { eventStore } from '@magek/adapter-event-store-nedb'
 
 Booster.configure('production', (config: BoosterConfig): void => {
   config.appName = 'my-store'
   config.provider = Provider()
+  config.eventStoreAdapter = eventStore
   config.tokenVerifiers = [
     new JwksUriTokenVerifier(
       'https://my-auth0-tenant.auth0.com/', // Issuer

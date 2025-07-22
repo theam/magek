@@ -7,18 +7,38 @@ You can create multiple environments calling the `Booster.configure` function se
 import { Booster } from '@booster-ai/core'
 import { BoosterConfig } from '@booster-ai/common'
 import { Provider } from '@booster-ai/server'
+import { eventStore } from '@magek/adapter-event-store-nedb'
 // A provider that deploys your app to AWS:
 
 Booster.configure('stage', (config: BoosterConfig): void => {
   config.appName = 'fruit-store-stage'
   config.provider = Provider()
+  config.eventStoreAdapter = eventStore
 })
 
 Booster.configure('prod', (config: BoosterConfig): void => {
   config.appName = 'fruit-store-prod'
   config.provider = Provider()
+  config.eventStoreAdapter = eventStore
 })
 ```
+
+## Pluggable Event Store Adapters
+
+Magek uses a pluggable architecture for event storage, allowing you to choose the most appropriate storage solution for your needs. The framework provides several event store adapters:
+
+- `@magek/adapter-event-store-nedb` - A lightweight, file-based adapter perfect for development and testing
+- Additional adapters for production databases (PostgreSQL, MongoDB, etc.) can be added as needed
+
+This modular approach allows you to:
+- Start development quickly with a simple file-based store
+- Switch to production-grade databases without changing your application code
+- Create custom adapters for specific requirements
+- Test your application with different storage backends
+
+To use an event store adapter, simply import it and assign it to `config.eventStoreAdapter` in your environment configuration.
+
+## Environment Files
 
 It is also possible to place an environment configuration in a separated file. Let's say that a developer called "John" created its own configuration file `src/config/john.ts`. The content would be the following:
 
@@ -26,10 +46,12 @@ It is also possible to place an environment configuration in a separated file. L
 import { Booster } from '@booster-ai/core'
 import { BoosterConfig } from '@booster-ai/common'
 import { Provider } from '@booster-ai/server'
+import { eventStore } from '@magek/adapter-event-store-nedb'
 
 Booster.configure('john', (config: BoosterConfig): void => {
   config.appName = 'john-fruit-store'
   config.provider = Provider()
+  config.eventStoreAdapter = eventStore
 })
 ```
 
