@@ -172,9 +172,13 @@ async function collectProjectInfo(args: string[]): Promise<ProjectConfig> {
   const shouldSkipPrompts =
     flags['skip-install'] ||
     flags['skip-git'] ||
-    Object.keys(flags).some((key) =>
-      ['description', 'version', 'author', 'homepage', 'license', 'repository', 'package-manager'].includes(key)
-    )
+    flags.description ||
+    flags.version ||
+    flags.author ||
+    flags.homepage ||
+    flags.license ||
+    flags.repository ||
+    flags['package-manager']
 
   let config: ProjectConfig
 
