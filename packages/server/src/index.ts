@@ -1,15 +1,6 @@
-import { HasInfrastructure, ProviderLibrary, RocketDescriptor, UserApp, EventStoreAdapter } from '@booster-ai/common'
-import {
-  rawEventsToEnvelopes,
-  readEntityEventsSince,
-  readEntityLatestSnapshot,
-  storeDispatchedEvent,
-  storeEvents,
-  storeSnapshot,
-} from './library/events-adapter'
+import { HasInfrastructure, ProviderLibrary, RocketDescriptor, UserApp } from '@booster-ai/common'
 import { healthRequestResult, requestFailed, requestSucceeded } from './library/api-adapter'
 import { GraphQLService, ReadModelRegistry } from './services'
-import { EventRegistry } from '@magek/adapter-event-store-nedb'
 import { rawGraphQLRequestToEnvelope } from './library/graphql-adapter'
 
 import * as path from 'path'
@@ -21,7 +12,6 @@ import {
   searchReadModel,
   storeReadModel,
 } from './library/read-model-adapter'
-import { searchEntitiesIds, searchEvents } from './library/events-search-adapter'
 import { rawScheduledInputToEnvelope } from './library/scheduled-adapter'
 import {
   deleteConnectionData,
@@ -41,53 +31,26 @@ import { rawRocketInputToEnvelope } from './library/rocket-adapter'
 import {
   areDatabaseReadModelsUp,
   areRocketFunctionsUp,
-  databaseEventsHealthDetails,
   databaseReadModelsHealthDetails,
   databaseUrl,
   graphqlFunctionUrl,
-  isDatabaseEventUp,
   isGraphQLFunctionUp,
   rawRequestToSensorHealth,
 } from './library/health-adapter'
-import { deleteEvent, deleteSnapshot, findDeletableEvent, findDeletableSnapshot } from './library/event-delete-adapter'
 import * as process from 'process'
 
 export * from './paths'
 export * from './services'
 export * from './library/graphql-adapter'
 
-const eventRegistry = new EventRegistry()
 const readModelRegistry = new ReadModelRegistry()
 const connectionRegistry = new WebSocketRegistry(connectionsDatabase)
 const subscriptionRegistry = new WebSocketRegistry(subscriptionDatabase)
 const userApp: UserApp = require(path.join(process.cwd(), 'dist', 'index.js'))
 const graphQLService = new GraphQLService(userApp)
 
-/* We load the infrastructure package dynamically here to avoid including it in the
- * dependencies that are deployed in the lambda functions. The infrastructure
- * package is only used during the deployment.
- */
 export function loadInfrastructurePackage(packageName: string): HasInfrastructure {
   return require(packageName)
-}
-
-// Standalone EventStoreAdapter export using NeDB adapter
-export const eventStoreAdapter: EventStoreAdapter = {
-  rawToEnvelopes: rawEventsToEnvelopes,
-  rawStreamToEnvelopes: notImplemented as any,
-  dedupEventStream: notImplemented as any,
-  produce: notImplemented as any,
-  forEntitySince: readEntityEventsSince.bind(null, eventRegistry),
-  latestEntitySnapshot: readEntityLatestSnapshot.bind(null, eventRegistry),
-  store: storeEvents.bind(null, userApp, eventRegistry),
-  storeSnapshot: storeSnapshot.bind(null, eventRegistry),
-  search: searchEvents.bind(null, eventRegistry),
-  searchEntitiesIDs: searchEntitiesIds.bind(null, eventRegistry),
-  storeDispatched: storeDispatchedEvent,
-  findDeletableEvent: findDeletableEvent.bind(null, eventRegistry),
-  findDeletableSnapshot: findDeletableSnapshot.bind(null, eventRegistry),
-  deleteEvent: deleteEvent.bind(null, eventRegistry),
-  deleteSnapshot: deleteSnapshot.bind(null, eventRegistry),
 }
 
 export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrary => ({
@@ -128,11 +91,29 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
     rawToEnvelopes: rawRocketInputToEnvelope,
   },
   sensor: {
-    databaseEventsHealthDetails: databaseEventsHealthDetails.bind(null, eventRegistry),
+    databaseEventsHealthDetails: (config) => {
+      // Delegate to event store adapter health check if available
+      if (config.eventStoreAdapter?.healthCheck) {
+        return config.eventStoreAdapter.healthCheck.details(config)
+      }
+      throw new Error('No event store adapter configured for health checks')
+    },
     databaseReadModelsHealthDetails: databaseReadModelsHealthDetails.bind(null, readModelRegistry),
-    isDatabaseEventUp: isDatabaseEventUp,
+    isDatabaseEventUp: (config) => {
+      // Delegate to event store adapter health check if available
+      if (config.eventStoreAdapter?.healthCheck) {
+        return config.eventStoreAdapter.healthCheck.isUp(config)
+      }
+      return Promise.resolve(false)
+    },
     areDatabaseReadModelsUp: areDatabaseReadModelsUp,
-    databaseUrls: databaseUrl,
+    databaseUrls: (config) => {
+      // Delegate to event store adapter health check if available
+      if (config.eventStoreAdapter?.healthCheck) {
+        return config.eventStoreAdapter.healthCheck.urls(config)
+      }
+      return databaseUrl()
+    },
     isGraphQLFunctionUp: isGraphQLFunctionUp,
     graphQLFunctionUrl: graphqlFunctionUrl,
     rawRequestToHealthEnvelope: rawRequestToSensorHealth,
@@ -156,5 +137,3 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
     return infrastructure.Infrastructure(rocketDescriptors)
   },
 })
-
-function notImplemented(): void {}

@@ -1,5 +1,4 @@
 import { ReadModelRegistry } from '../services'
-import { EventRegistry } from '@magek/adapter-event-store-nedb'
 import { eventsDatabase, readModelsDatabase } from '../paths'
 import { BoosterConfig, boosterLocalPort, HealthEnvelope, UUID, request } from '@booster-ai/common'
 import { existsSync } from 'fs'
@@ -16,14 +15,6 @@ export async function countAll(database: Nedb): Promise<number> {
   return count ?? 0
 }
 
-export async function databaseEventsHealthDetails(eventRegistry: EventRegistry): Promise<unknown> {
-  const count = await countAll(eventRegistry.events)
-  return {
-    file: eventsDatabase,
-    count: count,
-  }
-}
-
 export async function graphqlFunctionUrl(): Promise<string> {
   try {
     const port = boosterLocalPort()
@@ -31,10 +22,6 @@ export async function graphqlFunctionUrl(): Promise<string> {
   } catch (e) {
     return ''
   }
-}
-
-export async function isDatabaseEventUp(): Promise<boolean> {
-  return existsSync(eventsDatabase)
 }
 
 export async function areDatabaseReadModelsUp(): Promise<boolean> {

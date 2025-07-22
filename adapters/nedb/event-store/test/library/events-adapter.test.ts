@@ -1,6 +1,6 @@
  
 import { createStubInstance, fake, SinonStub, SinonStubbedInstance, replace, stub, restore } from 'sinon'
-import { EventRegistry } from '@magek/adapter-event-store-nedb'
+import { EventRegistry } from '../../src/event-registry'
 import {
   readEntityEventsSince,
   readEntityLatestSnapshot,

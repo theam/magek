@@ -10,7 +10,7 @@ import {
   retryIfError,
   getLogger,
 } from '@booster-ai/common'
-import { EventRegistry } from '@magek/adapter-event-store-nedb'
+import { EventRegistry, eventsDatabase } from '../event-registry'
 
  
 const originOfTime = new Date(0).toISOString()
@@ -120,4 +120,12 @@ export async function storeDispatchedEvent() {
 
 async function persistEvent(eventRegistry: EventRegistry, eventEnvelope: EventEnvelope): Promise<void> {
   await eventRegistry.store(eventEnvelope)
+}
+
+export async function getDatabaseEventsHealthDetails(eventRegistry: EventRegistry): Promise<unknown> {
+  const count = await eventRegistry.count()
+  return {
+    file: eventsDatabase,
+    count: count,
+  }
 }
