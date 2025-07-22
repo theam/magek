@@ -31,8 +31,7 @@ import { eventsDatabase } from './paths'
 import { existsSync } from 'fs'
 import * as path from 'path'
 
-// Export the EventRegistry for backward compatibility
-export { EventRegistry } from './event-registry'
+
 
 // Pre-built NeDB Event Store Adapter instance
 const eventRegistry = new EventRegistry()

@@ -9,7 +9,7 @@ import {
   createMockEventEnvelope,
   createMockEventEnvelopeForEntity,
 } from '../helpers/event-helper'
-import { EventRegistry } from '../../src'
+import { EventRegistry } from '../../src/event-registry'
 
 describe('the event registry', () => {
   let initialEventsCount: number
