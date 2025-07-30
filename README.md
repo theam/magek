@@ -61,6 +61,32 @@ Booster Framework follows the next principles:
 * *Self-documenting APIs:* We adopted GraphQL because it's a self-documenting standard. You can grab a standard GraphQL client like [ApolloClient](https://github.com/apollographql/apollo-client) and start using a Booster backend right away with no complicated integrations.
 * *Developer productivity:* Software development is fun, and a modern tool should make it even more fun, reducing the need for mundane tasks. Booster provides code generators to help you quickstart new projects and objects, and the framework types and APIs are hand-crafted to help your IDE help you.
 
+# Choosing an Event Store
+
+Booster supports multiple event store implementations to fit different deployment scenarios and requirements:
+
+## Available Event Store Adapters
+
+### NeDB Event Store (`@magek/adapter-event-store-nedb`)
+A lightweight, embedded event store perfect for development, testing, and small applications:
+- **Use case**: Development environments, testing, prototyping, and lightweight applications
+- **Storage**: File-based or in-memory database
+- **Scalability**: Single instance, suitable for low to moderate throughput
+- **Setup**: No external dependencies required
+
+### Cloud Provider Event Stores
+For production deployments, consider cloud-native event store adapters:
+- **AWS**: DynamoDB-based event store with excellent scalability and managed infrastructure
+- **Azure**: CosmosDB-based event store with global distribution capabilities
+
+## Choosing the Right Event Store
+
+1. **For Development & Testing**: Use `@magek/adapter-event-store-nedb` for fast iteration and simple setup
+2. **For Production**: Choose cloud provider adapters based on your infrastructure preferences
+3. **For Hybrid Scenarios**: Start with NeDB for development, then migrate to cloud adapters for production
+
+For detailed configuration instructions, see the [Event Store documentation](https://docs.boosterframework.com).
+
 # Contributing
 
 You can join the conversation and start contributing in any of the following ways:
