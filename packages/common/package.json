@@ -5,8 +5,8 @@
   "keywords": [
     "framework-common-helpers"
   ],
-  "author": "Magekin Labs SLU",
-  "homepage": "https://boosterframework.com",
+  "author": "Boosterin Labs SLU",
+  "homepage": "https://magek.ai",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
@@ -17,7 +17,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/boostercloud/booster.git"
+    "url": "git+https://github.com/theam/magek.git"
   },
   "scripts": {
     "format": "prettier --write --ext '.js,.ts' **/*.ts **/*/*.ts",
@@ -30,7 +30,7 @@
     "prepack": "tsc -b tsconfig.json"
   },
   "bugs": {
-    "url": "https://github.com/boostercloud/booster/issues"
+    "url": "https://github.com/theam/magek/issues"
   },
   "engines": {
     "node": ">=22.0.0 <23.0.0"

@@ -10,8 +10,8 @@
 # ===================================================================================================================================================================================== #
 
 PROD_URL="https://booster-docs-chatgpt-plugin.herokuapp.com"
-REPO_URL="https://raw.githubusercontent.com/boostercloud/booster/main/website/"
-DOCS_URL="https://docs.boosterframework.com/"
+REPO_URL="https://raw.githubusercontent.com/theam/magek/main/website/"
+DOCS_URL="https://docs.magek.ai/"
 
 # Auth0 credentials from the environment variables of the workflow file:
 CLIENT_ID=$AUTH0_CLIENT_ID

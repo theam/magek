@@ -368,7 +368,7 @@ async function createProject(config: ProjectConfig): Promise<void> {
     console.log(kleur.cyan(`  ${config.packageManager} run build`))
     console.log(kleur.cyan(`  ${config.packageManager} run start:local`))
     console.log()
-    console.log('Learn more at: https://docs.boosterframework.com')
+    console.log('Learn more at: https://docs.magek.ai')
   } catch (error) {
     console.error(kleur.red('❌ Failed to create project:'))
     console.error(error)

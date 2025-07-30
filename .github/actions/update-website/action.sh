@@ -10,7 +10,7 @@
 # ===================================================================================================================================================================================== #
 
 GRAPHQL_URL="$AI_BOOSTER_URL"
-REPO_URL="https://raw.githubusercontent.com/boostercloud/booster/main/website/"
+REPO_URL="https://raw.githubusercontent.com/theam/magek/main/website/"
 
 # Auth0 credentials from the environment variables of the workflow file:
 CLIENT_ID=$AUTH0_CLIENT_ID

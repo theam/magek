@@ -63,7 +63,7 @@ All production code is TypeScript; tests use Mocha.  Standard utilities such as 
 
 ## 7. Useful References
 
-* Documentation: <https://docs.boosterframework.com>
+* Documentation: <https://docs.magek.ai>
 * Discord: <https://discord.gg/bDY8MKx>
 * CONTRIBUTING guidelines: `CONTRIBUTING.md`
 * Code of Conduct: `CODE_OF_CONDUCT.md`

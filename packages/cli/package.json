@@ -3,14 +3,14 @@
   "description": "CLI of the Magek Framework, the next level of abstraction for cloud-native applications",
   "version": "0.0.1",
   "author": "Boosterin Labs SLU",
-  "homepage": "https://boosterframework.com",
+  "homepage": "https://magek.ai",
   "publishConfig": {
     "access": "public"
   },
   "bin": {
-    "boost": "./bin/run"
+    "magek": "./bin/run"
   },
-  "bugs": "https://github.com/boostercloud/booster/issues",
+  "bugs": "https://github.com/theam/magek/issues",
   "dependencies": {
     "@magek/core": "workspace:^0.0.1",
     "@magek/common": "workspace:^0.0.1",
@@ -72,7 +72,7 @@
   "main": "dist/index.js",
   "oclif": {
     "commands": "./dist/commands",
-    "bin": "boost",
+    "bin": "magek",
     "plugins": [
       "@oclif/plugin-help"
     ],
@@ -80,7 +80,10 @@
       "command_not_found": "./dist/hooks/command_not_found/custom-parse"
     }
   },
-  "repository": "boostercloud/booster",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theam/magek.git"
+  },
   "scripts": {
     "format": "prettier --write --ext '.js,.ts' **/*.ts **/*/*.ts",
     "lint:check": "eslint \"**/*.ts\"",

@@ -23,13 +23,12 @@
     "test": "mocha test/**/*.test.ts"
   },
   "keywords": [
-    "booster",
-    "booster-ai",
+    "magek",
     "scaffold",
     "generator",
     "cli"
   ],
-  "author": "Magekin Labs SLU",
+  "author": "Boosterin Labs SLU",
   "license": "Apache-2.0",
   "dependencies": {
     "degit": "2.8.4",

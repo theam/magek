@@ -215,7 +215,7 @@ Configuration options:
 * details: If false, the indicator will not include the details
 * showChildren: If false, this indicator will not include child components in the tree.
   * Child components will be shown through child urls
-* authorize: Authorize configuration. [See security documentation](https://docs.boosterframework.com/security/security) 
+* authorize: Authorize configuration. [See security documentation](https://docs.magek.ai/security/security) 
 
 #### Magek components default configuration
 

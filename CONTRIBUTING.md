@@ -5,44 +5,47 @@
 
 Thanks for taking the time to contribute to Magek. It is an open-source project and it wouldn't be possible without people like you 🙏🎉
 
-This document is a set of guidelines to help you contribute to Magek, which is hosted on the [`boostercloud`](https://github.com/boostercloud) GitHub
-organization. These aren’t absolute laws, use your judgment and common sense 😀.
+This document is a set of guidelines to help you contribute to Magek, which is hosted on the [`theam/magek`](https://github.com/theam/magek) GitHub
+repository. These aren’t absolute laws, use your judgment and common sense 😀.
 Remember that if something here doesn't make sense, you can also propose a change to this document.
 
 <!-- toc -->
 
-- [Code of Conduct](#code-of-conduct)
-- [I don't want to read this whole thing, I just have a question!!!](#i-don39t-want-to-read-this-whole-thing-i-just-have-a-question)
-- [What should I know before I get started?](#what-should-i-know-before-i-get-started)
-  - [Packages](#packages)
-- [How Can I Contribute?](#how-can-i-contribute)
-  - [Reporting Bugs](#reporting-bugs)
-  - [Suggesting Enhancements](#suggesting-enhancements)
-  - [Improving documentation](#improving-documentation)
-  - [Create your very first GitHub issue](#create-your-very-first-github-issue)
-- [Your First Code Contribution](#your-first-code-contribution)
-  - [Getting the code](#getting-the-code)
-  - [Understanding the "rush monorepo" approach and how dependencies are structured in the project](#understanding-the-rush-monorepo-approach-and-how-dependencies-are-structured-in-the-project)
-  - [Running unit tests](#running-unit-tests)
-  - [Github flow](#github-flow)
-  - [Publishing your Pull Request](#publishing-your-pull-request)
-  - [Branch naming conventions](#branch-naming-conventions)
-  - [Commit message guidelines](#commit-message-guidelines)
-- [Code Style Guidelines](#code-style-guidelines)
-  - [Importing other files and libraries](#importing-other-files-and-libraries)
-  - [Functional style](#functional-style)
-  - [Use `const` and `let`](#use-const-and-let)
+- [Contributing to Magek](#contributing-to-magek)
+  - [Code of Conduct](#code-of-conduct)
+  - [I don't want to read this whole thing, I just have a question](#i-dont-want-to-read-this-whole-thing-i-just-have-a-question)
+  - [What should I know before I get started?](#what-should-i-know-before-i-get-started)
+    - [Packages](#packages)
+  - [How Can I Contribute?](#how-can-i-contribute)
+    - [Reporting Bugs](#reporting-bugs)
+    - [Suggesting Enhancements](#suggesting-enhancements)
+    - [Improving documentation](#improving-documentation)
+      - [Documentation principles and practices](#documentation-principles-and-practices)
+        - [Principles](#principles)
+        - [Practices](#practices)
+    - [Create your very first GitHub issue](#create-your-very-first-github-issue)
+  - [Your First Code Contribution](#your-first-code-contribution)
+    - [Getting the code](#getting-the-code)
+    - [Understanding the "rush monorepo" approach and how dependencies are structured in the project](#understanding-the-rush-monorepo-approach-and-how-dependencies-are-structured-in-the-project)
+    - [Running unit tests](#running-unit-tests)
+    - [Branch naming conventions](#branch-naming-conventions)
+    - [Commit message guidelines](#commit-message-guidelines)
+  - [Code Style Guidelines](#code-style-guidelines)
+    - [Importing other files and libraries](#importing-other-files-and-libraries)
+    - [Functional style](#functional-style)
+    - [Dependency injection](#dependency-injection)
+    - [Use `const` and `let`](#use-const-and-let)
 
 <!-- tocstop -->
 
 ## Code of Conduct
 
-This project and everyone participating in it are expected to uphold the [Magek's Code of Conduct](https://github.com/boostercloud/booster/blob/main/CODE_OF_CONDUCT.md), based on the Covenant Code of Conduct.
-If you see unacceptable behavior, please communicate so to `hello@booster.cloud`.
+This project and everyone participating in it are expected to uphold the [Magek's Code of Conduct](https://github.com/theam/magek/blob/main/CODE_OF_CONDUCT.md), based on the Covenant Code of Conduct.
+If you see unacceptable behavior, please communicate so to `info@theagilemonkeys.com`.
 
 ## I don't want to read this whole thing, I just have a question
 
-Go ahead and ask the community in [Discord](https://discord.com/invite/bDY8MKx) or [create a new issue](https://github.com/boostercloud/booster/issues).
+Go ahead and [create a new issue](https://github.com/theam/magek/issues) or [start a discussion](https://github.com/theam/magek/discussions).
 
 ## What should I know before I get started?
 
@@ -58,19 +61,15 @@ The packages are managed using [rush](https://rushjs.io/) and [npm](https://npmj
 
 The packages are published to `npmjs` under the prefix `@magek/`, their purpose is as follows:
 
-- `cli` - You guessed it! This package is the `boost` command-line tool, it interacts only with the core package in order to load the project configuration. The specific provider packages to interact with the cloud providers are loaded dynamically from the project config.
-- `framework-core` - This one contains all the framework runtime vendor-independent logic. Stuff like the generation of the config or the commands and events handling happens here. The specific provider packages to interact with the cloud providers are loaded dynamically from the project config.
-- `framework-provider-aws` (Deprecated) - Implements all the required adapters to make the booster core run on top of AWS technologies like Lambda and DynamoDB using the AWS SDK under the hoods.
-- `framework-provider-aws-infrastructure` (Deprecated) - Implements all the required adapters to allow Magek applications to be deployed to AWS using the AWS CDK under the hoods.
-- `framework-provider-local` - Implements all the required adapters to run the Magek application on a local express server to be able to debug your code before deploying it to a real cloud provider.
-- `framework-provider-local-infrastructure` - Implements all the required code to run the local development server.
-- `common` - This package defines types that the rest of the project will use. This is useful for avoiding cyclic dependencies. Note that this package should not contain stuff that are not types, or very simple methods related directly to them, i.e. a getter or setter. This package defines the main booster concepts like:
-  - Entity
-  - Command
-  - etc…
+- `cli` - The command-line tool for Magek (`magek` command), providing project scaffolding, build management, and development workflow commands.
+- `core` - Contains the framework runtime logic including command dispatching, event handling, GraphQL processing, and all core Magek functionality.
+- `common` - Shared types, concepts, and utilities used across the framework including entities, commands, events, and other core abstractions.
+- `server` - Implements adapters for running Magek applications both locally for development and in production environments, providing GraphQL, health monitoring, and read-model capabilities.
+- `server-infrastructure` - Provides infrastructure components for the Magek server including HTTP controllers, WebSocket management, scheduling, and test helpers.
+- `metadata` - Handles metadata extraction and reflection for framework decorators, enabling schema-aware operations like GraphQL schema generation.
+- `create` - Package for scaffolding new Magek projects (available as `create-magek` on npm).
 
-This is a dependency graph that shows the dependencies among all packages, including the application using Magek:
-![Magek packages dependencies](https://raw.githubusercontent.com/boostercloud/booster/main/docs/img/packages-dependencies.png)
+The packages have dependencies among themselves, with `common` and `metadata` providing foundational functionality, `core` building the main framework logic on top of them, and the server packages implementing the runtime environment for both development and production.
 
 ## How Can I Contribute?
 
@@ -104,7 +103,7 @@ Enhancement suggestions are tracked as GitHub issues. Make sure you provide the 
 
 ### Improving documentation
 
-[Magek documentation](https://docs.boosterframework.com) is treated as a live document that continues improving on a daily basis. If you find something that is missing or can be improved, please contribute, it will be of great help for other developers.
+[Magek documentation](https://docs.magek.ai) is treated as a live document that continues improving on a daily basis. If you find something that is missing or can be improved, please contribute, it will be of great help for other developers.
 To contribute you can use the button "Edit on github" at the top of each chapter.
 
 #### Documentation principles and practices
@@ -205,7 +204,7 @@ So decide one or another being conscious about your intention.
 
 ### Create your very first GitHub issue
 
-[Click here](https://github.com/boostercloud/booster/issues/new) to start making contributions to Magek.
+[Click here](https://github.com/theam/magek/issues/new) to start making contributions to Magek.
 
 ## Your First Code Contribution
 
@@ -224,7 +223,7 @@ To start contributing to the project you would need to set up the project in you
 
 - Install Rush: `npm install -g @microsoft/rush`
 
-- Clone the repo and get into the directory of the project: `git clone <WRITE REPO URL HERE> && cd booster`
+- Clone the repo and get into the directory of the project: `git clone https://github.com/theam/magek.git && cd magek`
 
 - Install project dependencies: `rush update`
 
@@ -248,7 +247,7 @@ Finally, **always use exact numbers for dependency versions**. This means that i
 Unit tests are executed when you type `rush test`. If you want to run the unit tests for a specific package, you should move to the corresponding package folder and run `rushx test` there.
 
 
-Once the PR is merged, the CICD process will publish the latest changes to NPM. When this finishes, as a maintainer, make sure to create a new GitHub release in the [releases page](https://github.com/boostercloud/booster/releases):
+Once the PR is merged, the CICD process will publish the latest changes to NPM. When this finishes, as a maintainer, make sure to create a new GitHub release in the [releases page](https://github.com/theam/magek/releases):
 
 ![Screenshot 2023-04-19 at 12 23 01](https://user-images.githubusercontent.com/7448243/233060277-d3cdcdbb-29ee-4fab-95d8-0e122bac9ab6.png)
 

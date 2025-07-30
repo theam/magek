@@ -2,7 +2,7 @@
 import { EntitySnapshotEnvelope, EventEnvelope, EventStoreEntryEnvelope } from '@magek/common'
 import * as path from 'path'
 
-export const eventsDatabase = path.normalize(path.join('.', '.booster', 'events.json'))
+export const eventsDatabase = path.normalize(path.join('.', '.magek', 'events.json'))
 
 const DataStore = require('@seald-io/nedb')
 

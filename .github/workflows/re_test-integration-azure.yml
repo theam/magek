@@ -11,7 +11,7 @@ on:
         required: false
         type: string
       azure-publisher-email:
-        default: noreply@booster.cloud
+        default: info@theagilemonkeys.com
         required: false
         type: string
       azure-publisher-name:

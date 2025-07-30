@@ -63,7 +63,7 @@ export function Returns<TReturn>(
 
     For more information, check out the docs:
 
-    https://docs.boosterframework.com/architecture/command#returning-a-value
+    https://docs.magek.ai/architecture/command#returning-a-value
   `)
   return (commandClass) => {}
 }

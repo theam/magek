@@ -30,7 +30,7 @@ export default function Home(): JSX.Element {
         minutes per month or anything like that, we mean, real free. Everything remains between you, your CI/CD scripts
         (wherever you want to put them), and your own cloud accounts. Nothing is hidden under the carpet, you can{' '}
         <span>
-          <a href="https://github.com/boostercloud/booster" target="_blank">
+          <a href="https://github.com/theam/magek" target="_blank">
             visit the Github repository
           </a>
         </span>{' '}

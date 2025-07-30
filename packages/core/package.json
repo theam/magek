@@ -2,8 +2,8 @@
   "name": "@magek/core",
   "version": "0.0.1",
   "description": "Library for your Magek apps",
-  "author": "Magekin Labs SLU",
-  "homepage": "https://boosterframework.com",
+  "author": "Boosterin Labs SLU",
+  "homepage": "https://magek.ai",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
@@ -14,7 +14,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/boostercloud/booster.git"
+    "url": "git+https://github.com/theam/magek.git"
   },
   "scripts": {
     "prepare": "ts-patch install -s",
@@ -28,7 +28,7 @@
     "test": "tsc --noEmit -p tsconfig.test.json && cross-env MAGEK_ENV=test nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\" 2>&1"
   },
   "bugs": {
-    "url": "https://github.com/boostercloud/booster/issues"
+    "url": "https://github.com/theam/magek/issues"
   },
   "engines": {
     "node": ">=22.0.0 <23.0.0"

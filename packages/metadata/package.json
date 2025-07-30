@@ -2,23 +2,26 @@
   "name": "@magek/metadata",
   "version": "0.0.1",
   "description": "Emits detailed metadata of your types. You can then get it in runtime to deal with schema-aware operation, like defining GraphQL schemas, ORM operations, etc.",
-  "repository": "https://github.com/boostercloud/booster.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theam/magek.git"
+  },
   "keywords": [
     "metadata",
     "transformer",
-    "booster",
+    "magek",
     "reflect"
   ],
-  "author": "Magekin Labs SLU",
+  "author": "Boosterin Labs SLU",
   "type": "module",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
   },
   "bugs": {
-    "url": "https://github.com/boostercloud/booster/issues"
+    "url": "https://github.com/theam/magek/issues"
   },
-  "homepage": "https://github.com/boostercloud/booster#readme",
+  "homepage": "https://magek.ai",
   "main": "dist/index.js",
   "exports": {
     ".": "./dist/index.js"

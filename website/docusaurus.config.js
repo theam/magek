@@ -8,7 +8,7 @@ const lightCodeTheme = themes.palenight
 const config = {
   title: 'Magek Framework',
   staticDirectories: ['static'],
-  url: 'https://docs.boosterframework.com',
+  url: 'https://docs.magek.ai',
   baseUrl: '/',
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
@@ -38,7 +38,7 @@ const config = {
           showLastUpdateAuthor: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/boostercloud/booster/tree/main/website/',
+          editUrl: 'https://github.com/theam/magek/tree/main/website/',
         },
         blog: {
           path: 'proposals',
@@ -49,7 +49,7 @@ const config = {
           blogSidebarTitle: 'Proposals Index',
           blogSidebarCount: 'ALL',
           editUrl: ({ locale, blogDirPath, blogPath, permalink }) =>
-            `https://github.com/boostercloud/booster/edit/main/website/proposals/${blogPath}`,
+            `https://github.com/theam/magek/edit/main/website/proposals/${blogPath}`,
         },
         theme: {
           customCss: [require.resolve('./src/custom.css')],
@@ -85,7 +85,7 @@ const config = {
           position: 'left',
         },
         {
-          href: 'https://github.com/boostercloud/booster',
+          href: 'https://github.com/theam/magek',
           label: 'GitHub',
           position: 'left',
           customProps: {
@@ -137,7 +137,7 @@ const config = {
           items: [
             {
               label: 'Docs',
-              to: 'https://docs.boosterframework.com/',
+              to: 'https://docs.magek.ai/',
             },
             {
               label: 'YouTube',

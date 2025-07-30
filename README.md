@@ -1,17 +1,16 @@
 # ![Magek Framework](https://user-images.githubusercontent.com/175096/217907175-b81b3937-d773-45fd-85ca-716f9813432d.png)
 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODE_OF_CONDUCT.md)
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fboostercloud%2Fbooster%2Fbadge%3Fref%3Dmain&style=flat)](https://actions-badge.atrox.dev/boostercloud/booster/goto?ref=main)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Ftheam%2Fmagek%2Fbadge%3Fref%3Dmain&style=flat)](https://actions-badge.atrox.dev/theam/magek/goto?ref=main)
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![License](https://img.shields.io/npm/l/@magek/cli)](https://github.com/boostercloud/booster/blob/main/package.json)
+[![License](https://img.shields.io/npm/l/@magek/cli)](https://github.com/theam/magek/blob/main/package.json)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
-[![Discord](https://img.shields.io/discord/763753198388510780.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/bDY8MKx)
-[![Docs](https://img.shields.io/badge/Docs-Magek-blue)](https://docs.boosterframework.com)
+[![Docs](https://img.shields.io/badge/Docs-Magek-blue)](https://docs.magek.ai)
 ---
 
 # What is Magek Framework?
 
-[Magek Framework](https://boosterframework.com) is a software development framework designed to create event-driven backend microservices that focus on extreme development productivity. It provides a highly opinionated implementation of the CQRS and Event Sourcing patterns in Typescript, using [DDD (Domain-Driven Design)](https://en.wikipedia.org/wiki/Domain-driven_design) semantics that makes business logic fit naturally within the code. Thanks to Magek, business, product, and technical teams can collaborate, sharing a much closer language.
+[Magek Framework](https://magek.ai) is a software development framework designed to create event-driven backend microservices that focus on extreme development productivity. It provides a highly opinionated implementation of the CQRS and Event Sourcing patterns in Typescript, using [DDD (Domain-Driven Design)](https://en.wikipedia.org/wiki/Domain-driven_design) semantics that makes business logic fit naturally within the code. Thanks to Magek, business, product, and technical teams can collaborate, sharing a much closer language.
 
 Magek uses advanced static analysis techniques and takes advantage of the Typescript type system to understand the structure and semantics of your code and minimize the amount of glue code. It’s capable not just of building an entirely functioning GraphQL API for you, but also to build an optimal, production-ready and scalable cloud infrastructure for your application in Azure or AWS.
 
@@ -19,7 +18,7 @@ Combining these features, Magek provides an unprecedented developer experience. 
 
 Magek is 100% open-source and designed with extensibility in mind. If your desired infrastructure doesn't match the existing implementations, you can easily fork and adapt them or create a new one using your infrastructure-as-code tool of preference. Magek also supports extensions (called “Rockets”) that allow users to implement additional functionalities.
 
-If you want to help us to drive Magek forward or have questions, don't hesitate to ping us on [Discord](https://discord.gg/bDY8MKx)!
+If you want to help us to drive Magek forward or have questions, don't hesitate to create an issue or start a discussion on [GitHub](https://github.com/theam/magek)!
 
 # Why Magek instead of X?
 
@@ -41,9 +40,9 @@ It would be easier to understand Magek capabilities by listing the things that y
 
 All those things, and more, will be given to you by default and entirely for free, as Magek is open-source and runs in your own cloud account!
 
-# Current state and roadmap
+# Current state
 
-[The roadmap](https://github.com/orgs/boostercloud/projects/2/views/2) is community-driven; the core team actively participates in the Magek community, listening to real users and prioritizing those issues and ideas that provide the most value for the majority. So don't hesitate to create issues or leave comments in [Discord](https://discord.gg/k7b4B8CDtT) and tell us about your questions and ideas.
+The development is community-driven; the core team actively participates in the Magek community, listening to real users and prioritizing those issues and ideas that provide the most value for the majority. So don't hesitate to create issues or start discussions on [GitHub](https://github.com/theam/magek) and tell us about your questions and ideas.
 
 AWS and Azure integrations are thoroughly tested, and are currently used in production in projects of all-sized organizations, from startups to massive enterprises.
 
@@ -105,9 +104,9 @@ Magek Framework follows the next principles:
 
 You can join the conversation and start contributing in any of the following ways:
 
-* [Say hello in Discord](https://discord.gg/bDY8MKx)
-* [Create a new issue in Github](https://github.com/boostercloud/booster/issues/new/choose)
-* [Try the framework and let us know how you liked it!](https://docs.boosterframework.com/category/getting-started)
+* [Create a new issue in Github](https://github.com/theam/magek/issues/new/choose)
+* [Start a discussion](https://github.com/theam/magek/discussions)
+* [Try the framework and let us know how you liked it!](https://docs.magek.ai/category/getting-started)
 
 Please refer to [`CONTRIBUTING.md`](./CONTRIBUTING.md) for more details. Pull requests are welcome. For major changes, please
 open an issue first to discuss what you would like to change.
@@ -124,11 +123,7 @@ The Magek Framework is licensed under the Apache License, Version 2.0. See the [
 
 # Resources
 
-* [Website](https://boosterframework.com)
-* [Documentation](https://docs.boosterframework.com)
+* [Website](https://magek.ai)
+* [Documentation](https://docs.magek.ai)
 * [Step-by-step guides and examples](docs/examples)
-* [Join the conversation in Discord](https://discord.gg/k7b4B8CDtT)
-* [Twitter](https://twitter.com/boostthecloud)
-* [Demos and more on Youtube](https://www.youtube.com/channel/UCpUTONI8OG19pr9A4cn35DA)
-* [Rocket to the Cloud Podcast](https://www.youtube.com/channel/UCxUYk1SVyNRCGNV-9SYjEFQ)
-* [Magek in Dev.to](https://dev.to/boostercloud)
+* [Join the conversation on GitHub Discussions](https://github.com/theam/magek/discussions)

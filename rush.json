@@ -284,7 +284,7 @@
      * your PR branch, and in this situation "rush change" will also automatically invoke "git fetch"
      * to retrieve the latest activity for the remote main branch.
      */
-    "url": "https://github.com/boostercloud/booster",
+    "url": "https://github.com/theam/magek",
     /**
      * The default branch name. This tells "rush change" which remote branch to compare against.
      * The default value is "main"
@@ -377,55 +377,55 @@
     {
       "packageName": "@magek/eslint-config",
       "shouldPublish": false,
-      "versionPolicyName": "booster",
+      "versionPolicyName": "magek",
       "projectFolder": "tools/eslint-config"
     },
     {
       "packageName": "@magek/cli",
       "shouldPublish": true,
-      "versionPolicyName": "booster",
+      "versionPolicyName": "magek",
       "projectFolder": "packages/cli"
     },
     {
       "packageName": "create-magek",
       "shouldPublish": true,
-      "versionPolicyName": "booster",
+      "versionPolicyName": "magek",
       "projectFolder": "packages/create"
     },
     {
       "packageName": "@magek/common",
       "shouldPublish": true,
-      "versionPolicyName": "booster",
+      "versionPolicyName": "magek",
       "projectFolder": "packages/common"
     },
     {
       "packageName": "@magek/core",
       "shouldPublish": true,
-      "versionPolicyName": "booster",
+      "versionPolicyName": "magek",
       "projectFolder": "packages/core"
     },
     {
       "packageName": "@magek/server",
       "shouldPublish": true,
-      "versionPolicyName": "booster",
+      "versionPolicyName": "magek",
       "projectFolder": "packages/server"
     },
     {
       "packageName": "@magek/server-infrastructure",
       "shouldPublish": true,
-      "versionPolicyName": "booster",
+      "versionPolicyName": "magek",
       "projectFolder": "packages/server-infrastructure"
     },
     {
       "packageName": "@magek/metadata",
       "shouldPublish": true,
-      "versionPolicyName": "booster",
+      "versionPolicyName": "magek",
       "projectFolder": "packages/metadata"
     },
     {
       "packageName": "@magek/adapter-event-store-nedb",
       "shouldPublish": true,
-      "versionPolicyName": "booster",
+      "versionPolicyName": "magek",
       "projectFolder": "adapters/nedb/event-store"
     },
     {

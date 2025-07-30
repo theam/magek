@@ -1,4 +1,4 @@
-import boosterConfig from './tools/eslint-config/index.js'
+import magekConfig from './tools/eslint-config/index.js'
 
 export default [
   {
@@ -10,5 +10,5 @@ export default [
       '**/*.tsbuildinfo'
     ]
   },
-  ...boosterConfig
+  ...magekConfig
 ]

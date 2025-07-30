@@ -5,18 +5,18 @@
 
 Thanks for taking the time to contribute to Magek. It is an open-source project and it wouldn't be possible without people like you 🙏🎉
 
-This document is a set of guidelines to help you contribute to Magek, which is hosted on the [`boostercloud`](https://github.com/boostercloud) GitHub
-organization. These aren’t absolute laws, use your judgment and common sense 😀.
+This document is a set of guidelines to help you contribute to Magek, which is hosted on the [`theam/magek`](https://github.com/theam/magek) GitHub
+repository. These aren’t absolute laws, use your judgment and common sense 😀.
 Remember that if something here doesn't make sense, you can also propose a change to this document.
 
 ## Code of Conduct
 
-This project and everyone participating in it are expected to uphold the [Magek's Code of Conduct](https://github.com/boostercloud/booster/blob/main/CODE_OF_CONDUCT.md), based on the Covenant Code of Conduct.
-If you see unacceptable behavior, please communicate so to `hello@booster.cloud`.
+This project and everyone participating in it are expected to uphold the [Magek's Code of Conduct](https://github.com/theam/magek/blob/main/CODE_OF_CONDUCT.md), based on the Covenant Code of Conduct.
+If you see unacceptable behavior, please communicate so to `info@theagilemonkeys.com`.
 
 ## I don't want to read this whole thing, I just have a question
 
-Go ahead and ask the community in [Discord](https://discord.com/invite/bDY8MKx) or [create a new issue](https://github.com/boostercloud/booster/issues).
+Go ahead and ask the community in [Discord](https://discord.com/invite/bDY8MKx) or [create a new issue](https://github.com/theam/magek/issues).
 
 ## What should I know before I get started?
 
@@ -42,7 +42,7 @@ The packages are published to `npmjs` under the prefix `@magek/`, their purpose 
   - etc…
 
 This is a dependency graph that shows the dependencies among all packages, including the application using Magek:
-![Magek packages dependencies](https://raw.githubusercontent.com/boostercloud/booster/main/docs/img/packages-dependencies.png)
+![Magek packages dependencies](https://raw.githubusercontent.com/theam/magek/main/docs/img/packages-dependencies.png)
 
 ## How Can I Contribute?
 
@@ -78,7 +78,7 @@ Enhancement suggestions are tracked as GitHub issues. Make sure you provide the 
 
 ### Improving documentation
 
-[Magek documentation](https://docs.boosterframework.com) is treated as a live document that continues improving on a daily basis. If you find something that is missing or can be improved, please contribute, it will be of great help for other developers.
+[Magek documentation](https://docs.magek.ai) is treated as a live document that continues improving on a daily basis. If you find something that is missing or can be improved, please contribute, it will be of great help for other developers.
 To contribute you can use the button "Edit on github" at the top of each chapter.
 
 #### Documentation principles and practices
@@ -179,7 +179,7 @@ So decide one or another being conscious about your intention.
 
 ### Create your very first GitHub issue
 
-[Click here](https://github.com/boostercloud/booster/issues/new) to start making contributions to Magek.
+[Click here](https://github.com/theam/magek/issues/new) to start making contributions to Magek.
 
 ## Your First Code Contribution
 
