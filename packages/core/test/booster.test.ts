@@ -54,7 +54,29 @@ describe('the `Booster` class', () => {
     it('imports all the user files', () => {
       const fakeImporter = fake()
       replace(Importer, 'importUserProjectFiles', fakeImporter)
+      Booster.configureCurrentEnv((config) => {
+        config.eventStoreAdapter = createMockEventStoreAdapter()
+      })
       Booster.start('path/to/code')
+      expect(fakeImporter).to.have.been.calledOnce
+    })
+
+    it('throws an error when no eventStoreAdapter is configured', () => {
+      Booster.configureCurrentEnv((config) => {
+        config.eventStoreAdapter = undefined
+      })
+      expect(() => Booster.start('path/to/code')).to.throw(
+        'No eventStoreAdapter configured. Please add one in BoosterConfig.'
+      )
+    })
+
+    it('succeeds when eventStoreAdapter is configured', () => {
+      const fakeImporter = fake()
+      replace(Importer, 'importUserProjectFiles', fakeImporter)
+      Booster.configureCurrentEnv((config) => {
+        config.eventStoreAdapter = createMockEventStoreAdapter()
+      })
+      expect(() => Booster.start('path/to/code')).to.not.throw()
       expect(fakeImporter).to.have.been.calledOnce
     })
   })

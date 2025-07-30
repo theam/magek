@@ -63,6 +63,9 @@ export class Booster {
    * Initializes the Booster project
    */
   public static start(codeRootPath: string): void {
+    if (!this.config.eventStoreAdapter) {
+      throw new Error('No eventStoreAdapter configured. Please add one in BoosterConfig.')
+    }
     const projectRootPath = codeRootPath.replace(new RegExp(this.config.codeRelativePath + '$'), '')
     this.config.userProjectRootPath = projectRootPath
     Importer.importUserProjectFiles(codeRootPath)
