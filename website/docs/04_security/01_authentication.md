@@ -22,10 +22,12 @@ Here is an example of how to configure a `JwksUriTokenVerifier`:
 import { Booster, JwksUriTokenVerifier } from '@booster-ai/core'
 import { BoosterConfig } from '@booster-ai/common'
 import { Provider } from '@booster-ai/server'
+import { eventStore } from '@magek/adapter-event-store-nedb'
 
 Booster.configure('production', (config: BoosterConfig): void => {
   config.appName = 'app-name'
   config.provider = Provider()
+  config.eventStoreAdapter = eventStore
   config.tokenVerifiers = [
       new JwksUriTokenVerifier(
         'https://my-auth0-tenant.auth0.com/', // Issuer
@@ -75,6 +77,7 @@ function publicKeyResolver(): Promise<string> {
 Booster.configure('production', (config: BoosterConfig): void => {
   config.appName = 'app-name'
   config.provider = Provider()
+  config.eventStoreAdapter = eventStore
   config.tokenVerifiers = [
     new PublicKeyTokenVerifier(
       'issuer-name', // Issuer name
@@ -132,6 +135,7 @@ class CustomTokenVerifier implements TokenVerifier {
 Booster.configure('production', (config: BoosterConfig): void => {
   config.appName = 'app-name'
   config.provider = Provider()
+  config.eventStoreAdapter = eventStore
   config.tokenVerifiers = [new CustomTokenVerifier()]
 })
 ```
