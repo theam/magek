@@ -51,10 +51,7 @@ export async function boosterTriggerScheduledCommands(rawRequest: unknown): Prom
   return new BoosterScheduledCommandDispatcher(Booster.config).dispatch(rawRequest)
 }
 
-/**
- * @deprecated [EOL v3] Please use `boosterTriggerScheduledCommands` instead.
- */
-export const boosterTriggerScheduledCommand = boosterTriggerScheduledCommands
+
 
 /**
  * Notifies subscribers of a new update on a read model

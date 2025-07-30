@@ -22,7 +22,7 @@ import {
   createInstanceWithCalculatedProperties,
   getLogger,
 } from '@booster-ai/common'
-import { Booster } from './booster'
+
 import { applyReadModelRequestBeforeFunctions } from './services/filter-helpers'
 import { ReadModelSchemaMigrator } from './read-model-schema-migrator'
 import { Trace } from './instrumentation'
@@ -48,7 +48,7 @@ export class BoosterReadModelsReader {
     if (!key) {
       throw 'Tried to run a findById operation without providing a key. An ID is required to perform this operation.'
     }
-    const currentReadModel = await Booster.readModel(readModelMetadata.class).findById(key.id, key.sequenceKey)
+    const currentReadModel = await this.finderByIdFunction(readModelMetadata.class, key.id, key.sequenceKey)
     if (currentReadModel) {
       const readModelInstance = createInstance(readModelMetadata.class, currentReadModel)
       const readModelName = readModelMetadata.class.name

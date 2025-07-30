@@ -1,5 +1,5 @@
 import { fake } from 'sinon'
-import { FilterFor, Searcher, SequenceKey } from '../src'
+import { FilterFor, Searcher } from '../src'
 import { expect } from './helpers/expect'
 
 describe('the `Searcher` class', () => {
@@ -8,11 +8,10 @@ describe('the `Searcher` class', () => {
   }
 
   const searcherFunction = fake.resolves([{ hello: 'world' }])
-  const finderByKeyFunction = fake.resolves({ hello: 'world' })
   let searcher: Searcher<SomeModel>
 
   beforeEach(() => {
-    searcher = new Searcher(SomeModel, searcherFunction, finderByKeyFunction)
+    searcher = new Searcher(SomeModel, searcherFunction)
   })
 
   context('with a valid searcher class', () => {
@@ -73,18 +72,7 @@ describe('the `Searcher` class', () => {
       })
     })
 
-    describe('the method `findById`', () => {
-      it('calls to the `finderByKeyFunction` with the right parameters', async () => {
-        // With a unique primary key
-        await searcher.findById('42')
-        expect(finderByKeyFunction).to.have.been.calledWith(SomeModel, '42')
 
-        // With a compound primary key (sequenced read models)
-        const sequenceKey: SequenceKey = { name: 'timestamp', value: '1' }
-        await searcher.findById('43', sequenceKey)
-        expect(finderByKeyFunction).to.have.been.calledWith(SomeModel, '43', sequenceKey)
-      })
-    })
 
     describe('the method `searchOne`', () => {
       it("calls the `searcherFunction` discarding searcher's limit and pagination settings", async () => {

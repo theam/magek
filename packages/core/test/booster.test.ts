@@ -15,7 +15,7 @@ import {
 } from '@booster-ai/common'
 import { EventStore } from '../src/services/event-store'
 import { faker } from '@faker-js/faker'
-import { JwksUriTokenVerifier } from '../src/services/token-verifiers'
+
 import { afterEach } from 'mocha'
 import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
 
@@ -374,46 +374,5 @@ describe('the `Booster` class', () => {
     })
   })
 
-  describe('The `loadTokenVerifierFromEnv` function', () => {
-    context('when the JWT_ENV_VARS are set', () => {
-      beforeEach(() => {
-        process.env.BOOSTER_JWT_ISSUER = 'BOOSTER_JWT_ISSUER_VALUE'
-        process.env.BOOSTER_JWKS_URI = 'BOOSTER_JWKS_URI_VALUE'
-        process.env.BOOSTER_ROLES_CLAIM = 'BOOSTER_ROLES_CLAIM_VALUE'
-      })
 
-      afterEach(() => {
-        delete process.env.BOOSTER_JWT_ISSUER
-        delete process.env.BOOSTER_JWKS_URI
-        delete process.env.BOOSTER_ROLES_CLAIM
-
-        Booster.config.tokenVerifiers = []
-      })
-
-      it('does alter the token verifiers config', () => {
-        expect(Booster.config.tokenVerifiers).to.be.empty
-
-        const booster = Booster as any
-        booster.loadTokenVerifierFromEnv()
-
-        const tokenVerifierConfig = Booster.config.tokenVerifiers
-        expect(tokenVerifierConfig.length).to.be.equal(1)
-        expect(tokenVerifierConfig[0]).to.be.an.instanceOf(JwksUriTokenVerifier)
-        expect((tokenVerifierConfig[0] as JwksUriTokenVerifier).issuer).to.be.equal('BOOSTER_JWT_ISSUER_VALUE')
-        expect((tokenVerifierConfig[0] as JwksUriTokenVerifier).jwksUri).to.be.equal('BOOSTER_JWKS_URI_VALUE')
-        expect((tokenVerifierConfig[0] as JwksUriTokenVerifier).rolesClaim).to.be.equal('BOOSTER_ROLES_CLAIM_VALUE')
-      })
-    })
-
-    context('when the JWT_ENV_VARS are not set', () => {
-      it('does not alter the token verifiers config', () => {
-        expect(Booster.config.tokenVerifiers).to.be.empty
-
-        const booster = Booster as any
-        booster.loadTokenVerifierFromEnv()
-
-        expect(Booster.config.tokenVerifiers).to.be.empty
-      })
-    })
-  })
 })

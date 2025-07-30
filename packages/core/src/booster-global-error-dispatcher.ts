@@ -7,7 +7,6 @@ import {
   ScheduleCommandGlobalError,
   ReducerGlobalError,
   ProjectionGlobalError,
-  SnapshotPersistHandlerGlobalError,
   QueryHandlerGlobalError,
   EventGlobalError,
   getLogger,
@@ -45,9 +44,6 @@ export class BoosterGlobalErrorDispatcher {
           break
         case ProjectionGlobalError:
           newError = await this.handleProjectionError(error)
-          break
-        case SnapshotPersistHandlerGlobalError:
-          newError = await this.handleSnapshotPersistError(error)
           break
         case EventGlobalError:
           newError = await this.handleEventError(error)
@@ -124,11 +120,7 @@ export class BoosterGlobalErrorDispatcher {
     )
   }
 
-  private async handleSnapshotPersistError(error: GlobalErrorContainer): Promise<Error | undefined> {
-    if (!this.errorHandler || !this.errorHandler.onSnapshotPersistError) throw error.originalError
-    const currentError = error as SnapshotPersistHandlerGlobalError
-    return this.errorHandler.onSnapshotPersistError(currentError.originalError, currentError.snapshot)
-  }
+
 
   private async handleEventError(error: GlobalErrorContainer): Promise<Error | undefined> {
     if (!this.errorHandler || !this.errorHandler.onEventError) throw error.originalError

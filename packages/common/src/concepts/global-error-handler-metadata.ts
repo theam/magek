@@ -3,7 +3,6 @@ import {
   CommandEnvelope,
   EntitySnapshotEnvelope,
   EventEnvelope,
-  NonPersistedEntitySnapshotEnvelope,
   QueryEnvelope,
   ScheduledCommandEnvelope,
 } from '../envelope'
@@ -48,7 +47,6 @@ export interface GlobalErrorHandlerInterface extends AnyClass {
     entity: EntityInterface,
     readModel: ReadModelInterface | undefined
   ): Promise<Error | undefined>
-  onSnapshotPersistError?(error: Error, snapshot: NonPersistedEntitySnapshotEnvelope): Promise<Error | undefined>
   onEventError?(error: Error, eventEnvelope: EventEnvelope): Promise<Error | undefined>
   onError?(error: Error | undefined): Promise<Error | undefined>
 }

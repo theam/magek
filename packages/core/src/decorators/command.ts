@@ -1,12 +1,10 @@
  
 import { Booster } from '../booster'
 import {
-  Class,
   CommandAuthorizer,
   CommandFilterHooks,
   CommandInterface,
   CommandRoleAccess,
-  Register,
 } from '@booster-ai/common'
 import { getClassMetadata } from './metadata'
 import { BoosterAuthorizer } from '../booster-authorizer'
@@ -38,40 +36,4 @@ export function Command(
   }
 }
 
-/**
- * Decorator to register a command class method as a
- * command handler function.
- *
- * @param commandClass The command that this method will handle
- *
- * @deprecated [EOL v3] The method is not needed anymore and will be removed in future versions
- *
- * TODO Remove this method as it's not needed
- */
-export function Returns<TReturn>(
-  returnClass: Class<TReturn>
-): <TCommand>(
-  commandClass: Class<TCommand>,
-  methodName: string,
-  methodDescriptor: TypedPropertyDescriptor<
-    (command: TCommand, register: Register) => Promise<PrimitiveTypeOf<TReturn>>
-  >
-) => void {
-  console.error(`
-    The usage of the '@Returns' annotation is deprecated,
-    You may return any type without annotating the method
 
-    For more information, check out the docs:
-
-    https://docs.boosterframework.com/architecture/command#returning-a-value
-  `)
-  return (commandClass) => {}
-}
-
-type PrimitiveTypeOf<TReturn> = TReturn extends Boolean
-  ? boolean
-  : TReturn extends Number
-  ? number
-  : TReturn extends String
-  ? string
-  : TReturn

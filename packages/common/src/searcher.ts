@@ -1,7 +1,7 @@
  
 import { SequenceKey, UUID } from './concepts'
 import { ReadModelListResult } from './envelope'
-import { AnyClass, Class, ReadOnlyNonEmptyArray } from './typelevel'
+import { AnyClass, Class } from './typelevel'
 
 export type SearcherFunction<TObject, TResult> = (
   objectClass: AnyClass,
@@ -12,12 +12,6 @@ export type SearcherFunction<TObject, TResult> = (
   paginatedVersion?: boolean,
   select?: ProjectionFor<TObject>
 ) => Promise<TResult>
-
-export type FinderByKeyFunction<TObject> = (
-  objectClass: AnyClass,
-  id: UUID,
-  sequenceKey?: SequenceKey
-) => Promise<TObject | ReadOnlyNonEmptyArray<TObject>>
 
 export type SequenceFinderByKeyFunction<TObject> = (
   className: string,
@@ -46,12 +40,10 @@ export class Searcher<
   /**
    * @param objectClass The class of the object you want to run the search for.
    * @param searcherFunction The function that will receive all the filters and run the actual search
-   * @param finderByKeyFunction Function that performs a find by Key operation (Either simple or compound keys)
    */
   public constructor(
     private readonly objectClass: Class<TObject>,
-    private readonly searcherFunction: SearcherFunction<TObject, ApplyContainerToType<TContainer, TSingleResult>>,
-    private readonly finderByKeyFunction: FinderByKeyFunction<TObject>
+    private readonly searcherFunction: SearcherFunction<TObject, ApplyContainerToType<TContainer, TSingleResult>>
   ) {}
 
   /**
@@ -97,12 +89,7 @@ export class Searcher<
     return this as SearcherAfterPaginatedVersion<TObject, TSingleResult, TPaginated>
   }
 
-  /**
-   * @deprecated [EOL v3] Use searchOne instead
-   */
-  public async findById(id: UUID, sequenceKey?: SequenceKey): Promise<TObject | ReadOnlyNonEmptyArray<TObject>> {
-    return this.finderByKeyFunction(this.objectClass, id, sequenceKey)
-  }
+
 
   public async searchOne(): Promise<TSingleResult | undefined> {
     // TODO: If there is only an ID filter with one value, this should call to `findById`
