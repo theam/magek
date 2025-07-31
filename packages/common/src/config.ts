@@ -65,7 +65,7 @@ export class MagekConfig {
 
   public readonly codeRelativePath: string = 'dist'
 
-  public readonly eventDispatcherHandler: string = path.join(this.codeRelativePath, 'index.boosterEventDispatcher')
+  public readonly eventDispatcherHandler: string = path.join(this.codeRelativePath, 'index.eventDispatcher')
   public readonly eventStreamConsumer: string = path.join(this.codeRelativePath, 'index.boosterConsumeEventStream')
   public readonly eventStreamProducer: string = path.join(this.codeRelativePath, 'index.boosterProduceEventStream')
   public readonly serveGraphQLHandler: string = path.join(this.codeRelativePath, 'index.boosterServeGraphQL')

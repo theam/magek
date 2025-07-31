@@ -173,7 +173,7 @@ Magek version 1.19.0 requires updating your index.ts file to export the `booster
 import { Magek } from '@magek/core'
 export {
   Magek,
-  boosterEventDispatcher,
+  eventDispatcher,
   boosterServeGraphQL,
   boosterHealth,
   boosterNotifySubscribers,

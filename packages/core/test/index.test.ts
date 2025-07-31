@@ -1,7 +1,7 @@
 import { expect } from './expect'
 import {
   Magek,
-  boosterEventDispatcher,
+  eventDispatcher,
   boosterNotifySubscribers,
   boosterRocketDispatcher,
   boosterServeGraphQL,
@@ -25,12 +25,12 @@ describe('framework-core package', () => {
     restore()
   })
 
-  context('`boosterEventDispatcher` function', () => {
+  context('`eventDispatcher` function', () => {
     it('calls the `dispatch` method of the `MagekEventDispatcher` class', async () => {
       const fakeDispatch = fake.resolves(undefined)
       const fakeRawEvents = { some: 'events' }
       replace(MagekEventDispatcher, 'dispatch', fakeDispatch)
-      await boosterEventDispatcher(fakeRawEvents)
+      await eventDispatcher(fakeRawEvents)
       expect(fakeDispatch).to.have.been.calledOnceWithExactly(fakeRawEvents, Magek.config)
     })
   })

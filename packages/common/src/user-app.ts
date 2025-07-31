@@ -9,7 +9,7 @@ export interface UserApp {
     configureCurrentEnv(configurator: (config: MagekConfig) => void): void
     configuredEnvironments: Set<string>
   }
-  boosterEventDispatcher(_: unknown): Promise<void>
+  eventDispatcher(_: unknown): Promise<void>
   boosterServeGraphQL(_: unknown): Promise<unknown>
   boosterTriggerScheduledCommands(_: unknown): Promise<void>
   boosterNotifySubscribers(_: unknown): Promise<void>

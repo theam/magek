@@ -90,7 +90,7 @@ export async function storeEvents(
   }
   logger.debug('EventEnvelopes stored: ', persistedEventEnvelopes)
 
-  await userApp.boosterEventDispatcher(persistedEventEnvelopes)
+  await userApp.eventDispatcher(persistedEventEnvelopes)
   return persistedEventEnvelopes
 }
 

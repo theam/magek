@@ -28,7 +28,7 @@ describe('events-adapter', () => {
   let storeStub: SinonStub
   let queryStub: SinonStub
   let queryLatestStub: SinonStub
-  let boosterEventDispatcherStub: SinonStub
+  let eventDispatcherStub: SinonStub
 
   let mockUserApp: UserApp
   let mockEventRegistry: SinonStubbedInstance<EventRegistry>
@@ -42,7 +42,7 @@ describe('events-adapter', () => {
 
     loggerDebugStub = stub()
     storeStub = stub()
-    boosterEventDispatcherStub = stub()
+    eventDispatcherStub = stub()
     queryStub = stub()
     queryLatestStub = stub()
 
@@ -53,7 +53,7 @@ describe('events-adapter', () => {
       debug: loggerDebugStub,
     }
     mockUserApp = {
-      boosterEventDispatcher: boosterEventDispatcherStub,
+      eventDispatcher: eventDispatcherStub,
     } as any
     mockEventRegistry = createStubInstance(EventRegistry)
 
@@ -244,8 +244,8 @@ describe('events-adapter', () => {
         expect(storeStub).not.to.have.been.called
       })
 
-      it('should call userApp boosterEventDispatcher', () => {
-        expect(boosterEventDispatcherStub).to.have.been.calledOnceWithExactly([])
+      it('should call userApp eventDispatcher', () => {
+        expect(eventDispatcherStub).to.have.been.calledOnceWithExactly([])
       })
     })
 
@@ -263,14 +263,14 @@ describe('events-adapter', () => {
         })
       })
 
-      it('should call userApp boosterEventDispatcher', async () => {
+      it('should call userApp eventDispatcher', async () => {
         const mockEventEnvelop = createMockNonPersistedEventEnvelop()
         // The `createdAt` will be set in the `persistEvent` method
         replace(Date.prototype, 'toISOString', () => 'a magical time')
 
         await storeEvents(mockUserApp, mockEventRegistry, [mockEventEnvelop], mockConfig)
 
-        expect(boosterEventDispatcherStub).to.have.been.calledOnceWithExactly([
+        expect(eventDispatcherStub).to.have.been.calledOnceWithExactly([
           { ...mockEventEnvelop, createdAt: 'a magical time' },
         ])
       })

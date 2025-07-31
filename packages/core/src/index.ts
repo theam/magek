@@ -27,7 +27,7 @@ export * as Injectable from './injectable'
  * @param rawEvents A provider-specific representation of the events to be processed
  * @returns A promise that resolves when the events are processed
  */
-export async function boosterEventDispatcher(rawEvents: unknown): Promise<void> {
+export async function eventDispatcher(rawEvents: unknown): Promise<void> {
   return MagekEventDispatcher.dispatch(rawEvents, Magek.config)
 }
 
