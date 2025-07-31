@@ -20,6 +20,7 @@ import {
 } from './concepts'
 import { ProviderLibrary } from './provider'
 import { EventStoreAdapter } from './event-store-adapter'
+import { ReadModelStoreAdapter } from './read-model-store-adapter'
 import { Level } from './logger'
 import * as path from 'path'
 import { RocketDescriptor, RocketFunction } from './rockets'
@@ -39,6 +40,7 @@ export class BoosterConfig {
 
   private _provider?: ProviderLibrary
   public eventStoreAdapter?: EventStoreAdapter
+  public readModelStoreAdapter?: ReadModelStoreAdapter
 
   public rockets?: Array<RocketDescriptor>
 
@@ -226,6 +228,13 @@ export class BoosterConfig {
       throw new Error('EventStoreAdapter is not configured. Please set config.eventStoreAdapter.')
     }
     return this.eventStoreAdapter
+  }
+
+  public get readModelStore(): ReadModelStoreAdapter {
+    if (!this.readModelStoreAdapter) {
+      throw new Error('ReadModelStoreAdapter is not configured. Please set config.readModelStoreAdapter.')
+    }
+    return this.readModelStoreAdapter
   }
 
   public mustGetEnvironmentVar(varName: string): string {

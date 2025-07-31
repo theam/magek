@@ -1,6 +1,6 @@
  
 import { expect } from './helpers/expect'
-import { SchemaMigrationMetadata, ProviderLibrary, BoosterConfig, EventStoreAdapter } from '../src'
+import { SchemaMigrationMetadata, ProviderLibrary, BoosterConfig, EventStoreAdapter, ReadModelStoreAdapter } from '../src'
 
 describe('the config type', () => {
   describe('resourceNames', () => {
@@ -164,6 +164,30 @@ describe('the config type', () => {
       // Then set provider - should NOT overwrite
       config.provider = mockProvider
       expect(config.eventStoreAdapter).to.equal(directlySetAdapter)
+    })
+  })
+
+  describe('readModelStoreAdapter', () => {
+    it('throws when there is no readModelStoreAdapter set', () => {
+      const config = new BoosterConfig('test')
+
+      expect(() => config.readModelStore).to.throw(/ReadModelStoreAdapter is not configured/)
+    })
+
+    it('does not throw when there is a readModelStoreAdapter set', () => {
+      const config = new BoosterConfig('test')
+      config.readModelStoreAdapter = {} as ReadModelStoreAdapter
+
+      expect(() => config.readModelStore).to.not.throw()
+    })
+
+    it('allows readModelStoreAdapter to be set directly', () => {
+      const config = new BoosterConfig('test')
+      const mockReadModelStoreAdapter = {} as ReadModelStoreAdapter
+
+      config.readModelStoreAdapter = mockReadModelStoreAdapter
+
+      expect(config.readModelStoreAdapter).to.equal(mockReadModelStoreAdapter)
     })
   })
 })
