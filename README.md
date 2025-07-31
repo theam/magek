@@ -85,7 +85,7 @@ Booster.configure('development', (config) => {
 
 #### Configuration Options
 
-The NeDB adapter stores event data in the `.booster/events.json` file by default. You can customize storage location and behavior through environment variables or adapter configuration.
+The NeDB adapter stores event data in the `.booster/events.json` file.
 
 # The "Booster Way"
 
