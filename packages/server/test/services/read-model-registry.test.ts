@@ -39,7 +39,7 @@ describe('the read model registry', () => {
 
       await Promise.all(publishPromises)
 
-      mockReadModel = createMockReadModelEnvelope()
+      mockReadModel = createMockReadModelEnvelope({ typeName: 'unique-test-type-name' })
       await readModelRegistry.store(mockReadModel, 1)
     })
 

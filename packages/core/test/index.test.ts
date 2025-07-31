@@ -5,7 +5,7 @@ import {
   boosterNotifySubscribers,
   boosterRocketDispatcher,
   graphQLDispatcher,
-  boosterTriggerScheduledCommands,
+  triggerScheduledCommands,
   boosterConsumeEventStream,
   boosterProduceEventStream,
   boosterHealth,
@@ -45,12 +45,12 @@ describe('framework-core package', () => {
     })
   })
 
-  context('`boosterTriggerScheduledCommands` function', () => {
+  context('`triggerScheduledCommands` function', () => {
     it('calls the `dispatch` method of the `MagekScheduledCommandDispatcher` class', async () => {
       const fakeDispatch = fake.resolves(undefined)
       const fakeRawRequest = { some: 'request' }
       replace(MagekScheduledCommandDispatcher.prototype, 'dispatch', fakeDispatch)
-      await boosterTriggerScheduledCommands(fakeRawRequest)
+      await triggerScheduledCommands(fakeRawRequest)
       expect(fakeDispatch).to.have.been.calledOnceWithExactly(fakeRawRequest)
     })
   })

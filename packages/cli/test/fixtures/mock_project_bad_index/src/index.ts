@@ -3,7 +3,7 @@ export {
   Magek,
   eventDispatcher,
   graphQLDispatcher,
-  boosterTriggerScheduledCommands,
+  triggerScheduledCommands,
   boosterNotifySubscribers,
   boosterRocketDispatcher,
   boosterConsumeEventStream,

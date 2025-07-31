@@ -11,7 +11,7 @@ export interface UserApp {
   }
   eventDispatcher(_: unknown): Promise<void>
   graphQLDispatcher(_: unknown): Promise<unknown>
-  boosterTriggerScheduledCommands(_: unknown): Promise<void>
+  triggerScheduledCommands(_: unknown): Promise<void>
   boosterNotifySubscribers(_: unknown): Promise<void>
   boosterRocketDispatcher(_: unknown): Promise<unknown>
   boosterConsumeEventStream(_: unknown): Promise<unknown>

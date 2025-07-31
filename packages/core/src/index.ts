@@ -47,14 +47,14 @@ export async function graphQLDispatcher(rawRequest: unknown): Promise<unknown> {
  * @param rawRequest A provider-specific representation of the request to trigger scheduled commands
  * @returns A promise that resolves when the scheduled commands are triggered
  */
-export async function boosterTriggerScheduledCommands(rawRequest: unknown): Promise<void> {
+export async function triggerScheduledCommands(rawRequest: unknown): Promise<void> {
   return new MagekScheduledCommandDispatcher(Magek.config).dispatch(rawRequest)
 }
 
 /**
- * @deprecated [EOL v3] Please use `boosterTriggerScheduledCommands` instead.
+ * @deprecated [EOL v3] Please use `triggerScheduledCommands` instead.
  */
-export const boosterTriggerScheduledCommand = boosterTriggerScheduledCommands
+export const boosterTriggerScheduledCommand = triggerScheduledCommands
 
 /**
  * Notifies subscribers of a new update on a read model
