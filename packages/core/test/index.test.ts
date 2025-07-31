@@ -4,7 +4,7 @@ import {
   eventDispatcher,
   boosterNotifySubscribers,
   boosterRocketDispatcher,
-  boosterServeGraphQL,
+  graphQLDispatcher,
   boosterTriggerScheduledCommands,
   boosterConsumeEventStream,
   boosterProduceEventStream,
@@ -35,12 +35,12 @@ describe('framework-core package', () => {
     })
   })
 
-  context('`boosterServeGraphQL` function', () => {
+  context('`graphQLDispatcher` function', () => {
     it('calls the `dispatch` method of the `MagekGraphQLDispatcher` class', async () => {
       const fakeDispatch = fake.resolves(undefined)
       const fakeRawRequest = { some: 'request' }
       replace(MagekGraphQLDispatcher.prototype, 'dispatch', fakeDispatch)
-      await boosterServeGraphQL(fakeRawRequest)
+      await graphQLDispatcher(fakeRawRequest)
       expect(fakeDispatch).to.have.been.calledOnceWithExactly(fakeRawRequest)
     })
   })

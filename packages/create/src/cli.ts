@@ -272,7 +272,7 @@ async function createProject(config: ProjectConfig): Promise<void> {
   console.log(kleur.blue('📦 Creating project...'))
 
   // Determine template source - default to GitHub template
-  const templateSource = config.template || 'github.com/boostercloud/boosterai/templates/default'
+  const templateSource = config.template || 'github.com/theam/magek/templates/default'
 
   try {
     // Check if template is a local path

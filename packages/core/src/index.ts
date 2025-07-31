@@ -37,7 +37,7 @@ export async function eventDispatcher(rawEvents: unknown): Promise<void> {
  * @param rawRequest A provider-specific representation of the GraphQL request.
  * @returns A promise that resolves to the GraphQL response.
  */
-export async function boosterServeGraphQL(rawRequest: unknown): Promise<unknown> {
+export async function graphQLDispatcher(rawRequest: unknown): Promise<unknown> {
   return new MagekGraphQLDispatcher(Magek.config).dispatch(rawRequest)
 }
 

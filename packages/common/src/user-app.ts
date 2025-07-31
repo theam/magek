@@ -10,7 +10,7 @@ export interface UserApp {
     configuredEnvironments: Set<string>
   }
   eventDispatcher(_: unknown): Promise<void>
-  boosterServeGraphQL(_: unknown): Promise<unknown>
+  graphQLDispatcher(_: unknown): Promise<unknown>
   boosterTriggerScheduledCommands(_: unknown): Promise<void>
   boosterNotifySubscribers(_: unknown): Promise<void>
   boosterRocketDispatcher(_: unknown): Promise<unknown>

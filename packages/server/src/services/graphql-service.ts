@@ -6,7 +6,7 @@ export class GraphQLService {
   public constructor(readonly userApp: UserApp) {}
 
   public async handleGraphQLRequest(request: FastifyRequest | WebSocketMessage): Promise<any> {
-    return await this.userApp.boosterServeGraphQL(request)
+    return await this.userApp.graphQLDispatcher(request)
   }
 
   public async handleNotificationSubscription(request: Array<ReadModelEnvelope>): Promise<unknown> {

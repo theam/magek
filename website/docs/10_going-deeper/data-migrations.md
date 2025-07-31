@@ -174,7 +174,7 @@ import { Magek } from '@magek/core'
 export {
   Magek,
   eventDispatcher,
-  boosterServeGraphQL,
+  graphQLDispatcher,
   boosterHealth,
   boosterNotifySubscribers,
   boosterTriggerScheduledCommand,
