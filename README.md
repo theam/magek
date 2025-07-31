@@ -62,15 +62,6 @@ The NeDB event store adapter provides a lightweight, file-based event store impl
 - **Local development**: Quick setup without external dependencies
 - **Testing environments**: Fast, in-memory or file-based storage for unit and integration tests
 - **Prototyping**: Rapid iteration without complex infrastructure setup
-- **Small applications**: Simple deployment without database management overhead
-
-#### Key Features
-
-- **Zero configuration**: Works out of the box with no external dependencies
-- **File-based persistence**: Stores events in local JSON files for easy inspection
-- **In-memory mode**: Supports temporary storage for testing scenarios
-- **Full event sourcing support**: Implements all event store operations including snapshots
-- **Development-friendly**: Easy to reset, backup, and inspect stored events
 
 #### Installation
 
@@ -94,34 +85,7 @@ Booster.configure('development', (config) => {
 
 #### Configuration Options
 
-The NeDB adapter stores event data in the `db/` directory by default. You can customize storage location and behavior through environment variables or adapter configuration.
-
-#### When to Use
-
-✅ **Recommended for:**
-- Local development environments
-- Unit and integration testing
-- Proof of concepts and prototypes
-- Small applications with minimal event volume
-- Educational projects learning event sourcing
-
-❌ **Not recommended for:**
-- Production applications with high event volume
-- Multi-instance deployments requiring shared state
-- Applications requiring advanced querying capabilities
-- Scenarios requiring real-time event streaming
-
-## Choosing the Right Event Store
-
-When selecting an event store adapter, consider these factors:
-
-1. **Environment**: Development, testing, or production
-2. **Scale**: Expected event volume and throughput requirements
-3. **Infrastructure**: Available cloud services and deployment constraints
-4. **Team expertise**: Familiarity with different database technologies
-5. **Feature requirements**: Need for advanced querying, streaming, or analytics
-
-For development and testing, the NeDB adapter provides the fastest way to get started with minimal setup overhead.
+The NeDB adapter stores event data in the `.booster/events.json` file by default. You can customize storage location and behavior through environment variables or adapter configuration.
 
 # The "Booster Way"
 
