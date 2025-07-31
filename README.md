@@ -47,6 +47,82 @@ All those things, and more, will be given to you by default and entirely for fre
 
 AWS and Azure integrations are thoroughly tested, and are currently used in production in projects of all-sized organizations, from startups to massive enterprises.
 
+# Choosing an Event Store
+
+Booster Framework supports multiple event store adapters to give you flexibility in choosing the right persistence solution for your application. Event stores are critical components that persist your application's events, enabling event sourcing and replay capabilities.
+
+## Available Event Store Adapters
+
+### NeDB Event Store Adapter - `@magek/adapter-event-store-nedb`
+
+**Perfect for development and testing scenarios**
+
+The NeDB event store adapter provides a lightweight, file-based event store implementation using [NeDB](https://github.com/seald-io/nedb), an embedded datastore for Node.js applications. This adapter is particularly well-suited for:
+
+- **Local development**: Quick setup without external dependencies
+- **Testing environments**: Fast, in-memory or file-based storage for unit and integration tests
+- **Prototyping**: Rapid iteration without complex infrastructure setup
+- **Small applications**: Simple deployment without database management overhead
+
+#### Key Features
+
+- **Zero configuration**: Works out of the box with no external dependencies
+- **File-based persistence**: Stores events in local JSON files for easy inspection
+- **In-memory mode**: Supports temporary storage for testing scenarios
+- **Full event sourcing support**: Implements all event store operations including snapshots
+- **Development-friendly**: Easy to reset, backup, and inspect stored events
+
+#### Installation
+
+```bash
+npm install @magek/adapter-event-store-nedb
+```
+
+#### Basic Usage
+
+```typescript
+import { Booster } from '@booster-ai/core'
+import { eventStore } from '@magek/adapter-event-store-nedb'
+
+Booster.configure('development', (config) => {
+  config.provider = {
+    events: eventStore,
+    // ... other provider configurations
+  }
+})
+```
+
+#### Configuration Options
+
+The NeDB adapter stores event data in the `db/` directory by default. You can customize storage location and behavior through environment variables or adapter configuration.
+
+#### When to Use
+
+✅ **Recommended for:**
+- Local development environments
+- Unit and integration testing
+- Proof of concepts and prototypes
+- Small applications with minimal event volume
+- Educational projects learning event sourcing
+
+❌ **Not recommended for:**
+- Production applications with high event volume
+- Multi-instance deployments requiring shared state
+- Applications requiring advanced querying capabilities
+- Scenarios requiring real-time event streaming
+
+## Choosing the Right Event Store
+
+When selecting an event store adapter, consider these factors:
+
+1. **Environment**: Development, testing, or production
+2. **Scale**: Expected event volume and throughput requirements
+3. **Infrastructure**: Available cloud services and deployment constraints
+4. **Team expertise**: Familiarity with different database technologies
+5. **Feature requirements**: Need for advanced querying, streaming, or analytics
+
+For development and testing, the NeDB adapter provides the fastest way to get started with minimal setup overhead.
+
 # The "Booster Way"
 
 Booster Framework follows the next principles:
