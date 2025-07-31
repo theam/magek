@@ -176,7 +176,7 @@ export {
   eventDispatcher,
   graphQLDispatcher,
   boosterHealth,
-  boosterNotifySubscribers,
+  notifySubscribers,
   boosterTriggerScheduledCommand,
   boosterRocketDispatcher,
 } from '@magek/core'

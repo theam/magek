@@ -5,7 +5,7 @@ export {
   boosterProduceEventStream,
   boosterConsumeEventStream,
   graphQLDispatcher,
-  boosterNotifySubscribers,
+  notifySubscribers,
   boosterHealth,
   boosterTriggerScheduledCommand,
   boosterRocketDispatcher,

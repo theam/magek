@@ -62,7 +62,7 @@ export const boosterTriggerScheduledCommand = triggerScheduledCommands
  * @param rawRequest A provider-specific representation of the request to notify subscribers.
  * @returns A promise that resolves when the subscribers are notified
  */
-export async function boosterNotifySubscribers(rawRequest: unknown): Promise<void> {
+export async function notifySubscribers(rawRequest: unknown): Promise<void> {
   return new MagekSubscribersNotifier(Magek.config).dispatch(rawRequest)
 }
 

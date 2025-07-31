@@ -10,6 +10,6 @@ export class GraphQLService {
   }
 
   public async handleNotificationSubscription(request: Array<ReadModelEnvelope>): Promise<unknown> {
-    return await this.userApp.boosterNotifySubscribers(request)
+    return await this.userApp.notifySubscribers(request)
   }
 }
