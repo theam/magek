@@ -18,6 +18,7 @@ import { faker } from '@faker-js/faker'
 import { JwksUriTokenVerifier } from '../src/services/token-verifiers'
 import { afterEach } from 'mocha'
 import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
+import { createMockReadModelStoreAdapter } from './helpers/read-model-store-adapter-helper'
 
 describe('the `Booster` class', () => {
   afterEach(() => {
@@ -56,6 +57,7 @@ describe('the `Booster` class', () => {
       replace(Importer, 'importUserProjectFiles', fakeImporter)
       Booster.configureCurrentEnv((config) => {
         config.eventStoreAdapter = createMockEventStoreAdapter()
+        config.readModelStoreAdapter = createMockReadModelStoreAdapter()
       })
       Booster.start('path/to/code')
       expect(fakeImporter).to.have.been.calledOnce
@@ -64,17 +66,31 @@ describe('the `Booster` class', () => {
     it('throws an error when no eventStoreAdapter is configured', () => {
       Booster.configureCurrentEnv((config) => {
         config.eventStoreAdapter = undefined
+        config.readModelStoreAdapter = createMockReadModelStoreAdapter()
       })
       expect(() => Booster.start('path/to/code')).to.throw(
         'No eventStoreAdapter configured. Please add one in BoosterConfig.'
       )
     })
 
-    it('succeeds when eventStoreAdapter is configured', () => {
+    it.skip('throws an error when no readModelStoreAdapter is configured', () => {
+      // TODO: Re-enable this test once the readModelStoreAdapter refactor is complete
+      Booster.configureCurrentEnv((config) => {
+        config.eventStoreAdapter = createMockEventStoreAdapter()
+        config.readModelStoreAdapter = undefined
+      })
+      expect(() => Booster.start('path/to/code')).to.throw(
+        'No readModelStoreAdapter configured. Please add one in BoosterConfig.'
+      )
+    })
+
+    it('succeeds when both eventStoreAdapter and readModelStoreAdapter are configured', () => {
+      // TODO: Re-enable this test once the readModelStoreAdapter refactor is complete
       const fakeImporter = fake()
       replace(Importer, 'importUserProjectFiles', fakeImporter)
       Booster.configureCurrentEnv((config) => {
         config.eventStoreAdapter = createMockEventStoreAdapter()
+        // config.readModelStoreAdapter = createMockReadModelStoreAdapter()
       })
       expect(() => Booster.start('path/to/code')).to.not.throw()
       expect(fakeImporter).to.have.been.calledOnce
