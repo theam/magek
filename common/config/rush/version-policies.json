@@ -101,7 +101,7 @@
   // }
   {
     "definitionName": "lockStepVersion",
-    "policyName": "booster",
+    "policyName": "magek",
     "mainProject": "@magek/core",
     "version": "0.0.1"
   }

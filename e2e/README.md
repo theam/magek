@@ -1,10 +1,10 @@
-# Integration E2E Tests for booster-ai framework
+# Integration E2E Tests for Magek framework
 
-This directory contains the end-to-end integration test infrastructure for the `booster-ai` framework.
+This directory contains the end-to-end integration test infrastructure for the `magek` framework.
 
 ## Overview
 
-The integration test simulates a full development workflow with booster-ai in an isolated Docker container defined in the `e2e/Dockerfile` file. The Docker image will be initialized with the following steps:
+The integration test simulates a full development workflow with Magek in an isolated Docker container defined in the `e2e/Dockerfile` file. The Docker image will be initialized with the following steps:
 
 ### Phase 1: Building and packaging all workspace packages
 
@@ -14,9 +14,9 @@ Then, we build and package all workspace packages using the existing build infra
 
 Finally, we publish the packed packages to the Verdaccio registry.
 
-### Phase 2: Running `npm create booster-ai@latest` in the Docker container
+### Phase 2: Running `npm create magek@latest` in the Docker container
 
-We run `npm create booster-ai@latest test-app --template /workspace/templates/default` in the Docker container. This will create a new project in the `test-app` directory using the template from the `/workspace/templates/default` directory.
+We run `npm create magek@latest test-app --template /workspace/templates/default` in the Docker container. This will create a new project in the `test-app` directory using the template from the `/workspace/templates/default` directory.
 
 > TODO: Add an additional test using the default template live at the official repository.
 

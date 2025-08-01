@@ -178,7 +178,7 @@ export {
   boosterHealth,
   notifySubscribers,
   boosterTriggerScheduledCommand,
-  boosterRocketDispatcher,
+  rocketDispatcher,
 } from '@magek/core'
 
 Magek.start(__dirname)

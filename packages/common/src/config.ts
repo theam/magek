@@ -75,7 +75,7 @@ export class MagekConfig {
     'index.boosterTriggerScheduledCommand'
   )
   public readonly notifySubscribersHandler: string = path.join(this.codeRelativePath, 'index.notifySubscribers')
-  public readonly rocketDispatcherHandler: string = path.join(this.codeRelativePath, 'index.boosterRocketDispatcher')
+  public readonly rocketDispatcherHandler: string = path.join(this.codeRelativePath, 'index.rocketDispatcher')
 
   public readonly functionRelativePath: string = path.join('..', this.codeRelativePath, 'index.js')
 

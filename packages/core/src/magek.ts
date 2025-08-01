@@ -73,7 +73,7 @@ export class Magek {
     this.loadTokenVerifierFromEnv()
     this.config.validate()
     const args = process.argv
-    if (process.env['BOOSTER_CLI_HOOK']?.trim() !== 'true') {
+    if (process.env['MAGEK_CLI_HOOK']?.trim() !== 'true') {
       return
     }
     const injectable = this.config.injectable

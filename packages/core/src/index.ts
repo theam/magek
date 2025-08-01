@@ -72,7 +72,7 @@ export async function notifySubscribers(rawRequest: unknown): Promise<void> {
  * @param rawRequest A provider-specific representation of the request to be processed
  * @returns A promise that resolves when the request is processed
  */
-export async function boosterRocketDispatcher(rawRequest: unknown): Promise<unknown> {
+export async function rocketDispatcher(rawRequest: unknown): Promise<unknown> {
   return new MagekRocketDispatcher(Magek.config).dispatch(rawRequest)
 }
 

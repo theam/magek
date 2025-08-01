@@ -109,7 +109,7 @@ describe('start', () => {
       expect(providerService.startProvider).to.have.not.been.called
     })
 
-    describe('inside a booster project', () => {
+    describe('inside a Magek project', () => {
       it('entering correct environment', async () => {
         const config = await Config.load()
         await new Start.default(['-e', 'fake_environment'], config).run()

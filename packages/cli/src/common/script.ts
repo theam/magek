@@ -7,7 +7,7 @@ import { oraLogger } from '../services/logger'
 import Brand from './brand'
 
 /**
- * A Script represents some steps in a booster command, it stores the initial context
+ * A Script represents some steps in a Magek command, it stores the initial context
  * implicitly, and makes it available for all of the steps that define this process.
  */
 export class Script<TContext> {

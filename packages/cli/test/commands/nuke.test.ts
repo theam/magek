@@ -182,7 +182,7 @@ describe('nuke', () => {
       expect(providerService.nukeCloudProviderResources).to.have.not.been.called
     })
 
-    describe('inside a booster project', () => {
+    describe('inside a Magek project', () => {
       it('entering correct environment and application name', async () => {
         replace(Prompter.prototype, 'defaultOrPrompt', fake.resolves('new-booster-app'))
         const config = await Config.load()

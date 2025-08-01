@@ -55,7 +55,7 @@ Magek is divided in many different packages. The criteria to split the code in p
 
 - They must be run separately, for instance, the CLI is run locally, while the support code for the project is run on the cloud.
 - They contain code that is used by at least two of the other packages.
-- They're a vendor-specific specialization of some abstract part of the framework (for instance, all the code that is required to support Azure is in separate packages).
+- They're a vendor-specific specialization of some abstract part of the framework (for instance, the adapter packages).
 
 The packages are managed using [rush](https://rushjs.io/) and [npm](https://npmjs.com), if you run `rush build`, it will build all the packages.
 

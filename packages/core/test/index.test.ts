@@ -3,7 +3,7 @@ import {
   Magek,
   eventDispatcher,
   notifySubscribers,
-  boosterRocketDispatcher,
+  rocketDispatcher,
   graphQLDispatcher,
   triggerScheduledCommands,
   boosterConsumeEventStream,
@@ -65,12 +65,12 @@ describe('framework-core package', () => {
     })
   })
 
-  context('`boosterRocketDispatcher` function', () => {
+  context('`rocketDispatcher` function', () => {
     it('calls the `dispatch` method of the `MagekRocketDispatcher` class', async () => {
       const fakeDispatch = fake.resolves(undefined)
       const fakeRawRequest = { some: 'request' }
       replace(MagekRocketDispatcher.prototype, 'dispatch', fakeDispatch)
-      await boosterRocketDispatcher(fakeRawRequest)
+      await rocketDispatcher(fakeRawRequest)
       expect(fakeDispatch).to.have.been.calledOnceWithExactly(fakeRawRequest)
     })
   })
