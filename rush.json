@@ -427,6 +427,12 @@
       "shouldPublish": true,
       "versionPolicyName": "booster",
       "projectFolder": "adapters/nedb/event-store"
+    },
+    {
+      "packageName": "@magek/adapter-read-model-store-nedb",
+      "shouldPublish": true,
+      "versionPolicyName": "booster",
+      "projectFolder": "adapters/nedb/read-model-store"
     }
   ]
 }
