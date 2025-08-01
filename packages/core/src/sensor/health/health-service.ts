@@ -22,13 +22,13 @@ import { MagekAuthorizer } from '../../authorizer'
 export class MagekHealthService {
   constructor(readonly config: MagekConfig) {}
 
-  public async boosterHealth(request: unknown): Promise<unknown> {
+  public async health(request: unknown): Promise<unknown> {
     try {
       const healthEnvelope: HealthEnvelope = this.config.provider.sensor.rawRequestToHealthEnvelope(request)
       await this.validate(healthEnvelope)
       const healthProviders = this.getHealthProviders()
       const parents = this.parentsHealthProviders(healthEnvelope, healthProviders)
-      const healthIndicatorResults = await this.boosterHealthProviderResolver(parents, healthProviders)
+      const healthIndicatorResults = await this.healthProviderResolver(parents, healthProviders)
 
       // Check if all components are healthy (considering UNKNOWN rockets as healthy)
       const isHealthy = this.isOverallHealthy(healthIndicatorResults)
@@ -48,7 +48,7 @@ export class MagekHealthService {
     await authorizer(userEnvelope, healthEnvelope)
   }
 
-  private async boosterHealthProviderResolver(
+  private async healthProviderResolver(
     healthIndicatorsMetadata: Array<HealthIndicatorMetadata>,
     healthProviders: Record<string, HealthIndicatorMetadata>
   ): Promise<Array<HealthIndicatorsResult>> {
@@ -72,7 +72,7 @@ export class MagekHealthService {
         id: current.healthIndicatorConfiguration.id,
       }
       if (children && children?.length > 0) {
-        newResult.components = await this.boosterHealthProviderResolver(children, healthProviders)
+        newResult.components = await this.healthProviderResolver(children, healthProviders)
       }
       result.push(newResult)
     }

@@ -7,8 +7,8 @@ import {
   graphQLDispatcher,
   triggerScheduledCommands,
   consumeEventStream,
-  boosterProduceEventStream,
-  boosterHealth,
+  produceEventStream,
+  health,
 } from '../src/'
 import { fake, replace, restore } from 'sinon'
 import { MagekEventDispatcher } from '../src/event-dispatcher'
@@ -85,22 +85,22 @@ describe('framework-core package', () => {
     })
   })
 
-  context('`boosterProduceEventStream` function', () => {
+  context('`produceEventStream` function', () => {
     it('calls the `produce` method of the `MagekEventStreamProducer` class', async () => {
       const fakeProduce = fake.resolves(undefined)
       const fakeRawEvent = { some: 'event' }
       replace(MagekEventStreamProducer, 'produce', fakeProduce)
-      await boosterProduceEventStream(fakeRawEvent)
+      await produceEventStream(fakeRawEvent)
       expect(fakeProduce).to.have.been.calledOnceWithExactly(fakeRawEvent, Magek.config)
     })
   })
 
-  context('`boosterHealth` function', () => {
-    it('calls the `boosterHealth` method of the `MagekHealthService` class', async () => {
+  context('`health` function', () => {
+    it('calls the `health` method of the `MagekHealthService` class', async () => {
       const fakeHealth = fake.resolves(undefined)
       const fakeRawRequest = { some: 'request' }
-      replace(MagekHealthService.prototype, 'boosterHealth', fakeHealth)
-      await boosterHealth(fakeRawRequest)
+      replace(MagekHealthService.prototype, 'health', fakeHealth)
+      await health(fakeRawRequest)
       expect(fakeHealth).to.have.been.calledOnceWithExactly(fakeRawRequest)
     })
   })

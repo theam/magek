@@ -15,6 +15,6 @@ export interface UserApp {
   notifySubscribers(_: unknown): Promise<void>
   rocketDispatcher(_: unknown): Promise<unknown>
   consumeEventStream(_: unknown): Promise<unknown>
-  boosterProduceEventStream(_: unknown): Promise<unknown>
-  boosterHealth(_: unknown): Promise<any>
+  produceEventStream(_: unknown): Promise<unknown>
+  health(_: unknown): Promise<any>
 }

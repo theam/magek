@@ -92,7 +92,7 @@ export async function consumeEventStream(rawEvent: unknown): Promise<unknown> {
  * @param rawEvent A provider-specific representation of the event to be produced
  * @returns A promise that resolves when the event is produced
  */
-export async function boosterProduceEventStream(rawEvent: unknown): Promise<unknown> {
+export async function produceEventStream(rawEvent: unknown): Promise<unknown> {
   return MagekEventStreamProducer.produce(rawEvent, Magek.config)
 }
 
@@ -102,6 +102,6 @@ export async function boosterProduceEventStream(rawEvent: unknown): Promise<unkn
  * @param request A provider-specific representation of the request to check the health
  * @returns A promise that resolves to the health of the application
  */
-export async function boosterHealth(request: unknown): Promise<unknown> {
-  return new MagekHealthService(Magek.config).boosterHealth(request)
+export async function health(request: unknown): Promise<unknown> {
+  return new MagekHealthService(Magek.config).health(request)
 }

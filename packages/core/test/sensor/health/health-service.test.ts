@@ -44,7 +44,7 @@ describe('MagekHealthService', () => {
 
   it('All indicators are UP', async () => {
     config.provider.sensor = defaultSensor()
-    const boosterResult = await boosterHealth(config)
+    const boosterResult = await health(config)
     const boosterFunction = getMagekFunction(boosterResult)
     const boosterDatabase = getMagekDatabase(boosterResult)
     const databaseEvents = getEventDatabase(boosterDatabase)
@@ -63,7 +63,7 @@ describe('MagekHealthService', () => {
     config.provider.sensor.isDatabaseEventUp = fake.resolves(false)
     config.provider.sensor.areDatabaseReadModelsUp = fake.resolves(false)
     const expectedStatus = 'DOWN'
-    const boosterResult = await boosterHealth(config)
+    const boosterResult = await health(config)
     const boosterFunction = getMagekFunction(boosterResult)
     const boosterDatabase = getMagekDatabase(boosterResult)
     const databaseEvents = getEventDatabase(boosterDatabase)
@@ -83,7 +83,7 @@ describe('MagekHealthService', () => {
     config.provider.sensor.databaseReadModelsHealthDetails = fake.resolves({
       test: true,
     })
-    const boosterResult = await boosterHealth(config)
+    const boosterResult = await health(config)
     const boosterFunction = getMagekFunction(boosterResult)
     const boosterDatabase = getMagekDatabase(boosterResult)
     const databaseEvents = getEventDatabase(boosterDatabase)
@@ -119,7 +119,7 @@ describe('MagekHealthService', () => {
     config.tokenVerifiers = [
       new JwksUriTokenVerifier(issuer, 'https://myauth0app.auth0.com/' + '.well-known/jwks.json'),
     ]
-    const boosterResult = await boosterHealth(config)
+    const boosterResult = await health(config)
     stop()
     expectMagek(boosterResult, '', 'UP')
   })
@@ -142,8 +142,8 @@ describe('MagekHealthService', () => {
       authorize: [UserRole],
     }
     config.tokenVerifiers = [new JwksUriTokenVerifier(issuer, jwksUri)]
-    const boosterHealthService = new MagekHealthService(config)
-    const boosterResult = (await boosterHealthService.boosterHealth(undefined)) as any
+    const healthService = new MagekHealthService(config)
+    const boosterResult = (await healthService.health(undefined)) as any
     stop()
     expect(boosterResult.code).to.be.eq('NotAuthorizedError')
   })
@@ -167,7 +167,7 @@ describe('MagekHealthService', () => {
     config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].showChildren = false
 
     // get root
-    const boosterResult = await boosterHealth(config)
+    const boosterResult = await health(config)
 
     // root without children and details
     expectDefaultResult(boosterResult, 'UP', 'booster', 'Magek', 0)
@@ -198,7 +198,7 @@ describe('MagekHealthService', () => {
     config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].showChildren = false
     config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].showChildren = false
 
-    const readModelsResult = await boosterHealth(config)
+    const readModelsResult = await health(config)
     expect(readModelsResult).to.be.undefined
   })
 
@@ -220,42 +220,42 @@ describe('MagekHealthService', () => {
     config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].showChildren = false
     config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].showChildren = false
 
-    const readModelsResult = await boosterHealth(config)
+    const readModelsResult = await health(config)
     expectDatabaseReadModels(readModelsResult, 'UP')
   })
 
   describe('Health Response Status', () => {
     it('returns isHealthy true when all components are UP', async () => {
       config.provider.sensor = defaultSensor()
-      await boosterHealth(config)
+      await health(config)
       expect(healthRequestResult?.isHealthy).to.be.true
     })
 
     it('returns isHealthy false when any component is DOWN', async () => {
       config.provider.sensor = defaultSensor()
       config.provider.sensor.isGraphQLFunctionUp = fake.resolves(false)
-      await boosterHealth(config)
+      await health(config)
       expect(healthRequestResult?.isHealthy).to.be.false
     })
 
     it('returns isHealthy true when rockets are UNKNOWN', async () => {
       config.provider.sensor = defaultSensor()
       config.provider.sensor.areRocketFunctionsUp = fake.resolves({}) // Empty object means no rockets
-      await boosterHealth(config)
+      await health(config)
       expect(healthRequestResult?.isHealthy).to.be.true
     })
 
     it('returns isHealthy false when rockets are DOWN', async () => {
       config.provider.sensor = defaultSensor()
       config.provider.sensor.areRocketFunctionsUp = fake.resolves({ rocket1: false })
-      await boosterHealth(config)
+      await health(config)
       expect(healthRequestResult?.isHealthy).to.be.false
     })
 
     it('returns isHealthy true when rockets are UP', async () => {
       config.provider.sensor = defaultSensor()
       config.provider.sensor.areRocketFunctionsUp = fake.resolves({ rocket1: true })
-      await boosterHealth(config)
+      await health(config)
       expect(healthRequestResult?.isHealthy).to.be.true
     })
   })
@@ -277,9 +277,9 @@ function defaultSensor(token?: string, url?: string) {
   }
 }
 
-async function boosterHealth(config: MagekConfig): Promise<HealthIndicatorsResult> {
-  const boosterHealthService = new MagekHealthService(config)
-  const result = (await boosterHealthService.boosterHealth(undefined)) as HealthIndicatorsResult | Array<HealthIndicatorsResult>
+async function health(config: MagekConfig): Promise<HealthIndicatorsResult> {
+  const healthService = new MagekHealthService(config)
+  const result = (await healthService.health(undefined)) as HealthIndicatorsResult | Array<HealthIndicatorsResult>
   // For backwards compatibility with existing tests that expect the first component
   if (Array.isArray(result)) {
     return result[0]

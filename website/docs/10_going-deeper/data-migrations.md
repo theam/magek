@@ -167,7 +167,7 @@ export class CartIdDataMigrateV2 {
 
 ## Migrate to Magek version 1.19.0
 
-Magek version 1.19.0 requires updating your index.ts file to export the `boosterHealth` method. If you have an index.ts file created from a previous Magek version, update it accordingly. Example:
+Magek version 1.19.0 requires updating your index.ts file to export the `health` method. If you have an index.ts file created from a previous Magek version, update it accordingly. Example:
 
 ```typescript
 import { Magek } from '@magek/core'
@@ -175,7 +175,7 @@ export {
   Magek,
   eventDispatcher,
   graphQLDispatcher,
-  boosterHealth,
+  health,
   notifySubscribers,
   boosterTriggerScheduledCommand,
   rocketDispatcher,

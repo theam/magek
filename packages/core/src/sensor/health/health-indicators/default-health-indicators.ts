@@ -16,11 +16,11 @@ function buildMetadata(
   config: MagekConfig,
   id: BOOSTER_HEALTH_INDICATORS_IDS,
   name: string,
-  boosterHealthIndicator: Class<HealthIndicatorInterface>
+  healthIndicator: Class<HealthIndicatorInterface>
 ): HealthIndicatorMetadata {
   const health = config.sensorConfiguration.health
   return {
-    class: boosterHealthIndicator,
+    class: healthIndicator,
     healthIndicatorConfiguration: {
       id: id,
       name: name,

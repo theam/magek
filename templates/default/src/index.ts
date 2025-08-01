@@ -2,11 +2,11 @@ import { Magek } from '@magek/core'
 export {
   Magek,
   eventDispatcher,
-  boosterProduceEventStream,
+  produceEventStream,
   consumeEventStream,
   graphQLDispatcher,
   notifySubscribers,
-  boosterHealth,
+  health,
   boosterTriggerScheduledCommand,
   rocketDispatcher,
 } from '@magek/core'

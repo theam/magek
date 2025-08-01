@@ -7,6 +7,6 @@ export {
   notifySubscribers,
   rocketDispatcher,
   consumeEventStream,
-  boosterProduceEventStream,
-  boosterHealth,
+  produceEventStream,
+  health,
 } from '@magek/core'
