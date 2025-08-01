@@ -82,7 +82,7 @@ export async function rocketDispatcher(rawRequest: unknown): Promise<unknown> {
  * @param rawEvent A provider-specific representation of the event to be processed
  * @returns A promise that resolves when the event is processed
  */
-export async function boosterConsumeEventStream(rawEvent: unknown): Promise<unknown> {
+export async function consumeEventStream(rawEvent: unknown): Promise<unknown> {
   return MagekEventStreamConsumer.consume(rawEvent, Magek.config)
 }
 

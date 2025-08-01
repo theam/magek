@@ -14,7 +14,7 @@ export interface UserApp {
   triggerScheduledCommands(_: unknown): Promise<void>
   notifySubscribers(_: unknown): Promise<void>
   rocketDispatcher(_: unknown): Promise<unknown>
-  boosterConsumeEventStream(_: unknown): Promise<unknown>
+  consumeEventStream(_: unknown): Promise<unknown>
   boosterProduceEventStream(_: unknown): Promise<unknown>
   boosterHealth(_: unknown): Promise<any>
 }

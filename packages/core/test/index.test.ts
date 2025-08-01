@@ -6,7 +6,7 @@ import {
   rocketDispatcher,
   graphQLDispatcher,
   triggerScheduledCommands,
-  boosterConsumeEventStream,
+  consumeEventStream,
   boosterProduceEventStream,
   boosterHealth,
 } from '../src/'
@@ -75,12 +75,12 @@ describe('framework-core package', () => {
     })
   })
 
-  context('`boosterConsumeEventStream` function', () => {
+  context('`consumeEventStream` function', () => {
     it('calls the `consume` method of the `MagekEventStreamConsumer` class', async () => {
       const fakeConsume = fake.resolves(undefined)
       const fakeRawEvent = { some: 'event' }
       replace(MagekEventStreamConsumer, 'consume', fakeConsume)
-      await boosterConsumeEventStream(fakeRawEvent)
+      await consumeEventStream(fakeRawEvent)
       expect(fakeConsume).to.have.been.calledOnceWithExactly(fakeRawEvent, Magek.config)
     })
   })
