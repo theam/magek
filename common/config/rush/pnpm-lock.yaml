@@ -610,6 +610,9 @@ importers:
       '@magek/adapter-event-store-nedb':
         specifier: workspace:^0.0.1
         version: link:../../adapters/nedb/event-store
+      '@magek/adapter-read-model-store-nedb':
+        specifier: workspace:^0.0.1
+        version: link:../../adapters/nedb/read-model-store
       '@seald-io/nedb':
         specifier: 4.1.1
         version: 4.1.1
