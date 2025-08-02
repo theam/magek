@@ -1,12 +1,12 @@
 import {
-  BoosterConfig,
+  MagekConfig,
   ReadModelInterface,
   ReadModelStoreAdapter,
   ReadModelStoreEnvelope,
   ReadModelStoreSearchParameters,
   ReadModelSearchResult,
   UUID,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { ReadModelRegistry } from './read-model-registry'
 import { deleteReadModel, fetchReadModel, searchReadModel, storeReadModel } from './library/read-model-adapter'
 import { readModelsDatabase } from './paths'
@@ -23,7 +23,7 @@ async function countAll(database: any): Promise<number> {
 
 export const readModelStore: ReadModelStoreAdapter = {
   fetch: async <TReadModel extends ReadModelInterface>(
-    config: BoosterConfig,
+    config: MagekConfig,
     readModelName: string,
     readModelID: UUID
   ): Promise<ReadModelStoreEnvelope<TReadModel> | undefined> => {
@@ -38,14 +38,14 @@ export const readModelStore: ReadModelStoreAdapter = {
       typeName: readModelName,
       value: readModel,
       id: readModel.id,
-      version: readModel.boosterMetadata?.version ?? 1,
-      createdAt: readModel.boosterMetadata?.lastUpdateAt ?? new Date().toISOString(),
-      updatedAt: readModel.boosterMetadata?.lastUpdateAt ?? new Date().toISOString(),
+      version: readModel.magekMetadata?.version ?? 1,
+      createdAt: readModel.magekMetadata?.lastUpdateAt ?? new Date().toISOString(),
+      updatedAt: readModel.magekMetadata?.lastUpdateAt ?? new Date().toISOString(),
     } as ReadModelStoreEnvelope<TReadModel>
   },
 
   search: async <TReadModel extends ReadModelInterface>(
-    config: BoosterConfig,
+    config: MagekConfig,
     readModelName: string,
     parameters: ReadModelStoreSearchParameters
   ): Promise<ReadModelSearchResult<TReadModel>> => {
@@ -68,9 +68,9 @@ export const readModelStore: ReadModelStoreAdapter = {
         typeName: readModelName,
         value: readModel,
         id: readModel.id,
-        version: readModel.boosterMetadata?.version ?? 1,
-        createdAt: readModel.boosterMetadata?.lastUpdateAt ?? new Date().toISOString(),
-        updatedAt: readModel.boosterMetadata?.lastUpdateAt ?? new Date().toISOString(),
+        version: readModel.magekMetadata?.version ?? 1,
+        createdAt: readModel.magekMetadata?.lastUpdateAt ?? new Date().toISOString(),
+        updatedAt: readModel.magekMetadata?.lastUpdateAt ?? new Date().toISOString(),
       })) as ReadModelStoreEnvelope<TReadModel>[]
 
       return {
@@ -84,9 +84,9 @@ export const readModelStore: ReadModelStoreAdapter = {
         typeName: readModelName,
         value: readModel,
         id: readModel.id,
-        version: readModel.boosterMetadata?.version ?? 1,
-        createdAt: readModel.boosterMetadata?.lastUpdateAt ?? new Date().toISOString(),
-        updatedAt: readModel.boosterMetadata?.lastUpdateAt ?? new Date().toISOString(),
+        version: readModel.magekMetadata?.version ?? 1,
+        createdAt: readModel.magekMetadata?.lastUpdateAt ?? new Date().toISOString(),
+        updatedAt: readModel.magekMetadata?.lastUpdateAt ?? new Date().toISOString(),
       })) as ReadModelStoreEnvelope<TReadModel>[]
 
       return {
@@ -98,7 +98,7 @@ export const readModelStore: ReadModelStoreAdapter = {
   },
 
   store: async <TReadModel extends ReadModelInterface>(
-    config: BoosterConfig,
+    config: MagekConfig,
     readModelName: string,
     readModel: ReadModelStoreEnvelope<TReadModel>
   ): Promise<ReadModelStoreEnvelope<TReadModel>> => {
@@ -118,7 +118,7 @@ export const readModelStore: ReadModelStoreAdapter = {
     }
   },
 
-  delete: async (config: BoosterConfig, readModelName: string, readModelID: UUID): Promise<void> => {
+  delete: async (config: MagekConfig, readModelName: string, readModelID: UUID): Promise<void> => {
     // Create a minimal ReadModelInterface for the delete operation
     const readModel: ReadModelInterface = {
       id: readModelID,

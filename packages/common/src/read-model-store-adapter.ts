@@ -1,5 +1,5 @@
 import { UUID } from './concepts'
-import { BoosterConfig } from './config'
+import { MagekConfig } from './config'
 import { ReadModelInterface } from './concepts'
 
 export interface ReadModelStoreSearchParameters {
@@ -28,13 +28,13 @@ export interface ReadModelStoreAdapter {
   /**
    * Fetches a single read model by its ID
    *
-   * @param config - The Booster configuration object
+   * @param config - The Magek configuration object
    * @param readModelName - The name of the read model type
    * @param readModelID - The ID of the read model to fetch
    * @returns A promise that resolves to the read model envelope, or undefined if not found
    */
   fetch<TReadModel extends ReadModelInterface>(
-    config: BoosterConfig,
+    config: MagekConfig,
     readModelName: string,
     readModelID: UUID
   ): Promise<ReadModelStoreEnvelope<TReadModel> | undefined>
@@ -42,13 +42,13 @@ export interface ReadModelStoreAdapter {
   /**
    * Searches for read models based on specific parameters
    *
-   * @param config - The Booster configuration object
+   * @param config - The Magek configuration object
    * @param readModelName - The name of the read model type
    * @param parameters - The search parameters
    * @returns A promise that resolves to a search result with matching read models
    */
   search<TReadModel extends ReadModelInterface>(
-    config: BoosterConfig,
+    config: MagekConfig,
     readModelName: string,
     parameters: ReadModelStoreSearchParameters
   ): Promise<ReadModelSearchResult<TReadModel>>
@@ -56,13 +56,13 @@ export interface ReadModelStoreAdapter {
   /**
    * Stores or updates a read model
    *
-   * @param config - The Booster configuration object
+   * @param config - The Magek configuration object
    * @param readModelName - The name of the read model type
    * @param readModel - The read model envelope to store
    * @returns A promise that resolves to the stored read model envelope
    */
   store<TReadModel extends ReadModelInterface>(
-    config: BoosterConfig,
+    config: MagekConfig,
     readModelName: string,
     readModel: ReadModelStoreEnvelope<TReadModel>
   ): Promise<ReadModelStoreEnvelope<TReadModel>>
@@ -70,12 +70,12 @@ export interface ReadModelStoreAdapter {
   /**
    * Deletes a read model by its ID
    *
-   * @param config - The Booster configuration object
+   * @param config - The Magek configuration object
    * @param readModelName - The name of the read model type
    * @param readModelID - The ID of the read model to delete
    * @returns A promise that resolves when the read model has been deleted
    */
-  delete(config: BoosterConfig, readModelName: string, readModelID: UUID): Promise<void>
+  delete(config: MagekConfig, readModelName: string, readModelID: UUID): Promise<void>
 
   /**
    * Converts raw read model data into ReadModelStoreEnvelope objects
@@ -92,16 +92,16 @@ export interface ReadModelStoreAdapter {
     /**
      * Check if the read model store is up and running
      */
-    isUp(config: BoosterConfig): Promise<boolean>
+    isUp(config: MagekConfig): Promise<boolean>
     
     /**
      * Get detailed health information about the read model store
      */
-    details(config: BoosterConfig): Promise<unknown>
+    details(config: MagekConfig): Promise<unknown>
     
     /**
      * Get the URLs/endpoints of the read model store
      */
-    urls(config: BoosterConfig): Promise<Array<string>>
+    urls(config: MagekConfig): Promise<Array<string>>
   }
 }

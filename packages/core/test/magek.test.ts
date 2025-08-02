@@ -73,24 +73,24 @@ describe('the `Magek` class', () => {
 
     it.skip('throws an error when no readModelStoreAdapter is configured', () => {
       // TODO: Re-enable this test once the readModelStoreAdapter refactor is complete
-      Booster.configureCurrentEnv((config) => {
+      Magek.configureCurrentEnv((config) => {
         config.eventStoreAdapter = createMockEventStoreAdapter()
         config.readModelStoreAdapter = undefined
       })
-      expect(() => Booster.start('path/to/code')).to.throw(
-        'No readModelStoreAdapter configured. Please add one in BoosterConfig.'
+      expect(() => Magek.start('path/to/code')).to.throw(
+        'No readModelStoreAdapter configured. Please add one in MagekConfig.'
       )
     })
 
     it.skip('throws an error when no sessionStoreAdapter is configured', () => {
       // TODO: Re-enable this test once the sessionStoreAdapter refactor is complete
-      Booster.configureCurrentEnv((config) => {
+      Magek.configureCurrentEnv((config) => {
         config.eventStoreAdapter = createMockEventStoreAdapter()
         config.readModelStoreAdapter = createMockReadModelStoreAdapter()
         config.sessionStoreAdapter = undefined
       })
-      expect(() => Booster.start('path/to/code')).to.throw(
-        'No sessionStoreAdapter configured. Please add one in BoosterConfig.'
+      expect(() => Magek.start('path/to/code')).to.throw(
+        'No sessionStoreAdapter configured. Please add one in MagekConfig.'
       )
     })
 

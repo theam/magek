@@ -11,10 +11,10 @@ npm install @magek/adapter-read-model-store-nedb
 ## Usage
 
 ```typescript
-import { BoosterConfig } from '@booster-ai/common'
+import { MagekConfig } from '@magek/common'
 import { readModelStore } from '@magek/adapter-read-model-store-nedb'
 
-const config = new BoosterConfig('development')
+const config = new MagekConfig('development')
 config.readModelStoreAdapter = readModelStore
 ```
 
@@ -40,4 +40,4 @@ The adapter implements the standard `ReadModelStoreAdapter` interface:
 
 ## Storage
 
-Read models are stored in a local NeDB file at `.booster/read_models.json`.
+Read models are stored in a local NeDB file at `.magek/read_models.json`.

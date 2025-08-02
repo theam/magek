@@ -98,7 +98,7 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
           typeName: readModelName,
           value: readModel,
           id: readModel.id,
-          version: (readModel.boosterMetadata?.version ?? 0) + 1,
+          version: (readModel.magekMetadata?.version ?? 0) + 1,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         }

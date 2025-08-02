@@ -431,7 +431,7 @@
     {
       "packageName": "@magek/adapter-read-model-store-nedb",
       "shouldPublish": true,
-      "versionPolicyName": "booster",
+      "versionPolicyName": "magek",
       "projectFolder": "adapters/nedb/read-model-store"
     }
   ]
