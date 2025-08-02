@@ -84,6 +84,18 @@ describe('the `Booster` class', () => {
       )
     })
 
+    it.skip('throws an error when no sessionStoreAdapter is configured', () => {
+      // TODO: Re-enable this test once the sessionStoreAdapter refactor is complete
+      Booster.configureCurrentEnv((config) => {
+        config.eventStoreAdapter = createMockEventStoreAdapter()
+        config.readModelStoreAdapter = createMockReadModelStoreAdapter()
+        config.sessionStoreAdapter = undefined
+      })
+      expect(() => Booster.start('path/to/code')).to.throw(
+        'No sessionStoreAdapter configured. Please add one in BoosterConfig.'
+      )
+    })
+
     it('succeeds when both eventStoreAdapter and readModelStoreAdapter are configured', () => {
       // TODO: Re-enable this test once the readModelStoreAdapter refactor is complete
       const fakeImporter = fake()

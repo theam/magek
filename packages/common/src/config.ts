@@ -21,6 +21,7 @@ import {
 import { ProviderLibrary } from './provider'
 import { EventStoreAdapter } from './event-store-adapter'
 import { ReadModelStoreAdapter } from './read-model-store-adapter'
+import { SessionStoreAdapter } from './session-store-adapter'
 import { Level } from './logger'
 import * as path from 'path'
 import { RocketDescriptor, RocketFunction } from './rockets'
@@ -41,6 +42,7 @@ export class BoosterConfig {
   private _provider?: ProviderLibrary
   public eventStoreAdapter?: EventStoreAdapter
   public readModelStoreAdapter?: ReadModelStoreAdapter
+  public sessionStoreAdapter?: SessionStoreAdapter
 
   public rockets?: Array<RocketDescriptor>
 
@@ -236,6 +238,14 @@ export class BoosterConfig {
     //   throw new Error('ReadModelStoreAdapter is not configured. Please set config.readModelStoreAdapter.')
     // }
     return this.readModelStoreAdapter!
+  }
+
+  public get sessionStore(): SessionStoreAdapter {
+    // TODO: Uncomment this validation once the sessionStoreAdapter refactor is complete
+    // if (!this.sessionStoreAdapter) {
+    //   throw new Error('SessionStoreAdapter is not configured. Please set config.sessionStoreAdapter.')
+    // }
+    return this.sessionStoreAdapter!
   }
 
   public mustGetEnvironmentVar(varName: string): string {
