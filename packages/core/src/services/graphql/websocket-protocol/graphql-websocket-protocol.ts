@@ -33,7 +33,7 @@ export class GraphQLWebsocketHandler {
     private readonly config: MagekConfig,
     private readonly connectionManager: ProviderConnectionsLibrary,
     private readonly callbacks: GraphQLWebsocketHandlerCallbacks,
-    private readonly boosterTokenVerifier: MagekTokenVerifier
+    private readonly tokenVerifier: MagekTokenVerifier
   ) {}
 
   public async handle(envelope: GraphQLRequestEnvelope | GraphQLRequestEnvelopeError): Promise<void> {
@@ -80,7 +80,7 @@ export class GraphQLWebsocketHandler {
     const logger = getLogger(this.config, 'GraphQLWebsocketHandler#handleInit')
     let userEnvelope: UserEnvelope | undefined
     if (clientMessage.payload?.Authorization) {
-      userEnvelope = await this.boosterTokenVerifier.verify(clientMessage.payload.Authorization)
+      userEnvelope = await this.tokenVerifier.verify(clientMessage.payload.Authorization)
     }
     const nowEpoch = Math.floor(new Date().getTime() / 1000)
     const connectionData: ConnectionDataEnvelope = {

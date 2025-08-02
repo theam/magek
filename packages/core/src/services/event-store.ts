@@ -1,5 +1,5 @@
 import {
-  BOOSTER_SUPER_KIND,
+  MAGEK_SUPER_KIND,
   MagekConfig,
   EntityInterface,
   EntitySnapshotEnvelope,
@@ -27,7 +27,7 @@ import { Trace } from '../instrumentation'
 
 const originOfTime = new Date(0).toISOString() // Unix epoch
 
-const boosterReducibleEventsTypesNames: Array<string> = [MagekEntityMigrated.name, MagekEntityTouched.name]
+const reducibleEventsTypesNames: Array<string> = [MagekEntityMigrated.name, MagekEntityTouched.name]
 
 export class EventStore {
   public constructor(readonly config: MagekConfig) {}
@@ -181,8 +181,8 @@ export class EventStore {
   }
 
   private shouldReduceMagekSuperKind(eventEnvelope: EventEnvelope) {
-    const reducible = boosterReducibleEventsTypesNames.includes(eventEnvelope.typeName)
-    return eventEnvelope.superKind && eventEnvelope.superKind === BOOSTER_SUPER_KIND && reducible
+    const reducible = reducibleEventsTypesNames.includes(eventEnvelope.typeName)
+    return eventEnvelope.superKind && eventEnvelope.superKind === MAGEK_SUPER_KIND && reducible
   }
 
   private eventMetadataFor(eventEnvelope: EventEnvelope): EventMetadata {
@@ -272,7 +272,7 @@ export class EventStore {
     className: string
   ): NonPersistedEntitySnapshotEnvelope {
     const logger = getLogger(this.config, 'EventStore#toMagekEntitySnapshot')
-    const boosterMigratedSnapshot: NonPersistedEntitySnapshotEnvelope = {
+    const migratedSnapshot: NonPersistedEntitySnapshotEnvelope = {
       version: this.config.currentVersionFor(className),
       kind: 'snapshot',
       superKind: eventEnvelope.superKind,
@@ -283,8 +283,8 @@ export class EventStore {
       value: entity,
       snapshottedEventCreatedAt: eventEnvelope.createdAt,
     }
-    logger.debug('MagekEntitySnapshot result: ', boosterMigratedSnapshot)
-    return boosterMigratedSnapshot
+    logger.debug('MagekEntitySnapshot result: ', migratedSnapshot)
+    return migratedSnapshot
   }
 
   private reducerForEvent(

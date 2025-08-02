@@ -34,7 +34,7 @@ import { NodeContext, NodeRuntime } from '@effect/platform-node'
  * Main class to interact with Magek and configure it.
  * Sensible defaults are used whenever possible:
  * - `provider`: `Provider.AWS`
- * - `appName`: `new-booster-app`
+ * - `appName`: `new-magek-app`
  * - `region`: 'eu-west-1'
  *
  */
@@ -64,7 +64,7 @@ export class Magek {
    */
   public static start(codeRootPath: string): void {
     if (!this.config.eventStoreAdapter) {
-      throw new Error('No eventStoreAdapter configured. Please add one in BoosterConfig.')
+      throw new Error('No eventStoreAdapter configured. Please add one in MagekConfig.')
     }
     const projectRootPath = codeRootPath.replace(new RegExp(this.config.codeRelativePath + '$'), '')
     this.config.userProjectRootPath = projectRootPath
@@ -189,16 +189,16 @@ export class Magek {
    * @deprecated [EOL v3] Please set your own implementation of the `TokenVerifier` interface in the project config.
    */
   private static loadTokenVerifierFromEnv(): void {
-    const BOOSTER_JWT_ISSUER = process.env[JWT_ENV_VARS.BOOSTER_JWT_ISSUER]
-    const BOOSTER_JWKS_URI = process.env[JWT_ENV_VARS.BOOSTER_JWKS_URI]
-    const BOOSTER_ROLES_CLAIM = process.env[JWT_ENV_VARS.BOOSTER_ROLES_CLAIM]
-    if (BOOSTER_JWT_ISSUER && BOOSTER_JWKS_URI && BOOSTER_ROLES_CLAIM) {
+    const JWT_ISSUER = process.env[JWT_ENV_VARS.JWT_ISSUER]
+    const JWKS_URI = process.env[JWT_ENV_VARS.JWKS_URI]
+    const ROLES_CLAIM = process.env[JWT_ENV_VARS.ROLES_CLAIM]
+    if (JWT_ISSUER && JWKS_URI && ROLES_CLAIM) {
       console.warn(
         'Deprecation notice: Implicitly loading the JWT token verifier options from default environment variables is deprecated.' +
           " Please set your application's `config.tokenVerifiers` options explicitly in your `src/config/config.ts` file."
       )
       this.config.tokenVerifiers.push(
-        new JwksUriTokenVerifier(BOOSTER_JWT_ISSUER, BOOSTER_JWKS_URI, BOOSTER_ROLES_CLAIM)
+        new JwksUriTokenVerifier(JWT_ISSUER, JWKS_URI, ROLES_CLAIM)
       )
     }
   }

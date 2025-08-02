@@ -192,7 +192,7 @@ describe('the `RegisterHandler` class', () => {
     expect(registerHandler.wrapEvent(config, event, register)).to.deep.equal({
       version: 1,
       kind: 'event',
-      superKind: 'booster',
+      superKind: 'magek',
       entityTypeName: 'oldEntity',
       entityID: 'oldEntityId',
       requestID: '1234',

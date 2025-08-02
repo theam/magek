@@ -33,8 +33,8 @@ describe('the `EventHandler` decorator', () => {
       }
     }
 
-    const booster = Magek as any
-    const someEventHandlers = booster.config.eventHandlers['SomeEvent']
+    const magek = Magek as any
+    const someEventHandlers = magek.config.eventHandlers['SomeEvent']
 
     expect(someEventHandlers).to.be.an('Array')
     expect(someEventHandlers).to.contain(SomeEventHandler)

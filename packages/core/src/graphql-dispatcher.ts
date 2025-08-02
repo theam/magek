@@ -26,12 +26,12 @@ export class MagekGraphQLDispatcher {
   private readonly graphQLSchema: GraphQLSchema
   private readonly websocketHandler: GraphQLWebsocketHandler
   private readonly readModelDispatcher: MagekReadModelsReader
-  private readonly boosterTokenVerifier: MagekTokenVerifier
+  private readonly tokenVerifier: MagekTokenVerifier
 
   public constructor(private config: MagekConfig) {
     this.readModelDispatcher = new MagekReadModelsReader(config)
     this.graphQLSchema = GraphQLGenerator.generateSchema(config)
-    this.boosterTokenVerifier = new MagekTokenVerifier(config)
+    this.tokenVerifier = new MagekTokenVerifier(config)
     this.websocketHandler = new GraphQLWebsocketHandler(
       config,
       this.config.provider.connections,
@@ -40,7 +40,7 @@ export class MagekGraphQLDispatcher {
         onStopOperation: this.readModelDispatcher.unsubscribe.bind(this.readModelDispatcher),
         onTerminate: this.handleDisconnect.bind(this),
       },
-      this.boosterTokenVerifier
+      this.tokenVerifier
     )
   }
 
@@ -73,7 +73,7 @@ export class MagekGraphQLDispatcher {
     if (envelope.token) {
       try {
         logger.debug(`Decoding current user from auth token: ${envelope.token}`)
-        envelope.currentUser = await this.boosterTokenVerifier.verify(envelope.token)
+        envelope.currentUser = await this.tokenVerifier.verify(envelope.token)
       } catch (e) {
         envelope = {
           ...envelope,

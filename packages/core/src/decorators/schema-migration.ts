@@ -2,7 +2,7 @@ import { Magek } from '../magek'
 import { Class, AnyClass, SchemaMigrationMetadata, MagekConfig, Instance } from '@magek/common'
 import { getMetadata, defineMetadata } from '@magek/metadata'
 
-const migrationMethodsMetadataKey = 'booster:migrationsMethods'
+const migrationMethodsMetadataKey = 'magek:migrationsMethods'
 
 /**
  * **NOTE:** Using this decorator for read model migrations is deprecated. Prefer using `@DataMigration` instead.

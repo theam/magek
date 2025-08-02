@@ -19,7 +19,7 @@ import { ReadModelStore } from './services/read-model-store'
 import { RegisterHandler } from './register-handler'
 import { MagekGlobalErrorDispatcher } from './global-error-dispatcher'
 import { Trace } from './instrumentation'
-import { BOOSTER_GLOBAL_EVENT_HANDLERS } from './decorators'
+import { GLOBAL_EVENT_HANDLERS } from './decorators'
 
 export class MagekEventProcessor {
   /**
@@ -96,7 +96,7 @@ export class MagekEventProcessor {
       await Promises.allSettledAndFulfilled(
         entityEventEnvelopes.map(async (eventEnvelope) => {
           let eventHandlers = config.eventHandlers[eventEnvelope.typeName] || []
-          const globalEventHandler = config.eventHandlers[BOOSTER_GLOBAL_EVENT_HANDLERS]
+          const globalEventHandler = config.eventHandlers[GLOBAL_EVENT_HANDLERS]
           if (globalEventHandler && globalEventHandler.length > 0) {
             eventHandlers = eventHandlers.concat(globalEventHandler)
           }

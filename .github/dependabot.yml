@@ -72,9 +72,3 @@ updates:
     directory: "/tools/eslint-config"
     schedule:
       interval: "daily"
-      
-  # Website package
-  - package-ecosystem: "npm"
-    directory: "/website"
-    schedule:
-      interval: "daily"

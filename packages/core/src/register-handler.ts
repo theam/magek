@@ -1,5 +1,5 @@
 import {
-  BOOSTER_SUPER_KIND,
+  MAGEK_SUPER_KIND,
   MagekConfig,
   DOMAIN_SUPER_KIND,
   EventInterface,
@@ -18,7 +18,7 @@ import { MagekDataMigrationFinished } from './core-concepts/data-migration/event
 import { Magek } from './magek'
 import { MagekEntityTouched } from './core-concepts/touch-entity/events/entity-touched'
 
-const boosterEventsTypesNames: Array<string> = [
+const eventsTypesNames: Array<string> = [
   MagekEntityMigrated.name,
   MagekDataMigrationStarted.name,
   MagekDataMigrationFinished.name,
@@ -74,7 +74,7 @@ export class RegisterHandler {
   }
 
   private static getSuperKind(eventTypeName: string): SuperKindType {
-    return boosterEventsTypesNames.includes(eventTypeName) ? BOOSTER_SUPER_KIND : DOMAIN_SUPER_KIND
+    return eventsTypesNames.includes(eventTypeName) ? MAGEK_SUPER_KIND : DOMAIN_SUPER_KIND
   }
 
   private static getTopicName(

@@ -10,7 +10,7 @@ This file provides high-level guidance for **AI agents (e.g. OpenAI Codex)** tha
   * `packages/*`   → Production TypeScript packages (framework, providers, CLI, etc.).
   * `tools/*`       → Internal tooling packages (e.g. shared ESLint config).
   * `scripts/*`     → Bash & PowerShell helpers.  The most important is `scripts/check-all-the-things.sh` which runs the entire CI pipeline locally.
-  * `website/`      → Documentation source (Docusaurus).
+  * `docs/`         → Documentation (Markdown files).
   * `common/`       → Rush-generated files (lock-file, temp folders, etc.).
 * **Main configuration** – See `rush.json` (build graph), the root `tsconfig.json`, ESLint/prettier configs, and `.nvmrc`.
 * **Node / PNPM versions** – The repo targets **Node 22.x** and **PNPM 9.x** (managed automatically by Rush).
@@ -30,12 +30,11 @@ This file provides high-level guidance for **AI agents (e.g. OpenAI Codex)** tha
 > Tip: Use `rush clean` & `rush purge` before a fresh install to remove caches.
 > **Codex Warning**: Avoid running `rush clean` or `scripts/check-all-the-things.*` scripts here. The sandbox has no internet access after setup, so removed dependencies cannot be reinstalled.
 
-
 ## 3. Code Navigation Tips
 
 1. **Start in `packages/framework-core/src`** – Contains the core domain logic (commands, events, GraphQL generation, etc.).
 2. **Provider implementations** live in `packages/framework-provider-*/src`.
-3. **CLI entry point** is `packages/cli/src/commands/boost.ts`.
+3. **CLI entry point** is `packages/cli/bin/run` (OCLIF-based CLI).
 4. Shared types are in `packages/common`.
 
 All production code is TypeScript; tests use Mocha.  Standard utilities such as lodash are intentionally avoided—prefer simple, functional helpers.
@@ -52,6 +51,7 @@ All production code is TypeScript; tests use Mocha.  Standard utilities such as 
 * **Branch naming**: `feature/<topic>`, `fix/<topic>`, `doc/<topic>` (see CONTRIBUTING.md for details).
 
 ## 5. Testing Strategy
+
 1. **Unit tests** (Mocha) run quickly and should cover most changes.
 2. The CI pipeline mirrors the steps in `scripts/check-all-the-things.sh`; ensure it passes locally before creating a pull request.
 

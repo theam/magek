@@ -8,9 +8,9 @@ import { RoleBasedTokenVerifier } from './role-based-token-verifier'
  * @deprecated [EOL v3] Explicitly initialize the JWKs URI Token Verifier in the project config.
  */
 export const JWT_ENV_VARS = {
-  BOOSTER_JWT_ISSUER: 'BOOSTER_JWT_ISSUER',
-  BOOSTER_JWKS_URI: 'BOOSTER_JWKS_URI',
-  BOOSTER_ROLES_CLAIM: 'BOOSTER_ROLES_CLAIM',
+  JWT_ISSUER: 'JWT_ISSUER',
+  JWKS_URI: 'JWKS_URI',
+  ROLES_CLAIM: 'ROLES_CLAIM',
 }
 
 export class JwksUriTokenVerifier extends RoleBasedTokenVerifier {

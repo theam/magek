@@ -42,8 +42,8 @@ export class MagekDataMigrations {
         migrating = true
         await MagekDataMigrations.migrate(configuredMigration)
       } else {
-        const boosterDataMigrationEntity = migrationEntityForConfiguredMigration.value as MagekDataMigrationEntity
-        if (boosterDataMigrationEntity.status === DataMigrationStatus.RUNNING) {
+        const dataMigrationEntity = migrationEntityForConfiguredMigration.value as MagekDataMigrationEntity
+        if (dataMigrationEntity.status === DataMigrationStatus.RUNNING) {
           logger.debug('Found running migrations for the DataMigration', configuredMigration)
           migrating = true
         }

@@ -12,11 +12,11 @@ export function readModelSearcher<TReadModel extends ReadModelInterface>(
   config: MagekConfig,
   readModelClass: Class<TReadModel>
 ): Searcher<TReadModel> {
-  const boosterReadModelsReader = new MagekReadModelsReader(config)
+  const readModelsReader = new MagekReadModelsReader(config)
    
   const searcherFunction: SearcherFunction<TReadModel, any> =
-    boosterReadModelsReader.readModelSearch.bind(boosterReadModelsReader)
+    readModelsReader.readModelSearch.bind(readModelsReader)
   const finderByIdFunction: FinderByKeyFunction<TReadModel> =
-    boosterReadModelsReader.finderByIdFunction.bind(boosterReadModelsReader)
+    readModelsReader.finderByIdFunction.bind(readModelsReader)
   return new Searcher(readModelClass, searcherFunction, finderByIdFunction)
 }

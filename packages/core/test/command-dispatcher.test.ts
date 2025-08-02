@@ -222,12 +222,12 @@ describe('the `MagekCommandsDispatcher`', () => {
       const command = new PostComment('This test is good!')
       replace(RegisterHandler, 'handle', fake())
 
-      let boosterConfig: any
+      let magekConfig: any
       Magek.configure('test', (config) => {
-        boosterConfig = config
+        magekConfig = config
       })
 
-      await new MagekCommandDispatcher(boosterConfig).dispatchCommand(
+      await new MagekCommandDispatcher(magekConfig).dispatchCommand(
         {
           requestID: '1234',
           version: 1,
@@ -271,12 +271,12 @@ describe('the `MagekCommandsDispatcher`', () => {
         const command = new PostComment('This test is good!')
         replace(RegisterHandler, 'handle', fake())
 
-        let boosterConfig: any
+        let magekConfig: any
         Magek.configure('test', (config) => {
-          boosterConfig = config
+          magekConfig = config
         })
 
-        await new MagekCommandDispatcher(boosterConfig).dispatchCommand(
+        await new MagekCommandDispatcher(magekConfig).dispatchCommand(
           {
             requestID: '1234',
             version: 1,
@@ -302,12 +302,12 @@ describe('the `MagekCommandsDispatcher`', () => {
         const command = new PostComment('This test is good!')
         replace(RegisterHandler, 'handle', fake())
 
-        let boosterConfig: any
+        let magekConfig: any
         Magek.configure('test', (config) => {
-          boosterConfig = config
+          magekConfig = config
         })
 
-        await new MagekCommandDispatcher(boosterConfig).dispatchCommand(
+        await new MagekCommandDispatcher(magekConfig).dispatchCommand(
           {
             requestID: '1234',
             version: 1,

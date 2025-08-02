@@ -1,7 +1,7 @@
 import { expect } from '../../expect'
 import { MagekHealthService } from '../../../src/sensor'
 import {
-  BOOSTER_HEALTH_INDICATORS_IDS,
+  HEALTH_INDICATORS_IDS,
   MagekConfig,
   ProviderLibrary,
   HealthIndicatorsResult,
@@ -33,7 +33,7 @@ describe('MagekHealthService', () => {
   })
 
   beforeEach(() => {
-    Object.values(config.sensorConfiguration.health.booster).forEach((indicator) => {
+    Object.values(config.sensorConfiguration.health.magek).forEach((indicator) => {
       indicator.enabled = true
     })
     config.sensorConfiguration.health.globalAuthorizer = {
@@ -44,15 +44,15 @@ describe('MagekHealthService', () => {
 
   it('All indicators are UP', async () => {
     config.provider.sensor = defaultSensor()
-    const boosterResult = await health(config)
-    const boosterFunction = getMagekFunction(boosterResult)
-    const boosterDatabase = getMagekDatabase(boosterResult)
-    const databaseEvents = getEventDatabase(boosterDatabase)
-    const databaseReadModels = getReadModelsDatabase(boosterDatabase)
+    const result = await health(config)
+    const magekFunction = getMagekFunction(result)
+    const magekDatabase = getMagekDatabase(result)
+    const databaseEvents = getEventDatabase(magekDatabase)
+    const databaseReadModels = getReadModelsDatabase(magekDatabase)
     const expectedStatus = 'UP'
-    expectMagek(boosterResult, '', expectedStatus)
-    expectMagekFunction(boosterFunction, '', expectedStatus)
-    expectMagekDatabase(boosterDatabase, expectedStatus)
+    expectMagek(result, '', expectedStatus)
+    expectMagekFunction(magekFunction, '', expectedStatus)
+    expectMagekDatabase(magekDatabase, expectedStatus)
     expectDatabaseEvents(databaseEvents, expectedStatus)
     expectDatabaseReadModels(databaseReadModels, expectedStatus)
   })
@@ -63,14 +63,14 @@ describe('MagekHealthService', () => {
     config.provider.sensor.isDatabaseEventUp = fake.resolves(false)
     config.provider.sensor.areDatabaseReadModelsUp = fake.resolves(false)
     const expectedStatus = 'DOWN'
-    const boosterResult = await health(config)
-    const boosterFunction = getMagekFunction(boosterResult)
-    const boosterDatabase = getMagekDatabase(boosterResult)
-    const databaseEvents = getEventDatabase(boosterDatabase)
-    const databaseReadModels = getReadModelsDatabase(boosterDatabase)
-    expectMagek(boosterResult, '', expectedStatus)
-    expectMagekFunction(boosterFunction, '', expectedStatus)
-    expectMagekDatabase(boosterDatabase, expectedStatus)
+    const result = await health(config)
+    const magekFunction = getMagekFunction(result)
+    const magekDatabase = getMagekDatabase(result)
+    const databaseEvents = getEventDatabase(magekDatabase)
+    const databaseReadModels = getReadModelsDatabase(magekDatabase)
+    expectMagek(result, '', expectedStatus)
+    expectMagekFunction(magekFunction, '', expectedStatus)
+    expectMagekDatabase(magekDatabase, expectedStatus)
     expectDatabaseEvents(databaseEvents, expectedStatus)
     expectDatabaseReadModels(databaseReadModels, expectedStatus)
   })
@@ -83,15 +83,15 @@ describe('MagekHealthService', () => {
     config.provider.sensor.databaseReadModelsHealthDetails = fake.resolves({
       test: true,
     })
-    const boosterResult = await health(config)
-    const boosterFunction = getMagekFunction(boosterResult)
-    const boosterDatabase = getMagekDatabase(boosterResult)
-    const databaseEvents = getEventDatabase(boosterDatabase)
-    const databaseReadModels = getReadModelsDatabase(boosterDatabase)
+    const result = await health(config)
+    const magekFunction = getMagekFunction(result)
+    const magekDatabase = getMagekDatabase(result)
+    const databaseEvents = getEventDatabase(magekDatabase)
+    const databaseReadModels = getReadModelsDatabase(magekDatabase)
     const expectedStatus = 'UP'
-    expectMagek(boosterResult, '', expectedStatus)
-    expectMagekFunction(boosterFunction, '', expectedStatus)
-    expectMagekDatabase(boosterDatabase, expectedStatus)
+    expectMagek(result, '', expectedStatus)
+    expectMagekFunction(magekFunction, '', expectedStatus)
+    expectMagekDatabase(magekDatabase, expectedStatus)
     expectDatabaseEventsWithDetails(databaseEvents, expectedStatus, {
       test: true,
     })
@@ -119,9 +119,9 @@ describe('MagekHealthService', () => {
     config.tokenVerifiers = [
       new JwksUriTokenVerifier(issuer, 'https://myauth0app.auth0.com/' + '.well-known/jwks.json'),
     ]
-    const boosterResult = await health(config)
+    const result = await health(config)
     stop()
-    expectMagek(boosterResult, '', 'UP')
+    expectMagek(result, '', 'UP')
   })
 
   it('Validates fails with wrong role', async () => {
@@ -143,82 +143,82 @@ describe('MagekHealthService', () => {
     }
     config.tokenVerifiers = [new JwksUriTokenVerifier(issuer, jwksUri)]
     const healthService = new MagekHealthService(config)
-    const boosterResult = (await healthService.health(undefined)) as any
+    const result = (await healthService.health(undefined)) as any
     stop()
-    expect(boosterResult.code).to.be.eq('NotAuthorizedError')
+    expect(result.code).to.be.eq('NotAuthorizedError')
   })
 
   it('Only root enabled and without children and details', async () => {
     config.provider.sensor = defaultSensor()
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.ROOT].enabled = true
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.ROOT].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.ROOT].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].showChildren = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.ROOT].enabled = true
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE].enabled = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_EVENTS].enabled = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].enabled = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.FUNCTION].enabled = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.ROOT].details = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE].details = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_EVENTS].details = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].details = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.FUNCTION].details = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.ROOT].showChildren = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE].showChildren = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_EVENTS].showChildren = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].showChildren = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.FUNCTION].showChildren = false
 
     // get root
-    const boosterResult = await health(config)
+    const result = await health(config)
 
     // root without children and details
-    expectDefaultResult(boosterResult, 'UP', 'booster', 'Magek', 0)
-    expect(boosterResult.details).to.be.undefined
+    expectDefaultResult(result, 'UP', 'magek', 'Magek', 0)
+    expect(result.details).to.be.undefined
 
     // other indicators are undefined
-    expect(getMagekDatabase(boosterResult)).to.be.undefined
-    expect(getEventDatabase(boosterResult)).to.be.undefined
-    expect(getMagekFunction(boosterResult)).to.be.undefined
-    expect(getReadModelsDatabase(boosterResult)).to.be.undefined
+    expect(getMagekDatabase(result)).to.be.undefined
+    expect(getEventDatabase(result)).to.be.undefined
+    expect(getMagekFunction(result)).to.be.undefined
+    expect(getReadModelsDatabase(result)).to.be.undefined
   })
 
   it('if parent disabled then children are disabled', async () => {
-    config.provider.sensor = defaultSensor('', 'booster/database/readmodels')
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.ROOT].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].enabled = true
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.ROOT].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.ROOT].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].showChildren = false
+    config.provider.sensor = defaultSensor('', 'magek/database/readmodels')
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.ROOT].enabled = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE].enabled = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_EVENTS].enabled = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].enabled = true
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.FUNCTION].enabled = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.ROOT].details = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE].details = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_EVENTS].details = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].details = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.FUNCTION].details = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.ROOT].showChildren = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE].showChildren = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_EVENTS].showChildren = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].showChildren = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.FUNCTION].showChildren = false
 
     const readModelsResult = await health(config)
     expect(readModelsResult).to.be.undefined
   })
 
   it('Only ReadModels enabled and without children and details', async () => {
-    config.provider.sensor = defaultSensor('', 'booster/database/readmodels')
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.ROOT].enabled = true
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].enabled = true
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].enabled = true
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].enabled = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.ROOT].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].details = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.ROOT].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].showChildren = false
-    config.sensorConfiguration.health.booster[BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION].showChildren = false
+    config.provider.sensor = defaultSensor('', 'magek/database/readmodels')
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.ROOT].enabled = true
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE].enabled = true
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_EVENTS].enabled = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].enabled = true
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.FUNCTION].enabled = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.ROOT].details = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE].details = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_EVENTS].details = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].details = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.FUNCTION].details = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.ROOT].showChildren = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE].showChildren = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_EVENTS].showChildren = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS].showChildren = false
+    config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.FUNCTION].showChildren = false
 
     const readModelsResult = await health(config)
     expectDatabaseReadModels(readModelsResult, 'UP')
@@ -287,20 +287,20 @@ async function health(config: MagekConfig): Promise<HealthIndicatorsResult> {
   return result
 }
 
-function getMagekFunction(boosterResult: HealthIndicatorsResult | undefined) {
-  return boosterResult?.components?.find((element: HealthIndicatorsResult) => element.id === 'booster/function')
+function getMagekFunction(result: HealthIndicatorsResult | undefined) {
+  return result?.components?.find((element: HealthIndicatorsResult) => element.id === 'magek/function')
 }
 
-function getMagekDatabase(boosterResult: HealthIndicatorsResult | undefined) {
-  return boosterResult?.components?.find((element: HealthIndicatorsResult) => element.id === 'booster/database')
+function getMagekDatabase(result: HealthIndicatorsResult | undefined) {
+  return result?.components?.find((element: HealthIndicatorsResult) => element.id === 'magek/database')
 }
 
-function getEventDatabase(boosterDatabase: HealthIndicatorsResult | undefined) {
-  return boosterDatabase?.components?.find((element: HealthIndicatorsResult) => element.id === 'booster/database/events')
+function getEventDatabase(magekDatabase: HealthIndicatorsResult | undefined) {
+  return magekDatabase?.components?.find((element: HealthIndicatorsResult) => element.id === 'magek/database/events')
 }
 
-function getReadModelsDatabase(boosterDatabase: HealthIndicatorsResult | undefined) {
-  return boosterDatabase?.components?.find((element: HealthIndicatorsResult) => element.id === 'booster/database/readmodels')
+function getReadModelsDatabase(magekDatabase: HealthIndicatorsResult | undefined) {
+  return magekDatabase?.components?.find((element: HealthIndicatorsResult) => element.id === 'magek/database/readmodels')
 }
 
 function expectDefaultResult(
@@ -323,21 +323,21 @@ function expectDefaultResult(
 }
 
 function expectMagek(
-  boosterResult: HealthIndicatorsResult | undefined,
+  result: HealthIndicatorsResult | undefined,
   version: string,
   status: HealthStatus | string
 ): void {
-  expectDefaultResult(boosterResult, status, 'booster', 'Magek', 2)
-  expect(boosterResult!.details!.boosterVersion).to.be.eq(version)
+  expectDefaultResult(result, status, 'magek', 'Magek', 2)
+  expect(result!.details!.magekVersion).to.be.eq(version)
 }
 
 function expectMagekFunction(
-  boosterFunction: HealthIndicatorsResult | undefined,
+  magekFunction: HealthIndicatorsResult | undefined,
   url: string,
   status: HealthStatus | string
 ) {
-  expectDefaultResult(boosterFunction, status, 'booster/function', 'Magek Function', 0)
-  const details = boosterFunction!.details as any
+  expectDefaultResult(magekFunction, status, 'magek/function', 'Magek Function', 0)
+  const details = magekFunction!.details as any
   expect(details.cpus.length).to.be.gt(0)
   expect(details.cpus[0].timesPercentages.length).to.be.gt(0)
   expect(details.memory.totalBytes).to.be.gt(0)
@@ -346,18 +346,18 @@ function expectMagekFunction(
 }
 
 function expectMagekDatabase(
-  boosterDatabase: HealthIndicatorsResult | undefined,
+  magekDatabase: HealthIndicatorsResult | undefined,
   status: HealthStatus | string
 ): void {
-  expectDefaultResult(boosterDatabase, status, 'booster/database', 'Magek Database', 2)
-  expect(boosterDatabase!.details).to.not.be.undefined
+  expectDefaultResult(magekDatabase, status, 'magek/database', 'Magek Database', 2)
+  expect(magekDatabase!.details).to.not.be.undefined
 }
 
 function expectDatabaseEvents(
   databaseEvents: HealthIndicatorsResult | undefined,
   status: HealthStatus | string
 ): void {
-  expectDefaultResult(databaseEvents, status, 'booster/database/events', 'Magek Database Events', 0)
+  expectDefaultResult(databaseEvents, status, 'magek/database/events', 'Magek Database Events', 0)
   expect(databaseEvents!.details).to.be.undefined
 }
 
@@ -366,7 +366,7 @@ function expectDatabaseEventsWithDetails(
   status: HealthStatus | string,
   details: unknown
 ): void {
-  expectDefaultResult(databaseEvents, status, 'booster/database/events', 'Magek Database Events', 0)
+  expectDefaultResult(databaseEvents, status, 'magek/database/events', 'Magek Database Events', 0)
   expect(databaseEvents!.details).to.be.deep.eq(details)
 }
 
@@ -377,7 +377,7 @@ function expectDatabaseReadModels(
   expectDefaultResult(
     databaseReadModels,
     status,
-    'booster/database/readmodels',
+    'magek/database/readmodels',
     'Magek Database ReadModels',
     0
   )
@@ -392,7 +392,7 @@ function expectDatabaseReadModelsWithDetails(
   expectDefaultResult(
     databaseReadModels,
     status,
-    'booster/database/readmodels',
+    'magek/database/readmodels',
     'Magek Database ReadModels',
     0
   )

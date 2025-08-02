@@ -75,7 +75,7 @@ describe('create-magek CLI', () => {
     })
 
     it('should accept valid project names', () => {
-      const validNames = ['my-project', 'test-app', 'booster-app', 'simple', 'app123', 'my-cool-project-name']
+      const validNames = ['my-project', 'test-app', 'magek-app', 'simple', 'app123', 'my-cool-project-name']
 
       validNames.forEach((name) => {
         expect(() => assertNameIsCorrect(name)).to.not.throw()

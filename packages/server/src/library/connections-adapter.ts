@@ -52,7 +52,7 @@ export async function sendMessageToConnection(
   logger.debug(`Sending message ${JSON.stringify(data)} to connection ${connectionId}`)
   
   // Check if the global variable exists in the process to avoid importing server-infrastructure
-  const globalRegistry = (global as any).boosterWebSocketRegistry
+  const globalRegistry = (global as any).webSocketRegistry
   if (globalRegistry && typeof globalRegistry.sendMessage === 'function') {
     globalRegistry.sendMessage(connectionId, data)
   } else {

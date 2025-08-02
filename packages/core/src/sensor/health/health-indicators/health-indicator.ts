@@ -4,7 +4,7 @@ import {
   HealthIndicatorMetadata,
   HealthStatus,
 } from '@magek/common'
-import { boosterVersion } from './version'
+import { magekVersion } from './version'
 
 export class MagekHealthIndicator {
   public async health(
@@ -17,7 +17,7 @@ export class MagekHealthIndicator {
       }
       if (healthIndicatorMetadata.healthIndicatorConfiguration.details) {
         result.details = {
-          boosterVersion: boosterVersion(config),
+          magekVersion: magekVersion(config),
         }
       }
       return result

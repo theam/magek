@@ -109,15 +109,15 @@ describe('MagekEventProcessor', () => {
         const stubEventStore = createStubInstance(EventStore)
         const stubReadModelStore = createStubInstance(ReadModelStore)
 
-        const boosterEventProcessor = MagekEventProcessor as any
-        replace(boosterEventProcessor, 'snapshotAndUpdateReadModels', fake())
-        replace(boosterEventProcessor, 'dispatchEntityEventsToEventHandlers', fake())
+        const eventProcessor = MagekEventProcessor as any
+        replace(eventProcessor, 'snapshotAndUpdateReadModels', fake())
+        replace(eventProcessor, 'dispatchEntityEventsToEventHandlers', fake())
 
-        const callback = boosterEventProcessor.eventProcessor(stubEventStore, stubReadModelStore)
+        const callback = eventProcessor.eventProcessor(stubEventStore, stubReadModelStore)
 
         await callback(someEvent.entityTypeName, someEvent.entityID, [someEvent], config)
 
-        expect(boosterEventProcessor.snapshotAndUpdateReadModels).to.have.been.calledOnceWith(
+        expect(eventProcessor.snapshotAndUpdateReadModels).to.have.been.calledOnceWith(
           config,
           someEvent.entityTypeName,
           someEvent.entityID,
@@ -130,18 +130,18 @@ describe('MagekEventProcessor', () => {
         const stubEventStore = createStubInstance(EventStore)
         const stubReadModelStore = createStubInstance(ReadModelStore)
 
-        const boosterEventProcessor = MagekEventProcessor as any
+        const eventProcessor = MagekEventProcessor as any
         const fakeFilterDispatched = fake.returns([someEvent])
 
-        replace(boosterEventProcessor, 'filterDispatched', fakeFilterDispatched)
-        replace(boosterEventProcessor, 'snapshotAndUpdateReadModels', fake())
-        replace(boosterEventProcessor, 'dispatchEntityEventsToEventHandlers', fake())
+        replace(eventProcessor, 'filterDispatched', fakeFilterDispatched)
+        replace(eventProcessor, 'snapshotAndUpdateReadModels', fake())
+        replace(eventProcessor, 'dispatchEntityEventsToEventHandlers', fake())
 
-        const callback = boosterEventProcessor.eventProcessor(stubEventStore, stubReadModelStore)
+        const callback = eventProcessor.eventProcessor(stubEventStore, stubReadModelStore)
 
         await callback(someEvent.entityTypeName, someEvent.entityID, [someEvent], config)
 
-        expect(boosterEventProcessor.dispatchEntityEventsToEventHandlers).to.have.been.calledOnceWith(
+        expect(eventProcessor.dispatchEntityEventsToEventHandlers).to.have.been.calledOnceWith(
           [someEvent],
           config
         )
@@ -151,30 +151,30 @@ describe('MagekEventProcessor', () => {
         const stubEventStore = createStubInstance(EventStore)
         const stubReadModelStore = createStubInstance(ReadModelStore)
 
-        const boosterEventProcessor = MagekEventProcessor as any
-        replace(boosterEventProcessor, 'snapshotAndUpdateReadModels', fake())
-        replace(boosterEventProcessor, 'dispatchEntityEventsToEventHandlers', fake())
+        const eventProcessor = MagekEventProcessor as any
+        replace(eventProcessor, 'snapshotAndUpdateReadModels', fake())
+        replace(eventProcessor, 'dispatchEntityEventsToEventHandlers', fake())
 
         const overriddenConfig = { ...config }
         overriddenConfig.topicToEvent = { [someEvent.entityTypeName]: 'SomeEvent' }
 
-        const callback = boosterEventProcessor.eventProcessor(stubEventStore, stubReadModelStore)
+        const callback = eventProcessor.eventProcessor(stubEventStore, stubReadModelStore)
 
         await callback(someEvent.entityTypeName, someEvent.entityID, [someEvent], overriddenConfig)
         overriddenConfig.topicToEvent = {}
 
-        expect(boosterEventProcessor.snapshotAndUpdateReadModels).not.to.have.been.called
+        expect(eventProcessor.snapshotAndUpdateReadModels).not.to.have.been.called
       })
     })
 
     describe('the `snapshotAndUpdateReadModels` method', () => {
       it('gets the updated state for the event entity', async () => {
-        const boosterEventProcessor = MagekEventProcessor as any
+        const eventProcessor = MagekEventProcessor as any
         const eventStore = createStubInstance(EventStore)
         const readModelStore = createStubInstance(ReadModelStore)
         eventStore.fetchEntitySnapshot = fake.resolves({}) as any
 
-        await boosterEventProcessor.snapshotAndUpdateReadModels(
+        await eventProcessor.snapshotAndUpdateReadModels(
           config,
           someEvent.entityTypeName,
           someEvent.entityID,
@@ -187,13 +187,13 @@ describe('MagekEventProcessor', () => {
       })
 
       it('projects the entity state to the corresponding read models', async () => {
-        const boosterEventProcessor = MagekEventProcessor as any
+        const eventProcessor = MagekEventProcessor as any
         const eventStore = createStubInstance(EventStore)
         eventStore.fetchEntitySnapshot = fake.resolves(someEntitySnapshot) as any
 
         const readModelStore = createStubInstance(ReadModelStore)
 
-        await boosterEventProcessor.snapshotAndUpdateReadModels(
+        await eventProcessor.snapshotAndUpdateReadModels(
           config,
           someEvent.entityTypeName,
           someEvent.entityID,
@@ -206,14 +206,14 @@ describe('MagekEventProcessor', () => {
 
       context('when the entity reduction fails', () => {
         it('logs the error, does not throw it, and the projects method is not called', async () => {
-          const boosterEventProcessor = MagekEventProcessor as any
+          const eventProcessor = MagekEventProcessor as any
           const eventStore = createStubInstance(EventStore)
           const readModelStore = createStubInstance(ReadModelStore)
           const error = new Error('some error')
           eventStore.fetchEntitySnapshot = fake.rejects(error) as any
 
           await expect(
-            boosterEventProcessor.snapshotAndUpdateReadModels(
+            eventProcessor.snapshotAndUpdateReadModels(
               config,
               someEvent.entityTypeName,
               someEvent.entityID,
@@ -239,13 +239,13 @@ describe('MagekEventProcessor', () => {
 
       it('does nothing and does not throw if there are no event handlers and no global handler', async () => {
         replace(RegisterHandler, 'handle', fake())
-        const boosterEventProcessor = MagekEventProcessor as any
+        const eventProcessor = MagekEventProcessor as any
         // We try first with null array of event handlers
         config.eventHandlers[SomeEvent.name] = null as any
-        await boosterEventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
+        await eventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
         // And now with an empty array
         config.eventHandlers[SomeEvent.name] = []
-        await boosterEventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
+        await eventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
         // It should not throw any errors
       })
 
@@ -255,8 +255,8 @@ describe('MagekEventProcessor', () => {
 
         replace(RegisterHandler, 'handle', fake())
 
-        const boosterEventProcessor = MagekEventProcessor as any
-        await boosterEventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
+        const eventProcessor = MagekEventProcessor as any
+        await eventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
 
         const eventValue: any = someEvent.value
         const anEventInstance = new SomeEvent(eventValue.id)
@@ -277,8 +277,8 @@ describe('MagekEventProcessor', () => {
 
         replace(RegisterHandler, 'handle', fake())
 
-        const boosterEventProcessor = MagekEventProcessor as any
-        await boosterEventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
+        const eventProcessor = MagekEventProcessor as any
+        await eventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
 
         const eventValue: any = someEvent.value
         const anEventInstance = new SomeEvent(eventValue.id)
@@ -301,8 +301,8 @@ describe('MagekEventProcessor', () => {
 
         replace(RegisterHandler, 'handle', fake())
 
-        const boosterEventProcessor = MagekEventProcessor as any
-        await boosterEventProcessor.dispatchEntityEventsToEventHandlers([someNotification], config)
+        const eventProcessor = MagekEventProcessor as any
+        await eventProcessor.dispatchEntityEventsToEventHandlers([someNotification], config)
 
         const aNotificationInstance = new SomeNotification()
 
@@ -324,8 +324,8 @@ describe('MagekEventProcessor', () => {
 
         replace(RegisterHandler, 'handle', fake())
 
-        const boosterEventProcessor = MagekEventProcessor as any
-        await boosterEventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
+        const eventProcessor = MagekEventProcessor as any
+        await eventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
 
         expect(RegisterHandler.handle).to.have.been.calledTwice
         expect(RegisterHandler.handle).to.have.been.calledWith(config, capturedRegister1)
@@ -343,8 +343,8 @@ describe('MagekEventProcessor', () => {
 
         replace(RegisterHandler, 'handle', fake())
 
-        const boosterEventProcessor = MagekEventProcessor as any
-        await boosterEventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
+        const eventProcessor = MagekEventProcessor as any
+        await eventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
 
         expect(RegisterHandler.handle).to.have.been.calledWith(config, capturedRegister)
         expect(capturedRegister.eventList[0]).to.be.deep.equal(someEvent.value)
@@ -359,8 +359,8 @@ describe('MagekEventProcessor', () => {
 
         replace(RegisterHandler, 'handle', fake())
 
-        const boosterEventProcessor = MagekEventProcessor as any
-        await boosterEventProcessor.dispatchEntityEventsToEventHandlers([someEvent, someNotification], config)
+        const eventProcessor = MagekEventProcessor as any
+        await eventProcessor.dispatchEntityEventsToEventHandlers([someEvent, someNotification], config)
 
         expect(failingHandler).to.have.been.calledOnce
         expect(successHandler).to.have.been.calledOnce
@@ -381,8 +381,8 @@ describe('MagekEventProcessor', () => {
 
         replace(RegisterHandler, 'handle', fake())
 
-        const boosterEventProcessor = MagekEventProcessor as any
-        await boosterEventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
+        const eventProcessor = MagekEventProcessor as any
+        await eventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
 
         expect(failingHandler).to.have.been.calledOnce
         expect(config.logger?.error).to.have.been.calledWith(
@@ -409,8 +409,8 @@ describe('MagekEventProcessor', () => {
 
         replace(RegisterHandler, 'handle', fake())
 
-        const boosterEventProcessor = MagekEventProcessor as any
-        await boosterEventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
+        const eventProcessor = MagekEventProcessor as any
+        await eventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
 
         expect(failingHandler).to.have.been.calledOnce
         expect(successHandler).to.have.been.calledOnce
@@ -420,12 +420,12 @@ describe('MagekEventProcessor', () => {
 
     describe('the `filterDispatched` method', () => {
       it("removes events if they've been already dispatched", async () => {
-        const boosterEventProcessor = MagekEventProcessor as any
+        const eventProcessor = MagekEventProcessor as any
         const eventStore = createStubInstance(EventStore)
         const someEventEnvelope = { ...someEvent, id: 'event-id' }
         eventStore.storeDispatchedEvent = fake.returns(false) as any
 
-        const eventsNotDispatched = await boosterEventProcessor.filterDispatched(
+        const eventsNotDispatched = await eventProcessor.filterDispatched(
           config,
           [someEventEnvelope],
           eventStore
@@ -444,10 +444,10 @@ describe('MagekEventProcessor', () => {
 
     it('calls an instance method in the event and it is executed without failing', async () => {
       config.eventHandlers[SomeEvent.name] = [{ handle: AnEventHandler.handle }]
-      const boosterEventProcessor = MagekEventProcessor as any
+      const eventProcessor = MagekEventProcessor as any
       const getPrefixedIdFake = fake()
       replace(SomeEvent.prototype, 'getPrefixedId', getPrefixedIdFake)
-      await boosterEventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
+      await eventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
       expect(getPrefixedIdFake).to.have.been.called
     })
   })

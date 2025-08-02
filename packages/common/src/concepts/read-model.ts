@@ -17,7 +17,7 @@ export interface MagekMetadata {
 
 export interface ReadModelInterface {
   id: UUID
-  boosterMetadata?: MagekMetadata
+  magekMetadata?: MagekMetadata
    
   [key: string]: any
 }

@@ -27,7 +27,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
   let onStopCallback: (connectionID: string, messageID: string) => Promise<void>
   let onTerminateCallback: (connectionID: string) => Promise<void>
   let envelope: GraphQLRequestEnvelope
-  let boosterTokenVerifier: MagekTokenVerifier
+  let tokenVerifier: MagekTokenVerifier
 
   beforeEach(() => {
     config = new MagekConfig('test')
@@ -37,7 +37,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
       warn: fake(),
       error: fake(),
     }
-    boosterTokenVerifier = new MagekTokenVerifier(config)
+    tokenVerifier = new MagekTokenVerifier(config)
     connectionsManager = {
       sendMessage: stub(),
       deleteData: stub(),
@@ -56,7 +56,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
         onStopOperation: onStopCallback,
         onTerminate: onTerminateCallback,
       },
-      boosterTokenVerifier
+      tokenVerifier
     )
     envelope = {
       currentUser: undefined,
@@ -187,7 +187,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
             }
 
             const fakeVerifier = fake.resolves(expectedUser)
-            replace(boosterTokenVerifier, 'verify', fakeVerifier)
+            replace(tokenVerifier, 'verify', fakeVerifier)
 
             resultPromise = websocketHandler.handle(envelope)
             await resultPromise
@@ -307,7 +307,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
                 onStopOperation: undefined as any,
                 onTerminate: undefined as any,
               },
-              boosterTokenVerifier
+              tokenVerifier
             )
           })
 
@@ -332,7 +332,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
                 onStopOperation: undefined as any,
                 onTerminate: undefined as any,
               },
-              boosterTokenVerifier
+              tokenVerifier
             )
           })
 

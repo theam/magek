@@ -246,7 +246,7 @@ describe('the read model registry', () => {
               subArr: [{ id: faker.datatype.uuid(), name: faker.lorem.word() }],
             },
           ],
-          boosterMetadata: {
+          magekMetadata: {
             version: 1,
             schemaVersion: 1,
           },
@@ -316,11 +316,11 @@ describe('the read model registry', () => {
   describe('the store method', () => {
     it('should upsert read models into the read models database', async () => {
       const readModel: ReadModelEnvelope = createMockReadModelEnvelope()
-      readModel.value.boosterMetadata!.version = 2
+      readModel.value.magekMetadata!.version = 2
       const expectedQuery = {
         typeName: readModel.typeName,
         'value.id': readModel.value.id,
-        'value.boosterMetadata.version': 2,
+        'value.magekMetadata.version': 2,
       }
 
       readModelRegistry.readModels.updateAsync = stub().returns(readModel)

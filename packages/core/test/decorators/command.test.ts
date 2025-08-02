@@ -9,8 +9,8 @@ import { MagekAuthorizer } from '../../src/authorizer'
 
 describe('the `Command` decorator', () => {
   afterEach(() => {
-    const booster = Magek as any
-    delete booster.config.commandHandlers['PostComment']
+    const magek = Magek as any
+    delete magek.config.commandHandlers['PostComment']
   })
 
   context('when an authorizer function is provided', () => {
@@ -26,8 +26,8 @@ describe('the `Command` decorator', () => {
       }
 
       // Make Magek be of any type to access private members
-      const booster = Magek as any
-      const commandMetadata = booster.config.commandHandlers[PostComment.name]
+      const magek = Magek as any
+      const commandMetadata = magek.config.commandHandlers[PostComment.name]
 
       expect(commandMetadata).to.be.an('object')
       expect(commandMetadata.class).to.equal(PostComment)
@@ -53,8 +53,8 @@ describe('the `Command` decorator', () => {
       }
 
       // Make Magek be of any type to access private members
-      const booster = Magek as any
-      const commandMetadata = booster.config.commandHandlers[PostComment.name]
+      const magek = Magek as any
+      const commandMetadata = magek.config.commandHandlers[PostComment.name]
 
       expect(commandMetadata).to.be.an('object')
       expect(commandMetadata.class).to.equal(PostComment)
@@ -81,8 +81,8 @@ describe('the `Command` decorator', () => {
       }
 
       // Make Magek be of any type to access private members
-      const booster = Magek as any
-      const commandMetadata = booster.config.commandHandlers[PostComment.name]
+      const magek = Magek as any
+      const commandMetadata = magek.config.commandHandlers[PostComment.name]
 
       expect(commandMetadata).to.be.an('object')
       expect(commandMetadata.class).to.equal(PostComment)

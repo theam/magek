@@ -66,7 +66,7 @@ describe('the `ToVersion` decorator', () => {
     ]
 
     const gotMetadata = getMetadata<Array<SchemaMigrationMetadata>>(
-      'booster:migrationsMethods',
+      'magek:migrationsMethods',
       MigrateProduct
     )
 

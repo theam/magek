@@ -25,14 +25,14 @@ import { SessionStoreAdapter } from './session-store-adapter'
 import { Level } from './logger'
 import * as path from 'path'
 import { RocketDescriptor, RocketFunction } from './rockets'
-import { DEFAULT_SENSOR_HEALTH_BOOSTER_CONFIGURATIONS, HealthIndicatorMetadata, Logger, SensorConfiguration } from '.'
+import { DEFAULT_SENSOR_HEALTH_CONFIGURATIONS, HealthIndicatorMetadata, Logger, SensorConfiguration } from '.'
 import { TraceConfiguration } from './instrumentation/trace-types'
 import { AzureConfiguration, DEFAULT_CHUNK_SIZE } from './provider/azure-configuration'
 import { Context } from 'effect'
 
 /**
  * Class used by external packages that needs to get a representation of
- * the booster config. Used mainly for vendor-specific deployment packages
+ * the Magek config. Used mainly for vendor-specific deployment packages
  */
 export class MagekConfig {
   public logLevel: Level = Level.debug
@@ -46,7 +46,7 @@ export class MagekConfig {
 
   public rockets?: Array<RocketDescriptor>
 
-  public appName = 'new-booster-app'
+  public appName = 'new-magek-app'
 
   public assets?: Array<string>
 
@@ -72,7 +72,7 @@ export class MagekConfig {
   public readonly sensorHealthHandler: string = path.join(this.codeRelativePath, 'index.health')
   public readonly scheduledTaskHandler: string = path.join(
     this.codeRelativePath,
-    'index.boosterTriggerScheduledCommand'
+    'index.triggerScheduledCommand'
   )
   public readonly notifySubscribersHandler: string = path.join(this.codeRelativePath, 'index.notifySubscribers')
   public readonly rocketDispatcherHandler: string = path.join(this.codeRelativePath, 'index.rocketDispatcher')
@@ -103,7 +103,7 @@ export class MagekConfig {
       globalAuthorizer: {
         authorize: 'all',
       },
-      booster: DEFAULT_SENSOR_HEALTH_BOOSTER_CONFIGURATIONS,
+      magek: DEFAULT_SENSOR_HEALTH_CONFIGURATIONS,
     },
   }
   public readonly azureConfiguration: AzureConfiguration = {
@@ -167,7 +167,7 @@ export class MagekConfig {
       eventsDedup: applicationStackName + '-events-dedup',
       subscriptionsStore: applicationStackName + '-subscriptions-store',
       connectionsStore: applicationStackName + '-connections-store',
-      streamTopic: this.eventStreamConfiguration.parameters?.streamTopic ?? 'booster_events',
+      streamTopic: this.eventStreamConfiguration.parameters?.streamTopic ?? 'magek_events',
       forReadModel(readModelName: string): string {
         return applicationStackName + '-' + readModelName
       },

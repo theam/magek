@@ -63,8 +63,8 @@ export class ReadModelRegistry {
   public async store(readModel: ReadModelEnvelope, expectedCurrentVersion: number): Promise<void> {
     await this.loadDatabaseIfNeeded()
     const uniqueReadModel: ReadModelEnvelope & { uniqueKey?: string } = readModel
-    uniqueReadModel.uniqueKey = `${readModel.typeName}_${readModel.value.id}_${readModel.value.boosterMetadata?.version}`
-    if (uniqueReadModel.value.boosterMetadata?.version === 1) {
+    uniqueReadModel.uniqueKey = `${readModel.typeName}_${readModel.value.id}_${readModel.value.magekMetadata?.version}`
+    if (uniqueReadModel.value.magekMetadata?.version === 1) {
       return this.insert(readModel)
     }
     return this.update(uniqueReadModel, expectedCurrentVersion)
@@ -81,7 +81,7 @@ export class ReadModelRegistry {
       {
         typeName: readModel.typeName,
         'value.id': readModel.value.id,
-        'value.boosterMetadata.version': expectedCurrentVersion,
+        'value.magekMetadata.version': expectedCurrentVersion,
       },
       readModel,
       { upsert: false, returnUpdatedDocs: true }

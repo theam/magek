@@ -1,129 +1,113 @@
-# ![Magek Framework](https://user-images.githubusercontent.com/175096/217907175-b81b3937-d773-45fd-85ca-716f9813432d.png)
+# ✨ Magek — Build AI-Native Backends with Event-Driven Intelligence
 
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODE_OF_CONDUCT.md)
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Ftheam%2Fmagek%2Fbadge%3Fref%3Dmain&style=flat)](https://actions-badge.atrox.dev/theam/magek/goto?ref=main)
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![License](https://img.shields.io/npm/l/@magek/cli)](https://github.com/theam/magek/blob/main/package.json)
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
-[![Docs](https://img.shields.io/badge/Docs-Magek-blue)](https://docs.magek.ai)
+![Magek Framework](magek-logo.svg)
+
+> A framework for building intelligent, agentic applications with event sourcing, swarming agents, and LLM integrations — cloud-agnostic and fully open source.
+
 ---
 
-# What is Magek Framework?
+## 🧠 What is Magek?
 
-[Magek Framework](https://magek.ai) is a software development framework designed to create event-driven backend microservices that focus on extreme development productivity. It provides a highly opinionated implementation of the CQRS and Event Sourcing patterns in Typescript, using [DDD (Domain-Driven Design)](https://en.wikipedia.org/wiki/Domain-driven_design) semantics that makes business logic fit naturally within the code. Thanks to Magek, business, product, and technical teams can collaborate, sharing a much closer language.
+**Magek** is an open-source framework for building modern backends designed for **AI-native applications**. It helps you structure your code using **event sourcing**, run **ambient agents** that operate continuously, and plug into **LLMs, vector databases**, and **retrieval systems** — all from a single, unified developer experience.
 
-Magek uses advanced static analysis techniques and takes advantage of the Typescript type system to understand the structure and semantics of your code and minimize the amount of glue code. It’s capable not just of building an entirely functioning GraphQL API for you, but also to build an optimal, production-ready and scalable cloud infrastructure for your application in Azure or AWS.
+Magek was born as a fork and deep refactor of the [Booster Framework](https://github.com/boostercloud/booster), a production-ready event-sourced backend framework. With Magek, we're taking those solid foundations and bringing them into the age of intelligent, agentic applications.
 
-Combining these features, Magek provides an unprecedented developer experience. On the one hand, it helps you write simpler code, defining your application in terms of commands, events, entities, and read models. On the other hand, you don't have to worry about the tremendous amount of low-level configuration details of conventional tools. You write highly semantic code, and if it compiles, you can run it on the cloud at scale.
+Whether you're building a data ingestion pipeline for LLMs, a Slack agent swarm for your team, or a full RAG-powered assistant with real-time memory and insight — Magek gives you the primitives to do it.
 
-Magek is 100% open-source and designed with extensibility in mind. If your desired infrastructure doesn't match the existing implementations, you can easily fork and adapt them or create a new one using your infrastructure-as-code tool of preference. Magek also supports extensions (called “Rockets”) that allow users to implement additional functionalities.
+---
 
-If you want to help us to drive Magek forward or have questions, don't hesitate to create an issue or start a discussion on [GitHub](https://github.com/theam/magek)!
+## ⚡ Key Concepts
 
-# Why Magek instead of X?
+Magek applications revolve around **events**. These are facts that describe what happened in your system. From there, the rest emerges:
 
-Magek is designed to maximize developer productivity, and every framework feature is carefully thought out to put your application in production as soon as possible. The CLI helps you to get up and running quickly, and the easy-to-comprehend abstractions and the opinionated architecture make it easy to understand how to organize your code and become productive sooner.
+- **Commands** – requests from users or agents that trigger intent
+- **Events** – immutable records of what happened
+- **Entities** – long-lived state projections built from events
+- **Event Handlers** – logic that reacts to commands and events
+- **Read Models** – objects that enable an access point to query or subscribe to the system state
+- **Agents** – long-lived, autonomous workers that observe state and act accordingly, calling to commands and creating events
 
-The no-boilerplate politics goes to the extreme, as Magek understands the semantics of your code to create a fully-working GraphQL API for you, as well as an optimal serverless cloud infrastructure and database integrations. And, of course, the API and infrastructure are transparently updated when the application changes.
+---
 
-It would be easier to understand Magek capabilities by listing the things that you won’t need to implement or maintain with Magek:
+## 🧬 Ambient Agents: The Next Frontier in AI Apps
 
-* You won’t need to maintain GraphQL schemas
-* You won’t need to implement GraphQL resolvers
-* You won’t have to manage URL paths
-* You won’t have to design the API schemas
-* You won’t have to deserialize or serialize JSON objects
-* You won’t need to use DTOs
-* You won’t need to deal with ORM mappings and/or database queries
-* You won’t need to write infrastructure configuration or deployment scripts
-* You won’t need to build WebSockets for subscriptions
+Unlike synchronous chat-based agents that wait for a user to prompt before reacting, Ambient Agents operate proactively: they run continuously in the background, listening to event streams, maintaining memory over time, and triggering complex workflows when contextually relevant. They can reason asynchronously, coordinate in swarms, and handle multi-step tasks automatically—escalating to humans only when approval is needed—allowing systems to scale beyond on-demand interactions and deliver real-world intelligence without constant human prompting.
 
-All those things, and more, will be given to you by default and entirely for free, as Magek is open-source and runs in your own cloud account!
+Magek’s event-sourced architecture is a perfect match for these agents. Why?
 
-# Current state
+- They keep a **history** of what happened in the system that can be inspected or replayed to understand the context and intent
+- They **observe state changes** and react without polling
+- They have **memory and purpose**, built from event streams
+- They can run asynchronously, coordinate in swarms, or wait for specific signals or human intervention
 
-The development is community-driven; the core team actively participates in the Magek community, listening to real users and prioritizing those issues and ideas that provide the most value for the majority. So don't hesitate to create issues or start discussions on [GitHub](https://github.com/theam/magek) and tell us about your questions and ideas.
+With Magek, you can define agents that act like smart coworkers — not just API endpoints.
 
-AWS and Azure integrations are thoroughly tested, and are currently used in production in projects of all-sized organizations, from startups to massive enterprises.
+---
 
-# Choosing an Event Store
+## 🔌 Pluggable and Cloud-Agnostic
 
-Magek Framework supports multiple event store adapters to give you flexibility in choosing the right persistence solution for your application. Event stores are critical components that persist your application's events, enabling event sourcing and replay capabilities.
+Magek apps can be run in two ways: either as a **Fastify-powered Node.js server** (perfect for local development or Docker-based deployments), or deploying your app’s root functions directly to your favorite FaaS provider (no Fastify required).
 
-## Available Event Store Adapters
+All infrastructure is abstracted behind **adapters**, so you can connect to the tools and databases that make sense for your stack:
 
-### NeDB Event Store Adapter - `@magek/adapter-event-store-nedb`
+- ✅ Event Store: PostgreSQL, DynamoDB, Redis, etc.
+- ✅ Read Models: Vector Databases, SQL, NoSQL, Elasticsearch, etc.
+- ✅ Sessions & Auth: Ready to plug with any JWT-based auth system.
+- ✅ Deployment: Run anywhere Docker runs, or deploy app functions to FaaS providers without the Fastify server.
 
-**Perfect for development and testing scenarios**
+Magek gives you full control without sacrificing the developer experience.
 
-The NeDB event store adapter provides a lightweight, file-based event store implementation using [NeDB](https://github.com/seald-io/nedb), an embedded datastore for Node.js applications. This adapter is particularly well-suited for:
+---
 
-- **Local development**: Quick setup without external dependencies
-- **Testing environments**: Fast, in-memory or file-based storage for unit and integration tests
-- **Prototyping**: Rapid iteration without complex infrastructure setup
+## 🛠 Features at a Glance
 
-#### Installation
+- 🔗 **Implicit API** with GraphQL endpoints auto-generated from your code
+- 🔁 **Event-Sourced State** with CQRS separation
+- 🤖 **Asynchronous Agents** with internal memory and long-running logic
+- 🌐 **LLM & RAG integrations** with tools for embeddings, retrieval, and augmentation
+- 🕸 **Agent Swarms**: define collaborative groups of agents with roles and goals, communicating them with events.
+- 📥 **Data ingestion pipelines** and streaming interfaces
+- 📦 **Pluggable architecture** via adapters (storage, auth, vector DBs, etc.)
+- 🚀 **Docker-first** and dev-friendly (Fastify-based)
+- 📦 **Serverless-friendly** your app functions can be deployed on FaaS providers.
 
-```bash
-npm install @magek/adapter-event-store-nedb
-```
+---
 
-#### Basic Usage
+## 🚧 Roadmap Highlights
 
-```typescript
-import { Magek } from '@magek/core'
-import { eventStore } from '@magek/adapter-event-store-nedb'
+We’re building Magek in the open. Here’s what’s happening:
 
-Magek.configure('development', (config) => {
-  config.provider = {
-    events: eventStore,
-    // ... other provider configurations
-  }
-})
-```
+- ✅ Core event sourcing + CQRS engine (inherited from Booster Framework)
+- 🚧 `@magek/server`: Fastify-based runtime (local/Docker)
+- 🚧 `create-magek`: project scaffolding CLI
+- 🚧 Modular DB adapters: PostgreSQL (first), others via community
+- 🛠 LLM & RAG integrations: OpenAI, vector DBs, prompt tooling
+- 🛠 Agent framework: asynchronous execution, memory, swarming
+- 🛠 GraphQL & REST endpoints (auto-generated)
 
-#### Configuration Options
+---
 
-The NeDB adapter stores event data in the `.magek/events.json` file.
+## 🙌 Get Involved
 
-# The "Magek Way"
+Magek is **built in the open**, and we’re just getting started. Whether you're into event-driven systems, AI agents, data engineering, or building amazing dev tools — we’d love your help.
 
-Magek Framework follows the next principles:
+👀 [Star us on GitHub](https://github.com/theam/magek)  
+🐛 [Open an issue](https://github.com/theam/magek/issues) to report bugs or request features  
+💬 [Start a discussion](https://github.com/theam/magek/discussions) to help define what Magek becomes  
+🤝 [Open a PR](https://github.com/theam/magek/pulls) to shape the future of AI infrastructure
 
-* *Play nicely*: Magek is not here to replace your toolkit but to expand it. Magek's goal is to get along well with your existing auth, queues, databases, and services, providing a modern and swift tool to build new functionalities that take full advantage of the cloud. Magek is still a Node.js application that you can extend with any tool from your Node.js environment.
-* *Domain Driven Design first:* Software should be designed around business-level concepts to enhance the team's communication. All code in Magek is defined in terms of Commands, Events, Handlers, and Entities, limiting the need for artificial developer-only constructs.
-* *CQRS and Event-Sourcing:* Magek is designed around the concepts of CQRS and Event-Sourcing. This design has many advantages regarding scalability and data management. It even allows you to travel back in time!
-* *The cloud is the machine:* We believe that the developers' tools should create infrastructure transparently in the same way that a compiler hides the details of the target processor. We often think about Magek as the "TypeScript-to-Cloud compiler."
-* *True Serverless*: Serverless is about to stop caring about your servers, but many implementations still require long YAML files to describe your infrastructure, and you need to know what you're doing. True Serverless means that you don't even care about cloud configuration. Magek will figure it out for you based on the code structure you write.
-* *Convention over Configuration:* We prefer to provide standardized highly-opinionated modules than highly-configurable ones. This helps us to keep your code simple and follow the best practices when deploying your applications to the cloud. Decorating your classes with the provided semantic decorators also helps abstract most of the boilerplate code.
-* *Don't Repeat Yourself (Extreme edition):* /The only code that matters is the one that makes your application different/. We push the TypeScript structure and type system to the limit to avoid writing repetitive code, like object-to-JSON serializations, API or database schemas, or redundant architecture layers. Magek understands the semantics of your code and connects the dots.
-* *Self-documenting APIs:* We adopted GraphQL because it's a self-documenting standard. You can grab a standard GraphQL client like [ApolloClient](https://github.com/apollographql/apollo-client) and start using a Magek backend right away with no complicated integrations.
-* *Developer productivity:* Software development is fun, and a modern tool should make it even more fun, reducing the need for mundane tasks. Magek provides code generators to help you quickstart new projects and objects, and the framework types and APIs are hand-crafted to help your IDE help you.
+---
 
-# Contributing
-
-You can join the conversation and start contributing in any of the following ways:
-
-* [Create a new issue in Github](https://github.com/theam/magek/issues/new/choose)
-* [Start a discussion](https://github.com/theam/magek/discussions)
-* [Try the framework and let us know how you liked it!](https://docs.magek.ai/category/getting-started)
-
-Please refer to [`CONTRIBUTING.md`](./CONTRIBUTING.md) for more details. Pull requests are welcome. For major changes, please
-open an issue first to discuss what you would like to change.
-
-# Testing
-
-Run `rush test` to execute the unit tests across all packages. Each package's test script
-first runs `tsc --noEmit -p tsconfig.test.json` before invoking Mocha, so the suite fails
-fast if TypeScript compilation errors are detected.
-
-# License
+## 📜 License
 
 The Magek Framework is licensed under the Apache License, Version 2.0. See the [LICENSE](LICENSE) file for more details.
 
-# Resources
+---
 
-* [Website](https://magek.ai)
-* [Documentation](https://docs.magek.ai)
-* [Step-by-step guides and examples](docs/examples)
-* [Join the conversation on GitHub Discussions](https://github.com/theam/magek/discussions)
+## Resources
+
+- [Website](https://magek.ai)
+- [Documentation](https://magek.ai/docs)
+- [Join the conversation on GitHub Discussions](https://github.com/theam/magek/discussions)
+
+> “Magek” was the Guanche deity of the sun — a symbol of light and insight. We believe your backends should reflect that: continuously aware, reactive, and illuminating.

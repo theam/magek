@@ -25,7 +25,7 @@ describe('the `Entity` decorator', () => {
   })
 
   context('when no parameters are provided', () => {
-    it('injects the entity metadata and sets up the reducers in the booster config denying event reads', () => {
+    it('injects the entity metadata and sets up the reducers in the Magek config denying event reads', () => {
       @Event
       class CommentPosted {
         public constructor(readonly foo: string) {}
@@ -55,7 +55,7 @@ describe('the `Entity` decorator', () => {
   })
 
   context("when `authorizeRoleAccess` is set to 'all'", () => {
-    it('injects the entity metadata and sets up the reducers in the booster config allowing event reads', () => {
+    it('injects the entity metadata and sets up the reducers in the Magek config allowing event reads', () => {
       @Entity({
         authorizeReadEvents: 'all',
       })
@@ -71,7 +71,7 @@ describe('the `Entity` decorator', () => {
   })
 
   context('when `authorizeRoleAccess` is set to an array of roles', () => {
-    it('injects the entity metadata and sets up the reducers in the booster config allowing event reads to the specified roles', async () => {
+    it('injects the entity metadata and sets up the reducers in the Magek config allowing event reads to the specified roles', async () => {
       const fakeAuthorizeRoles = fake()
       replace(MagekAuthorizer, 'authorizeRoles', fakeAuthorizeRoles)
 
@@ -97,7 +97,7 @@ describe('the `Entity` decorator', () => {
   })
 
   context('when `authorizeRoleAccess` is set to a function', () => {
-    it('injects the entity metadata and sets up the reducers in the booster config allowing event reads to tokens that fulfill the authorizer function', async () => {
+    it('injects the entity metadata and sets up the reducers in the Magek config allowing event reads to tokens that fulfill the authorizer function', async () => {
       @Entity({
         authorizeReadEvents: (currentUser?: UserEnvelope): Promise<void> => {
           if (currentUser?.username !== 'asdf') return Promise.reject('Unauthorized')

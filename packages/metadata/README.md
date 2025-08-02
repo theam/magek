@@ -56,10 +56,10 @@ Not very helpful: we are lacking a lot of information about property names, type
 
 With this transformer, you will get much more detailed metadata for all your classes, without the need of using any decorator.
 
-Following with the previous example, you can get this detailed metadata using the key `'booster:typeinfo'`:
+Following with the previous example, you can get this detailed metadata using the key `'magek:typeinfo'`:
 
 ```typescript
-Reflect.getMetadata('booster:typeinfo', User)
+Reflect.getMetadata('magek:typeinfo', User)
 > {
     name: 'User',
     type: [Function: User],
@@ -86,7 +86,7 @@ Reflect.getMetadata('booster:typeinfo', User)
     methods: []
 }
 
-Reflect.getMetadata('booster:typeinfo', Car)
+Reflect.getMetadata('magek:typeinfo', Car)
 > {
     name: 'Car',
     type: [Function: Car],

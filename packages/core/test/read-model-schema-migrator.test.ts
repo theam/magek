@@ -63,7 +63,7 @@ describe('ReadModelSchemaMigrator', () => {
     it('throws when the schemaVersion of the concept to migrate is lower than 1', async () => {
       const toMigrate: ReadModelInterface = {
         id: 'id',
-        boosterMetadata: {
+        magekMetadata: {
           version: 0,
           schemaVersion: 0,
         },
@@ -77,7 +77,7 @@ describe('ReadModelSchemaMigrator', () => {
     it('throws when the schemaVersion of the concept to migrate is higher than the current version', async () => {
       const toMigrate: ReadModelInterface = {
         id: 'id',
-        boosterMetadata: {
+        magekMetadata: {
           version: 0,
           schemaVersion: 4,
         },
@@ -91,7 +91,7 @@ describe('ReadModelSchemaMigrator', () => {
     it('does not migrate when the received schemaVersion is the same as the current schemaVersion', async () => {
       const toMigrate: ReadModelInterface = {
         id: 'id',
-        boosterMetadata: {
+        magekMetadata: {
           version: 0,
           schemaVersion: 3,
         },
@@ -103,7 +103,7 @@ describe('ReadModelSchemaMigrator', () => {
     it('migrates when the received schemaVersion is lower than the current one', async () => {
       const toMigrate: ReadModelInterface = {
         id: 'id',
-        boosterMetadata: {
+        magekMetadata: {
           version: 0,
           schemaVersion: 1,
         },
@@ -112,7 +112,7 @@ describe('ReadModelSchemaMigrator', () => {
 
       const expected: ReadModelInterface = {
         id: 'id',
-        boosterMetadata: {
+        magekMetadata: {
           version: 0,
           schemaVersion: 3,
         },

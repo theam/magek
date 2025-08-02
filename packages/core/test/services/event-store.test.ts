@@ -1,7 +1,7 @@
  
 import { describe } from 'mocha'
 import {
-  BOOSTER_SUPER_KIND,
+  MAGEK_SUPER_KIND,
   MagekConfig,
   EntityInterface,
   EventEnvelope,
@@ -455,7 +455,7 @@ describe('EventStore', () => {
                 entityID: () => '42', // BEM events will return oldEntityId
                 entityId: 42,
                 delta: 2,
-                superKind: BOOSTER_SUPER_KIND,
+                superKind: MAGEK_SUPER_KIND,
                 newEntity: {
                   id: id,
                 },
@@ -536,7 +536,7 @@ describe('EventStore', () => {
                 entityID: () => '42', // BEM events will return oldEntityId
                 entityId: 42,
                 delta: 2 * (index + 1),
-                superKind: BOOSTER_SUPER_KIND,
+                superKind: MAGEK_SUPER_KIND,
                 newEntity: {
                   id: id,
                 },
@@ -606,7 +606,7 @@ describe('EventStore', () => {
                 entityID: () => '42', // BEM events will return oldEntityId
                 entityId: 42,
                 delta: 2,
-                superKind: BOOSTER_SUPER_KIND,
+                superKind: MAGEK_SUPER_KIND,
                 newEntity: {
                   id: id,
                 },
@@ -896,7 +896,7 @@ describe('EventStore', () => {
               },
               requestID: 'whatever',
               typeName: MagekEntityMigrated.name,
-              superKind: 'booster',
+              superKind: 'magek',
               createdAt: fakeTime.toISOString(),
             }
 
@@ -909,7 +909,7 @@ describe('EventStore', () => {
               entityID: '42',
               entityTypeName: 'newEntityName',
               typeName: 'newEntityName',
-              superKind: 'booster',
+              superKind: 'magek',
               value: {
                 id: '42',
               },

@@ -1,6 +1,6 @@
 import { ReadModelRegistry } from '../services'
 import { eventsDatabase, readModelsDatabase } from '../paths'
-import { MagekConfig, boosterLocalPort, HealthEnvelope, UUID, request } from '@magek/common'
+import { MagekConfig, localPort, HealthEnvelope, UUID, request } from '@magek/common'
 import { existsSync } from 'fs'
 import { FastifyRequest } from 'fastify'
 import Nedb from '@seald-io/nedb'
@@ -17,7 +17,7 @@ export async function countAll(database: Nedb): Promise<number> {
 
 export async function graphqlFunctionUrl(): Promise<string> {
   try {
-    const port = boosterLocalPort()
+    const port = localPort()
     return `http://localhost:${port}/graphql`
   } catch (e) {
     return ''

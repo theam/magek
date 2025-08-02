@@ -6,8 +6,8 @@ import { stub } from 'sinon'
 
 describe('the `Trace` decorator', async () => {
   afterEach(() => {
-    const booster = Magek as any
-    delete booster.config.traceConfiguration
+    const magek = Magek as any
+    delete magek.config.traceConfiguration
   })
 
   context('When a method is called', async () => {

@@ -16,7 +16,7 @@ describe('the "verifyToken" method', () => {
   const phoneNumber = faker.phone.number()
   const userId = faker.datatype.uuid()
   const config = new MagekConfig('test')
-  let boosterTokenVerifier: MagekTokenVerifier
+  let tokenVerifier: MagekTokenVerifier
 
   config.tokenVerifiers = [new JwksUriTokenVerifier(issuer, auth0VerifierUri + '.well-known/jwks.json')]
 
@@ -24,7 +24,7 @@ describe('the "verifyToken" method', () => {
 
   beforeEach(() => {
     stop = jwks.start()
-    boosterTokenVerifier = new MagekTokenVerifier(config)
+    tokenVerifier = new MagekTokenVerifier(config)
   })
 
   afterEach(() => {
@@ -60,7 +60,7 @@ describe('the "verifyToken" method', () => {
       },
     }
 
-    const user = await boosterTokenVerifier.verify(token)
+    const user = await tokenVerifier.verify(token)
 
     // Exclude the 'iat' field from claims comparison as it's automatically added by the JWT library
     const { iat, ...userClaimsWithoutIat } = user.claims as any
@@ -94,7 +94,7 @@ describe('the "verifyToken" method', () => {
       },
     }
 
-    const user = await boosterTokenVerifier.verify(token)
+    const user = await tokenVerifier.verify(token)
 
     // Exclude the 'iat' field from claims comparison as it's automatically added by the JWT library
     const { iat, ...userClaimsWithoutIat } = user.claims as any
@@ -128,7 +128,7 @@ describe('the "verifyToken" method', () => {
       },
     }
 
-    const user = await boosterTokenVerifier.verify(token)
+    const user = await tokenVerifier.verify(token)
 
     // Exclude the 'iat' field from claims comparison as it's automatically added by the JWT library
     const { iat, ...userClaimsWithoutIat } = user.claims as any
@@ -162,7 +162,7 @@ describe('the "verifyToken" method', () => {
       },
     }
 
-    const user = await boosterTokenVerifier.verify(token)
+    const user = await tokenVerifier.verify(token)
 
     // Exclude the 'iat' field from claims comparison as it's automatically added by the JWT library
     const { iat, ...userClaimsWithoutIat } = user.claims as any
@@ -180,7 +180,7 @@ describe('the "verifyToken" method', () => {
       phoneNumber,
     })
 
-    const verifyFunction = boosterTokenVerifier.verify(token)
+    const verifyFunction = tokenVerifier.verify(token)
 
     await expect(verifyFunction).to.eventually.be.rejectedWith(
       'Error: Invalid role format 123. Valid format are Array<string> or string'
@@ -196,7 +196,7 @@ describe('the "verifyToken" method', () => {
       phoneNumber,
     })
 
-    const user = boosterTokenVerifier.verify(token)
+    const user = tokenVerifier.verify(token)
 
     await expect(user).to.eventually.be.rejectedWith(
       'Error: Invalid role format 123. Valid format are Array<string> or string'
@@ -208,7 +208,7 @@ describe('the "verifyToken" method', () => {
       iss: 'firebase',
     })
 
-    const verifyFunction = boosterTokenVerifier.verify(token)
+    const verifyFunction = tokenVerifier.verify(token)
 
     await expect(verifyFunction).to.eventually.be.rejected
   })
@@ -223,7 +223,7 @@ describe('the "verifyToken" method', () => {
       exp: 0,
     })
 
-    const verifyFunction = boosterTokenVerifier.verify(token)
+    const verifyFunction = tokenVerifier.verify(token)
 
     await expect(verifyFunction).to.eventually.be.rejectedWith('jwt expired')
   })
@@ -238,7 +238,7 @@ describe('the "verifyToken" method', () => {
       nbf: Math.floor(Date.now() / 1000) + 999999,
     })
 
-    const verifyFunction = boosterTokenVerifier.verify(token)
+    const verifyFunction = tokenVerifier.verify(token)
 
     await expect(verifyFunction).to.eventually.be.rejectedWith('jwt not active')
   })

@@ -67,8 +67,8 @@ export class ReadModelSchemaMigrator {
     }
 
     const newReadModel = Object.assign(migratedValue, {
-      boosterMetadata: {
-        ...oldReadModel.boosterMetadata,
+      magekMetadata: {
+        ...oldReadModel.magekMetadata,
         schemaVersion: currentVersion,
       },
     })
@@ -99,6 +99,6 @@ export class ReadModelSchemaMigrator {
   }
 
   private static readModelSchemaVersion(readModel: ReadModelInterface): number {
-    return readModel.boosterMetadata?.schemaVersion ?? 1
+    return readModel.magekMetadata?.schemaVersion ?? 1
   }
 }

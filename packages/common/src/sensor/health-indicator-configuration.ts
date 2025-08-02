@@ -23,44 +23,44 @@ export interface HealthIndicatorsResult extends HealthIndicatorResult {
   components?: Array<HealthIndicatorsResult>
 }
 
-export enum BOOSTER_HEALTH_INDICATORS_IDS {
-  ROOT = 'booster',
-  FUNCTION = 'booster/function',
-  DATABASE = 'booster/database',
-  DATABASE_EVENTS = 'booster/database/events',
-  DATABASE_READ_MODELS = 'booster/database/readmodels',
+export enum HEALTH_INDICATORS_IDS {
+  ROOT = 'magek',
+  FUNCTION = 'magek/function',
+  DATABASE = 'magek/database',
+  DATABASE_EVENTS = 'magek/database/events',
+  DATABASE_READ_MODELS = 'magek/database/readmodels',
   ROCKETS = 'rockets',
 }
 
-export const DEFAULT_HEALTH_CONFIGURATION_BOOSTER: SensorMagekHealthConfigurationDetails = {
+export const DEFAULT_HEALTH_CONFIGURATION: SensorMagekHealthConfigurationDetails = {
   enabled: false,
   details: true,
   showChildren: true,
 }
 
-export const DEFAULT_SENSOR_HEALTH_BOOSTER_CONFIGURATIONS: Record<
-  BOOSTER_HEALTH_INDICATORS_IDS,
+export const DEFAULT_SENSOR_HEALTH_CONFIGURATIONS: Record<
+  HEALTH_INDICATORS_IDS,
   SensorMagekHealthConfigurationDetails
 > = {
-  [BOOSTER_HEALTH_INDICATORS_IDS.ROOT]: { ...DEFAULT_HEALTH_CONFIGURATION_BOOSTER },
-  [BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION]: { ...DEFAULT_HEALTH_CONFIGURATION_BOOSTER },
-  [BOOSTER_HEALTH_INDICATORS_IDS.DATABASE]: { ...DEFAULT_HEALTH_CONFIGURATION_BOOSTER },
-  [BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS]: { ...DEFAULT_HEALTH_CONFIGURATION_BOOSTER },
-  [BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS]: { ...DEFAULT_HEALTH_CONFIGURATION_BOOSTER },
-  [BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS]: { ...DEFAULT_HEALTH_CONFIGURATION_BOOSTER },
+  [HEALTH_INDICATORS_IDS.ROOT]: { ...DEFAULT_HEALTH_CONFIGURATION },
+  [HEALTH_INDICATORS_IDS.FUNCTION]: { ...DEFAULT_HEALTH_CONFIGURATION },
+  [HEALTH_INDICATORS_IDS.DATABASE]: { ...DEFAULT_HEALTH_CONFIGURATION },
+  [HEALTH_INDICATORS_IDS.DATABASE_EVENTS]: { ...DEFAULT_HEALTH_CONFIGURATION },
+  [HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS]: { ...DEFAULT_HEALTH_CONFIGURATION },
+  [HEALTH_INDICATORS_IDS.ROCKETS]: { ...DEFAULT_HEALTH_CONFIGURATION },
 }
 
 export type SensorMagekHealthConfigurationDetails = HealthIndicatorConfigurationBase
 
 export interface SensorMagekHealthConfiguration {
   globalAuthorizer: HealthRoleAccess
-  booster: {
-    [BOOSTER_HEALTH_INDICATORS_IDS.ROOT]: SensorMagekHealthConfigurationDetails
-    [BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION]: SensorMagekHealthConfigurationDetails
-    [BOOSTER_HEALTH_INDICATORS_IDS.DATABASE]: SensorMagekHealthConfigurationDetails
-    [BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS]: SensorMagekHealthConfigurationDetails
-    [BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS]: SensorMagekHealthConfigurationDetails
-    [BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS]: SensorMagekHealthConfigurationDetails
+  magek: {
+    [HEALTH_INDICATORS_IDS.ROOT]: SensorMagekHealthConfigurationDetails
+    [HEALTH_INDICATORS_IDS.FUNCTION]: SensorMagekHealthConfigurationDetails
+    [HEALTH_INDICATORS_IDS.DATABASE]: SensorMagekHealthConfigurationDetails
+    [HEALTH_INDICATORS_IDS.DATABASE_EVENTS]: SensorMagekHealthConfigurationDetails
+    [HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS]: SensorMagekHealthConfigurationDetails
+    [HEALTH_INDICATORS_IDS.ROCKETS]: SensorMagekHealthConfigurationDetails
   }
 }
 

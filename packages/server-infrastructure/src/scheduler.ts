@@ -7,7 +7,7 @@ interface ScheduledCommandInfo {
 }
 
 export function configureScheduler(config: MagekConfig, userProject: any): void {
-  const triggerScheduleCommand = userProject['boosterTriggerScheduledCommand']
+  const triggerScheduleCommand = userProject['triggerScheduledCommand']
   Object.keys(config.scheduledCommandHandlers)
     .map((scheduledCommandName) => buildScheduledCommandInfo(config, scheduledCommandName))
     .filter((scheduledCommandInfo) => scheduledCommandInfo.metadata.scheduledOn)

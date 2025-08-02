@@ -2,7 +2,7 @@ import { AnyClass } from '@magek/common'
 import { ClassMetadata, getMetadata } from '@magek/metadata'
 
 export function getClassMetadata(classType: AnyClass): ClassMetadata {
-  const meta = getMetadata<ClassMetadata>('booster:typeinfo', classType as object)
+  const meta = getMetadata<ClassMetadata>('magek:typeinfo', classType as object)
   if (!meta) {
     throw Error(`Couldn't get proper metadata information of ${classType.name}`)
   }
@@ -19,7 +19,7 @@ export function getClassMetadata(classType: AnyClass): ClassMetadata {
  * @param {Function} func - The function to parse.
  * @returns {Array} arg - List of arguments in the function.
  */
-// TODO: Consider extending `metadata-booster` to yield constructor argument types
+// TODO: Consider extending `@magek/metadata` to yield constructor argument types
  
 export function getFunctionArguments(func: Function): Array<string> {
   // First match everything inside the function argument parens.

@@ -5,17 +5,17 @@
   "author": "{{author}}",
   "dependencies": {
     "tslib": "2.4.0",
-    "@magek/core": "{{boosterVersion}}",
-    "@magek/common": "{{boosterVersion}}",
-    "@magek/cli": "{{boosterVersion}}",
-    "@magek/adapter-event-store-nedb": "{{boosterVersion}}",
-    "{{providerPackageName}}": "{{boosterVersion}}"
+    "@magek/core": "{{magekVersion}}",
+    "@magek/common": "{{magekVersion}}",
+    "@magek/cli": "{{magekVersion}}",
+    "@magek/adapter-event-store-nedb": "{{magekVersion}}",
+    "{{providerPackageName}}": "{{magekVersion}}"
   },
   "devDependencies": {
-    "@magek/server": "{{boosterVersion}}",
-    "@magek/server-infrastructure": "{{boosterVersion}}",
-    "@magek/metadata": "{{boosterVersion}}",
-    "{{providerPackageName}}-infrastructure": "{{boosterVersion}}",
+    "@magek/server": "{{magekVersion}}",
+    "@magek/server-infrastructure": "{{magekVersion}}",
+    "@magek/metadata": "{{magekVersion}}",
+    "{{providerPackageName}}-infrastructure": "{{magekVersion}}",
     "rimraf": "5.0.0",
     "@magek/eslint-config": "${VERSION}",
     "mocha": "11.7.1",

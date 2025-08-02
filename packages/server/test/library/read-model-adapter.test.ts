@@ -528,7 +528,7 @@ describe('read-models-adapter', () => {
         age: faker.datatype.number(40),
         foo: faker.lorem.word(),
         bar: faker.datatype.float(),
-        boosterMetadata: {
+        magekMetadata: {
           version: 1,
           schemaVersion: 1,
         },

@@ -1,5 +1,5 @@
 import {
-  BOOSTER_HEALTH_INDICATORS_IDS,
+  HEALTH_INDICATORS_IDS,
   MagekConfig,
   HealthAuthorizer,
   HealthEnvelope,
@@ -120,7 +120,7 @@ export class MagekHealthService {
 
     // Special handling for rockets - always use the root rockets provider
     if (componentPath.startsWith('rockets/')) {
-      const rocketsProvider = healthProviders[BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS]
+      const rocketsProvider = healthProviders[HEALTH_INDICATORS_IDS.ROCKETS]
       if (!rocketsProvider) {
         throw new Error('Rockets health provider not found')
       }
@@ -141,18 +141,18 @@ export class MagekHealthService {
   }
 
   private async verify(envelope: HealthEnvelope): Promise<UserEnvelope | undefined> {
-    const boosterTokenVerifier = new MagekTokenVerifier(this.config)
+    const tokenVerifier = new MagekTokenVerifier(this.config)
     const token = envelope.token
     if (!token) {
       return
     }
-    return await boosterTokenVerifier.verify(token)
+    return await tokenVerifier.verify(token)
   }
 
   private isOverallHealthy(results: Array<HealthIndicatorsResult>): boolean {
     for (const result of results) {
       // Special case: UNKNOWN status for rockets is considered healthy
-      if (result.id === BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS && result.status === HealthStatus.UNKNOWN) {
+      if (result.id === HEALTH_INDICATORS_IDS.ROCKETS && result.status === HealthStatus.UNKNOWN) {
         continue
       }
 

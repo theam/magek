@@ -31,9 +31,9 @@ describe('the `GlobalErrorHandler` decorator', () => {
     class ErrorHandler {}
 
     // Make Magek be of any type to access private members
-    const booster = Magek as any
+    const magek = Magek as any
 
-    expect(booster.config.globalErrorsHandler.class).to.be.eq(ErrorHandler)
+    expect(magek.config.globalErrorsHandler.class).to.be.eq(ErrorHandler)
   })
 
   it('adds the error handler class as an error handler in the Magek configuration with expected methods', () => {
@@ -87,8 +87,8 @@ describe('the `GlobalErrorHandler` decorator', () => {
     }
 
     // Make Magek be of any type to access private members
-    const booster = Magek as any
+    const magek = Magek as any
 
-    expect(booster.config.globalErrorsHandler.class).to.be.eq(ErrorHandler)
+    expect(magek.config.globalErrorsHandler.class).to.be.eq(ErrorHandler)
   })
 })

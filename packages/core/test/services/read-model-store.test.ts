@@ -278,7 +278,7 @@ describe('ReadModelStore', () => {
           id: 'joinColumnID',
           kind: 'some',
           count: 123,
-          boosterMetadata: {
+          magekMetadata: {
             version: 1,
             schemaVersion: 1,
             lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -295,7 +295,7 @@ describe('ReadModelStore', () => {
           id: 'joinColumnID',
           kind: 'another',
           count: 123,
-          boosterMetadata: {
+          magekMetadata: {
             version: 1,
             schemaVersion: 1,
             lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -315,7 +315,7 @@ describe('ReadModelStore', () => {
             id: 'joinColumnID',
             kind: 'some',
             count: 123,
-            boosterMetadata: {
+            magekMetadata: {
               version: 1,
               schemaVersion: 1,
               lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -336,7 +336,7 @@ describe('ReadModelStore', () => {
             id: 'joinColumnID',
             kind: 'another',
             count: 123,
-            boosterMetadata: {
+            magekMetadata: {
               version: 1,
               schemaVersion: 1,
               lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -377,7 +377,7 @@ describe('ReadModelStore', () => {
                 id: 'joinColumnID',
                 kind: 'some',
                 count: 77,
-                boosterMetadata: {
+                magekMetadata: {
                   version: someReadModelStoredVersion,
                   schemaVersion: 1,
                   lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -396,7 +396,7 @@ describe('ReadModelStore', () => {
                 id: 'joinColumnID',
                 kind: 'another',
                 count: 177,
-                boosterMetadata: {
+                magekMetadata: {
                   version: anotherReadModelStoredVersion,
                   schemaVersion: 1,
                   lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -424,7 +424,7 @@ describe('ReadModelStore', () => {
             id: 'joinColumnID',
             count: 77,
             kind: 'some',
-            boosterMetadata: {
+            magekMetadata: {
               version: someReadModelStoredVersion,
               lastUpdateAt: '1970-01-01T00:00:00.000Z',
               lastProjectionInfo: {
@@ -440,7 +440,7 @@ describe('ReadModelStore', () => {
           id: 'joinColumnID',
           kind: 'some',
           count: 200,
-          boosterMetadata: {
+          magekMetadata: {
             version: someReadModelStoredVersion + 1,
             schemaVersion: 1,
             lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -458,7 +458,7 @@ describe('ReadModelStore', () => {
             id: 'joinColumnID',
             count: 177,
             kind: 'another',
-            boosterMetadata: {
+            magekMetadata: {
               version: anotherReadModelStoredVersion,
               lastUpdateAt: '1970-01-01T00:00:00.000Z',
               lastProjectionInfo: {
@@ -474,7 +474,7 @@ describe('ReadModelStore', () => {
           id: 'joinColumnID',
           kind: 'another',
           count: 300,
-          boosterMetadata: {
+          magekMetadata: {
             version: anotherReadModelStoredVersion + 1,
             schemaVersion: 1,
             lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -494,7 +494,7 @@ describe('ReadModelStore', () => {
             id: 'joinColumnID',
             kind: 'some',
             count: 200,
-            boosterMetadata: {
+            magekMetadata: {
               version: someReadModelStoredVersion + 1,
               schemaVersion: 1,
               lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -515,7 +515,7 @@ describe('ReadModelStore', () => {
             id: 'joinColumnID',
             kind: 'another',
             count: 300,
-            boosterMetadata: {
+            magekMetadata: {
               version: anotherReadModelStoredVersion + 1,
               schemaVersion: 1,
               lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -592,7 +592,7 @@ describe('ReadModelStore', () => {
               id: 'joinColumnID',
               kind: 'some',
               count: 123,
-              boosterMetadata: {
+              magekMetadata: {
                 version: 1,
                 schemaVersion: 1,
                 lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -633,7 +633,7 @@ describe('ReadModelStore', () => {
               id: 'joinColumnID',
               kind: 'some',
               count: 77,
-              boosterMetadata: {
+              magekMetadata: {
                 version: someReadModelStoredVersion,
                 lastUpdateAt: '1970-01-01T00:00:00.000Z',
                 lastProjectionInfo: {
@@ -665,7 +665,7 @@ describe('ReadModelStore', () => {
             id: 'joinColumnID',
             kind: 'some',
             count: 77,
-            boosterMetadata: match.object
+            magekMetadata: match.object
           })
         )
         
@@ -684,7 +684,7 @@ describe('ReadModelStore', () => {
             id: 'joinColumnID',
             kind: 'some',
             count: 200,
-            boosterMetadata: {
+            magekMetadata: {
               version: someReadModelStoredVersion + 1,
               schemaVersion: 1,
               lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -705,7 +705,7 @@ describe('ReadModelStore', () => {
             id: 'anotherJoinColumnID',
             kind: 'some',
             count: 123,
-            boosterMetadata: {
+            magekMetadata: {
               version: 1,
               schemaVersion: 1,
               lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -766,7 +766,7 @@ describe('ReadModelStore', () => {
                 id: 'joinColumnID',
                 kind: 'some',
                 count: 123,
-                boosterMetadata: {
+                magekMetadata: {
                   version: 1,
                   schemaVersion: 1,
                   lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -791,7 +791,7 @@ describe('ReadModelStore', () => {
                 id: 'anotherJoinColumnID',
                 kind: 'some',
                 count: 123,
-                boosterMetadata: {
+                magekMetadata: {
                   version: 1,
                   schemaVersion: 1,
                   lastUpdateAt: '1970-01-01T00:00:00.000Z',

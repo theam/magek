@@ -1,0 +1,12 @@
+# Framework packages
+The framework is already splitted into different packages:
+
+## Framework Core
+
+The `framework-core` package includes the most important components of the framework abstraction. It can be seen as skeleton or the main architecture of the framework.
+
+The package defines the specification of how should a Magek application work without taking into account the specific providers that could be used. Every Magek provider package is based on the components that the framework core needs in order to work on the platform.
+
+## Common
+
+The `common` package includes the types that define the domain of the Magek framework. It defines domain concepts like an `Event`, a `Command` or a `Role`.

@@ -58,7 +58,7 @@ export async function buildFastifyServer(
   if (!globalWebSocketRegistry) {
     globalWebSocketRegistry = new WebSocketRegistry()
     // Set global registry for access from server package
-    ;(global as any).boosterWebSocketRegistry = globalWebSocketRegistry
+    ;(global as any).webSocketRegistry = globalWebSocketRegistry
   }
 
   // Register plugins
@@ -229,7 +229,7 @@ export const Infrastructure = (rocketDescriptors?: RocketDescriptor[]): Provider
       globalWebSocketRegistry = new WebSocketRegistry()
 
       // Set global registry for access from server package
-      ;(global as any).boosterWebSocketRegistry = globalWebSocketRegistry
+      ;(global as any).webSocketRegistry = globalWebSocketRegistry
 
       const fastify = Fastify({
         serverFactory(handler, opts) {

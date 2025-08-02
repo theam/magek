@@ -17,7 +17,7 @@ export async function eventSearch(
 }
 
 function createEventValueInstance(config: MagekConfig, event: EventSearchResponse): EventSearchResponse {
-  const logger = getLogger(config, 'booster-event-search#createEventValueInstance')
+  const logger = getLogger(config, 'magek-event-search#createEventValueInstance')
   const eventMetadata: EventMetadata = config.events[event.type]
   if (eventMetadata) {
     event.value = createInstance(eventMetadata.class, event.value)

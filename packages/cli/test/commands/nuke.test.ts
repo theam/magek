@@ -184,7 +184,7 @@ describe('nuke', () => {
 
     describe('inside a Magek project', () => {
       it('entering correct environment and application name', async () => {
-        replace(Prompter.prototype, 'defaultOrPrompt', fake.resolves('new-booster-app'))
+        replace(Prompter.prototype, 'defaultOrPrompt', fake.resolves('new-magek-app'))
         const config = await Config.load()
         await new Nuke.default(['-e', 'fake_environment'], config).run()
 
