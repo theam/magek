@@ -1,5 +1,5 @@
 import {
-  BoosterConfig,
+  MagekConfig,
   EventType,
   GraphQLClientMessage,
   GraphQLOperation,
@@ -7,7 +7,7 @@ import {
   GraphQLRequestEnvelopeError,
   UUID,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { FastifyRequest } from 'fastify'
 
 export interface WebSocketMessage {
@@ -20,7 +20,7 @@ export interface WebSocketMessage {
 }
 
 export async function rawGraphQLRequestToEnvelope(
-  config: BoosterConfig,
+  config: MagekConfig,
   request: FastifyRequest | WebSocketMessage
 ): Promise<GraphQLRequestEnvelope | GraphQLRequestEnvelopeError> {
   const requestID = UUID.generate()
@@ -30,7 +30,7 @@ export async function rawGraphQLRequestToEnvelope(
 }
 
 function webSocketMessageToEnvelope(
-  config: BoosterConfig,
+  config: MagekConfig,
   webSocketRequest: WebSocketMessage,
   requestID: UUID
 ): GraphQLRequestEnvelope | GraphQLRequestEnvelopeError {
@@ -76,7 +76,7 @@ function webSocketMessageToEnvelope(
 }
 
 function httpMessageToEnvelope(
-  config: BoosterConfig,
+  config: MagekConfig,
   httpRequest: FastifyRequest,
   requestId: UUID
 ): GraphQLRequestEnvelope | GraphQLRequestEnvelopeError {

@@ -18,8 +18,8 @@ import {
 } from 'graphql'
 import { faker } from '@faker-js/faker'
 import { GraphQLJSON } from 'graphql-scalars'
-import { AnyClass, BoosterConfig, QueryMetadata } from '@booster-ai/common'
-import { ClassMetadata } from '@booster-ai/metadata'
+import { AnyClass, MagekConfig, QueryMetadata } from '@magek/common'
+import { ClassMetadata } from '@magek/metadata'
 import * as metadata from '../../../src/decorators/metadata'
 
 describe('GraphQLQueryGenerator', () => {
@@ -28,7 +28,7 @@ describe('GraphQLQueryGenerator', () => {
   })
 
   describe('the `generate` public method', () => {
-    const simpleConfig = new BoosterConfig('test')
+    const simpleConfig = new MagekConfig('test')
 
     context('black box tests', () => {
       let mockGraphQLType: any
@@ -469,7 +469,7 @@ describe('GraphQLQueryGenerator', () => {
         let mockTargetTypeClass: BooleanConstructor
 
         beforeEach(() => {
-          const configWithEventsAndEntities = new BoosterConfig('test')
+          const configWithEventsAndEntities = new MagekConfig('test')
           for (const entityName of entityNames) {
             configWithEventsAndEntities.entities[entityName] = {} as never
           }

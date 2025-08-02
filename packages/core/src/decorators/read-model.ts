@@ -4,11 +4,11 @@ import {
   ReadModelFilterHooks,
   ReadModelInterface,
   ReadModelRoleAccess,
-} from '@booster-ai/common'
-import { Booster } from '../booster'
-import { BoosterAuthorizer } from '../booster-authorizer'
+} from '@magek/common'
+import { Magek } from '../magek'
+import { MagekAuthorizer } from '../authorizer'
 import { getClassMetadata } from './metadata'
-import { getMetadata, defineMetadata } from '@booster-ai/metadata'
+import { getMetadata, defineMetadata } from '@magek/metadata'
 
 /**
  * Decorator to register a class as a ReadModel
@@ -18,13 +18,13 @@ export function ReadModel(
   attributes: ReadModelRoleAccess & ReadModelFilterHooks
 ): (readModelClass: Class<ReadModelInterface>, context?: ClassDecoratorContext) => void {
   return (readModelClass) => {
-    Booster.configureCurrentEnv((config): void => {
+    Magek.configureCurrentEnv((config): void => {
       if (config.readModels[readModelClass.name]) {
         throw new Error(`A read model called ${readModelClass.name} is already registered.
         If you think that this is an error, try performing a clean build.`)
       }
 
-      const authorizer = BoosterAuthorizer.build(attributes) as ReadModelAuthorizer
+      const authorizer = MagekAuthorizer.build(attributes) as ReadModelAuthorizer
       const classMetadata = getClassMetadata(readModelClass)
       const dynamicDependencies =
         getMetadata<Record<string, string[]>>('dynamic:dependencies', readModelClass as object) || {}

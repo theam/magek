@@ -1,21 +1,21 @@
 import {
-  BOOSTER_HEALTH_INDICATORS_IDS,
-  BoosterConfig,
+  HEALTH_INDICATORS_IDS,
+  MagekConfig,
   HealthIndicatorMetadata,
   HealthIndicatorsResult,
   HealthStatus,
-} from '@booster-ai/common'
+} from '@magek/common'
 
 export class RocketsHealthIndicator {
   public async health(
-    config: BoosterConfig,
+    config: MagekConfig,
     healthIndicatorMetadata: HealthIndicatorMetadata
   ): Promise<HealthIndicatorsResult> {
     const results = await config.provider.sensor.areRocketFunctionsUp(config)
     if (Object.keys(results).length === 0) {
       return {
         name: 'Rockets',
-        id: BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS,
+        id: HEALTH_INDICATORS_IDS.ROCKETS,
         status: HealthStatus.UNKNOWN,
         details: {
           reason: 'No Rockets found',
@@ -34,7 +34,7 @@ export class RocketsHealthIndicator {
       }
       return {
         name: rocketName,
-        id: `${BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS}/${rocketName}`,
+        id: `${HEALTH_INDICATORS_IDS.ROCKETS}/${rocketName}`,
         status: rocketStatus ? HealthStatus.UP : HealthStatus.DOWN,
       }
     }
@@ -42,12 +42,12 @@ export class RocketsHealthIndicator {
     // return all rockets status
     return {
       name: 'Rockets',
-      id: BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS,
+      id: HEALTH_INDICATORS_IDS.ROCKETS,
       status: this.getOverAllHealthStatus(results),
       components: Object.entries(results).map(([rocketName, status]) => {
         return {
           name: rocketName,
-          id: `${BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS}/${rocketName}`,
+          id: `${HEALTH_INDICATORS_IDS.ROCKETS}/${rocketName}`,
           status: status ? HealthStatus.UP : HealthStatus.DOWN,
         }
       }),

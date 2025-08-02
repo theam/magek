@@ -1,5 +1,5 @@
 import { restore, SinonStub, SinonStubbedInstance, createStubInstance, stub, replace } from 'sinon'
-import { GraphQLService } from '@booster-ai/server'
+import { GraphQLService } from '@magek/server'
 import { GraphQLController } from '../../src/controllers/graphql'
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { expect } from '../expect'

@@ -1,5 +1,5 @@
 {
-  "name": "@booster-ai/eslint-config",
+  "name": "@magek/eslint-config",
   "version": "0.0.1",
   "description": "Shared eslint rules",
   "main": "index.js",

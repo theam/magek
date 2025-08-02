@@ -1,16 +1,16 @@
-import { BoosterConfig, EventEnvelope, UUID, getLogger } from '@booster-ai/common'
+import { MagekConfig, EventEnvelope, UUID, getLogger } from '@magek/common'
 
 export type EventsStreamingCallback = (
   entityName: string,
   entityID: UUID,
   eventEnvelopes: Array<EventEnvelope>,
-  config: BoosterConfig
+  config: MagekConfig
 ) => Promise<void>
 type EnvelopesPerEntity = Record<string, Array<EventEnvelope>>
 
 export class RawEventsParser {
   public static async streamPerEntityEvents(
-    config: BoosterConfig,
+    config: MagekConfig,
     eventEnvelopes: Array<EventEnvelope>,
     callbackFn: EventsStreamingCallback
   ): Promise<void> {

@@ -19,7 +19,7 @@ const extractEnvironmentArg = (): string | undefined => {
 
 const hook: Hook<'command_not_found'> = async function (opts) {
   // ensure opts.argv is argv without the environment
-  process.env['BOOSTER_CLI_HOOK'] = 'true'
+  process.env['MAGEK_CLI_HOOK'] = 'true'
   if (opts.id === '-e') {
     opts.id = ''
     opts.argv = ['-e', ...(opts.argv ?? [])]

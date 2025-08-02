@@ -3,7 +3,7 @@ import BaseCommand from '../../common/base-command'
 import { Script } from '../../common/script'
 import Brand from '../../common/brand'
 import { createStubsFolder, publishStubFiles, checkStubsFolderExists } from '../../services/stub-publisher'
-import { checkCurrentDirIsABoosterProject } from '../../services/project-checker'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker'
 import Prompter from '../../services/user-prompt'
 
 export default class Publish extends BaseCommand {
@@ -45,7 +45,7 @@ export default class Publish extends BaseCommand {
 
 const run = async (): Promise<void> =>
   Script.init(`boost ${Brand.energize('stub:publish')} 🗄`, Promise.resolve(process.cwd()))
-    .step('Verifying project', checkCurrentDirIsABoosterProject)
+    .step('Verifying project', checkCurrentDirIsAMagekProject)
     .step('Publishing stubs', publishStubFiles)
     .info('Resource template stubs published!')
     .done()

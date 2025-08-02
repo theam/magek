@@ -1,4 +1,4 @@
-import { DecodedToken } from '@booster-ai/common'
+import { DecodedToken } from '@magek/common'
 import {
   DEFAULT_ROLES_CLAIM,
   RoleBasedTokenVerifier,

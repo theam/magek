@@ -25,16 +25,16 @@ import { SessionStoreAdapter } from './session-store-adapter'
 import { Level } from './logger'
 import * as path from 'path'
 import { RocketDescriptor, RocketFunction } from './rockets'
-import { DEFAULT_SENSOR_HEALTH_BOOSTER_CONFIGURATIONS, HealthIndicatorMetadata, Logger, SensorConfiguration } from '.'
+import { DEFAULT_SENSOR_HEALTH_CONFIGURATIONS, HealthIndicatorMetadata, Logger, SensorConfiguration } from '.'
 import { TraceConfiguration } from './instrumentation/trace-types'
 import { AzureConfiguration, DEFAULT_CHUNK_SIZE } from './provider/azure-configuration'
 import { Context } from 'effect'
 
 /**
  * Class used by external packages that needs to get a representation of
- * the booster config. Used mainly for vendor-specific deployment packages
+ * the Magek config. Used mainly for vendor-specific deployment packages
  */
-export class BoosterConfig {
+export class MagekConfig {
   public logLevel: Level = Level.debug
   public logPrefix?: string
   public logger?: Logger
@@ -46,7 +46,7 @@ export class BoosterConfig {
 
   public rockets?: Array<RocketDescriptor>
 
-  public appName = 'new-booster-app'
+  public appName = 'new-magek-app'
 
   public assets?: Array<string>
 
@@ -65,17 +65,17 @@ export class BoosterConfig {
 
   public readonly codeRelativePath: string = 'dist'
 
-  public readonly eventDispatcherHandler: string = path.join(this.codeRelativePath, 'index.boosterEventDispatcher')
-  public readonly eventStreamConsumer: string = path.join(this.codeRelativePath, 'index.boosterConsumeEventStream')
-  public readonly eventStreamProducer: string = path.join(this.codeRelativePath, 'index.boosterProduceEventStream')
-  public readonly serveGraphQLHandler: string = path.join(this.codeRelativePath, 'index.boosterServeGraphQL')
-  public readonly sensorHealthHandler: string = path.join(this.codeRelativePath, 'index.boosterHealth')
+  public readonly eventDispatcherHandler: string = path.join(this.codeRelativePath, 'index.eventDispatcher')
+  public readonly eventStreamConsumer: string = path.join(this.codeRelativePath, 'index.consumeEventStream')
+  public readonly eventStreamProducer: string = path.join(this.codeRelativePath, 'index.produceEventStream')
+  public readonly serveGraphQLHandler: string = path.join(this.codeRelativePath, 'index.graphQLDispatcher')
+  public readonly sensorHealthHandler: string = path.join(this.codeRelativePath, 'index.health')
   public readonly scheduledTaskHandler: string = path.join(
     this.codeRelativePath,
-    'index.boosterTriggerScheduledCommand'
+    'index.triggerScheduledCommand'
   )
-  public readonly notifySubscribersHandler: string = path.join(this.codeRelativePath, 'index.boosterNotifySubscribers')
-  public readonly rocketDispatcherHandler: string = path.join(this.codeRelativePath, 'index.boosterRocketDispatcher')
+  public readonly notifySubscribersHandler: string = path.join(this.codeRelativePath, 'index.notifySubscribers')
+  public readonly rocketDispatcherHandler: string = path.join(this.codeRelativePath, 'index.rocketDispatcher')
 
   public readonly functionRelativePath: string = path.join('..', this.codeRelativePath, 'index.js')
 
@@ -103,7 +103,7 @@ export class BoosterConfig {
       globalAuthorizer: {
         authorize: 'all',
       },
-      booster: DEFAULT_SENSOR_HEALTH_BOOSTER_CONFIGURATIONS,
+      magek: DEFAULT_SENSOR_HEALTH_CONFIGURATIONS,
     },
   }
   public readonly azureConfiguration: AzureConfiguration = {
@@ -167,7 +167,7 @@ export class BoosterConfig {
       eventsDedup: applicationStackName + '-events-dedup',
       subscriptionsStore: applicationStackName + '-subscriptions-store',
       connectionsStore: applicationStackName + '-connections-store',
-      streamTopic: this.eventStreamConfiguration.parameters?.streamTopic ?? 'booster_events',
+      streamTopic: this.eventStreamConfiguration.parameters?.streamTopic ?? 'magek_events',
       forReadModel(readModelName: string): string {
         return applicationStackName + '-' + readModelName
       },
@@ -217,7 +217,7 @@ export class BoosterConfig {
 
   public get userProjectRootPath(): string {
     if (!this._userProjectRootPath)
-      throw new Error('Property "userProjectRootPath" is not set. Ensure you have called "Booster.start"')
+      throw new Error('Property "userProjectRootPath" is not set. Ensure you have called "Magek.start"')
     return this._userProjectRootPath
   }
 
@@ -276,7 +276,7 @@ export class BoosterConfig {
   }
 }
 
-export const BoosterConfigTag = Context.GenericTag<BoosterConfig>('BoosterConfig')
+export const MagekConfigTag = Context.GenericTag<MagekConfig>('MagekConfig')
 
 interface ResourceNames {
   applicationStack: string

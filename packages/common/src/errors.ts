@@ -1,6 +1,6 @@
 import { EntityInterface, EventInterface } from './concepts'
 
-export class BoosterError extends Error {
+export class MagekError extends Error {
   readonly code: string
   constructor(
     message: string,
@@ -12,17 +12,17 @@ export class BoosterError extends Error {
   }
 }
 
-export class InvalidParameterError extends BoosterError {}
-export class InvalidProtocolError extends BoosterError {}
-export class NotAuthorizedError extends BoosterError {}
-export class BoosterTokenExpiredError extends BoosterError {}
-export class BoosterTokenNotBeforeError extends BoosterError {}
-export class NotFoundError extends BoosterError {}
-export class InvalidVersionError extends BoosterError {}
-export class OptimisticConcurrencyUnexpectedVersionError extends BoosterError {}
+export class InvalidParameterError extends MagekError {}
+export class InvalidProtocolError extends MagekError {}
+export class NotAuthorizedError extends MagekError {}
+export class MagekTokenExpiredError extends MagekError {}
+export class MagekTokenNotBeforeError extends MagekError {}
+export class NotFoundError extends MagekError {}
+export class InvalidVersionError extends MagekError {}
+export class OptimisticConcurrencyUnexpectedVersionError extends MagekError {}
 
-export class InvalidEventError extends BoosterError {}
-export class InvalidReducerError extends BoosterError {
+export class InvalidEventError extends MagekError {}
+export class InvalidReducerError extends MagekError {
   readonly eventInstance: EventInterface
   readonly snapshotInstance: EntityInterface | null
 
@@ -38,8 +38,8 @@ export function httpStatusCodeFor(error: Error): number {
     [InvalidParameterError.name]: 400,
     [InvalidProtocolError.name]: 400,
     [NotAuthorizedError.name]: 401,
-    [BoosterTokenExpiredError.name]: 401,
-    [BoosterTokenNotBeforeError.name]: 401,
+    [MagekTokenExpiredError.name]: 401,
+    [MagekTokenNotBeforeError.name]: 401,
     [NotFoundError.name]: 404,
     [InvalidVersionError.name]: 422,
   }

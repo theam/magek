@@ -1,15 +1,15 @@
 import {
-  BoosterConfig,
+  MagekConfig,
   InvalidVersionError,
   SchemaMigrationMetadata,
   ReadModelInterface,
   TraceActionTypes,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { Trace } from './instrumentation'
 
 export class ReadModelSchemaMigrator {
-  public constructor(private config: BoosterConfig) {}
+  public constructor(private config: MagekConfig) {}
 
   /**
    * **NOTE:** Read model schema migration is deprecated. Prefer data migration.
@@ -67,8 +67,8 @@ export class ReadModelSchemaMigrator {
     }
 
     const newReadModel = Object.assign(migratedValue, {
-      boosterMetadata: {
-        ...oldReadModel.boosterMetadata,
+      magekMetadata: {
+        ...oldReadModel.magekMetadata,
         schemaVersion: currentVersion,
       },
     })
@@ -99,6 +99,6 @@ export class ReadModelSchemaMigrator {
   }
 
   private static readModelSchemaVersion(readModel: ReadModelInterface): number {
-    return readModel.boosterMetadata?.schemaVersion ?? 1
+    return readModel.magekMetadata?.schemaVersion ?? 1
   }
 }

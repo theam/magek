@@ -1,7 +1,7 @@
 import { expect } from '../expect'
 import { fancy } from 'fancy-test'
 import { restore, fake, replace } from 'sinon'
-import { ProviderLibrary, BoosterConfig } from '@booster-ai/common'
+import { ProviderLibrary, MagekConfig } from '@magek/common'
 import { runCommand } from '@oclif/test'
 import * as Deploy from '../../src/commands/deploy'
 import * as providerService from '../../src/services/provider-service'
@@ -22,7 +22,7 @@ const TestPackageManager = makeTestPackageManager()
 
 describe('deploy', () => {
   beforeEach(() => {
-    delete process.env.BOOSTER_ENV
+    delete process.env.MAGEK_ENV
   })
 
   afterEach(() => {
@@ -72,7 +72,7 @@ describe('deploy', () => {
           entities: {},
         })
 
-        const fakeDeployer = fake((config: BoosterConfig) => {
+        const fakeDeployer = fake((config: MagekConfig) => {
           config.logger?.info('this is a progress update')
         })
 
@@ -98,22 +98,22 @@ describe('deploy', () => {
 
   describe('deploy class', () => {
     beforeEach(() => {
-      const config = new BoosterConfig('fake_environment')
+      const config = new MagekConfig('fake_environment')
       replace(configService, 'compileProjectAndLoadConfig', fake.resolves(config))
       replace(providerService, 'deployToCloudProvider', fake.resolves({}))
       replace(configService, 'createDeploymentSandbox', fake.resolves('fake/path'))
       replace(configService, 'cleanDeploymentSandbox', fake.resolves({}))
-      replace(projectChecker, 'checkCurrentDirBoosterVersion', fake.resolves({}))
+      replace(projectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
       replace(oraLogger, 'fail', fake.resolves({}))
       replace(oraLogger, 'info', fake.resolves({}))
       replace(oraLogger, 'start', fake.resolves({}))
       replace(oraLogger, 'succeed', fake.resolves({}))
     })
 
-    it('init calls checkCurrentDirBoosterVersion', async () => {
+    it('init calls checkCurrentDirMagekVersion', async () => {
       const config = await Config.load()
       await new Deploy.default([], config).init()
-      expect(projectChecker.checkCurrentDirBoosterVersion).to.have.been.called
+      expect(projectChecker.checkCurrentDirMagekVersion).to.have.been.called
     })
 
     it('without flags', async () => {
@@ -157,7 +157,7 @@ describe('deploy', () => {
       expect(providerService.deployToCloudProvider).to.have.not.been.called
     })
 
-    describe('inside a booster project', () => {
+    describe('inside a Magek project', () => {
       it('entering correct environment', async () => {
         const config = await Config.load()
         await new Deploy.default(['-e', 'fake_environment'], config).run()

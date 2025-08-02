@@ -3,11 +3,11 @@
  
 import { expect } from '../expect'
 import { Notification, partitionKey } from '../../src/decorators'
-import { Booster } from '../../src'
+import { Magek } from '../../src'
 
 describe('the `Notification` decorator', () => {
   afterEach(() => {
-    Booster.configureCurrentEnv((config: any) => {
+    Magek.configureCurrentEnv((config: any) => {
       config.notifications = {}
       config.topicToEvent = {}
     })
@@ -18,7 +18,7 @@ describe('the `Notification` decorator', () => {
     class ANotification {
       public constructor() {}
     }
-    expect(Booster.config.notifications[ANotification.name]).to.deep.equal({
+    expect(Magek.config.notifications[ANotification.name]).to.deep.equal({
       class: ANotification,
     })
   })
@@ -29,11 +29,11 @@ describe('the `Notification` decorator', () => {
       public constructor() {}
     }
 
-    expect(Booster.config.notifications[ANotification.name]).to.deep.equal({
+    expect(Magek.config.notifications[ANotification.name]).to.deep.equal({
       class: ANotification,
     })
 
-    expect(Booster.config.topicToEvent['my-topic']).to.deep.equal(ANotification.name)
+    expect(Magek.config.topicToEvent['my-topic']).to.deep.equal(ANotification.name)
   })
 
   it('sets the partitionKey in the config, if specified', () => {
@@ -42,10 +42,10 @@ describe('the `Notification` decorator', () => {
       public constructor(@partitionKey readonly key: string) {}
     }
 
-    expect(Booster.config.notifications[ANotification.name]).to.deep.equal({
+    expect(Magek.config.notifications[ANotification.name]).to.deep.equal({
       class: ANotification,
     })
 
-    expect(Booster.config.partitionKeys[ANotification.name]).to.equal('key')
+    expect(Magek.config.partitionKeys[ANotification.name]).to.equal('key')
   })
 })

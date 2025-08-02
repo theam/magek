@@ -3,7 +3,7 @@ import BaseCommand from '../../common/base-command'
 import { HasName, HasProjection, joinParsers, parseName, parseProjectionField } from '../../services/generator/target'
 import { Script } from '../../common/script'
 import Brand from '../../common/brand'
-import { checkCurrentDirIsABoosterProject } from '../../services/project-checker'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker'
 import { generateProjection, getResourceSourceFile } from '../../services/method-generator'
 
 export default class Projection extends BaseCommand {
@@ -48,7 +48,7 @@ const run = async (rawReadModel: string, rawProjection: string): Promise<void> =
     `boost ${Brand.energize('add:projection')} 🚧`,
     joinParsers(parseName(rawReadModel), parseProjectionField(rawProjection))
   )
-    .step('Verifying project', checkCurrentDirIsABoosterProject)
+    .step('Verifying project', checkCurrentDirIsAMagekProject)
     .step('Generating projection', generateProjectionMethod)
     .info('Projection generated!')
     .done()

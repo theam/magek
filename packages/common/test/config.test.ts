@@ -1,11 +1,11 @@
  
 import { expect } from './helpers/expect'
-import { SchemaMigrationMetadata, ProviderLibrary, BoosterConfig, EventStoreAdapter, ReadModelStoreAdapter, SessionStoreAdapter } from '../src'
+import { SchemaMigrationMetadata, ProviderLibrary, MagekConfig, EventStoreAdapter, ReadModelStoreAdapter, SessionStoreAdapter } from '../src'
 
 describe('the config type', () => {
   describe('resourceNames', () => {
     it('fails to get if the app name is empty', () => {
-      const cfg = new BoosterConfig('test')
+      const cfg = new MagekConfig('test')
       cfg.appName = ''
       expect(() => cfg.resourceNames).to.throw()
     })
@@ -13,7 +13,7 @@ describe('the config type', () => {
     it('gets the application stack name from the app name', () => {
       const names = ['app1', 'test']
       for (const appName of names) {
-        const cfg = new BoosterConfig('test')
+        const cfg = new MagekConfig('test')
         cfg.appName = appName
         expect(cfg.resourceNames.applicationStack).to.equal(`${appName}-app`)
       }
@@ -22,7 +22,7 @@ describe('the config type', () => {
     it('gets the events store name from the app name', () => {
       const names = ['app1', 'test']
       for (const appName of names) {
-        const cfg = new BoosterConfig('test')
+        const cfg = new MagekConfig('test')
         cfg.appName = appName
         expect(cfg.resourceNames.eventsStore).to.equal(`${appName}-app-events-store`)
       }
@@ -34,7 +34,7 @@ describe('the config type', () => {
         { app: 'test', read: 'model' },
       ]
       for (const { app, read } of names) {
-        const cfg = new BoosterConfig('test')
+        const cfg = new MagekConfig('test')
         cfg.appName = app
         expect(cfg.resourceNames.forReadModel(read)).to.equal(`${app}-app-${read}`)
       }
@@ -43,7 +43,7 @@ describe('the config type', () => {
 
   describe('thereAreRoles', () => {
     it('returns true when there are roles defined', () => {
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
       config.roles['test-role'] = {
         auth: {
           signUpMethods: [],
@@ -54,14 +54,14 @@ describe('the config type', () => {
     })
 
     it('returns false when there are no roles defined', () => {
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
       expect(config.thereAreRoles).to.be.equal(false)
     })
   })
 
   describe('currentVersionFor', () => {
     it('returns 1 when the concept does not have any migration defined', () => {
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
       const schemaMigrations = new Map()
       schemaMigrations.set(2, {} as any)
       config.schemaMigrations['concept-with-migrations'] = schemaMigrations
@@ -72,7 +72,7 @@ describe('the config type', () => {
     it('returns the version of the latest schema migration', () => {
       class SchemaTest {}
       class SchemaMigrationClassTest {}
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
       const schemaMigrations = new Map<number, SchemaMigrationMetadata>()
       schemaMigrations.set(3, {
         fromSchema: SchemaTest,
@@ -96,7 +96,7 @@ describe('the config type', () => {
 
   describe('validate', () => {
     it('throws when there are gaps in the migration versions for a concept', () => {
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
       config.provider = {} as ProviderLibrary
       const schemaMigrations = new Map()
       schemaMigrations.set(3, {} as any)
@@ -108,7 +108,7 @@ describe('the config type', () => {
     })
 
     it('does not throw when there are no gaps in the migration versions for a concept', () => {
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
       config.provider = {} as ProviderLibrary
       const schemaMigrations = new Map()
       schemaMigrations.set(4, {} as any)
@@ -122,20 +122,20 @@ describe('the config type', () => {
 
   describe('provider', () => {
     it('throws when there is no provider set', () => {
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
 
       expect(() => config.provider).to.throw(/set a valid provider runtime/)
     })
 
     it('does not throw when there is a provider set', () => {
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
       config.provider = {} as ProviderLibrary
 
       expect(() => config.provider).to.not.throw()
     })
 
     it('does not set eventStoreAdapter when provider is set (direct assignment required)', () => {
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
       const mockProvider = {} as ProviderLibrary
 
       config.provider = mockProvider
@@ -144,7 +144,7 @@ describe('the config type', () => {
     })
 
     it('allows eventStoreAdapter to be set directly', () => {
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
       const mockEventStoreAdapter = {} as EventStoreAdapter
 
       config.eventStoreAdapter = mockEventStoreAdapter
@@ -153,7 +153,7 @@ describe('the config type', () => {
     })
 
     it('eventStoreAdapter remains unchanged when provider is set after direct assignment', () => {
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
       const directlySetAdapter = {} as EventStoreAdapter
       const mockProvider = {} as ProviderLibrary
 
@@ -170,20 +170,20 @@ describe('the config type', () => {
   describe('readModelStoreAdapter', () => {
     it.skip('throws when there is no readModelStoreAdapter set', () => {
       // TODO: Re-enable this test once the readModelStoreAdapter refactor is complete
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
 
       expect(() => config.readModelStore).to.throw(/ReadModelStoreAdapter is not configured/)
     })
 
     it('does not throw when there is a readModelStoreAdapter set', () => {
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
       config.readModelStoreAdapter = {} as ReadModelStoreAdapter
 
       expect(() => config.readModelStore).to.not.throw()
     })
 
     it('allows readModelStoreAdapter to be set directly', () => {
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
       const mockReadModelStoreAdapter = {} as ReadModelStoreAdapter
 
       config.readModelStoreAdapter = mockReadModelStoreAdapter
@@ -195,20 +195,20 @@ describe('the config type', () => {
   describe('sessionStoreAdapter', () => {
     it.skip('throws when there is no sessionStoreAdapter set', () => {
       // TODO: Re-enable this test once the sessionStoreAdapter refactor is complete
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
 
       expect(() => config.sessionStore).to.throw(/SessionStoreAdapter is not configured/)
     })
 
     it('does not throw when there is a sessionStoreAdapter set', () => {
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
       config.sessionStoreAdapter = {} as SessionStoreAdapter
 
       expect(() => config.sessionStore).to.not.throw()
     })
 
     it('allows sessionStoreAdapter to be set directly', () => {
-      const config = new BoosterConfig('test')
+      const config = new MagekConfig('test')
       const mockSessionStoreAdapter = {} as SessionStoreAdapter
 
       config.sessionStoreAdapter = mockSessionStoreAdapter

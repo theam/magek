@@ -8,5 +8,5 @@ export const connectionsDatabase = internalPath('connections.json')
 export const subscriptionDatabase = internalPath('subscriptions.json')
 
 function internalPath(filename: string): string {
-  return path.normalize(path.join('.', '.booster', filename))
+  return path.normalize(path.join('.', '.magek', filename))
 }

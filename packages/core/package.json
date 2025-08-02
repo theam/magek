@@ -1,9 +1,9 @@
 {
-  "name": "@booster-ai/core",
+  "name": "@magek/core",
   "version": "0.0.1",
-  "description": "Library for your Booster apps",
+  "description": "Library for your Magek apps",
   "author": "Boosterin Labs SLU",
-  "homepage": "https://boosterframework.com",
+  "homepage": "https://magek.ai",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
@@ -14,7 +14,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/boostercloud/booster.git"
+    "url": "git+https://github.com/theam/magek.git"
   },
   "scripts": {
     "prepare": "ts-patch install -s",
@@ -25,17 +25,17 @@
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "prepack": "tsc -b tsconfig.json",
     "test:core": "npm run test",
-    "test": "tsc --noEmit -p tsconfig.test.json && cross-env BOOSTER_ENV=test nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\" 2>&1"
+    "test": "tsc --noEmit -p tsconfig.test.json && cross-env MAGEK_ENV=test nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\" 2>&1"
   },
   "bugs": {
-    "url": "https://github.com/boostercloud/booster/issues"
+    "url": "https://github.com/theam/magek/issues"
   },
   "engines": {
     "node": ">=22.0.0 <23.0.0"
   },
   "dependencies": {
-    "@booster-ai/common": "workspace:^0.0.1",
-    "@booster-ai/metadata": "workspace:^0.0.1",
+    "@magek/common": "workspace:^0.0.1",
+    "@magek/metadata": "workspace:^0.0.1",
     "fp-ts": "2.11.0",
     "graphql-scalars": "1.24.1",
     "graphql-subscriptions": "3.0.0",
@@ -60,7 +60,7 @@
     "@effect/typeclass": "~0.35.11"
   },
   "devDependencies": {
-    "@booster-ai/eslint-config": "workspace:^0.0.1",
+    "@magek/eslint-config": "workspace:^0.0.1",
     "@types/chai": "5.2.2",
     "@types/chai-as-promised": "8.0.2",
     "@types/inflected": "2.1.3",

@@ -1,5 +1,5 @@
 import { HealthRoleAccess } from '../concepts'
-import { BoosterConfig } from '../config'
+import { MagekConfig } from '../config'
 import { Class } from '../typelevel'
 
 export enum HealthStatus {
@@ -23,53 +23,53 @@ export interface HealthIndicatorsResult extends HealthIndicatorResult {
   components?: Array<HealthIndicatorsResult>
 }
 
-export enum BOOSTER_HEALTH_INDICATORS_IDS {
-  ROOT = 'booster',
-  FUNCTION = 'booster/function',
-  DATABASE = 'booster/database',
-  DATABASE_EVENTS = 'booster/database/events',
-  DATABASE_READ_MODELS = 'booster/database/readmodels',
+export enum HEALTH_INDICATORS_IDS {
+  ROOT = 'magek',
+  FUNCTION = 'magek/function',
+  DATABASE = 'magek/database',
+  DATABASE_EVENTS = 'magek/database/events',
+  DATABASE_READ_MODELS = 'magek/database/readmodels',
   ROCKETS = 'rockets',
 }
 
-export const DEFAULT_HEALTH_CONFIGURATION_BOOSTER: SensorBoosterHealthConfigurationDetails = {
+export const DEFAULT_HEALTH_CONFIGURATION: SensorMagekHealthConfigurationDetails = {
   enabled: false,
   details: true,
   showChildren: true,
 }
 
-export const DEFAULT_SENSOR_HEALTH_BOOSTER_CONFIGURATIONS: Record<
-  BOOSTER_HEALTH_INDICATORS_IDS,
-  SensorBoosterHealthConfigurationDetails
+export const DEFAULT_SENSOR_HEALTH_CONFIGURATIONS: Record<
+  HEALTH_INDICATORS_IDS,
+  SensorMagekHealthConfigurationDetails
 > = {
-  [BOOSTER_HEALTH_INDICATORS_IDS.ROOT]: { ...DEFAULT_HEALTH_CONFIGURATION_BOOSTER },
-  [BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION]: { ...DEFAULT_HEALTH_CONFIGURATION_BOOSTER },
-  [BOOSTER_HEALTH_INDICATORS_IDS.DATABASE]: { ...DEFAULT_HEALTH_CONFIGURATION_BOOSTER },
-  [BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS]: { ...DEFAULT_HEALTH_CONFIGURATION_BOOSTER },
-  [BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS]: { ...DEFAULT_HEALTH_CONFIGURATION_BOOSTER },
-  [BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS]: { ...DEFAULT_HEALTH_CONFIGURATION_BOOSTER },
+  [HEALTH_INDICATORS_IDS.ROOT]: { ...DEFAULT_HEALTH_CONFIGURATION },
+  [HEALTH_INDICATORS_IDS.FUNCTION]: { ...DEFAULT_HEALTH_CONFIGURATION },
+  [HEALTH_INDICATORS_IDS.DATABASE]: { ...DEFAULT_HEALTH_CONFIGURATION },
+  [HEALTH_INDICATORS_IDS.DATABASE_EVENTS]: { ...DEFAULT_HEALTH_CONFIGURATION },
+  [HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS]: { ...DEFAULT_HEALTH_CONFIGURATION },
+  [HEALTH_INDICATORS_IDS.ROCKETS]: { ...DEFAULT_HEALTH_CONFIGURATION },
 }
 
-export type SensorBoosterHealthConfigurationDetails = HealthIndicatorConfigurationBase
+export type SensorMagekHealthConfigurationDetails = HealthIndicatorConfigurationBase
 
-export interface SensorBoosterHealthConfiguration {
+export interface SensorMagekHealthConfiguration {
   globalAuthorizer: HealthRoleAccess
-  booster: {
-    [BOOSTER_HEALTH_INDICATORS_IDS.ROOT]: SensorBoosterHealthConfigurationDetails
-    [BOOSTER_HEALTH_INDICATORS_IDS.FUNCTION]: SensorBoosterHealthConfigurationDetails
-    [BOOSTER_HEALTH_INDICATORS_IDS.DATABASE]: SensorBoosterHealthConfigurationDetails
-    [BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_EVENTS]: SensorBoosterHealthConfigurationDetails
-    [BOOSTER_HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS]: SensorBoosterHealthConfigurationDetails
-    [BOOSTER_HEALTH_INDICATORS_IDS.ROCKETS]: SensorBoosterHealthConfigurationDetails
+  magek: {
+    [HEALTH_INDICATORS_IDS.ROOT]: SensorMagekHealthConfigurationDetails
+    [HEALTH_INDICATORS_IDS.FUNCTION]: SensorMagekHealthConfigurationDetails
+    [HEALTH_INDICATORS_IDS.DATABASE]: SensorMagekHealthConfigurationDetails
+    [HEALTH_INDICATORS_IDS.DATABASE_EVENTS]: SensorMagekHealthConfigurationDetails
+    [HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS]: SensorMagekHealthConfigurationDetails
+    [HEALTH_INDICATORS_IDS.ROCKETS]: SensorMagekHealthConfigurationDetails
   }
 }
 
 export interface SensorConfiguration {
-  health: SensorBoosterHealthConfiguration
+  health: SensorMagekHealthConfiguration
 }
 
 export interface HealthIndicatorInterface {
-  health: (config: BoosterConfig, healthIndicatorMetadata: HealthIndicatorMetadata) => Promise<HealthIndicatorResult>
+  health: (config: MagekConfig, healthIndicatorMetadata: HealthIndicatorMetadata) => Promise<HealthIndicatorResult>
 }
 
 export interface HealthIndicatorConfigurationBase {

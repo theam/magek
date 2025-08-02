@@ -1,5 +1,5 @@
  
-import { Booster } from '../booster'
+import { Magek } from '../magek'
 import {
   Class,
   EntityInterface,
@@ -8,8 +8,8 @@ import {
   EventStreamRoleAccess,
   AnyClass,
   EventStreamAuthorizer,
-} from '@booster-ai/common'
-import { BoosterAuthorizer } from '../booster-authorizer'
+} from '@magek/common'
+import { MagekAuthorizer } from '../authorizer'
 
 type EntityAttributes = EventStreamRoleAccess
 
@@ -32,17 +32,17 @@ export function Entity<TEntity extends EntityInterface, TParam extends EntityDec
 
   // This function will be either returned or executed, depending on the parameters passed to the decorator
   const mainLogicFunction = (entityClass: Class<TEntity>): void => {
-    Booster.configureCurrentEnv((config): void => {
+    Magek.configureCurrentEnv((config): void => {
       if (config.entities[entityClass.name]) {
         throw new Error(`An entity called ${entityClass.name} is already registered
         If you think that this is an error, try performing a clean build..`)
       }
 
-      let eventStreamAuthorizer: EventStreamAuthorizer = BoosterAuthorizer.denyAccess
+      let eventStreamAuthorizer: EventStreamAuthorizer = MagekAuthorizer.denyAccess
       if (authorizeReadEvents === 'all') {
-        eventStreamAuthorizer = BoosterAuthorizer.allowAccess
+        eventStreamAuthorizer = MagekAuthorizer.allowAccess
       } else if (Array.isArray(authorizeReadEvents)) {
-        eventStreamAuthorizer = BoosterAuthorizer.authorizeRoles.bind(null, authorizeReadEvents)
+        eventStreamAuthorizer = MagekAuthorizer.authorizeRoles.bind(null, authorizeReadEvents)
       } else if (typeof authorizeReadEvents === 'function') {
         eventStreamAuthorizer = authorizeReadEvents
       }
@@ -88,7 +88,7 @@ export function Reduces<TEvent extends EventInterface>(
 }
 
 function registerReducer(eventName: string, reducerMetadata: ReducerMetadata): void {
-  Booster.configureCurrentEnv((config): void => {
+  Magek.configureCurrentEnv((config): void => {
     const reducerPath = config.reducers[eventName]
     if (reducerPath) {
       throw new Error(

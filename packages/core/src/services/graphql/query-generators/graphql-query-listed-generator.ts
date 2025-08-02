@@ -14,7 +14,7 @@ import { GraphQLJSON } from 'graphql-scalars'
 import { GraphQLTypeInformer } from '../graphql-type-informer'
 import { GraphqlQuerySortBuilder } from '../query-helpers/graphql-query-sort-builder'
 import { GraphqlQueryFilterArgumentsBuilder } from '../query-helpers/graphql-query-filter-arguments-builder'
-import { AnyClass, BoosterConfig } from '@booster-ai/common'
+import { AnyClass, MagekConfig } from '@magek/common'
 
 export class GraphqlQueryListedGenerator {
   private graphqlQueryFilterArgumentsBuilder: GraphqlQueryFilterArgumentsBuilder
@@ -25,7 +25,7 @@ export class GraphqlQueryListedGenerator {
     private readonly typeInformer: GraphQLTypeInformer,
     private readonly filterResolverBuilder: ResolverBuilder,
     protected generatedFiltersByTypeName: Record<string, GraphQLInputObjectType> = {},
-    private readonly config: BoosterConfig
+    private readonly config: MagekConfig
   ) {
     this.graphqlQueryFilterArgumentsBuilder = new GraphqlQueryFilterArgumentsBuilder(
       typeInformer,

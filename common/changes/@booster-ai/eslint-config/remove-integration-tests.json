@@ -1,9 +1,0 @@
-{
-  "changes": [
-    {
-      "comment": "Remove integration test settings",
-      "packageName": "@booster-ai/eslint-config",
-      "type": "patch"
-    }
-  ]
-}

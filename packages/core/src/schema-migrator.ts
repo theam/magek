@@ -1,5 +1,5 @@
 import {
-  BoosterConfig,
+  MagekConfig,
   CommandEnvelope,
   EventEnvelope,
   SchemaMigrationMetadata,
@@ -10,14 +10,14 @@ import {
   EntitySnapshotEnvelope,
   TraceActionTypes,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { Trace } from './instrumentation'
 
 type SchemaMigrableEnvelope = CommandEnvelope | EventEnvelope | EntitySnapshotEnvelope
 type SchemaMigrableValue = CommandInterface | EventInterface | EntityInterface
 
 export class SchemaMigrator {
-  public constructor(private config: BoosterConfig) {}
+  public constructor(private config: MagekConfig) {}
 
   @Trace(TraceActionTypes.SCHEMA_MIGRATOR_MIGRATE)
   public async migrate<TMigrableEnvelope extends SchemaMigrableEnvelope>(

@@ -1,80 +1,79 @@
-# Contributing to Booster
+# Contributing to Magek
 
-> **DISCLAIMER:** The Booster docs are undergoing an overhaul. Most of what's written here applies, but expect some hiccups in the build process
+> **DISCLAIMER:** The Magek docs are undergoing an overhaul. Most of what's written here applies, but expect some hiccups in the build process
 > that is described here, as it changed in the last version. New documentation will have this documented properly.
 
-Thanks for taking the time to contribute to Booster. It is an open-source project and it wouldn't be possible without people like you 🙏🎉
+Thanks for taking the time to contribute to Magek. It is an open-source project and it wouldn't be possible without people like you 🙏🎉
 
-This document is a set of guidelines to help you contribute to Booster, which is hosted on the [`boostercloud`](https://github.com/boostercloud) GitHub
-organization. These aren’t absolute laws, use your judgment and common sense 😀.
+This document is a set of guidelines to help you contribute to Magek, which is hosted on the [`theam/magek`](https://github.com/theam/magek) GitHub
+repository. These aren’t absolute laws, use your judgment and common sense 😀.
 Remember that if something here doesn't make sense, you can also propose a change to this document.
 
 <!-- toc -->
 
-- [Code of Conduct](#code-of-conduct)
-- [I don't want to read this whole thing, I just have a question!!!](#i-don39t-want-to-read-this-whole-thing-i-just-have-a-question)
-- [What should I know before I get started?](#what-should-i-know-before-i-get-started)
-  - [Packages](#packages)
-- [How Can I Contribute?](#how-can-i-contribute)
-  - [Reporting Bugs](#reporting-bugs)
-  - [Suggesting Enhancements](#suggesting-enhancements)
-  - [Improving documentation](#improving-documentation)
-  - [Create your very first GitHub issue](#create-your-very-first-github-issue)
-- [Your First Code Contribution](#your-first-code-contribution)
-  - [Getting the code](#getting-the-code)
-  - [Understanding the "rush monorepo" approach and how dependencies are structured in the project](#understanding-the-rush-monorepo-approach-and-how-dependencies-are-structured-in-the-project)
-  - [Running unit tests](#running-unit-tests)
-  - [Github flow](#github-flow)
-  - [Publishing your Pull Request](#publishing-your-pull-request)
-  - [Branch naming conventions](#branch-naming-conventions)
-  - [Commit message guidelines](#commit-message-guidelines)
-- [Code Style Guidelines](#code-style-guidelines)
-  - [Importing other files and libraries](#importing-other-files-and-libraries)
-  - [Functional style](#functional-style)
-  - [Use `const` and `let`](#use-const-and-let)
+- [Contributing to Magek](#contributing-to-magek)
+  - [Code of Conduct](#code-of-conduct)
+  - [I don't want to read this whole thing, I just have a question](#i-dont-want-to-read-this-whole-thing-i-just-have-a-question)
+  - [What should I know before I get started?](#what-should-i-know-before-i-get-started)
+    - [Packages](#packages)
+  - [How Can I Contribute?](#how-can-i-contribute)
+    - [Reporting Bugs](#reporting-bugs)
+    - [Suggesting Enhancements](#suggesting-enhancements)
+    - [Improving documentation](#improving-documentation)
+      - [Documentation principles and practices](#documentation-principles-and-practices)
+        - [Principles](#principles)
+        - [Practices](#practices)
+    - [Create your very first GitHub issue](#create-your-very-first-github-issue)
+  - [Your First Code Contribution](#your-first-code-contribution)
+    - [Getting the code](#getting-the-code)
+    - [Understanding the "rush monorepo" approach and how dependencies are structured in the project](#understanding-the-rush-monorepo-approach-and-how-dependencies-are-structured-in-the-project)
+    - [Running unit tests](#running-unit-tests)
+    - [Branch naming conventions](#branch-naming-conventions)
+    - [Commit message guidelines](#commit-message-guidelines)
+  - [Code Style Guidelines](#code-style-guidelines)
+    - [Importing other files and libraries](#importing-other-files-and-libraries)
+    - [Functional style](#functional-style)
+    - [Dependency injection](#dependency-injection)
+    - [Use `const` and `let`](#use-const-and-let)
 
 <!-- tocstop -->
 
 ## Code of Conduct
 
-This project and everyone participating in it are expected to uphold the [Booster's Code of Conduct](https://github.com/boostercloud/booster/blob/main/CODE_OF_CONDUCT.md), based on the Covenant Code of Conduct.
-If you see unacceptable behavior, please communicate so to `hello@booster.cloud`.
+This project and everyone participating in it are expected to uphold the [Magek's Code of Conduct](https://github.com/theam/magek/blob/main/CODE_OF_CONDUCT.md), based on the Covenant Code of Conduct.
+If you see unacceptable behavior, please communicate so to `info@theagilemonkeys.com`.
 
 ## I don't want to read this whole thing, I just have a question
 
-Go ahead and ask the community in [Discord](https://discord.com/invite/bDY8MKx) or [create a new issue](https://github.com/boostercloud/booster/issues).
+Go ahead and [create a new issue](https://github.com/theam/magek/issues) or [start a discussion](https://github.com/theam/magek/discussions).
 
 ## What should I know before I get started?
 
 ### Packages
 
-Booster is divided in many different packages. The criteria to split the code in packages is that each package meets at least one of the following conditions:
+Magek is divided in many different packages. The criteria to split the code in packages is that each package meets at least one of the following conditions:
 
 - They must be run separately, for instance, the CLI is run locally, while the support code for the project is run on the cloud.
 - They contain code that is used by at least two of the other packages.
-- They're a vendor-specific specialization of some abstract part of the framework (for instance, all the code that is required to support Azure is in separate packages).
+- They're a vendor-specific specialization of some abstract part of the framework (for instance, the adapter packages).
 
 The packages are managed using [rush](https://rushjs.io/) and [npm](https://npmjs.com), if you run `rush build`, it will build all the packages.
 
-The packages are published to `npmjs` under the prefix `@boostercloud/`, their purpose is as follows:
+The packages are published to `npmjs` under the prefix `@magek/`, their purpose is as follows:
 
-- `cli` - You guessed it! This package is the `boost` command-line tool, it interacts only with the core package in order to load the project configuration. The specific provider packages to interact with the cloud providers are loaded dynamically from the project config.
-- `framework-core` - This one contains all the framework runtime vendor-independent logic. Stuff like the generation of the config or the commands and events handling happens here. The specific provider packages to interact with the cloud providers are loaded dynamically from the project config.
-- `framework-provider-aws` (Deprecated) - Implements all the required adapters to make the booster core run on top of AWS technologies like Lambda and DynamoDB using the AWS SDK under the hoods.
-- `framework-provider-aws-infrastructure` (Deprecated) - Implements all the required adapters to allow Booster applications to be deployed to AWS using the AWS CDK under the hoods.
-- `framework-provider-local` - Implements all the required adapters to run the Booster application on a local express server to be able to debug your code before deploying it to a real cloud provider.
-- `framework-provider-local-infrastructure` - Implements all the required code to run the local development server.
-- `common` - This package defines types that the rest of the project will use. This is useful for avoiding cyclic dependencies. Note that this package should not contain stuff that are not types, or very simple methods related directly to them, i.e. a getter or setter. This package defines the main booster concepts like:
-  - Entity
-  - Command
-  - etc…
+- `cli` - The command-line tool for Magek (`magek` command), providing project scaffolding, build management, and development workflow commands.
+- `core` - Contains the framework runtime logic including command dispatching, event handling, GraphQL processing, and all core Magek functionality.
+- `common` - Shared types, concepts, and utilities used across the framework including entities, commands, events, and other core abstractions.
+- `server` - Implements adapters for running Magek applications both locally for development and in production environments, providing GraphQL, health monitoring, and read-model capabilities.
+- `server-infrastructure` - Provides infrastructure components for the Magek server including HTTP controllers, WebSocket management, scheduling, and test helpers.
+- `metadata` - Handles metadata extraction and reflection for framework decorators, enabling schema-aware operations like GraphQL schema generation.
+- `create` - Package for scaffolding new Magek projects (available as `create-magek` on npm).
 
-This is a dependency graph that shows the dependencies among all packages, including the application using Booster:
-![Booster packages dependencies](https://raw.githubusercontent.com/boostercloud/booster/main/docs/img/packages-dependencies.png)
+The packages have dependencies among themselves, with `common` and `metadata` providing foundational functionality, `core` building the main framework logic on top of them, and the server packages implementing the runtime environment for both development and production.
 
 ## How Can I Contribute?
 
-Contributing to an open source project is never just a matter of code, you can help us significantly by just using Booster and interacting with our community. Here you'll find some tips on how to do it effectively.
+Contributing to an open source project is never just a matter of code, you can help us significantly by just using Magek and interacting with our community. Here you'll find some tips on how to do it effectively.
 
 ### Reporting Bugs
 
@@ -99,12 +98,12 @@ Enhancement suggestions are tracked as GitHub issues. Make sure you provide the 
 - Provide a step-by-step description of the suggested enhancement in as many details as possible.
 - Provide specific examples to demonstrate the steps. Include copy/pasteable snippets which you use in those examples, as Markdown code blocks.
 - Describe the current behavior and explain which behavior you expected to see instead and why.
-- Explain why this enhancement would be useful to most Booster users and isn't something that can or should be implemented as a community package.
+- Explain why this enhancement would be useful to most Magek users and isn't something that can or should be implemented as a community package.
 - List some other libraries or frameworks where this enhancement exists.
 
 ### Improving documentation
 
-[Booster documentation](https://docs.boosterframework.com) is treated as a live document that continues improving on a daily basis. If you find something that is missing or can be improved, please contribute, it will be of great help for other developers.
+[Magek documentation](https://docs.magek.ai) is treated as a live document that continues improving on a daily basis. If you find something that is missing or can be improved, please contribute, it will be of great help for other developers.
 To contribute you can use the button "Edit on github" at the top of each chapter.
 
 #### Documentation principles and practices
@@ -174,12 +173,12 @@ sense of continuation to the whole paragraph. If not, when people read the parag
 
 For example, read this paragraph and try to hear your internal voice:
 
-> Entities are created on the fly, by reducing the whole event stream. You shouldn't assume that they are stored anywhere.  Booster does create
+> Entities are created on the fly, by reducing the whole event stream. You shouldn't assume that they are stored anywhere.  Magek does create
 automatic snapshots to make the reduction process efficient. You are the one in charge of writing the reducer function.
 
 And now read this one:
 
-> Entities are created on the fly by reducing the whole event stream. While you shouldn't assume that they are stored anywhere,  Booster does create automatic
+> Entities are created on the fly by reducing the whole event stream. While you shouldn't assume that they are stored anywhere,  Magek does create automatic
 snapshots to make the reduction process efficient. In any case, this is opaque to you and the only thing you should care is to provide the reducer function.
 
 Did you feel the difference? The latter makes you feel that everything is connected, it is more cohesive.
@@ -205,11 +204,11 @@ So decide one or another being conscious about your intention.
 
 ### Create your very first GitHub issue
 
-[Click here](https://github.com/boostercloud/booster/issues/new) to start making contributions to Booster.
+[Click here](https://github.com/theam/magek/issues/new) to start making contributions to Magek.
 
 ## Your First Code Contribution
 
-Unsure where to begin contributing to Booster? You can start by looking through issued tagged as `good-first-issue` and `help-wanted`:
+Unsure where to begin contributing to Magek? You can start by looking through issued tagged as `good-first-issue` and `help-wanted`:
 
 - Beginner issues - issues which should only require a few lines of code, and a test or two.
 - Help wanted issues - issues which should be a bit more involved than beginner issues.
@@ -224,7 +223,7 @@ To start contributing to the project you would need to set up the project in you
 
 - Install Rush: `npm install -g @microsoft/rush`
 
-- Clone the repo and get into the directory of the project: `git clone <WRITE REPO URL HERE> && cd booster`
+- Clone the repo and get into the directory of the project: `git clone https://github.com/theam/magek.git && cd magek`
 
 - Install project dependencies: `rush update`
 
@@ -237,7 +236,7 @@ To start contributing to the project you would need to set up the project in you
 
 ### Understanding the "rush monorepo" approach and how dependencies are structured in the project
 
-The Booster Framework project is organized following the ["rush monorepo"](https://rushjs.io/) structure. There are several "package.json" files and each one has its purpose with regard to the dependencies you include on them:
+The Magek Framework project is organized following the ["rush monorepo"](https://rushjs.io/) structure. There are several "package.json" files and each one has its purpose with regard to the dependencies you include on them:
 
 - The "package.json" files that are on each package root should contain the dependencies used by that specific package. Be sure to correctly differentiate which dependency is only for development and which one is for production.
 
@@ -248,7 +247,7 @@ Finally, **always use exact numbers for dependency versions**. This means that i
 Unit tests are executed when you type `rush test`. If you want to run the unit tests for a specific package, you should move to the corresponding package folder and run `rushx test` there.
 
 
-Once the PR is merged, the CICD process will publish the latest changes to NPM. When this finishes, as a maintainer, make sure to create a new GitHub release in the [releases page](https://github.com/boostercloud/booster/releases):
+Once the PR is merged, the CICD process will publish the latest changes to NPM. When this finishes, as a maintainer, make sure to create a new GitHub release in the [releases page](https://github.com/theam/magek/releases):
 
 ![Screenshot 2023-04-19 at 12 23 01](https://user-images.githubusercontent.com/7448243/233060277-d3cdcdbb-29ee-4fab-95d8-0e122bac9ab6.png)
 
@@ -320,7 +319,7 @@ Apart of using conventional commits for triggering releases, we use them to buil
 
 ## Code Style Guidelines
 
-The Booster project comes with a nice set of ESLint config files to help you follow a consistent style, and we really encourage to use it in your editor. You can also run the `rush lint:fix` commands to try solving any linter problems automatically.
+The Magek project comes with a nice set of ESLint config files to help you follow a consistent style, and we really encourage to use it in your editor. You can also run the `rush lint:fix` commands to try solving any linter problems automatically.
 
 For everything else, the rule of thumb is: Try to be consistent with the code around yours, and if you're not sure, ask :-)
 

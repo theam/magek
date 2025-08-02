@@ -1,4 +1,4 @@
-import { AnyClass, BoosterConfig } from '@booster-ai/common'
+import { AnyClass, MagekConfig } from '@magek/common'
 import { GraphQLFieldResolver, GraphQLInputObjectType, GraphQLObjectType } from 'graphql'
 import { GraphQLResolverContext, ResolverBuilder, TargetTypesMap } from './common'
 import { GraphQLTypeInformer } from './graphql-type-informer'
@@ -16,7 +16,7 @@ export class GraphQLQueryGenerator {
   private graphqlQueryEventsGenerator: GraphqlQueryEventsGenerator
 
   public constructor(
-    protected readonly config: BoosterConfig,
+    protected readonly config: MagekConfig,
     protected readonly readModels: AnyClass[],
     protected readonly targetTypes: TargetTypesMap,
     protected readonly typeInformer: GraphQLTypeInformer,

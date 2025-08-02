@@ -2,7 +2,7 @@
  
 
 import { expect } from './expect'
-import { BoosterConfig, CommandEnvelope, SchemaMigrationMetadata } from '@booster-ai/common'
+import { MagekConfig, CommandEnvelope, SchemaMigrationMetadata } from '@magek/common'
 import { SchemaMigrator } from '../src/schema-migrator'
 
 class TestConceptV1 {
@@ -50,7 +50,7 @@ describe('Schema Migrator', () => {
     migrationClass: TestConceptMigration,
     toVersion: 3,
   })
-  const config = new BoosterConfig('test')
+  const config = new MagekConfig('test')
   config.schemaMigrations['TestConcept'] = schemaMigrations
   const migrator = new SchemaMigrator(config)
 

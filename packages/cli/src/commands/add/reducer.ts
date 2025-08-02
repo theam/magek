@@ -3,7 +3,7 @@ import BaseCommand from '../../common/base-command'
 import { HasName, HasReaction, joinParsers, parseName, parseReaction } from '../../services/generator/target'
 import { Script } from '../../common/script'
 import Brand from '../../common/brand'
-import { checkCurrentDirIsABoosterProject } from '../../services/project-checker'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker'
 import { generateReducers, getResourceSourceFile } from '../../services/method-generator'
 
 export default class Reducer extends BaseCommand {
@@ -48,7 +48,7 @@ const pluralize = (word: string, count: number): string => (count === 1 ? word :
 
 const run = async (rawEntity: string, rawEvents: string[]): Promise<void> =>
   Script.init(`boost ${Brand.energize('add:reducer')} 🚧`, joinParsers(parseName(rawEntity), parseReaction(rawEvents)))
-    .step('Verifying project', checkCurrentDirIsABoosterProject)
+    .step('Verifying project', checkCurrentDirIsAMagekProject)
     .step(`Generating ${pluralize('reducer', rawEvents.length)}`, generateReducerMethods)
     .info(`${pluralize('Reducer', rawEvents.length)} generated!`)
     .done()

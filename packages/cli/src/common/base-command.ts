@@ -1,10 +1,10 @@
 import { Command } from '@oclif/core'
-import { checkCurrentDirBoosterVersion } from '../services/project-checker'
+import { checkCurrentDirMagekVersion } from '../services/project-checker'
 import { appendOnErrorsFile } from '../services/logger'
 
 export default abstract class BaseCommand extends Command {
   async init() {
-    await checkCurrentDirBoosterVersion(this.config.version)
+    await checkCurrentDirMagekVersion(this.config.version)
   }
 
   async catch(fullError: Error) {

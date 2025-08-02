@@ -1,4 +1,4 @@
-import { BoosterConfig } from '@booster-ai/common'
+import { MagekConfig } from '@magek/common'
 
 export function assertNameIsCorrect(name: string): void {
   // Current characters max length: 37
@@ -27,7 +27,7 @@ class ForbiddenProjectName extends Error {
  
 function supportedInfrastructureMethodOrDie(
   methodName: 'deploy' | 'nuke' | 'start' | 'synth',
-  config: BoosterConfig
+  config: MagekConfig
 ): any {
   assertNameIsCorrect(config.appName)
   const method = config.provider.infrastructure()[methodName]
@@ -39,18 +39,18 @@ function supportedInfrastructureMethodOrDie(
   return method
 }
 
-export function deployToCloudProvider(config: BoosterConfig): Promise<void> {
+export function deployToCloudProvider(config: MagekConfig): Promise<void> {
   return supportedInfrastructureMethodOrDie('deploy', config)(config)
 }
 
-export function synthToProvider(config: BoosterConfig): Promise<void> {
+export function synthToProvider(config: MagekConfig): Promise<void> {
   return supportedInfrastructureMethodOrDie('synth', config)(config)
 }
 
-export function nukeCloudProviderResources(config: BoosterConfig): Promise<void> {
+export function nukeCloudProviderResources(config: MagekConfig): Promise<void> {
   return supportedInfrastructureMethodOrDie('nuke', config)(config)
 }
 
-export async function startProvider(port: number, config: BoosterConfig): Promise<void> {
+export async function startProvider(port: number, config: MagekConfig): Promise<void> {
   return supportedInfrastructureMethodOrDie('start', config)(config, port)
 }

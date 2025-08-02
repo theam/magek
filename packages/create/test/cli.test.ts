@@ -5,7 +5,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { assertNameIsCorrect, checkProjectAlreadyExists, replaceInFile } from '../src/cli'
 
-describe('create-booster-ai CLI', () => {
+describe('create-magek CLI', () => {
   let fsExistsStub: SinonStub
   let fsReadFileStub: SinonStub
   let fsWriteFileStub: SinonStub
@@ -75,7 +75,7 @@ describe('create-booster-ai CLI', () => {
     })
 
     it('should accept valid project names', () => {
-      const validNames = ['my-project', 'test-app', 'booster-app', 'simple', 'app123', 'my-cool-project-name']
+      const validNames = ['my-project', 'test-app', 'magek-app', 'simple', 'app123', 'my-cool-project-name']
 
       validNames.forEach((name) => {
         expect(() => assertNameIsCorrect(name)).to.not.throw()

@@ -1,6 +1,6 @@
 import {
   AnyClass,
-  BoosterConfig,
+  MagekConfig,
   Class,
   CommandEnvelope,
   EventSearchParameters,
@@ -15,7 +15,7 @@ import {
   ReadModelRequestProperties,
   TimeKey,
   getLogger,
-} from '@booster-ai/common'
+} from '@magek/common'
 import {
   FieldNode,
   FragmentDefinitionNode,
@@ -31,33 +31,33 @@ import {
   Kind,
 } from 'graphql'
 import { pluralize } from 'inflected'
-import { BoosterCommandDispatcher } from '../../booster-command-dispatcher'
-import { BoosterEventsReader } from '../../booster-events-reader'
-import { BoosterReadModelsReader } from '../../booster-read-models-reader'
+import { MagekCommandDispatcher } from '../../command-dispatcher'
+import { MagekEventsReader } from '../../events-reader'
+import { MagekReadModelsReader } from '../../read-models-reader'
 import { GraphQLResolverContext } from './common'
 import { GraphQLMutationGenerator } from './graphql-mutation-generator'
 import { GraphQLQueryGenerator } from './graphql-query-generator'
 import { GraphQLSubscriptionGenerator } from './graphql-subcriptions-generator'
 import { GraphQLTypeInformer } from './graphql-type-informer'
-import { BoosterQueryDispatcher } from '../../booster-query-dispatcher'
+import { MagekQueryDispatcher } from '../../query-dispatcher'
 import { SelectionSetNode } from 'graphql/language/ast'
 import { GraphQLInputType, GraphQLNamedInputType } from 'graphql/type/definition'
 
 export class GraphQLGenerator {
-  private static commandsDispatcher: BoosterCommandDispatcher
-  private static queriesDispatcher: BoosterQueryDispatcher
-  private static readModelsReader: BoosterReadModelsReader
-  private static eventsReader: BoosterEventsReader
+  private static commandsDispatcher: MagekCommandDispatcher
+  private static queriesDispatcher: MagekQueryDispatcher
+  private static readModelsReader: MagekReadModelsReader
+  private static eventsReader: MagekEventsReader
   private static schema: GraphQLSchema
 
-  public static generateSchema(config: BoosterConfig): GraphQLSchema {
+  public static generateSchema(config: MagekConfig): GraphQLSchema {
     const logger = getLogger(config, 'GraphQLGenerator#generateSchema')
     if (!this.schema) {
       logger.debug('Generating GraphQL schema...')
-      this.commandsDispatcher = new BoosterCommandDispatcher(config)
-      this.queriesDispatcher = new BoosterQueryDispatcher(config)
-      this.readModelsReader = new BoosterReadModelsReader(config)
-      this.eventsReader = new BoosterEventsReader(config)
+      this.commandsDispatcher = new MagekCommandDispatcher(config)
+      this.queriesDispatcher = new MagekQueryDispatcher(config)
+      this.readModelsReader = new MagekReadModelsReader(config)
+      this.eventsReader = new MagekEventsReader(config)
 
       const typeInformer = new GraphQLTypeInformer(logger)
 
@@ -125,7 +125,7 @@ export class GraphQLGenerator {
   }
 
   public static readModelByIDResolverBuilder(
-    config: BoosterConfig,
+    config: MagekConfig,
     readModelClass: AnyClass
   ): GraphQLFieldResolver<unknown, GraphQLResolverContext, ReadModelByIdRequestArgs> {
     const sequenceKeyName = config.readModelSequenceKeys[readModelClass.name]
@@ -171,7 +171,7 @@ export class GraphQLGenerator {
   }
 
   public static subscriptionByIDResolverBuilder(
-    config: BoosterConfig,
+    config: MagekConfig,
     readModelClass: AnyClass
   ): GraphQLFieldResolver<unknown, GraphQLResolverContext, ReadModelRequestProperties<ReadModelInterface>> {
     return async (parent, args, context, info) => {
@@ -181,7 +181,7 @@ export class GraphQLGenerator {
   }
 
   public static subscriptionResolverBuilder(
-    config: BoosterConfig,
+    config: MagekConfig,
     readModelClass: AnyClass
   ): GraphQLFieldResolver<unknown, GraphQLResolverContext, ReadModelRequestArgs<ReadModelInterface>> {
     return async (parent, args, context) => {

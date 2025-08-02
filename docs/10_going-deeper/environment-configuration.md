@@ -1,0 +1,67 @@
+# Environments
+
+You can create multiple environments calling the `Magek.configure` function several times using different environment names as the first argument. You can create one file for each environment, but it is not required. In this example we set all environments in a single file:
+
+```typescript
+// Here we use a single file called src/config.ts, but you can use separate files for each environment too.
+import { Magek } from '@magek/core'
+import { MagekConfig } from '@magek/common'
+import { Provider } from '@magek/server'
+import { eventStore } from '@magek/adapter-event-store-nedb'
+
+Magek.configure('stage', (config: MagekConfig): void => {
+  config.appName = 'fruit-store-stage'
+  config.provider = Provider()
+  config.eventStoreAdapter = eventStore
+})
+
+Magek.configure('prod', (config: MagekConfig): void => {
+  config.appName = 'fruit-store-prod'
+  config.provider = Provider()
+  config.eventStoreAdapter = eventStore
+})
+```
+
+## Pluggable Event Store Adapters
+
+Magek uses a pluggable architecture for event storage, allowing you to choose the most appropriate storage solution for your needs. The framework provides several event store adapters:
+
+- `@magek/adapter-event-store-nedb` - A lightweight, file-based adapter perfect for development and testing
+- Additional adapters for production databases (PostgreSQL, MongoDB, etc.) can be added as needed
+
+This modular approach allows you to:
+- Start development quickly with a simple file-based store
+- Switch to production-grade databases without changing your application code
+- Create custom adapters for specific requirements
+- Test your application with different storage backends
+
+To use an event store adapter, simply import it and assign it to `config.eventStoreAdapter` in your environment configuration.
+
+## Environment Files
+
+It is also possible to place an environment configuration in a separated file. Let's say that a developer called "John" created its own configuration file `src/config/john.ts`. The content would be the following:
+
+```typescript
+import { Magek } from '@magek/core'
+import { MagekConfig } from '@magek/common'
+import { Provider } from '@magek/server'
+import { eventStore } from '@magek/adapter-event-store-nedb'
+
+Magek.configure('john', (config: MagekConfig): void => {
+  config.appName = 'john-fruit-store'
+  config.provider = Provider()
+  config.eventStoreAdapter = eventStore
+})
+```
+
+The environment name will be required by any command from the Magek CLI that depends on the provider. For instance, when you deploy your application, you'll need to specify on which environment you want to deploy it:
+
+```sh
+npx magek deploy -e prod
+```
+
+This way, you can have different configurations depending on your needs.
+
+Magek environments are extremely flexible. As shown in the first example, your 'fruit-store' app can have three team-wide environments: 'dev', 'stage', and 'prod', each of them with different app names or providers, that are deployed by your CI/CD processes. Developers, like "John" in the second example, can create their own private environments in separate config files to test their changes in realistic environments before committing them. Likewise, CI/CD processes could generate separate production-like environments to test different branches to perform QA in separate environments without interferences from other features under test.
+
+The only thing you need to do to deploy a whole new completely-independent copy of your application is to use a different name. Also, Magek uses the credentials available in the machine (`~/.aws/credentials` in AWS) that performs the deployment process, so developers can even work on separate accounts than production or staging environments.

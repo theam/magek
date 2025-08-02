@@ -1,6 +1,6 @@
  
 const DataStore = require('@seald-io/nedb')
-import { ConnectionDataEnvelope, SubscriptionEnvelope, UUID } from '@booster-ai/common'
+import { ConnectionDataEnvelope, SubscriptionEnvelope, UUID } from '@magek/common'
 
 export interface ConnectionData extends ConnectionDataEnvelope {
   connectionID: UUID

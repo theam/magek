@@ -1,7 +1,7 @@
  
 import {
-  BoosterConfig,
-  BoosterMetadata,
+  MagekConfig,
+  MagekMetadata,
   EntityInterface,
   EntityMetadata,
   EntitySnapshotEnvelope,
@@ -21,13 +21,13 @@ import {
   getLogger,
   Promises,
   retryIfError,
-} from '@booster-ai/common'
-import { BoosterGlobalErrorDispatcher } from '../booster-global-error-dispatcher'
+} from '@magek/common'
+import { MagekGlobalErrorDispatcher } from '../global-error-dispatcher'
 import { readModelSearcher } from './read-model-searcher'
 import { ReadModelSchemaMigrator } from '../read-model-schema-migrator'
 
 export class ReadModelStore {
-  public constructor(readonly config: BoosterConfig) {}
+  public constructor(readonly config: MagekConfig) {}
 
   public async project(entitySnapshotEnvelope: EntitySnapshotEnvelope, deleteEvent = false): Promise<void> {
     const logger = getLogger(this.config, 'ReadModelStore#project')
@@ -367,16 +367,16 @@ export class ReadModelStore {
       // In case of optimistic concurrency error, we need to fetch the current read model version and retry
       logger.debug(
         `OptimisticConcurrencyUnexpectedVersionError (version=${
-          currentReadModel?.boosterMetadata?.version
+          currentReadModel?.magekMetadata?.version
         } and expectedDatabaseVersion=${
-          currentReadModel?.boosterMetadata?.version ?? 0
+          currentReadModel?.magekMetadata?.version ?? 0
         }). Looking for an updated version of read model ${readModelName} with ID = ${readModelID}` +
           (sequenceKey ? ` and sequence key ${sequenceKey.name} = ${sequenceKey.value}` : '')
       )
 
       currentReadModel = await this.fetchReadModel(readModelName, readModelID, sequenceKey)
       logger.debug(
-        `Current read model ${readModelName} with ID ${readModelID} updated with version = ${currentReadModel?.boosterMetadata?.version}` +
+        `Current read model ${readModelName} with ID ${readModelID} updated with version = ${currentReadModel?.magekMetadata?.version}` +
           (sequenceKey ? ` and sequence key ${sequenceKey.name} = ${sequenceKey.value}` : '')
       )
     }
@@ -384,7 +384,7 @@ export class ReadModelStore {
     if (currentReadModel) {
       migratedReadModel = await new ReadModelSchemaMigrator(this.config).migrate(currentReadModel, readModelName)
     }
-    const currentDatabaseVersion: number = migratedReadModel?.boosterMetadata?.version ?? 0
+    const currentDatabaseVersion: number = migratedReadModel?.magekMetadata?.version ?? 0
 
     let newReadModel: any
     const projectionInfo: ProjectionInfo = {
@@ -400,7 +400,7 @@ export class ReadModelStore {
         projectionInfo
       )
     } catch (e) {
-      const globalErrorDispatcher = new BoosterGlobalErrorDispatcher(this.config)
+      const globalErrorDispatcher = new MagekGlobalErrorDispatcher(this.config)
       const error = await globalErrorDispatcher.dispatch(
         new ProjectionGlobalError(entitySnapshotEnvelope, entity, migratedReadModel, projectionMetadata, e)
       )
@@ -439,11 +439,11 @@ export class ReadModelStore {
   ): Promise<unknown> {
     const logger = getLogger(this.config, 'ReadModelStore#store')
     const schemaVersion: number =
-      migratedReadModel?.boosterMetadata?.schemaVersion ?? this.config.currentVersionFor(readModelName)
+      migratedReadModel?.magekMetadata?.schemaVersion ?? this.config.currentVersionFor(readModelName)
     // Increment the read model version in 1 before storing
     const newReadModelVersion = expectedCurrentDatabaseVersion + 1
-    newReadModel.boosterMetadata = {
-      ...migratedReadModel?.boosterMetadata,
+    newReadModel.magekMetadata = {
+      ...migratedReadModel?.magekMetadata,
       version: newReadModelVersion,
       schemaVersion: schemaVersion,
       lastUpdateAt: new Date().toISOString(),
@@ -453,9 +453,9 @@ export class ReadModelStore {
         entityUpdatedAt: lastProjectedEntity?.createdAt,
         projectionMethod: `${projectionMetadata.class.name}.${projectionMetadata.methodName}`,
       },
-    } as BoosterMetadata
+    } as MagekMetadata
     logger.debug(
-      `Storing new version of read model ${readModelName} with ID ${readModelID}, version ${newReadModel.boosterMetadata.version} and expected database version ${expectedCurrentDatabaseVersion}:`,
+      `Storing new version of read model ${readModelName} with ID ${readModelID}, version ${newReadModel.magekMetadata.version} and expected database version ${expectedCurrentDatabaseVersion}:`,
       newReadModel
     )
     return this.config.provider.readModels.store(
@@ -484,7 +484,7 @@ export class ReadModelStore {
       }
       return projectionFunction(entity, readModelID, migratedReadModel || null)
     } catch (e) {
-      const globalErrorDispatcher = new BoosterGlobalErrorDispatcher(this.config)
+      const globalErrorDispatcher = new MagekGlobalErrorDispatcher(this.config)
       const error = await globalErrorDispatcher.dispatch(
         new ProjectionGlobalError(entitySnapshotEnvelope, entity, migratedReadModel, projectionMetadata, e)
       )

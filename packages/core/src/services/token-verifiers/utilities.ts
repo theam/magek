@@ -1,4 +1,4 @@
-import { DecodedToken } from '@booster-ai/common'
+import { DecodedToken } from '@magek/common'
 import * as jwt from 'jsonwebtoken'
 import { JwksClient, SigningKey } from 'jwks-rsa'
 
@@ -42,7 +42,7 @@ export function getKeyWithClient(client: JwksClient, header: jwt.JwtHeader, call
 }
 
 /**
- * Verifies a JWT token using a key or key resolver function and returns a Booster UserEnvelope.
+ * Verifies a JWT token using a key or key resolver function and returns a Magek UserEnvelope.
  *
  * @param token The token to verify
  * @param issuer The issuer of the token

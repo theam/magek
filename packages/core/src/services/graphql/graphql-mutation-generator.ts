@@ -2,14 +2,14 @@ import { ResolverBuilder, TargetTypesMap } from './common'
 import { GraphQLTypeInformer } from './graphql-type-informer'
 import { GraphQLObjectType } from 'graphql'
 import { GraphQLHandledFieldsGenerator } from './query-helpers/graphql-handled-fields-generator'
-import { BoosterConfig } from '@booster-ai/common'
+import { MagekConfig } from '@magek/common'
 
 export class GraphQLMutationGenerator {
   public constructor(
     private readonly targetTypes: TargetTypesMap,
     private readonly typeInformer: GraphQLTypeInformer,
     private readonly mutationResolver: ResolverBuilder,
-    private readonly config: BoosterConfig
+    private readonly config: MagekConfig
   ) {}
 
   public generate(): GraphQLObjectType | undefined {

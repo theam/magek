@@ -37,6 +37,6 @@ yarn-error.log*
 coverage
 .nyc_output
 
-# Booster specific
-.booster
+# Magek specific
+.magek
 *-integration-sandbox

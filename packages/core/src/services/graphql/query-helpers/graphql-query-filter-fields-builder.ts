@@ -1,4 +1,4 @@
-import { AnyClass, BoosterConfig } from '@booster-ai/common'
+import { AnyClass, MagekConfig } from '@magek/common'
 import { GraphQLBoolean, GraphQLFieldConfigArgumentMap, GraphQLInputObjectType, GraphQLList } from 'graphql'
 import { GraphQLTypeInformer } from '../graphql-type-informer'
 import { GraphqlQueryFilterArgumentsBuilder } from './graphql-query-filter-arguments-builder'
@@ -9,7 +9,7 @@ export class GraphqlQueryFilterFieldsBuilder {
   constructor(
     protected readonly typeInformer: GraphQLTypeInformer,
     protected generatedFiltersByTypeName: Record<string, GraphQLInputObjectType> = {},
-    protected readonly config: BoosterConfig
+    protected readonly config: MagekConfig
   ) {
     this.graphqlQueryFilterArgumentsBuilder = new GraphqlQueryFilterArgumentsBuilder(
       typeInformer,

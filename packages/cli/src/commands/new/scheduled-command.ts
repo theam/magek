@@ -5,7 +5,7 @@ import Brand from '../../common/brand'
 import { generate, template } from '../../services/generator'
 import { HasName, joinParsers, parseName, ImportDeclaration } from '../../services/generator/target'
 import * as path from 'path'
-import { checkCurrentDirIsABoosterProject } from '../../services/project-checker'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker'
 
 export default class ScheduledCommand extends BaseCommand {
   public static description = "generate new scheduled command, write 'boost new:scheduled-command -h' to see options"
@@ -34,21 +34,21 @@ type ScheduledCommandInfo = HasName
 
 const run = async (name: string): Promise<void> =>
   Script.init(`boost ${Brand.energize('new:scheduled-command')} 🚧`, joinParsers(parseName(name)))
-    .step('Verifying project', checkCurrentDirIsABoosterProject)
+    .step('Verifying project', checkCurrentDirIsAMagekProject)
     .step('Creating new scheduled command', generateScheduledCommand)
     .info('Scheduled command generated!')
     .done()
 
 function generateImports(): Array<ImportDeclaration> {
-  const componentsFromBoosterTypes = ['Register']
+  const componentsFromMagekTypes = ['Register']
   return [
     {
-      packagePath: '@booster-ai/core',
+      packagePath: '@magek/core',
       commaSeparatedComponents: 'ScheduledCommand',
     },
     {
-      packagePath: '@booster-ai/common',
-      commaSeparatedComponents: componentsFromBoosterTypes.join(', '),
+      packagePath: '@magek/common',
+      commaSeparatedComponents: componentsFromMagekTypes.join(', '),
     },
   ]
 }

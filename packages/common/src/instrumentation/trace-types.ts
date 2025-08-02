@@ -1,5 +1,5 @@
 import { UUID } from '../concepts'
-import { BoosterConfig } from '../config'
+import { MagekConfig } from '../config'
 
 export enum TraceTypes {
   START,
@@ -46,7 +46,7 @@ export interface TraceInfo {
 }
 
 export interface TraceHandler {
-  (config: BoosterConfig, actionType: string, traceInfo: TraceInfo): Promise<void>
+  (config: MagekConfig, actionType: string, traceInfo: TraceInfo): Promise<void>
 }
 
 export interface TraceConfiguration {

@@ -11,30 +11,30 @@ function projectDir(projectName: string): string {
   return path.join(process.cwd(), projectName)
 }
 
-function checkIndexFileIsBooster(indexFilePath: string): void {
+function checkIndexFileIsMagek(indexFilePath: string): void {
   const contents = readFileSync(indexFilePath)
-  if (!contents.includes('Booster.start(')) {
+  if (!contents.includes('Magek.start(')) {
     throw new Error(
-      'The main application file does not start a Booster application. Verify you are in the right project'
+      'The main application file does not start a Magek application. Verify you are in the right project'
     )
   }
 }
 
-export async function checkCurrentDirIsABoosterProject(): Promise<void> {
-  return checkItIsABoosterProject(process.cwd())
+export async function checkCurrentDirIsAMagekProject(): Promise<void> {
+  return checkItIsAMagekProject(process.cwd())
 }
 
-export async function checkItIsABoosterProject(projectPath: string): Promise<void> {
+export async function checkItIsAMagekProject(projectPath: string): Promise<void> {
   const projectAbsolutePath = path.resolve(projectPath)
   try {
     const tsConfigJsonContents = require(path.join(projectAbsolutePath, 'tsconfig.json'))
     const indexFilePath = path.normalize(
       path.join(projectAbsolutePath, tsConfigJsonContents.compilerOptions.rootDir, 'index.ts')
     )
-    checkIndexFileIsBooster(indexFilePath)
+    checkIndexFileIsMagek(indexFilePath)
   } catch (e) {
     throw new Error(
-      `There was an error when recognizing the application. Make sure you are in the root path of a Booster project:\n${e.message}`
+      `There was an error when recognizing the application. Make sure you are in the root path of a Magek project:\n${e.message}`
     )
   }
 }
@@ -74,29 +74,29 @@ export async function checkResourceExists(name: string, placementDir: string, ex
   }
 }
 
-export async function checkCurrentDirBoosterVersion(version: string): Promise<void> {
-  return checkBoosterVersion(version, process.cwd())
+export async function checkCurrentDirMagekVersion(version: string): Promise<void> {
+  return checkMagekVersion(version, process.cwd())
 }
 
-async function checkBoosterVersion(cliVersion: string, projectPath: string): Promise<void> {
-  const projectVersion = await getBoosterVersion(projectPath)
+async function checkMagekVersion(cliVersion: string, projectPath: string): Promise<void> {
+  const projectVersion = await getMagekVersion(projectPath)
   await compareVersionsAndDisplayMessages(cliVersion, projectVersion)
 }
 
-async function getBoosterVersion(projectPath: string): Promise<string> {
+async function getMagekVersion(projectPath: string): Promise<string> {
   const projectAbsolutePath = path.resolve(projectPath)
   try {
     const packageJsonContents = require(path.join(projectAbsolutePath, 'package.json'))
-    const version = packageJsonContents.dependencies['@booster-ai/core']
+    const version = packageJsonContents.dependencies['@magek/core']
     const versionParts = version
-      .replace('workspace:', '') // We remove the workspace protocol in case we're in the Booster monorepo
+      .replace('workspace:', '') // We remove the workspace protocol in case we're in the Magek monorepo
       .replace('^', '')
       .replace('.tgz', '')
       .split('-')
     return versionParts[versionParts.length - 1]
   } catch (e) {
     throw new Error(
-      `There was an error when recognizing the application. Make sure you are in the root path of a Booster project:\n${e.message}`
+      `There was an error when recognizing the application. Make sure you are in the root path of a Magek project:\n${e.message}`
     )
   }
 }
@@ -104,7 +104,7 @@ async function getBoosterVersion(projectPath: string): Promise<string> {
 class HigherCliVersionError extends Error {
   constructor(public cliVersion: string, public projectVersion: string, public section: string) {
     super(
-      `CLI version ${cliVersion} is higher than your project Booster version ${projectVersion} in the '${section}' section. Please upgrade your project Booster dependencies.`
+      `CLI version ${cliVersion} is higher than your project Magek version ${projectVersion} in the '${section}' section. Please upgrade your project Magek dependencies.`
     )
   }
 }
@@ -112,7 +112,7 @@ class HigherCliVersionError extends Error {
 class LowerCliVersionError extends Error {
   constructor(public cliVersion: string, public projectVersion: string, public section: string) {
     super(
-      `CLI version ${cliVersion} is lower than your project Booster version ${projectVersion}. Please upgrade your @booster-ai/cli to the same version with "npm install -g @booster-ai/cli@${projectVersion}"`
+      `CLI version ${cliVersion} is lower than your project Magek version ${projectVersion}. Please upgrade your @magek/cli to the same version with "npm install -g @magek/cli@${projectVersion}"`
     )
   }
 }
@@ -128,7 +128,7 @@ async function compareVersionsAndDisplayMessages(cliVersion: string, projectVers
       if (!cliSemVersion.equalsInFixSection(projectSemVersion)) {
         //differences in the 'fix' part
         logger.info(
-          `WARNING: Project Booster version differs in the 'fix' section. CLI version: ${cliVersion}. Project Booster version: ${projectVersion}`
+          `WARNING: Project Magek version differs in the 'fix' section. CLI version: ${cliVersion}. Project Magek version: ${projectVersion}`
         )
       }
     } else if (cliSemVersion.greaterInFeatureSectionThan(projectSemVersion)) {

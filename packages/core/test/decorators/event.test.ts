@@ -3,8 +3,8 @@
  
 import { expect } from '../expect'
 import { Event } from '../../src/decorators'
-import { UUID } from '@booster-ai/common'
-import { Booster } from '../../src'
+import { UUID } from '@magek/common'
+import { Magek } from '../../src'
 
 describe('the `Event` decorator', () => {
   it('add the event class as an event', () => {
@@ -15,7 +15,7 @@ describe('the `Event` decorator', () => {
         return '123'
       }
     }
-    expect(Booster.config.events['AnEvent']).to.deep.equal({
+    expect(Magek.config.events['AnEvent']).to.deep.equal({
       class: AnEvent,
     })
   })

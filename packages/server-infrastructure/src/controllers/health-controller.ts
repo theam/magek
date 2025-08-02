@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { HttpCodes, requestFailed } from '../http'
-import { HealthService } from '@booster-ai/server'
+import { HealthService } from '@magek/server'
 
 export class HealthController {
   constructor(readonly healthService: HealthService) {}

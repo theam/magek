@@ -16,7 +16,7 @@ export interface DataMigrationMetadata {
   migrationOptions: DataMigrationParameters
 }
 
-export interface BoosterDataMigrationEntityDuration {
+export interface MagekDataMigrationEntityDuration {
   start: string
   end?: string
   elapsedMilliseconds?: number

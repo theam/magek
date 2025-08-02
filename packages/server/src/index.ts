@@ -3,11 +3,11 @@ import {
   ProviderLibrary, 
   RocketDescriptor,
   ReadModelInterface,
-  BoosterConfig,
+  MagekConfig,
   FilterFor,
   SortFor,
   ProjectionFor
-} from '@booster-ai/common'
+} from '@magek/common'
 import { healthRequestResult, requestFailed, requestSucceeded } from './library/api-adapter'
 import { rawGraphQLRequestToEnvelope } from './library/graphql-adapter'
 
@@ -61,7 +61,7 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
       throw new Error('No read model store adapter configured')
     },
     search: async <TReadModel extends ReadModelInterface>(
-      config: BoosterConfig, 
+      config: MagekConfig, 
       readModelName: string, 
       filters: FilterFor<unknown>, 
       sortBy?: SortFor<unknown>, 
@@ -98,7 +98,7 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
           typeName: readModelName,
           value: readModel,
           id: readModel.id,
-          version: (readModel.boosterMetadata?.version ?? 0) + 1,
+          version: (readModel.magekMetadata?.version ?? 0) + 1,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         }
@@ -143,7 +143,7 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
     rawToEnvelopes: rawRocketInputToEnvelope,
   },
   sensor: {
-    databaseEventsHealthDetails: (config) => {
+    databaseEventsHealthDetails: (config: MagekConfig) => {
       // Delegate to event store adapter health check if available
       if (config.eventStoreAdapter?.healthCheck) {
         return config.eventStoreAdapter.healthCheck.details(config)
@@ -188,7 +188,7 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
   },
   // ProviderInfrastructureGetter
   infrastructure: () => {
-    const infrastructurePackageName = '@booster-ai/server-infrastructure'
+    const infrastructurePackageName = '@magek/server-infrastructure'
     let infrastructure: HasInfrastructure | undefined
 
     try {

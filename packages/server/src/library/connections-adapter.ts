@@ -1,9 +1,9 @@
-import { BoosterConfig, ConnectionDataEnvelope, getLogger } from '@booster-ai/common'
+import { MagekConfig, ConnectionDataEnvelope, getLogger } from '@magek/common'
 import { WebSocketRegistry } from '../services/web-socket-registry'
 
 export async function storeConnectionData(
   db: WebSocketRegistry,
-  config: BoosterConfig,
+  config: MagekConfig,
   connectionId: string,
   data: ConnectionDataEnvelope
 ): Promise<void> {
@@ -17,7 +17,7 @@ export async function storeConnectionData(
 
 export async function fetchConnectionData(
   db: WebSocketRegistry,
-  config: BoosterConfig,
+  config: MagekConfig,
   connectionId: string
 ): Promise<ConnectionDataEnvelope | undefined> {
   const results = (await db.query({
@@ -31,7 +31,7 @@ export async function fetchConnectionData(
 
 export async function deleteConnectionData(
   db: WebSocketRegistry,
-  config: BoosterConfig,
+  config: MagekConfig,
   connectionId: string
 ): Promise<void> {
   const logger = getLogger(config, 'connections-adapter#deleteConnectionData')
@@ -44,7 +44,7 @@ export async function deleteConnectionData(
 }
 
 export async function sendMessageToConnection(
-  config: BoosterConfig,
+  config: MagekConfig,
   connectionId: string,
   data: unknown
 ): Promise<void> {
@@ -52,7 +52,7 @@ export async function sendMessageToConnection(
   logger.debug(`Sending message ${JSON.stringify(data)} to connection ${connectionId}`)
   
   // Check if the global variable exists in the process to avoid importing server-infrastructure
-  const globalRegistry = (global as any).boosterWebSocketRegistry
+  const globalRegistry = (global as any).webSocketRegistry
   if (globalRegistry && typeof globalRegistry.sendMessage === 'function') {
     globalRegistry.sendMessage(connectionId, data)
   } else {

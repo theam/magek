@@ -1,6 +1,6 @@
-import { BoosterConfig, TraceActionTypes, TraceInfo, TraceTypes, UUID } from '@booster-ai/common'
+import { MagekConfig, TraceActionTypes, TraceInfo, TraceTypes, UUID } from '@magek/common'
 import { isTraceEnabled, notifyTrace } from '../trace-notifier'
-import { Booster } from '../../booster'
+import { Magek } from '../../magek'
 
 export function Trace(actionType: string = TraceActionTypes.CUSTOM, description?: string) {
   return (
@@ -10,7 +10,7 @@ export function Trace(actionType: string = TraceActionTypes.CUSTOM, description?
   ): PropertyDescriptor => {
     const originalMethod = descriptor.value!
     descriptor.value = async function (...args: Array<unknown>) {
-      const config = Booster.config
+      const config = Magek.config
       const tracerConfigured = isTraceEnabled(actionType, config)
       if (!tracerConfigured) {
         return await originalMethod.apply(this, args)
@@ -35,7 +35,7 @@ function buildParameters(
   args: unknown[],
   description: string | undefined,
   descriptor: PropertyDescriptor,
-  config: BoosterConfig
+  config: MagekConfig
 ) {
   let internal = undefined
   if (config && config.traceConfiguration.includeInternal) {

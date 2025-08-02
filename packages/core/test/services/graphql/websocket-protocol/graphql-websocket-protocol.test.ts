@@ -6,19 +6,19 @@ import {
   GraphQLStart,
   GraphQLStop,
   MessageTypes,
-  BoosterConfig,
+  MagekConfig,
   ProviderConnectionsLibrary,
   GraphQLRequestEnvelopeError,
   UserEnvelope,
   ConnectionDataEnvelope,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { GraphQLWebsocketHandler } from '../../../../src/services/graphql/websocket-protocol/graphql-websocket-protocol'
 import { ExecutionResult } from 'graphql'
 import { expect } from '../../../expect'
-import { BoosterTokenVerifier } from '../../../../src/booster-token-verifier'
+import { MagekTokenVerifier } from '../../../../src/token-verifier'
 
 describe('the `GraphQLWebsocketHandler`', () => {
-  let config: BoosterConfig
+  let config: MagekConfig
   let websocketHandler: GraphQLWebsocketHandler
   let connectionsManager: ProviderConnectionsLibrary
   let onStartCallback: (
@@ -27,17 +27,17 @@ describe('the `GraphQLWebsocketHandler`', () => {
   let onStopCallback: (connectionID: string, messageID: string) => Promise<void>
   let onTerminateCallback: (connectionID: string) => Promise<void>
   let envelope: GraphQLRequestEnvelope
-  let boosterTokenVerifier: BoosterTokenVerifier
+  let tokenVerifier: MagekTokenVerifier
 
   beforeEach(() => {
-    config = new BoosterConfig('test')
+    config = new MagekConfig('test')
     config.logger = {
       debug: fake(),
       info: fake(),
       warn: fake(),
       error: fake(),
     }
-    boosterTokenVerifier = new BoosterTokenVerifier(config)
+    tokenVerifier = new MagekTokenVerifier(config)
     connectionsManager = {
       sendMessage: stub(),
       deleteData: stub(),
@@ -56,7 +56,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
         onStopOperation: onStopCallback,
         onTerminate: onTerminateCallback,
       },
-      boosterTokenVerifier
+      tokenVerifier
     )
     envelope = {
       currentUser: undefined,
@@ -187,7 +187,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
             }
 
             const fakeVerifier = fake.resolves(expectedUser)
-            replace(boosterTokenVerifier, 'verify', fakeVerifier)
+            replace(tokenVerifier, 'verify', fakeVerifier)
 
             resultPromise = websocketHandler.handle(envelope)
             await resultPromise
@@ -307,7 +307,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
                 onStopOperation: undefined as any,
                 onTerminate: undefined as any,
               },
-              boosterTokenVerifier
+              tokenVerifier
             )
           })
 
@@ -332,7 +332,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
                 onStopOperation: undefined as any,
                 onTerminate: undefined as any,
               },
-              boosterTokenVerifier
+              tokenVerifier
             )
           })
 

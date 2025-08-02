@@ -1,8 +1,8 @@
 import { ReadModelAuthorizer, ReadModelFilterHooks, UUID } from '.'
 import { Class } from '../typelevel'
-import { PropertyMetadata } from '@booster-ai/metadata'
+import { PropertyMetadata } from '@magek/metadata'
 
-export interface BoosterMetadata {
+export interface MagekMetadata {
   version: number
   schemaVersion: number
   optimisticConcurrencyValue?: string | number
@@ -17,7 +17,7 @@ export interface BoosterMetadata {
 
 export interface ReadModelInterface {
   id: UUID
-  boosterMetadata?: BoosterMetadata
+  magekMetadata?: MagekMetadata
    
   [key: string]: any
 }

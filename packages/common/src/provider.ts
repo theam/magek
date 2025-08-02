@@ -1,5 +1,5 @@
 import { ReadModelInterface, SequenceKey, UUID } from './concepts'
-import { BoosterConfig } from './config'
+import { MagekConfig } from './config'
 import {
   ConnectionDataEnvelope,
   GraphQLRequestEnvelope,
@@ -26,42 +26,42 @@ export interface ProviderLibrary {
 }
 
 export interface ProviderRocketLibrary {
-  rawToEnvelopes(config: BoosterConfig, request: unknown): RocketEnvelope
+  rawToEnvelopes(config: MagekConfig, request: unknown): RocketEnvelope
 }
 
 export interface ProviderSensorLibrary {
-  databaseEventsHealthDetails(config: BoosterConfig): Promise<unknown>
-  databaseReadModelsHealthDetails(config: BoosterConfig): Promise<unknown>
-  isDatabaseEventUp(config: BoosterConfig): Promise<boolean>
-  areDatabaseReadModelsUp(config: BoosterConfig): Promise<boolean>
-  databaseUrls(config: BoosterConfig): Promise<Array<string>>
-  isGraphQLFunctionUp(config: BoosterConfig): Promise<boolean>
-  graphQLFunctionUrl(config: BoosterConfig): Promise<string>
+  databaseEventsHealthDetails(config: MagekConfig): Promise<unknown>
+  databaseReadModelsHealthDetails(config: MagekConfig): Promise<unknown>
+  isDatabaseEventUp(config: MagekConfig): Promise<boolean>
+  areDatabaseReadModelsUp(config: MagekConfig): Promise<boolean>
+  databaseUrls(config: MagekConfig): Promise<Array<string>>
+  isGraphQLFunctionUp(config: MagekConfig): Promise<boolean>
+  graphQLFunctionUrl(config: MagekConfig): Promise<string>
   rawRequestToHealthEnvelope(rawRequest: unknown): HealthEnvelope
-  areRocketFunctionsUp(config: BoosterConfig): Promise<{ [key: string]: boolean }>
+  areRocketFunctionsUp(config: MagekConfig): Promise<{ [key: string]: boolean }>
 }
 
 export interface ProviderReadModelsLibrary {
   /**
    * Converts raw events into `ReadModelEnvelope` objects.
    *
-   * @param config - The Booster configuration object.
+   * @param config - The Magek configuration object.
    * @param rawEvents - The raw events to be converted.
    * @returns A promise that resolves to an array of `ReadModelEnvelope` objects.
    */
-  rawToEnvelopes(config: BoosterConfig, rawEvents: unknown): Promise<Array<ReadModelEnvelope>>
+  rawToEnvelopes(config: MagekConfig, rawEvents: unknown): Promise<Array<ReadModelEnvelope>>
 
   /**
    * Fetches a read model by name and ID.
    *
-   * @param config - The Booster configuration object.
+   * @param config - The Magek configuration object.
    * @param readModelName - The name of the read model to be fetched.
    * @param readModelID - The ID of the read model to be fetched.
    * @param sequenceKey - The sequence key of the read model to be fetched (optional).
    * @returns A promise that resolves to a read-only non-empty array of `ReadModelInterface` objects.
    */
   fetch(
-    config: BoosterConfig,
+    config: MagekConfig,
     readModelName: string,
     readModelID: UUID,
     sequenceKey?: SequenceKey
@@ -71,7 +71,7 @@ export interface ProviderReadModelsLibrary {
    * Searches for read models that match a set of filters.
    *
    * @template TReadModel - The type of read model to be returned.
-   * @param config - The Booster configuration object.
+   * @param config - The Magek configuration object.
    * @param entityTypeName - The name of the entity type to be searched.
    * @param filters - The filters to be applied during the search.
    * @param sortBy - An object that specifies how the results should be sorted (optional).
@@ -82,7 +82,7 @@ export interface ProviderReadModelsLibrary {
    * @returns A promise that resolves to an array of `TReadModel` objects or a `ReadModelListResult` object.
    */
   search<TReadModel extends ReadModelInterface>(
-    config: BoosterConfig,
+    config: MagekConfig,
     entityTypeName: string,
     filters: FilterFor<unknown>,
     sortBy?: SortFor<unknown>,
@@ -95,7 +95,7 @@ export interface ProviderReadModelsLibrary {
   /**
    * Stores a read model.
    *
-   * @param config - The Booster configuration object.
+   * @param config - The Magek configuration object.
    * @param readModelName - The name of the read model to be stored.
    * @param readModel - The read model to be stored.
    * @param expectedCurrentVersion - The expected current version of the read model (optional).
@@ -105,7 +105,7 @@ export interface ProviderReadModelsLibrary {
    * @returns A promise that resolves to an unknown value.
    */
   store(
-    config: BoosterConfig,
+    config: MagekConfig,
     readModelName: string,
     readModel: ReadModelInterface,
     expectedCurrentVersion?: number
@@ -114,61 +114,61 @@ export interface ProviderReadModelsLibrary {
   /**
    * Deletes a read model.
    *
-   * @param config - The Booster configuration object.
+   * @param config - The Magek configuration object.
    * @param readModelName - The name of the read model to be deleted.
    * @param readModel - The read model to be deleted (optional).
    * @returns A promise that resolves to any value.
    */
-  delete(config: BoosterConfig, readModelName: string, readModel: ReadModelInterface | undefined): Promise<unknown>
+  delete(config: MagekConfig, readModelName: string, readModel: ReadModelInterface | undefined): Promise<unknown>
 
   /**
    * Subscribes to a stream of events.
    *
-   * @param config - The Booster configuration object.
+   * @param config - The Magek configuration object.
    * @param subscriptionEnvelope - The subscription envelope that contains the details of the subscription.
    * @returns A promise that resolves to void.
    */
-  subscribe(config: BoosterConfig, subscriptionEnvelope: SubscriptionEnvelope): Promise<void>
+  subscribe(config: MagekConfig, subscriptionEnvelope: SubscriptionEnvelope): Promise<void>
 
   /**
    * Fetches a list of subscriptions by subscription name.
    *
-   * @param config - The Booster configuration object.
+   * @param config - The Magek configuration object.
    * @param subscriptionName - The name of the subscriptions to be fetched.
    * @returns A promise that resolves to an array of `SubscriptionEnvelope` objects.
    */
-  fetchSubscriptions(config: BoosterConfig, subscriptionName: string): Promise<Array<SubscriptionEnvelope>>
+  fetchSubscriptions(config: MagekConfig, subscriptionName: string): Promise<Array<SubscriptionEnvelope>>
 
   /**
    * Deletes a subscription by connection ID and subscription ID.
    *
-   * @param config - The Booster configuration object.
+   * @param config - The Magek configuration object.
    * @param connectionID - The ID of the connection associated with the subscription.
    * @param subscriptionID - The ID of the subscription to be deleted.
    * @returns A promise that resolves to void.
    */
-  deleteSubscription(config: BoosterConfig, connectionID: string, subscriptionID: string): Promise<void>
+  deleteSubscription(config: MagekConfig, connectionID: string, subscriptionID: string): Promise<void>
 
   /**
    * Deletes all subscriptions for a connection by connection ID.
    *
-   * @param config - The Booster configuration object.
+   * @param config - The Magek configuration object.
    * @param connectionID - The ID of the connection associated with the subscriptions.
    * @returns A promise that resolves to void.
    */
-  deleteAllSubscriptions(config: BoosterConfig, connectionID: string): Promise<void>
+  deleteAllSubscriptions(config: MagekConfig, connectionID: string): Promise<void>
 }
 
 export interface ProviderGraphQLLibrary {
   /**
    * Converts a raw GraphQL request to a `GraphQLRequestEnvelope` or a `GraphQLRequestEnvelopeError`.
    *
-   * @param config - The Booster configuration object.
+   * @param config - The Magek configuration object.
    * @param rawGraphQLRequest - The raw GraphQL request to be converted.
    * @returns A promise that resolves to either a `GraphQLRequestEnvelope` or a `GraphQLRequestEnvelopeError` object.
    */
   rawToEnvelope(
-    config: BoosterConfig,
+    config: MagekConfig,
     rawGraphQLRequest: unknown
   ): Promise<GraphQLRequestEnvelope | GraphQLRequestEnvelopeError>
 
@@ -186,40 +186,40 @@ export interface ProviderConnectionsLibrary {
   /**
    * Stores connection data for a specific connection.
    *
-   * @param config - The Booster configuration object.
+   * @param config - The Magek configuration object.
    * @param connectionID - The ID of the connection.
    * @param data - The data to be stored for the connection.
    * @returns A promise that resolves when the data has been stored successfully.
    */
-  storeData(config: BoosterConfig, connectionID: string, data: ConnectionDataEnvelope): Promise<void>
+  storeData(config: MagekConfig, connectionID: string, data: ConnectionDataEnvelope): Promise<void>
 
   /**
    * Fetches connection data for a specific connection.
    *
-   * @param config - The Booster configuration object.
+   * @param config - The Magek configuration object.
    * @param connectionID - The ID of the connection.
    * @returns A promise that resolves to the connection data for the specified connection, or `undefined` if no data is found.
    */
-  fetchData(config: BoosterConfig, connectionID: string): Promise<ConnectionDataEnvelope | undefined>
+  fetchData(config: MagekConfig, connectionID: string): Promise<ConnectionDataEnvelope | undefined>
 
   /**
    * Deletes connection data for a specific connection.
    *
-   * @param config - The Booster configuration object.
+   * @param config - The Magek configuration object.
    * @param connectionID - The ID of the connection.
    * @returns A promise that resolves when the data has been deleted successfully.
    */
-  deleteData(config: BoosterConfig, connectionID: string): Promise<void>
+  deleteData(config: MagekConfig, connectionID: string): Promise<void>
 
   /**
    * Sends a message to a specific connection.
    *
-   * @param config - The Booster configuration object.
+   * @param config - The Magek configuration object.
    * @param connectionID - The ID of the connection.
    * @param data - The data to be sent to the connection.
    * @returns A promise that resolves when the message has been sent successfully.
    */
-  sendMessage(config: BoosterConfig, connectionID: string, data: unknown): Promise<void>
+  sendMessage(config: MagekConfig, connectionID: string, data: unknown): Promise<void>
 }
 
 export interface ProviderAPIHandling {
@@ -257,7 +257,7 @@ export interface ProviderInfrastructure {
    * @param config - The configuration for the application.
    * @returns A promise that resolves when the deployment is complete.
    */
-  deploy?: (config: BoosterConfig) => Promise<void>
+  deploy?: (config: MagekConfig) => Promise<void>
 
   /**
    * Deletes all resources created by the application.
@@ -265,7 +265,7 @@ export interface ProviderInfrastructure {
    * @param config - The configuration for the application.
    * @returns A promise that resolves when the deletion is complete.
    */
-  nuke?: (config: BoosterConfig) => Promise<void>
+  nuke?: (config: MagekConfig) => Promise<void>
 
   /**
    * Starts the application.
@@ -274,7 +274,7 @@ export interface ProviderInfrastructure {
    * @param port - The port number to start the application on.
    * @returns A promise that resolves when the application has started.
    */
-  start?: (config: BoosterConfig, port: number) => Promise<void>
+  start?: (config: MagekConfig, port: number) => Promise<void>
 
   /**
    * Synthesizes the application.
@@ -282,7 +282,7 @@ export interface ProviderInfrastructure {
    * @param config - The configuration for the application.
    * @returns A promise that resolves when the synthesis is complete.
    */
-  synth?: (config: BoosterConfig) => Promise<void>
+  synth?: (config: MagekConfig) => Promise<void>
 }
 
 export interface ScheduledCommandsLibrary {
@@ -293,7 +293,7 @@ export interface ScheduledCommandsLibrary {
    * @param rawMessage - The raw message to convert.
    * @returns A promise that resolves with the `ScheduledCommandEnvelope` representation of the raw message.
    */
-  rawToEnvelope(config: BoosterConfig, rawMessage: unknown): Promise<ScheduledCommandEnvelope>
+  rawToEnvelope(config: MagekConfig, rawMessage: unknown): Promise<ScheduledCommandEnvelope>
 }
 
 export interface HasInfrastructure {

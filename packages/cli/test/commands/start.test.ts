@@ -1,6 +1,6 @@
 import { expect } from '../expect'
 import { restore, fake, replace } from 'sinon'
-import { ProviderLibrary, BoosterConfig } from '@booster-ai/common'
+import { ProviderLibrary, MagekConfig } from '@magek/common'
 import * as Start from '../../src/commands/start'
 import * as providerService from '../../src/services/provider-service'
 import { oraLogger } from '../../src/services/logger'
@@ -16,7 +16,7 @@ const runTasks = start.__get__('runTasks')
 
 describe('start', () => {
   beforeEach(() => {
-    delete process.env.BOOSTER_ENV
+    delete process.env.MAGEK_ENV
   })
 
   afterEach(() => {
@@ -52,20 +52,20 @@ describe('start', () => {
 
   describe('start class', () => {
     beforeEach(() => {
-      const config = new BoosterConfig('fake_environment')
+      const config = new MagekConfig('fake_environment')
       replace(configService, 'compileProjectAndLoadConfig', fake.resolves(config))
       replace(providerService, 'startProvider', fake.resolves({}))
-      replace(projectChecker, 'checkCurrentDirBoosterVersion', fake.resolves({}))
+      replace(projectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
       replace(oraLogger, 'fail', fake.resolves({}))
       replace(oraLogger, 'info', fake.resolves({}))
       replace(oraLogger, 'start', fake.resolves({}))
       replace(oraLogger, 'succeed', fake.resolves({}))
     })
 
-    it('init calls checkCurrentDirBoosterVersion', async () => {
+    it('init calls checkCurrentDirMagekVersion', async () => {
       const config = await Config.load()
       await new Start.default([], config).init()
-      expect(projectChecker.checkCurrentDirBoosterVersion).to.have.been.called
+      expect(projectChecker.checkCurrentDirMagekVersion).to.have.been.called
     })
 
     it('without flags', async () => {
@@ -109,7 +109,7 @@ describe('start', () => {
       expect(providerService.startProvider).to.have.not.been.called
     })
 
-    describe('inside a booster project', () => {
+    describe('inside a Magek project', () => {
       it('entering correct environment', async () => {
         const config = await Config.load()
         await new Start.default(['-e', 'fake_environment'], config).run()

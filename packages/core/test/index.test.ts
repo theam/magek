@@ -1,106 +1,106 @@
 import { expect } from './expect'
 import {
-  Booster,
-  boosterEventDispatcher,
-  boosterNotifySubscribers,
-  boosterRocketDispatcher,
-  boosterServeGraphQL,
-  boosterTriggerScheduledCommands,
-  boosterConsumeEventStream,
-  boosterProduceEventStream,
-  boosterHealth,
+  Magek,
+  eventDispatcher,
+  notifySubscribers,
+  rocketDispatcher,
+  graphQLDispatcher,
+  triggerScheduledCommands,
+  consumeEventStream,
+  produceEventStream,
+  health,
 } from '../src/'
 import { fake, replace, restore } from 'sinon'
-import { BoosterEventDispatcher } from '../src/booster-event-dispatcher'
-import { BoosterGraphQLDispatcher } from '../src/booster-graphql-dispatcher'
-import { BoosterScheduledCommandDispatcher } from '../src/booster-scheduled-command-dispatcher'
-import { BoosterSubscribersNotifier } from '../src/booster-subscribers-notifier'
-import { BoosterRocketDispatcher } from '../src/booster-rocket-dispatcher'
-import { BoosterEventStreamConsumer } from '../src/booster-event-stream-consumer'
-import { BoosterEventStreamProducer } from '../src/booster-event-stream-producer'
-import { BoosterHealthService } from '../src/sensor'
+import { MagekEventDispatcher } from '../src/event-dispatcher'
+import { MagekGraphQLDispatcher } from '../src/graphql-dispatcher'
+import { MagekScheduledCommandDispatcher } from '../src/scheduled-command-dispatcher'
+import { MagekSubscribersNotifier } from '../src/subscribers-notifier'
+import { MagekRocketDispatcher } from '../src/rocket-dispatcher'
+import { MagekEventStreamConsumer } from '../src/event-stream-consumer'
+import { MagekEventStreamProducer } from '../src/event-stream-producer'
+import { MagekHealthService } from '../src/sensor'
 
 describe('framework-core package', () => {
   afterEach(() => {
     restore()
   })
 
-  context('`boosterEventDispatcher` function', () => {
-    it('calls the `dispatch` method of the `BoosterEventDispatcher` class', async () => {
+  context('`eventDispatcher` function', () => {
+    it('calls the `dispatch` method of the `MagekEventDispatcher` class', async () => {
       const fakeDispatch = fake.resolves(undefined)
       const fakeRawEvents = { some: 'events' }
-      replace(BoosterEventDispatcher, 'dispatch', fakeDispatch)
-      await boosterEventDispatcher(fakeRawEvents)
-      expect(fakeDispatch).to.have.been.calledOnceWithExactly(fakeRawEvents, Booster.config)
+      replace(MagekEventDispatcher, 'dispatch', fakeDispatch)
+      await eventDispatcher(fakeRawEvents)
+      expect(fakeDispatch).to.have.been.calledOnceWithExactly(fakeRawEvents, Magek.config)
     })
   })
 
-  context('`boosterServeGraphQL` function', () => {
-    it('calls the `dispatch` method of the `BoosterGraphQLDispatcher` class', async () => {
+  context('`graphQLDispatcher` function', () => {
+    it('calls the `dispatch` method of the `MagekGraphQLDispatcher` class', async () => {
       const fakeDispatch = fake.resolves(undefined)
       const fakeRawRequest = { some: 'request' }
-      replace(BoosterGraphQLDispatcher.prototype, 'dispatch', fakeDispatch)
-      await boosterServeGraphQL(fakeRawRequest)
+      replace(MagekGraphQLDispatcher.prototype, 'dispatch', fakeDispatch)
+      await graphQLDispatcher(fakeRawRequest)
       expect(fakeDispatch).to.have.been.calledOnceWithExactly(fakeRawRequest)
     })
   })
 
-  context('`boosterTriggerScheduledCommands` function', () => {
-    it('calls the `dispatch` method of the `BoosterScheduledCommandDispatcher` class', async () => {
+  context('`triggerScheduledCommands` function', () => {
+    it('calls the `dispatch` method of the `MagekScheduledCommandDispatcher` class', async () => {
       const fakeDispatch = fake.resolves(undefined)
       const fakeRawRequest = { some: 'request' }
-      replace(BoosterScheduledCommandDispatcher.prototype, 'dispatch', fakeDispatch)
-      await boosterTriggerScheduledCommands(fakeRawRequest)
+      replace(MagekScheduledCommandDispatcher.prototype, 'dispatch', fakeDispatch)
+      await triggerScheduledCommands(fakeRawRequest)
       expect(fakeDispatch).to.have.been.calledOnceWithExactly(fakeRawRequest)
     })
   })
 
-  context('`boosterNotifySubscribers` function', () => {
-    it('calls the `dispatch` method of the `BoosterSubscribersNotifier` class', async () => {
+  context('`notifySubscribers` function', () => {
+    it('calls the `dispatch` method of the `MagekSubscribersNotifier` class', async () => {
       const fakeDispatch = fake.resolves(undefined)
       const fakeRawRequest = { some: 'request' }
-      replace(BoosterSubscribersNotifier.prototype, 'dispatch', fakeDispatch)
-      await boosterNotifySubscribers(fakeRawRequest)
+      replace(MagekSubscribersNotifier.prototype, 'dispatch', fakeDispatch)
+      await notifySubscribers(fakeRawRequest)
       expect(fakeDispatch).to.have.been.calledOnceWithExactly(fakeRawRequest)
     })
   })
 
-  context('`boosterRocketDispatcher` function', () => {
-    it('calls the `dispatch` method of the `BoosterRocketDispatcher` class', async () => {
+  context('`rocketDispatcher` function', () => {
+    it('calls the `dispatch` method of the `MagekRocketDispatcher` class', async () => {
       const fakeDispatch = fake.resolves(undefined)
       const fakeRawRequest = { some: 'request' }
-      replace(BoosterRocketDispatcher.prototype, 'dispatch', fakeDispatch)
-      await boosterRocketDispatcher(fakeRawRequest)
+      replace(MagekRocketDispatcher.prototype, 'dispatch', fakeDispatch)
+      await rocketDispatcher(fakeRawRequest)
       expect(fakeDispatch).to.have.been.calledOnceWithExactly(fakeRawRequest)
     })
   })
 
-  context('`boosterConsumeEventStream` function', () => {
-    it('calls the `consume` method of the `BoosterEventStreamConsumer` class', async () => {
+  context('`consumeEventStream` function', () => {
+    it('calls the `consume` method of the `MagekEventStreamConsumer` class', async () => {
       const fakeConsume = fake.resolves(undefined)
       const fakeRawEvent = { some: 'event' }
-      replace(BoosterEventStreamConsumer, 'consume', fakeConsume)
-      await boosterConsumeEventStream(fakeRawEvent)
-      expect(fakeConsume).to.have.been.calledOnceWithExactly(fakeRawEvent, Booster.config)
+      replace(MagekEventStreamConsumer, 'consume', fakeConsume)
+      await consumeEventStream(fakeRawEvent)
+      expect(fakeConsume).to.have.been.calledOnceWithExactly(fakeRawEvent, Magek.config)
     })
   })
 
-  context('`boosterProduceEventStream` function', () => {
-    it('calls the `produce` method of the `BoosterEventStreamProducer` class', async () => {
+  context('`produceEventStream` function', () => {
+    it('calls the `produce` method of the `MagekEventStreamProducer` class', async () => {
       const fakeProduce = fake.resolves(undefined)
       const fakeRawEvent = { some: 'event' }
-      replace(BoosterEventStreamProducer, 'produce', fakeProduce)
-      await boosterProduceEventStream(fakeRawEvent)
-      expect(fakeProduce).to.have.been.calledOnceWithExactly(fakeRawEvent, Booster.config)
+      replace(MagekEventStreamProducer, 'produce', fakeProduce)
+      await produceEventStream(fakeRawEvent)
+      expect(fakeProduce).to.have.been.calledOnceWithExactly(fakeRawEvent, Magek.config)
     })
   })
 
-  context('`boosterHealth` function', () => {
-    it('calls the `boosterHealth` method of the `BoosterHealthService` class', async () => {
+  context('`health` function', () => {
+    it('calls the `health` method of the `MagekHealthService` class', async () => {
       const fakeHealth = fake.resolves(undefined)
       const fakeRawRequest = { some: 'request' }
-      replace(BoosterHealthService.prototype, 'boosterHealth', fakeHealth)
-      await boosterHealth(fakeRawRequest)
+      replace(MagekHealthService.prototype, 'health', fakeHealth)
+      await health(fakeRawRequest)
       expect(fakeHealth).to.have.been.calledOnceWithExactly(fakeRawRequest)
     })
   })

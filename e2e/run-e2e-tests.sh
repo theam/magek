@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-echo "🚀 Starting E2E Integration Tests for booster-ai"
+echo "🚀 Starting E2E Integration Tests for magek"
 echo "=============================================="
 
 # Get the directory where this script is located
@@ -12,7 +12,7 @@ echo "📦 Running Phase 1: Setting up Verdaccio registry and building packages.
 source "$SCRIPT_DIR/phase1-setup-registry.sh"
 
 echo ""
-echo "📦 Running Phase 2: Creating test app with npm create booster-ai..."
+echo "📦 Running Phase 2: Creating test app with npm create magek..."
 source "$SCRIPT_DIR/phase2-create-app.sh"
 
 echo ""

@@ -1,16 +1,16 @@
-import { BoosterConfig, TraceInfo, TraceTypes } from '@booster-ai/common'
+import { MagekConfig, TraceInfo, TraceTypes } from '@magek/common'
 
 export async function notifyTrace(
   type: TraceTypes,
   actionType: string,
   parameters: TraceInfo,
-  config: BoosterConfig
+  config: MagekConfig
 ): Promise<void> {
   const handler = type === TraceTypes.START ? config.traceConfiguration.onStart : config.traceConfiguration.onEnd
   return handler.call(handler, config, actionType, parameters)
 }
 
-export function isTraceEnabled(actionType: string, config: BoosterConfig): boolean {
+export function isTraceEnabled(actionType: string, config: MagekConfig): boolean {
   if (!config) {
     return false
   }

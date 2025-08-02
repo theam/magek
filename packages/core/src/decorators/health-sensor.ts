@@ -4,9 +4,9 @@ import {
   HealthIndicatorConfiguration,
   HealthIndicatorInterface,
   HealthIndicatorMetadata,
-} from '@booster-ai/common'
-import { Booster } from '../booster'
-import { defaultBoosterHealthIndicators } from '../sensor/health/health-indicators'
+} from '@magek/common'
+import { Magek } from '../magek'
+import { defaultMagekHealthIndicators } from '../sensor/health/health-indicators'
 
 /**
  *
@@ -23,9 +23,9 @@ export function HealthSensor(
   attributes: HealthIndicatorConfiguration
 ): <TIndicator extends HealthIndicatorInterface>(healthIndicator: Class<TIndicator>) => void {
   return (healthIndicator) => {
-    Booster.configureCurrentEnv((config): void => {
+    Magek.configureCurrentEnv((config): void => {
       if (Object.keys(config.userHealthIndicators).length === 0) {
-        config.userHealthIndicators = defaultBoosterHealthIndicators(config)
+        config.userHealthIndicators = defaultMagekHealthIndicators(config)
       }
       const path = attributes.id
       config.userHealthIndicators[path] = {

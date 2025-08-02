@@ -1,11 +1,11 @@
-import { Booster } from '../booster'
-import { Class, ReadModelInterface } from '@booster-ai/common'
+import { Magek } from '../magek'
+import { Class, ReadModelInterface } from '@magek/common'
 import { getFunctionArguments } from './metadata'
 
 export function sequencedBy(klass: Class<ReadModelInterface>, _: string | undefined, parameterIndex: number): void {
   const args = getFunctionArguments(klass)
   const propertyName = args[parameterIndex]
-  Booster.configureCurrentEnv((config): void => {
+  Magek.configureCurrentEnv((config): void => {
     if (config.readModelSequenceKeys[klass.name] && config.readModelSequenceKeys[klass.name] !== propertyName) {
       throw new Error(
         `Error trying to register a sort key named \`${propertyName}\` for class \`${

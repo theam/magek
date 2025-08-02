@@ -1,4 +1,4 @@
-import { EntitySnapshotEnvelope, EventEnvelope, NonPersistedEventEnvelope } from '@booster-ai/common'
+import { EntitySnapshotEnvelope, EventEnvelope, NonPersistedEventEnvelope } from '@magek/common'
 import { faker } from '@faker-js/faker'
 
 export function createMockNonPersistedEventEnvelop(): NonPersistedEventEnvelope {

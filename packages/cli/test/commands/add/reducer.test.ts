@@ -12,8 +12,8 @@ describe('add', async () => {
   describe('reducer', async () => {
     const entityName = 'Post'
     const sourceFileText = `
-    import { Entity } from '@booster-ai/core'
-    import { UUID } from '@booster-ai/common'
+    import { Entity } from '@magek/core'
+    import { UUID } from '@magek/common'
     
     @Entity
     export class Post {
@@ -22,8 +22,8 @@ describe('add', async () => {
     `
 
     beforeEach(() => {
-      stub(ProjectChecker, 'checkCurrentDirIsABoosterProject').returnsThis()
-      replace(ProjectChecker, 'checkCurrentDirBoosterVersion', fake.resolves({}))
+      stub(ProjectChecker, 'checkCurrentDirIsAMagekProject').returnsThis()
+      replace(ProjectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
       replace(Filenames, 'fileNameWithExtension', fake.returns('post.ts'))
     })
 
@@ -31,10 +31,10 @@ describe('add', async () => {
       restore()
     })
 
-    it('init calls checkCurrentDirBoosterVersion', async () => {
+    it('init calls checkCurrentDirMagekVersion', async () => {
       const config = await Config.load()
       await new Reducer([], config).init()
-      expect(ProjectChecker.checkCurrentDirBoosterVersion).to.have.been.called
+      expect(ProjectChecker.checkCurrentDirMagekVersion).to.have.been.called
     })
 
     describe('Created correctly', () => {

@@ -2,7 +2,7 @@ import { beforeEach, describe } from 'mocha'
 import { ReadModelStore } from '../../src/services/read-model-store'
 import {
   createInstance,
-  BoosterConfig,
+  MagekConfig,
   EntitySnapshotEnvelope,
   Level,
   OptimisticConcurrencyUnexpectedVersionError,
@@ -13,18 +13,18 @@ import {
   ReadModelInterface,
   UUID,
   EntityInterface,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { expect } from '../expect'
-import { BoosterAuthorizer } from '../../src/booster-authorizer'
+import { MagekAuthorizer } from '../../src/authorizer'
 import { fake, match, replace, restore, SinonFakeTimers, spy, stub, useFakeTimers } from 'sinon'
-import { Booster } from '../../src/booster'
+import { Magek } from '../../src/magek'
 
 describe('ReadModelStore', () => {
   afterEach(() => {
     restore()
   })
 
-  const testConfig = new BoosterConfig('Test')
+  const testConfig = new MagekConfig('Test')
   testConfig.logLevel = Level.error
 
   class AnImportantEntity {
@@ -91,7 +91,7 @@ describe('ReadModelStore', () => {
     }
   }
 
-  const config = new BoosterConfig('test')
+  const config = new MagekConfig('test')
   config.provider = {
     readModels: {
       store: () => {},
@@ -102,25 +102,25 @@ describe('ReadModelStore', () => {
   } as unknown as ProviderLibrary
   config.entities[AnImportantEntity.name] = {
     class: AnImportantEntity,
-    eventStreamAuthorizer: BoosterAuthorizer.authorizeRoles.bind(null, []),
+    eventStreamAuthorizer: MagekAuthorizer.authorizeRoles.bind(null, []),
   }
   config.entities[AnEntity.name] = {
     class: AnEntity,
-    eventStreamAuthorizer: BoosterAuthorizer.authorizeRoles.bind(null, []),
+    eventStreamAuthorizer: MagekAuthorizer.authorizeRoles.bind(null, []),
   }
   config.entities[AnImportantEntityWithArray.name] = {
     class: AnImportantEntityWithArray,
-    eventStreamAuthorizer: BoosterAuthorizer.authorizeRoles.bind(null, []),
+    eventStreamAuthorizer: MagekAuthorizer.authorizeRoles.bind(null, []),
   }
   config.readModels[SomeReadModel.name] = {
     class: SomeReadModel,
-    authorizer: BoosterAuthorizer.allowAccess,
+    authorizer: MagekAuthorizer.allowAccess,
     properties: [],
     before: [],
   }
   config.readModels[AnotherReadModel.name] = {
     class: AnotherReadModel,
-    authorizer: BoosterAuthorizer.allowAccess,
+    authorizer: MagekAuthorizer.allowAccess,
     properties: [],
     before: [],
   }
@@ -214,7 +214,7 @@ describe('ReadModelStore', () => {
       it('deletes the associated read model', async () => {
         replace(config.provider.readModels, 'store', fake())
         replace(config.provider.readModels, 'delete', fake())
-        replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
+        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(config.provider.readModels, 'search', fake.resolves([]))
         replace(
           ReadModelStore.prototype,
@@ -234,7 +234,7 @@ describe('ReadModelStore', () => {
       it('ignores the read model', async () => {
         replace(config.provider.readModels, 'store', fake())
         replace(config.provider.readModels, 'delete', fake())
-        replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
+        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(config.provider.readModels, 'search', fake.resolves([]))
         replace(
           ReadModelStore.prototype,
@@ -262,7 +262,7 @@ describe('ReadModelStore', () => {
 
       it('creates new instances of the read models', async () => {
         replace(config.provider.readModels, 'store', fake())
-        replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
+        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(config.provider.readModels, 'search', fake.resolves([]))
         const readModelStore = new ReadModelStore(config)
         replace(readModelStore, 'fetchReadModel', fake.resolves(null))
@@ -278,7 +278,7 @@ describe('ReadModelStore', () => {
           id: 'joinColumnID',
           kind: 'some',
           count: 123,
-          boosterMetadata: {
+          magekMetadata: {
             version: 1,
             schemaVersion: 1,
             lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -295,7 +295,7 @@ describe('ReadModelStore', () => {
           id: 'joinColumnID',
           kind: 'another',
           count: 123,
-          boosterMetadata: {
+          magekMetadata: {
             version: 1,
             schemaVersion: 1,
             lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -315,7 +315,7 @@ describe('ReadModelStore', () => {
             id: 'joinColumnID',
             kind: 'some',
             count: 123,
-            boosterMetadata: {
+            magekMetadata: {
               version: 1,
               schemaVersion: 1,
               lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -336,7 +336,7 @@ describe('ReadModelStore', () => {
             id: 'joinColumnID',
             kind: 'another',
             count: 123,
-            boosterMetadata: {
+            magekMetadata: {
               version: 1,
               schemaVersion: 1,
               lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -368,7 +368,7 @@ describe('ReadModelStore', () => {
         const readModelStore = new ReadModelStore(config)
         const someReadModelStoredVersion = 10
         const anotherReadModelStoredVersion = 32
-        replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
+        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         const searchStub = stub(config.provider.readModels, 'search')
         searchStub.callsFake(async (_config: any, className: string) => {
           if (className == SomeReadModel.name) {
@@ -377,7 +377,7 @@ describe('ReadModelStore', () => {
                 id: 'joinColumnID',
                 kind: 'some',
                 count: 77,
-                boosterMetadata: {
+                magekMetadata: {
                   version: someReadModelStoredVersion,
                   schemaVersion: 1,
                   lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -396,7 +396,7 @@ describe('ReadModelStore', () => {
                 id: 'joinColumnID',
                 kind: 'another',
                 count: 177,
-                boosterMetadata: {
+                magekMetadata: {
                   version: anotherReadModelStoredVersion,
                   schemaVersion: 1,
                   lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -424,7 +424,7 @@ describe('ReadModelStore', () => {
             id: 'joinColumnID',
             count: 77,
             kind: 'some',
-            boosterMetadata: {
+            magekMetadata: {
               version: someReadModelStoredVersion,
               lastUpdateAt: '1970-01-01T00:00:00.000Z',
               lastProjectionInfo: {
@@ -440,7 +440,7 @@ describe('ReadModelStore', () => {
           id: 'joinColumnID',
           kind: 'some',
           count: 200,
-          boosterMetadata: {
+          magekMetadata: {
             version: someReadModelStoredVersion + 1,
             schemaVersion: 1,
             lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -458,7 +458,7 @@ describe('ReadModelStore', () => {
             id: 'joinColumnID',
             count: 177,
             kind: 'another',
-            boosterMetadata: {
+            magekMetadata: {
               version: anotherReadModelStoredVersion,
               lastUpdateAt: '1970-01-01T00:00:00.000Z',
               lastProjectionInfo: {
@@ -474,7 +474,7 @@ describe('ReadModelStore', () => {
           id: 'joinColumnID',
           kind: 'another',
           count: 300,
-          boosterMetadata: {
+          magekMetadata: {
             version: anotherReadModelStoredVersion + 1,
             schemaVersion: 1,
             lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -494,7 +494,7 @@ describe('ReadModelStore', () => {
             id: 'joinColumnID',
             kind: 'some',
             count: 200,
-            boosterMetadata: {
+            magekMetadata: {
               version: someReadModelStoredVersion + 1,
               schemaVersion: 1,
               lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -515,7 +515,7 @@ describe('ReadModelStore', () => {
             id: 'joinColumnID',
             kind: 'another',
             count: 300,
-            boosterMetadata: {
+            magekMetadata: {
               version: anotherReadModelStoredVersion + 1,
               schemaVersion: 1,
               lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -535,7 +535,7 @@ describe('ReadModelStore', () => {
     context('when the projection calls an instance method in the entity', () => {
       it('is executed without failing', async () => {
         const readModelStore = new ReadModelStore(config)
-        replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
+        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(config.provider.readModels, 'search', fake.resolves([]))
         const getPrefixedKeyFake = fake()
         replace(AnImportantEntity.prototype, 'getPrefixedKey', getPrefixedKeyFake)
@@ -547,7 +547,7 @@ describe('ReadModelStore', () => {
     context('when the projection calls an instance method in the read model', () => {
       it('is executed without failing', async () => {
         const readModelStore = new ReadModelStore(config)
-        replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
+        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(config.provider.readModels, 'search', fake.resolves([{ id: 'joinColumnID', count: 31415 }]))
         const getIdFake = fake()
         replace(SomeReadModel.prototype, 'getId', getIdFake)
@@ -569,14 +569,14 @@ describe('ReadModelStore', () => {
       it('retries 5 times when the error OptimisticConcurrencyUnexpectedVersionError happens 4 times', async () => {
         let tryNumber = 1
         const expectedTries = 5
-        const fakeStore = fake((config: BoosterConfig, readModelName: string): Promise<unknown> => {
+        const fakeStore = fake((config: MagekConfig, readModelName: string): Promise<unknown> => {
           if (readModelName === SomeReadModel.name && tryNumber < expectedTries) {
             tryNumber++
             throw new OptimisticConcurrencyUnexpectedVersionError('test error')
           }
           return Promise.resolve()
         })
-        replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
+        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(config.provider.readModels, 'search', fake.resolves([]))
         replace(config.provider.readModels, 'store', fakeStore)
         const readModelStore = new ReadModelStore(config)
@@ -592,7 +592,7 @@ describe('ReadModelStore', () => {
               id: 'joinColumnID',
               kind: 'some',
               count: 123,
-              boosterMetadata: {
+              magekMetadata: {
                 version: 1,
                 schemaVersion: 1,
                 lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -624,7 +624,7 @@ describe('ReadModelStore', () => {
         replace(config.provider.readModels, 'store', fake())
         const readModelStore = new ReadModelStore(config)
         const someReadModelStoredVersion = 10
-        replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
+        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(
           config.provider.readModels,
           'search',
@@ -633,7 +633,7 @@ describe('ReadModelStore', () => {
               id: 'joinColumnID',
               kind: 'some',
               count: 77,
-              boosterMetadata: {
+              magekMetadata: {
                 version: someReadModelStoredVersion,
                 lastUpdateAt: '1970-01-01T00:00:00.000Z',
                 lastProjectionInfo: {
@@ -665,7 +665,7 @@ describe('ReadModelStore', () => {
             id: 'joinColumnID',
             kind: 'some',
             count: 77,
-            boosterMetadata: match.object
+            magekMetadata: match.object
           })
         )
         
@@ -684,7 +684,7 @@ describe('ReadModelStore', () => {
             id: 'joinColumnID',
             kind: 'some',
             count: 200,
-            boosterMetadata: {
+            magekMetadata: {
               version: someReadModelStoredVersion + 1,
               schemaVersion: 1,
               lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -705,7 +705,7 @@ describe('ReadModelStore', () => {
             id: 'anotherJoinColumnID',
             kind: 'some',
             count: 123,
-            boosterMetadata: {
+            magekMetadata: {
               version: 1,
               schemaVersion: 1,
               lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -737,7 +737,7 @@ describe('ReadModelStore', () => {
         const expectedAnotherJoinColumnIDTries = 5
         const expectedJoinColumnIDTries = 1
         const fakeStore = fake(
-          (config: BoosterConfig, readModelName: string, readModel: ReadModelInterface): Promise<unknown> => {
+          (config: MagekConfig, readModelName: string, readModel: ReadModelInterface): Promise<unknown> => {
             if (readModelName === SomeReadModel.name) {
               if (readModel.id == 'anotherJoinColumnID' && tryNumber < expectedAnotherJoinColumnIDTries) {
                 tryNumber++
@@ -748,7 +748,7 @@ describe('ReadModelStore', () => {
           }
         )
         replace(config.provider.readModels, 'store', fakeStore)
-        replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
+        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(config.provider.readModels, 'search', fake.resolves([]))
 
         const readModelStore = new ReadModelStore(config)
@@ -766,7 +766,7 @@ describe('ReadModelStore', () => {
                 id: 'joinColumnID',
                 kind: 'some',
                 count: 123,
-                boosterMetadata: {
+                magekMetadata: {
                   version: 1,
                   schemaVersion: 1,
                   lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -791,7 +791,7 @@ describe('ReadModelStore', () => {
                 id: 'anotherJoinColumnID',
                 kind: 'some',
                 count: 123,
-                boosterMetadata: {
+                magekMetadata: {
                   version: 1,
                   schemaVersion: 1,
                   lastUpdateAt: '1970-01-01T00:00:00.000Z',
@@ -824,7 +824,7 @@ describe('ReadModelStore', () => {
         const readModelStore = new ReadModelStore(config)
         const fakeApplyProjectionToReadModel = fake()
         replace(readModelStore as any, 'applyProjectionToReadModel', fakeApplyProjectionToReadModel)
-        replace(Booster, 'config', config) // Needed because the function `Booster.readModel` references `this.config` from `searchFunction`
+        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(config.provider.readModels, 'search', fake.resolves([]))
 
         await readModelStore.project(anEntitySnapshot)

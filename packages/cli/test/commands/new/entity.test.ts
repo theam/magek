@@ -14,21 +14,21 @@ describe('new', (): void => {
     const entityPath = `${entitysRoot}example-entity.ts`
     const defaultEntityImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'Entity',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'UUID',
       },
     ]
     const reducingEntityImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'Entity, Reduces',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'UUID',
       },
       {
@@ -38,11 +38,11 @@ describe('new', (): void => {
     ]
     const reducingTwoEntityImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'Entity, Reduces',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'UUID',
       },
       {
@@ -65,19 +65,19 @@ describe('new', (): void => {
     }
 
     beforeEach(() => {
-      stub(ProjectChecker, 'checkCurrentDirIsABoosterProject').returnsThis()
+      stub(ProjectChecker, 'checkCurrentDirIsAMagekProject').returnsThis()
       replace(fs, 'outputFile', fake.resolves({}))
-      replace(ProjectChecker, 'checkCurrentDirBoosterVersion', fake.resolves({}))
+      replace(ProjectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
     })
 
     afterEach(() => {
       restore()
     })
 
-    it('init calls checkCurrentDirBoosterVersion', async () => {
+    it('init calls checkCurrentDirMagekVersion', async () => {
       const config = await Config.load()
       await new Entity([], config).init()
-      expect(ProjectChecker.checkCurrentDirBoosterVersion).to.have.been.called
+      expect(ProjectChecker.checkCurrentDirMagekVersion).to.have.been.called
     })
 
     describe('Created correctly', () => {

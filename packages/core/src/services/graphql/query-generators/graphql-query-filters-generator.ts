@@ -3,7 +3,7 @@ import { GraphQLResolverContext, ResolverBuilder } from '../common'
 import * as inflected from 'inflected'
 import { GraphQLTypeInformer } from '../graphql-type-informer'
 import { GraphqlQueryFilterFieldsBuilder } from '../query-helpers/graphql-query-filter-fields-builder'
-import { AnyClass, BoosterConfig } from '@booster-ai/common'
+import { AnyClass, MagekConfig } from '@magek/common'
 
 export class GraphqlQueryFiltersGenerator {
   private graphqlQueryFilterFieldsBuilder: GraphqlQueryFilterFieldsBuilder
@@ -13,7 +13,7 @@ export class GraphqlQueryFiltersGenerator {
     private readonly typeInformer: GraphQLTypeInformer,
     private readonly filterResolverBuilder: ResolverBuilder,
     protected generatedFiltersByTypeName: Record<string, GraphQLInputObjectType> = {},
-    private readonly config: BoosterConfig
+    private readonly config: MagekConfig
   ) {
     this.graphqlQueryFilterFieldsBuilder = new GraphqlQueryFilterFieldsBuilder(
       typeInformer,

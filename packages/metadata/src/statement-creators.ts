@@ -9,7 +9,7 @@ export function createClassMetadataDecorator(
 ): ts.Decorator {
   return f.createDecorator(
     f.createCallExpression(f.createPropertyAccessExpression(f.createIdentifier('Reflect'), 'metadata'), undefined, [
-      f.createStringLiteral('booster:typeinfo'),
+      f.createStringLiteral('magek:typeinfo'),
       f.createObjectLiteralExpression(
         [
           f.createPropertyAssignment('name', f.createStringLiteral(classInfo.name)),

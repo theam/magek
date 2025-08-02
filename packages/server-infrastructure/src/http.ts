@@ -1,4 +1,4 @@
-import { httpStatusCodeFor, toClassTitle } from '@booster-ai/common'
+import { httpStatusCodeFor, toClassTitle } from '@magek/common'
 import { FastifyReply } from 'fastify'
 
 export enum HttpCodes {

@@ -12,7 +12,7 @@ import {
   ImportDeclaration,
 } from '../../services/generator/target'
 import * as path from 'path'
-import { checkCurrentDirIsABoosterProject } from '../../services/project-checker'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker'
 
 export default class Command extends BaseCommand {
   public static description = "Generate new resource, write 'boost new' to see options"
@@ -46,7 +46,7 @@ type CommandInfo = HasName & HasFields
 
 const run = async (name: string, rawFields: Array<string>): Promise<void> =>
   Script.init(`boost ${Brand.energize('new:command')} 🚧`, joinParsers(parseName(name), parseFields(rawFields)))
-    .step('Verifying project', checkCurrentDirIsABoosterProject)
+    .step('Verifying project', checkCurrentDirIsAMagekProject)
     .step('Creating new command', generateCommand)
     .info('Command generated!')
     .done()
@@ -55,19 +55,19 @@ function generateImports(info: CommandInfo): Array<ImportDeclaration> {
   const commandFieldTypes = info.fields.map((f) => f.type)
   const commandUsesUUID = commandFieldTypes.some((type) => type == 'UUID')
 
-  const componentsFromBoosterTypes = ['Register']
+  const componentsFromMagekTypes = ['Register']
   if (commandUsesUUID) {
-    componentsFromBoosterTypes.push('UUID')
+    componentsFromMagekTypes.push('UUID')
   }
 
   return [
     {
-      packagePath: '@booster-ai/core',
+      packagePath: '@magek/core',
       commaSeparatedComponents: 'Command',
     },
     {
-      packagePath: '@booster-ai/common',
-      commaSeparatedComponents: componentsFromBoosterTypes.join(', '),
+      packagePath: '@magek/common',
+      commaSeparatedComponents: componentsFromMagekTypes.join(', '),
     },
   ]
 }

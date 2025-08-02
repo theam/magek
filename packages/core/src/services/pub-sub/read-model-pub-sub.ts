@@ -4,16 +4,16 @@ import {
   ReadModelInterface,
   Instance,
   Operation,
-  BoosterConfig,
+  MagekConfig,
   ReadModelRequestProperties,
   FilterFor,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { applyReadModelRequestBeforeFunctions } from '../filter-helpers'
 
 export interface ReadModelPubSub<TReadModel extends ReadModelInterface> {
   asyncIterator(
     readModelRequestEnvelope: ReadModelRequestEnvelope<TReadModel>,
-    config: BoosterConfig
+    config: MagekConfig
   ): Promise<AsyncIterator<ReadModelInterface>>
 }
 
@@ -22,7 +22,7 @@ export class FilteredReadModelPubSub<TReadModel extends ReadModelInterface> impl
 
   public async asyncIterator(
     readModelRequestEnvelope: ReadModelRequestEnvelope<TReadModel>,
-    config: BoosterConfig
+    config: MagekConfig
   ): Promise<AsyncIterator<ReadModelInterface>> {
     const readModelMetadata = config.readModels[readModelRequestEnvelope.class.name]
 

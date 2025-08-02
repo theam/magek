@@ -13,7 +13,7 @@ import { ReadModelInterface } from './concepts'
  *
  * @example
  * ```typescript
- * import { createInstance } from '@booster-ai/common'
+ * import { createInstance } from '@magek/common'
  * import { User } from './entities/user'
  *
  * const rawUser = {

@@ -2,7 +2,7 @@
 import { replace, restore, fake } from 'sinon'
 import { expect } from '../../../expect'
 import { GraphQLTypeInformer } from '../../../../src/services/graphql/graphql-type-informer'
-import { BoosterConfig, UUID, TimeKey, Level, AnyClass, Logger, getLogger } from '@booster-ai/common'
+import { MagekConfig, UUID, TimeKey, Level, AnyClass, Logger, getLogger } from '@magek/common'
 import { GraphqlQueryByKeysGenerator } from '../../../../src/services/graphql/query-generators/graphql-query-by-keys-generator'
 import { faker } from '@faker-js/faker'
 
@@ -25,12 +25,12 @@ class AnotherSequencedReadModel {
 
 describe('GraphQLQueryGenerator', () => {
   let mockEnvironmentName: string
-  let mockConfig: BoosterConfig
+  let mockConfig: MagekConfig
   let mockLogger: Logger
 
   beforeEach(() => {
     mockEnvironmentName = faker.lorem.word(10)
-    mockConfig = new BoosterConfig(mockEnvironmentName)
+    mockConfig = new MagekConfig(mockEnvironmentName)
     mockConfig.logLevel = Level.error
     mockLogger = getLogger(mockConfig)
   })

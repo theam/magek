@@ -42,7 +42,7 @@ export interface ScheduledCommandEnvelope extends Envelope {
   typeName: string
 }
 
-export type SuperKindType = 'domain' | 'notification' | 'booster'
+export type SuperKindType = 'domain' | 'notification' | 'magek'
 
 export interface EventStoreEntryEnvelope extends TypedEnvelope {
   superKind: SuperKindType

@@ -14,21 +14,21 @@ describe('new', (): void => {
     const readModelPath = `${readModelsRoot}example-read-model.ts`
     const defaultReadModelImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'ReadModel',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'UUID',
       },
     ]
     const projectingReadModelImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'ReadModel, Projects',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'UUID, ProjectionResult',
       },
       {
@@ -38,11 +38,11 @@ describe('new', (): void => {
     ]
     const projectingTwoReadModelImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'ReadModel, Projects',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'UUID, ProjectionResult',
       },
       {
@@ -65,19 +65,19 @@ describe('new', (): void => {
     }
 
     beforeEach(() => {
-      stub(ProjectChecker, 'checkCurrentDirIsABoosterProject').returnsThis()
+      stub(ProjectChecker, 'checkCurrentDirIsAMagekProject').returnsThis()
       replace(fs, 'outputFile', fake.resolves({}))
-      replace(ProjectChecker, 'checkCurrentDirBoosterVersion', fake.resolves({}))
+      replace(ProjectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
     })
 
     afterEach(() => {
       restore()
     })
 
-    it('init calls checkCurrentDirBoosterVersion', async () => {
+    it('init calls checkCurrentDirMagekVersion', async () => {
       const config = await Config.load()
       await new ReadModel([], config).init()
-      expect(ProjectChecker.checkCurrentDirBoosterVersion).to.have.been.called
+      expect(ProjectChecker.checkCurrentDirMagekVersion).to.have.been.called
     })
 
     describe('Created correctly', () => {

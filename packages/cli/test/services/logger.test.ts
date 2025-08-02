@@ -4,7 +4,7 @@ import * as path from 'path'
 import { restore, replace, fake } from 'sinon'
 import { expect } from '../expect'
 
-describe('Booster logger', (): void => {
+describe('Magek logger', (): void => {
   afterEach(() => {
     restore()
   })

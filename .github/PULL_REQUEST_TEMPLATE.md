@@ -2,14 +2,14 @@
 
 Remember to refer to the CONTRIBUTING.md file before sending the PR
 
-- https://github.com/boostercloud/booster/blob/main/CONTRIBUTING.md#github-flow
-- https://github.com/boostercloud/booster/blob/main/CONTRIBUTING.md#publishing-your-pull-request
+- https://github.com/theam/magek/blob/main/CONTRIBUTING.md#github-flow
+- https://github.com/theam/magek/blob/main/CONTRIBUTING.md#publishing-your-pull-request
 
-- Make sure you followed our Code style https://github.com/boostercloud/booster/blob/main/CONTRIBUTING.md#code-style-guidelines
+- Make sure you followed our Code style https://github.com/theam/magek/blob/main/CONTRIBUTING.md#code-style-guidelines
 
-- Make sure everything works https://github.com/boostercloud/booster/blob/main/CONTRIBUTING.md#getting-the-code
+- Make sure everything works https://github.com/theam/magek/blob/main/CONTRIBUTING.md#getting-the-code
 
-- Run tests 🐛 https://github.com/boostercloud/booster/blob/main/CONTRIBUTING.md#running-unit-tests
+- Run tests 🐛 https://github.com/theam/magek/blob/main/CONTRIBUTING.md#running-unit-tests
 
 -->
 

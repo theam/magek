@@ -4,7 +4,7 @@
 
 ## Getting Started
 
-This project was created with [Booster Framework](https://github.com/boostercloud/boosterai).
+This project was created with [Magek Framework](https://github.com/theam/magekai).
 
 ### Available Commands
 
@@ -18,8 +18,8 @@ In the project directory, you can run:
 
 ### Learn More
 
-- [Booster Framework Documentation](https://docs.boosterframework.com)
-- [Getting Started Guide](https://docs.boosterframework.com/getting-started)
+- [Magek Framework Documentation](https://docs.magek.ai)
+- [Getting Started Guide](https://docs.magek.ai/getting-started)
 
 ## License
 

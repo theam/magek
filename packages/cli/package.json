@@ -1,19 +1,19 @@
 {
-  "name": "@booster-ai/cli",
-  "description": "CLI of the Booster Framework, the next level of abstraction for cloud-native applications",
+  "name": "@magek/cli",
+  "description": "CLI of the Magek Framework, the next level of abstraction for cloud-native applications",
   "version": "0.0.1",
   "author": "Boosterin Labs SLU",
-  "homepage": "https://boosterframework.com",
+  "homepage": "https://magek.ai",
   "publishConfig": {
     "access": "public"
   },
   "bin": {
-    "boost": "./bin/run"
+    "magek": "./bin/run"
   },
-  "bugs": "https://github.com/boostercloud/booster/issues",
+  "bugs": "https://github.com/theam/magek/issues",
   "dependencies": {
-    "@booster-ai/core": "workspace:^0.0.1",
-    "@booster-ai/common": "workspace:^0.0.1",
+    "@magek/core": "workspace:^0.0.1",
+    "@magek/common": "workspace:^0.0.1",
     "@oclif/core": "4.4.0",
     "@oclif/plugin-help": "6.2.31",
     "chalk": "5.4.1",
@@ -29,7 +29,7 @@
     "effect": "3.16.11"
   },
   "devDependencies": {
-    "@booster-ai/eslint-config": "workspace:^0.0.1",
+    "@magek/eslint-config": "workspace:^0.0.1",
     "@oclif/test": "4.1.10",
     "@types/chai": "5.2.2",
     "@types/chai-as-promised": "8.0.2",
@@ -72,7 +72,7 @@
   "main": "dist/index.js",
   "oclif": {
     "commands": "./dist/commands",
-    "bin": "boost",
+    "bin": "magek",
     "plugins": [
       "@oclif/plugin-help"
     ],
@@ -80,7 +80,10 @@
       "command_not_found": "./dist/hooks/command_not_found/custom-parse"
     }
   },
-  "repository": "boostercloud/booster",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theam/magek.git"
+  },
   "scripts": {
     "format": "prettier --write --ext '.js,.ts' **/*.ts **/*/*.ts",
     "lint:check": "eslint \"**/*.ts\"",

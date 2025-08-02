@@ -1,4 +1,4 @@
-import { ReadModelStoreAdapter } from '@booster-ai/common'
+import { ReadModelStoreAdapter } from '@magek/common'
 
 // Default no-op implementations for all ReadModelStoreAdapter methods
 const defaultReadModelStoreAdapter: ReadModelStoreAdapter = {

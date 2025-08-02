@@ -1,8 +1,8 @@
-import { BoosterConfig, UserApp } from '@booster-ai/common'
+import { MagekConfig, UserApp } from '@magek/common'
 import { Effect, pipe } from 'effect'
 import * as path from 'path'
 import { guardError } from '../common/errors'
-import { checkItIsABoosterProject } from './project-checker'
+import { checkItIsAMagekProject } from './project-checker'
 import { currentEnvironment } from './environment'
 import { createSandboxProject, removeSandboxProject } from '../common/sandbox'
 import { PackageManagerService, type PackageManagerError } from './package-manager'
@@ -33,8 +33,8 @@ export async function cleanDeploymentSandbox(): Promise<void> {
   removeSandboxProject(DEPLOYMENT_SANDBOX)
 }
 
-export async function compileProjectAndLoadConfig(userProjectPath: string): Promise<BoosterConfig> {
-  await checkItIsABoosterProject(userProjectPath)
+export async function compileProjectAndLoadConfig(userProjectPath: string): Promise<MagekConfig> {
+  await checkItIsAMagekProject(userProjectPath)
   await compileProject(userProjectPath)
   return readProjectConfig(userProjectPath)
 }
@@ -78,10 +78,10 @@ const cleanProjectEff = (projectPath: string) =>
     yield* runScript('clean', [])
   })
 
-function readProjectConfig(userProjectPath: string): Promise<BoosterConfig> {
+function readProjectConfig(userProjectPath: string): Promise<MagekConfig> {
   const userProject = loadUserProject(userProjectPath)
   return new Promise((resolve): void => {
-    userProject.Booster.configureCurrentEnv((config: BoosterConfig): void => {
+    userProject.Magek.configureCurrentEnv((config: MagekConfig): void => {
       checkEnvironmentWasConfigured(userProject)
       resolve(config)
     })
@@ -94,9 +94,9 @@ function loadUserProject(userProjectPath: string): UserApp {
 }
 
 function checkEnvironmentWasConfigured(userProject: UserApp): void {
-  if (userProject.Booster.configuredEnvironments.size == 0) {
+  if (userProject.Magek.configuredEnvironments.size == 0) {
     throw new Error(
-      "You haven't configured any environment. Please make sure you have at least one environment configured by calling 'Booster.configure' method (normally done inside the folder 'src/config')"
+      "You haven't configured any environment. Please make sure you have at least one environment configured by calling 'Magek.configure' method (normally done inside the folder 'src/config')"
     )
   }
   const currentEnv = currentEnvironment()
@@ -105,10 +105,10 @@ function checkEnvironmentWasConfigured(userProject: UserApp): void {
       "You haven't provided any environment. Please make sure you are using option '-e' with a valid environment name"
     )
   }
-  if (!userProject.Booster.configuredEnvironments.has(currentEnv)) {
+  if (!userProject.Magek.configuredEnvironments.has(currentEnv)) {
     throw new Error(
-      `The environment '${currentEnv}' does not match any of the environments you used to configure your Booster project, which are: '${Array.from(
-        userProject.Booster.configuredEnvironments
+      `The environment '${currentEnv}' does not match any of the environments you used to configure your Magek project, which are: '${Array.from(
+        userProject.Magek.configuredEnvironments
       ).join(', ')}'`
     )
   }

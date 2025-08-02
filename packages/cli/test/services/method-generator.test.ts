@@ -198,8 +198,8 @@ describe('method generator', (): void => {
 
       const project = new Project()
       const fileText = `
-      import { Entity } from '@booster-ai/core'
-      import { UUID } from '@booster-ai/common'
+      import { Entity } from '@magek/core'
+      import { UUID } from '@magek/common'
       
       @Entity
       export class Post {

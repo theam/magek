@@ -1,5 +1,5 @@
-import { Class, NotificationInterface } from '@booster-ai/common'
-import { Booster } from '../booster'
+import { Class, NotificationInterface } from '@magek/common'
+import { Magek } from '../magek'
 import { getFunctionArguments } from './metadata'
 
 export type NotificationOptions = {
@@ -7,14 +7,14 @@ export type NotificationOptions = {
 }
 
 /**
- * Annotation to tell Booster which classes are your Notifications
+ * Annotation to tell Magek which classes are your Notifications
  * @param eventClass
  * @constructor
  */
 export const Notification =
   <TEvent extends NotificationInterface>(options?: NotificationOptions) =>
   (eventClass: Class<TEvent>): void => {
-    Booster.configureCurrentEnv((config): void => {
+    Magek.configureCurrentEnv((config): void => {
       if (config.notifications[eventClass.name] || config.events[eventClass.name]) {
         throw new Error(`A notification called ${eventClass.name} is already registered.
         If you think that this is an error, try performing a clean build.`)
@@ -42,7 +42,7 @@ export function partitionKey(
 ): void {
   const args = getFunctionArguments(notificationClass)
   const propertyName = args[parameterIndex]
-  Booster.configureCurrentEnv((config): void => {
+  Magek.configureCurrentEnv((config): void => {
     if (config.partitionKeys[notificationClass.name] && config.partitionKeys[notificationClass.name] !== propertyName) {
       throw new Error(
         `Error trying to register a partition key named \`${propertyName}\` for class \`${

@@ -1,15 +1,15 @@
-import { ReadModelEnvelope } from '@booster-ai/common'
+import { ReadModelEnvelope, ReadModelInterface } from '@magek/common'
 import { faker } from '@faker-js/faker'
 import { expect } from '../expect'
 
-export function createMockReadModelEnvelope(): ReadModelEnvelope {
+export function createMockReadModelEnvelope(partialValue?: Partial<ReadModelInterface>): ReadModelEnvelope {
   return {
     value: {
       id: faker.datatype.uuid(),
       age: faker.datatype.number(40),
       foo: faker.lorem.word(),
       bar: faker.datatype.float(),
-      boosterMetadata: {
+      magekMetadata: {
         version: 1,
         schemaVersion: 1,
       },
@@ -35,6 +35,7 @@ export function createMockReadModelEnvelope(): ReadModelEnvelope {
           },
         ],
       },
+      ...partialValue,
     },
     typeName: faker.lorem.word(),
   }

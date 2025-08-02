@@ -24,7 +24,7 @@
     "node": ">=22.0.0 <23.0.0"
   },
   "dependencies": {
-    "@booster-ai/common": "workspace:^0.0.1",
+    "@magek/common": "workspace:^0.0.1",
     "@seald-io/nedb": "4.1.1",
     "tslib": "2.4.0"
   },
@@ -41,7 +41,7 @@
     "url": "https://github.com/theam/magek/issues"
   },
   "devDependencies": {
-    "@booster-ai/eslint-config": "workspace:^0.0.1",
+    "@magek/eslint-config": "workspace:^0.0.1",
     "@types/chai": "5.2.2",
     "@types/chai-as-promised": "8.0.2",
     "@types/mocha": "10.0.10",

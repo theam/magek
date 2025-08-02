@@ -12,7 +12,7 @@ import {
 } from '../../services/generator/target'
 import { generate, template } from '../../services/generator'
 import * as path from 'path'
-import { checkCurrentDirIsABoosterProject } from '../../services/project-checker'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker'
 
 export default class Event extends BaseCommand {
   public static description = 'create a new event'
@@ -46,7 +46,7 @@ type EventInfo = HasName & HasFields
 
 const run = async (name: string, rawFields: Array<string>): Promise<void> =>
   Script.init(`boost ${Brand.energize('new:event')} 🚧`, joinParsers(parseName(name), parseFields(rawFields)))
-    .step('Verifying project', checkCurrentDirIsABoosterProject)
+    .step('Verifying project', checkCurrentDirIsAMagekProject)
     .step('Creating new event', generateEvent)
     .info('Event generated!')
     .done()
@@ -54,11 +54,11 @@ const run = async (name: string, rawFields: Array<string>): Promise<void> =>
 function generateImports(): Array<ImportDeclaration> {
   return [
     {
-      packagePath: '@booster-ai/core',
+      packagePath: '@magek/core',
       commaSeparatedComponents: 'Event',
     },
     {
-      packagePath: '@booster-ai/common',
+      packagePath: '@magek/common',
       commaSeparatedComponents: 'UUID',
     },
   ]

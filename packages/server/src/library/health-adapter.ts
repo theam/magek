@@ -1,6 +1,6 @@
 import { ReadModelRegistry } from '../services'
 import { eventsDatabase, readModelsDatabase } from '../paths'
-import { BoosterConfig, boosterLocalPort, HealthEnvelope, UUID, request } from '@booster-ai/common'
+import { MagekConfig, localPort, HealthEnvelope, UUID, request } from '@magek/common'
 import { existsSync } from 'fs'
 import { FastifyRequest } from 'fastify'
 import Nedb from '@seald-io/nedb'
@@ -17,7 +17,7 @@ export async function countAll(database: Nedb): Promise<number> {
 
 export async function graphqlFunctionUrl(): Promise<string> {
   try {
-    const port = boosterLocalPort()
+    const port = localPort()
     return `http://localhost:${port}/graphql`
   } catch (e) {
     return ''
@@ -81,7 +81,7 @@ export async function databaseReadModelsHealthDetails(readModelRegistry: ReadMod
   }
 }
 
-export async function areRocketFunctionsUp(config: BoosterConfig): Promise<{ [key: string]: boolean }> {
+export async function areRocketFunctionsUp(config: MagekConfig): Promise<{ [key: string]: boolean }> {
   // In local provider, rockets run in the same process, so they're always "up" if configured
   const results: { [key: string]: boolean } = {}
   if (config.rockets) {

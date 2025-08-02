@@ -14,21 +14,21 @@ describe('new', (): void => {
     const commandPath = `${commandsRoot}example-command.ts`
     const defaultCommandImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'Command',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'Register',
       },
     ]
     const uuidCommandImports = [
       {
-        packagePath: '@booster-ai/core',
+        packagePath: '@magek/core',
         commaSeparatedComponents: 'Command',
       },
       {
-        packagePath: '@booster-ai/common',
+        packagePath: '@magek/common',
         commaSeparatedComponents: 'Register, UUID',
       },
     ]
@@ -42,19 +42,19 @@ describe('new', (): void => {
     }
 
     beforeEach(() => {
-      stub(ProjectChecker, 'checkCurrentDirIsABoosterProject').returnsThis()
+      stub(ProjectChecker, 'checkCurrentDirIsAMagekProject').returnsThis()
       replace(fs, 'outputFile', fake.resolves({}))
-      replace(ProjectChecker, 'checkCurrentDirBoosterVersion', fake.resolves({}))
+      replace(ProjectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
     })
 
     afterEach(() => {
       restore()
     })
 
-    it('init calls checkCurrentDirBoosterVersion', async () => {
+    it('init calls checkCurrentDirMagekVersion', async () => {
       const config = await Config.load()
       await new Command([], config).init()
-      expect(ProjectChecker.checkCurrentDirBoosterVersion).to.have.been.called
+      expect(ProjectChecker.checkCurrentDirMagekVersion).to.have.been.called
     })
 
     describe('Created correctly', () => {

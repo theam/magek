@@ -72,7 +72,7 @@ common/autoinstallers/*/.npmrc
 # Heft
 .heft
 
-# Booster
-.booster
+# Magek
+.magek
 *-integration-sandbox
 *.tsbuildinfo

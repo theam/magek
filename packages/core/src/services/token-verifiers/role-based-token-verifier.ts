@@ -1,4 +1,4 @@
-import { DecodedToken, TokenVerifier, UserEnvelope } from '@booster-ai/common'
+import { DecodedToken, TokenVerifier, UserEnvelope } from '@magek/common'
 
 export const DEFAULT_ROLES_CLAIM = 'custom:role'
 

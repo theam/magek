@@ -1,14 +1,14 @@
-import { Booster } from '@booster-ai/core'
+import { Magek } from '@magek/core'
 export {
-  Booster,
-  boosterEventDispatcher,
-  boosterServeGraphQL,
-  boosterTriggerScheduledCommands,
-  boosterNotifySubscribers,
-  boosterRocketDispatcher,
-  boosterConsumeEventStream,
-  boosterProduceEventStream,
-  boosterHealth,
-} from '@booster-ai/core'
+  Magek,
+  eventDispatcher,
+  graphQLDispatcher,
+  triggerScheduledCommands,
+  notifySubscribers,
+  rocketDispatcher,
+  consumeEventStream,
+  produceEventStream,
+  health,
+} from '@magek/core'
 
-Booster.start(__dirname)
+Magek.start(__dirname)

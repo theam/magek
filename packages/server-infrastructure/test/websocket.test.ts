@@ -1,5 +1,5 @@
 import { restore, createStubInstance, SinonStubbedInstance } from 'sinon'
-import { GraphQLService } from '@booster-ai/server'
+import { GraphQLService } from '@magek/server'
 import { expect } from './expect'
 
 /**

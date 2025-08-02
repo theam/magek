@@ -1,20 +1,20 @@
  
  
 import { expect } from '../expect'
-import { Register } from '@booster-ai/common'
+import { Register } from '@magek/common'
 import { Command } from '../../src/decorators'
-import { Booster } from '../../src'
+import { Magek } from '../../src'
 import { fake } from 'sinon'
-import { BoosterAuthorizer } from '../../src/booster-authorizer'
+import { MagekAuthorizer } from '../../src/authorizer'
 
 describe('the `Command` decorator', () => {
   afterEach(() => {
-    const booster = Booster as any
-    delete booster.config.commandHandlers['PostComment']
+    const magek = Magek as any
+    delete magek.config.commandHandlers['PostComment']
   })
 
   context('when an authorizer function is provided', () => {
-    it('injects the command handler metadata in the Booster configuration with the provided authorizer function', () => {
+    it('injects the command handler metadata in the Magek configuration with the provided authorizer function', () => {
       const fakeCommandAuthorizer = fake.resolves(undefined)
       @Command({ authorize: fakeCommandAuthorizer })
       class PostComment {
@@ -25,9 +25,9 @@ describe('the `Command` decorator', () => {
         }
       }
 
-      // Make Booster be of any type to access private members
-      const booster = Booster as any
-      const commandMetadata = booster.config.commandHandlers[PostComment.name]
+      // Make Magek be of any type to access private members
+      const magek = Magek as any
+      const commandMetadata = magek.config.commandHandlers[PostComment.name]
 
       expect(commandMetadata).to.be.an('object')
       expect(commandMetadata.class).to.equal(PostComment)
@@ -42,7 +42,7 @@ describe('the `Command` decorator', () => {
   })
 
   context('when an authorizer function is not provided', () => {
-    it('injects the command handler metadata in the Booster configuration and denies access', () => {
+    it('injects the command handler metadata in the Magek configuration and denies access', () => {
       @Command({})
       class PostComment {
         public constructor(readonly comment: string) {}
@@ -52,9 +52,9 @@ describe('the `Command` decorator', () => {
         }
       }
 
-      // Make Booster be of any type to access private members
-      const booster = Booster as any
-      const commandMetadata = booster.config.commandHandlers[PostComment.name]
+      // Make Magek be of any type to access private members
+      const magek = Magek as any
+      const commandMetadata = magek.config.commandHandlers[PostComment.name]
 
       expect(commandMetadata).to.be.an('object')
       expect(commandMetadata.class).to.equal(PostComment)
@@ -62,14 +62,14 @@ describe('the `Command` decorator', () => {
       expect(commandMetadata.properties[0].typeInfo.name).to.equal('string')
       expect(commandMetadata.methods[0].name).to.equal('handle')
       expect(commandMetadata.methods[0].typeInfo.name).to.equal('Promise<void>')
-      expect(commandMetadata.authorizer).to.equal(BoosterAuthorizer.denyAccess)
+      expect(commandMetadata.authorizer).to.equal(MagekAuthorizer.denyAccess)
       expect(commandMetadata.before).to.be.an('Array')
       expect(commandMetadata.before).to.be.empty
     })
   })
 
   context('when a `before` hook is provided', () => {
-    it('injects the command handler metadata in the Booster configuration with the provided before hook', () => {
+    it('injects the command handler metadata in the Magek configuration with the provided before hook', () => {
       const fakeBeforeHook = fake.resolves(undefined)
       @Command({ before: [fakeBeforeHook] })
       class PostComment {
@@ -80,9 +80,9 @@ describe('the `Command` decorator', () => {
         }
       }
 
-      // Make Booster be of any type to access private members
-      const booster = Booster as any
-      const commandMetadata = booster.config.commandHandlers[PostComment.name]
+      // Make Magek be of any type to access private members
+      const magek = Magek as any
+      const commandMetadata = magek.config.commandHandlers[PostComment.name]
 
       expect(commandMetadata).to.be.an('object')
       expect(commandMetadata.class).to.equal(PostComment)
@@ -90,7 +90,7 @@ describe('the `Command` decorator', () => {
       expect(commandMetadata.properties[0].typeInfo.name).to.equal('string')
       expect(commandMetadata.methods[0].name).to.equal('handle')
       expect(commandMetadata.methods[0].typeInfo.name).to.equal('Promise<void>')
-      expect(commandMetadata.authorizer).to.equal(BoosterAuthorizer.denyAccess)
+      expect(commandMetadata.authorizer).to.equal(MagekAuthorizer.denyAccess)
       expect(commandMetadata.before).to.be.an('Array')
       expect(commandMetadata.before).to.include(fakeBeforeHook)
     })

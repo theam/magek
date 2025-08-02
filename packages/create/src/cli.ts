@@ -8,8 +8,8 @@ import kleur = require('kleur')
 import { globby } from 'globby'
 import { spawn } from 'child_process'
 
-// Get the Booster version from the current package or a reasonable default
-function getBoosterVersion(): string {
+// Get the Magek version from the current package or a reasonable default
+function getMagekVersion(): string {
   try {
     // Read from the create package itself
     return require('../package.json').version
@@ -145,7 +145,7 @@ async function collectProjectInfo(args: string[]): Promise<ProjectConfig> {
 
   if (!projectName) {
     console.error(kleur.red('Error: Project name is required'))
-    console.log('Usage: npm create booster-ai@latest <project-name>')
+    console.log('Usage: npm create magek@latest <project-name>')
     process.exit(1)
   }
 
@@ -172,9 +172,13 @@ async function collectProjectInfo(args: string[]): Promise<ProjectConfig> {
   const shouldSkipPrompts =
     flags['skip-install'] ||
     flags['skip-git'] ||
-    Object.keys(flags).some((key) =>
-      ['description', 'version', 'author', 'homepage', 'license', 'repository', 'package-manager'].includes(key)
-    )
+    flags.description ||
+    flags.version ||
+    flags.author ||
+    flags.homepage ||
+    flags.license ||
+    flags.repository ||
+    flags['package-manager']
 
   let config: ProjectConfig
 
@@ -268,7 +272,7 @@ async function createProject(config: ProjectConfig): Promise<void> {
   console.log(kleur.blue('📦 Creating project...'))
 
   // Determine template source - default to GitHub template
-  const templateSource = config.template || 'github.com/boostercloud/boosterai/templates/default'
+  const templateSource = config.template || 'github.com/theam/magek/templates/default'
 
   try {
     // Check if template is a local path
@@ -309,7 +313,7 @@ async function createProject(config: ProjectConfig): Promise<void> {
       homepage: config.homepage,
       license: config.license,
       repository: config.repository,
-      boosterVersion: getBoosterVersion(),
+      magekVersion: getMagekVersion(),
     }
 
     await replaceInAllFiles(targetDir, replacements)
@@ -364,7 +368,7 @@ async function createProject(config: ProjectConfig): Promise<void> {
     console.log(kleur.cyan(`  ${config.packageManager} run build`))
     console.log(kleur.cyan(`  ${config.packageManager} run start:local`))
     console.log()
-    console.log('Learn more at: https://docs.boosterframework.com')
+    console.log('Learn more at: https://docs.magek.ai')
   } catch (error) {
     console.error(kleur.red('❌ Failed to create project:'))
     console.error(error)

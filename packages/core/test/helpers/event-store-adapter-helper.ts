@@ -1,4 +1,4 @@
-import { EventStoreAdapter } from '@booster-ai/common'
+import { EventStoreAdapter } from '@magek/common'
 
 // Default no-op implementations for all EventStoreAdapter methods
 const defaultEventStoreAdapter: EventStoreAdapter = {

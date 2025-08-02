@@ -15,7 +15,13 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
-    "plugins": [{ "transform": "@boostercloud/metadata-booster" }]
+    "plugins": [
+      {
+        "transform": "@magek/metadata"
+      }
+    ]
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*"
+  ]
 }

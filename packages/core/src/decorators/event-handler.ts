@@ -2,10 +2,10 @@ import {
   EventInterface,
   EventHandlerInterface,
   Class,
-  BoosterConfig,
+  MagekConfig,
   NotificationInterface,
-} from '@booster-ai/common'
-import { Booster } from '../booster'
+} from '@magek/common'
+import { Magek } from '../magek'
 
 export function EventHandler<TEvent extends EventInterface | NotificationInterface>(
   event: Class<TEvent>
@@ -17,7 +17,7 @@ export function registerEventHandler<TEventHandler extends EventHandlerInterface
   eventName: string,
   eventHandlerClass: TEventHandler
 ): void {
-  Booster.configureCurrentEnv((config: BoosterConfig): void => {
+  Magek.configureCurrentEnv((config: MagekConfig): void => {
     const registeredEventHandlers = config.eventHandlers[eventName] || []
     if (registeredEventHandlers.some((klass: EventHandlerInterface) => klass == eventHandlerClass)) {
       return

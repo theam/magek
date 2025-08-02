@@ -1,5 +1,5 @@
  
-import { EntitySnapshotEnvelope, EventEnvelope } from '@booster-ai/common'
+import { EntitySnapshotEnvelope, EventEnvelope } from '@magek/common'
 import { expect } from '../expect'
 import { faker } from '@faker-js/faker'
 

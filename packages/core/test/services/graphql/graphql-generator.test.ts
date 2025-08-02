@@ -1,10 +1,10 @@
  
 import { fake, replace, restore, SinonStub, spy, stub } from 'sinon'
-import { BoosterCommandDispatcher } from '../../../src/booster-command-dispatcher'
-import { BoosterReadModelsReader } from '../../../src/booster-read-models-reader'
+import { MagekCommandDispatcher } from '../../../src/command-dispatcher'
+import { MagekReadModelsReader } from '../../../src/read-models-reader'
 import { GraphQLGenerator } from '../../../src/services/graphql/graphql-generator'
 import {
-  BoosterConfig,
+  MagekConfig,
   EventParametersFilterByEntity,
   EventSearchRequest,
   EventSearchResponse,
@@ -12,23 +12,23 @@ import {
   ReadModelInterface,
   ReadModelRequestArgs,
   ReadModelRequestProperties,
-} from '@booster-ai/common'
+} from '@magek/common'
 import { expect } from '../../expect'
 import { GraphQLQueryGenerator } from '../../../src/services/graphql/graphql-query-generator'
 import { GraphQLMutationGenerator } from '../../../src/services/graphql/graphql-mutation-generator'
 import { GraphQLSubscriptionGenerator } from '../../../src/services/graphql/graphql-subcriptions-generator'
 import { faker } from '@faker-js/faker'
-import { BoosterEventsReader } from '../../../src/booster-events-reader'
+import { MagekEventsReader } from '../../../src/events-reader'
 
 import { GraphQLResolverContext } from '../../../src/services/graphql/common'
 import { GraphQLFieldResolver } from 'graphql'
 
 describe('GraphQL generator', () => {
   let mockEnvironmentName: string
-  let mockConfig: BoosterConfig
+  let mockConfig: MagekConfig
   beforeEach(() => {
     mockEnvironmentName = faker.lorem.word(10)
-    mockConfig = new BoosterConfig(mockEnvironmentName)
+    mockConfig = new MagekConfig(mockEnvironmentName)
     mockConfig.logLevel = Level.error
   })
 
@@ -165,7 +165,7 @@ describe('GraphQL generator', () => {
 
       beforeEach(() => {
         fakeSearch = stub().resolves(mockFetchResult)
-        replace(BoosterReadModelsReader.prototype, 'search', fakeSearch)
+        replace(MagekReadModelsReader.prototype, 'search', fakeSearch)
 
         returnedFunction = GraphQLGenerator.readModelResolverBuilder(mockType)
       })
@@ -207,7 +207,7 @@ describe('GraphQL generator', () => {
       }
 
       context('when the read model is non sequenced', () => {
-        const config = new BoosterConfig('test')
+        const config = new MagekConfig('test')
 
         it('builds a function that perform requests by id', async () => {
           const toReadModelByIdRequestEnvelopeSpy = spy(GraphQLGenerator as any, 'toReadModelByIdRequestEnvelope')
@@ -238,7 +238,7 @@ describe('GraphQL generator', () => {
       })
 
       context('when the read model is sequenced', () => {
-        const config = new BoosterConfig('test')
+        const config = new MagekConfig('test')
         config.readModelSequenceKeys['SomeReadModel'] = 'timestamp'
 
         it('builds a function that perform requests by id and sequence key', async () => {
@@ -287,7 +287,7 @@ describe('GraphQL generator', () => {
         }
 
         dispatchCommandStub = stub()
-        replace(BoosterCommandDispatcher.prototype, 'dispatchCommand', dispatchCommandStub)
+        replace(MagekCommandDispatcher.prototype, 'dispatchCommand', dispatchCommandStub)
 
         returnedFunction = GraphQLGenerator.commandResolverBuilder(mockType)
       })
@@ -385,7 +385,7 @@ describe('GraphQL generator', () => {
 
         subscribeStub = stub().resolves()
 
-        replace(BoosterReadModelsReader.prototype, 'subscribe', subscribeStub)
+        replace(MagekReadModelsReader.prototype, 'subscribe', subscribeStub)
 
         returnedFunction = GraphQLGenerator.subscriptionResolverBuilder(mockConfig, mockType)
       })
@@ -466,7 +466,7 @@ describe('GraphQL generator', () => {
 
       beforeEach(() => {
         fetchEventsStub = stub().resolves(fetchEventsResult)
-        replace(BoosterEventsReader.prototype, 'fetch', fetchEventsStub)
+        replace(MagekEventsReader.prototype, 'fetch', fetchEventsStub)
       })
 
       it('should call fetch with expected payload', async () => {

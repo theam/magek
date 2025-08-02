@@ -1,4 +1,4 @@
-import { BoosterConfig } from '@booster-ai/common'
+import { MagekConfig } from '@magek/common'
 
 export interface InfrastructureRocketMetadata {
   port: number
@@ -19,7 +19,7 @@ export interface GenericRouter {
 
 export interface InfrastructureRocket {
   mountStack: (
-    config: BoosterConfig,
+    config: MagekConfig,
     router: GenericRouter,
     infrastructureRocketMetadata?: InfrastructureRocketMetadata
   ) => void
