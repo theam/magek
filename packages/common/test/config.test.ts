@@ -1,6 +1,6 @@
  
 import { expect } from './helpers/expect'
-import { SchemaMigrationMetadata, ProviderLibrary, BoosterConfig, EventStoreAdapter, ReadModelStoreAdapter } from '../src'
+import { SchemaMigrationMetadata, ProviderLibrary, BoosterConfig, EventStoreAdapter, ReadModelStoreAdapter, SessionStoreAdapter } from '../src'
 
 describe('the config type', () => {
   describe('resourceNames', () => {
@@ -189,6 +189,31 @@ describe('the config type', () => {
       config.readModelStoreAdapter = mockReadModelStoreAdapter
 
       expect(config.readModelStoreAdapter).to.equal(mockReadModelStoreAdapter)
+    })
+  })
+
+  describe('sessionStoreAdapter', () => {
+    it.skip('throws when there is no sessionStoreAdapter set', () => {
+      // TODO: Re-enable this test once the sessionStoreAdapter refactor is complete
+      const config = new BoosterConfig('test')
+
+      expect(() => config.sessionStore).to.throw(/SessionStoreAdapter is not configured/)
+    })
+
+    it('does not throw when there is a sessionStoreAdapter set', () => {
+      const config = new BoosterConfig('test')
+      config.sessionStoreAdapter = {} as SessionStoreAdapter
+
+      expect(() => config.sessionStore).to.not.throw()
+    })
+
+    it('allows sessionStoreAdapter to be set directly', () => {
+      const config = new BoosterConfig('test')
+      const mockSessionStoreAdapter = {} as SessionStoreAdapter
+
+      config.sessionStoreAdapter = mockSessionStoreAdapter
+
+      expect(config.sessionStoreAdapter).to.equal(mockSessionStoreAdapter)
     })
   })
 })
