@@ -1,16 +1,18 @@
-import { HasInfrastructure, ProviderLibrary, RocketDescriptor, UserApp } from '@booster-ai/common'
+import { 
+  HasInfrastructure, 
+  ProviderLibrary, 
+  RocketDescriptor,
+  ReadModelInterface,
+  BoosterConfig,
+  FilterFor,
+  SortFor,
+  ProjectionFor
+} from '@booster-ai/common'
 import { healthRequestResult, requestFailed, requestSucceeded } from './library/api-adapter'
-import { GraphQLService, ReadModelRegistry } from './services'
 import { rawGraphQLRequestToEnvelope } from './library/graphql-adapter'
 
-import * as path from 'path'
-
 import {
-  deleteReadModel,
-  fetchReadModel,
   rawReadModelEventsToEnvelopes,
-  searchReadModel,
-  storeReadModel,
 } from './library/read-model-adapter'
 import { rawScheduledInputToEnvelope } from './library/scheduled-adapter'
 import {
@@ -29,25 +31,18 @@ import { WebSocketRegistry } from './services/web-socket-registry'
 import { connectionsDatabase, subscriptionDatabase } from './paths'
 import { rawRocketInputToEnvelope } from './library/rocket-adapter'
 import {
-  areDatabaseReadModelsUp,
   areRocketFunctionsUp,
-  databaseReadModelsHealthDetails,
-  databaseUrl,
   graphqlFunctionUrl,
   isGraphQLFunctionUp,
   rawRequestToSensorHealth,
 } from './library/health-adapter'
-import * as process from 'process'
 
 export * from './paths'
 export * from './services'
 export * from './library/graphql-adapter'
 
-const readModelRegistry = new ReadModelRegistry()
 const connectionRegistry = new WebSocketRegistry(connectionsDatabase)
 const subscriptionRegistry = new WebSocketRegistry(subscriptionDatabase)
-const userApp: UserApp = require(path.join(process.cwd(), 'dist', 'index.js'))
-const graphQLService = new GraphQLService(userApp)
 
 export function loadInfrastructurePackage(packageName: string): HasInfrastructure {
   return require(packageName)
@@ -57,10 +52,67 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
   // ProviderReadModelsLibrary
   readModels: {
     rawToEnvelopes: rawReadModelEventsToEnvelopes,
-    fetch: fetchReadModel.bind(null, readModelRegistry),
-    search: searchReadModel.bind(null, readModelRegistry),
-    store: storeReadModel.bind(null, graphQLService, readModelRegistry),
-    delete: deleteReadModel.bind(null, readModelRegistry),
+    fetch: async (config, readModelName, readModelID, sequenceKey?) => {
+      // Delegate to read model store adapter if available
+      if (config.readModelStoreAdapter) {
+        const envelope = await config.readModelStoreAdapter.fetch(config, readModelName, readModelID)
+        return envelope ? [envelope.value] : [undefined] as any
+      }
+      throw new Error('No read model store adapter configured')
+    },
+    search: async <TReadModel extends ReadModelInterface>(
+      config: BoosterConfig, 
+      readModelName: string, 
+      filters: FilterFor<unknown>, 
+      sortBy?: SortFor<unknown>, 
+      limit?: number, 
+      afterCursor?: unknown, 
+      paginatedVersion?: boolean, 
+      select?: ProjectionFor<TReadModel>
+    ) => {
+      // Delegate to read model store adapter if available
+      if (config.readModelStoreAdapter) {
+        const result = await config.readModelStoreAdapter.search(config, readModelName, {
+          filters,
+          limit,
+          afterCursor: afterCursor as Record<string, string> | undefined,
+          paginatedVersion
+        })
+        // Convert search result to match expected format
+        if (paginatedVersion) {
+          return {
+            items: result.items.map((envelope: any) => envelope.value) as TReadModel[],
+            count: result.count,
+            cursor: result.cursor
+          }
+        } else {
+          return result.items.map((envelope: any) => envelope.value) as TReadModel[]
+        }
+      }
+      throw new Error('No read model store adapter configured')
+    },
+    store: (config, readModelName, readModel, expectedCurrentVersion) => {
+      // Delegate to read model store adapter if available
+      if (config.readModelStoreAdapter) {
+        const envelope = {
+          typeName: readModelName,
+          value: readModel,
+          id: readModel.id,
+          version: (readModel.boosterMetadata?.version ?? 0) + 1,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        }
+        return config.readModelStoreAdapter.store(config, readModelName, envelope)
+      }
+      throw new Error('No read model store adapter configured')
+    },
+    delete: (config, readModelName, readModel) => {
+      // Delegate to read model store adapter if available
+      if (config.readModelStoreAdapter && readModel) {
+        return config.readModelStoreAdapter.delete(config, readModelName, readModel.id)
+      }
+      throw new Error('No read model store adapter configured')
+    },
     subscribe: subscribeToReadModel.bind(null, subscriptionRegistry),
     fetchSubscriptions: fetchSubscriptions.bind(null, subscriptionRegistry),
     deleteSubscription: deleteSubscription.bind(null, subscriptionRegistry),
@@ -98,7 +150,13 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
       }
       throw new Error('No event store adapter configured for health checks')
     },
-    databaseReadModelsHealthDetails: databaseReadModelsHealthDetails.bind(null, readModelRegistry),
+    databaseReadModelsHealthDetails: (config) => {
+      // Delegate to read model store adapter health check if available
+      if (config.readModelStoreAdapter?.healthCheck) {
+        return config.readModelStoreAdapter.healthCheck.details(config)
+      }
+      throw new Error('No read model store adapter configured for health checks')
+    },
     isDatabaseEventUp: (config) => {
       // Delegate to event store adapter health check if available
       if (config.eventStoreAdapter?.healthCheck) {
@@ -106,13 +164,22 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
       }
       return Promise.resolve(false)
     },
-    areDatabaseReadModelsUp: areDatabaseReadModelsUp,
-    databaseUrls: (config) => {
-      // Delegate to event store adapter health check if available
-      if (config.eventStoreAdapter?.healthCheck) {
-        return config.eventStoreAdapter.healthCheck.urls(config)
+    areDatabaseReadModelsUp: (config) => {
+      // Delegate to read model store adapter health check if available
+      if (config.readModelStoreAdapter?.healthCheck) {
+        return config.readModelStoreAdapter.healthCheck.isUp(config)
       }
-      return databaseUrl()
+      return Promise.resolve(false)
+    },
+    databaseUrls: (config) => {
+      // Get URLs from both event store and read model store adapters
+      const eventUrls = config.eventStoreAdapter?.healthCheck?.urls(config) ?? Promise.resolve([])
+      const readModelUrls = config.readModelStoreAdapter?.healthCheck?.urls(config) ?? Promise.resolve([])
+      
+      return Promise.all([eventUrls, readModelUrls]).then(([events, readModels]) => [
+        ...events,
+        ...readModels
+      ])
     },
     isGraphQLFunctionUp: isGraphQLFunctionUp,
     graphQLFunctionUrl: graphqlFunctionUrl,
