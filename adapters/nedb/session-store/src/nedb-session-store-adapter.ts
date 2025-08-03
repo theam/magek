@@ -111,6 +111,22 @@ export class NedbSessionStoreAdapter implements SessionStoreAdapter {
     return results.map(({ connectionID, subscriptionID, _id, ...subscriptionData }) => subscriptionData)
   }
 
+  /**
+   * Additional method to support fetching subscriptions by className (for read model type)
+   * This is needed for the existing subscription system that queries by read model name
+   */
+  async fetchSubscriptionsByClassName(
+    config: MagekConfig,
+    className: string
+  ): Promise<Array<Record<string, any>>> {
+    const results = (await this.subscriptionRegistry.query({
+      className: className,
+    })) as Array<Record<string, any>>
+    
+    // Remove internal fields and NeDB _id from each subscription
+    return results.map(({ connectionID, subscriptionID, _id, ...subscriptionData }) => subscriptionData)
+  }
+
   async deleteSubscriptionsForConnection(config: MagekConfig, connectionId: UUID): Promise<void> {
     const logger = getLogger(config, 'NedbSessionStoreAdapter#deleteSubscriptionsForConnection')
     const removed = await this.subscriptionRegistry.delete({ connectionID: connectionId })

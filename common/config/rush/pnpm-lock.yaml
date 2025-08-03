@@ -674,6 +674,9 @@ importers:
       '@magek/adapter-read-model-store-nedb':
         specifier: workspace:^0.0.1
         version: link:../../adapters/nedb/read-model-store
+      '@magek/adapter-session-store-nedb':
+        specifier: workspace:^0.0.1
+        version: link:../../adapters/nedb/session-store
       '@magek/common':
         specifier: workspace:^0.0.1
         version: link:../common
