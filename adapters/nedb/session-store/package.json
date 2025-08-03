@@ -1,0 +1,65 @@
+{
+  "name": "@magek/adapter-session-store-nedb",
+  "version": "0.0.1",
+  "description": "Nedb-based session store adapter for the Magek framework",
+  "keywords": [
+    "session-store",
+    "nedb",
+    "websocket",
+    "connections",
+    "subscriptions"
+  ],
+  "author": "Boosterin Labs SLU",
+  "homepage": "https://magek.ai",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theam/magek.git"
+  },
+  "engines": {
+    "node": ">=22.0.0 <23.0.0"
+  },
+  "dependencies": {
+    "@magek/common": "workspace:^0.0.1",
+    "@seald-io/nedb": "4.1.1",
+    "tslib": "2.4.0"
+  },
+  "scripts": {
+    "format": "prettier --write --ext '.js,.ts' **/*.ts **/*/*.ts",
+    "lint:check": "eslint \"**/*.ts\"",
+    "lint:fix": "eslint --quiet --fix \"**/*.ts\"",
+    "build": "tsc -b tsconfig.json",
+    "clean": "rimraf ./dist tsconfig.tsbuildinfo",
+    "prepack": "tsc -b tsconfig.json",
+    "test": "tsc --noEmit -p tsconfig.test.json && nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
+  },
+  "bugs": {
+    "url": "https://github.com/theam/magek/issues"
+  },
+  "devDependencies": {
+    "@magek/eslint-config": "workspace:^0.0.1",
+    "@types/chai": "5.2.2",
+    "@types/chai-as-promised": "8.0.2",
+    "@types/mocha": "10.0.10",
+    "@types/node": "22.15.21",
+    "@types/sinon": "17.0.4",
+    "@types/sinon-chai": "4.0.0",
+    "chai": "5.2.0",
+    "chai-as-promised": "8.0.1",
+    "@faker-js/faker": "7.6.0",
+    "mocha": "11.7.1",
+    "nyc": "17.1.0",
+    "rimraf": "6.0.1",
+    "sinon": "21.0.0",
+    "sinon-chai": "4.0.0",
+    "ts-node": "10.9.1",
+    "typescript": "5.8.3"
+  }
+}
