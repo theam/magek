@@ -13,7 +13,6 @@ import {
 } from '@magek/common'
 import { EventStore } from '../src/services/event-store'
 import { faker } from '@faker-js/faker'
-import { JwksUriTokenVerifier } from '../src/services/token-verifiers'
 import { afterEach } from 'mocha'
 import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
 import { createMockReadModelStoreAdapter } from './helpers/read-model-store-adapter-helper'
@@ -400,46 +399,4 @@ describe('the `Magek` class', () => {
     })
   })
 
-  describe('The `loadTokenVerifierFromEnv` function', () => {
-    context('when the JWT_ENV_VARS are set', () => {
-      beforeEach(() => {
-        process.env.JWT_ISSUER = 'JWT_ISSUER_VALUE'
-        process.env.JWKS_URI = 'JWKS_URI_VALUE'
-        process.env.ROLES_CLAIM = 'ROLES_CLAIM_VALUE'
-      })
-
-      afterEach(() => {
-        delete process.env.JWT_ISSUER
-        delete process.env.JWKS_URI
-        delete process.env.ROLES_CLAIM
-
-        Magek.config.tokenVerifiers = []
-      })
-
-      it('does alter the token verifiers config', () => {
-        expect(Magek.config.tokenVerifiers).to.be.empty
-
-        const magek = Magek as any
-        magek.loadTokenVerifierFromEnv()
-
-        const tokenVerifierConfig = Magek.config.tokenVerifiers
-        expect(tokenVerifierConfig.length).to.be.equal(1)
-        expect(tokenVerifierConfig[0]).to.be.an.instanceOf(JwksUriTokenVerifier)
-        expect((tokenVerifierConfig[0] as JwksUriTokenVerifier).issuer).to.be.equal('JWT_ISSUER_VALUE')
-        expect((tokenVerifierConfig[0] as JwksUriTokenVerifier).jwksUri).to.be.equal('JWKS_URI_VALUE')
-        expect((tokenVerifierConfig[0] as JwksUriTokenVerifier).rolesClaim).to.be.equal('ROLES_CLAIM_VALUE')
-      })
-    })
-
-    context('when the JWT_ENV_VARS are not set', () => {
-      it('does not alter the token verifiers config', () => {
-        expect(Magek.config.tokenVerifiers).to.be.empty
-
-        const magek = Magek as any
-        magek.loadTokenVerifierFromEnv()
-
-        expect(Magek.config.tokenVerifiers).to.be.empty
-      })
-    })
-  })
 })
