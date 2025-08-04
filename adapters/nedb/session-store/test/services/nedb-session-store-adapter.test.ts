@@ -10,7 +10,7 @@ describe('NedbSessionStoreAdapter', () => {
   let mockConnectionsDb: string
   let mockSubscriptionsDb: string
 
-  beforeEach(() => {
+  beforeEach(async () => {
     // Set up virtual file paths
     mockConnectionsDb = '/tmp/test-connections.json'
     mockSubscriptionsDb = '/tmp/test-subscriptions.json'
@@ -30,6 +30,10 @@ describe('NedbSessionStoreAdapter', () => {
     
     adapter = new NedbSessionStoreAdapter()
     config = new MagekConfig('test')
+    
+    // Clear any existing data in the databases to ensure test isolation
+    await adapter['connectionRegistry'].deleteAll()
+    await adapter['subscriptionRegistry'].deleteAll()
   })
 
   afterEach(() => {

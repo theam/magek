@@ -7,7 +7,7 @@ describe('WebSocketRegistry', () => {
   let registry: WebSocketRegistry
   let testDbPath: string
 
-  beforeEach(() => {
+  beforeEach(async () => {
     // Set up virtual file path
     testDbPath = '/tmp/test-registry.json'
     
@@ -20,6 +20,9 @@ describe('WebSocketRegistry', () => {
     sinon.stub(fs, 'rmSync')
     
     registry = new WebSocketRegistry(testDbPath)
+    
+    // Clear any existing data to ensure test isolation
+    await registry.deleteAll()
   })
 
   afterEach(() => {
@@ -87,6 +90,9 @@ describe('WebSocketRegistry', () => {
     }
 
     beforeEach(async () => {
+      // Clear any existing data before inserting test data
+      await registry.deleteAll()
+      
       // Insert test data with different creation times
       for (let i = 0; i < 5; i++) {
         await registry.store({
@@ -125,14 +131,17 @@ describe('WebSocketRegistry', () => {
 
   describe('database lifecycle', () => {
     it('should load database only once', async () => {
-      expect(registry.isLoaded).to.be.false
+      // Create a fresh registry for this test to check the load state
+      const freshRegistry = new WebSocketRegistry('/tmp/fresh-test-registry.json')
       
-      await registry.loadDatabaseIfNeeded()
-      expect(registry.isLoaded).to.be.true
+      expect(freshRegistry.isLoaded).to.be.false
+      
+      await freshRegistry.loadDatabaseIfNeeded()
+      expect(freshRegistry.isLoaded).to.be.true
       
       // Second call should not reload
-      await registry.loadDatabaseIfNeeded()
-      expect(registry.isLoaded).to.be.true
+      await freshRegistry.loadDatabaseIfNeeded()
+      expect(freshRegistry.isLoaded).to.be.true
     })
 
     it('should handle multiple concurrent operations', async () => {

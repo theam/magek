@@ -21,8 +21,9 @@ describe('the read model registry', () => {
     initialReadModelsCount = faker.datatype.number({ min: 2, max: 10 })
     readModelRegistry = new ReadModelRegistry()
 
-    // Clear all read models
-    readModelRegistry.readModels.remove({}, { multi: true })
+    // Load database first, then clear all read models
+    await readModelRegistry.loadDatabaseIfNeeded()
+    await readModelRegistry.readModels.removeAsync({}, { multi: true })
   })
 
   afterEach(() => {
