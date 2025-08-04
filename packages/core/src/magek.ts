@@ -18,7 +18,6 @@ import { MagekEntityMigrated } from './core-concepts/data-migration/events/entit
 import { MagekDataMigrationEntity } from './core-concepts/data-migration/entities/data-migration-entity'
 import { MagekDataMigrationStarted } from './core-concepts/data-migration/events/data-migration-started'
 import { MagekDataMigrationFinished } from './core-concepts/data-migration/events/data-migration-finished'
-import { JwksUriTokenVerifier, JWT_ENV_VARS } from './services/token-verifiers'
 import { MagekAuthorizer } from './authorizer'
 import { MagekEntityTouched } from './core-concepts/touch-entity/events/entity-touched'
 import { readModelSearcher } from './services/read-model-searcher'
@@ -70,7 +69,6 @@ export class Magek {
     this.config.userProjectRootPath = projectRootPath
     Importer.importUserProjectFiles(codeRootPath)
     this.configureMagekConcepts()
-    this.loadTokenVerifierFromEnv()
     this.config.validate()
     const args = process.argv
     if (process.env['MAGEK_CLI_HOOK']?.trim() !== 'true') {
@@ -180,28 +178,6 @@ export class Magek {
     }
   }
 
-  /**
-   * TODO: We're loading tokenVerifier options from environment variables here for backwards
-   * compatibility reasons, but the preferred way to initialize the project token verifiers
-   * is by setting an implementation of the `TokenVerifier` interface in the project's config.
-   * The Authentication Magek Rocket for AWS uses this initialization mechanism.
-   *
-   * @deprecated [EOL v3] Please set your own implementation of the `TokenVerifier` interface in the project config.
-   */
-  private static loadTokenVerifierFromEnv(): void {
-    const JWT_ISSUER = process.env[JWT_ENV_VARS.JWT_ISSUER]
-    const JWKS_URI = process.env[JWT_ENV_VARS.JWKS_URI]
-    const ROLES_CLAIM = process.env[JWT_ENV_VARS.ROLES_CLAIM]
-    if (JWT_ISSUER && JWKS_URI && ROLES_CLAIM) {
-      console.warn(
-        'Deprecation notice: Implicitly loading the JWT token verifier options from default environment variables is deprecated.' +
-          " Please set your application's `config.tokenVerifiers` options explicitly in your `src/config/config.ts` file."
-      )
-      this.config.tokenVerifiers.push(
-        new JwksUriTokenVerifier(JWT_ISSUER, JWKS_URI, ROLES_CLAIM)
-      )
-    }
-  }
 }
 
 function checkAndGetCurrentEnv(): string {
