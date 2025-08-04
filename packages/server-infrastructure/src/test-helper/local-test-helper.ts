@@ -1,5 +1,4 @@
 import { LocalQueries } from './local-queries'
-import { LocalCounters } from './local-counters'
 
 interface ApplicationOutputs {
   graphqlURL: string
@@ -10,7 +9,6 @@ interface ApplicationOutputs {
 export class LocalTestHelper {
   private constructor(
     readonly outputs: ApplicationOutputs,
-    readonly counters: LocalCounters,
     readonly queries: LocalQueries
   ) {}
 
@@ -22,7 +20,6 @@ export class LocalTestHelper {
         websocketURL: await this.websocketURL(),
         healthURL: await this.healthURL(),
       },
-      new LocalCounters(`${appName}-app`),
       new LocalQueries()
     )
   }
