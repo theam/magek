@@ -2,42 +2,79 @@ import { expect } from '../expect'
 import { NedbSessionStoreAdapter } from '../../src/nedb-session-store-adapter'
 import { MagekConfig } from '@magek/common'
 import * as sinon from 'sinon'
-import * as fs from 'fs'
 
 describe('NedbSessionStoreAdapter', () => {
   let adapter: NedbSessionStoreAdapter
   let config: MagekConfig
-  let mockConnectionsDb: string
-  let mockSubscriptionsDb: string
+  let connectionStoreMock: any
+  let subscriptionStoreMock: any
 
   beforeEach(async () => {
-    // Set up virtual file paths
-    mockConnectionsDb = '/tmp/test-connections.json'
-    mockSubscriptionsDb = '/tmp/test-subscriptions.json'
-    
-    // Stub filesystem operations to avoid actual file I/O
-    sinon.stub(fs, 'existsSync').returns(false)
-    sinon.stub(fs, 'mkdirSync')
-    sinon.stub(fs, 'writeFileSync')
-    sinon.stub(fs, 'readFileSync').returns('{}')
-    sinon.stub(fs, 'unlinkSync')
-    sinon.stub(fs, 'rmSync')
-    
-    // Mock the path functions to return our test paths
-    const pathsModule = require('../../src/paths')
-    sinon.stub(pathsModule, 'connectionsDatabase').returns(mockConnectionsDb)
-    sinon.stub(pathsModule, 'subscriptionsDatabase').returns(mockSubscriptionsDb)
-    
-    adapter = new NedbSessionStoreAdapter()
     config = new MagekConfig('test')
     
-    // Clear any existing data in the databases to ensure test isolation
-    await adapter['connectionRegistry'].deleteAll()
-    await adapter['subscriptionRegistry'].deleteAll()
+    // Create in-memory storage for mock data
+    const connectionData: Record<string, any>[] = []
+    const subscriptionData: Record<string, any>[] = []
+    
+    // Create mock WebSocketRegistry instances
+    connectionStoreMock = {
+      store: sinon.stub().callsFake((doc: any) => {
+        connectionData.push({ ...doc, _id: `conn_${connectionData.length}` })
+        return Promise.resolve()
+      }),
+      query: sinon.stub().callsFake((query: any) => {
+        const filtered = connectionData.filter(doc => {
+          return Object.keys(query).every(key => doc[key] === query[key])
+        })
+        return Promise.resolve(filtered)
+      }),
+      delete: sinon.stub().callsFake((query: any) => {
+        const initialLength = connectionData.length
+        for (let i = connectionData.length - 1; i >= 0; i--) {
+          const doc = connectionData[i]
+          const matches = Object.keys(query).every(key => doc[key] === query[key])
+          if (matches) {
+            connectionData.splice(i, 1)
+          }
+        }
+        return Promise.resolve(initialLength - connectionData.length)
+      }),
+      count: sinon.stub().callsFake(() => Promise.resolve(connectionData.length))
+    }
+    
+    subscriptionStoreMock = {
+      store: sinon.stub().callsFake((doc: any) => {
+        subscriptionData.push({ ...doc, _id: `sub_${subscriptionData.length}` })
+        return Promise.resolve()
+      }),
+      query: sinon.stub().callsFake((query: any) => {
+        const filtered = subscriptionData.filter(doc => {
+          return Object.keys(query).every(key => doc[key] === query[key])
+        })
+        return Promise.resolve(filtered)
+      }),
+      delete: sinon.stub().callsFake((query: any) => {
+        const initialLength = subscriptionData.length
+        for (let i = subscriptionData.length - 1; i >= 0; i--) {
+          const doc = subscriptionData[i]
+          const matches = Object.keys(query).every(key => doc[key] === query[key])
+          if (matches) {
+            subscriptionData.splice(i, 1)
+          }
+        }
+        return Promise.resolve(initialLength - subscriptionData.length)
+      }),
+      count: sinon.stub().callsFake(() => Promise.resolve(subscriptionData.length))
+    }
+    
+    adapter = new NedbSessionStoreAdapter()
+    
+    // Replace the internal registries with our mocks
+    adapter['connectionRegistry'] = connectionStoreMock
+    adapter['subscriptionRegistry'] = subscriptionStoreMock
   })
 
   afterEach(() => {
-    // Restore all stubs
     sinon.restore()
   })
 

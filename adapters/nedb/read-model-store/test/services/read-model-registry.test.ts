@@ -14,20 +14,311 @@ import {
 describe('the read model registry', () => {
   let initialReadModelsCount: number
   let mockReadModel: ReadModelEnvelope
-
   let readModelRegistry: ReadModelRegistry
+  let mockDataStore: any
+  let storedData: any[]
 
   beforeEach(async () => {
     initialReadModelsCount = faker.datatype.number({ min: 2, max: 10 })
+    storedData = []
+    
+    // Create a mock DataStore that behaves like NeDB but stores data in memory
+    mockDataStore = {
+      loadDatabaseAsync: stub().resolves(),
+      ensureIndexAsync: stub().resolves(),
+      insertAsync: stub().callsFake((doc: any) => {
+        const newDoc = { ...doc, _id: `id_${storedData.length}` }
+        storedData.push(newDoc)
+        return Promise.resolve(newDoc)
+      }),
+      find: stub().callsFake((query: any) => {
+        const filtered = storedData.filter(doc => {
+          return evaluateQuery(doc, query)
+        })
+        
+        function evaluateQuery(doc: any, query: any): boolean {
+          // Handle logical operators
+          if ('$and' in query) {
+            return query.$and.every((subQuery: any) => evaluateQuery(doc, subQuery))
+          }
+          if ('$or' in query) {
+            return query.$or.some((subQuery: any) => evaluateQuery(doc, subQuery))
+          }
+          if ('$nor' in query) {
+            return !query.$nor.some((subQuery: any) => evaluateQuery(doc, subQuery))
+          }
+          if ('$not' in query) {
+            return !evaluateQuery(doc, query.$not)
+          }
+          
+          return Object.keys(query).every(key => {
+            const queryValue = query[key]
+            
+            // Handle MongoDB operators
+            if (queryValue && typeof queryValue === 'object' && !Array.isArray(queryValue)) {
+              if ('$exists' in queryValue) {
+                // Handle nested field queries like 'value.other'
+                if (key.includes('.')) {
+                  const keys = key.split('.')
+                  let value = doc
+                  for (const k of keys) {
+                    if (value && typeof value === 'object' && k in value) {
+                      value = value[k]
+                    } else {
+                      value = undefined
+                      break
+                    }
+                  }
+                  return queryValue.$exists ? value !== undefined : value === undefined
+                } else {
+                  return queryValue.$exists ? key in doc : !(key in doc)
+                }
+              }
+              
+              // Handle comparison operators
+              let actualValue
+              if (key.includes('.')) {
+                const keys = key.split('.')
+                actualValue = doc
+                for (const k of keys) {
+                  if (actualValue && typeof actualValue === 'object' && k in actualValue) {
+                    actualValue = actualValue[k]
+                  } else {
+                    actualValue = undefined
+                    break
+                  }
+                }
+              } else {
+                actualValue = doc[key]
+              }
+              
+              if (actualValue === undefined) return false
+              
+              if ('$lt' in queryValue) return actualValue < queryValue.$lt
+              if ('$lte' in queryValue) return actualValue <= queryValue.$lte
+              if ('$gt' in queryValue) return actualValue > queryValue.$gt
+              if ('$gte' in queryValue) return actualValue >= queryValue.$gte
+              if ('$ne' in queryValue) return actualValue !== queryValue.$ne
+              if ('$in' in queryValue) return queryValue.$in.includes(actualValue)
+              if ('$nin' in queryValue) return !queryValue.$nin.includes(actualValue)
+              
+              // Add more operators as needed
+            }
+            
+            // Handle nested field queries like 'value.id'
+            if (key.includes('.')) {
+              const keys = key.split('.')
+              let value = doc
+              for (const k of keys) {
+                if (value && typeof value === 'object' && k in value) {
+                  value = value[k]
+                } else {
+                  return false
+                }
+              }
+              
+              // Handle RegExp queries
+              if (queryValue instanceof RegExp) {
+                return typeof value === 'string' && queryValue.test(value)
+              }
+              
+              return value === queryValue
+            } else {
+              // Handle RegExp queries
+              if (queryValue instanceof RegExp) {
+                return typeof doc[key] === 'string' && queryValue.test(doc[key])
+              }
+              
+              return doc[key] === queryValue
+            }
+          })
+        }
+        
+        // Return an object that has a sort method and an execAsync method
+        const cursor = {
+          sort: (sortOptions: any) => ({
+            skip: (n: number) => ({
+              limit: (l: number) => ({
+                execAsync: () => {
+                  const sorted = applySorting(filtered, sortOptions)
+                  return Promise.resolve(sorted.slice(n, n + l))
+                }
+              }),
+              execAsync: () => {
+                const sorted = applySorting(filtered, sortOptions)
+                return Promise.resolve(sorted.slice(n))
+              }
+            }),
+            limit: (n: number) => ({
+              execAsync: () => {
+                const sorted = applySorting(filtered, sortOptions)
+                return Promise.resolve(sorted.slice(0, n))
+              }
+            }),
+            execAsync: () => {
+              const sorted = applySorting(filtered, sortOptions)
+              return Promise.resolve(sorted)
+            }
+          }),
+          skip: (n: number) => ({
+            limit: (l: number) => ({
+              execAsync: () => Promise.resolve(filtered.slice(n, n + l))
+            }),
+            execAsync: () => Promise.resolve(filtered.slice(n))
+          }),
+          limit: (n: number) => ({
+            execAsync: () => Promise.resolve(filtered.slice(0, n))
+          }),
+          execAsync: () => Promise.resolve(filtered)
+        }
+        return cursor
+        
+        function applySorting(data: any[], sortOptions: any): any[] {
+          if (!sortOptions || Object.keys(sortOptions).length === 0) {
+            return data
+          }
+          
+          return [...data].sort((a, b) => {
+            for (const [field, direction] of Object.entries(sortOptions)) {
+              // Handle nested field access like 'value.age'
+              let aValue = a
+              let bValue = b
+              
+              if (field.includes('.')) {
+                const keys = field.split('.')
+                for (const key of keys) {
+                  aValue = aValue?.[key]
+                  bValue = bValue?.[key]
+                }
+              } else {
+                aValue = a[field]
+                bValue = b[field]
+              }
+              
+              // Handle undefined values
+              if (aValue === undefined && bValue === undefined) continue
+              if (aValue === undefined) return 1
+              if (bValue === undefined) return -1
+              
+              let comparison = 0
+              if (aValue < bValue) comparison = -1
+              else if (aValue > bValue) comparison = 1
+              
+              if (comparison !== 0) {
+                // direction is 1 for ASC, -1 for DESC
+                return direction === -1 ? -comparison : comparison
+              }
+            }
+            return 0
+          })
+        }
+      }),
+      findAsync: stub().callsFake((query: any, projections?: any) => {
+        let filtered = storedData.filter(doc => {
+          return Object.keys(query).every(key => {
+            // Handle nested field queries like 'value.id'
+            if (key.includes('.')) {
+              const keys = key.split('.')
+              let value = doc
+              for (const k of keys) {
+                if (value && typeof value === 'object' && k in value) {
+                  value = value[k]
+                } else {
+                  return false
+                }
+              }
+              return value === query[key]
+            } else {
+              return doc[key] === query[key]
+            }
+          })
+        })
+        
+        // Apply projections if specified
+        if (projections && typeof projections === 'object') {
+          filtered = filtered.map(doc => {
+            const projected: any = {}
+            for (const key in projections) {
+              if (projections[key] === 1 && doc.hasOwnProperty(key)) {
+                projected[key] = doc[key]
+              }
+            }
+            return projected
+          })
+        }
+        
+        // Return an object that has a sort method and an execAsync method
+        const cursor = {
+          sort: (sortOptions: any) => ({
+            limit: (n: number) => ({
+              execAsync: () => Promise.resolve(filtered.slice(0, n))
+            }),
+            execAsync: () => Promise.resolve(filtered)
+          }),
+          limit: (n: number) => ({
+            execAsync: () => Promise.resolve(filtered.slice(0, n))
+          }),
+          execAsync: () => Promise.resolve(filtered)
+        }
+        return cursor
+      }),
+      removeAsync: stub().callsFake((query: any, options: any) => {
+        const initialLength = storedData.length
+        if (Object.keys(query).length === 0) {
+          // Remove all
+          storedData.splice(0, storedData.length)
+        } else {
+          // Remove matching documents
+          for (let i = storedData.length - 1; i >= 0; i--) {
+            const doc = storedData[i]
+            const matches = Object.keys(query).every(key => doc[key] === query[key])
+            if (matches) {
+              storedData.splice(i, 1)
+            }
+          }
+        }
+        return Promise.resolve(initialLength - storedData.length)
+      }),
+      countAsync: stub().callsFake((query: any) => {
+        if (!query || Object.keys(query).length === 0) {
+          return Promise.resolve(storedData.length)
+        }
+        const filtered = storedData.filter(doc => {
+          return Object.keys(query).every(key => doc[key] === query[key])
+        })
+        return Promise.resolve(filtered.length)
+      }),
+      updateAsync: stub().callsFake((query: any, update: any, options: any) => {
+        let updatedCount = 0
+        for (let i = 0; i < storedData.length; i++) {
+          const doc = storedData[i]
+          const matches = Object.keys(query).every(key => doc[key] === query[key])
+          if (matches) {
+            if (update.$set) {
+              Object.assign(storedData[i], update.$set)
+            }
+            if (update.$inc) {
+              for (const field in update.$inc) {
+                storedData[i][field] = (storedData[i][field] || 0) + update.$inc[field]
+              }
+            }
+            updatedCount++
+            if (!options?.multi) break
+          }
+        }
+        return Promise.resolve(updatedCount)
+      })
+    }
+    
     readModelRegistry = new ReadModelRegistry()
-
-    // Load database first, then clear all read models
-    await readModelRegistry.loadDatabaseIfNeeded()
-    await readModelRegistry.readModels.removeAsync({}, { multi: true })
+    
+    // Replace the internal datastore with our mock
+    ;(readModelRegistry as any).readModels = mockDataStore
   })
 
   afterEach(() => {
     restore()
+    storedData = []
   })
 
   describe('query', () => {

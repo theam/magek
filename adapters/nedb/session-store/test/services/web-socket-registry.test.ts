@@ -1,33 +1,96 @@
 import { expect } from '../expect'
 import { WebSocketRegistry } from '../../src/web-socket-registry'
 import * as sinon from 'sinon'
-import * as fs from 'fs'
 
 describe('WebSocketRegistry', () => {
   let registry: WebSocketRegistry
   let testDbPath: string
+  let mockDataStore: any
+  let storedData: any[]
 
   beforeEach(async () => {
-    // Set up virtual file path
     testDbPath = '/tmp/test-registry.json'
+    storedData = []
     
-    // Stub filesystem operations to avoid actual file I/O
-    sinon.stub(fs, 'existsSync').returns(false)
-    sinon.stub(fs, 'mkdirSync')
-    sinon.stub(fs, 'writeFileSync')
-    sinon.stub(fs, 'readFileSync').returns('{}')
-    sinon.stub(fs, 'unlinkSync')
-    sinon.stub(fs, 'rmSync')
+    // Create a mock DataStore that behaves like NeDB but stores data in memory
+    mockDataStore = {
+      loadDatabaseAsync: sinon.stub().resolves(),
+      ensureIndexAsync: sinon.stub().resolves(),
+      insertAsync: sinon.stub().callsFake((doc: any) => {
+        const newDoc = { ...doc, _id: `id_${storedData.length}` }
+        storedData.push(newDoc)
+        return Promise.resolve(newDoc)
+      }),
+      findAsync: sinon.stub().callsFake((query: any, projections?: any) => {
+        let filtered = storedData.filter(doc => {
+          return Object.keys(query).every(key => doc[key] === query[key])
+        })
+        
+        // Apply projections if specified
+        if (projections && typeof projections === 'object') {
+          filtered = filtered.map(doc => {
+            const projected: any = {}
+            for (const key in projections) {
+              if (projections[key] === 1 && doc.hasOwnProperty(key)) {
+                projected[key] = doc[key]
+              }
+            }
+            return projected
+          })
+        }
+        
+        // Return an object that has a sort method and an execAsync method
+        const cursor = {
+          sort: (sortOptions: any) => ({
+            limit: (n: number) => ({
+              execAsync: () => Promise.resolve(filtered.slice(0, n))
+            }),
+            execAsync: () => Promise.resolve(filtered)
+          }),
+          limit: (n: number) => ({
+            execAsync: () => Promise.resolve(filtered.slice(0, n))
+          }),
+          execAsync: () => Promise.resolve(filtered)
+        }
+        return cursor
+      }),
+      removeAsync: sinon.stub().callsFake((query: any, options: any) => {
+        const initialLength = storedData.length
+        if (Object.keys(query).length === 0) {
+          // Remove all
+          storedData.splice(0, storedData.length)
+        } else {
+          // Remove matching documents
+          for (let i = storedData.length - 1; i >= 0; i--) {
+            const doc = storedData[i]
+            const matches = Object.keys(query).every(key => doc[key] === query[key])
+            if (matches) {
+              storedData.splice(i, 1)
+            }
+          }
+        }
+        return Promise.resolve(initialLength - storedData.length)
+      }),
+      countAsync: sinon.stub().callsFake((query: any) => {
+        if (!query || Object.keys(query).length === 0) {
+          return Promise.resolve(storedData.length)
+        }
+        const filtered = storedData.filter(doc => {
+          return Object.keys(query).every(key => doc[key] === query[key])
+        })
+        return Promise.resolve(filtered.length)
+      })
+    }
     
     registry = new WebSocketRegistry(testDbPath)
     
-    // Clear any existing data to ensure test isolation
-    await registry.deleteAll()
+    // Replace the internal datastore with our mock
+    registry.datastore = mockDataStore
   })
 
   afterEach(() => {
-    // Restore all stubs
     sinon.restore()
+    storedData = []
   })
 
   describe('basic operations', () => {
