@@ -12,59 +12,19 @@ describe('NedbSessionStoreAdapter', () => {
   beforeEach(async () => {
     config = new MagekConfig('test')
     
-    // Create in-memory storage for mock data
-    const connectionData: Record<string, any>[] = []
-    const subscriptionData: Record<string, any>[] = []
-    
-    // Create mock WebSocketRegistry instances
+    // Create simple mock WebSocketRegistry instances that just track method calls
     connectionStoreMock = {
-      store: sinon.stub().callsFake((doc: any) => {
-        connectionData.push({ ...doc, _id: `conn_${connectionData.length}` })
-        return Promise.resolve()
-      }),
-      query: sinon.stub().callsFake((query: any) => {
-        const filtered = connectionData.filter(doc => {
-          return Object.keys(query).every(key => doc[key] === query[key])
-        })
-        return Promise.resolve(filtered)
-      }),
-      delete: sinon.stub().callsFake((query: any) => {
-        const initialLength = connectionData.length
-        for (let i = connectionData.length - 1; i >= 0; i--) {
-          const doc = connectionData[i]
-          const matches = Object.keys(query).every(key => doc[key] === query[key])
-          if (matches) {
-            connectionData.splice(i, 1)
-          }
-        }
-        return Promise.resolve(initialLength - connectionData.length)
-      }),
-      count: sinon.stub().callsFake(() => Promise.resolve(connectionData.length))
+      store: sinon.stub().resolves(),
+      query: sinon.stub().resolves([]),
+      delete: sinon.stub().resolves(0),
+      count: sinon.stub().resolves(0)
     }
     
     subscriptionStoreMock = {
-      store: sinon.stub().callsFake((doc: any) => {
-        subscriptionData.push({ ...doc, _id: `sub_${subscriptionData.length}` })
-        return Promise.resolve()
-      }),
-      query: sinon.stub().callsFake((query: any) => {
-        const filtered = subscriptionData.filter(doc => {
-          return Object.keys(query).every(key => doc[key] === query[key])
-        })
-        return Promise.resolve(filtered)
-      }),
-      delete: sinon.stub().callsFake((query: any) => {
-        const initialLength = subscriptionData.length
-        for (let i = subscriptionData.length - 1; i >= 0; i--) {
-          const doc = subscriptionData[i]
-          const matches = Object.keys(query).every(key => doc[key] === query[key])
-          if (matches) {
-            subscriptionData.splice(i, 1)
-          }
-        }
-        return Promise.resolve(initialLength - subscriptionData.length)
-      }),
-      count: sinon.stub().callsFake(() => Promise.resolve(subscriptionData.length))
+      store: sinon.stub().resolves(),
+      query: sinon.stub().resolves([]),
+      delete: sinon.stub().resolves(0),
+      count: sinon.stub().resolves(0)
     }
     
     adapter = new NedbSessionStoreAdapter()
@@ -89,30 +49,52 @@ describe('NedbSessionStoreAdapter', () => {
     it('should store connection data', async () => {
       await adapter.storeConnection(config, connectionId, connectionData)
       
+      expect(connectionStoreMock.store).to.have.been.calledOnce
+      expect(connectionStoreMock.store).to.have.been.calledWith({
+        ...connectionData,
+        connectionID: connectionId,
+      })
+    })
+
+    it('should fetch connection data when it exists', async () => {
+      // Mock the query to return connection data
+      connectionStoreMock.query.resolves([{ connectionID: connectionId, ...connectionData }])
+      
       const retrieved = await adapter.fetchConnection(config, connectionId)
+      
+      expect(connectionStoreMock.query).to.have.been.calledOnce
+      expect(connectionStoreMock.query).to.have.been.calledWith({ connectionID: connectionId })
       expect(retrieved).to.deep.equal(connectionData)
     })
 
     it('should return undefined for non-existent connection', async () => {
+      // Mock the query to return empty array
+      connectionStoreMock.query.resolves([])
+      
       const retrieved = await adapter.fetchConnection(config, 'non-existent')
+      
+      expect(connectionStoreMock.query).to.have.been.calledOnce
+      expect(connectionStoreMock.query).to.have.been.calledWith({ connectionID: 'non-existent' })
       expect(retrieved).to.be.undefined
     })
 
     it('should delete connection data', async () => {
-      await adapter.storeConnection(config, connectionId, connectionData)
-      
-      let retrieved = await adapter.fetchConnection(config, connectionId)
-      expect(retrieved).to.deep.equal(connectionData)
+      connectionStoreMock.delete.resolves(1)
       
       await adapter.deleteConnection(config, connectionId)
       
-      retrieved = await adapter.fetchConnection(config, connectionId)
-      expect(retrieved).to.be.undefined
+      expect(connectionStoreMock.delete).to.have.been.calledOnce
+      expect(connectionStoreMock.delete).to.have.been.calledWith({ connectionID: connectionId })
     })
 
     it('should handle deleting non-existent connection gracefully', async () => {
+      connectionStoreMock.delete.resolves(0)
+      
       // Should not throw an error
       await adapter.deleteConnection(config, 'non-existent')
+      
+      expect(connectionStoreMock.delete).to.have.been.calledOnce
+      expect(connectionStoreMock.delete).to.have.been.calledWith({ connectionID: 'non-existent' })
     })
   })
 
@@ -128,83 +110,110 @@ describe('NedbSessionStoreAdapter', () => {
     it('should store subscription data', async () => {
       await adapter.storeSubscription(config, connectionId, subscriptionId, subscriptionData)
       
+      expect(subscriptionStoreMock.store).to.have.been.calledOnce
+      expect(subscriptionStoreMock.store).to.have.been.calledWith({
+        ...subscriptionData,
+        connectionID: connectionId,
+        subscriptionID: subscriptionId,
+      })
+    })
+
+    it('should fetch subscription data when it exists', async () => {
+      // Mock the query to return subscription data
+      subscriptionStoreMock.query.resolves([{ subscriptionID: subscriptionId, connectionID: connectionId, ...subscriptionData }])
+      
       const retrieved = await adapter.fetchSubscription(config, subscriptionId)
+      
+      expect(subscriptionStoreMock.query).to.have.been.calledOnce
+      expect(subscriptionStoreMock.query).to.have.been.calledWith({ subscriptionID: subscriptionId })
       expect(retrieved).to.deep.equal(subscriptionData)
     })
 
     it('should return undefined for non-existent subscription', async () => {
+      // Mock the query to return empty array
+      subscriptionStoreMock.query.resolves([])
+      
       const retrieved = await adapter.fetchSubscription(config, 'non-existent')
+      
+      expect(subscriptionStoreMock.query).to.have.been.calledOnce
+      expect(subscriptionStoreMock.query).to.have.been.calledWith({ subscriptionID: 'non-existent' })
       expect(retrieved).to.be.undefined
     })
 
     it('should delete subscription data', async () => {
-      await adapter.storeSubscription(config, connectionId, subscriptionId, subscriptionData)
-      
-      let retrieved = await adapter.fetchSubscription(config, subscriptionId)
-      expect(retrieved).to.deep.equal(subscriptionData)
+      subscriptionStoreMock.delete.resolves(1)
       
       await adapter.deleteSubscription(config, subscriptionId)
       
-      retrieved = await adapter.fetchSubscription(config, subscriptionId)
-      expect(retrieved).to.be.undefined
+      expect(subscriptionStoreMock.delete).to.have.been.calledOnce
+      expect(subscriptionStoreMock.delete).to.have.been.calledWith({ subscriptionID: subscriptionId })
     })
 
     it('should fetch subscriptions for a connection', async () => {
-      const subscription1Id = 'sub-1'
-      const subscription2Id = 'sub-2'
       const subscription1Data = { ...subscriptionData, operationName: 'Sub1' }
       const subscription2Data = { ...subscriptionData, operationName: 'Sub2' }
       
-      await adapter.storeSubscription(config, connectionId, subscription1Id, subscription1Data)
-      await adapter.storeSubscription(config, connectionId, subscription2Id, subscription2Data)
+      // Mock the query to return subscription data for the connection
+      subscriptionStoreMock.query.resolves([
+        { subscriptionID: 'sub-1', connectionID: connectionId, ...subscription1Data },
+        { subscriptionID: 'sub-2', connectionID: connectionId, ...subscription2Data }
+      ])
       
       const subscriptions = await adapter.fetchSubscriptionsForConnection(config, connectionId)
+      
+      expect(subscriptionStoreMock.query).to.have.been.calledOnce
+      expect(subscriptionStoreMock.query).to.have.been.calledWith({ connectionID: connectionId })
       expect(subscriptions).to.have.length(2)
       expect(subscriptions).to.deep.include.members([subscription1Data, subscription2Data])
     })
 
     it('should delete all subscriptions for a connection', async () => {
-      const subscription1Id = 'sub-1'
-      const subscription2Id = 'sub-2'
-      
-      await adapter.storeSubscription(config, connectionId, subscription1Id, subscriptionData)
-      await adapter.storeSubscription(config, connectionId, subscription2Id, subscriptionData)
-      
-      let subscriptions = await adapter.fetchSubscriptionsForConnection(config, connectionId)
-      expect(subscriptions).to.have.length(2)
+      subscriptionStoreMock.delete.resolves(2)
       
       await adapter.deleteSubscriptionsForConnection(config, connectionId)
       
-      subscriptions = await adapter.fetchSubscriptionsForConnection(config, connectionId)
-      expect(subscriptions).to.have.length(0)
+      expect(subscriptionStoreMock.delete).to.have.been.calledOnce
+      expect(subscriptionStoreMock.delete).to.have.been.calledWith({ connectionID: connectionId })
     })
 
     it('should not affect subscriptions from other connections', async () => {
-      const otherConnectionId = 'other-connection'
-      const subscription1Id = 'sub-1'
-      const subscription2Id = 'sub-2'
-      
-      await adapter.storeSubscription(config, connectionId, subscription1Id, subscriptionData)
-      await adapter.storeSubscription(config, otherConnectionId, subscription2Id, subscriptionData)
+      // This is more of an integration concern, but we can test that our method
+      // calls the delete with the correct connectionID filter
+      subscriptionStoreMock.delete.resolves(1)
       
       await adapter.deleteSubscriptionsForConnection(config, connectionId)
       
-      const remainingSubscriptions = await adapter.fetchSubscriptionsForConnection(config, otherConnectionId)
-      expect(remainingSubscriptions).to.have.length(1)
+      expect(subscriptionStoreMock.delete).to.have.been.calledOnce
+      expect(subscriptionStoreMock.delete).to.have.been.calledWith({ connectionID: connectionId })
+      // The fact that it only deletes for the specific connectionID ensures other connections aren't affected
     })
   })
 
   describe('health check', () => {
     it('should report as healthy', async () => {
+      connectionStoreMock.count.resolves(5)
+      subscriptionStoreMock.count.resolves(10)
+      
       const isUp = await adapter.healthCheck.isUp(config)
+      
       expect(isUp).to.be.true
+      expect(connectionStoreMock.count).to.have.been.calledOnce
+      expect(subscriptionStoreMock.count).to.have.been.calledOnce
     })
 
     it('should provide health details', async () => {
+      connectionStoreMock.count.resolves(5)
+      subscriptionStoreMock.count.resolves(10)
+      
       const details = await adapter.healthCheck.details(config)
+      
       expect(details).to.have.property('status', 'healthy')
       expect(details).to.have.property('connections')
       expect(details).to.have.property('subscriptions')
+      expect((details as any).connections).to.have.property('count', 5)
+      expect((details as any).subscriptions).to.have.property('count', 10)
+      expect(connectionStoreMock.count).to.have.been.calledOnce
+      expect(subscriptionStoreMock.count).to.have.been.calledOnce
     })
 
     it('should provide database URLs', async () => {
