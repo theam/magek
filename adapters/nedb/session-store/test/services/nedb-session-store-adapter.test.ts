@@ -1,26 +1,27 @@
 import { expect } from '../expect'
 import { NedbSessionStoreAdapter } from '../../src/nedb-session-store-adapter'
 import { MagekConfig } from '@magek/common'
-import * as fs from 'fs'
-import * as path from 'path'
 import * as sinon from 'sinon'
+import * as fs from 'fs'
 
 describe('NedbSessionStoreAdapter', () => {
   let adapter: NedbSessionStoreAdapter
   let config: MagekConfig
-  let testDir: string
   let mockConnectionsDb: string
   let mockSubscriptionsDb: string
 
   beforeEach(() => {
-    // Create a unique test directory for each test
-    testDir = path.join(__dirname, '..', '..', 'test-data', Date.now().toString())
-    if (!fs.existsSync(testDir)) {
-      fs.mkdirSync(testDir, { recursive: true })
-    }
+    // Set up virtual file paths
+    mockConnectionsDb = '/tmp/test-connections.json'
+    mockSubscriptionsDb = '/tmp/test-subscriptions.json'
     
-    mockConnectionsDb = path.join(testDir, 'connections.json')
-    mockSubscriptionsDb = path.join(testDir, 'subscriptions.json')
+    // Stub filesystem operations to avoid actual file I/O
+    sinon.stub(fs, 'existsSync').returns(false)
+    sinon.stub(fs, 'mkdirSync')
+    sinon.stub(fs, 'writeFileSync')
+    sinon.stub(fs, 'readFileSync').returns('{}')
+    sinon.stub(fs, 'unlinkSync')
+    sinon.stub(fs, 'rmSync')
     
     // Mock the path functions to return our test paths
     const pathsModule = require('../../src/paths')
@@ -32,13 +33,8 @@ describe('NedbSessionStoreAdapter', () => {
   })
 
   afterEach(() => {
-    // Restore stubs
+    // Restore all stubs
     sinon.restore()
-    
-    // Clean up test directory
-    if (fs.existsSync(testDir)) {
-      fs.rmSync(testDir, { recursive: true, force: true })
-    }
   })
 
   describe('connection management', () => {

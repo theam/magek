@@ -1,28 +1,30 @@
 import { expect } from '../expect'
 import { WebSocketRegistry } from '../../src/web-socket-registry'
+import * as sinon from 'sinon'
 import * as fs from 'fs'
-import * as path from 'path'
 
 describe('WebSocketRegistry', () => {
   let registry: WebSocketRegistry
   let testDbPath: string
 
   beforeEach(() => {
-    // Create a unique test database file for each test
-    const testDir = path.join(__dirname, '..', '..', 'test-data', Date.now().toString())
-    if (!fs.existsSync(testDir)) {
-      fs.mkdirSync(testDir, { recursive: true })
-    }
-    testDbPath = path.join(testDir, 'test-registry.json')
+    // Set up virtual file path
+    testDbPath = '/tmp/test-registry.json'
+    
+    // Stub filesystem operations to avoid actual file I/O
+    sinon.stub(fs, 'existsSync').returns(false)
+    sinon.stub(fs, 'mkdirSync')
+    sinon.stub(fs, 'writeFileSync')
+    sinon.stub(fs, 'readFileSync').returns('{}')
+    sinon.stub(fs, 'unlinkSync')
+    sinon.stub(fs, 'rmSync')
+    
     registry = new WebSocketRegistry(testDbPath)
   })
 
   afterEach(() => {
-    // Clean up test database
-    const testDir = path.dirname(testDbPath)
-    if (fs.existsSync(testDir)) {
-      fs.rmSync(testDir, { recursive: true, force: true })
-    }
+    // Restore all stubs
+    sinon.restore()
   })
 
   describe('basic operations', () => {
