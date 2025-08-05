@@ -92,14 +92,20 @@ describe('ReadModelStore', () => {
   }
 
   const config = new MagekConfig('test')
-  config.provider = {
-    readModels: {
-      store: () => {},
-      delete: () => {},
-      fetch: () => {},
-      search: () => {},
+  config.provider = {} as unknown as ProviderLibrary
+  
+  // Mock the new adapters
+  Object.defineProperty(config, 'readModelStore', {
+    value: {
+      store: fake.resolves({ typeName: 'test', id: 'test', version: 1, createdAt: '', updatedAt: '', value: {} }),
+      delete: fake.resolves(undefined),
+      fetch: fake.resolves(undefined),
+      search: fake.resolves({ items: [], count: 0 }),
+      rawToEnvelopes: fake.returns([]),
     },
-  } as unknown as ProviderLibrary
+    writable: true,
+    configurable: true
+  });
   config.entities[AnImportantEntity.name] = {
     class: AnImportantEntity,
     eventStreamAuthorizer: MagekAuthorizer.authorizeRoles.bind(null, []),
@@ -199,23 +205,23 @@ describe('ReadModelStore', () => {
           snapshottedEventCreatedAt: new Date().toISOString(),
         }
 
-        replace(config.provider.readModels, 'store', fake())
+        replace(config.readModelStore, 'store', fake())
         const readModelStore = new ReadModelStore(config)
         replace(readModelStore, 'fetchReadModel', fake.resolves(null))
 
         await expect(readModelStore.project(entitySnapshotWithNoProjections)).to.eventually.be.fulfilled
 
-        expect(config.provider.readModels.store).not.to.have.been.called
+        expect(config.readModelStore.store).not.to.have.been.called
         expect(readModelStore.fetchReadModel).not.to.have.been.called
       })
     })
 
     context('when the new read model returns ReadModelAction.Delete', () => {
       it('deletes the associated read model', async () => {
-        replace(config.provider.readModels, 'store', fake())
-        replace(config.provider.readModels, 'delete', fake())
+        replace(config.readModelStore, 'store', fake())
+        replace(config.readModelStore, 'delete', fake())
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
-        replace(config.provider.readModels, 'search', fake.resolves([]))
+        replace(config.readModelStore, 'search', fake.resolves([]))
         replace(
           ReadModelStore.prototype,
           'getProjectionFunction',
@@ -224,18 +230,18 @@ describe('ReadModelStore', () => {
         const readModelStore = new ReadModelStore(config)
 
         await readModelStore.project(entitySnapshotEnvelopeFor(AnImportantEntity.name))
-        expect(config.provider.readModels.store).not.to.have.been.called
-        expect(config.provider.readModels.delete).to.have.been.calledThrice
-        expect(config.provider.readModels.search).to.have.been.called
+        expect(config.readModelStore.store).not.to.have.been.called
+        expect(config.readModelStore.delete).to.have.been.calledThrice
+        expect(config.readModelStore.search).to.have.been.called
       })
     })
 
     context('when the new read model returns ReadModelAction.Nothing', () => {
       it('ignores the read model', async () => {
-        replace(config.provider.readModels, 'store', fake())
-        replace(config.provider.readModels, 'delete', fake())
+        replace(config.readModelStore, 'store', fake())
+        replace(config.readModelStore, 'delete', fake())
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
-        replace(config.provider.readModels, 'search', fake.resolves([]))
+        replace(config.readModelStore, 'search', fake.resolves([]))
         replace(
           ReadModelStore.prototype,
           'getProjectionFunction',
@@ -244,9 +250,9 @@ describe('ReadModelStore', () => {
         const readModelStore = new ReadModelStore(config)
 
         await readModelStore.project(entitySnapshotEnvelopeFor(AnImportantEntity.name))
-        expect(config.provider.readModels.store).not.to.have.been.called
-        expect(config.provider.readModels.delete).not.to.have.been.called
-        expect(config.provider.readModels.search).to.have.been.called
+        expect(config.readModelStore.store).not.to.have.been.called
+        expect(config.readModelStore.delete).not.to.have.been.called
+        expect(config.readModelStore.search).to.have.been.called
       })
     })
 
@@ -261,9 +267,9 @@ describe('ReadModelStore', () => {
       })
 
       it('creates new instances of the read models', async () => {
-        replace(config.provider.readModels, 'store', fake())
+        replace(config.readModelStore, 'store', fake())
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
-        replace(config.provider.readModels, 'search', fake.resolves([]))
+        replace(config.readModelStore, 'search', fake.resolves([]))
         const readModelStore = new ReadModelStore(config)
         replace(readModelStore, 'fetchReadModel', fake.resolves(null))
         spy(SomeReadModel, 'someObserver')
@@ -307,8 +313,8 @@ describe('ReadModelStore', () => {
             },
           },
         })
-        expect(config.provider.readModels.store).to.have.been.calledTwice
-        expect(config.provider.readModels.store).to.have.been.calledWith(
+        expect(config.readModelStore.store).to.have.been.calledTwice
+        expect(config.readModelStore.store).to.have.been.calledWith(
           config,
           SomeReadModel.name,
           {
@@ -329,7 +335,7 @@ describe('ReadModelStore', () => {
           },
           0
         )
-        expect(config.provider.readModels.store).to.have.been.calledWith(
+        expect(config.readModelStore.store).to.have.been.calledWith(
           config,
           AnotherReadModel.name,
           {
@@ -364,51 +370,71 @@ describe('ReadModelStore', () => {
       })
 
       it('updates the read model', async () => {
-        replace(config.provider.readModels, 'store', fake())
+        replace(config.readModelStore, 'store', fake())
         const readModelStore = new ReadModelStore(config)
         const someReadModelStoredVersion = 10
         const anotherReadModelStoredVersion = 32
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
-        const searchStub = stub(config.provider.readModels, 'search')
+        const searchStub = stub(config.readModelStore, 'search')
         searchStub.callsFake(async (_config: any, className: string) => {
           if (className == SomeReadModel.name) {
-            return [
-              {
-                id: 'joinColumnID',
-                kind: 'some',
-                count: 77,
-                magekMetadata: {
+            return {
+              items: [
+                {
+                  typeName: className,
+                  id: 'joinColumnID',
                   version: someReadModelStoredVersion,
-                  schemaVersion: 1,
-                  lastUpdateAt: '1970-01-01T00:00:00.000Z',
-                  lastProjectionInfo: {
-                    entityId: 'importantEntityID',
-                    entityName: 'AnImportantEntity',
-                    entityUpdatedAt: '1970-01-01T00:00:00.000Z',
-                    projectionMethod: 'SomeReadModel.someObserver',
-                  },
+                  createdAt: '1970-01-01T00:00:00.000Z',
+                  updatedAt: '1970-01-01T00:00:00.000Z',
+                  value: {
+                    id: 'joinColumnID',
+                    kind: 'some',
+                    count: 77,
+                    magekMetadata: {
+                      version: someReadModelStoredVersion,
+                      schemaVersion: 1,
+                      lastUpdateAt: '1970-01-01T00:00:00.000Z',
+                      lastProjectionInfo: {
+                        entityId: 'importantEntityID',
+                        entityName: 'AnImportantEntity',
+                        entityUpdatedAt: '1970-01-01T00:00:00.000Z',
+                        projectionMethod: 'SomeReadModel.someObserver',
+                      },
+                    },
+                  }
                 },
-              },
-            ]
+              ],
+              count: 1
+            }
           } else {
-            return [
-              {
-                id: 'joinColumnID',
-                kind: 'another',
-                count: 177,
-                magekMetadata: {
+            return {
+              items: [
+                {
+                  typeName: className,
+                  id: 'joinColumnID',
                   version: anotherReadModelStoredVersion,
-                  schemaVersion: 1,
-                  lastUpdateAt: '1970-01-01T00:00:00.000Z',
-                  lastProjectionInfo: {
-                    entityId: 'importantEntityID',
-                    entityName: 'AnImportantEntity',
-                    entityUpdatedAt: '1970-01-01T00:00:00.000Z',
-                    projectionMethod: 'AnotherReadModel.anotherObserver',
-                  },
+                  createdAt: '1970-01-01T00:00:00.000Z',
+                  updatedAt: '1970-01-01T00:00:00.000Z',
+                  value: {
+                    id: 'joinColumnID',
+                    kind: 'another',
+                    count: 177,
+                    magekMetadata: {
+                      version: anotherReadModelStoredVersion,
+                      schemaVersion: 1,
+                      lastUpdateAt: '1970-01-01T00:00:00.000Z',
+                      lastProjectionInfo: {
+                        entityId: 'importantEntityID',
+                        entityName: 'AnImportantEntity',
+                        entityUpdatedAt: '1970-01-01T00:00:00.000Z',
+                        projectionMethod: 'AnotherReadModel.anotherObserver',
+                      },
+                    },
+                  }
                 },
-              },
-            ]
+              ],
+              count: 1
+            }
           }
         })
         spy(SomeReadModel, 'someObserver')
@@ -486,8 +512,8 @@ describe('ReadModelStore', () => {
             },
           },
         })
-        expect(config.provider.readModels.store).to.have.been.calledTwice
-        expect(config.provider.readModels.store).to.have.been.calledWith(
+        expect(config.readModelStore.store).to.have.been.calledTwice
+        expect(config.readModelStore.store).to.have.been.calledWith(
           config,
           SomeReadModel.name,
           {
@@ -508,7 +534,7 @@ describe('ReadModelStore', () => {
           },
           someReadModelStoredVersion
         )
-        expect(config.provider.readModels.store).to.have.been.calledWith(
+        expect(config.readModelStore.store).to.have.been.calledWith(
           config,
           AnotherReadModel.name,
           {
@@ -536,7 +562,7 @@ describe('ReadModelStore', () => {
       it('is executed without failing', async () => {
         const readModelStore = new ReadModelStore(config)
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
-        replace(config.provider.readModels, 'search', fake.resolves([]))
+        replace(config.readModelStore, 'search', fake.resolves([]))
         const getPrefixedKeyFake = fake()
         replace(AnImportantEntity.prototype, 'getPrefixedKey', getPrefixedKeyFake)
         await readModelStore.project(entitySnapshotEnvelopeFor(AnImportantEntity.name))
@@ -548,7 +574,7 @@ describe('ReadModelStore', () => {
       it('is executed without failing', async () => {
         const readModelStore = new ReadModelStore(config)
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
-        replace(config.provider.readModels, 'search', fake.resolves([{ id: 'joinColumnID', count: 31415 }]))
+        replace(config.readModelStore, 'search', fake.resolves([{ id: 'joinColumnID', count: 31415 }]))
         const getIdFake = fake()
         replace(SomeReadModel.prototype, 'getId', getIdFake)
         await readModelStore.project(entitySnapshotEnvelopeFor(AnEntity.name))
@@ -577,8 +603,8 @@ describe('ReadModelStore', () => {
           return Promise.resolve()
         })
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
-        replace(config.provider.readModels, 'search', fake.resolves([]))
-        replace(config.provider.readModels, 'store', fakeStore)
+        replace(config.readModelStore, 'search', fake.resolves([]))
+        replace(config.readModelStore, 'store', fakeStore)
         const readModelStore = new ReadModelStore(config)
         await readModelStore.project(entitySnapshotEnvelopeFor(AnImportantEntity.name))
 
@@ -621,12 +647,12 @@ describe('ReadModelStore', () => {
       })
 
       it('creates non-existent read models and updates existing read models', async () => {
-        replace(config.provider.readModels, 'store', fake())
+        replace(config.readModelStore, 'store', fake())
         const readModelStore = new ReadModelStore(config)
         const someReadModelStoredVersion = 10
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(
-          config.provider.readModels,
+          config.readModelStore,
           'search',
           fake.resolves([
             {
@@ -676,8 +702,8 @@ describe('ReadModelStore', () => {
           null  // null because this read model doesn't exist yet
         )
 
-        expect(config.provider.readModels.store).to.have.been.calledTwice
-        expect(config.provider.readModels.store).to.have.been.calledWith(
+        expect(config.readModelStore.store).to.have.been.calledTwice
+        expect(config.readModelStore.store).to.have.been.calledWith(
           config,
           SomeReadModel.name,
           {
@@ -698,7 +724,7 @@ describe('ReadModelStore', () => {
           },
           someReadModelStoredVersion
         )
-        expect(config.provider.readModels.store).to.have.been.calledWith(
+        expect(config.readModelStore.store).to.have.been.calledWith(
           config,
           SomeReadModel.name,
           {
@@ -747,9 +773,9 @@ describe('ReadModelStore', () => {
             return Promise.resolve()
           }
         )
-        replace(config.provider.readModels, 'store', fakeStore)
+        replace(config.readModelStore, 'store', fakeStore)
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
-        replace(config.provider.readModels, 'search', fake.resolves([]))
+        replace(config.readModelStore, 'search', fake.resolves([]))
 
         const readModelStore = new ReadModelStore(config)
         await readModelStore.project(entitySnapshotEnvelopeFor(AnImportantEntityWithArray.name))
@@ -825,7 +851,7 @@ describe('ReadModelStore', () => {
         const fakeApplyProjectionToReadModel = fake()
         replace(readModelStore as any, 'applyProjectionToReadModel', fakeApplyProjectionToReadModel)
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
-        replace(config.provider.readModels, 'search', fake.resolves([]))
+        replace(config.readModelStore, 'search', fake.resolves([]))
 
         await readModelStore.project(anEntitySnapshot)
 
@@ -851,12 +877,12 @@ describe('ReadModelStore', () => {
   describe('the `fetchReadModel` method', () => {
     context('with no sequenceMetadata', () => {
       it("returns `undefined` when the read model doesn't exist", async () => {
-        replace(config.provider.readModels, 'fetch', fake.resolves(undefined))
+        replace(config.readModelStore, 'fetch', fake.resolves(undefined))
         const readModelStore = new ReadModelStore(config)
 
         const result = await readModelStore.fetchReadModel(SomeReadModel.name, 'joinColumnID')
 
-        expect(config.provider.readModels.fetch).to.have.been.calledOnceWithExactly(
+        expect(config.readModelStore.fetch).to.have.been.calledOnceWithExactly(
           config,
           SomeReadModel.name,
           'joinColumnID',
@@ -866,12 +892,12 @@ describe('ReadModelStore', () => {
       })
 
       it("returns `undefined` when the read model doesn't exist and provider returns [undefined]", async () => {
-        replace(config.provider.readModels, 'fetch', fake.resolves([undefined]))
+        replace(config.readModelStore, 'fetch', fake.resolves([undefined]))
         const readModelStore = new ReadModelStore(config)
 
         const result = await readModelStore.fetchReadModel(SomeReadModel.name, 'joinColumnID')
 
-        expect(config.provider.readModels.fetch).to.have.been.calledOnceWithExactly(
+        expect(config.readModelStore.fetch).to.have.been.calledOnceWithExactly(
           config,
           SomeReadModel.name,
           'joinColumnID',
@@ -881,12 +907,12 @@ describe('ReadModelStore', () => {
       })
 
       it('returns an instance of the current read model value when it exists', async () => {
-        replace(config.provider.readModels, 'fetch', fake.resolves([{ id: 'joinColumnID', count: 0 }]))
+        replace(config.readModelStore, 'fetch', fake.resolves([{ id: 'joinColumnID', count: 0 }]))
         const readModelStore = new ReadModelStore(config)
 
         const result = await readModelStore.fetchReadModel(SomeReadModel.name, 'joinColumnID')
 
-        expect(config.provider.readModels.fetch).to.have.been.calledOnceWithExactly(
+        expect(config.readModelStore.fetch).to.have.been.calledOnceWithExactly(
           config,
           SomeReadModel.name,
           'joinColumnID',
@@ -898,7 +924,7 @@ describe('ReadModelStore', () => {
 
     context('with sequenceMetadata', () => {
       it("calls the provider's fetch method passing the sequenceMetadata object", async () => {
-        replace(config.provider.readModels, 'fetch', fake.resolves({ id: 'joinColumnID' }))
+        replace(config.readModelStore, 'fetch', fake.resolves({ id: 'joinColumnID' }))
         const readModelStore = new ReadModelStore(config)
 
         await readModelStore.fetchReadModel(SomeReadModel.name, 'joinColumnID', {
@@ -906,7 +932,7 @@ describe('ReadModelStore', () => {
           value: 'now!',
         })
 
-        expect(config.provider.readModels.fetch).to.have.been.calledOnceWithExactly(
+        expect(config.readModelStore.fetch).to.have.been.calledOnceWithExactly(
           config,
           SomeReadModel.name,
           'joinColumnID',

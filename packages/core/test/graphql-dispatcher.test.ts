@@ -109,8 +109,8 @@ describe('the `MagekGraphQLDispatcher`', () => {
         const dispatcher = new MagekGraphQLDispatcher(config)
         await dispatcher.dispatch({})
 
-        expect(config.provider.readModels.deleteAllSubscriptions).not.to.have.been.called
-        expect(config.provider.connections.deleteData).not.to.have.been.called
+        expect(config.sessionStore.deleteSubscriptionsForConnection).not.to.have.been.called
+        expect(config.sessionStore.deleteConnection).not.to.have.been.called
         expect(config.provider.graphQL.handleResult).to.have.been.calledOnceWithExactly(undefined)
       })
 
@@ -124,8 +124,8 @@ describe('the `MagekGraphQLDispatcher`', () => {
         const dispatcher = new MagekGraphQLDispatcher(config)
         await dispatcher.dispatch({})
 
-        expect(config.provider.connections.deleteData).to.have.been.calledOnceWithExactly(config, mockConnectionID)
-        expect(config.provider.readModels.deleteAllSubscriptions).to.have.been.calledOnceWithExactly(
+        expect(config.sessionStore.deleteConnection).to.have.been.calledOnceWithExactly(config, mockConnectionID)
+        expect(config.sessionStore.deleteSubscriptionsForConnection).to.have.been.calledOnceWithExactly(
           config,
           mockConnectionID
         )
@@ -453,16 +453,35 @@ function mockConfigForGraphQLEnvelope(envelope: GraphQLRequestEnvelope | GraphQL
       rawToEnvelope: fake.resolves(envelope),
       handleResult: fake(),
     },
-    readModels: {
-      notifySubscription: fake(),
-      deleteAllSubscriptions: fake(),
-    },
-    connections: {
-      storeData: fake(),
-      fetchData: fake(),
-      deleteData: fake(),
-      sendMessage: fake(),
-    },
   } as any
+  
+  // Mock the new adapters
+  Object.defineProperty(config, 'sessionStore', {
+    value: {
+      storeConnection: fake(),
+      fetchConnection: fake(),
+      deleteConnection: fake(),
+      storeSubscription: fake(),
+      fetchSubscription: fake(),
+      deleteSubscription: fake(),
+      fetchSubscriptionsForConnection: fake(),
+      deleteSubscriptionsForConnection: fake(),
+    },
+    writable: true,
+    configurable: true
+  });
+  
+  Object.defineProperty(config, 'readModelStore', {
+    value: {
+      fetch: fake(),
+      search: fake(),
+      store: fake(),
+      delete: fake(),
+      rawToEnvelopes: fake(),
+    },
+    writable: true,
+    configurable: true
+  });
+  
   return config
 }
