@@ -1,9 +1,13 @@
 {
-  "name": "@magek/server",
+  "name": "@magek/adapter-session-store-nedb",
   "version": "0.0.1",
-  "description": "Debug your Magek projects locally",
+  "description": "Nedb-based session store adapter for the Magek framework",
   "keywords": [
-    "server"
+    "session-store",
+    "nedb",
+    "websocket",
+    "connections",
+    "subscriptions"
   ],
   "author": "Boosterin Labs SLU",
   "homepage": "https://magek.ai",
@@ -24,13 +28,8 @@
   },
   "dependencies": {
     "@magek/common": "workspace:^0.0.1",
-    "@magek/adapter-event-store-nedb": "workspace:^0.0.1",
-    "@magek/adapter-read-model-store-nedb": "workspace:^0.0.1",
-    "@magek/adapter-session-store-nedb": "workspace:^0.0.1",
     "@seald-io/nedb": "4.1.1",
-    "tslib": "2.4.0",
-    "@effect-ts/core": "0.60.4",
-    "fastify": "5.3.3"
+    "tslib": "2.4.0"
   },
   "scripts": {
     "format": "prettier --write --ext '.js,.ts' **/*.ts **/*/*.ts",
@@ -39,8 +38,7 @@
     "build": "tsc -b tsconfig.json",
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "prepack": "tsc -b tsconfig.json",
-    "test:provider-local": "npm run test",
-    "test": "tsc --noEmit -p tsconfig.test.json && MAGEK_ENV=test nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
+    "test": "tsc --noEmit -p tsconfig.test.json && nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
   },
   "bugs": {
     "url": "https://github.com/theam/magek/issues"
@@ -62,6 +60,7 @@
     "sinon": "21.0.0",
     "sinon-chai": "4.0.0",
     "ts-node": "10.9.1",
-    "typescript": "5.8.3"
+    "typescript": "5.8.3",
+    "memfs": "~4.36.0"
   }
 }

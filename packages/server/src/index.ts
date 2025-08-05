@@ -20,15 +20,11 @@ import {
   fetchConnectionData,
   sendMessageToConnection,
   storeConnectionData,
-} from './library/connections-adapter'
-import {
   deleteAllSubscriptions,
   deleteSubscription,
   fetchSubscriptions,
   subscribeToReadModel,
-} from './library/subscription-adapter'
-import { WebSocketRegistry } from './services/web-socket-registry'
-import { connectionsDatabase, subscriptionDatabase } from './paths'
+} from './library/session-store-wrapper'
 import { rawRocketInputToEnvelope } from './library/rocket-adapter'
 import {
   areRocketFunctionsUp,
@@ -40,9 +36,6 @@ import {
 export * from './paths'
 export * from './services'
 export * from './library/graphql-adapter'
-
-const connectionRegistry = new WebSocketRegistry(connectionsDatabase)
-const subscriptionRegistry = new WebSocketRegistry(subscriptionDatabase)
 
 export function loadInfrastructurePackage(packageName: string): HasInfrastructure {
   return require(packageName)
@@ -113,10 +106,10 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
       }
       throw new Error('No read model store adapter configured')
     },
-    subscribe: subscribeToReadModel.bind(null, subscriptionRegistry),
-    fetchSubscriptions: fetchSubscriptions.bind(null, subscriptionRegistry),
-    deleteSubscription: deleteSubscription.bind(null, subscriptionRegistry),
-    deleteAllSubscriptions: deleteAllSubscriptions.bind(null, subscriptionRegistry),
+    subscribe: subscribeToReadModel,
+    fetchSubscriptions: fetchSubscriptions,
+    deleteSubscription: deleteSubscription,
+    deleteAllSubscriptions: deleteAllSubscriptions,
   },
   // ProviderGraphQLLibrary
   graphQL: {
@@ -130,9 +123,9 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
     healthRequestResult,
   },
   connections: {
-    storeData: storeConnectionData.bind(null, connectionRegistry),
-    fetchData: fetchConnectionData.bind(null, connectionRegistry),
-    deleteData: deleteConnectionData.bind(null, connectionRegistry),
+    storeData: storeConnectionData,
+    fetchData: fetchConnectionData,
+    deleteData: deleteConnectionData,
     sendMessage: sendMessageToConnection,
   },
   // ScheduledCommandsLibrary

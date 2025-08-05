@@ -1,19 +1,25 @@
- 
 const DataStore = require('@seald-io/nedb')
-import { ConnectionDataEnvelope, SubscriptionEnvelope, UUID } from '@magek/common'
+import { UUID } from '@magek/common'
 
-export interface ConnectionData extends ConnectionDataEnvelope {
+export interface ConnectionRecord {
   connectionID: UUID
+  [key: string]: any
 }
 
-export type SimpleRegistryTypes = ConnectionData | SubscriptionEnvelope
+export interface SubscriptionRecord {
+  connectionID: UUID
+  subscriptionID: UUID
+  [key: string]: any
+}
+
+export type RegistryRecord = ConnectionRecord | SubscriptionRecord
 
 export class WebSocketRegistry {
   public datastore
   public isLoaded = false
 
-  constructor(connectionsDatabase: string) {
-    this.datastore = new DataStore({ filename: connectionsDatabase })
+  constructor(databasePath: string) {
+    this.datastore = new DataStore({ filename: databasePath })
   }
 
   async loadDatabaseIfNeeded(): Promise<void> {
@@ -42,7 +48,7 @@ export class WebSocketRegistry {
     return await cursor.execAsync()
   }
 
-  public async store(envelope: SimpleRegistryTypes): Promise<void> {
+  public async store(envelope: Record<string, any>): Promise<void> {
     await this.loadDatabaseIfNeeded()
     await this.datastore.insertAsync(envelope)
   }

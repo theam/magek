@@ -433,6 +433,12 @@
       "shouldPublish": true,
       "versionPolicyName": "magek",
       "projectFolder": "adapters/nedb/read-model-store"
+    },
+    {
+      "packageName": "@magek/adapter-session-store-nedb",
+      "shouldPublish": true,
+      "versionPolicyName": "magek",
+      "projectFolder": "adapters/nedb/session-store"
     }
   ]
 }
