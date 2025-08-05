@@ -2,29 +2,12 @@ import {
   HasInfrastructure, 
   ProviderLibrary, 
   RocketDescriptor,
-  ReadModelInterface,
-  MagekConfig,
-  FilterFor,
-  SortFor,
-  ProjectionFor
+  MagekConfig
 } from '@magek/common'
 import { healthRequestResult, requestFailed, requestSucceeded } from './library/api-adapter'
 import { rawGraphQLRequestToEnvelope } from './library/graphql-adapter'
 
-import {
-  rawReadModelEventsToEnvelopes,
-} from './library/read-model-adapter'
 import { rawScheduledInputToEnvelope } from './library/scheduled-adapter'
-import {
-  deleteConnectionData,
-  fetchConnectionData,
-  sendMessageToConnection,
-  storeConnectionData,
-  deleteAllSubscriptions,
-  deleteSubscription,
-  fetchSubscriptions,
-  subscribeToReadModel,
-} from './library/session-store-wrapper'
 import { rawRocketInputToEnvelope } from './library/rocket-adapter'
 import {
   areRocketFunctionsUp,
@@ -42,75 +25,6 @@ export function loadInfrastructurePackage(packageName: string): HasInfrastructur
 }
 
 export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrary => ({
-  // ProviderReadModelsLibrary
-  readModels: {
-    rawToEnvelopes: rawReadModelEventsToEnvelopes,
-    fetch: async (config, readModelName, readModelID, sequenceKey?) => {
-      // Delegate to read model store adapter if available
-      if (config.readModelStoreAdapter) {
-        const envelope = await config.readModelStoreAdapter.fetch(config, readModelName, readModelID)
-        return envelope ? [envelope.value] : [undefined] as any
-      }
-      throw new Error('No read model store adapter configured')
-    },
-    search: async <TReadModel extends ReadModelInterface>(
-      config: MagekConfig, 
-      readModelName: string, 
-      filters: FilterFor<unknown>, 
-      sortBy?: SortFor<unknown>, 
-      limit?: number, 
-      afterCursor?: unknown, 
-      paginatedVersion?: boolean, 
-      select?: ProjectionFor<TReadModel>
-    ) => {
-      // Delegate to read model store adapter if available
-      if (config.readModelStoreAdapter) {
-        const result = await config.readModelStoreAdapter.search(config, readModelName, {
-          filters,
-          limit,
-          afterCursor: afterCursor as Record<string, string> | undefined,
-          paginatedVersion
-        })
-        // Convert search result to match expected format
-        if (paginatedVersion) {
-          return {
-            items: result.items.map((envelope: any) => envelope.value) as TReadModel[],
-            count: result.count,
-            cursor: result.cursor
-          }
-        } else {
-          return result.items.map((envelope: any) => envelope.value) as TReadModel[]
-        }
-      }
-      throw new Error('No read model store adapter configured')
-    },
-    store: (config, readModelName, readModel, expectedCurrentVersion) => {
-      // Delegate to read model store adapter if available
-      if (config.readModelStoreAdapter) {
-        const envelope = {
-          typeName: readModelName,
-          value: readModel,
-          id: readModel.id,
-          version: (readModel.magekMetadata?.version ?? 0) + 1,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        }
-        return config.readModelStoreAdapter.store(config, readModelName, envelope)
-      }
-      throw new Error('No read model store adapter configured')
-    },
-    delete: (config, readModelName, readModel) => {
-      // Delegate to read model store adapter if available
-      if (config.readModelStoreAdapter && readModel) {
-        return config.readModelStoreAdapter.delete(config, readModelName, readModel.id)
-      }
-      throw new Error('No read model store adapter configured')
-    },
-    subscribe: subscribeToReadModel,
-    fetchSubscriptions: fetchSubscriptions,
-    deleteSubscription: deleteSubscription,
-    deleteAllSubscriptions: deleteAllSubscriptions,
-  },
   // ProviderGraphQLLibrary
   graphQL: {
     rawToEnvelope: rawGraphQLRequestToEnvelope,
@@ -121,12 +35,6 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
     requestSucceeded,
     requestFailed,
     healthRequestResult,
-  },
-  connections: {
-    storeData: storeConnectionData,
-    fetchData: fetchConnectionData,
-    deleteData: deleteConnectionData,
-    sendMessage: sendMessageToConnection,
   },
   // ScheduledCommandsLibrary
   scheduled: {

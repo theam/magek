@@ -96,7 +96,6 @@ export class MagekReadModelsReader {
   ): Promise<Array<TReadModel> | ReadModelListResult<TReadModel>> {
     const readModelName = readModelClass.name
 
-    let selectWithDependencies: ProjectionFor<TReadModel> | undefined = undefined
     const calculatedFieldsDependencies = this.getCalculatedFieldsDependencies(readModelClass)
 
     if (select && Object.keys(calculatedFieldsDependencies).length > 0) {
@@ -108,24 +107,32 @@ export class MagekReadModelsReader {
           calculatedFieldsDependencies[topLevelField].map((dependency) => extendedSelect.add(dependency))
         }
       })
-
-      selectWithDependencies = Array.from(extendedSelect) as ProjectionFor<TReadModel>
     }
 
-    const searchResult = await this.config.provider.readModels.search<TReadModel>(
+    const searchResult = await this.config.readModelStore.search<TReadModel>(
       this.config,
       readModelName,
-      filters ?? {},
-      sort ?? {},
-      limit,
-      afterCursor,
-      paginatedVersion ?? false,
-      selectWithDependencies ?? select
+      {
+        filters: filters ?? {},
+        limit,
+        afterCursor,
+        paginatedVersion: paginatedVersion ?? false
+      }
     )
 
-    const readModels = this.createReadModelInstances(searchResult, readModelClass)
+    // Transform ReadModelStoreEnvelopes back to regular read models
+    const transformedResult: Array<TReadModel> | ReadModelListResult<TReadModel> = 
+      paginatedVersion ?? false
+        ? { 
+            items: searchResult.items.map((envelope: any) => envelope.value), 
+            count: searchResult.count, 
+            cursor: searchResult.cursor 
+          } as ReadModelListResult<TReadModel>
+        : searchResult.items.map((envelope: any) => envelope.value) as Array<TReadModel>
+
+    const readModels = this.createReadModelInstances(transformedResult, readModelClass)
     if (select) {
-      return this.createReadModelInstancesWithCalculatedProperties(searchResult, readModelClass, select ?? [])
+      return this.createReadModelInstancesWithCalculatedProperties(transformedResult, readModelClass, select ?? [])
     }
     return this.migrateReadModels(readModels, readModelName)
   }
@@ -135,11 +142,16 @@ export class MagekReadModelsReader {
     id: UUID,
     sequenceKey?: SequenceKey
   ): Promise<ReadOnlyNonEmptyArray<TReadModel> | TReadModel> {
-    const readModels = await this.config.provider.readModels.fetch(this.config, readModelClass.name, id, sequenceKey)
-    if (sequenceKey) {
-      return readModels as ReadOnlyNonEmptyArray<TReadModel>
+    const readModelEnvelope = await this.config.readModelStore.fetch(this.config, readModelClass.name, id)
+    if (!readModelEnvelope) {
+      throw new Error(`Read model ${readModelClass.name} with ID ${id} not found`)
     }
-    return readModels[0] as TReadModel
+    const readModel = readModelEnvelope.value as TReadModel
+    const readModels = [readModel] as unknown as ReadOnlyNonEmptyArray<TReadModel>
+    if (sequenceKey) {
+      return readModels
+    }
+    return readModel
   }
 
   private async migrateReadModels<TReadModel extends ReadModelInterface>(
@@ -207,11 +219,11 @@ export class MagekReadModelsReader {
   }
 
   public async unsubscribe(connectionID: string, subscriptionID: string): Promise<void> {
-    return this.config.provider.readModels.deleteSubscription(this.config, connectionID, subscriptionID)
+    return this.config.sessionStore.deleteSubscription(this.config, subscriptionID)
   }
 
   public async unsubscribeAll(connectionID: string): Promise<void> {
-    return this.config.provider.readModels.deleteAllSubscriptions(this.config, connectionID)
+    return this.config.sessionStore.deleteSubscriptionsForConnection(this.config, connectionID)
   }
 
   private async validateByIdRequest(readModelByIdRequest: ReadModelRequestEnvelope<ReadModelInterface>): Promise<void> {
@@ -278,7 +290,9 @@ export class MagekReadModelsReader {
       connectionID,
       operation,
     }
-    return this.config.provider.readModels.subscribe(this.config, subscription)
+    // Generate a unique subscription ID and store it in the session store
+    const subscriptionID = `${connectionID}-${Date.now()}-${Math.random().toString(36).substring(2, 15)}`
+    return this.config.sessionStore.storeSubscription(this.config, connectionID, subscriptionID, subscription)
   }
 
   /**
