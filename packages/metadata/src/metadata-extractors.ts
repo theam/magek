@@ -1,8 +1,14 @@
  
 
-import { ClassDeclaration, ClassInstancePropertyTypes, createWrappedNode, Node, SyntaxKind, Type } from 'ts-morph'
-// TODO: Import properly
-import * as ts from 'typescript'
+import {
+  ClassDeclaration,
+  ClassInstancePropertyTypes,
+  createWrappedNode,
+  Node,
+  SyntaxKind,
+  Type,
+  ts,
+} from 'ts-morph'
 import { TypeGroup } from './metadata-types'
 
 export interface TypeInfo {
