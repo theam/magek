@@ -8,34 +8,52 @@ import { Magek } from '@magek/core'
 import { MagekConfig } from '@magek/common'
 import { Provider } from '@magek/server'
 import { eventStore } from '@magek/adapter-event-store-nedb'
+import { readModelStore } from '@magek/adapter-read-model-store-nedb'
+import { sessionStore } from '@magek/adapter-session-store-nedb'
 
 Magek.configure('stage', (config: MagekConfig): void => {
   config.appName = 'fruit-store-stage'
   config.provider = Provider()
   config.eventStoreAdapter = eventStore
+  config.readModelStoreAdapter = readModelStore
+  config.sessionStoreAdapter = sessionStore
 })
 
 Magek.configure('prod', (config: MagekConfig): void => {
   config.appName = 'fruit-store-prod'
   config.provider = Provider()
   config.eventStoreAdapter = eventStore
+  config.readModelStoreAdapter = readModelStore
+  config.sessionStoreAdapter = sessionStore
 })
 ```
 
-## Pluggable Event Store Adapters
+## Pluggable Adapters
 
-Magek uses a pluggable architecture for event storage, allowing you to choose the most appropriate storage solution for your needs. The framework provides several event store adapters:
+Magek uses a pluggable architecture for data storage, allowing you to choose the most appropriate storage solution for your needs. The framework provides several adapter types:
+
+### Event Store Adapters
+Event store adapters handle the storage and retrieval of events in your event-sourced system:
 
 - `@magek/adapter-event-store-nedb` - A lightweight, file-based adapter perfect for development and testing
-- Additional adapters for production databases (PostgreSQL, MongoDB, etc.) can be added as needed
+
+### Read Model Store Adapters  
+Read model store adapters manage the storage of read models (projections of your domain state):
+
+- `@magek/adapter-read-model-store-nedb` - A lightweight, file-based adapter perfect for development and testing
+
+### Session Store Adapters
+Session store adapters handle WebSocket connections and subscription management:
+
+- `@magek/adapter-session-store-nedb` - A lightweight, file-based adapter perfect for development and testing
 
 This modular approach allows you to:
-- Start development quickly with a simple file-based store
+- Start development quickly with simple file-based stores
 - Switch to production-grade databases without changing your application code
 - Create custom adapters for specific requirements
 - Test your application with different storage backends
 
-To use an event store adapter, simply import it and assign it to `config.eventStoreAdapter` in your environment configuration.
+To use adapters, simply import them and assign them to the corresponding configuration properties (`config.eventStoreAdapter`, `config.readModelStoreAdapter`, `config.sessionStoreAdapter`) in your environment configuration.
 
 ## Environment Files
 
@@ -46,11 +64,15 @@ import { Magek } from '@magek/core'
 import { MagekConfig } from '@magek/common'
 import { Provider } from '@magek/server'
 import { eventStore } from '@magek/adapter-event-store-nedb'
+import { readModelStore } from '@magek/adapter-read-model-store-nedb'
+import { sessionStore } from '@magek/adapter-session-store-nedb'
 
 Magek.configure('john', (config: MagekConfig): void => {
   config.appName = 'john-fruit-store'
   config.provider = Provider()
   config.eventStoreAdapter = eventStore
+  config.readModelStoreAdapter = readModelStore
+  config.sessionStoreAdapter = sessionStore
 })
 ```
 

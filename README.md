@@ -50,8 +50,9 @@ Magek apps can be run in two ways: either as a **Fastify-powered Node.js server*
 
 All infrastructure is abstracted behind **adapters**, so you can connect to the tools and databases that make sense for your stack:
 
-- ✅ Event Store: PostgreSQL, DynamoDB, Redis, etc.
-- ✅ Read Models: Vector Databases, SQL, NoSQL, Elasticsearch, etc.
+- ✅ Event Store: NeDB (development), PostgreSQL, DynamoDB, Redis, etc.
+- ✅ Read Model Store: NeDB (development), Vector Databases, SQL, NoSQL, Elasticsearch, etc.
+- ✅ Session Store: NeDB (development), Redis, PostgreSQL, etc.
 - ✅ Sessions & Auth: Ready to plug with any JWT-based auth system.
 - ✅ Deployment: Run anywhere Docker runs, or deploy app functions to FaaS providers without the Fastify server.
 

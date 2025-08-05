@@ -9,6 +9,8 @@
     "@magek/common": "{{magekVersion}}",
     "@magek/cli": "{{magekVersion}}",
     "@magek/adapter-event-store-nedb": "{{magekVersion}}",
+    "@magek/adapter-read-model-store-nedb": "{{magekVersion}}",
+    "@magek/adapter-session-store-nedb": "{{magekVersion}}",
     "{{providerPackageName}}": "{{magekVersion}}"
   },
   "devDependencies": {
