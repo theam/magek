@@ -109,8 +109,8 @@ describe('the `MagekGraphQLDispatcher`', () => {
         const dispatcher = new MagekGraphQLDispatcher(config)
         await dispatcher.dispatch({})
 
-        expect(config.provider.readModels.deleteAllSubscriptions).not.to.have.been.called
-        expect(config.provider.connections.deleteData).not.to.have.been.called
+        expect(config.sessionStoreAdapter.deleteSubscriptionsForConnection).not.to.have.been.called
+        expect(config.sessionStoreAdapter.deleteConnection).not.to.have.been.called
         expect(config.provider.graphQL.handleResult).to.have.been.calledOnceWithExactly(undefined)
       })
 
@@ -124,8 +124,8 @@ describe('the `MagekGraphQLDispatcher`', () => {
         const dispatcher = new MagekGraphQLDispatcher(config)
         await dispatcher.dispatch({})
 
-        expect(config.provider.connections.deleteData).to.have.been.calledOnceWithExactly(config, mockConnectionID)
-        expect(config.provider.readModels.deleteAllSubscriptions).to.have.been.calledOnceWithExactly(
+        expect(config.sessionStoreAdapter.deleteConnection).to.have.been.calledOnceWithExactly(config, mockConnectionID)
+        expect(config.sessionStoreAdapter.deleteSubscriptionsForConnection).to.have.been.calledOnceWithExactly(
           config,
           mockConnectionID
         )
@@ -453,16 +453,28 @@ function mockConfigForGraphQLEnvelope(envelope: GraphQLRequestEnvelope | GraphQL
       rawToEnvelope: fake.resolves(envelope),
       handleResult: fake(),
     },
-    readModels: {
-      notifySubscription: fake(),
-      deleteAllSubscriptions: fake(),
-    },
-    connections: {
-      storeData: fake(),
-      fetchData: fake(),
-      deleteData: fake(),
-      sendMessage: fake(),
-    },
   } as any
+  
+  // Mock adapters instead of provider interfaces
+  config.readModelStoreAdapter = {
+    fetch: fake(),
+    search: fake(),
+    store: fake(),
+    delete: fake(),
+    rawToEnvelopes: fake(),
+  } as any
+  
+  config.sessionStoreAdapter = {
+    storeConnection: fake(),
+    fetchConnection: fake(),
+    deleteConnection: fake(),
+    storeSubscription: fake(),
+    fetchSubscription: fake(),
+    deleteSubscription: fake(),
+    fetchSubscriptionsForConnection: fake(),
+    deleteSubscriptionsForConnection: fake(),
+    fetchSubscriptionsByClassName: fake(),
+  } as any
+  
   return config
 }

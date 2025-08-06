@@ -17,7 +17,7 @@ import { GraphQLGenerator } from './services/graphql/graphql-generator'
 import { MagekReadModelsReader } from './read-models-reader'
 import { GraphQLResolverContext } from './services/graphql/common'
 import { NoopReadModelPubSub } from './services/pub-sub/noop-read-model-pub-sub'
-import { GraphQLWebsocketHandler } from './services/graphql/websocket-protocol/graphql-websocket-protocol'
+import { GraphQLWebsocketHandler, ConnectionManager } from './services/graphql/websocket-protocol/graphql-websocket-protocol'
 import { MagekTokenVerifier } from './token-verifier'
 import { Trace } from './instrumentation'
 
@@ -34,7 +34,7 @@ export class MagekGraphQLDispatcher {
     this.graphQLSchema = GraphQLGenerator.generateSchema(config)
     this.tokenVerifier = new MagekTokenVerifier(config)
     // Create a connection manager adapter that wraps the session store
-    const connectionManagerAdapter = {
+    const connectionManagerAdapter: ConnectionManager = {
       storeData: async (config: MagekConfig, connectionID: string, data: ConnectionDataEnvelope) => {
         await this.config.sessionStore.storeConnection(config, connectionID, data)
       },

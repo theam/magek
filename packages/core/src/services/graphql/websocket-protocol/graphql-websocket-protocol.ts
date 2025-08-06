@@ -14,11 +14,17 @@ import {
   GraphQLStart,
   GraphQLStop,
   MessageTypes,
-  ProviderConnectionsLibrary,
   UserEnvelope,
   getLogger,
 } from '@magek/common'
 import { MagekTokenVerifier } from '../../../token-verifier'
+
+export interface ConnectionManager {
+  storeData(config: MagekConfig, connectionID: string, data: ConnectionDataEnvelope): Promise<void>
+  fetchData(config: MagekConfig, connectionID: string): Promise<ConnectionDataEnvelope | undefined>
+  deleteData(config: MagekConfig, connectionID: string): Promise<void>
+  sendMessage(config: MagekConfig, connectionID: string, data: unknown): Promise<void>
+}
 
 export interface GraphQLWebsocketHandlerCallbacks {
   onStartOperation: (
@@ -31,7 +37,7 @@ export interface GraphQLWebsocketHandlerCallbacks {
 export class GraphQLWebsocketHandler {
   public constructor(
     private readonly config: MagekConfig,
-    private readonly connectionManager: ProviderConnectionsLibrary,
+    private readonly connectionManager: ConnectionManager,
     private readonly callbacks: GraphQLWebsocketHandlerCallbacks,
     private readonly tokenVerifier: MagekTokenVerifier
   ) {}
