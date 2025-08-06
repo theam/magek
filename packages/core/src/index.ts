@@ -52,11 +52,6 @@ export async function triggerScheduledCommands(rawRequest: unknown): Promise<voi
 }
 
 /**
- * @deprecated [EOL v3] Please use `triggerScheduledCommands` instead.
- */
-export const triggerScheduledCommand = triggerScheduledCommands
-
-/**
  * Notifies subscribers of a new update on a read model
  *
  * @param rawRequest A provider-specific representation of the request to notify subscribers.

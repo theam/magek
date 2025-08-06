@@ -177,7 +177,7 @@ export {
   graphQLDispatcher,
   health,
   notifySubscribers,
-  triggerScheduledCommand,
+  triggerScheduledCommands,
   rocketDispatcher,
 } from '@magek/core'
 

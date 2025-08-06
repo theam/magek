@@ -7,13 +7,13 @@ interface ScheduledCommandInfo {
 }
 
 export function configureScheduler(config: MagekConfig, userProject: any): void {
-  const triggerScheduleCommand = userProject['triggerScheduledCommand']
+  const triggerScheduledCommands = userProject['triggerScheduledCommands']
   Object.keys(config.scheduledCommandHandlers)
     .map((scheduledCommandName) => buildScheduledCommandInfo(config, scheduledCommandName))
     .filter((scheduledCommandInfo) => scheduledCommandInfo.metadata.scheduledOn)
     .forEach((scheduledCommandInfo) => {
       scheduler.scheduleJob(scheduledCommandInfo.name, createCronExpression(scheduledCommandInfo.metadata), () => {
-        triggerScheduleCommand({ typeName: scheduledCommandInfo.name })
+        triggerScheduledCommands({ typeName: scheduledCommandInfo.name })
       })
     })
 }
