@@ -30,7 +30,7 @@ export class MagekSubscribersNotifier {
     const logger = getLogger(this.config, 'MagekSubscribersNotifier#dispatch')
     try {
       logger.debug('Received the following event for subscription dispatching: ', request)
-      const readModelEnvelopes = await this.config.provider.readModels.rawToEnvelopes(this.config, request)
+      const readModelEnvelopes = this.config.readModelStore.rawToEnvelopes(request)
       logger.debug('[SubsciptionDispatcher] The following ReadModels were updated: ', readModelEnvelopes)
       const subscriptions = await this.getSubscriptions(readModelEnvelopes)
       logger.debug('Found the following subscriptions for those read models: ', subscriptions)
@@ -56,7 +56,14 @@ export class MagekSubscribersNotifier {
     const readModelNames = readModelEnvelopes.map((readModelEnvelope) => readModelEnvelope.typeName)
     const readModelUniqueNames = [...new Set(readModelNames)]
     const subscriptionSets = await Promise.all(
-      readModelUniqueNames.map((name) => this.config.provider.readModels.fetchSubscriptions(this.config, name))
+      readModelUniqueNames.map(async (name) => {
+        // Use the additional method that supports className filtering  
+        const adapter = this.config.sessionStore as any
+        if (adapter.fetchSubscriptionsByClassName) {
+          return await adapter.fetchSubscriptionsByClassName(this.config, name) as Array<SubscriptionEnvelope>
+        }
+        return []
+      })
     )
     return subscriptionSets.flat()
   }
@@ -128,7 +135,14 @@ export class MagekSubscribersNotifier {
       `Notifying connectionID '${subscription.connectionID}' with the following wrappeed read model: `,
       readModel
     )
-    await this.config.provider.connections.sendMessage(this.config, subscription.connectionID, message)
+    // For message sending, we need to use the WebSocket registry from the global context
+    // since the session store adapter doesn't handle message sending directly
+    const globalRegistry = (global as any).webSocketRegistry
+    if (globalRegistry && typeof globalRegistry.sendMessage === 'function') {
+      globalRegistry.sendMessage(subscription.connectionID, message)
+    } else {
+      logger.warn(`WebSocket registry not available. Message not sent to connection ${subscription.connectionID}`)
+    }
     logger.debug('Notifications sent')
   }
 }

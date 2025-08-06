@@ -9,7 +9,6 @@ import {
   ProjectionFor,
   ReadModelInterface,
   ReadModelListResult,
-  ReadModelMetadata,
   ReadModelRequestEnvelope,
   ReadOnlyNonEmptyArray,
   SequenceKey,
@@ -26,7 +25,7 @@ import { Magek } from './magek'
 import { applyReadModelRequestBeforeFunctions } from './services/filter-helpers'
 import { ReadModelSchemaMigrator } from './read-model-schema-migrator'
 import { Trace } from './instrumentation'
-import { PropertyMetadata } from '@magek/metadata'
+
 
 export class MagekReadModelsReader {
   public constructor(readonly config: MagekConfig) {}
@@ -96,36 +95,32 @@ export class MagekReadModelsReader {
   ): Promise<Array<TReadModel> | ReadModelListResult<TReadModel>> {
     const readModelName = readModelClass.name
 
-    let selectWithDependencies: ProjectionFor<TReadModel> | undefined = undefined
-    const calculatedFieldsDependencies = this.getCalculatedFieldsDependencies(readModelClass)
+    // Note: The read model store adapter doesn't currently support sort and select parameters
+    // These will need to be implemented in the future or handled at a higher level
 
-    if (select && Object.keys(calculatedFieldsDependencies).length > 0) {
-      const extendedSelect = new Set<string>(select)
-
-      select.forEach((field: any) => {
-        const topLevelField = field.split('.')[0].replace('[]', '')
-        if (calculatedFieldsDependencies[topLevelField]) {
-          calculatedFieldsDependencies[topLevelField].map((dependency) => extendedSelect.add(dependency))
-        }
-      })
-
-      selectWithDependencies = Array.from(extendedSelect) as ProjectionFor<TReadModel>
-    }
-
-    const searchResult = await this.config.provider.readModels.search<TReadModel>(
+    const searchResult = await this.config.readModelStore.search<TReadModel>(
       this.config,
       readModelName,
-      filters ?? {},
-      sort ?? {},
-      limit,
-      afterCursor,
-      paginatedVersion ?? false,
-      selectWithDependencies ?? select
+      {
+        filters: filters ?? {},
+        limit,
+        afterCursor: afterCursor as Record<string, string>,
+        paginatedVersion: paginatedVersion ?? false,
+      }
     )
+    
+    // Convert from ReadModelSearchResult to expected format
+    const convertedResult = paginatedVersion 
+      ? {
+          items: searchResult.items.map(envelope => envelope.value),
+          count: searchResult.count,
+          cursor: searchResult.cursor
+        }
+      : searchResult.items.map(envelope => envelope.value)
 
-    const readModels = this.createReadModelInstances(searchResult, readModelClass)
+    const readModels = this.createReadModelInstances(convertedResult, readModelClass)
     if (select) {
-      return this.createReadModelInstancesWithCalculatedProperties(searchResult, readModelClass, select ?? [])
+      return this.createReadModelInstancesWithCalculatedProperties(convertedResult, readModelClass, select ?? [])
     }
     return this.migrateReadModels(readModels, readModelName)
   }
@@ -135,11 +130,16 @@ export class MagekReadModelsReader {
     id: UUID,
     sequenceKey?: SequenceKey
   ): Promise<ReadOnlyNonEmptyArray<TReadModel> | TReadModel> {
-    const readModels = await this.config.provider.readModels.fetch(this.config, readModelClass.name, id, sequenceKey)
-    if (sequenceKey) {
-      return readModels as ReadOnlyNonEmptyArray<TReadModel>
+    const envelope = await this.config.readModelStore.fetch(this.config, readModelClass.name, id)
+    if (!envelope) {
+      throw new Error(`Read model not found: ${readModelClass.name} with id ${id}`)
     }
-    return readModels[0] as TReadModel
+    
+    if (sequenceKey) {
+      // For sequenced read models, return as array (simplified for now)
+      return [envelope.value] as unknown as ReadOnlyNonEmptyArray<TReadModel>
+    }
+    return envelope.value as TReadModel
   }
 
   private async migrateReadModels<TReadModel extends ReadModelInterface>(
@@ -207,11 +207,11 @@ export class MagekReadModelsReader {
   }
 
   public async unsubscribe(connectionID: string, subscriptionID: string): Promise<void> {
-    return this.config.provider.readModels.deleteSubscription(this.config, connectionID, subscriptionID)
+    return this.config.sessionStore.deleteSubscription(this.config, subscriptionID)
   }
 
   public async unsubscribeAll(connectionID: string): Promise<void> {
-    return this.config.provider.readModels.deleteAllSubscriptions(this.config, connectionID)
+    return this.config.sessionStore.deleteSubscriptionsForConnection(this.config, connectionID)
   }
 
   private async validateByIdRequest(readModelByIdRequest: ReadModelRequestEnvelope<ReadModelInterface>): Promise<void> {
@@ -278,22 +278,17 @@ export class MagekReadModelsReader {
       connectionID,
       operation,
     }
-    return this.config.provider.readModels.subscribe(this.config, subscription)
-  }
-
-  /**
-   * Returns the dependencies of the calculated fields of a read model
-   * @param readModelClass The read model class
-   * @private
-   */
-  private getCalculatedFieldsDependencies(readModelClass: AnyClass): Record<string, Array<string>> {
-    const readModelMetadata: ReadModelMetadata = this.config.readModels[readModelClass.name]
-
-    const dependenciesMap: Record<string, Array<string>> = {}
-    readModelMetadata?.properties.map((property: PropertyMetadata): void => {
-      dependenciesMap[property.name] = property.dependencies
-    })
-
-    return dependenciesMap
+    
+    // Store subscription using session store adapter
+    const subscriptionId = operation.id || `sub-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+    await this.config.sessionStore.storeSubscription(
+      this.config,
+      connectionID,
+      subscriptionId,
+      {
+        ...subscription,
+        subscriptionID: subscriptionId
+      }
+    )
   }
 }

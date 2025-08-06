@@ -114,19 +114,14 @@ export class ReadModelStore {
     if (!readModelID) {
       return undefined
     }
-    const rawReadModels = await this.config.provider.readModels.fetch(
+    const envelope = await this.config.readModelStore.fetch(
       this.config,
       readModelName,
-      readModelID,
-      sequenceKey
+      readModelID
     )
-    if (rawReadModels?.length) {
-      if (rawReadModels.length > 1) {
-        throw 'Got multiple objects for a request by Id. If this is a sequenced read model you should also specify the sequenceKey field.'
-      } else if (rawReadModels.length === 1 && rawReadModels[0]) {
-        const readModelMetadata = this.config.readModels[readModelName]
-        return createInstance(readModelMetadata.class, rawReadModels[0])
-      }
+    if (envelope) {
+      const readModelMetadata = this.config.readModels[readModelName]
+      return createInstance(readModelMetadata.class, envelope.value)
     }
     return undefined
   }
@@ -409,7 +404,7 @@ export class ReadModelStore {
 
     if (newReadModel === ReadModelAction.Delete) {
       logger.debug(`Deleting read model ${readModelName} with ID ${readModelID}:`, migratedReadModel)
-      return this.config.provider.readModels.delete(this.config, readModelName, migratedReadModel)
+      return this.config.readModelStore.delete(this.config, readModelName, readModelID!)
     } else if (newReadModel === ReadModelAction.Nothing) {
       logger.debug(`Skipping actions for ${readModelName} with ID ${readModelID}:`, newReadModel)
       return
@@ -458,12 +453,16 @@ export class ReadModelStore {
       `Storing new version of read model ${readModelName} with ID ${readModelID}, version ${newReadModel.magekMetadata.version} and expected database version ${expectedCurrentDatabaseVersion}:`,
       newReadModel
     )
-    return this.config.provider.readModels.store(
-      this.config,
-      readModelName,
-      newReadModel,
-      expectedCurrentDatabaseVersion
-    )
+    const envelope = {
+      typeName: readModelName,
+      value: newReadModel,
+      id: readModelID!,
+      version: newReadModel.magekMetadata.version,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    }
+    await this.config.readModelStore.store(this.config, readModelName, envelope)
+    return envelope
   }
 
   private async callProjectionFunction<TReadModel extends ReadModelInterface>(
