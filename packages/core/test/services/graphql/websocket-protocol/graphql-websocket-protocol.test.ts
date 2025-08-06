@@ -349,9 +349,8 @@ describe('the `GraphQLWebsocketHandler`', () => {
           it('sends back the expected messages', async () => {
             resultPromise = websocketHandler.handle(envelope)
             await resultPromise
-            const sendMessageFake: SinonStub = config.provider.messaging.sendMessage as any
-            expect(sendMessageFake).to.be.calledTwice
-            expect(sendMessageFake.getCall(0).args).to.be.deep.equal([
+            expect(config.provider.messaging.sendMessage).to.be.calledTwice
+            expect(config.provider.messaging.sendMessage.getCall(0).args).to.be.deep.equal([
               config,
               envelope.connectionID,
               {
@@ -360,7 +359,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
                 payload: result,
               },
             ])
-            expect(sendMessageFake.getCall(1).args).to.be.deep.equal([
+            expect(config.provider.messaging.sendMessage.getCall(1).args).to.be.deep.equal([
               config,
               envelope.connectionID,
               {

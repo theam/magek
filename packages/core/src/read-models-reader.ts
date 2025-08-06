@@ -7,8 +7,10 @@ import {
   InvalidParameterError,
   NotFoundError,
   ProjectionFor,
+  PropertyMetadata,
   ReadModelInterface,
   ReadModelListResult,
+  ReadModelMetadata,
   ReadModelRequestEnvelope,
   ReadOnlyNonEmptyArray,
   SequenceKey,
@@ -94,6 +96,22 @@ export class MagekReadModelsReader {
     select?: ProjectionFor<TReadModel>
   ): Promise<Array<TReadModel> | ReadModelListResult<TReadModel>> {
     const readModelName = readModelClass.name
+
+    let selectWithDependencies: ProjectionFor<TReadModel> | undefined = undefined
+    const calculatedFieldsDependencies = this.getCalculatedFieldsDependencies(readModelClass)
+
+    if (select && Object.keys(calculatedFieldsDependencies).length > 0) {
+      const extendedSelect = new Set<string>(select)
+
+      select.forEach((field: any) => {
+        const topLevelField = field.split('.')[0].replace('[]', '')
+        if (calculatedFieldsDependencies[topLevelField]) {
+          calculatedFieldsDependencies[topLevelField].map((dependency) => extendedSelect.add(dependency))
+        }
+      })
+
+      selectWithDependencies = Array.from(extendedSelect) as ProjectionFor<TReadModel>
+    }
 
     const searchResult = await this.config.readModelStore.search<TReadModel>(
       this.config,
@@ -287,5 +305,21 @@ export class MagekReadModelsReader {
         subscriptionID: subscriptionId
       }
     )
+  }
+
+  /**
+   * Returns the dependencies of the calculated fields of a read model
+   * @param readModelClass The read model class
+   * @private
+   */
+  private getCalculatedFieldsDependencies(readModelClass: AnyClass): Record<string, Array<string>> {
+    const readModelMetadata: ReadModelMetadata = this.config.readModels[readModelClass.name]
+
+    const dependenciesMap: Record<string, Array<string>> = {}
+    readModelMetadata?.properties.map((property: PropertyMetadata): void => {
+      dependenciesMap[property.name] = property.dependencies
+    })
+
+    return dependenciesMap
   }
 }
