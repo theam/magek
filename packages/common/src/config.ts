@@ -72,7 +72,7 @@ export class MagekConfig {
   public readonly sensorHealthHandler: string = path.join(this.codeRelativePath, 'index.health')
   public readonly scheduledTaskHandler: string = path.join(
     this.codeRelativePath,
-    'index.triggerScheduledCommand'
+    'index.triggerScheduledCommands'
   )
   public readonly notifySubscribersHandler: string = path.join(this.codeRelativePath, 'index.notifySubscribers')
   public readonly rocketDispatcherHandler: string = path.join(this.codeRelativePath, 'index.rocketDispatcher')
