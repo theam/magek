@@ -219,16 +219,15 @@ describe('ReadModelStore', () => {
           snapshottedEventCreatedAt: new Date().toISOString(),
         }
 
-        const mockAdapter = createMockAdapter({
+        replace(config, 'readModelStoreAdapter', {
           store: fake(),
         })
-        replace(config, 'readModelStoreAdapter', mockAdapter)
         const readModelStore = new ReadModelStore(config)
         replace(readModelStore, 'fetchReadModel', fake.resolves(null))
 
         await expect(readModelStore.project(entitySnapshotWithNoProjections)).to.eventually.be.fulfilled
 
-        expect(mockAdapter.store).not.to.have.been.called
+        expect(config.readModelStoreAdapter!.store).not.to.have.been.called
         expect(readModelStore.fetchReadModel).not.to.have.been.called
       })
     })
@@ -258,11 +257,11 @@ describe('ReadModelStore', () => {
 
     context('when the new read model returns ReadModelAction.Nothing', () => {
       it('ignores the read model', async () => {
-        const mockAdapter = {
+        const mockAdapter = createMockAdapter({
           store: fake(),
           delete: fake(),
           search: fake.resolves([]),
-        }
+        })
         replace(config, 'readModelStoreAdapter', mockAdapter)
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(
@@ -290,12 +289,9 @@ describe('ReadModelStore', () => {
       })
 
       it('creates new instances of the read models', async () => {
-        const mockAdapter = {
-          store: fake(),
-          search: fake.resolves([]),
-        }
-        replace(config, 'readModelStoreAdapter', mockAdapter)
+        replace(config.readModelStoreAdapter as any, 'store', fake())
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
+        replace(config.readModelStoreAdapter as any, 'search', fake.resolves([]))
         const readModelStore = new ReadModelStore(config)
         replace(readModelStore, 'fetchReadModel', fake.resolves(null))
         spy(SomeReadModel, 'someObserver')
@@ -396,12 +392,12 @@ describe('ReadModelStore', () => {
       })
 
       it('updates the read model', async () => {
-        replace(mockAdapter, 'store', fake())
+        replace(config.readModelStoreAdapter as any, 'store', fake())
         const readModelStore = new ReadModelStore(config)
         const someReadModelStoredVersion = 10
         const anotherReadModelStoredVersion = 32
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
-        const searchStub = stub(mockAdapter, 'search') as any
+        const searchStub = stub(config.readModelStoreAdapter as any, 'search') as any
         searchStub.callsFake(async (_config: any, className: string) => {
           if (className == SomeReadModel.name) {
             return [
@@ -568,7 +564,7 @@ describe('ReadModelStore', () => {
       it('is executed without failing', async () => {
         const readModelStore = new ReadModelStore(config)
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
-        replace(mockAdapter, 'search', fake.resolves([]))
+        replace(config.readModelStoreAdapter as any, 'search', fake.resolves([]))
         const getPrefixedKeyFake = fake()
         replace(AnImportantEntity.prototype, 'getPrefixedKey', getPrefixedKeyFake)
         await readModelStore.project(entitySnapshotEnvelopeFor(AnImportantEntity.name))
@@ -580,7 +576,7 @@ describe('ReadModelStore', () => {
       it('is executed without failing', async () => {
         const readModelStore = new ReadModelStore(config)
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
-        replace(mockAdapter, 'search', fake.resolves([{ id: 'joinColumnID', count: 31415 }]))
+        replace(config.readModelStoreAdapter as any, 'search', fake.resolves([{ id: 'joinColumnID', count: 31415 }]))
         const getIdFake = fake()
         replace(SomeReadModel.prototype, 'getId', getIdFake)
         await readModelStore.project(entitySnapshotEnvelopeFor(AnEntity.name))
@@ -609,8 +605,8 @@ describe('ReadModelStore', () => {
           return Promise.resolve()
         })
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
-        replace(mockAdapter, 'search', fake.resolves([]))
-        replace(mockAdapter, 'store', fakeStore)
+        replace(config.readModelStoreAdapter as any, 'search', fake.resolves([]))
+        replace(config.readModelStoreAdapter as any, 'store', fakeStore)
         const readModelStore = new ReadModelStore(config)
         await readModelStore.project(entitySnapshotEnvelopeFor(AnImportantEntity.name))
 
@@ -653,12 +649,12 @@ describe('ReadModelStore', () => {
       })
 
       it('creates non-existent read models and updates existing read models', async () => {
-        replace(mockAdapter, 'store', fake())
+        replace(config.readModelStoreAdapter as any, 'store', fake())
         const readModelStore = new ReadModelStore(config)
         const someReadModelStoredVersion = 10
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(
-          mockAdapter,
+          config.readModelStoreAdapter as any,
           'search',
           fake.resolves([
             {
@@ -779,9 +775,9 @@ describe('ReadModelStore', () => {
             return Promise.resolve()
           }
         )
-        replace(mockAdapter, 'store', fakeStore)
+        replace(config.readModelStoreAdapter as any, 'store', fakeStore)
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
-        replace(mockAdapter, 'search', fake.resolves([]))
+        replace(config.readModelStoreAdapter as any, 'search', fake.resolves([]))
 
         const readModelStore = new ReadModelStore(config)
         await readModelStore.project(entitySnapshotEnvelopeFor(AnImportantEntityWithArray.name))
@@ -857,7 +853,7 @@ describe('ReadModelStore', () => {
         const fakeApplyProjectionToReadModel = fake()
         replace(readModelStore as any, 'applyProjectionToReadModel', fakeApplyProjectionToReadModel)
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
-        replace(mockAdapter, 'search', fake.resolves([]))
+        replace(config.readModelStoreAdapter as any, 'search', fake.resolves([]))
 
         await readModelStore.project(anEntitySnapshot)
 
@@ -883,7 +879,7 @@ describe('ReadModelStore', () => {
   describe('the `fetchReadModel` method', () => {
     context('with no sequenceMetadata', () => {
       it("returns `undefined` when the read model doesn't exist", async () => {
-        replace(mockAdapter, 'fetch', fake.resolves(undefined))
+        replace(config.readModelStoreAdapter as any, 'fetch', fake.resolves(undefined))
         const readModelStore = new ReadModelStore(config)
 
         const result = await readModelStore.fetchReadModel(SomeReadModel.name, 'joinColumnID')
@@ -898,7 +894,7 @@ describe('ReadModelStore', () => {
       })
 
       it("returns `undefined` when the read model doesn't exist and provider returns [undefined]", async () => {
-        replace(mockAdapter, 'fetch', fake.resolves(undefined))
+        replace(config.readModelStoreAdapter as any, 'fetch', fake.resolves(undefined))
         const readModelStore = new ReadModelStore(config)
 
         const result = await readModelStore.fetchReadModel(SomeReadModel.name, 'joinColumnID')
@@ -913,7 +909,7 @@ describe('ReadModelStore', () => {
       })
 
       it('returns an instance of the current read model value when it exists', async () => {
-        replace(mockAdapter, 'fetch', fake.resolves({ value: { id: 'joinColumnID', count: 0 } }))
+        replace(config.readModelStoreAdapter as any, 'fetch', fake.resolves({ value: { id: 'joinColumnID', count: 0 } }))
         const readModelStore = new ReadModelStore(config)
 
         const result = await readModelStore.fetchReadModel(SomeReadModel.name, 'joinColumnID')
@@ -930,7 +926,7 @@ describe('ReadModelStore', () => {
 
     context('with sequenceMetadata', () => {
       it("calls the provider's fetch method passing the sequenceMetadata object", async () => {
-        replace(mockAdapter, 'fetch', fake.resolves({ value: { id: 'joinColumnID' } }))
+        replace(config.readModelStoreAdapter as any, 'fetch', fake.resolves({ value: { id: 'joinColumnID' } }))
         const readModelStore = new ReadModelStore(config)
 
         await readModelStore.fetchReadModel(SomeReadModel.name, 'joinColumnID', {
