@@ -97,15 +97,11 @@ export class Searcher<
     return this as SearcherAfterPaginatedVersion<TObject, TSingleResult, TPaginated>
   }
 
-  /**
-   * @deprecated [EOL v3] Use searchOne instead
-   */
   public async findById(id: UUID, sequenceKey?: SequenceKey): Promise<TObject | ReadOnlyNonEmptyArray<TObject>> {
     return this.finderByKeyFunction(this.objectClass, id, sequenceKey)
   }
 
   public async searchOne(): Promise<TSingleResult | undefined> {
-    // TODO: If there is only an ID filter with one value, this should call to `findById`
     const searchResult = await this.searcherFunction(
       this.objectClass,
       this.filters,
