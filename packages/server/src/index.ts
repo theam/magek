@@ -2,7 +2,8 @@ import {
   HasInfrastructure, 
   ProviderLibrary, 
   RocketDescriptor,
-  MagekConfig
+  MagekConfig,
+  getLogger
 } from '@magek/common'
 import { healthRequestResult, requestFailed, requestSucceeded } from './library/api-adapter'
 import { rawGraphQLRequestToEnvelope } from './library/graphql-adapter'
@@ -35,6 +36,19 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
     requestSucceeded,
     requestFailed,
     healthRequestResult,
+  },
+  // ProviderMessagingLibrary
+  messaging: {
+    sendMessage: async (config: MagekConfig, connectionID: string, data: unknown) => {
+      // Use the global WebSocket registry for message sending
+      const globalRegistry = (global as any).webSocketRegistry
+      if (globalRegistry && typeof globalRegistry.sendMessage === 'function') {
+        globalRegistry.sendMessage(connectionID, data)
+      } else {
+        const logger = getLogger(config, 'ServerProvider')
+        logger.warn(`WebSocket registry not available. Message not sent to connection ${connectionID}`)
+      }
+    },
   },
   // ScheduledCommandsLibrary
   scheduled: {

@@ -36,8 +36,8 @@ describe('the `GraphQLWebsocketHandler`', () => {
       error: fake(),
     }
     
-    // Mock the session store
-    config.sessionStore = {
+    // Mock the session store using replace
+    const mockSessionStore = {
       storeConnection: stub(),
       fetchConnection: stub(),
       deleteConnection: stub(),
@@ -47,6 +47,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
       fetchSubscriptionsForConnection: stub(),
       deleteSubscriptionsForConnection: stub(),
     }
+    replace(config, 'sessionStore', mockSessionStore)
     
     // Mock the provider messaging
     config.provider = {
