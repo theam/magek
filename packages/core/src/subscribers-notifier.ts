@@ -135,14 +135,7 @@ export class MagekSubscribersNotifier {
       `Notifying connectionID '${subscription.connectionID}' with the following wrappeed read model: `,
       readModel
     )
-    // For message sending, we need to use the WebSocket registry from the global context
-    // since the session store adapter doesn't handle message sending directly
-    const globalRegistry = (global as any).webSocketRegistry
-    if (globalRegistry && typeof globalRegistry.sendMessage === 'function') {
-      globalRegistry.sendMessage(subscription.connectionID, message)
-    } else {
-      logger.warn(`WebSocket registry not available. Message not sent to connection ${subscription.connectionID}`)
-    }
+    await this.config.provider.messaging.sendMessage(this.config, subscription.connectionID, message)
     logger.debug('Notifications sent')
   }
 }

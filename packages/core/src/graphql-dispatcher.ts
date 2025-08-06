@@ -9,7 +9,6 @@ import {
   graphQLWebsocketSubprotocolHeaders,
   TraceActionTypes,
   getLogger,
-  ConnectionDataEnvelope,
 } from '@magek/common'
 import { GraphQLSchema, DocumentNode, ExecutionResult, GraphQLError, OperationTypeNode } from 'graphql'
 import * as graphql from 'graphql'
@@ -17,7 +16,7 @@ import { GraphQLGenerator } from './services/graphql/graphql-generator'
 import { MagekReadModelsReader } from './read-models-reader'
 import { GraphQLResolverContext } from './services/graphql/common'
 import { NoopReadModelPubSub } from './services/pub-sub/noop-read-model-pub-sub'
-import { GraphQLWebsocketHandler, ConnectionManager } from './services/graphql/websocket-protocol/graphql-websocket-protocol'
+import { GraphQLWebsocketHandler } from './services/graphql/websocket-protocol/graphql-websocket-protocol'
 import { MagekTokenVerifier } from './token-verifier'
 import { Trace } from './instrumentation'
 
@@ -33,31 +32,9 @@ export class MagekGraphQLDispatcher {
     this.readModelDispatcher = new MagekReadModelsReader(config)
     this.graphQLSchema = GraphQLGenerator.generateSchema(config)
     this.tokenVerifier = new MagekTokenVerifier(config)
-    // Create a connection manager adapter that wraps the session store
-    const connectionManagerAdapter: ConnectionManager = {
-      storeData: async (config: MagekConfig, connectionID: string, data: ConnectionDataEnvelope) => {
-        await this.config.sessionStore.storeConnection(config, connectionID, data)
-      },
-      fetchData: async (config: MagekConfig, connectionID: string) => {
-        return this.config.sessionStore.fetchConnection(config, connectionID) as Promise<ConnectionDataEnvelope | undefined>
-      },
-      deleteData: async (config: MagekConfig, connectionID: string) => {
-        await this.config.sessionStore.deleteConnection(config, connectionID)
-      },
-      sendMessage: async (config: MagekConfig, connectionID: string, data: unknown) => {
-        // Use the global WebSocket registry for message sending
-        const globalRegistry = (global as any).webSocketRegistry
-        if (globalRegistry && typeof globalRegistry.sendMessage === 'function') {
-          globalRegistry.sendMessage(connectionID, data)
-        } else {
-          getLogger(config, 'GraphQLDispatcher').warn(`WebSocket registry not available. Message not sent to connection ${connectionID}`)
-        }
-      }
-    }
 
     this.websocketHandler = new GraphQLWebsocketHandler(
       config,
-      connectionManagerAdapter,
       {
         onStartOperation: this.runGraphQLOperation.bind(this),
         onStopOperation: this.readModelDispatcher.unsubscribe.bind(this.readModelDispatcher),

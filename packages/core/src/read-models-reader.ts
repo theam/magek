@@ -95,21 +95,18 @@ export class MagekReadModelsReader {
   ): Promise<Array<TReadModel> | ReadModelListResult<TReadModel>> {
     const readModelName = readModelClass.name
 
-    // Note: The read model store adapter doesn't currently support sort and select parameters
-    // These will need to be implemented in the future or handled at a higher level
-
     const searchResult = await this.config.readModelStore.search<TReadModel>(
       this.config,
       readModelName,
       {
         filters: filters ?? {},
+        sort,
         limit,
         afterCursor: afterCursor as Record<string, string>,
         paginatedVersion: paginatedVersion ?? false,
       }
     )
     
-    // Convert from ReadModelSearchResult to expected format
     const convertedResult = paginatedVersion 
       ? {
           items: searchResult.items.map(envelope => envelope.value),
@@ -136,8 +133,8 @@ export class MagekReadModelsReader {
     }
     
     if (sequenceKey) {
-      // For sequenced read models, return as array (simplified for now)
-      return [envelope.value] as unknown as ReadOnlyNonEmptyArray<TReadModel>
+      // For sequenced read models, return as array
+      return [envelope.value as TReadModel] as ReadOnlyNonEmptyArray<TReadModel>
     }
     return envelope.value as TReadModel
   }

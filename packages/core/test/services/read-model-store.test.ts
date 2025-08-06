@@ -206,7 +206,9 @@ describe('ReadModelStore', () => {
           snapshottedEventCreatedAt: new Date().toISOString(),
         }
 
-        replace(config.readModelStoreAdapter as any, 'store', fake())
+        replace(config, 'readModelStoreAdapter', {
+          store: fake(),
+        })
         const readModelStore = new ReadModelStore(config)
         replace(readModelStore, 'fetchReadModel', fake.resolves(null))
 
@@ -219,10 +221,13 @@ describe('ReadModelStore', () => {
 
     context('when the new read model returns ReadModelAction.Delete', () => {
       it('deletes the associated read model', async () => {
-        replace(config.readModelStoreAdapter as any, 'store', fake())
-        replace(config.readModelStoreAdapter as any, 'delete', fake())
+        const mockAdapter = {
+          store: fake(),
+          delete: fake(),
+          search: fake.resolves([]),
+        }
+        replace(config, 'readModelStoreAdapter', mockAdapter)
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
-        replace(config.readModelStoreAdapter as any, 'search', fake.resolves([]))
         replace(
           ReadModelStore.prototype,
           'getProjectionFunction',
@@ -231,9 +236,9 @@ describe('ReadModelStore', () => {
         const readModelStore = new ReadModelStore(config)
 
         await readModelStore.project(entitySnapshotEnvelopeFor(AnImportantEntity.name))
-        expect(config.readModelStoreAdapter!.store).not.to.have.been.called
-        expect(config.readModelStoreAdapter!.delete).to.have.been.calledThrice
-        expect(config.readModelStoreAdapter!.search).to.have.been.called
+        expect(mockAdapter.store).not.to.have.been.called
+        expect(mockAdapter.delete).to.have.been.calledThrice
+        expect(mockAdapter.search).to.have.been.called
       })
     })
 

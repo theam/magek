@@ -10,10 +10,23 @@ import { RocketDescriptor, RocketEnvelope } from './rockets'
 export interface ProviderLibrary {
   graphQL: ProviderGraphQLLibrary
   api: ProviderAPIHandling
+  messaging: ProviderMessagingLibrary
   scheduled: ScheduledCommandsLibrary
   infrastructure: () => ProviderInfrastructure
   rockets: ProviderRocketLibrary
   sensor: ProviderSensorLibrary
+}
+
+export interface ProviderMessagingLibrary {
+  /**
+   * Sends a message to a specific connection.
+   *
+   * @param config - The Magek configuration object.
+   * @param connectionID - The ID of the connection.
+   * @param data - The data to be sent to the connection.
+   * @returns A promise that resolves when the message has been sent successfully.
+   */
+  sendMessage(config: MagekConfig, connectionID: string, data: unknown): Promise<void>
 }
 
 export interface ProviderRocketLibrary {

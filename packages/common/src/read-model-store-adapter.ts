@@ -4,6 +4,7 @@ import { ReadModelInterface } from './concepts'
 
 export interface ReadModelStoreSearchParameters {
   filters?: Record<string, any>
+  sort?: Record<string, any>
   limit?: number
   afterCursor?: Record<string, string>
   paginatedVersion?: boolean
