@@ -7,12 +7,11 @@ import {
   GraphQLStop,
   MessageTypes,
   MagekConfig,
-  ProviderConnectionsLibrary,
   GraphQLRequestEnvelopeError,
   UserEnvelope,
   ConnectionDataEnvelope,
 } from '@magek/common'
-import { GraphQLWebsocketHandler } from '../../../../src/services/graphql/websocket-protocol/graphql-websocket-protocol'
+import { GraphQLWebsocketHandler, ConnectionManager } from '../../../../src/services/graphql/websocket-protocol/graphql-websocket-protocol'
 import { ExecutionResult } from 'graphql'
 import { expect } from '../../../expect'
 import { MagekTokenVerifier } from '../../../../src/token-verifier'
@@ -20,7 +19,7 @@ import { MagekTokenVerifier } from '../../../../src/token-verifier'
 describe('the `GraphQLWebsocketHandler`', () => {
   let config: MagekConfig
   let websocketHandler: GraphQLWebsocketHandler
-  let connectionsManager: ProviderConnectionsLibrary
+  let connectionsManager: ConnectionManager
   let onStartCallback: (
     envelope: GraphQLRequestEnvelope
   ) => Promise<AsyncIterableIterator<ExecutionResult> | ExecutionResult>

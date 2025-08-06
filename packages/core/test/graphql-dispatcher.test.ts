@@ -109,8 +109,8 @@ describe('the `MagekGraphQLDispatcher`', () => {
         const dispatcher = new MagekGraphQLDispatcher(config)
         await dispatcher.dispatch({})
 
-        expect(config.sessionStoreAdapter.deleteSubscriptionsForConnection).not.to.have.been.called
-        expect(config.sessionStoreAdapter.deleteConnection).not.to.have.been.called
+        expect(config.sessionStoreAdapter!.deleteSubscriptionsForConnection).not.to.have.been.called
+        expect(config.sessionStoreAdapter!.deleteConnection).not.to.have.been.called
         expect(config.provider.graphQL.handleResult).to.have.been.calledOnceWithExactly(undefined)
       })
 
@@ -124,8 +124,8 @@ describe('the `MagekGraphQLDispatcher`', () => {
         const dispatcher = new MagekGraphQLDispatcher(config)
         await dispatcher.dispatch({})
 
-        expect(config.sessionStoreAdapter.deleteConnection).to.have.been.calledOnceWithExactly(config, mockConnectionID)
-        expect(config.sessionStoreAdapter.deleteSubscriptionsForConnection).to.have.been.calledOnceWithExactly(
+        expect(config.sessionStoreAdapter!.deleteConnection).to.have.been.calledOnceWithExactly(config, mockConnectionID)
+        expect(config.sessionStoreAdapter!.deleteSubscriptionsForConnection).to.have.been.calledOnceWithExactly(
           config,
           mockConnectionID
         )

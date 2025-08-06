@@ -419,7 +419,7 @@ describe('MagekReadModelReader', () => {
       it('calls the provider search function and returns its results', async () => {
         const expectedReadModels = [new TestReadModel(), new TestReadModel()]
         const providerSearcherFunctionFake = fake.resolves(expectedReadModels)
-        replace(config.readModelStoreAdapter, 'search', providerSearcherFunctionFake)
+        replace(config.readModelStoreAdapter as any, 'search', providerSearcherFunctionFake)
 
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
 
@@ -443,7 +443,7 @@ describe('MagekReadModelReader', () => {
       it('calls migrates after search a read model with a simple array', async () => {
         const expectedReadModels = [new TestReadModel(), new TestReadModel()]
         const providerSearcherFunctionFake = fake.resolves(expectedReadModels)
-        replace(config.readModelStoreAdapter, 'search', providerSearcherFunctionFake)
+        replace(config.readModelStoreAdapter as any, 'search', providerSearcherFunctionFake)
 
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
 
@@ -473,7 +473,7 @@ describe('MagekReadModelReader', () => {
           cursor: {},
         }
         const providerSearcherFunctionFake = fake.resolves(searchResult)
-        replace(config.readModelStoreAdapter, 'search', providerSearcherFunctionFake)
+        replace(config.readModelStoreAdapter as any, 'search', providerSearcherFunctionFake)
 
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
 
@@ -511,7 +511,7 @@ describe('MagekReadModelReader', () => {
 
           const expectedReadModels = [new TestReadModel(), new TestReadModel()]
           const providerSearcherFunctionFake = fake.resolves(expectedReadModels)
-          replace(config.readModelStoreAdapter, 'search', providerSearcherFunctionFake)
+          replace(config.readModelStoreAdapter as any, 'search', providerSearcherFunctionFake)
 
           replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
 
@@ -546,7 +546,7 @@ describe('MagekReadModelReader', () => {
 
           const expectedResult = [new TestReadModel(), new TestReadModel()]
           const providerSearcherFunctionFake = fake.resolves(expectedResult)
-          replace(config.readModelStoreAdapter, 'search', providerSearcherFunctionFake)
+          replace(config.readModelStoreAdapter as any, 'search', providerSearcherFunctionFake)
 
           replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
 
@@ -583,7 +583,7 @@ describe('MagekReadModelReader', () => {
           }
 
           replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
-          replace(config.readModelStoreAdapter, 'search', providerSearcherFunctionFake)
+          replace(config.readModelStoreAdapter as any, 'search', providerSearcherFunctionFake)
         })
 
         afterEach(() => {
@@ -619,7 +619,7 @@ describe('MagekReadModelReader', () => {
 
           replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
 
-          replace(config.readModelStoreAdapter, 'search', providerSearcherFunctionFake)
+          replace(config.readModelStoreAdapter as any, 'search', providerSearcherFunctionFake)
         })
 
         afterEach(() => {
@@ -663,7 +663,7 @@ describe('MagekReadModelReader', () => {
             before: [],
           }
 
-          replace(config.sessionStoreAdapter, 'storeSubscription', providerSubscribeFunctionFake)
+          replace(config.sessionStoreAdapter as any, 'storeSubscription', providerSubscribeFunctionFake)
         })
 
         it('calls the provider subscribe function and returns its results', async () => {
@@ -696,7 +696,7 @@ describe('MagekReadModelReader', () => {
             before: [beforeFn, beforeFnV2],
           }
 
-          replace(config.sessionStoreAdapter, 'storeSubscription', providerSubscribeFunctionFake)
+          replace(config.sessionStoreAdapter as any, 'storeSubscription', providerSubscribeFunctionFake)
         })
 
         it('calls the provider subscribe function when setting before hooks and returns the new filter in the result', async () => {
@@ -724,7 +724,7 @@ describe('MagekReadModelReader', () => {
   describe("The 'unsubscribe' method", () => {
     it('calls the provider "deleteSubscription" method with the right data', async () => {
       const deleteSubscriptionFake = fake()
-      replace(config.sessionStoreAdapter, 'deleteSubscription', deleteSubscriptionFake)
+      replace(config.sessionStoreAdapter as any, 'deleteSubscription', deleteSubscriptionFake)
       const connectionID = faker.datatype.uuid()
       const subscriptionID = faker.datatype.uuid()
       await readModelReader.unsubscribe(connectionID, subscriptionID)
@@ -736,7 +736,7 @@ describe('MagekReadModelReader', () => {
   describe("The 'unsubscribeAll' method", () => {
     it('calls the provider "deleteAllSubscription" method with the right data', async () => {
       const deleteAllSubscriptionsFake = fake()
-      replace(config.sessionStoreAdapter, 'deleteSubscriptionsForConnection', deleteAllSubscriptionsFake)
+      replace(config.sessionStoreAdapter as any, 'deleteSubscriptionsForConnection', deleteAllSubscriptionsFake)
       const connectionID = faker.datatype.uuid()
       await readModelReader.unsubscribeAll(connectionID)
 

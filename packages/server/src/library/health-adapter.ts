@@ -1,4 +1,3 @@
-import { ReadModelRegistry } from '../services'
 import { eventsDatabase, readModelsDatabase } from '../paths'
 import { MagekConfig, localPort, HealthEnvelope, UUID, request } from '@magek/common'
 import { existsSync } from 'fs'
@@ -73,13 +72,6 @@ export function rawRequestToSensorHealth(rawRequest: FastifyRequest): HealthEnve
   }
 }
 
-export async function databaseReadModelsHealthDetails(readModelRegistry: ReadModelRegistry): Promise<unknown> {
-  const count = await countAll(readModelRegistry.readModels)
-  return {
-    file: readModelsDatabase,
-    count: count,
-  }
-}
 
 export async function areRocketFunctionsUp(config: MagekConfig): Promise<{ [key: string]: boolean }> {
   // In local provider, rockets run in the same process, so they're always "up" if configured
