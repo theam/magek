@@ -116,26 +116,17 @@ export class MagekReadModelsReader {
     const searchResult = await this.config.readModelStore.search<TReadModel>(
       this.config,
       readModelName,
-      {
-        filters: filters ?? {},
-        sort,
-        limit,
-        afterCursor: afterCursor as Record<string, string>,
-        paginatedVersion: paginatedVersion ?? false,
-      }
+      filters ?? {},
+      sort ?? {},
+      limit,
+      afterCursor,
+      paginatedVersion ?? false,
+      selectWithDependencies ?? select
     )
-    
-    const convertedResult = paginatedVersion 
-      ? {
-          items: searchResult.items.map(envelope => envelope.value),
-          count: searchResult.count,
-          cursor: searchResult.cursor
-        }
-      : searchResult.items.map(envelope => envelope.value)
 
-    const readModels = this.createReadModelInstances(convertedResult, readModelClass)
+    const readModels = this.createReadModelInstances(searchResult, readModelClass)
     if (select) {
-      return this.createReadModelInstancesWithCalculatedProperties(convertedResult, readModelClass, select ?? [])
+      return this.createReadModelInstancesWithCalculatedProperties(searchResult, readModelClass, select ?? [])
     }
     return this.migrateReadModels(readModels, readModelName)
   }

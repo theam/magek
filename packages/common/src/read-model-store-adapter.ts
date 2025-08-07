@@ -1,14 +1,8 @@
 import { UUID } from './concepts'
 import { MagekConfig } from './config'
 import { ReadModelInterface } from './concepts'
-
-export interface ReadModelStoreSearchParameters {
-  filters?: Record<string, any>
-  sort?: Record<string, any>
-  limit?: number
-  afterCursor?: Record<string, string>
-  paginatedVersion?: boolean
-}
+import { FilterFor, ProjectionFor, SortFor } from './searcher'
+import { ReadModelListResult } from './envelope'
 
 export interface ReadModelStoreEnvelope<T = ReadModelInterface> {
   typeName: string
@@ -17,12 +11,6 @@ export interface ReadModelStoreEnvelope<T = ReadModelInterface> {
   version: number
   createdAt: string
   updatedAt: string
-}
-
-export interface ReadModelSearchResult<T = ReadModelInterface> {
-  items: Array<ReadModelStoreEnvelope<T>>
-  count: number
-  cursor?: Record<string, string>
 }
 
 export interface ReadModelStoreAdapter {
@@ -42,17 +30,28 @@ export interface ReadModelStoreAdapter {
 
   /**
    * Searches for read models based on specific parameters
+   * This method signature matches the original provider library interface
    *
    * @param config - The Magek configuration object
    * @param readModelName - The name of the read model type
-   * @param parameters - The search parameters
-   * @returns A promise that resolves to a search result with matching read models
+   * @param filters - The filters to be applied during the search
+   * @param sortBy - An object that specifies how the results should be sorted (optional)
+   * @param limit - The maximum number of results to return (optional)
+   * @param afterCursor - A cursor that specifies the position after which results should be returned (optional)
+   * @param paginatedVersion - A boolean value that indicates whether the results should be paginated (optional)
+   * @param select - An object that specifies fields to be returned, including calculated field dependencies (optional)
+   * @returns A promise that resolves to an array of read models or a ReadModelListResult
    */
   search<TReadModel extends ReadModelInterface>(
     config: MagekConfig,
     readModelName: string,
-    parameters: ReadModelStoreSearchParameters
-  ): Promise<ReadModelSearchResult<TReadModel>>
+    filters: FilterFor<unknown>,
+    sortBy?: SortFor<unknown>,
+    limit?: number,
+    afterCursor?: unknown,
+    paginatedVersion?: boolean,
+    select?: ProjectionFor<TReadModel>
+  ): Promise<Array<TReadModel> | ReadModelListResult<TReadModel>>
 
   /**
    * Stores or updates a read model

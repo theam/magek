@@ -3,9 +3,11 @@ import {
   ReadModelInterface,
   ReadModelStoreAdapter,
   ReadModelStoreEnvelope,
-  ReadModelStoreSearchParameters,
-  ReadModelSearchResult,
   UUID,
+  FilterFor,
+  SortFor,
+  ProjectionFor,
+  ReadModelListResult,
 } from '@magek/common'
 import { ReadModelRegistry } from './read-model-registry'
 import { deleteReadModel, fetchReadModel, searchReadModel, storeReadModel } from './library/read-model-adapter'
@@ -47,54 +49,28 @@ export const readModelStore: ReadModelStoreAdapter = {
   search: async <TReadModel extends ReadModelInterface>(
     config: MagekConfig,
     readModelName: string,
-    parameters: ReadModelStoreSearchParameters
-  ): Promise<ReadModelSearchResult<TReadModel>> => {
-    const { filters = {}, limit, afterCursor, paginatedVersion = true } = parameters
-    
+    filters: FilterFor<unknown>,
+    sortBy?: SortFor<unknown>,
+    limit?: number,
+    afterCursor?: unknown,
+    paginatedVersion?: boolean,
+    select?: ProjectionFor<TReadModel>
+  ): Promise<Array<TReadModel> | ReadModelListResult<TReadModel>> => {
+    // Use existing searchReadModel function which already returns the expected format
     const result = await searchReadModel(
       readModelRegistry,
       config,
       readModelName,
       filters,
-      undefined, // sortBy - not implemented in current interface
+      sortBy,
       limit,
-      afterCursor,
-      paginatedVersion
+      afterCursor as Record<string, string>,
+      paginatedVersion ?? false,
+      select
     )
-
-    // Handle both array and ReadModelListResult return types
-    if (Array.isArray(result)) {
-      const items = result.map((readModel: ReadModelInterface) => ({
-        typeName: readModelName,
-        value: readModel,
-        id: readModel.id,
-        version: readModel.magekMetadata?.version ?? 1,
-        createdAt: readModel.magekMetadata?.lastUpdateAt ?? new Date().toISOString(),
-        updatedAt: readModel.magekMetadata?.lastUpdateAt ?? new Date().toISOString(),
-      })) as ReadModelStoreEnvelope<TReadModel>[]
-
-      return {
-        items,
-        count: items.length,
-        cursor: afterCursor,
-      }
-    } else {
-      // It's already a ReadModelListResult, convert items to envelopes
-      const items = result.items.map((readModel: ReadModelInterface) => ({
-        typeName: readModelName,
-        value: readModel,
-        id: readModel.id,
-        version: readModel.magekMetadata?.version ?? 1,
-        createdAt: readModel.magekMetadata?.lastUpdateAt ?? new Date().toISOString(),
-        updatedAt: readModel.magekMetadata?.lastUpdateAt ?? new Date().toISOString(),
-      })) as ReadModelStoreEnvelope<TReadModel>[]
-
-      return {
-        items,
-        count: result.count ?? items.length,
-        cursor: result.cursor,
-      }
-    }
+    
+    // The searchReadModel function already returns Array<TReadModel> or ReadModelListResult<TReadModel>
+    return result as Array<TReadModel> | ReadModelListResult<TReadModel>
   },
 
   store: async <TReadModel extends ReadModelInterface>(

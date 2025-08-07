@@ -1,5 +1,6 @@
 import { MagekConfig } from './config'
 import { UUID } from './concepts'
+import { SubscriptionEnvelope } from './envelope'
 
 /**
  * Interface for session store adapters that handle connection and subscription management
@@ -105,12 +106,12 @@ export interface SessionStoreAdapter {
    *
    * @param config - The Magek configuration object
    * @param className - The name of the read model class to filter subscriptions by
-   * @returns A promise that resolves to an array of subscription data matching the class name
+   * @returns A promise that resolves to an array of subscription envelopes matching the class name
    */
   fetchSubscriptionsByClassName(
     config: MagekConfig,
     className: string
-  ): Promise<Array<Record<string, any>>>
+  ): Promise<Array<SubscriptionEnvelope>>
 
   /**
    * Health check methods for the session store

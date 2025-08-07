@@ -1,4 +1,4 @@
-import { SessionStoreAdapter, MagekConfig, UUID, getLogger } from '@magek/common'
+import { SessionStoreAdapter, MagekConfig, UUID, getLogger, SubscriptionEnvelope } from '@magek/common'
 import { WebSocketRegistry } from './web-socket-registry'
 import { connectionsDatabase, subscriptionsDatabase } from './paths'
 
@@ -118,13 +118,13 @@ export class NedbSessionStoreAdapter implements SessionStoreAdapter {
   async fetchSubscriptionsByClassName(
     config: MagekConfig,
     className: string
-  ): Promise<Array<Record<string, any>>> {
+  ): Promise<Array<SubscriptionEnvelope>> {
     const results = (await this.subscriptionRegistry.query({
       className: className,
-    })) as Array<Record<string, any>>
+    })) as Array<SubscriptionEnvelope>
     
     // Remove internal fields and NeDB _id from each subscription
-    return results.map(({ connectionID, subscriptionID, _id, ...subscriptionData }) => subscriptionData)
+    return results.map(({ _id, ...subscriptionData }: any) => subscriptionData)
   }
 
   async deleteSubscriptionsForConnection(config: MagekConfig, connectionId: UUID): Promise<void> {

@@ -57,7 +57,7 @@ export class MagekSubscribersNotifier {
     const readModelUniqueNames = [...new Set(readModelNames)]
     const subscriptionSets = await Promise.all(
       readModelUniqueNames.map(async (name) => {
-        return await this.config.sessionStore.fetchSubscriptionsByClassName(this.config, name) as Array<SubscriptionEnvelope>
+        return await this.config.sessionStore.fetchSubscriptionsByClassName(this.config, name)
       })
     )
     return subscriptionSets.flat()
