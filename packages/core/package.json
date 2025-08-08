@@ -52,7 +52,7 @@
     "@effect/workflow": "0.4.14",
     "@effect/rpc": "0.64.14",
     "@effect/sql": "0.40.14",
-    "@effect/experimental": "0.51.14",
+    "@effect/experimental": "0.54.4",
     "fast-check": "4.1.1",
     "@effect/cli": "~0.66.13",
     "@effect/printer": "~0.44.13",
