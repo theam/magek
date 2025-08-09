@@ -7,7 +7,6 @@ import {
   InvalidParameterError,
   NotFoundError,
   ProjectionFor,
-  PropertyMetadata,
   ReadModelInterface,
   ReadModelListResult,
   ReadModelMetadata,
@@ -23,6 +22,7 @@ import {
   createInstanceWithCalculatedProperties,
   getLogger,
 } from '@magek/common'
+import { PropertyMetadata } from '@magek/metadata'
 import { Magek } from './magek'
 import { applyReadModelRequestBeforeFunctions } from './services/filter-helpers'
 import { ReadModelSchemaMigrator } from './read-model-schema-migrator'
@@ -136,16 +136,16 @@ export class MagekReadModelsReader {
     id: UUID,
     sequenceKey?: SequenceKey
   ): Promise<ReadOnlyNonEmptyArray<TReadModel> | TReadModel> {
-    const envelope = await this.config.readModelStore.fetch(this.config, readModelClass.name, id)
+    const envelope = await this.config.readModelStore.fetch<TReadModel>(this.config, readModelClass.name, id)
     if (!envelope) {
       throw new Error(`Read model not found: ${readModelClass.name} with id ${id}`)
     }
     
     if (sequenceKey) {
       // For sequenced read models, return as array
-      return [envelope.value as TReadModel] as ReadOnlyNonEmptyArray<TReadModel>
+      return [envelope.value] as ReadOnlyNonEmptyArray<TReadModel>
     }
-    return envelope.value as TReadModel
+    return envelope.value
   }
 
   private async migrateReadModels<TReadModel extends ReadModelInterface>(

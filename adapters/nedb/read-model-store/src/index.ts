@@ -56,8 +56,7 @@ export const readModelStore: ReadModelStoreAdapter = {
     paginatedVersion?: boolean,
     select?: ProjectionFor<TReadModel>
   ): Promise<Array<TReadModel> | ReadModelListResult<TReadModel>> => {
-    // Use existing searchReadModel function which already returns the expected format
-    const result = await searchReadModel(
+    return await searchReadModel<TReadModel>(
       readModelRegistry,
       config,
       readModelName,
@@ -68,9 +67,6 @@ export const readModelStore: ReadModelStoreAdapter = {
       paginatedVersion ?? false,
       select
     )
-    
-    // The searchReadModel function already returns Array<TReadModel> or ReadModelListResult<TReadModel>
-    return result as Array<TReadModel> | ReadModelListResult<TReadModel>
   },
 
   store: async <TReadModel extends ReadModelInterface>(

@@ -23,11 +23,11 @@ import { Magek } from '../../src/magek'
 // Utility function to create complete mock adapters
 function createMockAdapter(overrides: Partial<ReadModelStoreAdapter> = {}): ReadModelStoreAdapter {
   return {
-    fetch: fake(),
-    search: fake.resolves({ items: [], count: 0 }),
-    store: fake(),
-    delete: fake(),
-    rawToEnvelopes: fake(),
+    fetch: fake() as any,
+    search: fake.resolves({ items: [], count: 0 }) as any,
+    store: fake() as any,
+    delete: fake() as any,
+    rawToEnvelopes: fake() as any,
     ...overrides
   }
 }
@@ -219,9 +219,9 @@ describe('ReadModelStore', () => {
           snapshottedEventCreatedAt: new Date().toISOString(),
         }
 
-        replace(config, 'readModelStoreAdapter', {
-          store: fake(),
-        })
+        replace(config, 'readModelStoreAdapter', createMockAdapter({
+          store: fake() as any,
+        }))
         const readModelStore = new ReadModelStore(config)
         replace(readModelStore, 'fetchReadModel', fake.resolves(null))
 
@@ -234,11 +234,11 @@ describe('ReadModelStore', () => {
 
     context('when the new read model returns ReadModelAction.Delete', () => {
       it('deletes the associated read model', async () => {
-        const mockAdapter = {
-          store: fake(),
-          delete: fake(),
-          search: fake.resolves([]),
-        }
+        const mockAdapter = createMockAdapter({
+          store: fake() as any,
+          delete: fake() as any,
+          search: fake.resolves([]) as any,
+        })
         replace(config, 'readModelStoreAdapter', mockAdapter)
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(
@@ -258,9 +258,9 @@ describe('ReadModelStore', () => {
     context('when the new read model returns ReadModelAction.Nothing', () => {
       it('ignores the read model', async () => {
         const mockAdapter = createMockAdapter({
-          store: fake(),
-          delete: fake(),
-          search: fake.resolves([]),
+          store: fake() as any,
+          delete: fake() as any,
+          search: fake.resolves([]) as any,
         })
         replace(config, 'readModelStoreAdapter', mockAdapter)
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`

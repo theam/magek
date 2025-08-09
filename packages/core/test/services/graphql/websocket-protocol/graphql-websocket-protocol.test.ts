@@ -46,6 +46,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
       deleteSubscription: stub(),
       fetchSubscriptionsForConnection: stub(),
       deleteSubscriptionsForConnection: stub(),
+      fetchSubscriptionsByClassName: stub(),
     }
     replace(config, 'sessionStore', mockSessionStore)
     
@@ -350,7 +351,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
             resultPromise = websocketHandler.handle(envelope)
             await resultPromise
             expect(config.provider.messaging.sendMessage).to.be.calledTwice
-            expect(config.provider.messaging.sendMessage.getCall(0).args).to.be.deep.equal([
+            expect((config.provider.messaging.sendMessage as any).getCall(0).args).to.be.deep.equal([
               config,
               envelope.connectionID,
               {
@@ -359,7 +360,7 @@ describe('the `GraphQLWebsocketHandler`', () => {
                 payload: result,
               },
             ])
-            expect(config.provider.messaging.sendMessage.getCall(1).args).to.be.deep.equal([
+            expect((config.provider.messaging.sendMessage as any).getCall(1).args).to.be.deep.equal([
               config,
               envelope.connectionID,
               {

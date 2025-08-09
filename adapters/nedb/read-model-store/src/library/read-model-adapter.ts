@@ -66,7 +66,7 @@ export async function storeReadModel(
   logger.debug('Read model stored')
 }
 
-export async function searchReadModel(
+export async function searchReadModel<TReadModel extends ReadModelInterface>(
   db: ReadModelRegistry,
   config: MagekConfig,
   readModelName: string,
@@ -75,24 +75,24 @@ export async function searchReadModel(
   limit?: number,
   afterCursor?: Record<string, string> | undefined,
   paginatedVersion = false,
-  select?: ProjectionFor<unknown>
+  select?: ProjectionFor<TReadModel>
    
-): Promise<Array<any> | ReadModelListResult<any>> {
+): Promise<Array<TReadModel> | ReadModelListResult<TReadModel>> {
   const logger = getLogger(config, 'read-model-adapter#searchReadModel')
   logger.debug('Converting filter to query')
   const queryFor = queryRecordFor(filters)
   const query = { ...queryFor, typeName: readModelName }
   logger.debug('Got query ', query)
   const skipId = afterCursor?.id ? parseInt(afterCursor?.id) : 0
-  const result = await db.query(query, sortBy, skipId, limit, select)
+  const result = await db.query(query, sortBy, skipId, limit, select as ProjectionFor<unknown>)
   logger.debug('Search result: ', result)
-  const items = result?.map((envelope) => envelope.value) ?? []
+  const items: Array<TReadModel> = result?.map((envelope) => envelope.value as TReadModel) ?? []
   if (paginatedVersion) {
     return {
       items: items,
       count: items?.length ?? 0,
       cursor: { id: ((limit ? limit : 1) + skipId).toString() },
-    }
+    } as ReadModelListResult<TReadModel>
   }
   return items
 }
