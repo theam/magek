@@ -1,11 +1,10 @@
  
-import { MagekConfig } from '@magek/common'
 import { PlatformError } from '@effect/platform/Error'
 import { CliApp, Command } from '@effect/cli'
 import { RunMain } from '@effect/platform/Runtime'
 import { Effect, Layer, Types } from 'effect'
 
-export type Context = MagekConfig | CliApp.CliApp.Environment
+export type Context = CliApp.CliApp.Environment
 export type Error = PlatformError
 
 export interface Injectable {

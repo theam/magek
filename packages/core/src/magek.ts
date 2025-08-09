@@ -1,7 +1,6 @@
 import {
   createInstance,
   MagekConfig,
-  MagekConfigTag,
   Class,
   EntityInterface,
   EventDeleteParameters,
@@ -91,7 +90,6 @@ export class Magek {
         }),
         // TODO: Improve error messages
         Effect.provide(provider),
-        Effect.provideService(MagekConfigTag, this.config),
         runner
       )
     }
