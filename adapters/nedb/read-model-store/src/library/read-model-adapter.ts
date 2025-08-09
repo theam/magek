@@ -7,6 +7,7 @@ import {
   ReadModelInterface,
   ReadModelListResult,
   ReadOnlyNonEmptyArray,
+  SequenceKey,
   SortFor,
   UUID,
   getLogger,
@@ -25,18 +26,27 @@ export async function fetchReadModel(
   db: ReadModelRegistry,
   config: MagekConfig,
   readModelName: string,
-  readModelID: UUID
+  readModelID: UUID,
+  sequenceKey?: any
 ): Promise<ReadOnlyNonEmptyArray<ReadModelInterface>> {
   const logger = getLogger(config, 'read-model-adapter#fetchReadModel')
-  //use dot notation value.id to match the record (see https://github.com/louischatriot/nedb#finding-documents)
-  const response = await db.query({ typeName: readModelName, 'value.id': readModelID })
-  const item = response[0]
-  if (!item) {
-    logger.debug(`Read model ${readModelName} with ID ${readModelID} not found`)
-  } else {
-    logger.debug(`Loaded read model ${readModelName} with ID ${readModelID} with result:`, item.value)
+  
+  let query: any = { typeName: readModelName, 'value.id': readModelID }
+  
+  // If sequenceKey is provided, add it to the query
+  if (sequenceKey) {
+    query[`value.${sequenceKey.name}`] = sequenceKey.value
   }
-  return [item?.value]
+  
+  const response = await db.query(query)
+  
+  if (response.length === 0) {
+    logger.debug(`Read model ${readModelName} with ID ${readModelID} not found`)
+    return [] as unknown as ReadOnlyNonEmptyArray<ReadModelInterface>
+  } 
+  
+  logger.debug(`Loaded read model ${readModelName} with ID ${readModelID} with result:`, response.map(item => item.value))
+  return response.map(item => item.value) as ReadOnlyNonEmptyArray<ReadModelInterface>
 }
 
 export async function storeReadModel(

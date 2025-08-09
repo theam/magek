@@ -87,16 +87,19 @@ export class NedbSessionStoreAdapter implements SessionStoreAdapter {
     return subscriptionData
   }
 
-  async deleteSubscription(config: MagekConfig, subscriptionId: UUID): Promise<void> {
+  async deleteSubscription(config: MagekConfig, connectionId: UUID, subscriptionId: UUID): Promise<void> {
     const logger = getLogger(config, 'NedbSessionStoreAdapter#deleteSubscription')
-    const removed = await this.subscriptionRegistry.delete({ subscriptionID: subscriptionId })
+    const removed = await this.subscriptionRegistry.delete({ 
+      connectionID: connectionId, 
+      subscriptionID: subscriptionId 
+    })
     
     if (removed === 0) {
-      logger.info(`No subscription found with subscriptionID=${subscriptionId}`)
+      logger.info(`No subscription found with connectionID=${connectionId} and subscriptionID=${subscriptionId}`)
       return
     }
     
-    logger.debug('Deleted subscription:', subscriptionId)
+    logger.debug('Deleted subscription:', { connectionId, subscriptionId })
   }
 
   async fetchSubscriptionsForConnection(

@@ -1,8 +1,9 @@
-import { UUID } from './concepts'
+import { SequenceKey, UUID } from './concepts'
 import { MagekConfig } from './config'
 import { ReadModelInterface } from './concepts'
 import { FilterFor, ProjectionFor, SortFor } from './searcher'
 import { ReadModelListResult } from './envelope'
+import { ReadOnlyNonEmptyArray } from './typelevel'
 
 export interface ReadModelStoreEnvelope<T = ReadModelInterface> {
   typeName: string
@@ -20,13 +21,15 @@ export interface ReadModelStoreAdapter {
    * @param config - The Magek configuration object
    * @param readModelName - The name of the read model type
    * @param readModelID - The ID of the read model to fetch
+   * @param sequenceKey - The sequence key for sequenced read models (optional)
    * @returns A promise that resolves to the read model envelope, or undefined if not found
    */
   fetch<TReadModel extends ReadModelInterface>(
     config: MagekConfig,
     readModelName: string,
-    readModelID: UUID
-  ): Promise<ReadModelStoreEnvelope<TReadModel> | undefined>
+    readModelID: UUID,
+    sequenceKey?: SequenceKey
+  ): Promise<ReadModelStoreEnvelope<TReadModel> | ReadOnlyNonEmptyArray<ReadModelStoreEnvelope<TReadModel>> | undefined>
 
   /**
    * Searches for read models based on specific parameters
@@ -80,10 +83,11 @@ export interface ReadModelStoreAdapter {
   /**
    * Converts raw read model data into ReadModelStoreEnvelope objects
    *
+   * @param config - The Magek configuration object
    * @param rawReadModels - The raw read model data to be converted
-   * @returns An array of ReadModelStoreEnvelope objects
+   * @returns A promise that resolves to an array of ReadModelStoreEnvelope objects
    */
-  rawToEnvelopes<TReadModel extends ReadModelInterface>(rawReadModels: unknown): Array<ReadModelStoreEnvelope<TReadModel>>
+  rawToEnvelopes<TReadModel extends ReadModelInterface>(config: MagekConfig, rawReadModels: unknown): Promise<Array<ReadModelStoreEnvelope<TReadModel>>>
 
   /**
    * Health check methods for the read model store

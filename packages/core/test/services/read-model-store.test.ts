@@ -23,11 +23,11 @@ import { Magek } from '../../src/magek'
 // Utility function to create complete mock adapters
 function createMockAdapter(overrides: Partial<ReadModelStoreAdapter> = {}): ReadModelStoreAdapter {
   return {
-    fetch: fake() as any,
-    search: fake.resolves({ items: [], count: 0 }) as any,
-    store: fake() as any,
-    delete: fake() as any,
-    rawToEnvelopes: fake() as any,
+    fetch: fake.resolves(undefined),
+    search: fake.resolves({ items: [], count: 0 }),
+    store: fake.resolves({}),
+    delete: fake.resolves(),
+    rawToEnvelopes: fake.resolves([]),
     ...overrides
   }
 }
@@ -289,9 +289,9 @@ describe('ReadModelStore', () => {
       })
 
       it('creates new instances of the read models', async () => {
-        replace(config.readModelStoreAdapter as any, 'store', fake())
+        replace(config.readModelStoreAdapter, 'store', fake())
         replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
-        replace(config.readModelStoreAdapter as any, 'search', fake.resolves([]))
+        replace(config.readModelStoreAdapter, 'search', fake.resolves([]))
         const readModelStore = new ReadModelStore(config)
         replace(readModelStore, 'fetchReadModel', fake.resolves(null))
         spy(SomeReadModel, 'someObserver')

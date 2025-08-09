@@ -74,10 +74,11 @@ export interface SessionStoreAdapter {
    * Removes a subscription
    *
    * @param config - The Magek configuration object
+   * @param connectionId - Unique identifier for the connection
    * @param subscriptionId - Unique identifier for the subscription
    * @returns A promise that resolves when the subscription is removed
    */
-  deleteSubscription(config: MagekConfig, subscriptionId: UUID): Promise<void>
+  deleteSubscription(config: MagekConfig, connectionId: UUID, subscriptionId: UUID): Promise<void>
 
   /**
    * Retrieves all subscriptions for a specific connection

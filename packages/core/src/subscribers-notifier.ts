@@ -30,7 +30,7 @@ export class MagekSubscribersNotifier {
     const logger = getLogger(this.config, 'MagekSubscribersNotifier#dispatch')
     try {
       logger.debug('Received the following event for subscription dispatching: ', request)
-      const readModelEnvelopes = this.config.readModelStore.rawToEnvelopes(request)
+      const readModelEnvelopes = await this.config.readModelStore.rawToEnvelopes(this.config, request)
       logger.debug('[SubsciptionDispatcher] The following ReadModels were updated: ', readModelEnvelopes)
       const subscriptions = await this.getSubscriptions(readModelEnvelopes)
       logger.debug('Found the following subscriptions for those read models: ', subscriptions)

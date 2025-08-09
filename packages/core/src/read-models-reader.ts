@@ -136,16 +136,17 @@ export class MagekReadModelsReader {
     id: UUID,
     sequenceKey?: SequenceKey
   ): Promise<ReadOnlyNonEmptyArray<TReadModel> | TReadModel> {
-    const envelope = await this.config.readModelStore.fetch<TReadModel>(this.config, readModelClass.name, id)
-    if (!envelope) {
+    const result = await this.config.readModelStore.fetch<TReadModel>(this.config, readModelClass.name, id, sequenceKey)
+    if (!result) {
       throw new Error(`Read model not found: ${readModelClass.name} with id ${id}`)
     }
     
-    if (sequenceKey) {
+    if (sequenceKey || Array.isArray(result)) {
       // For sequenced read models, return as array
-      return [envelope.value] as ReadOnlyNonEmptyArray<TReadModel>
+      const envelopes = Array.isArray(result) ? result : [result]
+      return envelopes.map(envelope => envelope.value) as ReadOnlyNonEmptyArray<TReadModel>
     }
-    return envelope.value
+    return result.value
   }
 
   private async migrateReadModels<TReadModel extends ReadModelInterface>(
@@ -213,7 +214,7 @@ export class MagekReadModelsReader {
   }
 
   public async unsubscribe(connectionID: string, subscriptionID: string): Promise<void> {
-    return this.config.sessionStore.deleteSubscription(this.config, subscriptionID)
+    return this.config.sessionStore.deleteSubscription(this.config, connectionID, subscriptionID)
   }
 
   public async unsubscribeAll(connectionID: string): Promise<void> {
@@ -286,15 +287,11 @@ export class MagekReadModelsReader {
     }
     
     // Store subscription using session store adapter
-    const subscriptionId = operation.id || `sub-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
     await this.config.sessionStore.storeSubscription(
       this.config,
       connectionID,
-      subscriptionId,
-      {
-        ...subscription,
-        subscriptionID: subscriptionId
-      }
+      operation.id || subscription.subscriptionID,
+      subscription
     )
   }
 
