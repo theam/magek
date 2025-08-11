@@ -16,7 +16,7 @@ export interface ReadModelStoreEnvelope<T = ReadModelInterface> {
 
 export interface ReadModelStoreAdapter {
   /**
-   * Fetches a read model by its ID. Always returns an array to match original provider interface.
+   * Fetches a read model by its ID
    *
    * @param config - The Magek configuration object
    * @param readModelName - The name of the read model type

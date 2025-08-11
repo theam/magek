@@ -114,14 +114,15 @@ export class ReadModelStore {
     if (!readModelID) {
       return undefined
     }
-    const envelope = await this.config.readModelStore.fetch(
+    const result = await this.config.readModelStore.fetch(
       this.config,
       readModelName,
-      readModelID
+      readModelID,
+      sequenceKey
     )
-    if (envelope) {
+    if (result && result.length > 0) {
       const readModelMetadata = this.config.readModels[readModelName]
-      return createInstance(readModelMetadata.class, envelope[0])
+      return createInstance(readModelMetadata.class, result[0])
     }
     return undefined
   }
@@ -461,8 +462,7 @@ export class ReadModelStore {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     }
-    await this.config.readModelStore.store(this.config, readModelName, envelope)
-    return envelope
+    return await this.config.readModelStore.store(this.config, readModelName, envelope)
   }
 
   private async callProjectionFunction<TReadModel extends ReadModelInterface>(

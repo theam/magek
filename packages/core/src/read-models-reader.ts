@@ -141,7 +141,7 @@ export class MagekReadModelsReader {
       throw new Error(`Read model not found: ${readModelClass.name} with id ${id}`)
     }
     
-    // The adapter now returns ReadOnlyNonEmptyArray<TReadModel> directly
+    // The adapter returns ReadOnlyNonEmptyArray<TReadModel> | undefined
     // For backward compatibility, we return a single item if sequenceKey is not provided
     return sequenceKey ? result : result[0]
   }
