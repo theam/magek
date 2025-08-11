@@ -6,7 +6,7 @@ const defaultReadModelStoreAdapter: ReadModelStoreAdapter = {
   search: async () => ({ items: [], count: 0 }),
   store: async (config, readModelName, readModel) => readModel,
   delete: async () => {},
-  rawToEnvelopes: () => [],
+  rawToEnvelopes: async () => [],
 }
 
 /**

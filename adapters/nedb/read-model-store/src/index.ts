@@ -31,27 +31,14 @@ export const readModelStore: ReadModelStoreAdapter = {
     readModelName: string,
     readModelID: UUID,
     sequenceKey?: SequenceKey
-  ): Promise<ReadModelStoreEnvelope<TReadModel> | ReadOnlyNonEmptyArray<ReadModelStoreEnvelope<TReadModel>> | undefined> => {
+  ): Promise<ReadOnlyNonEmptyArray<TReadModel> | undefined> => {
     const result = await fetchReadModel(readModelRegistry, config, readModelName, readModelID, sequenceKey)
     if (!result || result.length === 0) {
       return undefined
     }
     
-    // Convert ReadModelInterface to ReadModelStoreEnvelope
-    const envelopes = result.map(readModel => ({
-      typeName: readModelName,
-      value: readModel,
-      id: readModel.id,
-      version: readModel.magekMetadata?.version ?? 1,
-      createdAt: readModel.magekMetadata?.lastUpdateAt ?? new Date().toISOString(),
-      updatedAt: readModel.magekMetadata?.lastUpdateAt ?? new Date().toISOString(),
-    })) as Array<ReadModelStoreEnvelope<TReadModel>>
-    
-    if (sequenceKey || result.length > 1) {
-      return envelopes as ReadOnlyNonEmptyArray<ReadModelStoreEnvelope<TReadModel>>
-    }
-    
-    return envelopes[0]
+    // Always return as array to match original provider interface
+    return result as ReadOnlyNonEmptyArray<TReadModel>
   },
 
   search: async <TReadModel extends ReadModelInterface>(

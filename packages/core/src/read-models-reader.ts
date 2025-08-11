@@ -141,12 +141,9 @@ export class MagekReadModelsReader {
       throw new Error(`Read model not found: ${readModelClass.name} with id ${id}`)
     }
     
-    if (sequenceKey || Array.isArray(result)) {
-      // For sequenced read models, return as array
-      const envelopes = Array.isArray(result) ? result : [result]
-      return envelopes.map(envelope => envelope.value) as ReadOnlyNonEmptyArray<TReadModel>
-    }
-    return result.value
+    // The adapter now returns ReadOnlyNonEmptyArray<TReadModel> directly
+    // For backward compatibility, we return a single item if sequenceKey is not provided
+    return sequenceKey ? result : result[0]
   }
 
   private async migrateReadModels<TReadModel extends ReadModelInterface>(
@@ -290,7 +287,7 @@ export class MagekReadModelsReader {
     await this.config.sessionStore.storeSubscription(
       this.config,
       connectionID,
-      operation.id || subscription.subscriptionID,
+      operation.id || subscription.requestID,
       subscription
     )
   }

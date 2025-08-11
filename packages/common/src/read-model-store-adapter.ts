@@ -16,20 +16,20 @@ export interface ReadModelStoreEnvelope<T = ReadModelInterface> {
 
 export interface ReadModelStoreAdapter {
   /**
-   * Fetches a single read model by its ID
+   * Fetches a read model by its ID. Always returns an array to match original provider interface.
    *
    * @param config - The Magek configuration object
    * @param readModelName - The name of the read model type
    * @param readModelID - The ID of the read model to fetch
    * @param sequenceKey - The sequence key for sequenced read models (optional)
-   * @returns A promise that resolves to the read model envelope, or undefined if not found
+   * @returns A promise that resolves to an array of read models, or undefined if not found
    */
   fetch<TReadModel extends ReadModelInterface>(
     config: MagekConfig,
     readModelName: string,
     readModelID: UUID,
     sequenceKey?: SequenceKey
-  ): Promise<ReadModelStoreEnvelope<TReadModel> | ReadOnlyNonEmptyArray<ReadModelStoreEnvelope<TReadModel>> | undefined>
+  ): Promise<ReadOnlyNonEmptyArray<TReadModel> | undefined>
 
   /**
    * Searches for read models based on specific parameters

@@ -27,8 +27,8 @@ export async function fetchReadModel(
   config: MagekConfig,
   readModelName: string,
   readModelID: UUID,
-  sequenceKey?: any
-): Promise<ReadOnlyNonEmptyArray<ReadModelInterface>> {
+  sequenceKey?: SequenceKey
+): Promise<ReadOnlyNonEmptyArray<ReadModelInterface> | undefined> {
   const logger = getLogger(config, 'read-model-adapter#fetchReadModel')
   
   let query: any = { typeName: readModelName, 'value.id': readModelID }
@@ -42,11 +42,11 @@ export async function fetchReadModel(
   
   if (response.length === 0) {
     logger.debug(`Read model ${readModelName} with ID ${readModelID} not found`)
-    return [] as unknown as ReadOnlyNonEmptyArray<ReadModelInterface>
+    return undefined
   } 
   
   logger.debug(`Loaded read model ${readModelName} with ID ${readModelID} with result:`, response.map(item => item.value))
-  return response.map(item => item.value) as ReadOnlyNonEmptyArray<ReadModelInterface>
+  return response.map(item => item.value) as unknown as ReadOnlyNonEmptyArray<ReadModelInterface>
 }
 
 export async function storeReadModel(

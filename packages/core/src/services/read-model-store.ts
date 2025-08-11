@@ -121,7 +121,7 @@ export class ReadModelStore {
     )
     if (envelope) {
       const readModelMetadata = this.config.readModels[readModelName]
-      return createInstance(readModelMetadata.class, envelope.value)
+      return createInstance(readModelMetadata.class, envelope[0])
     }
     return undefined
   }
