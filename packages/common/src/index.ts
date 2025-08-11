@@ -1,6 +1,5 @@
 export * from './groups'
 export * from './promises'
-export * from './promise_utils'
 export * from './retrier'
 export * from './instances'
 export * from './run-command'
