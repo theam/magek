@@ -1,4 +1,4 @@
-import { fake } from 'sinon'
+import { fake, replace, restore } from 'sinon'
 import { Effect, Layer, pipe } from 'effect'
 import { expect } from '../../expect'
 import { makeTestFileSystem } from '../file-system/test.impl'
@@ -6,12 +6,14 @@ import { makeTestProcess } from '../process/test.impl'
 import { PackageManagerService } from '../../../src/services/package-manager'
 import { InferredPackageManager } from '../../../src/services/package-manager/live.impl'
 import { guardError } from '../../../src/common/errors'
+import * as fs from 'fs'
 
 describe('PackageManager - Live Implementation (with inference)', () => {
   const TestProcess = makeTestProcess()
 
   afterEach(() => {
     TestProcess.reset()
+    restore()
   })
 
   const effect = Effect.gen(function* () {
@@ -25,7 +27,8 @@ describe('PackageManager - Live Implementation (with inference)', () => {
   )
 
   it('infers Rush when a `.rush` folder is present', async () => {
-    const TestFileSystem = makeTestFileSystem({ readDirectoryContents: fake.returns(['.rush']) })
+    replace(fs.promises, 'readdir', fake.resolves(['.rush']))
+    const TestFileSystem = makeTestFileSystem()
     const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
     await Effect.runPromise(
       pipe(
@@ -38,7 +41,8 @@ describe('PackageManager - Live Implementation (with inference)', () => {
   })
 
   it('infers pnpm when a `pnpm-lock.yaml` file is present', async () => {
-    const TestFileSystem = makeTestFileSystem({ readDirectoryContents: fake.returns(['pnpm-lock.yaml']) })
+    replace(fs.promises, 'readdir', fake.resolves(['pnpm-lock.yaml']))
+    const TestFileSystem = makeTestFileSystem()
     const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
     await Effect.runPromise(
       pipe(
@@ -51,7 +55,8 @@ describe('PackageManager - Live Implementation (with inference)', () => {
   })
 
   it('infers npm when a `package-lock.json` file is present', async () => {
-    const TestFileSystem = makeTestFileSystem({ readDirectoryContents: fake.returns(['package-lock.json']) })
+    replace(fs.promises, 'readdir', fake.resolves(['package-lock.json']))
+    const TestFileSystem = makeTestFileSystem()
     const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
     await Effect.runPromise(
       pipe(
@@ -64,7 +69,8 @@ describe('PackageManager - Live Implementation (with inference)', () => {
   })
 
   it('infers yarn when a `yarn.lock` file is present', async () => {
-    const TestFileSystem = makeTestFileSystem({ readDirectoryContents: fake.returns(['yarn.lock']) })
+    replace(fs.promises, 'readdir', fake.resolves(['yarn.lock']))
+    const TestFileSystem = makeTestFileSystem()
     const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
     await Effect.runPromise(
       pipe(
@@ -77,7 +83,8 @@ describe('PackageManager - Live Implementation (with inference)', () => {
   })
 
   it('infers npm when no lock file is present', async () => {
-    const TestFileSystem = makeTestFileSystem({ readDirectoryContents: fake.returns([]) })
+    replace(fs.promises, 'readdir', fake.resolves([]))
+    const TestFileSystem = makeTestFileSystem()
     const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
     await Effect.runPromise(
       pipe(
