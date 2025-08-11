@@ -13,7 +13,7 @@ export class LocalTestHelper {
   ) {}
 
   public static async build(appName: string): Promise<LocalTestHelper> {
-    this.ensureProviderIsReady()
+    await this.ensureProviderIsReady()
     return new LocalTestHelper(
       {
         graphqlURL: await this.graphqlURL(),
@@ -24,8 +24,12 @@ export class LocalTestHelper {
     )
   }
 
-  private static ensureProviderIsReady(): void {
-    //TODO check provider is ready making a HTTP request or a GraphQL query
+  private static async ensureProviderIsReady(): Promise<void> {
+    const url = await this.healthURL()
+    const response = await fetch(url)
+    if (!response.ok) {
+      throw new Error(`Provider is not ready: ${response.status} ${response.statusText}`)
+    }
   }
 
   private static async graphqlURL(): Promise<string> {
