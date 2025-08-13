@@ -133,9 +133,8 @@ describe('read-models-adapter', () => {
 
     it('should call read model registry query and return a value', async () => {
       queryStub.resolves([mockReadModel])
-      const result: ReadModelInterface = (
-        await fetchMock(mockReadModelRegistry, mockConfig, mockReadModelTypeName, mockReadModelID)
-      )[0]
+      const fetchResult = await fetchMock(mockReadModelRegistry, mockConfig, mockReadModelTypeName, mockReadModelID)
+      const result: ReadModelInterface = fetchResult![0]
 
       expect(queryStub).to.have.been.calledOnceWithExactly({
         'value.id': mockReadModelID,

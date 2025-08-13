@@ -33,7 +33,10 @@ export const readModelStore: ReadModelStoreAdapter = {
     sequenceKey?: SequenceKey
   ): Promise<ReadOnlyNonEmptyArray<TReadModel> | undefined> => {
     const result = await fetchReadModel(readModelRegistry, config, readModelName, readModelID, sequenceKey)
-    return result as ReadOnlyNonEmptyArray<TReadModel> | undefined
+    if (!result || result.length === 0) {
+      return undefined
+    }
+    return result as ReadOnlyNonEmptyArray<TReadModel>
   },
 
   search: async <TReadModel extends ReadModelInterface>(
