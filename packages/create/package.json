@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@magek/eslint-config": "workspace:^0.0.1",
-    "@types/node": "22.17.1",
+    "@types/node": "22.18.1",
     "@types/prompts": "2.4.9",
     "@types/chai": "5.2.2",
     "@types/mocha": "10.0.10",
