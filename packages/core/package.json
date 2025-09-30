@@ -46,7 +46,7 @@
     "tslib": "2.4.0",
     "effect": "3.17.6",
     "validator": "13.15.15",
-    "@effect/platform-node": "0.88.3",
+    "@effect/platform-node": "0.98.0",
     "@effect/platform": "^0.87.13",
     "@effect/cluster": "0.41.18",
     "@effect/workflow": "0.4.14",
