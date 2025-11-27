@@ -6,6 +6,7 @@ import {
   ProviderLibrary,
   HealthIndicatorsResult,
   HealthStatus,
+  Level,
 } from '@magek/common'
 import { fake } from 'sinon'
 import createJWKSMock from 'mock-jwks'
@@ -17,6 +18,7 @@ const issuer = 'auth0'
 
 describe('MagekHealthService', () => {
   const config = new MagekConfig('test')
+  config.logLevel = Level.error
   let healthRequestResult: { body: HealthIndicatorsResult | Array<HealthIndicatorsResult>; isHealthy: boolean } | undefined
 
   before(() => {

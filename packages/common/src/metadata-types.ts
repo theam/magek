@@ -1,3 +1,5 @@
+import 'reflect-metadata'
+
 export type ClassType = { new (...args: unknown[]): unknown }
 
 // type instead of enum to be able to install this package as a devDependency and not a production dependency
@@ -39,4 +41,13 @@ export interface ClassMetadata {
   type: ClassType
   fields: Array<PropertyMetadata>
   methods: Array<PropertyMetadata>
+}
+
+// Metadata helper functions
+export function defineMetadata(metadataKey: string | symbol, metadataValue: unknown, target: object): void {
+  Reflect.defineMetadata(metadataKey, metadataValue, target)
+}
+
+export function getMetadata<T>(metadataKey: string | symbol, target: object): T | undefined {
+  return Reflect.getMetadata(metadataKey, target) as T | undefined
 }

@@ -1,5 +1,5 @@
-import Semver from '../../src/services/semver'
-import { expect } from '../expect'
+import Semver from '../../src/services/semver.ts'
+import { expect } from '../expect.ts'
 
 describe('Semver class', () => {
   describe('bad construction', () => {

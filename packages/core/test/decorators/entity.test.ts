@@ -4,7 +4,7 @@
 import { expect } from '../expect'
 import { Event, Entity, Reduces, Role } from '../../src/decorators/'
 import { Magek } from '../../src'
-import { UserEnvelope, UUID } from '@magek/common'
+import { UserEnvelope, UUID, Field } from '@magek/common'
 import { MagekAuthorizer } from '../../src/authorizer'
 import { fake, replace } from 'sinon'
 
@@ -28,7 +28,9 @@ describe('the `Entity` decorator', () => {
     it('injects the entity metadata and sets up the reducers in the Magek config denying event reads', () => {
       @Event
       class CommentPosted {
-        public constructor(readonly foo: string) {}
+        @Field()
+        public readonly foo!: string
+
         public entityID(): UUID {
           return '123'
         }
@@ -36,7 +38,11 @@ describe('the `Entity` decorator', () => {
 
       @Entity
       class Comment {
-        public constructor(readonly id: UUID, readonly content: string) {}
+        @Field(type => UUID)
+        public readonly id!: UUID
+
+        @Field()
+        public readonly content!: string
 
         @Reduces(CommentPosted)
         public static react(_event: CommentPosted): Comment {
@@ -60,7 +66,11 @@ describe('the `Entity` decorator', () => {
         authorizeReadEvents: 'all',
       })
       class Comment {
-        public constructor(readonly id: UUID, readonly content: string) {}
+        @Field(type => UUID)
+        public readonly id!: UUID
+
+        @Field()
+        public readonly content!: string
       }
 
       expect(Magek.config.entities['Comment']).to.deep.equal({
@@ -84,7 +94,11 @@ describe('the `Entity` decorator', () => {
         authorizeReadEvents: [Manager],
       })
       class User {
-        public constructor(readonly id: UUID, readonly content: string) {}
+        @Field(type => UUID)
+        public readonly id!: UUID
+
+        @Field()
+        public readonly content!: string
       }
 
       expect(Magek.config.entities['User'].class).to.be.equal(User)
@@ -105,7 +119,11 @@ describe('the `Entity` decorator', () => {
         },
       })
       class User {
-        public constructor(readonly id: UUID, readonly content: string) {}
+        @Field(type => UUID)
+        public readonly id!: UUID
+
+        @Field()
+        public readonly content!: string
       }
 
       expect(Magek.config.entities['User'].class).to.be.equal(User)

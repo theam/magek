@@ -1,5 +1,5 @@
 import ora from 'ora'
-import { Logger } from '@magek/common'
+import type { Logger } from '@magek/common'
 import { appendFileSync } from 'fs'
 import * as path from 'path'
 

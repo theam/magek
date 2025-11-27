@@ -1,8 +1,8 @@
 import { Flags, Args } from '@oclif/core'
-import BaseCommand from '../../common/base-command'
-import { Script } from '../../common/script'
-import Brand from '../../common/brand'
-import { generate, template } from '../../services/generator'
+import BaseCommand from '../../common/base-command.ts'
+import { Script } from '../../common/script.ts'
+import Brand from '../../common/brand.ts'
+import { generate, template } from '../../services/generator.ts'
 import {
   HasName,
   HasFields,
@@ -10,9 +10,9 @@ import {
   parseName,
   parseFields,
   ImportDeclaration,
-} from '../../services/generator/target'
+} from '../../services/generator/target/index.ts'
 import * as path from 'path'
-import { checkCurrentDirIsAMagekProject } from '../../services/project-checker'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker.ts'
 
 export default class Command extends BaseCommand {
   public static description = "Generate new resource, write 'boost new' to see options"

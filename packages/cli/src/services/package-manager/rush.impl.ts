@@ -1,6 +1,6 @@
-import { InstallDependenciesError, PackageManagerService, RunScriptError } from '.'
+import { InstallDependenciesError, PackageManagerService, RunScriptError } from './index.ts'
 import { Effect, Layer, pipe, Ref } from 'effect'
-import { makePackageManager, makeScopedRun } from './common'
+import { makePackageManager, makeScopedRun } from './common.ts'
 
 // TODO: Look recursively up for a rush.json file and run ./common/scripts/install-run-rushx.js
 export const makeRushPackageManager = Effect.gen(function* () {

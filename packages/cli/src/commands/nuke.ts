@@ -1,15 +1,15 @@
 import { Flags } from '@oclif/core'
-import BaseCommand from '../common/base-command'
-import { nukeCloudProviderResources } from '../services/provider-service'
-import { compileProjectAndLoadConfig } from '../services/config-service'
-import { MagekConfig } from '@magek/common'
-import { Script } from '../common/script'
-import Brand from '../common/brand'
-import Prompter from '../services/user-prompt'
-import { logger } from '../services/logger'
-import { currentEnvironment, initializeEnvironment } from '../services/environment'
+import BaseCommand from '../common/base-command.ts'
+import { nukeCloudProviderResources } from '../services/provider-service.ts'
+import { compileProjectAndLoadConfig } from '../services/config-service.ts'
+import type { MagekConfig } from '@magek/common'
+import { Script } from '../common/script.ts'
+import Brand from '../common/brand.ts'
+import Prompter from '../services/user-prompt.ts'
+import { logger } from '../services/logger.ts'
+import { currentEnvironment, initializeEnvironment } from '../services/environment.ts'
 
-const runTasks = async (
+export const runTasks = async (
   compileAndLoad: Promise<MagekConfig>,
   nuke: (config: MagekConfig) => Promise<void>
 ): Promise<void> =>
@@ -18,7 +18,7 @@ const runTasks = async (
     .info('Removal complete!')
     .done()
 
-async function askToConfirmRemoval(
+export async function askToConfirmRemoval(
   prompter: Prompter,
   force: boolean,
   config: Promise<MagekConfig>

@@ -1,11 +1,15 @@
-import * as ProjectChecker from '../../../src/services/project-checker'
+import * as ProjectChecker from '../../../src/services/project-checker.ts'
 import { restore, replace, fake, stub } from 'sinon'
-import ScheduledCommand from '../../../src/commands/new/scheduled-command'
+import type { SinonSpy } from 'sinon'
+import ScheduledCommand from '../../../src/commands/new/scheduled-command.ts'
 import Mustache = require('mustache')
-import * as fs from 'fs-extra'
+import { createRequire } from 'module'
 import { Config } from '@oclif/core'
-import { expect } from '../../expect'
-import { template } from '../../../src/services/generator'
+import { expect } from '../../expect.ts'
+import { template } from '../../../src/services/generator.ts'
+
+const requireFn = typeof require === 'function' ? require : createRequire(process.cwd() + '/')
+const fs: typeof import('fs-extra') = requireFn('fs-extra')
 
 describe('new', (): void => {
   describe('ScheduledCommand', () => {
@@ -23,10 +27,13 @@ describe('new', (): void => {
       },
     ]
 
+    let outputFileStub: SinonSpy
+
     beforeEach(() => {
-      stub(ProjectChecker, 'checkCurrentDirIsAMagekProject').returnsThis()
-      replace(fs, 'outputFile', fake.resolves({}))
-      replace(ProjectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
+      stub(ProjectChecker.projectChecker, 'checkCurrentDirIsAMagekProject').resolves()
+      outputFileStub = fake.resolves({})
+      replace(fs, 'outputFile', outputFileStub)
+      replace(ProjectChecker.projectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
     })
 
     afterEach(() => {
@@ -36,7 +43,7 @@ describe('new', (): void => {
     it('init calls checkCurrentDirMagekVersion', async () => {
       const config = await Config.load()
       await new ScheduledCommand([], config).init()
-      expect(ProjectChecker.checkCurrentDirMagekVersion).to.have.been.called
+      expect(ProjectChecker.projectChecker.checkCurrentDirMagekVersion).to.have.been.called
     })
 
     describe('Created correctly', () => {
@@ -47,7 +54,7 @@ describe('new', (): void => {
           imports: defaultScheduledCommandImports,
           name: scheduledCommandName,
         })
-        expect(fs.outputFile).to.have.been.calledWithMatch(scheduledCommandPath, renderedCommand)
+        expect(outputFileStub).to.have.been.calledWithMatch(scheduledCommandPath, renderedCommand)
       })
     })
 
@@ -56,7 +63,7 @@ describe('new', (): void => {
         replace(console, 'error', fake.resolves({}))
         const config = await Config.load()
         await new ScheduledCommand([], config).run()
-        expect(fs.outputFile).to.have.not.been.calledWithMatch(scheduledCommandRoot)
+        expect(outputFileStub).to.have.not.been.calledWithMatch(scheduledCommandRoot)
         expect(console.error).to.have.been.calledWithMatch(/You haven't provided a scheduled command name/)
       })
 
@@ -72,7 +79,7 @@ describe('new', (): void => {
         }
         expect(exceptionThrown).to.be.equal(true)
         expect(exceptionMessage).to.contain('Unexpected argument: AnotherName')
-        expect(fs.outputFile).to.have.not.been.calledWithMatch(scheduledCommandPath)
+        expect(outputFileStub).to.have.not.been.calledWithMatch(scheduledCommandPath)
       })
     })
   })

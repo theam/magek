@@ -1,7 +1,7 @@
 import { Effect, Ref, pipe } from 'effect'
-import { InstallDependenciesError, PackageManagerService, RunScriptError } from '.'
-import { ProcessService } from '../process'
-import { FileSystemService } from '../file-system'
+import { InstallDependenciesError, PackageManagerService, RunScriptError } from './index.ts'
+import { ProcessService } from '../process/index.ts'
+import { FileSystemService } from '../file-system/index.ts'
 
 /**
  * Gets the project root directory from the reference.

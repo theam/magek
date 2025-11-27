@@ -26,7 +26,7 @@
     "build": "tsc -b tsconfig.json",
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "test:helpers": "npm run test",
-    "test": "tsc --noEmit -p tsconfig.test.json && nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
+    "test": "tsc --noEmit -p tsconfig.test.json && c8 mocha --forbid-only \"test/**/*.test.ts\"",
     "prepack": "tsc -b tsconfig.json"
   },
   "bugs": {
@@ -39,15 +39,15 @@
     "tslib": "2.4.0",
     "class-transformer": "~0.5.1",
     "execa": "9.6.0",
-    "effect": "3.17.6"
+    "effect": "3.16.11",
+    "reflect-metadata": "0.2.2"
   },
   "devDependencies": {
     "@magek/eslint-config": "workspace:^0.0.1",
-    "@magek/metadata": "workspace:^0.0.1",
     "@types/chai": "5.2.2",
     "@types/chai-as-promised": "8.0.2",
     "@types/mocha": "10.0.10",
-    "@types/node": "22.17.1",
+    "@types/node": "22.15.21",
     "@types/rewire": "2.5.28",
     "@types/sinon": "17.0.4",
     "@types/sinon-chai": "4.0.0",
@@ -55,12 +55,12 @@
     "chai": "5.2.0",
     "chai-as-promised": "8.0.1",
     "mocha": "11.7.1",
-    "nyc": "17.1.0",
+    "c8": "^10.1.3",
     "rewire": "8.0.0",
     "rimraf": "6.0.1",
     "sinon": "21.0.0",
     "sinon-chai": "4.0.0",
-    "ts-node": "10.9.1",
+    "tsx": "^4.19.2",
     "typescript": "5.8.3",
     "@faker-js/faker": "7.6.0",
     "fast-check": "4.1.1",

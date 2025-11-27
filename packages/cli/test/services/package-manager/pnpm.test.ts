@@ -1,11 +1,11 @@
 import { fake } from 'sinon'
 import { Effect, Layer, pipe } from 'effect'
-import { expect } from '../../expect'
-import { makeTestFileSystem } from '../file-system/test.impl'
-import { makeTestProcess } from '../process/test.impl'
-import { PnpmPackageManager } from '../../../src/services/package-manager/pnpm.impl'
-import { guardError } from '../../../src/common/errors'
-import { PackageManagerService } from '../../../src/services/package-manager'
+import { expect } from '../../expect.ts'
+import { makeTestFileSystem } from '../file-system/test.impl.ts'
+import { makeTestProcess } from '../process/test.impl.ts'
+import { PnpmPackageManager } from '../../../src/services/package-manager/pnpm.impl.ts'
+import { guardError } from '../../../src/common/errors.ts'
+import { PackageManagerService } from '../../../src/services/package-manager/index.ts'
 
 const TestFileSystem = makeTestFileSystem()
 const TestProcess = makeTestProcess()

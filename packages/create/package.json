@@ -2,6 +2,7 @@
   "name": "create-magek",
   "version": "0.0.1",
   "description": "Create Magek AI applications with one command",
+  "type": "module",
   "main": "dist/cli.js",
   "bin": {
     "create-magek": "dist/cli.js"
@@ -46,7 +47,7 @@
     "chai": "5.2.0",
     "mocha": "11.7.1",
     "sinon": "21.0.0",
-    "ts-node": "10.9.1",
+    "tsx": "^4.19.2",
     "tsup": "8.0.0",
     "typescript": "5.8.3",
     "@types/degit": "~2.8.6",

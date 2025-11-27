@@ -1,5 +1,6 @@
 import { Magek } from '../magek'
 import {
+  AnyClass,
   Class,
   EntityInterface,
   ProjectionInfo,
@@ -15,6 +16,31 @@ type JoinKeyType<TEntity extends EntityInterface, TReadModel extends ReadModelIn
   | keyof TEntity
   | ReadModelJoinKeyFunction<TEntity, TReadModel>
 type UUIDLike = string | UUID
+
+/**
+ * Stage 3 method decorator context
+ */
+interface Stage3MethodContext {
+  kind: 'method'
+  name: string | symbol
+  static: boolean
+  private: boolean
+  metadata: Record<string | symbol, unknown>
+  addInitializer?: (initializer: () => void) => void
+}
+
+/**
+ * Type guard for Stage 3 method context
+ */
+function isStage3MethodContext(arg: unknown): arg is Stage3MethodContext {
+  return (
+    arg !== null &&
+    typeof arg === 'object' &&
+    'kind' in arg &&
+    (arg as Stage3MethodContext).kind === 'method' &&
+    'name' in arg
+  )
+}
 
 /**
  * Decorator to register a read model method as a projection
@@ -33,24 +59,52 @@ export function Projects<
   joinKey: JoinKeyType<TEntity, TReadModel>,
   unProject?: UnprojectionMethod<TEntity, TReadModel, PropertyType<TEntity, TJoinKey>>
 ): <TReceivedReadModel extends ReadModelInterface>(
-  readModelClass: Class<TReceivedReadModel>,
-  methodName: string,
-  methodDescriptor: ProjectionMethod<TEntity, TReceivedReadModel, JoinKeyType<TEntity, TReceivedReadModel>>
+  readModelClassOrMethod: Class<TReceivedReadModel> | Function,
+  methodNameOrContext: string | Stage3MethodContext,
+  methodDescriptor?: ProjectionMethod<TEntity, TReceivedReadModel, JoinKeyType<TEntity, TReceivedReadModel>>
 ) => void {
-  return (readModelClass, methodName) => {
-    const projectionMetadata = {
-      joinKey: joinKey,
-      class: readModelClass,
-      methodName: methodName,
-    } as ProjectionMetadata<EntityInterface, ReadModelInterface>
-    registerProjection(originEntity.name, projectionMetadata)
-    if (unProject) {
-      const unProjectionMetadata = {
-        joinKey,
+  return (readModelClassOrMethod, methodNameOrContext) => {
+    // Detect Stage 3 vs Legacy decorator
+    if (isStage3MethodContext(methodNameOrContext)) {
+      // Stage 3 decorator - use addInitializer to get the class
+      const context = methodNameOrContext
+      if (context.addInitializer) {
+        context.addInitializer(function (this: Function) {
+          const readModelClass = context.static ? (this as AnyClass) : (this.constructor as AnyClass)
+          const projectionMetadata = {
+            joinKey: joinKey,
+            class: readModelClass,
+            methodName: context.name.toString(),
+          } as ProjectionMetadata<EntityInterface, ReadModelInterface>
+          registerProjection(originEntity.name, projectionMetadata)
+          if (unProject) {
+            const unProjectionMetadata = {
+              joinKey,
+              class: readModelClass,
+              methodName: unProject.name,
+            } as ProjectionMetadata<EntityInterface, ReadModelInterface>
+            registerUnProjection(originEntity.name, unProjectionMetadata)
+          }
+        })
+      }
+    } else {
+      // Legacy decorator
+      const readModelClass = readModelClassOrMethod as AnyClass
+      const methodName = methodNameOrContext as string
+      const projectionMetadata = {
+        joinKey: joinKey,
         class: readModelClass,
-        methodName: unProject.name,
+        methodName: methodName,
       } as ProjectionMetadata<EntityInterface, ReadModelInterface>
-      registerUnProjection(originEntity.name, unProjectionMetadata)
+      registerProjection(originEntity.name, projectionMetadata)
+      if (unProject) {
+        const unProjectionMetadata = {
+          joinKey,
+          class: readModelClass,
+          methodName: unProject.name,
+        } as ProjectionMetadata<EntityInterface, ReadModelInterface>
+        registerUnProjection(originEntity.name, unProjectionMetadata)
+      }
     }
   }
 }

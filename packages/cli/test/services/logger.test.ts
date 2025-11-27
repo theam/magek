@@ -1,8 +1,11 @@
-import { logger, oraLogger, appendOnErrorsFile } from '../../src/services/logger'
-import * as fs from 'fs'
+import { logger, oraLogger, appendOnErrorsFile } from '../../src/services/logger.ts'
 import * as path from 'path'
 import { restore, replace, fake } from 'sinon'
-import { expect } from '../expect'
+import { expect } from '../expect.ts'
+import { createRequire } from 'module'
+
+const requireFn = typeof require === 'function' ? require : createRequire(process.cwd() + '/')
+const fs: typeof import('fs') = requireFn('fs')
 
 describe('Magek logger', (): void => {
   afterEach(() => {

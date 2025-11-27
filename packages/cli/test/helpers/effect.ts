@@ -1,18 +1,16 @@
 import { Effect, Context, Layer } from 'effect'
-import { SinonSpy } from 'sinon'
+import type { SinonSpy } from 'sinon'
 
 export const fakeService = <T>(tag: Context.Tag<T, T>, fakes: Fakes<T>): FakeServiceUtils<T> => {
-   
-  const fakeService: any = {}
+  const fakeService: FakeService<T> = {}
 
-  for (const [k, v] of Object.entries(fakes)) {
-     
-    const fakeFunction = v as SinonSpy<any[], any>
-     
-    fakeService[k] = (...args: any[]) => Effect.sync(() => fakeFunction(...args))
+  for (const [key, spy] of Object.entries(fakes) as Array<[keyof T, EffectSpy<T, keyof T>]>) {
+    const fakeFunction = spy
+    fakeService[key] = ((...args: Parameters<typeof fakeFunction>) =>
+      Effect.sync(() => fakeFunction(...args))) as FakeService<T>[keyof T]
   }
 
-  const layer = Layer.succeed(tag, fakeService)
+  const layer = Layer.succeed(tag, fakeService as T)
 
   const reset = () => {
     for (const f of Object.values(fakes)) {
@@ -30,14 +28,20 @@ export type FakeServiceUtils<T> = {
   reset: () => void
 }
 
-type EffectResult<T> = T extends Effect.Effect<infer A, any, any> ? A : never
+type EffectResult<T> = T extends Effect.Effect<infer A, unknown, unknown> ? A : never
 
 export type FakeOverrides<T> = Partial<Fakes<T>>
 
 type Fakes<T> = {
-  [key in keyof T]: T[key] extends (...args: any[]) => any ? EffectSpy<T, key> : never
+  [key in keyof T]: T[key] extends (...args: infer A) => infer R ? EffectSpy<T, key> : never
 }
 
-type EffectSpy<T, key extends keyof T> = T[key] extends (...args: any[]) => any 
-  ? SinonSpy<any[], EffectResult<ReturnType<T[key]>>>
+type EffectSpy<T, key extends keyof T> = T[key] extends (...args: infer A) => infer R
+  ? SinonSpy<A, EffectResult<R>>
   : never
+
+type FakeService<T> = Partial<{
+  [key in keyof T]: T[key] extends (...args: infer A) => infer R
+    ? (...args: A) => Effect.Effect<EffectResult<R>>
+    : never
+}>

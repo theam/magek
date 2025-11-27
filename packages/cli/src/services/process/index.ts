@@ -2,7 +2,11 @@ import { Effect, Context } from 'effect'
 
 export class ProcessError {
   readonly _tag = 'ProcessError'
-  constructor(readonly error: Error) {}
+  public readonly error: Error
+
+  constructor(error: Error) {
+    this.error = error
+  }
 }
 
 export interface ProcessService {

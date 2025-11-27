@@ -7,10 +7,10 @@ import {
   Scope,
   SourceFile,
 } from 'ts-morph'
-import { Projection, ReactionEvent } from './generator/target'
-import { fileNameWithExtension } from '../common/filenames'
+import { Projection, ReactionEvent } from './generator/target/index.ts'
+import { fileNameWithExtension } from '../common/filenames.ts'
 
-export function getResourceSourceFile(name: string): SourceFile {
+const getResourceSourceFileImpl = (name: string): SourceFile => {
   const project = new Project({
     tsConfigFilePath: './tsconfig.json',
     manipulationSettings: {
@@ -23,7 +23,10 @@ export function getResourceSourceFile(name: string): SourceFile {
   return project.getSourceFileOrThrow(sourceFileName)
 }
 
-export function generateReducers(entity: string, events: ReactionEvent[]): OptionalKind<MethodDeclarationStructure>[] {
+const generateReducersImpl = (
+  entity: string,
+  events: ReactionEvent[]
+): OptionalKind<MethodDeclarationStructure>[] => {
   return events.map(({ eventName }) => {
     return {
       decorators: [
@@ -52,10 +55,7 @@ export function generateReducers(entity: string, events: ReactionEvent[]): Optio
   })
 }
 
-export function generateProjection(
-  readModel: string,
-  projection: Projection
-): OptionalKind<MethodDeclarationStructure> {
+const generateProjectionImpl = (readModel: string, projection: Projection): OptionalKind<MethodDeclarationStructure> => {
   return {
     decorators: [
       {
@@ -81,3 +81,18 @@ export function generateProjection(
     statements: [`return /* NEW ${readModel} HERE */`],
   }
 }
+
+export const methodGenerator = {
+  getResourceSourceFile: getResourceSourceFileImpl,
+  generateReducers: generateReducersImpl,
+  generateProjection: generateProjectionImpl,
+}
+
+export const getResourceSourceFile = (...args: Parameters<typeof getResourceSourceFileImpl>) =>
+  methodGenerator.getResourceSourceFile(...args)
+
+export const generateReducers = (...args: Parameters<typeof generateReducersImpl>) =>
+  methodGenerator.generateReducers(...args)
+
+export const generateProjection = (...args: Parameters<typeof generateProjectionImpl>) =>
+  methodGenerator.generateProjection(...args)

@@ -2,7 +2,7 @@
 import { expect } from '../expect'
 import { describe } from 'mocha'
 import { ReadModel, Magek, Entity, Projects, sequencedBy, Role, CalculatedField } from '../../src'
-import { UUID, ProjectionResult, UserEnvelope } from '@magek/common'
+import { UUID, ProjectionResult, UserEnvelope, Field } from '@magek/common'
 import { MagekAuthorizer } from '../../src/authorizer'
 import { fake, restore } from 'sinon'
 
@@ -20,43 +20,26 @@ describe('the `ReadModel` decorator', () => {
     it('injects the read model metadata in the Magek configuration and denies access', () => {
       @ReadModel({})
       class Post {
-        public constructor(readonly id: UUID, readonly title: string) {}
+        @Field((type) => UUID)
+        public readonly id!: UUID
+
+        @Field((type) => String)
+        public readonly title!: string
       }
 
-      expect(Magek.config.readModels['Post']).to.deep.equal({
-        class: Post,
-        authorizer: MagekAuthorizer.denyAccess,
-        before: [],
-        properties: [
-          {
-            name: 'id',
-            typeInfo: {
-              importPath: '@magek/common',
-              isNullable: false,
-              isGetAccessor: false,
-              name: 'UUID',
-              parameters: [],
-              type: UUID,
-              typeGroup: 'Class',
-              typeName: 'UUID',
-            },
-            dependencies: [],
-          },
-          {
-            name: 'title',
-            typeInfo: {
-              isNullable: false,
-              isGetAccessor: false,
-              name: 'string',
-              parameters: [],
-              type: String,
-              typeGroup: 'String',
-              typeName: 'String',
-            },
-            dependencies: [],
-          },
-        ],
-      })
+      const postConfig = Magek.config.readModels['Post']
+      expect(postConfig).to.be.an('object')
+      expect(postConfig.class).to.equal(Post)
+      expect(postConfig.authorizer).to.equal(MagekAuthorizer.denyAccess)
+      expect(postConfig.before).to.deep.equal([])
+      expect(postConfig.properties).to.have.lengthOf(2)
+      expect(postConfig.properties[0].name).to.equal('id')
+      expect(postConfig.properties[0].typeInfo.name).to.equal('UUID')
+      expect(postConfig.properties[0].typeInfo.typeGroup).to.equal('Class')
+      expect(postConfig.properties[0].typeInfo.type).to.equal(UUID)
+      expect(postConfig.properties[1].name).to.equal('title')
+      expect(postConfig.properties[1].typeInfo.name).to.equal('string')
+      expect(postConfig.properties[1].typeInfo.typeGroup).to.equal('String')
     })
   })
 
@@ -68,7 +51,11 @@ describe('the `ReadModel` decorator', () => {
         before: [fakeBeforeFilter],
       })
       class Post {
-        public constructor(readonly id: UUID, readonly aStringProp: string) {}
+        @Field((type) => UUID)
+        public readonly id!: UUID
+
+        @Field((type) => String)
+        public readonly aStringProp!: string
       }
 
       expect(Magek.config.readModels['Post'].class).to.equal(Post)
@@ -85,84 +72,51 @@ describe('the `ReadModel` decorator', () => {
         authorize: 'all',
       })
       class SomeReadModel {
-        public constructor(
-          readonly id: UUID,
-          readonly aStringProp: string,
-          readonly aNumberProp: number,
-          readonly aReadonlyArray: ReadonlyArray<string>
-        ) {}
+        @Field(type => UUID)
+        public readonly id!: UUID
+
+        @Field(type => String)
+        public readonly aStringProp!: string
+
+        @Field(type => Number)
+        public readonly aNumberProp!: number
+
+        @Field(type => [String])
+        public readonly aReadonlyArray!: ReadonlyArray<string>
       }
 
-      expect(Magek.config.readModels['SomeReadModel']).to.be.deep.equal({
-        class: SomeReadModel,
-        authorizer: MagekAuthorizer.allowAccess,
-        before: [],
-        properties: [
-          {
-            name: 'id',
-            typeInfo: {
-              importPath: '@magek/common',
-              isNullable: false,
-              isGetAccessor: false,
-              name: 'UUID',
-              parameters: [],
-              type: UUID,
-              typeGroup: 'Class',
-              typeName: 'UUID',
-            },
-            dependencies: [],
-          },
-          {
-            name: 'aStringProp',
-            typeInfo: {
-              isNullable: false,
-              isGetAccessor: false,
-              name: 'string',
-              parameters: [],
-              type: String,
-              typeGroup: 'String',
-              typeName: 'String',
-            },
-            dependencies: [],
-          },
-          {
-            name: 'aNumberProp',
-            typeInfo: {
-              isNullable: false,
-              isGetAccessor: false,
-              name: 'number',
-              parameters: [],
-              type: Number,
-              typeGroup: 'Number',
-              typeName: 'Number',
-            },
-            dependencies: [],
-          },
-          {
-            name: 'aReadonlyArray',
-            typeInfo: {
-              isNullable: false,
-              isGetAccessor: false,
-              name: 'readonly string[]',
-              parameters: [
-                {
-                  isNullable: false,
-                  isGetAccessor: false,
-                  name: 'string',
-                  parameters: [],
-                  type: String,
-                  typeGroup: 'String',
-                  typeName: 'String',
-                },
-              ],
-              type: undefined,
-              typeGroup: 'ReadonlyArray',
-              typeName: 'ReadonlyArray',
-            },
-            dependencies: [],
-          },
-        ],
-      })
+      const readModelConfig = Magek.config.readModels['SomeReadModel']
+      expect(readModelConfig).to.be.an('object')
+      expect(readModelConfig.class).to.equal(SomeReadModel)
+      expect(readModelConfig.authorizer).to.equal(MagekAuthorizer.allowAccess)
+      expect(readModelConfig.before).to.deep.equal([])
+      expect(readModelConfig.properties).to.have.lengthOf(4)
+
+      // Check id field
+      expect(readModelConfig.properties[0].name).to.equal('id')
+      expect(readModelConfig.properties[0].typeInfo.name).to.equal('UUID')
+      expect(readModelConfig.properties[0].typeInfo.typeGroup).to.equal('Class')
+      expect(readModelConfig.properties[0].typeInfo.type).to.equal(UUID)
+      expect(readModelConfig.properties[0].dependencies).to.deep.equal([])
+
+      // Check aStringProp field
+      expect(readModelConfig.properties[1].name).to.equal('aStringProp')
+      expect(readModelConfig.properties[1].typeInfo.name).to.equal('string')
+      expect(readModelConfig.properties[1].typeInfo.typeGroup).to.equal('String')
+      expect(readModelConfig.properties[1].dependencies).to.deep.equal([])
+
+      // Check aNumberProp field
+      expect(readModelConfig.properties[2].name).to.equal('aNumberProp')
+      expect(readModelConfig.properties[2].typeInfo.name).to.equal('number')
+      expect(readModelConfig.properties[2].typeInfo.typeGroup).to.equal('Number')
+      expect(readModelConfig.properties[2].dependencies).to.deep.equal([])
+
+      // Check aReadonlyArray field (note: runtime decorators can't distinguish Array from ReadonlyArray)
+      expect(readModelConfig.properties[3].name).to.equal('aReadonlyArray')
+      expect(readModelConfig.properties[3].typeInfo.typeGroup).to.equal('Array')
+      expect(readModelConfig.properties[3].typeInfo.parameters).to.have.lengthOf(1)
+      expect(readModelConfig.properties[3].typeInfo.parameters[0].typeGroup).to.equal('String')
+      expect(readModelConfig.properties[3].dependencies).to.deep.equal([])
     })
   })
 
@@ -177,7 +131,11 @@ describe('the `ReadModel` decorator', () => {
         authorize: [Admin],
       })
       class SomeReadModel {
-        public constructor(readonly id: UUID, readonly aStringProp: string) {}
+        @Field(type => UUID)
+        public readonly id!: UUID
+
+        @Field()
+        public readonly aStringProp!: string
       }
 
       expect(Magek.config.readModels['SomeReadModel'].class).to.be.equal(SomeReadModel)
@@ -212,7 +170,11 @@ describe('the `ReadModel` decorator', () => {
         },
       })
       class RockingData {
-        public constructor(readonly id: UUID, readonly aStringProp: string) {}
+        @Field(type => UUID)
+        public readonly id!: UUID
+
+        @Field()
+        public readonly aStringProp!: string
       }
 
       expect(Magek.config.readModels['RockingData'].class).to.be.equal(RockingData)
@@ -249,14 +211,16 @@ describe('the `Projects` decorator', () => {
   it('registers a read model method as an entity projection in Magek configuration', () => {
     @Entity
     class SomeEntity {
-      public constructor(readonly id: UUID) {}
+      @Field(type => UUID)
+      public readonly id!: UUID
     }
 
     @ReadModel({
       authorize: 'all',
     })
     class SomeReadModel {
-      public constructor(readonly id: UUID) {}
+      @Field(type => UUID)
+      public readonly id!: UUID
 
       @Projects(SomeEntity, 'id')
       public static observeSomeEntity(entity: SomeEntity): ProjectionResult<SomeReadModel> {
@@ -266,7 +230,8 @@ describe('the `Projects` decorator', () => {
 
     const someEntityObservers = Magek.config.projections['SomeEntity']
 
-    expect(Magek.config.readModels).to.contain(SomeReadModel)
+    expect(Magek.config.readModels['SomeReadModel']).to.be.an('object')
+    expect(Magek.config.readModels['SomeReadModel'].class).to.equal(SomeReadModel)
     expect(someEntityObservers).to.be.an('Array')
     expect(someEntityObservers).to.deep.include({
       class: SomeReadModel,
@@ -292,7 +257,12 @@ describe('the `Projects` decorator', () => {
         authorize: 'all',
       })
       class SequencedReadModel {
-        public constructor(readonly id: UUID, @sequencedBy readonly timestamp: string) {}
+        @Field(type => UUID)
+        public readonly id!: UUID
+
+        @sequencedBy
+        @Field(type => String)
+        public readonly timestamp!: string
       }
 
       expect(Magek.config.readModelSequenceKeys).not.to.be.null
@@ -317,7 +287,14 @@ describe('the `CalculatedField` decorator', () => {
       authorize: 'all',
     })
     class PersonReadModel {
-      public constructor(readonly id: UUID, readonly firstName: string, readonly lastName: string) {}
+      @Field(type => UUID)
+      public readonly id!: UUID
+
+      @Field(type => String)
+      public readonly firstName!: string
+
+      @Field(type => String)
+      public readonly lastName!: string
 
       @CalculatedField({ dependsOn: ['firstName', 'lastName'] })
       public get fullName(): string {
@@ -325,65 +302,37 @@ describe('the `CalculatedField` decorator', () => {
       }
     }
 
-    expect(Magek.config.readModels['PersonReadModel']).to.be.deep.equal({
-      class: PersonReadModel,
-      authorizer: MagekAuthorizer.allowAccess,
-      before: [],
-      properties: [
-        {
-          name: 'id',
-          typeInfo: {
-            importPath: '@magek/common',
-            isNullable: false,
-            isGetAccessor: false,
-            name: 'UUID',
-            parameters: [],
-            type: UUID,
-            typeGroup: 'Class',
-            typeName: 'UUID',
-          },
-          dependencies: [],
-        },
-        {
-          name: 'firstName',
-          typeInfo: {
-            isNullable: false,
-            isGetAccessor: false,
-            name: 'string',
-            parameters: [],
-            type: String,
-            typeGroup: 'String',
-            typeName: 'String',
-          },
-          dependencies: [],
-        },
-        {
-          name: 'lastName',
-          typeInfo: {
-            isNullable: false,
-            isGetAccessor: false,
-            name: 'string',
-            parameters: [],
-            type: String,
-            typeGroup: 'String',
-            typeName: 'String',
-          },
-          dependencies: [],
-        },
-        {
-          name: 'fullName',
-          typeInfo: {
-            isNullable: false,
-            isGetAccessor: true,
-            name: 'string',
-            parameters: [],
-            type: String,
-            typeGroup: 'String',
-            typeName: 'String',
-          },
-          dependencies: ['firstName', 'lastName'],
-        },
-      ],
-    })
+    const readModelConfig = Magek.config.readModels['PersonReadModel']
+    expect(readModelConfig).to.be.an('object')
+    expect(readModelConfig.class).to.equal(PersonReadModel)
+    expect(readModelConfig.authorizer).to.equal(MagekAuthorizer.allowAccess)
+    expect(readModelConfig.before).to.deep.equal([])
+    expect(readModelConfig.properties).to.have.lengthOf(4)
+
+    // Check id field
+    expect(readModelConfig.properties[0].name).to.equal('id')
+    expect(readModelConfig.properties[0].typeInfo.name).to.equal('UUID')
+    expect(readModelConfig.properties[0].typeInfo.typeGroup).to.equal('Class')
+    expect(readModelConfig.properties[0].typeInfo.type).to.equal(UUID)
+    expect(readModelConfig.properties[0].dependencies).to.deep.equal([])
+
+    // Check firstName field
+    expect(readModelConfig.properties[1].name).to.equal('firstName')
+    expect(readModelConfig.properties[1].typeInfo.name).to.equal('string')
+    expect(readModelConfig.properties[1].typeInfo.typeGroup).to.equal('String')
+    expect(readModelConfig.properties[1].dependencies).to.deep.equal([])
+
+    // Check lastName field
+    expect(readModelConfig.properties[2].name).to.equal('lastName')
+    expect(readModelConfig.properties[2].typeInfo.name).to.equal('string')
+    expect(readModelConfig.properties[2].typeInfo.typeGroup).to.equal('String')
+    expect(readModelConfig.properties[2].dependencies).to.deep.equal([])
+
+    // Check fullName calculated field
+    // Note: In Stage 3 decorators, we can't determine getter return type without design:returntype metadata
+    expect(readModelConfig.properties[3].name).to.equal('fullName')
+    expect(readModelConfig.properties[3].typeInfo.typeGroup).to.equal('Other') // 'any' type
+    expect(readModelConfig.properties[3].typeInfo.isGetAccessor).to.equal(true)
+    expect(readModelConfig.properties[3].dependencies).to.deep.equal(['firstName', 'lastName'])
   })
 })

@@ -21,8 +21,8 @@ import {
   createInstances,
   createInstanceWithCalculatedProperties,
   getLogger,
+  PropertyMetadata,
 } from '@magek/common'
-import { PropertyMetadata } from '@magek/metadata'
 import { Magek } from './magek'
 import { applyReadModelRequestBeforeFunctions } from './services/filter-helpers'
 import { ReadModelSchemaMigrator } from './read-model-schema-migrator'

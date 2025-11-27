@@ -11,7 +11,7 @@ import {
   ThunkObjMap,
 } from 'graphql'
 import { getClassMetadata } from '../../../decorators/metadata'
-import { PropertyMetadata, TypeMetadata } from '@magek/metadata'
+import { PropertyMetadata, TypeMetadata } from '@magek/common'
 import { GraphQLJSON } from 'graphql-scalars'
 import { AnyClass, MagekConfig, UUID } from '@magek/common'
 import { GraphQLTypeInformer } from '../graphql-type-informer'

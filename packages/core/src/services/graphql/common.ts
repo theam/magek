@@ -6,6 +6,8 @@ import {
   GraphQLOperation,
   ReadModelInterface,
   ContextEnvelope,
+  PropertyMetadata,
+  TypeMetadata,
 } from '@magek/common'
 import {
   GraphQLEnumType,
@@ -18,7 +20,6 @@ import {
   ValueNode,
 } from 'graphql'
 import { ReadModelPubSub } from '../pub-sub/read-model-pub-sub'
-import { PropertyMetadata, TypeMetadata } from '@magek/metadata'
 
 export type TargetTypesMap = Record<string, TargetTypeMetadata>
 export interface TargetTypeMetadata {

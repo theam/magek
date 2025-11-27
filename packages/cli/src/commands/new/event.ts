@@ -1,7 +1,7 @@
 import { Flags, Args } from '@oclif/core'
-import BaseCommand from '../../common/base-command'
-import { Script } from '../../common/script'
-import Brand from '../../common/brand'
+import BaseCommand from '../../common/base-command.ts'
+import { Script } from '../../common/script.ts'
+import Brand from '../../common/brand.ts'
 import {
   HasName,
   HasFields,
@@ -9,10 +9,10 @@ import {
   parseName,
   parseFields,
   ImportDeclaration,
-} from '../../services/generator/target'
-import { generate, template } from '../../services/generator'
+} from '../../services/generator/target/index.ts'
+import { generate, template } from '../../services/generator.ts'
 import * as path from 'path'
-import { checkCurrentDirIsAMagekProject } from '../../services/project-checker'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker.ts'
 
 export default class Event extends BaseCommand {
   public static description = 'create a new event'

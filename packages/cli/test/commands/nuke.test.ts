@@ -1,20 +1,34 @@
-import { expect } from '../expect'
+import { expect } from '../expect.ts'
 import { fancy } from 'fancy-test'
 import { restore, replace, fake } from 'sinon'
-import Prompter from '../../src/services/user-prompt'
-import { ProviderLibrary, MagekConfig } from '@magek/common'
-import * as Nuke from '../../src/commands/nuke'
-import * as providerService from '../../src/services/provider-service'
-import { oraLogger } from '../../src/services/logger'
+import Prompter from '../../src/services/user-prompt.ts'
+import { MagekConfig, type ProviderLibrary } from '@magek/common'
+import * as Nuke from '../../src/commands/nuke.ts'
+import * as providerService from '../../src/services/provider-service.ts'
+import { oraLogger } from '../../src/services/logger.ts'
 import { Config } from '@oclif/core'
 import { runCommand } from '@oclif/test'
-import * as environment from '../../src/services/environment'
-import * as configService from '../../src/services/config-service'
-import * as projectChecker from '../../src/services/project-checker'
-const rewire = require('rewire')
-const nuke = rewire('../../src/commands/nuke')
-const runTasks = nuke.__get__('runTasks')
-const loader = nuke.__get__('askToConfirmRemoval')
+import * as environment from '../../src/services/environment.ts'
+import * as configService from '../../src/services/config-service.ts'
+import * as projectChecker from '../../src/services/project-checker.ts'
+
+const projectCheckerInstance = projectChecker.projectChecker
+const configServiceInstance = configService.configService
+const environmentInstance = environment.environmentService
+const providerServiceInstance = providerService.providerService
+
+type NukeRunTasks = (
+  compileAndLoad: Promise<MagekConfig>,
+  nuke: (config: MagekConfig) => Promise<void>
+) => Promise<void>
+
+type AskToConfirmRemoval = (
+  prompter: Prompter,
+  force: boolean,
+  config: Promise<MagekConfig>
+) => Promise<MagekConfig>
+const runTasks: NukeRunTasks = Nuke.runTasks
+const loader: AskToConfirmRemoval = Nuke.askToConfirmRemoval
 
 describe('nuke', () => {
   beforeEach(() => {
@@ -30,8 +44,8 @@ describe('nuke', () => {
       fancy.stdout().it('fails gracefully showing the error message', async () => {
         const msg = 'weird exception'
         const fakeLoader = Promise.reject(new Error(msg))
-        const fakeNuke = fake()
-        replace(environment, 'currentEnvironment', fake.returns('test-env'))
+        const fakeNuke = fake.resolves(undefined)
+        replace(environmentInstance, 'currentEnvironment', fake.returns('test-env'))
 
         await expect(runTasks(fakeLoader, fakeNuke)).to.eventually.be.rejectedWith(msg)
         expect(fakeNuke).not.to.have.been.called
@@ -42,20 +56,20 @@ describe('nuke', () => {
       fancy.stdout().it('fails gracefully showing the error message', async () => {
         const fakeProvider = {} as ProviderLibrary
 
-        const fakeConfig = Promise.resolve({
+        const fakeConfig: Promise<MagekConfig> = Promise.resolve({
           provider: fakeProvider,
           appName: 'fake app',
           region: 'tunte',
           entities: {},
-        })
+        } as unknown as MagekConfig)
 
         const prompter = new Prompter()
         const fakePrompter = fake.resolves('fake app 2') // The user entered wrong app name
         replace(prompter, 'defaultOrPrompt', fakePrompter)
-        const fakeNuke = fake()
+        const fakeNuke = fake.resolves(undefined)
         const errorMsg = 'Wrong app name, stopping nuke!'
 
-        replace(environment, 'currentEnvironment', fake.returns('test-env'))
+        replace(environmentInstance, 'currentEnvironment', fake.returns('test-env'))
 
         await expect(runTasks(loader(prompter, false, fakeConfig), fakeNuke)).to.eventually.be.rejectedWith(errorMsg)
         expect(fakeNuke).not.to.have.been.called
@@ -66,19 +80,19 @@ describe('nuke', () => {
       fancy.stdout().it('continues without asking for the application name', async () => {
         const fakeProvider = {} as ProviderLibrary
 
-        const fakeConfig = Promise.resolve({
+        const fakeConfig: Promise<MagekConfig> = Promise.resolve({
           provider: fakeProvider,
           appName: 'fake app',
           region: 'tunte',
           entities: {},
-        })
+        } as unknown as MagekConfig)
 
         const prompter = new Prompter()
         const fakePrompter = fake.resolves('fake app 2') // The user entered wrong app name
         replace(prompter, 'defaultOrPrompt', fakePrompter)
-        const fakeNuke = fake()
+        const fakeNuke = fake.resolves(undefined)
 
-        replace(environment, 'currentEnvironment', fake.returns('test-env'))
+        replace(environmentInstance, 'currentEnvironment', fake.returns('test-env'))
 
         await expect(runTasks(loader(prompter, true, fakeConfig), fakeNuke)).to.eventually.be.fulfilled
         expect(prompter.defaultOrPrompt).not.to.have.been.called
@@ -90,21 +104,21 @@ describe('nuke', () => {
       fancy.stdout().it('starts removal', async (ctx) => {
         const fakeProvider = {} as ProviderLibrary
 
-        const fakeConfig = Promise.resolve({
+        const fakeConfig: Promise<MagekConfig> = Promise.resolve({
           provider: fakeProvider,
           appName: 'fake app',
           region: 'tunte',
           entities: {},
-        })
+        } as unknown as MagekConfig)
 
         const prompter = new Prompter()
         const fakePrompter = fake.resolves('fake app')
         replace(prompter, 'defaultOrPrompt', fakePrompter)
-        const fakeNuke = fake((config: MagekConfig) => {
+        const fakeNuke = fake(async (config: MagekConfig) => {
           config.logger?.info('this is a progress update')
         })
 
-        replace(environment, 'currentEnvironment', fake.returns('test-env'))
+        replace(environmentInstance, 'currentEnvironment', fake.returns('test-env'))
 
         await runTasks(loader(prompter, false, fakeConfig), fakeNuke)
 
@@ -126,9 +140,9 @@ describe('nuke', () => {
   describe('command class', () => {
     beforeEach(() => {
       const config = new MagekConfig('fake_environment')
-      replace(configService, 'compileProjectAndLoadConfig', fake.resolves(config))
-      replace(providerService, 'nukeCloudProviderResources', fake.resolves({}))
-      replace(projectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
+      replace(configServiceInstance, 'compileProjectAndLoadConfig', fake.resolves(config))
+      replace(providerServiceInstance, 'nukeCloudProviderResources', fake.resolves({}))
+      replace(projectCheckerInstance, 'checkCurrentDirMagekVersion', fake.resolves({}))
       replace(oraLogger, 'fail', fake.resolves({}))
       replace(oraLogger, 'info', fake.resolves({}))
       replace(oraLogger, 'start', fake.resolves({}))
@@ -138,15 +152,15 @@ describe('nuke', () => {
     it('init calls checkCurrentDirMagekVersion', async () => {
       const config = await Config.load()
       await new Nuke.default([], config).init()
-      expect(projectChecker.checkCurrentDirMagekVersion).to.have.been.called
+      expect(projectCheckerInstance.checkCurrentDirMagekVersion).to.have.been.called
     })
 
     it('without flags', async () => {
       const config = await Config.load()
       await new Nuke.default([], config).run()
 
-      expect(configService.compileProjectAndLoadConfig).to.have.not.been.called
-      expect(providerService.nukeCloudProviderResources).to.have.not.been.called
+      expect(configServiceInstance.compileProjectAndLoadConfig).to.have.not.been.called
+      expect(providerServiceInstance.nukeCloudProviderResources).to.have.not.been.called
       expect(oraLogger.fail).to.have.been.calledWithMatch(/No environment set/)
     })
 
@@ -162,8 +176,8 @@ describe('nuke', () => {
       }
       expect(exceptionThrown).to.be.equal(true)
       expect(exceptionMessage).to.to.contain('--environment expects a value')
-      expect(configService.compileProjectAndLoadConfig).to.have.not.been.called
-      expect(providerService.nukeCloudProviderResources).to.have.not.been.called
+      expect(configServiceInstance.compileProjectAndLoadConfig).to.have.not.been.called
+      expect(providerServiceInstance.nukeCloudProviderResources).to.have.not.been.called
     })
 
     it('with --environment flag incomplete', async () => {
@@ -178,8 +192,8 @@ describe('nuke', () => {
       }
       expect(exceptionThrown).to.be.equal(true)
       expect(exceptionMessage).to.to.contain('--environment expects a value')
-      expect(configService.compileProjectAndLoadConfig).to.have.not.been.called
-      expect(providerService.nukeCloudProviderResources).to.have.not.been.called
+      expect(configServiceInstance.compileProjectAndLoadConfig).to.have.not.been.called
+      expect(providerServiceInstance.nukeCloudProviderResources).to.have.not.been.called
     })
 
     describe('inside a Magek project', () => {
@@ -188,8 +202,8 @@ describe('nuke', () => {
         const config = await Config.load()
         await new Nuke.default(['-e', 'fake_environment'], config).run()
 
-        expect(configService.compileProjectAndLoadConfig).to.have.been.called
-        expect(providerService.nukeCloudProviderResources).to.have.been.called
+        expect(configServiceInstance.compileProjectAndLoadConfig).to.have.been.called
+        expect(providerServiceInstance.nukeCloudProviderResources).to.have.been.called
         expect(oraLogger.info).to.have.been.calledWithMatch('Removal complete!')
       })
 
@@ -197,8 +211,8 @@ describe('nuke', () => {
         const config = await Config.load()
         await new Nuke.default(['-e', 'fake_environment', '--force'], config).run()
 
-        expect(configService.compileProjectAndLoadConfig).to.have.been.called
-        expect(providerService.nukeCloudProviderResources).to.have.been.called
+        expect(configServiceInstance.compileProjectAndLoadConfig).to.have.been.called
+        expect(providerServiceInstance.nukeCloudProviderResources).to.have.been.called
         expect(oraLogger.info).to.have.been.calledWithMatch('Removal complete!')
       })
 
@@ -206,8 +220,8 @@ describe('nuke', () => {
         const config = await Config.load()
         await new Nuke.default(['-e', 'fake_environment', '-f'], config).run()
 
-        expect(configService.compileProjectAndLoadConfig).to.have.been.called
-        expect(providerService.nukeCloudProviderResources).to.have.been.called
+        expect(configServiceInstance.compileProjectAndLoadConfig).to.have.been.called
+        expect(providerServiceInstance.nukeCloudProviderResources).to.have.been.called
         expect(oraLogger.info).to.have.been.calledWithMatch('Removal complete!')
       })
 
@@ -224,8 +238,8 @@ describe('nuke', () => {
         }
         expect(exceptionThrown).to.be.equal(true)
         expect(exceptionMessage).to.contain('Wrong app name, stopping nuke!')
-        expect(configService.compileProjectAndLoadConfig).to.have.been.called
-        expect(providerService.nukeCloudProviderResources).to.have.not.been.called
+        expect(configServiceInstance.compileProjectAndLoadConfig).to.have.been.called
+        expect(providerServiceInstance.nukeCloudProviderResources).to.have.not.been.called
         expect(oraLogger.info).to.have.not.been.calledWithMatch('Removal complete!')
       })
 
@@ -241,7 +255,7 @@ describe('nuke', () => {
         }
         expect(exceptionThrown).to.be.equal(true)
         expect(exceptionMessage).to.contain('Nonexistent flag: --nonexistingoption')
-        expect(providerService.nukeCloudProviderResources).to.have.not.been.called
+        expect(providerServiceInstance.nukeCloudProviderResources).to.have.not.been.called
         expect(oraLogger.info).to.have.not.been.calledWithMatch('Removal complete!')
       })
 
@@ -249,7 +263,7 @@ describe('nuke', () => {
         const config = await Config.load()
         await new Nuke.default(['--force'], config).run()
 
-        expect(providerService.nukeCloudProviderResources).to.have.not.been.called
+        expect(providerServiceInstance.nukeCloudProviderResources).to.have.not.been.called
         expect(oraLogger.fail).to.have.been.calledWithMatch(/No environment set/)
       })
     })

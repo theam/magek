@@ -1,11 +1,11 @@
 import { Flags, Args } from '@oclif/core'
-import BaseCommand from '../../common/base-command'
-import { Script } from '../../common/script'
-import Brand from '../../common/brand'
-import { generate, template } from '../../services/generator'
-import { HasName, joinParsers, parseName, ImportDeclaration } from '../../services/generator/target'
+import BaseCommand from '../../common/base-command.ts'
+import { Script } from '../../common/script.ts'
+import Brand from '../../common/brand.ts'
+import { generate, template } from '../../services/generator.ts'
+import { HasName, joinParsers, parseName, ImportDeclaration } from '../../services/generator/target/index.ts'
 import * as path from 'path'
-import { checkCurrentDirIsAMagekProject } from '../../services/project-checker'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker.ts'
 
 export default class ScheduledCommand extends BaseCommand {
   public static description = "generate new scheduled command, write 'boost new:scheduled-command -h' to see options"

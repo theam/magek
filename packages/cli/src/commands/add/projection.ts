@@ -1,10 +1,10 @@
 import { Flags } from '@oclif/core'
-import BaseCommand from '../../common/base-command'
-import { HasName, HasProjection, joinParsers, parseName, parseProjectionField } from '../../services/generator/target'
-import { Script } from '../../common/script'
-import Brand from '../../common/brand'
-import { checkCurrentDirIsAMagekProject } from '../../services/project-checker'
-import { generateProjection, getResourceSourceFile } from '../../services/method-generator'
+import BaseCommand from '../../common/base-command.ts'
+import { HasName, HasProjection, joinParsers, parseName, parseProjectionField } from '../../services/generator/target/index.ts'
+import { Script } from '../../common/script.ts'
+import Brand from '../../common/brand.ts'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker.ts'
+import { generateProjection, getResourceSourceFile } from '../../services/method-generator.ts'
 
 export default class Projection extends BaseCommand {
   public static description = 'add new projection to read model'

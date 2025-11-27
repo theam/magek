@@ -1,15 +1,19 @@
 import { fake, replace, restore, spy, stub } from 'sinon'
+import type { SinonSpy } from 'sinon'
 import { Config } from '@oclif/core'
 import { ClassDeclaration, MethodDeclarationStructure, Project, SourceFile } from 'ts-morph'
-import * as ProjectChecker from '../../../src/services/project-checker'
-import { expect } from '../../expect'
-import Projection from '../../../src/commands/add/projection'
-import * as MethodGenerator from '../../../src/services/method-generator'
-import * as Filenames from '../../../src/common/filenames'
-import { parseProjectionField } from '../../../src/services/generator/target'
+import * as ProjectChecker from '../../../src/services/project-checker.ts'
+import { expect } from '../../expect.ts'
+import Projection from '../../../src/commands/add/projection.ts'
+import * as MethodGenerator from '../../../src/services/method-generator.ts'
+import * as Filenames from '../../../src/common/filenames.ts'
+import { parseProjectionField } from '../../../src/services/generator/target/index.ts'
 
 describe('add', async () => {
   describe('projection', async () => {
+    const projectCheckerInstance = ProjectChecker.projectChecker
+    const methodGeneratorInstance = MethodGenerator.methodGenerator
+    let fileNameWithExtensionStub: SinonSpy
     const readModelName = 'PostReadModel'
     const projectionName = 'Post:id'
     const sourceFileText = `
@@ -25,9 +29,10 @@ describe('add', async () => {
     `
 
     beforeEach(() => {
-      stub(ProjectChecker, 'checkCurrentDirIsAMagekProject').returnsThis()
-      replace(ProjectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
-      replace(Filenames, 'fileNameWithExtension', fake.returns('post-read-model.ts'))
+      stub(projectCheckerInstance, 'checkCurrentDirIsAMagekProject').resolves()
+      replace(projectCheckerInstance, 'checkCurrentDirMagekVersion', fake.resolves({}))
+      fileNameWithExtensionStub = fake.returns('post-read-model.ts')
+      replace(Filenames.filenames, 'fileNameWithExtension', fileNameWithExtensionStub)
     })
 
     afterEach(() => {
@@ -37,7 +42,7 @@ describe('add', async () => {
     it('init calls checkCurrentDirMagekVersion', async () => {
       const config = await Config.load()
       await new Projection([], config).init()
-      expect(ProjectChecker.checkCurrentDirMagekVersion).to.have.been.called
+      expect(projectCheckerInstance.checkCurrentDirMagekVersion).to.have.been.called
     })
 
     it('generates projection correctly', async () => {
@@ -47,7 +52,7 @@ describe('add', async () => {
       const fakeSourceFile = project.createSourceFile('post.ts', sourceFileText)
 
       stub(Project.prototype, 'getSourceFileOrThrow').returns(fakeSourceFile)
-      stub(MethodGenerator, 'generateProjection').returns({} as MethodDeclarationStructure)
+      stub(methodGeneratorInstance, 'generateProjection').returns({} as MethodDeclarationStructure)
       stub(SourceFile.prototype, 'getClassOrThrow').returns({
         addMethod: stub(),
       } as unknown as ClassDeclaration)
@@ -58,9 +63,9 @@ describe('add', async () => {
       const config = await Config.load()
       await new Projection(['--read-model', readModelName, '--entity', projectionName], config).run()
 
-      expect(Filenames.fileNameWithExtension).to.have.been.calledWith(readModelName)
+      expect(fileNameWithExtensionStub).to.have.been.calledWith(readModelName)
       expect(Project.prototype.getSourceFileOrThrow).to.have.been.calledOnceWith('post-read-model.ts')
-      expect(MethodGenerator.generateProjection).to.have.been.calledOnceWith(readModelName, projection)
+      expect(methodGeneratorInstance.generateProjection).to.have.been.calledOnceWith(readModelName, projection)
       expect(SourceFile.prototype.getClassOrThrow).to.have.been.calledOnceWith(readModelName)
       expect(SourceFile.prototype.fixMissingImports).to.have.been.calledOnce
       expect(SourceFile.prototype.save).to.have.been.calledOnce
@@ -173,7 +178,7 @@ describe('add', async () => {
         const config = await Config.load()
         stub(Project.prototype, 'getSourceFileOrThrow').throws()
         const sourceFileSpy = spy(SourceFile.prototype)
-        const methodGeneratorSpy = spy(MethodGenerator.generateProjection)
+        const methodGeneratorSpy = spy(methodGeneratorInstance.generateProjection)
         const classDeclarationSpy = spy(ClassDeclaration.prototype)
 
         let exceptionThrown = false
@@ -185,7 +190,7 @@ describe('add', async () => {
         }
 
         expect(exceptionThrown).to.be.true
-        expect(Filenames.fileNameWithExtension).to.have.been.calledWith(readModelName)
+        expect(fileNameWithExtensionStub).to.have.been.calledWith(readModelName)
         expect(Project.prototype.getSourceFileOrThrow).to.have.been.calledOnceWith('post-read-model.ts')
         expect(classDeclarationSpy.addMethod).to.have.not.been.calledOnce
         expect(sourceFileSpy.getClassOrThrow).to.have.not.been.called
@@ -204,7 +209,7 @@ describe('add', async () => {
         replace(SourceFile.prototype, 'fixMissingImports', spy())
         replace(SourceFile.prototype, 'save', spy())
 
-        const methodGeneratorSpy = spy(MethodGenerator.generateProjection)
+        const methodGeneratorSpy = spy(methodGeneratorInstance.generateProjection)
         const classDeclarationSpy = spy(ClassDeclaration.prototype)
 
         let exceptionThrown = false
@@ -216,7 +221,7 @@ describe('add', async () => {
         }
 
         expect(exceptionThrown).to.be.true
-        expect(Filenames.fileNameWithExtension).to.have.been.calledWith(readModelName)
+        expect(fileNameWithExtensionStub).to.have.been.calledWith(readModelName)
         expect(Project.prototype.getSourceFileOrThrow).to.have.been.calledOnceWith('post-read-model.ts')
         expect(SourceFile.prototype.getClassOrThrow).to.throw
         expect(SourceFile.prototype.fixMissingImports).to.have.not.been.called

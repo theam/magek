@@ -5,13 +5,15 @@ import {
   checkProjectAlreadyExists,
   checkResourceExists,
   checkCurrentDirMagekVersion,
-} from '../../src/services/project-checker'
+} from '../../src/services/project-checker.ts'
 import { restore, replace, fake, spy, stub } from 'sinon'
-import { logger } from '../../src/services/logger'
-import * as fs from 'fs-extra'
-import * as process from 'process'
-import Prompter from '../../src/services/user-prompt'
-import { expect } from '../expect'
+import { logger } from '../../src/services/logger.ts'
+import Prompter from '../../src/services/user-prompt.ts'
+import { expect } from '../expect.ts'
+import { createRequire } from 'module'
+
+const requireFn = typeof require === 'function' ? require : createRequire(process.cwd() + '/')
+const fs: typeof import('fs-extra') = requireFn('fs-extra')
 
 // Helper function to create project directory path (same as the one in project-checker)
 function projectDir(projectName: string): string {

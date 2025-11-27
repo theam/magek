@@ -1,10 +1,10 @@
 import { Flags } from '@oclif/core'
-import BaseCommand from '../../common/base-command'
-import { Script } from '../../common/script'
-import Brand from '../../common/brand'
-import { createStubsFolder, publishStubFiles, checkStubsFolderExists } from '../../services/stub-publisher'
-import { checkCurrentDirIsAMagekProject } from '../../services/project-checker'
-import Prompter from '../../services/user-prompt'
+import BaseCommand from '../../common/base-command.ts'
+import { Script } from '../../common/script.ts'
+import Brand from '../../common/brand.ts'
+import { createStubsFolder, publishStubFiles, checkStubsFolderExists } from '../../services/stub-publisher.ts'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker.ts'
+import Prompter from '../../services/user-prompt.ts'
 
 export default class Publish extends BaseCommand {
   public static description = 'publish all resource template stubs that are available for customization'

@@ -1,6 +1,6 @@
-import { ProcessService } from '../../../src/services/process'
+import { ProcessService } from '../../../src/services/process/index.ts'
 import { fake } from 'sinon'
-import { FakeOverrides, fakeService } from '../../helpers/effect'
+import { fakeService, type FakeOverrides } from '../../helpers/effect.ts'
 
 export const makeTestProcess = (overrides?: FakeOverrides<ProcessService>) =>
   fakeService(ProcessService, {

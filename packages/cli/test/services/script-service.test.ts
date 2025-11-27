@@ -2,9 +2,9 @@
  
 import { describe, it, afterEach } from 'mocha'
 import { stub, replace, restore, fake } from 'sinon'
-import { Script } from '../../src/common/script'
-import { expect } from '../expect'
-import Brand from '../../src/common/brand'
+import { Script } from '../../src/common/script.ts'
+import { expect } from '../expect.ts'
+import Brand from '../../src/common/brand.ts'
 
 interface TestContext {
   ctxParam: 'value'

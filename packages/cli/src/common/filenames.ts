@@ -1,14 +1,11 @@
 import * as inflected from 'inflected'
 
-export function classNameToFileName(name: string): string {
-  return inflected.dasherize(inflected.underscore(name))
-}
+const classNameToFileNameImpl = (name: string): string => inflected.dasherize(inflected.underscore(name))
 
-export function fileNameWithExtension(name: string, extension = 'ts'): string {
-  return (classNameToFileName(name) + '.' + extension).toLowerCase()
-}
+const fileNameWithExtensionImpl = (name: string, extension = 'ts'): string =>
+  (classNameToFileNameImpl(name) + '.' + extension).toLowerCase()
 
-export function checkResourceNameIsValid(name: string): void {
+const checkResourceNameIsValidImpl = (name: string): void => {
   if (!hasValidResourceName(name))
     throw new Error(`'${name}' is not valid resource name. Please use PascalCase name with valid characters.`)
 }
@@ -18,7 +15,7 @@ function hasValidResourceName(name: string): boolean {
   return resourceName === name
 }
 
-function formatResourceName(name: string): null | string {
+export function formatResourceName(name: string): null | string {
   const resourceName: string = name
     .replace(/^[\d-]|[#$-/:-?{-~!"^_`[\]]/g, ' ')
     .replace(/\s+/g, ' ')
@@ -35,4 +32,21 @@ function formatResourceName(name: string): null | string {
   return resourceName
 }
 
-const titleCaseString = (value: string): string => value[0].toLocaleUpperCase() + value.slice(1)
+export const titleCaseString = (value: string): string => value[0].toLocaleUpperCase() + value.slice(1)
+
+export const filenames = {
+  classNameToFileName: classNameToFileNameImpl,
+  fileNameWithExtension: fileNameWithExtensionImpl,
+  checkResourceNameIsValid: checkResourceNameIsValidImpl,
+  formatResourceName,
+  titleCaseString,
+}
+
+export const classNameToFileName = (...args: Parameters<typeof classNameToFileNameImpl>) =>
+  filenames.classNameToFileName(...args)
+
+export const fileNameWithExtension = (...args: Parameters<typeof fileNameWithExtensionImpl>) =>
+  filenames.fileNameWithExtension(...args)
+
+export const checkResourceNameIsValid = (...args: Parameters<typeof checkResourceNameIsValidImpl>) =>
+  filenames.checkResourceNameIsValid(...args)

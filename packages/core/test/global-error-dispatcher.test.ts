@@ -19,12 +19,20 @@ import {
   ScheduleCommandGlobalError,
   ScheduledCommandEnvelope,
   ScheduledCommandMetadata,
+  Logger,
 } from '@magek/common'
 import { GlobalErrorHandler } from '../src'
-import { restore } from 'sinon'
+import { fake, restore } from 'sinon'
 import { Magek } from '../src/magek'
 import { MagekGlobalErrorDispatcher } from '../src/global-error-dispatcher'
 import 'mocha'
+
+const createSilentLogger = (): Logger => ({
+  debug: fake(),
+  info: fake(),
+  warn: fake(),
+  error: fake(),
+})
 
 describe('MagekGlobalErrorDispatcher', () => {
   let config: MagekConfig
@@ -32,6 +40,7 @@ describe('MagekGlobalErrorDispatcher', () => {
 
   beforeEach(() => {
     config = new MagekConfig('test')
+    config.logger = createSilentLogger()
   })
 
   afterEach(() => {

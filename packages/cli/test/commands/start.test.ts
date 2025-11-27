@@ -1,18 +1,27 @@
-import { expect } from '../expect'
+import { expect } from '../expect.ts'
 import { restore, fake, replace } from 'sinon'
-import { ProviderLibrary, MagekConfig } from '@magek/common'
-import * as Start from '../../src/commands/start'
-import * as providerService from '../../src/services/provider-service'
-import { oraLogger } from '../../src/services/logger'
+import { MagekConfig, type ProviderLibrary } from '@magek/common'
+import * as Start from '../../src/commands/start.ts'
+import * as providerService from '../../src/services/provider-service.ts'
+import { oraLogger } from '../../src/services/logger.ts'
 import { Config } from '@oclif/core'
 import { runCommand } from '@oclif/test'
-import * as environment from '../../src/services/environment'
-import * as configService from '../../src/services/config-service'
-import * as projectChecker from '../../src/services/project-checker'
+import * as environment from '../../src/services/environment.ts'
+import * as configService from '../../src/services/config-service.ts'
+import * as projectChecker from '../../src/services/project-checker.ts'
 
-import rewire = require('rewire')
-const start = rewire('../../src/commands/start')
-const runTasks = start.__get__('runTasks')
+const projectCheckerInstance = projectChecker.projectChecker
+const configServiceInstance = configService.configService
+const environmentInstance = environment.environmentService
+const providerServiceInstance = providerService.providerService
+
+type StartRunTasks = (
+  port: number,
+  loader: Promise<MagekConfig>,
+  runner: (config: MagekConfig) => Promise<void>
+) => Promise<void>
+
+const runTasks: StartRunTasks = Start.runTasks
 
 describe('start', () => {
   beforeEach(() => {
@@ -32,10 +41,10 @@ describe('start', () => {
       }
 
       const fakeLoader = fake.resolves(fakeConfig)
-      const fakeRunner = fake()
-      replace(environment, 'currentEnvironment', fake.returns('test-env'))
+      const fakeRunner = fake.resolves(undefined)
+      replace(environmentInstance, 'currentEnvironment', fake.returns('test-env'))
 
-      await runTasks(3000, fakeLoader, fakeRunner)
+      await runTasks(3000, fakeLoader() as Promise<MagekConfig>, fakeRunner)
 
       expect(fakeRunner).to.have.been.calledOnce
     })
@@ -53,9 +62,9 @@ describe('start', () => {
   describe('start class', () => {
     beforeEach(() => {
       const config = new MagekConfig('fake_environment')
-      replace(configService, 'compileProjectAndLoadConfig', fake.resolves(config))
-      replace(providerService, 'startProvider', fake.resolves({}))
-      replace(projectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
+      replace(configServiceInstance, 'compileProjectAndLoadConfig', fake.resolves(config))
+      replace(providerServiceInstance, 'startProvider', fake.resolves({}))
+      replace(projectCheckerInstance, 'checkCurrentDirMagekVersion', fake.resolves({}))
       replace(oraLogger, 'fail', fake.resolves({}))
       replace(oraLogger, 'info', fake.resolves({}))
       replace(oraLogger, 'start', fake.resolves({}))
@@ -65,15 +74,15 @@ describe('start', () => {
     it('init calls checkCurrentDirMagekVersion', async () => {
       const config = await Config.load()
       await new Start.default([], config).init()
-      expect(projectChecker.checkCurrentDirMagekVersion).to.have.been.called
+      expect(projectCheckerInstance.checkCurrentDirMagekVersion).to.have.been.called
     })
 
     it('without flags', async () => {
       const config = await Config.load()
       await new Start.default([], config).run()
 
-      expect(configService.compileProjectAndLoadConfig).to.have.not.been.called
-      expect(providerService.startProvider).to.have.not.been.called
+      expect(configServiceInstance.compileProjectAndLoadConfig).to.have.not.been.called
+      expect(providerServiceInstance.startProvider).to.have.not.been.called
       expect(oraLogger.fail).to.have.been.calledWithMatch(/No environment set/)
     })
 
@@ -89,8 +98,8 @@ describe('start', () => {
       }
       expect(exceptionThrown).to.be.equal(true)
       expect(exceptionMessage).to.to.contain('--environment expects a value')
-      expect(configService.compileProjectAndLoadConfig).to.have.not.been.called
-      expect(providerService.startProvider).to.have.not.been.called
+      expect(configServiceInstance.compileProjectAndLoadConfig).to.have.not.been.called
+      expect(providerServiceInstance.startProvider).to.have.not.been.called
     })
 
     it('with --environment flag incomplete', async () => {
@@ -105,8 +114,8 @@ describe('start', () => {
       }
       expect(exceptionThrown).to.be.equal(true)
       expect(exceptionMessage).to.to.contain('--environment expects a value')
-      expect(configService.compileProjectAndLoadConfig).to.have.not.been.called
-      expect(providerService.startProvider).to.have.not.been.called
+      expect(configServiceInstance.compileProjectAndLoadConfig).to.have.not.been.called
+      expect(providerServiceInstance.startProvider).to.have.not.been.called
     })
 
     describe('inside a Magek project', () => {
@@ -114,8 +123,8 @@ describe('start', () => {
         const config = await Config.load()
         await new Start.default(['-e', 'fake_environment'], config).run()
 
-        expect(configService.compileProjectAndLoadConfig).to.have.been.called
-        expect(providerService.startProvider).to.have.been.called
+        expect(configServiceInstance.compileProjectAndLoadConfig).to.have.been.called
+        expect(providerServiceInstance.startProvider).to.have.been.called
         expect(oraLogger.start).to.have.been.calledWithMatch(/Starting debug server on port/)
       })
 
@@ -123,8 +132,8 @@ describe('start', () => {
         const config = await Config.load()
         await new Start.default(['-e', 'fake_environment', '--port', '5000'], config).run()
 
-        expect(configService.compileProjectAndLoadConfig).to.have.been.called
-        expect(providerService.startProvider).to.have.been.called
+        expect(configServiceInstance.compileProjectAndLoadConfig).to.have.been.called
+        expect(providerServiceInstance.startProvider).to.have.been.called
         expect(oraLogger.start).to.have.been.calledWithMatch(/Starting debug server on port 5000/)
       })
 
@@ -132,8 +141,8 @@ describe('start', () => {
         const config = await Config.load()
         await new Start.default(['-e', 'fake_environment', '-p', '5000'], config).run()
 
-        expect(configService.compileProjectAndLoadConfig).to.have.been.called
-        expect(providerService.startProvider).to.have.been.called
+        expect(configServiceInstance.compileProjectAndLoadConfig).to.have.been.called
+        expect(providerServiceInstance.startProvider).to.have.been.called
         expect(oraLogger.start).to.have.been.calledWithMatch(/Starting debug server on port 5000/)
       })
 
@@ -149,8 +158,8 @@ describe('start', () => {
         }
         expect(exceptionThrown).to.be.equal(true)
         expect(exceptionMessage).to.contain('Nonexistent flag: --nonexistingoption')
-        expect(configService.compileProjectAndLoadConfig).to.have.not.been.called
-        expect(providerService.startProvider).to.have.not.been.called
+        expect(configServiceInstance.compileProjectAndLoadConfig).to.have.not.been.called
+        expect(providerServiceInstance.startProvider).to.have.not.been.called
         expect(oraLogger.start).to.have.not.been.calledWithMatch(/Starting debug server on port/)
       })
 
@@ -166,8 +175,8 @@ describe('start', () => {
         }
         expect(exceptionThrown).to.be.equal(true)
         expect(exceptionMessage).to.contain('--port expects a value')
-        expect(configService.compileProjectAndLoadConfig).to.have.not.been.called
-        expect(providerService.startProvider).to.have.not.been.called
+        expect(configServiceInstance.compileProjectAndLoadConfig).to.have.not.been.called
+        expect(providerServiceInstance.startProvider).to.have.not.been.called
         expect(oraLogger.start).to.have.not.been.calledWithMatch(/Starting debug server on port/)
       })
 
@@ -183,8 +192,8 @@ describe('start', () => {
         }
         expect(exceptionThrown).to.be.equal(true)
         expect(exceptionMessage).to.contain('--port expects a value')
-        expect(configService.compileProjectAndLoadConfig).to.have.not.been.called
-        expect(providerService.startProvider).to.have.not.been.called
+        expect(configServiceInstance.compileProjectAndLoadConfig).to.have.not.been.called
+        expect(providerServiceInstance.startProvider).to.have.not.been.called
         expect(oraLogger.start).to.have.not.been.calledWithMatch(/Starting debug server on port/)
       })
 
@@ -192,8 +201,8 @@ describe('start', () => {
         const config = await Config.load()
         await new Start.default(['-p', '5000'], config).run()
 
-        expect(configService.compileProjectAndLoadConfig).to.have.not.been.called
-        expect(providerService.startProvider).to.have.not.been.called
+        expect(configServiceInstance.compileProjectAndLoadConfig).to.have.not.been.called
+        expect(providerServiceInstance.startProvider).to.have.not.been.called
         expect(oraLogger.fail).to.have.been.calledWithMatch(/No environment set/)
       })
     })

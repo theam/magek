@@ -2,20 +2,33 @@
 
 import * as fs from 'fs'
 import * as path from 'path'
-import degit = require('degit')
-import prompts = require('prompts')
-import kleur = require('kleur')
+import degit from 'degit'
+import prompts from 'prompts'
+import kleur from 'kleur'
 import { globby } from 'globby'
 import { spawn } from 'child_process'
 
+type FileSystem = Pick<typeof fs, 'existsSync' | 'readFileSync' | 'writeFileSync' | 'statSync'>
+
+const defaultFileSystem: FileSystem = {
+  existsSync: fs.existsSync,
+  readFileSync: fs.readFileSync,
+  writeFileSync: fs.writeFileSync,
+  statSync: fs.statSync,
+}
+
 // Get the Magek version from the current package or a reasonable default
 function getMagekVersion(): string {
-  try {
-    // Read from the create package itself
-    return require('../package.json').version
-  } catch {
-    return '0.0.1'
+  if (typeof require !== 'undefined') {
+    try {
+      // Read from the create package itself
+      return require('../package.json').version
+    } catch {
+      // Fall through to default below
+    }
   }
+
+  return '0.0.1'
 }
 
 interface ProjectConfig {
@@ -33,11 +46,13 @@ interface ProjectConfig {
 }
 
 class ForbiddenProjectName extends Error {
-  constructor(
-    public name: string,
-    public restrictionText: string
-  ) {
+  public readonly name: string
+  public readonly restrictionText: string
+
+  constructor(name: string, restrictionText: string) {
     super(`Project name cannot ${restrictionText}:\n\n    Found: '${name}'`)
+    this.name = name
+    this.restrictionText = restrictionText
   }
 }
 
@@ -70,9 +85,9 @@ function assertNameIsCorrect(name: string): void {
   if (reservedNames.includes(name.toLowerCase())) throw new ForbiddenProjectName(name, `be a reserved name (${name})`)
 }
 
-function checkProjectAlreadyExists(name: string): void {
+function checkProjectAlreadyExists(name: string, fileSystem: Pick<typeof fs, 'existsSync'> = defaultFileSystem): void {
   const projectPath = path.join(process.cwd(), name)
-  if (fs.existsSync(projectPath)) {
+  if (fileSystem.existsSync(projectPath)) {
     throw new Error(
       `Directory "${name}" already exists. Please choose a different project name or remove the existing directory.`
     )
@@ -99,20 +114,28 @@ async function runCommand(command: string, args: string[], cwd: string): Promise
   })
 }
 
-async function replaceInFile(filePath: string, replacements: Record<string, string>): Promise<void> {
-  if (!fs.existsSync(filePath)) return
+async function replaceInFile(
+  filePath: string,
+  replacements: Record<string, string>,
+  fileSystem: FileSystem = defaultFileSystem
+): Promise<void> {
+  if (!fileSystem.existsSync(filePath)) return
 
-  let content = fs.readFileSync(filePath, 'utf-8')
+  let content = fileSystem.readFileSync(filePath, 'utf-8')
 
   for (const [placeholder, value] of Object.entries(replacements)) {
     const regex = new RegExp(`\\{\\{${placeholder}\\}\\}`, 'g')
     content = content.replace(regex, value)
   }
 
-  fs.writeFileSync(filePath, content, 'utf-8')
+  fileSystem.writeFileSync(filePath, content, 'utf-8')
 }
 
-async function replaceInAllFiles(targetDir: string, replacements: Record<string, string>): Promise<void> {
+async function replaceInAllFiles(
+  targetDir: string,
+  replacements: Record<string, string>,
+  fileSystem: FileSystem = defaultFileSystem
+): Promise<void> {
   const files = await globby(['**/*', '!node_modules/**', '!.git/**', '!**/node_modules/**'], {
     cwd: targetDir,
     dot: true,
@@ -120,9 +143,9 @@ async function replaceInAllFiles(targetDir: string, replacements: Record<string,
   })
 
   for (const file of files) {
-    const stat = fs.statSync(file)
+    const stat = fileSystem.statSync(file)
     if (stat.isFile()) {
-      await replaceInFile(file, replacements)
+      await replaceInFile(file, replacements, fileSystem)
     }
   }
 }
@@ -388,7 +411,9 @@ async function main(): Promise<void> {
   }
 }
 
-if (require.main === module) {
+const isMainModule = typeof require !== 'undefined' && typeof module !== 'undefined' && require.main === module
+
+if (isMainModule) {
   main().catch((error) => {
     console.error(kleur.red('❌ Unexpected error:'), error)
     process.exit(1)

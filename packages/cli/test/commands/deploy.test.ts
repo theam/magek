@@ -1,22 +1,29 @@
-import { expect } from '../expect'
+import { expect } from '../expect.ts'
 import { fancy } from 'fancy-test'
 import { restore, fake, replace } from 'sinon'
-import { ProviderLibrary, MagekConfig } from '@magek/common'
+import { MagekConfig, type ProviderLibrary } from '@magek/common'
 import { runCommand } from '@oclif/test'
-import * as Deploy from '../../src/commands/deploy'
-import * as providerService from '../../src/services/provider-service'
-import { oraLogger } from '../../src/services/logger'
+import * as Deploy from '../../src/commands/deploy.ts'
+import * as providerService from '../../src/services/provider-service.ts'
+import { oraLogger } from '../../src/services/logger.ts'
 import { Config } from '@oclif/core'
-import * as environment from '../../src/services/environment'
-import * as packageManagerImpl from '../../src/services/package-manager/live.impl'
-import * as configService from '../../src/services/config-service'
-import * as projectChecker from '../../src/services/project-checker'
-import { makeTestPackageManager } from '../services/package-manager/test.impl'
+import * as environment from '../../src/services/environment.ts'
+import * as packageManagerImpl from '../../src/services/package-manager/live.impl.ts'
+import * as configService from '../../src/services/config-service.ts'
+import * as projectChecker from '../../src/services/project-checker.ts'
+import { makeTestPackageManager } from '../services/package-manager/test.impl.ts'
 
-// With this trick we can test non exported symbols
-const rewire = require('rewire')
-const deploy = rewire('../../src/commands/deploy')
-const runTasks = deploy.__get__('runTasks')
+const projectCheckerInstance = projectChecker.projectChecker
+const configServiceInstance = configService.configService
+const environmentInstance = environment.environmentService
+const providerServiceInstance = providerService.providerService
+
+type DeployRunTasks = (
+  compileAndLoad: Promise<MagekConfig>,
+  deployer: (config: MagekConfig) => Promise<void>
+) => Promise<void>
+
+const runTasks: DeployRunTasks = Deploy.runTasks
 
 const TestPackageManager = makeTestPackageManager()
 
@@ -38,10 +45,10 @@ describe('deploy', () => {
       fancy.stdout().it('fails gracefully showing the error message', async () => {
         const msg = 'weird exception'
         const fakeLoader = Promise.reject(new Error(msg))
-        const fakeDeployer = fake()
-        replace(environment, 'currentEnvironment', fake.returns('test-env'))
+        const fakeDeployer = fake.resolves(undefined)
+        replace(environmentInstance, 'currentEnvironment', fake.returns('test-env'))
 
-        await expect(runTasks(fakeLoader, fakeDeployer)).to.eventually.be.rejectedWith(msg)
+        await expect(runTasks(fakeLoader as Promise<MagekConfig>, fakeDeployer)).to.eventually.be.rejectedWith(msg)
         expect(fakeDeployer).not.to.have.been.called
       })
     })
@@ -50,10 +57,10 @@ describe('deploy', () => {
       fancy.stdout().it('fails gracefully', async () => {
         const msg = 'An error when loading project'
         const fakeLoader = Promise.reject(new Error(msg))
-        const fakeDeployer = fake()
-        replace(environment, 'currentEnvironment', fake.returns('test-env'))
+        const fakeDeployer = fake.resolves(undefined)
+        replace(environmentInstance, 'currentEnvironment', fake.returns('test-env'))
 
-        await expect(runTasks(fakeLoader, fakeDeployer)).to.eventually.be.rejectedWith(msg)
+        await expect(runTasks(fakeLoader as Promise<MagekConfig>, fakeDeployer)).to.eventually.be.rejectedWith(msg)
         expect(fakeDeployer).not.to.have.been.called
       })
     })
@@ -61,7 +68,7 @@ describe('deploy', () => {
     context('when there is a valid index.ts', () => {
       fancy.stdout().it('Starts deployment', async (ctx) => {
         // TODO: Once we migrate all services to the new way, we can remove this and just use the Test Layer for each of them
-        replace(packageManagerImpl, 'LivePackageManager', TestPackageManager.layer)
+        replace(packageManagerImpl.packageManagerLayers, 'LivePackageManager', TestPackageManager.layer)
 
         const fakeProvider = {} as ProviderLibrary
 
@@ -72,13 +79,13 @@ describe('deploy', () => {
           entities: {},
         })
 
-        const fakeDeployer = fake((config: MagekConfig) => {
+        const fakeDeployer = fake(async (config: MagekConfig) => {
           config.logger?.info('this is a progress update')
         })
 
-        replace(environment, 'currentEnvironment', fake.returns('test-env'))
+        replace(environmentInstance, 'currentEnvironment', fake.returns('test-env'))
 
-        await runTasks(fakeLoader, fakeDeployer)
+        await runTasks(fakeLoader() as Promise<MagekConfig>, fakeDeployer)
 
         expect(ctx.stdout).to.include('Deployment complete')
 
@@ -99,11 +106,11 @@ describe('deploy', () => {
   describe('deploy class', () => {
     beforeEach(() => {
       const config = new MagekConfig('fake_environment')
-      replace(configService, 'compileProjectAndLoadConfig', fake.resolves(config))
-      replace(providerService, 'deployToCloudProvider', fake.resolves({}))
-      replace(configService, 'createDeploymentSandbox', fake.resolves('fake/path'))
-      replace(configService, 'cleanDeploymentSandbox', fake.resolves({}))
-      replace(projectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
+      replace(configServiceInstance, 'compileProjectAndLoadConfig', fake.resolves(config))
+      replace(providerServiceInstance, 'deployToCloudProvider', fake.resolves({}))
+      replace(configServiceInstance, 'createDeploymentSandbox', fake.resolves('fake/path'))
+      replace(configServiceInstance, 'cleanDeploymentSandbox', fake.resolves({}))
+      replace(projectCheckerInstance, 'checkCurrentDirMagekVersion', fake.resolves({}))
       replace(oraLogger, 'fail', fake.resolves({}))
       replace(oraLogger, 'info', fake.resolves({}))
       replace(oraLogger, 'start', fake.resolves({}))
@@ -113,15 +120,15 @@ describe('deploy', () => {
     it('init calls checkCurrentDirMagekVersion', async () => {
       const config = await Config.load()
       await new Deploy.default([], config).init()
-      expect(projectChecker.checkCurrentDirMagekVersion).to.have.been.called
+      expect(projectCheckerInstance.checkCurrentDirMagekVersion).to.have.been.called
     })
 
     it('without flags', async () => {
       const config = await Config.load()
       await new Deploy.default([], config).run()
 
-      expect(configService.compileProjectAndLoadConfig).to.have.not.been.called
-      expect(providerService.deployToCloudProvider).to.have.not.been.called
+      expect(configServiceInstance.compileProjectAndLoadConfig).to.have.not.been.called
+      expect(providerServiceInstance.deployToCloudProvider).to.have.not.been.called
       expect(oraLogger.fail).to.have.been.calledWithMatch(/No environment set/)
     })
 
@@ -137,8 +144,8 @@ describe('deploy', () => {
       }
       expect(exceptionThrown).to.be.equal(true)
       expect(exceptionMessage).to.contain('--environment expects a value')
-      expect(configService.compileProjectAndLoadConfig).to.have.not.been.called
-      expect(providerService.deployToCloudProvider).to.have.not.been.called
+      expect(configServiceInstance.compileProjectAndLoadConfig).to.have.not.been.called
+      expect(providerServiceInstance.deployToCloudProvider).to.have.not.been.called
     })
 
     it('with --environment flag incomplete', async () => {
@@ -153,8 +160,8 @@ describe('deploy', () => {
       }
       expect(exceptionThrown).to.be.equal(true)
       expect(exceptionMessage).to.to.contain('--environment expects a value')
-      expect(configService.compileProjectAndLoadConfig).to.have.not.been.called
-      expect(providerService.deployToCloudProvider).to.have.not.been.called
+      expect(configServiceInstance.compileProjectAndLoadConfig).to.have.not.been.called
+      expect(providerServiceInstance.deployToCloudProvider).to.have.not.been.called
     })
 
     describe('inside a Magek project', () => {
@@ -162,8 +169,8 @@ describe('deploy', () => {
         const config = await Config.load()
         await new Deploy.default(['-e', 'fake_environment'], config).run()
 
-        expect(configService.compileProjectAndLoadConfig).to.have.been.called
-        expect(providerService.deployToCloudProvider).to.have.been.called
+        expect(configServiceInstance.compileProjectAndLoadConfig).to.have.been.called
+        expect(providerServiceInstance.deployToCloudProvider).to.have.been.called
         expect(oraLogger.info).to.have.been.calledWithMatch('Deployment complete!')
       })
 
@@ -179,8 +186,8 @@ describe('deploy', () => {
         }
         expect(exceptionThrown).to.be.equal(true)
         expect(exceptionMessage).to.contain('Nonexistent flag: --nonexistingoption')
-        expect(configService.compileProjectAndLoadConfig).to.have.not.been.called
-        expect(providerService.deployToCloudProvider).to.have.not.been.called
+        expect(configServiceInstance.compileProjectAndLoadConfig).to.have.not.been.called
+        expect(providerServiceInstance.deployToCloudProvider).to.have.not.been.called
         expect(oraLogger.info).to.have.not.been.calledWithMatch('Deployment complete!')
       })
     })

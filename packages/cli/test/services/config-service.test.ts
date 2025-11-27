@@ -1,14 +1,15 @@
-import { fake, replace, restore, SinonStub, stub } from 'sinon'
-import * as projectChecker from '../../src/services/project-checker'
-import { MagekConfig } from '@magek/common'
-import { expect } from '../expect'
-import * as environment from '../../src/services/environment'
-import * as PackageManager from '../../src/services/package-manager/live.impl'
-import { makeTestPackageManager } from './package-manager/test.impl'
-
-const rewire = require('rewire')
-const configService = rewire('../../src/services/config-service')
+import { replace, restore, stub } from 'sinon'
+import type { SinonStub } from 'sinon'
+import * as projectChecker from '../../src/services/project-checker.ts'
+import { MagekConfig, type UserApp } from '@magek/common'
+import { expect } from '../expect.ts'
+import * as environment from '../../src/services/environment.ts'
+import * as PackageManager from '../../src/services/package-manager/live.impl.ts'
+import { makeTestPackageManager } from './package-manager/test.impl.ts'
+import { configService, configServiceDependencies } from '../../src/services/config-service.ts'
 const TestPackageManager = makeTestPackageManager()
+const environmentInstance = environment.environmentService
+const projectCheckerInstance = projectChecker.projectChecker
 
 describe('configService', () => {
   const userProjectPath = 'path/to/project'
@@ -19,7 +20,7 @@ describe('configService', () => {
 
   describe('compileProject', () => {
     it('runs the npm command', async () => {
-      replace(PackageManager, 'LivePackageManager', TestPackageManager.layer)
+      replace(PackageManager.packageManagerLayers, 'LivePackageManager', TestPackageManager.layer)
       await configService.compileProject(userProjectPath)
       expect(TestPackageManager.fakes.runScript).to.have.calledWith('clean')
       expect(TestPackageManager.fakes.build).to.have.been.called
@@ -28,7 +29,7 @@ describe('configService', () => {
 
   describe('cleanProject', () => {
     it('runs the npm command', async () => {
-      replace(PackageManager, 'LivePackageManager', TestPackageManager.layer)
+      replace(PackageManager.packageManagerLayers, 'LivePackageManager', TestPackageManager.layer)
       await configService.cleanProject(userProjectPath)
       expect(TestPackageManager.fakes.runScript).to.have.been.calledWith('clean')
     })
@@ -36,86 +37,76 @@ describe('configService', () => {
 
   describe('compileProjectAndLoadConfig', () => {
     let checkItIsAMagekProject: SinonStub
+    let compileProject: SinonStub
+    const makeUserApp = (config: MagekConfig, configuredEnvironments: Set<string>): UserApp => ({
+      Magek: {
+        config,
+        configuredEnvironments,
+        configureCurrentEnv: (configurator: (config: MagekConfig) => void): void => configurator(config),
+      },
+      eventDispatcher: async (): Promise<void> => undefined,
+      graphQLDispatcher: async (): Promise<undefined> => undefined,
+      triggerScheduledCommands: async (): Promise<void> => undefined,
+      notifySubscribers: async (): Promise<void> => undefined,
+      rocketDispatcher: async (): Promise<undefined> => undefined,
+      consumeEventStream: async (): Promise<undefined> => undefined,
+      produceEventStream: async (): Promise<undefined> => undefined,
+      health: async (): Promise<undefined> => undefined,
+    })
 
     beforeEach(() => {
-      checkItIsAMagekProject = stub(projectChecker, 'checkItIsAMagekProject').resolves()
+      checkItIsAMagekProject = stub(projectCheckerInstance, 'checkItIsAMagekProject').resolves()
+      compileProject = stub(configService, 'compileProject').resolves()
     })
 
     it('loads the config when the selected environment exists', async () => {
       const config = new MagekConfig('test')
 
-      const rewires = [
-        configService.__set__('compileProject', fake()),
-        configService.__set__(
-          'loadUserProject',
-          fake.returns({
-            Magek: {
-              config: config,
-              configuredEnvironments: new Set(['test']),
-              configureCurrentEnv: fake.yields(config),
-            },
-          })
-        ),
-      ]
+      replace(
+        configServiceDependencies,
+        'loadUserProject',
+        () => makeUserApp(config, new Set(['test']))
+      )
 
-      replace(environment, 'currentEnvironment', fake.returns('test'))
+      replace(environmentInstance, 'currentEnvironment', () => 'test')
 
       await expect(configService.compileProjectAndLoadConfig(userProjectPath)).to.eventually.become(config)
       expect(checkItIsAMagekProject).to.have.been.calledOnceWithExactly(userProjectPath)
-
-      rewires.forEach((fn) => fn())
+      expect(compileProject).to.have.been.calledOnceWithExactly(userProjectPath)
     })
 
     it('throws the right error when there are not configured environments', async () => {
       const config = new MagekConfig('test')
 
-      const rewires = [
-        configService.__set__('compileProject', fake()),
-        configService.__set__(
-          'loadUserProject',
-          fake.returns({
-            Magek: {
-              config: config,
-              configuredEnvironments: new Set([]),
-              configureCurrentEnv: fake.yields(config),
-            },
-          })
-        ),
-      ]
+      replace(
+        configServiceDependencies,
+        'loadUserProject',
+        () => makeUserApp(config, new Set())
+      )
 
       await expect(configService.compileProjectAndLoadConfig(userProjectPath)).to.eventually.be.rejectedWith(
         /You haven't configured any environment/
       )
       expect(checkItIsAMagekProject).to.have.been.calledOnceWithExactly(userProjectPath)
-
-      rewires.forEach((fn) => fn())
+      expect(compileProject).to.have.been.calledOnceWithExactly(userProjectPath)
     })
 
     it('throws the right error when the environment does not exist', async () => {
       const config = new MagekConfig('test')
 
-      const rewires = [
-        configService.__set__('compileProject', fake()),
-        configService.__set__(
-          'loadUserProject',
-          fake.returns({
-            Magek: {
-              config: config,
-              configuredEnvironments: new Set(['another']),
-              configureCurrentEnv: fake.yields(config),
-            },
-          })
-        ),
-      ]
+      replace(
+        configServiceDependencies,
+        'loadUserProject',
+        () => makeUserApp(config, new Set(['another']))
+      )
 
-      replace(environment, 'currentEnvironment', fake.returns('test'))
+      replace(environmentInstance, 'currentEnvironment', () => 'test')
 
       await expect(configService.compileProjectAndLoadConfig(userProjectPath)).to.eventually.be.rejectedWith(
         /The environment 'test' does not match any of the environments/
       )
       expect(checkItIsAMagekProject).to.have.been.calledOnceWithExactly(userProjectPath)
-
-      rewires.forEach((fn) => fn())
+      expect(compileProject).to.have.been.calledOnceWithExactly(userProjectPath)
     })
   })
 })

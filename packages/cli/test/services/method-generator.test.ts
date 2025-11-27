@@ -1,9 +1,8 @@
-import { HasName, HasProjection, HasReaction } from '../../src/services/generator/target'
-import { expect } from '../expect'
-import { generateProjection, generateReducers, getResourceSourceFile } from '../../src/services/method-generator'
+import { HasName, HasProjection, HasReaction } from '../../src/services/generator/target/index.ts'
+import { expect } from '../expect.ts'
+import { generateProjection, generateReducers, getResourceSourceFile } from '../../src/services/method-generator.ts'
 import { fake, replace, restore, stub } from 'sinon'
-import * as Filenames from '../../src/common/filenames'
-import { fileNameWithExtension } from '../../src/common/filenames'
+import * as Filenames from '../../src/common/filenames.ts'
 import { Project } from 'ts-morph'
 
 describe('method generator', (): void => {
@@ -194,7 +193,8 @@ describe('method generator', (): void => {
 
     it('should return source file', () => {
       const resourceName = 'Post'
-      replace(Filenames, 'fileNameWithExtension', fake.returns('post.ts'))
+      const fileNameWithExtensionStub = fake.returns('post.ts')
+      replace(Filenames.filenames, 'fileNameWithExtension', fileNameWithExtensionStub)
 
       const project = new Project()
       const fileText = `
@@ -215,16 +215,17 @@ describe('method generator', (): void => {
       expect(Project.prototype.getSourceFileOrThrow).to.have.been.called
       expect(Project.prototype.getSourceFileOrThrow).to.have.been.calledOnce
       expect(Project.prototype.getSourceFileOrThrow).to.not.have.been.calledTwice
-      expect(Project.prototype.getSourceFileOrThrow).to.have.been.calledWith(fileNameWithExtension(resourceName))
+      expect(Project.prototype.getSourceFileOrThrow).to.have.been.calledWith('post.ts')
 
       expect(sourceFile).to.be.equal(fakeSourceFile)
-      expect(fileNameWithExtension).to.have.been.calledWith(resourceName)
+      expect(fileNameWithExtensionStub).to.have.been.calledWith(resourceName)
       expect(sourceFileClasses).to.contain(resourceName)
       expect(sourceFile.getFilePath()).to.match(/src\/entities\/post.ts/)
     })
 
     it("should throw error if source file doesn't exist", () => {
-      replace(Filenames, 'fileNameWithExtension', fake.returns('fake-post.ts'))
+      const fileNameWithExtensionStub = fake.returns('fake-post.ts')
+      replace(Filenames.filenames, 'fileNameWithExtension', fileNameWithExtensionStub)
       stub(Project.prototype, 'getSourceFileOrThrow').throws(
         new Error('Could not find source file in project with the provided file name: fake-post.ts')
       )
@@ -240,7 +241,7 @@ describe('method generator', (): void => {
         exceptionMessage = e.message
       }
 
-      expect(fileNameWithExtension).to.have.been.calledWith(resourceName)
+      expect(fileNameWithExtensionStub).to.have.been.calledWith(resourceName)
       expect(getResourceSourceFile).to.throw()
       expect(exceptionThrown).to.be.true
       expect(exceptionMessage).to.be.equal(

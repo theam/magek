@@ -1,6 +1,6 @@
 import { Command } from '@oclif/core'
-import { checkCurrentDirMagekVersion } from '../services/project-checker'
-import { appendOnErrorsFile } from '../services/logger'
+import { checkCurrentDirMagekVersion } from '../services/project-checker.ts'
+import { appendOnErrorsFile } from '../services/logger.ts'
 
 export default abstract class BaseCommand extends Command {
   async init() {

@@ -2,26 +2,46 @@
  
 
 import { expect } from './expect'
-import { MagekConfig, CommandEnvelope, SchemaMigrationMetadata } from '@magek/common'
+import { MagekConfig, CommandEnvelope, SchemaMigrationMetadata, Field } from '@magek/common'
 import { SchemaMigrator } from '../src/schema-migrator'
 
 class TestConceptV1 {
-  public constructor(readonly field1: string) {}
+  @Field()
+  public readonly field1: string
+
+  public constructor(field1: string) {
+    this.field1 = field1
+  }
 }
 
 class TestConceptV2 {
-  public constructor(
-    readonly field1: string,
-    readonly field2: number
-  ) {}
+  @Field()
+  public readonly field1: string
+
+  @Field()
+  public readonly field2: number
+
+  public constructor(field1: string, field2: number) {
+    this.field1 = field1
+    this.field2 = field2
+  }
 }
 
 class TestConceptV3 {
-  public constructor(
-    readonly field1: string,
-    readonly field2: number,
-    readonly field3: string
-  ) {}
+  @Field()
+  public readonly field1: string
+
+  @Field()
+  public readonly field2: number
+
+  @Field()
+  public readonly field3: string
+
+  public constructor(field1: string, field2: number, field3: string) {
+    this.field1 = field1
+    this.field2 = field2
+    this.field3 = field3
+  }
 }
 
 class TestConceptMigration {

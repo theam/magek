@@ -15,9 +15,8 @@ import {
   GraphQLUnionType,
 } from 'graphql'
 import { GraphQLJSON } from 'graphql-scalars'
-import { ClassMetadata, ClassType, PropertyMetadata, TypeMetadata } from '@magek/metadata'
 import { DateScalar, isExternalType, nonExcludedFields } from './common'
-import { Logger } from '@magek/common'
+import { Logger, ClassMetadata, ClassType, PropertyMetadata, TypeMetadata } from '@magek/common'
 
 export class GraphQLTypeInformer {
   private graphQLTypes: Record<string, GraphQLType> = {}

@@ -1,6 +1,6 @@
-import { PackageManagerService } from '.'
+import { PackageManagerService } from './index.ts'
 import { Effect, Layer } from 'effect'
-import { makePackageManager } from './common'
+import { makePackageManager } from './common.ts'
 
 export const makeNpmPackageManager = makePackageManager('npm')
 

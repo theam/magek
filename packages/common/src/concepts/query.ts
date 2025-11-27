@@ -1,5 +1,5 @@
 import { Class } from '../typelevel'
-import { PropertyMetadata } from '@magek/metadata'
+import { PropertyMetadata } from '../metadata-types'
 import { QueryAuthorizer, QueryFilterHooks, UUID } from './.'
 import { ContextEnvelope, UserEnvelope } from '../envelope'
 

@@ -1,7 +1,9 @@
-import { restore, stub, fake, SinonSpy, replace, spy } from 'sinon'
+import { restore, stub, fake, replace, spy } from 'sinon'
+import type { SinonSpy } from 'sinon'
+import type { Dirent } from 'fs'
 import { join } from 'path'
-import * as fs from 'fs-extra'
-import { expect } from '../expect'
+import { createRequire } from 'module'
+import { expect } from '../expect.ts'
 import {
   checkResourceStubFileExists,
   checkStubsFolderExists,
@@ -11,12 +13,15 @@ import {
   resourceStubFilePath,
   resourceTemplateFilePath,
   resourceTemplatesPath,
-} from '../../src/services/stub-publisher'
-const rewire = require('rewire')
+  copyStubFile,
+} from '../../src/services/stub-publisher.ts'
+
+const requireFn = typeof require === 'function' ? require : createRequire(process.cwd() + '/')
+const fs: typeof import('fs-extra') = requireFn('fs-extra')
 
 describe('stub publisher', () => {
   let readdirSyncSpy: SinonSpy
-  const directoryFileMocks: fs.Dirent[] = [
+  const directoryFileMocks: Dirent[] = [
     {
       name: 'fake-command.stub',
       path: '/someDir',
@@ -290,9 +295,6 @@ describe('stub publisher', () => {
   })
 
   describe('copyStubFile', () => {
-    const filenames = rewire('../../src/services/stub-publisher')
-    const copyStubFile = filenames.__get__('copyStubFile')
-
     it('should copy stub file', () => {
       const from = 'from/test.stub'
       const to = 'to/test.stub'

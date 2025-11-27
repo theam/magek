@@ -2,24 +2,46 @@
 import { replace, restore, fake } from 'sinon'
 import { expect } from '../../../expect'
 import { GraphQLTypeInformer } from '../../../../src/services/graphql/graphql-type-informer'
-import { MagekConfig, UUID, TimeKey, Level, AnyClass, Logger, getLogger } from '@magek/common'
+import { MagekConfig, UUID, TimeKey, Level, AnyClass, Logger, getLogger, Field } from '@magek/common'
 import { GraphqlQueryByKeysGenerator } from '../../../../src/services/graphql/query-generators/graphql-query-by-keys-generator'
 import { faker } from '@faker-js/faker'
 
 class AnotherReadModel {
-  public constructor(readonly id: UUID, readonly otherField: string) {}
+  @Field(type => UUID)
+  public readonly id: UUID
+
+  @Field()
+  public readonly otherField: string
+
+  public constructor(id: UUID, otherField: string) {
+    this.id = id
+    this.otherField = otherField
+  }
 }
 
 class ASequencedReadModel {
-  public constructor(readonly id: UUID, readonly timestamp: TimeKey) {}
+  @Field(type => UUID)
+  public readonly id: UUID
+
+  @Field(type => TimeKey)
+  public readonly timestamp: TimeKey
+
+  public constructor(id: UUID, timestamp: TimeKey) {
+    this.id = id
+    this.timestamp = timestamp
+  }
 }
 
 class ARegularReadModel {
+  @Field()
   readonly id: string = '∫'
 }
 
 class AnotherSequencedReadModel {
+  @Field()
   readonly id: string = 'µ'
+
+  @Field()
   readonly timestamp: string = '™'
 }
 

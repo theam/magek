@@ -1,6 +1,6 @@
 import { GraphQLFieldConfigMap, GraphQLNonNull } from 'graphql'
 import { ResolverBuilder, TargetTypeMetadata, TargetTypesMap } from '../common'
-import { TypeMetadata } from '@magek/metadata'
+import { TypeMetadata } from '@magek/common'
 import { GraphQLTypeInformer } from '../graphql-type-informer'
 import { MagekConfig } from '@magek/common'
 

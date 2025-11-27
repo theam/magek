@@ -11,6 +11,7 @@ import {
   Register,
   UUID,
   PromisesError,
+  Field,
 } from '@magek/common'
 import { expect } from './expect'
 import { ReadModelStore } from '../src/services/read-model-store'
@@ -20,7 +21,12 @@ import { faker } from '@faker-js/faker'
 import { MagekEventProcessor } from '../src/event-processor'
 
 class SomeEvent {
-  public constructor(readonly id: UUID) {}
+  @Field(type => UUID)
+  public readonly id: UUID
+
+  public constructor(id: UUID) {
+    this.id = id
+  }
 
   public entityID(): UUID {
     return this.id
