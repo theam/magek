@@ -18,7 +18,7 @@ export function getClassMetadata(classType: AnyClass): ClassMetadata {
   if (!meta) {
     throw Error(
       `Couldn't get proper metadata information of ${classType.name}. ` +
-        `Make sure to decorate all properties with @Field() or enable the TypeScript transformer.`
+        'Make sure to decorate all properties with @Field() or enable the TypeScript transformer.'
     )
   }
   return meta
