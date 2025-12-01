@@ -1,5 +1,5 @@
-export * from './parsing.ts'
-export * from './types.ts'
+export * from './parsing.js'
+export * from './types.js'
 
 export interface Target<TInfo> {
   name: string

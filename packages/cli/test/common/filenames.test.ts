@@ -4,8 +4,8 @@ import {
   fileNameWithExtension,
   formatResourceName,
   titleCaseString,
-} from '../../src/common/filenames.ts'
-import { expect } from '../expect.ts'
+} from '../../src/common/filenames.js'
+import { expect } from '../expect.js'
 
 describe('filenames', () => {
   describe('checkResourceNameIsValid', () => {

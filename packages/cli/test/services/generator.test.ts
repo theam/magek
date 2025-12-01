@@ -1,10 +1,10 @@
 import * as path from 'path'
 import * as Mustache from 'mustache'
-import { Target, HasName, HasFields, HasReaction, HasEvent, HasProjections } from '../../src/services/generator/target/index.ts'
-import * as projectChecker from '../../src/services/project-checker.ts'
-import { generate, template } from '../../src/services/generator.ts'
+import { Target, HasName, HasFields, HasReaction, HasEvent, HasProjections } from '../../src/services/generator/target/index.js'
+import * as projectChecker from '../../src/services/project-checker.js'
+import { generate, template } from '../../src/services/generator.js'
 import { restore, replace, fake } from 'sinon'
-import { expect } from '../expect.ts'
+import { expect } from '../expect.js'
 import { createRequire } from 'module'
 
 const requireFn = typeof require === 'function' ? require : createRequire(process.cwd() + '/')

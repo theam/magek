@@ -1,7 +1,7 @@
 import { Flags, Args } from '@oclif/core'
-import BaseCommand from '../../common/base-command.ts'
-import { Script } from '../../common/script.ts'
-import Brand from '../../common/brand.ts'
+import BaseCommand from '../../common/base-command.js'
+import { Script } from '../../common/script.js'
+import Brand from '../../common/brand.js'
 import {
   HasFields,
   HasName,
@@ -11,11 +11,11 @@ import {
   ImportDeclaration,
   HasProjections,
   parseProjections,
-} from '../../services/generator/target/index.ts'
+} from '../../services/generator/target/index.js'
 import * as path from 'path'
-import { generate, template } from '../../services/generator.ts'
-import { checkCurrentDirIsAMagekProject } from '../../services/project-checker.ts'
-import { classNameToFileName } from '../../common/filenames.ts'
+import { generate, template } from '../../services/generator.js'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker.js'
+import { classNameToFileName } from '../../common/filenames.js'
 
 export default class ReadModel extends BaseCommand {
   public static description = 'create a new read model'

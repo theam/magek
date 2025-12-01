@@ -8,7 +8,7 @@ import type {
   HasProjections,
   HasEvent,
   HasProjection,
-} from './types.ts'
+} from './types.js'
 
 export const parseName = (name: string): Promise<HasName> => Promise.resolve({ name })
 

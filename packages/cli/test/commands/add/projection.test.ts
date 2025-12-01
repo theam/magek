@@ -2,12 +2,12 @@ import { fake, replace, restore, spy, stub } from 'sinon'
 import type { SinonSpy } from 'sinon'
 import { Config } from '@oclif/core'
 import { ClassDeclaration, MethodDeclarationStructure, Project, SourceFile } from 'ts-morph'
-import * as ProjectChecker from '../../../src/services/project-checker.ts'
-import { expect } from '../../expect.ts'
-import Projection from '../../../src/commands/add/projection.ts'
-import * as MethodGenerator from '../../../src/services/method-generator.ts'
-import * as Filenames from '../../../src/common/filenames.ts'
-import { parseProjectionField } from '../../../src/services/generator/target/index.ts'
+import * as ProjectChecker from '../../../src/services/project-checker.js'
+import { expect } from '../../expect.js'
+import Projection from '../../../src/commands/add/projection.js'
+import * as MethodGenerator from '../../../src/services/method-generator.js'
+import * as Filenames from '../../../src/common/filenames.js'
+import { parseProjectionField } from '../../../src/services/generator/target/index.js'
 
 describe('add', async () => {
   describe('projection', async () => {

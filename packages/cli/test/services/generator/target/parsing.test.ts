@@ -1,5 +1,5 @@
-import { parseFields, parseProjectionField, parseProjections } from '../../../../src/services/generator/target/parsing.ts'
-import { expect } from '../../../expect.ts'
+import { parseFields, parseProjectionField, parseProjections } from '../../../../src/services/generator/target/parsing.js'
+import { expect } from '../../../expect.js'
 
 describe('parsing', () => {
   describe('parseFields', () => {

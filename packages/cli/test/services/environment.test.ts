@@ -1,7 +1,7 @@
-import { initializeEnvironment, currentEnvironment } from '../../src/services/environment.ts'
-import { logger } from '../../src/services/logger.ts'
+import { initializeEnvironment, currentEnvironment } from '../../src/services/environment.js'
+import { logger } from '../../src/services/logger.js'
 import { restore, replace, fake } from 'sinon'
-import { expect } from '../expect.ts'
+import { expect } from '../expect.js'
 
 describe('environment service', (): void => {
   let formerValue: string | undefined

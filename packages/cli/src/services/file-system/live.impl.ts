@@ -1,5 +1,5 @@
 import { Effect, Layer } from 'effect'
-import { FileSystemService, FileSystemError } from './index.ts'
+import { FileSystemService, FileSystemError } from './index.js'
 import * as fs from 'fs'
 
 const readDirectoryContents = (directoryPath: string) =>

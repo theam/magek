@@ -1,9 +1,9 @@
 import { Flags } from '@oclif/core'
-import BaseCommand from '../common/base-command.ts'
-import { compileProject } from '../services/config-service.ts'
-import { checkCurrentDirIsAMagekProject } from '../services/project-checker.ts'
-import { Script } from '../common/script.ts'
-import Brand from '../common/brand.ts'
+import BaseCommand from '../common/base-command.js'
+import { compileProject } from '../services/config-service.js'
+import { checkCurrentDirIsAMagekProject } from '../services/project-checker.js'
+import { Script } from '../common/script.js'
+import Brand from '../common/brand.js'
 
 const runTasks = async (compileAndLoad: (ctx: string) => Promise<void>): Promise<void> =>
   Script.init(`boost ${Brand.dangerize('build')} 🚀`, Promise.resolve(process.cwd()))

@@ -1,12 +1,12 @@
 import { replace, restore, stub } from 'sinon'
 import type { SinonStub } from 'sinon'
-import * as projectChecker from '../../src/services/project-checker.ts'
+import * as projectChecker from '../../src/services/project-checker.js'
 import { MagekConfig, type UserApp } from '@magek/common'
-import { expect } from '../expect.ts'
-import * as environment from '../../src/services/environment.ts'
-import * as PackageManager from '../../src/services/package-manager/live.impl.ts'
-import { makeTestPackageManager } from './package-manager/test.impl.ts'
-import { configService, configServiceDependencies } from '../../src/services/config-service.ts'
+import { expect } from '../expect.js'
+import * as environment from '../../src/services/environment.js'
+import * as PackageManager from '../../src/services/package-manager/live.impl.js'
+import { makeTestPackageManager } from './package-manager/test.impl.js'
+import { configService, configServiceDependencies } from '../../src/services/config-service.js'
 const TestPackageManager = makeTestPackageManager()
 const environmentInstance = environment.environmentService
 const projectCheckerInstance = projectChecker.projectChecker

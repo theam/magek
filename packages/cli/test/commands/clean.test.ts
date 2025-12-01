@@ -1,9 +1,9 @@
-import { expect } from '../expect.ts'
+import { expect } from '../expect.js'
 import { restore, fake, replace } from 'sinon'
-import * as Clean from '../../src/commands/clean.ts'
-import * as configService from '../../src/services/config-service.ts'
-import * as projectChecker from '../../src/services/project-checker.ts'
-import { oraLogger } from '../../src/services/logger.ts'
+import * as Clean from '../../src/commands/clean.js'
+import * as configService from '../../src/services/config-service.js'
+import * as projectChecker from '../../src/services/project-checker.js'
+import { oraLogger } from '../../src/services/logger.js'
 import { Config } from '@oclif/core'
 
 const projectCheckerInstance = projectChecker.projectChecker

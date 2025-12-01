@@ -1,12 +1,12 @@
-import * as ProjectChecker from '../../../src/services/project-checker.ts'
+import * as ProjectChecker from '../../../src/services/project-checker.js'
 import { restore, replace, fake, stub } from 'sinon'
 import type { SinonSpy } from 'sinon'
-import Command from '../../../src/commands/new/command.ts'
+import Command from '../../../src/commands/new/command.js'
 import Mustache = require('mustache')
 import { createRequire } from 'module'
 import { Config } from '@oclif/core'
-import { expect } from '../../expect.ts'
-import { template } from '../../../src/services/generator.ts'
+import { expect } from '../../expect.js'
+import { template } from '../../../src/services/generator.js'
 
 const requireFn = typeof require === 'function' ? require : createRequire(process.cwd() + '/')
 const fs: typeof import('fs-extra') = requireFn('fs-extra')

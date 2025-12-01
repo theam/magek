@@ -1,16 +1,16 @@
 import * as path from 'path'
 import * as fsExtra from 'fs-extra'
 import * as Mustache from 'mustache'
-import type { Target, FileDir } from './generator/target/index.ts'
-import { classNameToFileName, checkResourceNameIsValid } from '../common/filenames.ts'
-import { checkResourceExists } from './project-checker.ts'
+import type { Target, FileDir } from './generator/target/index.js'
+import { classNameToFileName, checkResourceNameIsValid } from '../common/filenames.js'
+import { checkResourceExists } from './project-checker.js'
 import {
   checkResourceStubFileExists,
   resourceStubFilePath,
   checkStubsFolderExists,
   resourceTemplateFilePath,
-} from './stub-publisher.ts'
-import type { TemplateType } from './stub-publisher.ts'
+} from './stub-publisher.js'
+import type { TemplateType } from './stub-publisher.js'
 
 export async function generate<TInfo>(target: Target<TInfo>): Promise<void> {
   await checkResourceExists(target.name, target.placementDir, target.extension)

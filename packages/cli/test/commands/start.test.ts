@@ -1,14 +1,14 @@
-import { expect } from '../expect.ts'
+import { expect } from '../expect.js'
 import { restore, fake, replace } from 'sinon'
 import { MagekConfig, type ProviderLibrary } from '@magek/common'
-import * as Start from '../../src/commands/start.ts'
-import * as providerService from '../../src/services/provider-service.ts'
-import { oraLogger } from '../../src/services/logger.ts'
+import * as Start from '../../src/commands/start.js'
+import * as providerService from '../../src/services/provider-service.js'
+import { oraLogger } from '../../src/services/logger.js'
 import { Config } from '@oclif/core'
 import { runCommand } from '@oclif/test'
-import * as environment from '../../src/services/environment.ts'
-import * as configService from '../../src/services/config-service.ts'
-import * as projectChecker from '../../src/services/project-checker.ts'
+import * as environment from '../../src/services/environment.js'
+import * as configService from '../../src/services/config-service.js'
+import * as projectChecker from '../../src/services/project-checker.js'
 
 const projectCheckerInstance = projectChecker.projectChecker
 const configServiceInstance = configService.configService

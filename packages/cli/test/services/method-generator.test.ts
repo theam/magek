@@ -1,8 +1,8 @@
-import { HasName, HasProjection, HasReaction } from '../../src/services/generator/target/index.ts'
-import { expect } from '../expect.ts'
-import { generateProjection, generateReducers, getResourceSourceFile } from '../../src/services/method-generator.ts'
+import { HasName, HasProjection, HasReaction } from '../../src/services/generator/target/index.js'
+import { expect } from '../expect.js'
+import { generateProjection, generateReducers, getResourceSourceFile } from '../../src/services/method-generator.js'
 import { fake, replace, restore, stub } from 'sinon'
-import * as Filenames from '../../src/common/filenames.ts'
+import * as Filenames from '../../src/common/filenames.js'
 import { Project } from 'ts-morph'
 
 describe('method generator', (): void => {

@@ -1,13 +1,13 @@
-import { FileSystemService } from '../file-system/index.ts'
-import { ProcessService } from '../process/index.ts'
-import { PackageManagerService } from './index.ts'
+import { FileSystemService } from '../file-system/index.js'
+import { ProcessService } from '../process/index.js'
+import { PackageManagerService } from './index.js'
 import { Effect, Layer } from 'effect'
-import { makeRushPackageManager } from './rush.impl.ts'
-import { makePnpmPackageManager } from './pnpm.impl.ts'
-import { makeYarnPackageManager } from './yarn.impl.ts'
-import { makeNpmPackageManager } from './npm.impl.ts'
-import { LiveFileSystem } from '../file-system/live.impl.ts'
-import { LiveProcess } from '../process/live.impl.ts'
+import { makeRushPackageManager } from './rush.impl.js'
+import { makePnpmPackageManager } from './pnpm.impl.js'
+import { makeYarnPackageManager } from './yarn.impl.js'
+import { makeNpmPackageManager } from './npm.impl.js'
+import { LiveFileSystem } from '../file-system/live.impl.js'
+import { LiveProcess } from '../process/live.impl.js'
 
 const inferPackageManagerNameFromDirectoryContents = Effect.gen(function* () {
   const { cwd } = yield* ProcessService

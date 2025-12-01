@@ -1,10 +1,10 @@
 import { fake, replace, restore, stub } from 'sinon'
 import type { SinonSpy } from 'sinon'
-import { expect } from '../expect.ts'
+import { expect } from '../expect.js'
 import { createRequire } from 'module'
 import { Dirent } from 'fs'
 import * as path from 'path'
-import { createSandboxProject } from '../../src/common/sandbox.ts'
+import { createSandboxProject } from '../../src/common/sandbox.js'
 
 const requireFn = typeof require === 'function' ? require : createRequire(process.cwd() + '/')
 const fs: typeof import('fs') = requireFn('fs')

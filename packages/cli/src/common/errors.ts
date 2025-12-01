@@ -1,4 +1,4 @@
-import Brand from './brand.ts'
+import Brand from './brand.js'
 
 /**
  * Builds an error extracting its message from the "stdout" and "stderr" properties if present

@@ -1,6 +1,6 @@
-import { FileSystemService } from '../../../src/services/file-system/index.ts'
+import { FileSystemService } from '../../../src/services/file-system/index.js'
 import { fake } from 'sinon'
-import { fakeService, type FakeOverrides } from '../../helpers/effect.ts'
+import { fakeService, type FakeOverrides } from '../../helpers/effect.js'
 
 export const makeTestFileSystem = (overrides?: FakeOverrides<FileSystemService>) =>
   fakeService(FileSystemService, {

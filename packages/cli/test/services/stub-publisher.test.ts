@@ -3,7 +3,7 @@ import type { SinonSpy } from 'sinon'
 import type { Dirent } from 'fs'
 import { join } from 'path'
 import { createRequire } from 'module'
-import { expect } from '../expect.ts'
+import { expect } from '../expect.js'
 import {
   checkResourceStubFileExists,
   checkStubsFolderExists,
@@ -14,7 +14,7 @@ import {
   resourceTemplateFilePath,
   resourceTemplatesPath,
   copyStubFile,
-} from '../../src/services/stub-publisher.ts'
+} from '../../src/services/stub-publisher.js'
 
 const requireFn = typeof require === 'function' ? require : createRequire(process.cwd() + '/')
 const fs: typeof import('fs-extra') = requireFn('fs-extra')

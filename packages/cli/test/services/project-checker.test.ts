@@ -5,11 +5,11 @@ import {
   checkProjectAlreadyExists,
   checkResourceExists,
   checkCurrentDirMagekVersion,
-} from '../../src/services/project-checker.ts'
+} from '../../src/services/project-checker.js'
 import { restore, replace, fake, spy, stub } from 'sinon'
-import { logger } from '../../src/services/logger.ts'
-import Prompter from '../../src/services/user-prompt.ts'
-import { expect } from '../expect.ts'
+import { logger } from '../../src/services/logger.js'
+import Prompter from '../../src/services/user-prompt.js'
+import { expect } from '../expect.js'
 import { createRequire } from 'module'
 
 const requireFn = typeof require === 'function' ? require : createRequire(process.cwd() + '/')

@@ -1,7 +1,7 @@
 import * as process from 'process'
-import { ProcessError, ProcessService } from './index.ts'
+import { ProcessError, ProcessService } from './index.js'
 import { Effect, Layer } from 'effect'
-import { unknownToError } from '../../common/errors.ts'
+import { unknownToError } from '../../common/errors.js'
 
 type ExecaCommandFn = typeof import('execa').execaCommand
 

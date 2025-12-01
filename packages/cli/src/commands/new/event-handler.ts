@@ -1,5 +1,5 @@
 import { Flags, Args } from '@oclif/core'
-import BaseCommand from '../../common/base-command.ts'
+import BaseCommand from '../../common/base-command.js'
 import {
   HasEvent,
   HasName,
@@ -7,13 +7,13 @@ import {
   joinParsers,
   parseEvent,
   parseName,
-} from '../../services/generator/target/index.ts'
-import { Script } from '../../common/script.ts'
-import Brand from '../../common/brand.ts'
-import { checkCurrentDirIsAMagekProject } from '../../services/project-checker.ts'
-import { generate, template } from '../../services/generator.ts'
+} from '../../services/generator/target/index.js'
+import { Script } from '../../common/script.js'
+import Brand from '../../common/brand.js'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker.js'
+import { generate, template } from '../../services/generator.js'
 import * as path from 'path'
-import { classNameToFileName } from '../../common/filenames.ts'
+import { classNameToFileName } from '../../common/filenames.js'
 
 export default class EventHandler extends BaseCommand {
   public static description = 'create a new event handler'

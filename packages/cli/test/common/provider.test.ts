@@ -1,5 +1,5 @@
-import { Provider } from '../../src/common/provider.ts'
-import { expect } from '../expect.ts'
+import { Provider } from '../../src/common/provider.js'
+import { expect } from '../expect.js'
 
 describe('selectedProvider', (): void => {
   it('get selected provider: Other', async () => {

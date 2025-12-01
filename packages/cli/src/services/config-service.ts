@@ -1,12 +1,12 @@
 import type { MagekConfig, UserApp } from '@magek/common'
 import { Effect, pipe } from 'effect'
 import * as path from 'path'
-import { guardError } from '../common/errors.ts'
-import { checkItIsAMagekProject } from './project-checker.ts'
-import { currentEnvironment } from './environment.ts'
-import { createSandboxProject, removeSandboxProject } from '../common/sandbox.ts'
-import { PackageManagerService, type PackageManagerError } from './package-manager/index.ts'
-import { packageManagerLayers } from './package-manager/live.impl.ts'
+import { guardError } from '../common/errors.js'
+import { checkItIsAMagekProject } from './project-checker.js'
+import { currentEnvironment } from './environment.js'
+import { createSandboxProject, removeSandboxProject } from '../common/sandbox.js'
+import { PackageManagerService, type PackageManagerError } from './package-manager/index.js'
+import { packageManagerLayers } from './package-manager/live.impl.js'
 
 export const DEPLOYMENT_SANDBOX = path.join(process.cwd(), '.deploy')
 

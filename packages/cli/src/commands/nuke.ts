@@ -1,13 +1,13 @@
 import { Flags } from '@oclif/core'
-import BaseCommand from '../common/base-command.ts'
-import { nukeCloudProviderResources } from '../services/provider-service.ts'
-import { compileProjectAndLoadConfig } from '../services/config-service.ts'
+import BaseCommand from '../common/base-command.js'
+import { nukeCloudProviderResources } from '../services/provider-service.js'
+import { compileProjectAndLoadConfig } from '../services/config-service.js'
 import type { MagekConfig } from '@magek/common'
-import { Script } from '../common/script.ts'
-import Brand from '../common/brand.ts'
-import Prompter from '../services/user-prompt.ts'
-import { logger } from '../services/logger.ts'
-import { currentEnvironment, initializeEnvironment } from '../services/environment.ts'
+import { Script } from '../common/script.js'
+import Brand from '../common/brand.js'
+import Prompter from '../services/user-prompt.js'
+import { logger } from '../services/logger.js'
+import { currentEnvironment, initializeEnvironment } from '../services/environment.js'
 
 export const runTasks = async (
   compileAndLoad: Promise<MagekConfig>,

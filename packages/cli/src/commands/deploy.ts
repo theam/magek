@@ -1,16 +1,16 @@
 import { Flags } from '@oclif/core'
-import BaseCommand from '../common/base-command.ts'
-import { deployToCloudProvider } from '../services/provider-service.ts'
+import BaseCommand from '../common/base-command.js'
+import { deployToCloudProvider } from '../services/provider-service.js'
 import {
   cleanDeploymentSandbox,
   compileProjectAndLoadConfig,
   createDeploymentSandbox,
-} from '../services/config-service.ts'
+} from '../services/config-service.js'
 import type { MagekConfig } from '@magek/common'
-import { Script } from '../common/script.ts'
-import Brand from '../common/brand.ts'
-import { logger } from '../services/logger.ts'
-import { currentEnvironment, initializeEnvironment } from '../services/environment.ts'
+import { Script } from '../common/script.js'
+import Brand from '../common/brand.js'
+import { logger } from '../services/logger.js'
+import { currentEnvironment, initializeEnvironment } from '../services/environment.js'
 
 export const runTasks = async (
   compileAndLoad: Promise<MagekConfig>,

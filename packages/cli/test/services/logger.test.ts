@@ -1,7 +1,7 @@
-import { logger, oraLogger, appendOnErrorsFile } from '../../src/services/logger.ts'
+import { logger, oraLogger, appendOnErrorsFile } from '../../src/services/logger.js'
 import * as path from 'path'
 import { restore, replace, fake } from 'sinon'
-import { expect } from '../expect.ts'
+import { expect } from '../expect.js'
 import { createRequire } from 'module'
 
 const requireFn = typeof require === 'function' ? require : createRequire(process.cwd() + '/')

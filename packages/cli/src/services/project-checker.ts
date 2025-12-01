@@ -1,11 +1,11 @@
 import * as fsExtra from 'fs-extra'
 import * as path from 'path'
-import Brand from '../common/brand.ts'
-import { filePath, getResourceType } from './generator.ts'
-import { classNameToFileName } from '../common/filenames.ts'
-import { logger } from '../services/logger.ts'
-import Prompter from '../services/user-prompt.ts'
-import Semver from '../services/semver.ts'
+import Brand from '../common/brand.js'
+import { filePath, getResourceType } from './generator.js'
+import { classNameToFileName } from '../common/filenames.js'
+import { logger } from '../services/logger.js'
+import Prompter from '../services/user-prompt.js'
+import Semver from '../services/semver.js'
 
 const fileSystem = fsExtra
 

@@ -1,7 +1,7 @@
 import { afterEach, describe } from 'mocha'
-import * as providerService from '../../src/services/provider-service.ts'
+import * as providerService from '../../src/services/provider-service.js'
 import { restore, fake } from 'sinon'
-import { expect } from '../expect.ts'
+import { expect } from '../expect.js'
 import { faker } from '@faker-js/faker'
 
 describe('providerService', () => {

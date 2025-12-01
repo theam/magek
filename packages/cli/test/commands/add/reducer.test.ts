@@ -2,12 +2,12 @@ import { fake, replace, restore, spy, stub } from 'sinon'
 import type { SinonSpy } from 'sinon'
 import { Config } from '@oclif/core'
 import { ClassDeclaration, MethodDeclarationStructure, Project, SourceFile } from 'ts-morph'
-import * as ProjectChecker from '../../../src/services/project-checker.ts'
-import { expect } from '../../expect.ts'
-import Reducer from '../../../src/commands/add/reducer.ts'
-import * as MethodGenerator from '../../../src/services/method-generator.ts'
-import * as Filenames from '../../../src/common/filenames.ts'
-import { oraLogger } from '../../../src/services/logger.ts'
+import * as ProjectChecker from '../../../src/services/project-checker.js'
+import { expect } from '../../expect.js'
+import Reducer from '../../../src/commands/add/reducer.js'
+import * as MethodGenerator from '../../../src/services/method-generator.js'
+import * as Filenames from '../../../src/common/filenames.js'
+import { oraLogger } from '../../../src/services/logger.js'
 
 describe('add', async () => {
   describe('reducer', async () => {

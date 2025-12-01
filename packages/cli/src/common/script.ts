@@ -4,8 +4,8 @@ import { pipe } from 'fp-ts/lib/pipeable.js'
 import { fold } from 'fp-ts/lib/Either.js'
 import { tryCatch } from 'fp-ts/lib/TaskEither.js'
 import { constVoid } from 'fp-ts/lib/function.js'
-import { oraLogger } from '../services/logger.ts'
-import Brand from './brand.ts'
+import { oraLogger } from '../services/logger.js'
+import Brand from './brand.js'
 
 /**
  * A Script represents some steps in a Magek command, it stores the initial context

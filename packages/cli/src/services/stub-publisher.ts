@@ -1,19 +1,9 @@
 import type { Dirent } from 'fs-extra'
 import * as fsExtra from 'fs-extra'
-import { dirname, join } from 'path'
-import { fileURLToPath } from 'url'
-import { wrapExecError } from '../common/errors.ts'
+import { join } from 'path'
+import { wrapExecError } from '../common/errors.js'
 
-const currentDir =
-  typeof __dirname !== 'undefined'
-    ? __dirname
-    : dirname(
-        fileURLToPath(
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error import.meta is available when running under ESM
-          import.meta.url
-        )
-      )
+const currentDir = typeof __dirname !== 'undefined' ? __dirname : process.cwd()
 
 export type TemplateType =
   | 'command'

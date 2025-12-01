@@ -4,7 +4,6 @@
     "declaration": false, // Required for MS Rush to compile Oclif properly
     "outDir": "./dist",
     "rootDir": "./src",
-    "allowImportingTsExtensions": true,
     "module": "NodeNext",
     "moduleResolution": "NodeNext"
   },
