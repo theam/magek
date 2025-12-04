@@ -43,7 +43,7 @@
     "jwks-rsa": "3.2.0",
     "tslib": "2.8.1",
     "effect": "3.17.6",
-    "validator": "13.15.15",
+    "validator": "13.15.22",
     "@effect/platform-node": "0.88.3",
     "@effect/platform": "^0.87.13",
     "@effect/cluster": "0.41.18",
