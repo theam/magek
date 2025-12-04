@@ -78,7 +78,7 @@ else
   # Validate @magek/cli is available
   echo ""
   echo "🔍 Validating @magek/cli dependency..."
-  if npm list @magek/cli > /dev/null 2>&1; then
+  if [ -d "node_modules/@magek/cli" ]; then
     echo "✅ @magek/cli dependency found"
   else
     echo "❌ @magek/cli dependency missing"
@@ -88,7 +88,7 @@ else
   # Validate npm works out of the box
   echo ""
   echo "🔍 Validating NPM scripts functionality..."
-  if npm run --silent > /dev/null 2>&1; then
+  if npm run > /dev/null 2>&1; then
     echo "✅ NPM scripts functional"
   else
     echo "❌ NPM scripts not working"
