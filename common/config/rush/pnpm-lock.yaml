@@ -393,8 +393,8 @@ importers:
         specifier: 4.1.1
         version: 4.1.1
       graphql:
-        specifier: 16.8.1
-        version: 16.8.1
+        specifier: 16.12.0
+        version: 16.12.0
       mocha:
         specifier: 11.7.1
         version: 11.7.1
@@ -466,10 +466,10 @@ importers:
         version: 2.11.0
       graphql-scalars:
         specifier: 1.24.1
-        version: 1.24.1(graphql@16.8.1)
+        version: 1.24.1(graphql@16.12.0)
       graphql-subscriptions:
         specifier: 3.0.0
-        version: 3.0.0(graphql@16.8.1)
+        version: 3.0.0(graphql@16.12.0)
       inflected:
         specifier: 2.1.0
         version: 2.1.0
@@ -535,8 +535,8 @@ importers:
         specifier: 7.0.3
         version: 7.0.3
       graphql:
-        specifier: 16.8.1
-        version: 16.8.1
+        specifier: 16.12.0
+        version: 16.12.0
       mocha:
         specifier: 11.7.1
         version: 11.7.1
@@ -620,8 +620,8 @@ importers:
   ../../packages/server:
     dependencies:
       '@effect-ts/core':
-        specifier: 0.60.4
-        version: 0.60.4
+        specifier: 0.60.5
+        version: 0.60.5
       '@magek/adapter-event-store-nedb':
         specifier: workspace:^0.0.1
         version: link:../../adapters/nedb/event-store
@@ -699,8 +699,8 @@ importers:
   ../../packages/server-infrastructure:
     dependencies:
       '@effect-ts/core':
-        specifier: 0.60.4
-        version: 0.60.4
+        specifier: 0.60.5
+        version: 0.60.5
       '@fastify/cors':
         specifier: 11.0.1
         version: 11.0.1
@@ -828,8 +828,8 @@ packages:
     resolution: {integrity: sha512-6zABk/ECA/QYSCQ1NGiVwwbQerUCZ+TQbp64Q3AgmfNvurHH0j8TtXa1qbShXA6qqkpAj4V5W8pP6mLe1mcMqA==}
     engines: {node: '>=18'}
 
-  '@effect-ts/core@0.60.4':
-    resolution: {integrity: sha512-kplDLAsiuidDAOipNcZJPbo3YF7eJHdIWe9sK+6l83HjnTwAp8+56s3hgVhTti0mMO7/Wzo9ZnuQlbjo9IykZA==}
+  '@effect-ts/core@0.60.5':
+    resolution: {integrity: sha512-qi1WrtJA90XLMnj2hnUszW9Sx4dXP03ZJtCc5DiUBIOhF4Vw7plfb65/bdBySPoC9s7zy995TdUX1XBSxUkl5w==}
 
   '@effect-ts/system@0.57.5':
     resolution: {integrity: sha512-/crHGujo0xnuHIYNc1VgP0HGJGFSoSqq88JFXe6FmFyXPpWt8Xu39LyLg7rchsxfXFeEdA9CrIZvLV5eswXV5g==}
@@ -2859,10 +2859,6 @@ packages:
     resolution: {integrity: sha512-DKKrynuQRne0PNpEbzuEdHlYOMksHSUI8Zc9Unei5gTsMNA2/vMpoMz/yKba50pejK56qj98qM0SjYxAKi13gQ==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
 
-  graphql@16.8.1:
-    resolution: {integrity: sha512-59LZHPdGZVh695Ud9lRzPBVTtlX9ZCV150Er2W43ro37wVof0ctenSaskPPjN7lVTIN8mSZt8PHUNKZuNQUuxw==}
-    engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
-
   has-bigints@1.1.0:
     resolution: {integrity: sha512-R3pbpkcIqv2Pm3dUwgjclDRVmWpTJW2DcMzcIhEXEx1oh/CEMObMm3KLmRJOdvhM7o4uQBnwr8pzRK2sJWIqfg==}
     engines: {node: '>= 0.4'}
@@ -4390,7 +4386,7 @@ snapshots:
 
   '@bcoe/v8-coverage@1.0.2': {}
 
-  '@effect-ts/core@0.60.4':
+  '@effect-ts/core@0.60.5':
     dependencies:
       '@effect-ts/system': 0.57.5
 
@@ -6510,18 +6506,16 @@ snapshots:
 
   graphemer@1.4.0: {}
 
-  graphql-scalars@1.24.1(graphql@16.8.1):
+  graphql-scalars@1.24.1(graphql@16.12.0):
     dependencies:
-      graphql: 16.8.1
+      graphql: 16.12.0
       tslib: 2.8.1
 
-  graphql-subscriptions@3.0.0(graphql@16.8.1):
+  graphql-subscriptions@3.0.0(graphql@16.12.0):
     dependencies:
-      graphql: 16.8.1
+      graphql: 16.12.0
 
   graphql@16.12.0: {}
-
-  graphql@16.8.1: {}
 
   has-bigints@1.1.0: {}
 
