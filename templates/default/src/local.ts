@@ -8,11 +8,10 @@ async function main(): Promise<void> {
   Magek.start(__dirname)
 
   const infrastructureFactory = Magek.config.provider?.infrastructure
-  if (!infrastructureFactory) {
+  const providerInfrastructure = infrastructureFactory?.()
+  if (!providerInfrastructure) {
     throw new Error('Provider infrastructure is not configured. Please verify your Magek provider settings.')
   }
-
-  const providerInfrastructure = infrastructureFactory()
   await providerInfrastructure.start(Magek.config, port)
   // eslint-disable-next-line no-console
   console.log(`Magek server running locally on port ${port}`)
