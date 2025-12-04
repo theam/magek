@@ -204,12 +204,14 @@ export async function buildFastifyServer(
  * Default error handling for Fastify. Handles errors in route handlers
  * and sends appropriate error responses.
  */
-async function defaultErrorHandler(error: Error, request: FastifyRequest, reply: FastifyReply): Promise<void> {
+async function defaultErrorHandler(error: unknown, request: FastifyRequest, reply: FastifyReply): Promise<void> {
   if (reply.sent) {
     return
   }
   console.error(error)
-  await requestFailed(error, reply)
+  // Convert unknown error to Error for requestFailed
+  const err = error instanceof Error ? error : new Error(String(error))
+  await requestFailed(err, reply)
 }
 
 export const Infrastructure = (rocketDescriptors?: RocketDescriptor[]): ProviderInfrastructure => {
