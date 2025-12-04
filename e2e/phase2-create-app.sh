@@ -29,6 +29,8 @@ cd /work
 echo "📦 Creating test-app with default template..."
 npm create magek@latest test-app -- \
   --template /workspace/templates/default \
+  --skip-install \
+  --skip-git \
   --description "Test app"
 
 APP_DIR="test-app"
@@ -39,6 +41,20 @@ if [ ! -d "$APP_DIR" ]; then
   ls -la
   exit 1
 fi
+
+# Install dependencies explicitly to ensure registry config is inherited
+cd "$APP_DIR"
+echo "📦 Installing dependencies..."
+npm install
+
+# Initialize git repository
+echo "🔄 Initializing git repository..."
+git init
+git add -A
+git commit -m "Initial commit"
+
+# Return to parent directory
+cd /work
 
 # Store app directory for next phase
 echo "$APP_DIR" > /tmp/app-directory.txt
