@@ -64,6 +64,6 @@
     "typescript": "5.8.3",
     "@faker-js/faker": "7.6.0",
     "fast-check": "4.1.1",
-    "graphql": "16.8.1"
+    "graphql": "16.12.0"
   }
 }
