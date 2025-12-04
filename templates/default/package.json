@@ -10,14 +10,12 @@
     "@magek/cli": "{{magekVersion}}",
     "@magek/adapter-event-store-nedb": "{{magekVersion}}",
     "@magek/adapter-read-model-store-nedb": "{{magekVersion}}",
-    "@magek/adapter-session-store-nedb": "{{magekVersion}}",
-    "{{providerPackageName}}": "{{magekVersion}}"
+    "@magek/adapter-session-store-nedb": "{{magekVersion}}"
   },
   "devDependencies": {
     "@magek/server": "{{magekVersion}}",
     "@magek/server-infrastructure": "{{magekVersion}}",
     "@magek/metadata": "{{magekVersion}}",
-    "{{providerPackageName}}-infrastructure": "{{magekVersion}}",
     "rimraf": "5.0.0",
     "@magek/eslint-config": "${VERSION}",
     "mocha": "11.7.1",
