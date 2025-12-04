@@ -17,7 +17,6 @@
     "url": "git+https://github.com/theam/magek.git"
   },
   "scripts": {
-    "prepare": "ts-patch install -s",
     "format": "prettier --write --ext '.js,.ts' **/*.ts **/*/*.ts",
     "lint:check": "eslint \"**/*.ts\"",
     "lint:fix": "eslint --quiet --fix \"**/*.ts\"",
@@ -25,7 +24,7 @@
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "prepack": "tsc -b tsconfig.json",
     "test:core": "npm run test",
-    "test": "tsc --noEmit -p tsconfig.test.json && cross-env MAGEK_ENV=test nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\" 2>&1"
+    "test": "tsc --noEmit -p tsconfig.test.json && cross-env MAGEK_ENV=test c8 mocha --forbid-only \"test/**/*.test.ts\""
   },
   "bugs": {
     "url": "https://github.com/theam/magek/issues"
@@ -35,7 +34,6 @@
   },
   "dependencies": {
     "@magek/common": "workspace:^0.0.1",
-    "@magek/metadata": "workspace:^0.0.1",
     "fp-ts": "2.11.0",
     "graphql-scalars": "1.24.1",
     "graphql-subscriptions": "3.0.0",
@@ -76,13 +74,12 @@
     "@faker-js/faker": "7.6.0",
     "mocha": "11.7.1",
     "mock-jwks": "3.3.5",
-    "nyc": "17.1.0",
+    "c8": "^10.1.3",
     "rimraf": "6.0.1",
     "sinon": "21.0.0",
     "sinon-chai": "4.0.0",
-    "ts-node": "10.9.1",
+    "tsx": "^4.19.2",
     "typescript": "5.8.3",
-    "graphql": "16.6.0",
-    "ts-patch": "3.3.0"
+    "graphql": "16.6.0"
   }
 }

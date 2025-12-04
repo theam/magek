@@ -1,10 +1,9 @@
-import * as process from 'process'
 import { fake, replace, restore } from 'sinon'
 import { Effect, pipe } from 'effect'
-import { makeLiveProcess, LiveProcess } from '../../../src/services/process/live.impl'
-import { expect } from '../../expect'
-import { guardError } from '../../../src/common/errors'
-import { ProcessService } from '../../../src/services/process'
+import { makeLiveProcess, LiveProcess } from '../../../src/services/process/live.impl.js'
+import { expect } from '../../expect.js'
+import { guardError } from '../../../src/common/errors.js'
+import { ProcessService } from '../../../src/services/process/index.js'
 
 describe('Process - Live Implementation', () => {
   beforeEach(() => {

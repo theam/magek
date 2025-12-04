@@ -4,6 +4,7 @@
 import { expect } from '../expect'
 import { Notification, partitionKey } from '../../src/decorators'
 import { Magek } from '../../src'
+import { Field } from '@magek/common'
 
 describe('the `Notification` decorator', () => {
   afterEach(() => {
@@ -39,7 +40,9 @@ describe('the `Notification` decorator', () => {
   it('sets the partitionKey in the config, if specified', () => {
     @Notification()
     class ANotification {
-      public constructor(@partitionKey readonly key: string) {}
+      @partitionKey
+      @Field()
+      public readonly key!: string
     }
 
     expect(Magek.config.notifications[ANotification.name]).to.deep.equal({

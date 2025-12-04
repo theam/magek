@@ -3,14 +3,16 @@
  
 import { expect } from '../expect'
 import { Event } from '../../src/decorators'
-import { UUID } from '@magek/common'
+import { UUID, Field } from '@magek/common'
 import { Magek } from '../../src'
 
 describe('the `Event` decorator', () => {
   it('add the event class as an event', () => {
     @Event
     class AnEvent {
-      public constructor(readonly foo: string) {}
+      @Field()
+      public readonly foo!: string
+
       public entityID(): UUID {
         return '123'
       }

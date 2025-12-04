@@ -1,37 +1,37 @@
-import { mkdirSync, readdirSync, rmSync, statSync } from 'fs'
-import { copySync, existsSync } from 'fs-extra'
+import * as fs from 'fs'
+import * as fsExtra from 'fs-extra'
 import * as path from 'path'
 
 const copyFolder = (origin: string, destiny: string): void => {
-  readdirSync(origin, { withFileTypes: true }).forEach((dirEnt) => {
+  fs.readdirSync(origin, { withFileTypes: true }).forEach((dirEnt) => {
     if (dirEnt.isFile()) {
-      copySync(path.join(origin, dirEnt.name), path.join(destiny, dirEnt.name))
+      fsExtra.copySync(path.join(origin, dirEnt.name), path.join(destiny, dirEnt.name))
     }
     if (dirEnt.isDirectory()) {
-      mkdirSync(path.join(destiny, dirEnt.name), { recursive: true })
+      fs.mkdirSync(path.join(destiny, dirEnt.name), { recursive: true })
       copyFolder(path.join(origin, dirEnt.name), path.join(destiny, dirEnt.name))
     }
   })
 }
 
 export const createSandboxProject = (sandboxPath: string, assets?: Array<string>): string => {
-  rmSync(sandboxPath, { recursive: true, force: true })
-  mkdirSync(sandboxPath, { recursive: true })
+  fs.rmSync(sandboxPath, { recursive: true, force: true })
+  fs.mkdirSync(sandboxPath, { recursive: true })
   copyFolder('src', path.join(sandboxPath, 'src'))
 
   const projectFiles = ['package.json', 'package-lock.json', 'tsconfig.json']
   projectFiles.forEach((file: string) => {
-    if (existsSync(file)) {
-      copySync(file, path.join(sandboxPath, file))
+    if (fsExtra.existsSync(file)) {
+      fsExtra.copySync(file, path.join(sandboxPath, file))
     }
   })
 
   if (assets) {
     assets.forEach((asset) => {
-      if (statSync(asset).isDirectory()) {
+      if (fs.statSync(asset).isDirectory()) {
         copyFolder(asset, path.join(sandboxPath, asset))
       } else {
-        copySync(asset, path.join(sandboxPath, asset))
+        fsExtra.copySync(asset, path.join(sandboxPath, asset))
       }
     })
   }
@@ -40,5 +40,5 @@ export const createSandboxProject = (sandboxPath: string, assets?: Array<string>
 }
 
 export const removeSandboxProject = (sandboxPath: string): void => {
-  rmSync(sandboxPath, { recursive: true, force: true })
+  fs.rmSync(sandboxPath, { recursive: true, force: true })
 }

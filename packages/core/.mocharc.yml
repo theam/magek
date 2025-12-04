@@ -1,7 +1,7 @@
 diff: true
 require:
-  - 'ts-node/register'
-  - 'ts-patch/compiler'
+  - reflect-metadata
+  - test/setup.ts
 extension:
   - ts
 package: './package.json'
@@ -11,3 +11,5 @@ timeout: 5000
 full-trace: true
 bail: true
 color: true
+node-option:
+  - import=tsx

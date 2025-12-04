@@ -1,18 +1,20 @@
-import { readFileSync, existsSync, removeSync } from 'fs-extra'
+import * as fsExtra from 'fs-extra'
 import * as path from 'path'
-import Brand from '../common/brand'
-import { filePath, getResourceType } from './generator'
-import { classNameToFileName } from '../common/filenames'
-import { logger } from '../services/logger'
-import Prompter from '../services/user-prompt'
-import Semver from '../services/semver'
+import Brand from '../common/brand.js'
+import { filePath, getResourceType } from './generator.js'
+import { classNameToFileName } from '../common/filenames.js'
+import { logger } from '../services/logger.js'
+import Prompter from '../services/user-prompt.js'
+import Semver from '../services/semver.js'
+
+const fileSystem = fsExtra
 
 function projectDir(projectName: string): string {
   return path.join(process.cwd(), projectName)
 }
 
 function checkIndexFileIsMagek(indexFilePath: string): void {
-  const contents = readFileSync(indexFilePath)
+  const contents = fileSystem.readFileSync(indexFilePath)
   if (!contents.includes('Magek.start(')) {
     throw new Error(
       'The main application file does not start a Magek application. Verify you are in the right project'
@@ -20,11 +22,11 @@ function checkIndexFileIsMagek(indexFilePath: string): void {
   }
 }
 
-export async function checkCurrentDirIsAMagekProject(): Promise<void> {
-  return checkItIsAMagekProject(process.cwd())
+const checkCurrentDirIsAMagekProjectImpl = async (): Promise<void> => {
+  return checkItIsAMagekProjectImpl(process.cwd())
 }
 
-export async function checkItIsAMagekProject(projectPath: string): Promise<void> {
+const checkItIsAMagekProjectImpl = async (projectPath: string): Promise<void> => {
   const projectAbsolutePath = path.resolve(projectPath)
   try {
     const tsConfigJsonContents = require(path.join(projectAbsolutePath, 'tsconfig.json'))
@@ -39,23 +41,23 @@ export async function checkItIsAMagekProject(projectPath: string): Promise<void>
   }
 }
 
-export async function checkProjectAlreadyExists(name: string): Promise<void> {
+const checkProjectAlreadyExistsImpl = async (name: string): Promise<void> => {
   const projectDirectoryPath = projectDir(name)
-  const projectDirectoryExists = existsSync(projectDirectoryPath)
+  const projectDirectoryExists = fileSystem.existsSync(projectDirectoryPath)
 
   if (projectDirectoryExists) {
     await Prompter.confirmPrompt({
       message: Brand.dangerize(`Project folder "${name}" already exists. Do you want to overwrite it?`),
     }).then((confirm) => {
       if (!confirm) throw new Error("The folder you're trying to use already exists. Please use another project name")
-      removeSync(projectDirectoryPath)
+      fileSystem.removeSync(projectDirectoryPath)
     })
   }
 }
 
-export async function checkResourceExists(name: string, placementDir: string, extension: string): Promise<void> {
+const checkResourceExistsImpl = async (name: string, placementDir: string, extension: string): Promise<void> => {
   const resourcePath = filePath({ name, placementDir, extension })
-  const resourceExists = existsSync(resourcePath)
+  const resourceExists = fileSystem.existsSync(resourcePath)
   const resourceName = classNameToFileName(name)
   const resourceType = getResourceType(placementDir)
 
@@ -69,12 +71,12 @@ export async function checkResourceExists(name: string, placementDir: string, ex
         throw new Error(
           `The '${resourceType}' resource "${resourceName}${extension}" already exists. Please use another resource name`
         )
-      removeSync(resourcePath)
+      fileSystem.removeSync(resourcePath)
     })
   }
 }
 
-export async function checkCurrentDirMagekVersion(version: string): Promise<void> {
+const checkCurrentDirMagekVersionImpl = async (version: string): Promise<void> => {
   return checkMagekVersion(version, process.cwd())
 }
 
@@ -102,18 +104,32 @@ async function getMagekVersion(projectPath: string): Promise<string> {
 }
 
 class HigherCliVersionError extends Error {
-  constructor(public cliVersion: string, public projectVersion: string, public section: string) {
+  public readonly cliVersion: string
+  public readonly projectVersion: string
+  public readonly section: string
+
+  constructor(cliVersion: string, projectVersion: string, section: string) {
     super(
       `CLI version ${cliVersion} is higher than your project Magek version ${projectVersion} in the '${section}' section. Please upgrade your project Magek dependencies.`
     )
+    this.cliVersion = cliVersion
+    this.projectVersion = projectVersion
+    this.section = section
   }
 }
 
 class LowerCliVersionError extends Error {
-  constructor(public cliVersion: string, public projectVersion: string, public section: string) {
+  public readonly cliVersion: string
+  public readonly projectVersion: string
+  public readonly section: string
+
+  constructor(cliVersion: string, projectVersion: string, section: string) {
     super(
       `CLI version ${cliVersion} is lower than your project Magek version ${projectVersion}. Please upgrade your @magek/cli to the same version with "npm install -g @magek/cli@${projectVersion}"`
     )
+    this.cliVersion = cliVersion
+    this.projectVersion = projectVersion
+    this.section = section
   }
 }
 
@@ -146,3 +162,26 @@ async function compareVersionsAndDisplayMessages(cliVersion: string, projectVers
     throw new LowerCliVersionError(cliVersion, projectVersion, 'breaking')
   }
 }
+
+export const projectChecker = {
+  checkCurrentDirIsAMagekProject: checkCurrentDirIsAMagekProjectImpl,
+  checkProjectAlreadyExists: checkProjectAlreadyExistsImpl,
+  checkResourceExists: checkResourceExistsImpl,
+  checkCurrentDirMagekVersion: checkCurrentDirMagekVersionImpl,
+  checkItIsAMagekProject: checkItIsAMagekProjectImpl,
+}
+
+export const checkCurrentDirIsAMagekProject = (...args: Parameters<typeof checkCurrentDirIsAMagekProjectImpl>) =>
+  projectChecker.checkCurrentDirIsAMagekProject(...args)
+
+export const checkProjectAlreadyExists = (...args: Parameters<typeof checkProjectAlreadyExistsImpl>) =>
+  projectChecker.checkProjectAlreadyExists(...args)
+
+export const checkResourceExists = (...args: Parameters<typeof checkResourceExistsImpl>) =>
+  projectChecker.checkResourceExists(...args)
+
+export const checkCurrentDirMagekVersion = (...args: Parameters<typeof checkCurrentDirMagekVersionImpl>) =>
+  projectChecker.checkCurrentDirMagekVersion(...args)
+
+export const checkItIsAMagekProject = (...args: Parameters<typeof checkItIsAMagekProjectImpl>) =>
+  projectChecker.checkItIsAMagekProject(...args)

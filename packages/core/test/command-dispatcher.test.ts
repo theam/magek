@@ -4,7 +4,7 @@ import { Magek } from '../src/magek'
 import { fake, replace, restore, spy } from 'sinon'
 import { expect } from './expect'
 import { MagekCommandDispatcher } from '../src/command-dispatcher'
-import { CommandBeforeFunction, Register, NotAuthorizedError } from '@magek/common'
+import { CommandBeforeFunction, Register, NotAuthorizedError, Field } from '@magek/common'
 import { Command, RegisterHandler } from '../src'
 import { faker } from '@faker-js/faker'
 import { MagekAuthorizer } from '../src/authorizer'
@@ -154,7 +154,13 @@ describe('the `MagekCommandsDispatcher`', () => {
 
     it('properly handles the registered events', async () => {
       class SomethingHappened {
-        public constructor(readonly when: string) {}
+        @Field()
+        public readonly when: string
+
+        public constructor(when: string) {
+          this.when = when
+        }
+
         public entityID() {
           return faker.datatype.uuid()
         }
@@ -211,8 +217,13 @@ describe('the `MagekCommandsDispatcher`', () => {
       let asyncOperationFinished = false
       @Command({ authorize: 'all' })
       class PostComment {
-        public constructor(readonly comment: string) {}
-         
+        @Field()
+        public readonly comment: string
+
+        public constructor(comment: string) {
+          this.comment = comment
+        }
+
         public static async handle(command: PostComment, _register: Register): Promise<void> {
           await new Promise((resolve) => setTimeout(resolve, 100))
           asyncOperationFinished = true
@@ -262,7 +273,13 @@ describe('the `MagekCommandsDispatcher`', () => {
         let transformedInput = {}
         @Command({ authorize: 'all', before: [beforeFn] })
         class PostComment {
-          public constructor(readonly comment: string) {}
+          @Field()
+          public readonly comment: string
+
+          public constructor(comment: string) {
+            this.comment = comment
+          }
+
           public static async handle(command: PostComment): Promise<void> {
             transformedInput = command
           }
@@ -293,7 +310,13 @@ describe('the `MagekCommandsDispatcher`', () => {
         let transformedInput = {}
         @Command({ authorize: 'all', before: [beforeFn, beforeFnV2] })
         class PostComment {
-          public constructor(readonly comment: string) {}
+          @Field()
+          public readonly comment: string
+
+          public constructor(comment: string) {
+            this.comment = comment
+          }
+
           public static async handle(command: PostComment): Promise<void> {
             transformedInput = command
           }

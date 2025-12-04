@@ -1,7 +1,7 @@
 {
   "diff": true,
   "require": [
-    "ts-node/register"
+    "tsx/cjs"
   ],
   "extension": [
     "ts"

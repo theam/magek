@@ -1,4 +1,4 @@
-import {
+import type {
   HasName,
   HasFields,
   Field,
@@ -8,9 +8,7 @@ import {
   HasProjections,
   HasEvent,
   HasProjection,
-} from './types'
-
- 
+} from './types.js'
 
 export const parseName = (name: string): Promise<HasName> => Promise.resolve({ name })
 
@@ -86,16 +84,24 @@ const projectionParsingError = (projection: string): Error =>
  *   )
  * ```
  */
- 
-export function joinParsers<T extends Promise<any>[]>(
+
+type ParserPromises<T extends ReadonlyArray<Promise<object>>> = { [K in keyof T]: Awaited<T[K]> }
+
+type ParserResult<T extends ReadonlyArray<Promise<object>>> = TupleToIntersection<ParserPromises<T>>
+
+export function joinParsers<T extends ReadonlyArray<Promise<object>>>(
   ...parsers: T
-): Promise<TupleToIntersection<{ [K in keyof T]: T[K] extends Promise<infer P> ? P : never }>> {
-  return parsers.reduce((promiseA, promiseB) => {
-    return promiseA.then((a) => promiseB.then((b) => ({ ...a, ...b })))
+): Promise<ParserResult<T>> {
+  return Promise.all(parsers).then((results) => {
+    let merged = {} as ParserResult<T>
+    for (const value of results) {
+      merged = Object.assign(merged as object, value) as ParserResult<T>
+    }
+    return merged
   })
 }
 
 type TupleToUnion<T> = { [P in keyof T]: T[P] } extends { [K: number]: infer V } ? V : never
- 
-type UnionToIntersection<T> = (T extends any ? (k: T) => void : never) extends (k: infer I) => void ? I : never
+
+type UnionToIntersection<T> = (T extends unknown ? (k: T) => void : never) extends (k: infer I) => void ? I : never
 type TupleToIntersection<T> = UnionToIntersection<TupleToUnion<T>>

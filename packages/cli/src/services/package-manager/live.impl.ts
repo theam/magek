@@ -1,13 +1,13 @@
-import { FileSystemService } from '../file-system'
-import { ProcessService } from '../process'
-import { PackageManagerService } from '.'
+import { FileSystemService } from '../file-system/index.js'
+import { ProcessService } from '../process/index.js'
+import { PackageManagerService } from './index.js'
 import { Effect, Layer } from 'effect'
-import { makeRushPackageManager } from './rush.impl'
-import { makePnpmPackageManager } from './pnpm.impl'
-import { makeYarnPackageManager } from './yarn.impl'
-import { makeNpmPackageManager } from './npm.impl'
-import { LiveFileSystem } from '../file-system/live.impl'
-import { LiveProcess } from '../process/live.impl'
+import { makeRushPackageManager } from './rush.impl.js'
+import { makePnpmPackageManager } from './pnpm.impl.js'
+import { makeYarnPackageManager } from './yarn.impl.js'
+import { makeNpmPackageManager } from './npm.impl.js'
+import { LiveFileSystem } from '../file-system/live.impl.js'
+import { LiveProcess } from '../process/live.impl.js'
 
 const inferPackageManagerNameFromDirectoryContents = Effect.gen(function* () {
   const { cwd } = yield* ProcessService
@@ -28,8 +28,17 @@ const inferPackageManagerNameFromDirectoryContents = Effect.gen(function* () {
   }
 })
 
-export const InferredPackageManager = Layer.effect(PackageManagerService, 
+const inferredPackageManagerLayer = Layer.effect(
+  PackageManagerService,
   Effect.orDie(inferPackageManagerNameFromDirectoryContents)
 )
 
-export const LivePackageManager = Layer.provide(InferredPackageManager, Layer.merge(LiveFileSystem, LiveProcess))
+const livePackageManagerLayer = Layer.provide(inferredPackageManagerLayer, Layer.merge(LiveFileSystem, LiveProcess))
+
+export const packageManagerLayers = {
+  InferredPackageManager: inferredPackageManagerLayer,
+  LivePackageManager: livePackageManagerLayer,
+}
+
+export const InferredPackageManager = packageManagerLayers.InferredPackageManager
+export const LivePackageManager = packageManagerLayers.LivePackageManager

@@ -14,7 +14,6 @@ import {
   GraphQLStart,
   GraphQLStop,
   MessageTypes,
-  ProviderConnectionsLibrary,
   UserEnvelope,
   getLogger,
 } from '@magek/common'
@@ -31,7 +30,6 @@ export interface GraphQLWebsocketHandlerCallbacks {
 export class GraphQLWebsocketHandler {
   public constructor(
     private readonly config: MagekConfig,
-    private readonly connectionManager: ProviderConnectionsLibrary,
     private readonly callbacks: GraphQLWebsocketHandlerCallbacks,
     private readonly tokenVerifier: MagekTokenVerifier
   ) {}
@@ -72,7 +70,7 @@ export class GraphQLWebsocketHandler {
     } catch (e) {
       const error = e as Error
       logger.error(e)
-      await this.connectionManager.sendMessage(this.config, envelope.connectionID, new GraphQLInitError(error.message))
+      await this.config.provider.messaging.sendMessage(this.config, envelope.connectionID, new GraphQLInitError(error.message))
     }
   }
 
@@ -88,9 +86,9 @@ export class GraphQLWebsocketHandler {
       user: userEnvelope,
     }
     logger.debug('Storing connection data: ', connectionData)
-    await this.connectionManager.storeData(this.config, connectionID, connectionData)
+    await this.config.sessionStore.storeConnection(this.config, connectionID, connectionData)
     logger.debug('Sending ACK')
-    await this.connectionManager.sendMessage(this.config, connectionID, new GraphQLInitAck())
+    await this.config.provider.messaging.sendMessage(this.config, connectionID, new GraphQLInitAck())
   }
 
   private async handleStart(
@@ -103,7 +101,7 @@ export class GraphQLWebsocketHandler {
       throw new Error(`Missing "id" in ${message.type} message`)
     }
     if (!message.payload || !message.payload.query) {
-      await this.connectionManager.sendMessage(
+      await this.config.provider.messaging.sendMessage(
         this.config,
         connectionID,
         new GraphQLError(message.id, {
@@ -124,8 +122,8 @@ export class GraphQLWebsocketHandler {
 
     logger.debug('Operation finished. Sending DATA:', result)
     // It was a query or mutation. We send data and complete the operation
-    await this.connectionManager.sendMessage(this.config, connectionID, new GraphQLData(message.id, result))
-    await this.connectionManager.sendMessage(this.config, connectionID, new GraphQLComplete(message.id))
+    await this.config.provider.messaging.sendMessage(this.config, connectionID, new GraphQLData(message.id, result))
+    await this.config.provider.messaging.sendMessage(this.config, connectionID, new GraphQLComplete(message.id))
   }
 
   private async augmentEnvelope(
@@ -134,7 +132,7 @@ export class GraphQLWebsocketHandler {
     message: GraphQLStart
   ): Promise<GraphQLRequestEnvelope> {
     const logger = getLogger(this.config, 'GraphQLWebsocketHandler#augmentEnvelope')
-    const connectionData = await this.connectionManager.fetchData(this.config, connectionID)
+    const connectionData = await this.config.sessionStore.fetchConnection(this.config, connectionID)
     logger.debug('Found connection data: ', connectionData)
     return {
       ...envelope,
@@ -156,7 +154,7 @@ export class GraphQLWebsocketHandler {
     await this.callbacks.onStopOperation(connectionID, message.id)
     logger.debug('Stop operation finished')
     try {
-      await this.connectionManager.sendMessage(this.config, connectionID, new GraphQLComplete(message.id))
+      await this.config.provider.messaging.sendMessage(this.config, connectionID, new GraphQLComplete(message.id))
     } catch (e) {
       // It could be the case that the client already closed the connection without waiting for stop operation to finish
       // Log this but ignore it

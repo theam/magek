@@ -67,6 +67,31 @@ function isEntityAttributes(param: EntityDecoratorParam): param is EntityAttribu
 }
 
 /**
+ * Stage 3 method decorator context
+ */
+interface Stage3MethodContext {
+  kind: 'method'
+  name: string | symbol
+  static: boolean
+  private: boolean
+  metadata: Record<string | symbol, unknown>
+  addInitializer?: (initializer: () => void) => void
+}
+
+/**
+ * Type guard to detect Stage 3 method decorator context
+ */
+function isStage3MethodContext(arg: unknown): arg is Stage3MethodContext {
+  return (
+    arg !== null &&
+    typeof arg === 'object' &&
+    'kind' in arg &&
+    (arg as Stage3MethodContext).kind === 'method' &&
+    'name' in arg
+  )
+}
+
+/**
  * Decorator to register an entity class method as a reducer function
  * for a specific event.
  *
@@ -75,15 +100,33 @@ function isEntityAttributes(param: EntityDecoratorParam): param is EntityAttribu
 export function Reduces<TEvent extends EventInterface>(
   eventClass: Class<TEvent>
 ): <TEntity>(
-  entityClass: Class<TEntity>,
-  methodName: string,
-  methodDescriptor: ReducerMethod<TEvent, TEntity>
+  entityClassOrMethod: Class<TEntity> | Function,
+  methodNameOrContext: string | Stage3MethodContext,
+  methodDescriptor?: ReducerMethod<TEvent, TEntity>
 ) => void {
-  return (entityClass, methodName) => {
-    registerReducer(eventClass.name, {
-      class: entityClass,
-      methodName: methodName,
-    })
+  return (entityClassOrMethod, methodNameOrContext, _methodDescriptor?) => {
+    // Detect Stage 3 vs Legacy decorator
+    if (isStage3MethodContext(methodNameOrContext)) {
+      // Stage 3 decorator - use addInitializer to get the class
+      const context = methodNameOrContext
+      if (context.addInitializer) {
+        context.addInitializer(function (this: Function) {
+          // For static methods, 'this' is the class itself
+          // For instance methods, 'this' is an instance and we need this.constructor
+          const targetClass = context.static ? this : this.constructor
+          registerReducer(eventClass.name, {
+            class: targetClass as AnyClass,
+            methodName: context.name.toString(),
+          })
+        })
+      }
+    } else {
+      // Legacy decorator
+      registerReducer(eventClass.name, {
+        class: entityClassOrMethod as AnyClass,
+        methodName: methodNameOrContext as string,
+      })
+    }
   }
 }
 

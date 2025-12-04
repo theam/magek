@@ -10,6 +10,7 @@ import {
   NonPersistedEntitySnapshotEnvelope,
   ProviderLibrary,
   UUID,
+  Field,
 } from '@magek/common'
 import { fake, replace, restore, stub, match, spy } from 'sinon'
 import { EventStore } from '../../src/services/event-store'
@@ -26,24 +27,55 @@ describe('EventStore', () => {
   testConfig.logLevel = Level.error
 
   class AnEvent {
-    public constructor(readonly id: UUID, readonly entityId: string, readonly delta: number) {}
+    @Field(type => UUID)
+    public readonly id: UUID
+
+    @Field()
+    public readonly entityId: string
+
+    @Field()
+    public readonly delta: number
+
+    public constructor(id: UUID, entityId: string, delta: number) {
+      this.id = id
+      this.entityId = entityId
+      this.delta = delta
+    }
+
     public entityID(): UUID {
       return this.entityId
     }
   }
 
   class AnotherEvent {
-    public constructor(readonly id: UUID) {}
+    @Field(type => UUID)
+    public readonly id: UUID
+
+    public constructor(id: UUID) {
+      this.id = id
+    }
+
     public entityID(): UUID {
       return this.id
     }
+
     public getPrefixedId(prefix: string): string {
       return `${prefix}-${this.id}`
     }
   }
 
   class AnEntity {
-    public constructor(readonly id: UUID, readonly count: number) {}
+    @Field(type => UUID)
+    public readonly id: UUID
+
+    @Field()
+    public readonly count: number
+
+    public constructor(id: UUID, count: number) {
+      this.id = id
+      this.count = count
+    }
+
     public getId(): UUID {
       return this.id
     }

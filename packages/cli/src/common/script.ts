@@ -1,21 +1,30 @@
-import { ReaderTaskEither, rightIO, chain, ask, run, fromTaskEither } from 'fp-ts/lib/ReaderTaskEither'
-import { pipe } from 'fp-ts/lib/pipeable'
-import { fold } from 'fp-ts/lib/Either'
-import { tryCatch } from 'fp-ts/lib/TaskEither'
-import { constVoid } from 'fp-ts/lib/function'
-import { oraLogger } from '../services/logger'
-import Brand from './brand'
+import type { ReaderTaskEither } from 'fp-ts/lib/ReaderTaskEither.js'
+import { rightIO, chain, ask, fromTaskEither } from 'fp-ts/lib/ReaderTaskEither.js'
+import { pipe } from 'fp-ts/lib/pipeable.js'
+import { fold } from 'fp-ts/lib/Either.js'
+import { tryCatch } from 'fp-ts/lib/TaskEither.js'
+import { constVoid } from 'fp-ts/lib/function.js'
+import { oraLogger } from '../services/logger.js'
+import Brand from './brand.js'
 
 /**
  * A Script represents some steps in a Magek command, it stores the initial context
  * implicitly, and makes it available for all of the steps that define this process.
  */
 export class Script<TContext> {
+  private readonly contextResolver: Promise<TContext>
+  private readonly errorHandlers: Record<string, (_: Error) => string>
+  private readonly action: ReaderTaskEither<TContext, Error, void>
+
   private constructor(
-    readonly contextResolver: Promise<TContext>,
-    readonly errorHandlers: Record<string, (_: Error) => string>,
-    readonly action: ReaderTaskEither<TContext, Error, void>
-  ) {}
+    contextResolver: Promise<TContext>,
+    errorHandlers: Record<string, (_: Error) => string>,
+    action: ReaderTaskEither<TContext, Error, void>
+  ) {
+    this.contextResolver = contextResolver
+    this.errorHandlers = errorHandlers
+    this.action = action
+  }
 
   /**
    * Convenience function to print a welcome message and initialize the context of the script
@@ -122,7 +131,7 @@ export class Script<TContext> {
   public async done(): Promise<void> {
     try {
       const context = await this.contextResolver
-      const result = await run(this.action, context)
+      const result = await this.action(context)()
       return pipe(
         result,
         fold((err) => {

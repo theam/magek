@@ -1,28 +1,32 @@
-import { ReadModelInterface, SequenceKey, UUID } from './concepts'
 import { MagekConfig } from './config'
 import {
-  ConnectionDataEnvelope,
   GraphQLRequestEnvelope,
   GraphQLRequestEnvelopeError,
   HealthEnvelope,
-  ReadModelEnvelope,
-  ReadModelListResult,
   ScheduledCommandEnvelope,
-  SubscriptionEnvelope,
 } from './envelope'
-import { FilterFor, ProjectionFor, SortFor } from './searcher'
-import { ReadOnlyNonEmptyArray } from './typelevel'
 import { RocketDescriptor, RocketEnvelope } from './rockets'
 
 export interface ProviderLibrary {
-  readModels: ProviderReadModelsLibrary
   graphQL: ProviderGraphQLLibrary
   api: ProviderAPIHandling
-  connections: ProviderConnectionsLibrary
+  messaging: ProviderMessagingLibrary
   scheduled: ScheduledCommandsLibrary
   infrastructure: () => ProviderInfrastructure
   rockets: ProviderRocketLibrary
   sensor: ProviderSensorLibrary
+}
+
+export interface ProviderMessagingLibrary {
+  /**
+   * Sends a message to a specific connection.
+   *
+   * @param config - The Magek configuration object.
+   * @param connectionID - The ID of the connection.
+   * @param data - The data to be sent to the connection.
+   * @returns A promise that resolves when the message has been sent successfully.
+   */
+  sendMessage(config: MagekConfig, connectionID: string, data: unknown): Promise<void>
 }
 
 export interface ProviderRocketLibrary {
@@ -39,124 +43,6 @@ export interface ProviderSensorLibrary {
   graphQLFunctionUrl(config: MagekConfig): Promise<string>
   rawRequestToHealthEnvelope(rawRequest: unknown): HealthEnvelope
   areRocketFunctionsUp(config: MagekConfig): Promise<{ [key: string]: boolean }>
-}
-
-export interface ProviderReadModelsLibrary {
-  /**
-   * Converts raw events into `ReadModelEnvelope` objects.
-   *
-   * @param config - The Magek configuration object.
-   * @param rawEvents - The raw events to be converted.
-   * @returns A promise that resolves to an array of `ReadModelEnvelope` objects.
-   */
-  rawToEnvelopes(config: MagekConfig, rawEvents: unknown): Promise<Array<ReadModelEnvelope>>
-
-  /**
-   * Fetches a read model by name and ID.
-   *
-   * @param config - The Magek configuration object.
-   * @param readModelName - The name of the read model to be fetched.
-   * @param readModelID - The ID of the read model to be fetched.
-   * @param sequenceKey - The sequence key of the read model to be fetched (optional).
-   * @returns A promise that resolves to a read-only non-empty array of `ReadModelInterface` objects.
-   */
-  fetch(
-    config: MagekConfig,
-    readModelName: string,
-    readModelID: UUID,
-    sequenceKey?: SequenceKey
-  ): Promise<ReadOnlyNonEmptyArray<ReadModelInterface>>
-
-  /**
-   * Searches for read models that match a set of filters.
-   *
-   * @template TReadModel - The type of read model to be returned.
-   * @param config - The Magek configuration object.
-   * @param entityTypeName - The name of the entity type to be searched.
-   * @param filters - The filters to be applied during the search.
-   * @param sortBy - An object that specifies how the results should be sorted (optional).
-   * @param limit - The maximum number of results to return (optional).
-   * @param afterCursor - A cursor that specifies the position after which results should be returned (optional).
-   * @param paginatedVersion - A boolean value that indicates whether the results should be paginated (optional).
-   * @param select - An object that specifies fields to be returned (optional).
-   * @returns A promise that resolves to an array of `TReadModel` objects or a `ReadModelListResult` object.
-   */
-  search<TReadModel extends ReadModelInterface>(
-    config: MagekConfig,
-    entityTypeName: string,
-    filters: FilterFor<unknown>,
-    sortBy?: SortFor<unknown>,
-    limit?: number,
-    afterCursor?: unknown,
-    paginatedVersion?: boolean,
-    select?: ProjectionFor<TReadModel>
-  ): Promise<Array<TReadModel> | ReadModelListResult<TReadModel>>
-
-  /**
-   * Stores a read model.
-   *
-   * @param config - The Magek configuration object.
-   * @param readModelName - The name of the read model to be stored.
-   * @param readModel - The read model to be stored.
-   * @param expectedCurrentVersion - The expected current version of the read model (optional).
-   * If is provided, the underlying provider must throw the error OptimisticConcurrencyUnexpectedVersionError
-   * if the current stored read model contains a version that's different from the provided one.
-   *
-   * @returns A promise that resolves to an unknown value.
-   */
-  store(
-    config: MagekConfig,
-    readModelName: string,
-    readModel: ReadModelInterface,
-    expectedCurrentVersion?: number
-  ): Promise<unknown>
-
-  /**
-   * Deletes a read model.
-   *
-   * @param config - The Magek configuration object.
-   * @param readModelName - The name of the read model to be deleted.
-   * @param readModel - The read model to be deleted (optional).
-   * @returns A promise that resolves to any value.
-   */
-  delete(config: MagekConfig, readModelName: string, readModel: ReadModelInterface | undefined): Promise<unknown>
-
-  /**
-   * Subscribes to a stream of events.
-   *
-   * @param config - The Magek configuration object.
-   * @param subscriptionEnvelope - The subscription envelope that contains the details of the subscription.
-   * @returns A promise that resolves to void.
-   */
-  subscribe(config: MagekConfig, subscriptionEnvelope: SubscriptionEnvelope): Promise<void>
-
-  /**
-   * Fetches a list of subscriptions by subscription name.
-   *
-   * @param config - The Magek configuration object.
-   * @param subscriptionName - The name of the subscriptions to be fetched.
-   * @returns A promise that resolves to an array of `SubscriptionEnvelope` objects.
-   */
-  fetchSubscriptions(config: MagekConfig, subscriptionName: string): Promise<Array<SubscriptionEnvelope>>
-
-  /**
-   * Deletes a subscription by connection ID and subscription ID.
-   *
-   * @param config - The Magek configuration object.
-   * @param connectionID - The ID of the connection associated with the subscription.
-   * @param subscriptionID - The ID of the subscription to be deleted.
-   * @returns A promise that resolves to void.
-   */
-  deleteSubscription(config: MagekConfig, connectionID: string, subscriptionID: string): Promise<void>
-
-  /**
-   * Deletes all subscriptions for a connection by connection ID.
-   *
-   * @param config - The Magek configuration object.
-   * @param connectionID - The ID of the connection associated with the subscriptions.
-   * @returns A promise that resolves to void.
-   */
-  deleteAllSubscriptions(config: MagekConfig, connectionID: string): Promise<void>
 }
 
 export interface ProviderGraphQLLibrary {
@@ -180,46 +66,6 @@ export interface ProviderGraphQLLibrary {
    * @returns A promise that resolves to any value.
    */
   handleResult(result?: unknown, headers?: Record<string, string>): Promise<unknown>
-}
-
-export interface ProviderConnectionsLibrary {
-  /**
-   * Stores connection data for a specific connection.
-   *
-   * @param config - The Magek configuration object.
-   * @param connectionID - The ID of the connection.
-   * @param data - The data to be stored for the connection.
-   * @returns A promise that resolves when the data has been stored successfully.
-   */
-  storeData(config: MagekConfig, connectionID: string, data: ConnectionDataEnvelope): Promise<void>
-
-  /**
-   * Fetches connection data for a specific connection.
-   *
-   * @param config - The Magek configuration object.
-   * @param connectionID - The ID of the connection.
-   * @returns A promise that resolves to the connection data for the specified connection, or `undefined` if no data is found.
-   */
-  fetchData(config: MagekConfig, connectionID: string): Promise<ConnectionDataEnvelope | undefined>
-
-  /**
-   * Deletes connection data for a specific connection.
-   *
-   * @param config - The Magek configuration object.
-   * @param connectionID - The ID of the connection.
-   * @returns A promise that resolves when the data has been deleted successfully.
-   */
-  deleteData(config: MagekConfig, connectionID: string): Promise<void>
-
-  /**
-   * Sends a message to a specific connection.
-   *
-   * @param config - The Magek configuration object.
-   * @param connectionID - The ID of the connection.
-   * @param data - The data to be sent to the connection.
-   * @returns A promise that resolves when the message has been sent successfully.
-   */
-  sendMessage(config: MagekConfig, connectionID: string, data: unknown): Promise<void>
 }
 
 export interface ProviderAPIHandling {

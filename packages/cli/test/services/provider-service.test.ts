@@ -1,7 +1,7 @@
 import { afterEach, describe } from 'mocha'
-import * as providerService from '../../src/services/provider-service'
+import * as providerService from '../../src/services/provider-service.js'
 import { restore, fake } from 'sinon'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
 import { faker } from '@faker-js/faker'
 
 describe('providerService', () => {
@@ -82,7 +82,7 @@ describe('providerService', () => {
            
         } as any
 
-        await expect(providerService.startProvider(3000, fakeConfig)).to.eventually.be.rejectedWith(
+        expect(() => providerService.startProvider(3000, fakeConfig)).to.throw(
           "Attempted to perform the 'start' operation with a provider that does not support this feature, please check your environment configuration."
         )
       })

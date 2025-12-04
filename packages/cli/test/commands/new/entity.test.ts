@@ -1,11 +1,15 @@
-import * as ProjectChecker from '../../../src/services/project-checker'
+import * as ProjectChecker from '../../../src/services/project-checker.js'
 import { restore, replace, fake, stub } from 'sinon'
-import Entity from '../../../src/commands/new/entity'
+import type { SinonSpy } from 'sinon'
+import Entity from '../../../src/commands/new/entity.js'
 import Mustache = require('mustache')
-import * as fs from 'fs-extra'
+import { createRequire } from 'module'
 import { Config } from '@oclif/core'
-import { expect } from '../../expect'
-import { template } from '../../../src/services/generator'
+import { expect } from '../../expect.js'
+import { template } from '../../../src/services/generator.js'
+
+const requireFn = typeof require === 'function' ? require : createRequire(process.cwd() + '/')
+const fs: typeof import('fs-extra') = requireFn('fs-extra')
 
 describe('new', (): void => {
   describe('Entity', () => {
@@ -64,10 +68,13 @@ describe('new', (): void => {
       })
     }
 
+    let outputFileStub: SinonSpy
+
     beforeEach(() => {
-      stub(ProjectChecker, 'checkCurrentDirIsAMagekProject').returnsThis()
-      replace(fs, 'outputFile', fake.resolves({}))
-      replace(ProjectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
+      stub(ProjectChecker.projectChecker, 'checkCurrentDirIsAMagekProject').resolves()
+      outputFileStub = fake.resolves({})
+      replace(fs, 'outputFile', outputFileStub)
+      replace(ProjectChecker.projectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
     })
 
     afterEach(() => {
@@ -77,7 +84,7 @@ describe('new', (): void => {
     it('init calls checkCurrentDirMagekVersion', async () => {
       const config = await Config.load()
       await new Entity([], config).init()
-      expect(ProjectChecker.checkCurrentDirMagekVersion).to.have.been.called
+      expect(ProjectChecker.projectChecker.checkCurrentDirMagekVersion).to.have.been.called
     })
 
     describe('Created correctly', () => {
@@ -85,14 +92,14 @@ describe('new', (): void => {
         const config = await Config.load()
         await new Entity([entityName], config).run()
         const renderedEntity = renderEntity(defaultEntityImports, entityName, [], [])
-        expect(fs.outputFile).to.have.been.calledWithMatch(entityPath, renderedEntity)
+        expect(outputFileStub).to.have.been.calledWithMatch(entityPath, renderedEntity)
       })
 
       it('creates Entity with a string field', async () => {
         const config = await Config.load()
         await new Entity([entityName, '--fields', 'title:string'], config).run()
         const renderedEntity = renderEntity(defaultEntityImports, entityName, [{ name: 'title', type: 'string' }], [])
-        expect(fs.outputFile).to.have.been.calledWithMatch(entityPath, renderedEntity)
+        expect(outputFileStub).to.have.been.calledWithMatch(entityPath, renderedEntity)
       })
 
       it('creates Entity with a string field reducing PostCreated', async () => {
@@ -104,7 +111,7 @@ describe('new', (): void => {
           [{ name: 'title', type: 'string' }],
           [{ eventName: 'PostCreated' }]
         )
-        expect(fs.outputFile).to.have.been.calledWithMatch(entityPath, renderedEntity)
+        expect(outputFileStub).to.have.been.calledWithMatch(entityPath, renderedEntity)
       })
 
       it('creates Entity with a number field', async () => {
@@ -116,7 +123,7 @@ describe('new', (): void => {
           [{ name: 'quantity', type: 'number' }],
           []
         )
-        expect(fs.outputFile).to.have.been.calledWithMatch(entityPath, renderedEntity)
+        expect(outputFileStub).to.have.been.calledWithMatch(entityPath, renderedEntity)
       })
 
       it('creates Entity with a number field reducing PostCreated', async () => {
@@ -128,7 +135,7 @@ describe('new', (): void => {
           [{ name: 'quantity', type: 'number' }],
           [{ eventName: 'PostCreated' }]
         )
-        expect(fs.outputFile).to.have.been.calledWithMatch(entityPath, renderedEntity)
+        expect(outputFileStub).to.have.been.calledWithMatch(entityPath, renderedEntity)
       })
 
       it('creates Entity with UUID field', async () => {
@@ -140,7 +147,7 @@ describe('new', (): void => {
           [{ name: 'identifier', type: 'UUID' }],
           []
         )
-        expect(fs.outputFile).to.have.been.calledWithMatch(entityPath, renderedEntity)
+        expect(outputFileStub).to.have.been.calledWithMatch(entityPath, renderedEntity)
       })
 
       it('creates Entity with UUID field reducing PostCreated', async () => {
@@ -152,7 +159,7 @@ describe('new', (): void => {
           [{ name: 'identifier', type: 'UUID' }],
           [{ eventName: 'PostCreated' }]
         )
-        expect(fs.outputFile).to.have.been.calledWithMatch(entityPath, renderedEntity)
+        expect(outputFileStub).to.have.been.calledWithMatch(entityPath, renderedEntity)
       })
 
       it('creates Entity with multiple fields', async () => {
@@ -167,7 +174,7 @@ describe('new', (): void => {
           { name: 'identifier', type: 'UUID' },
         ]
         const renderedEntity = renderEntity(defaultEntityImports, entityName, fields, [])
-        expect(fs.outputFile).to.have.been.calledWithMatch(entityPath, renderedEntity)
+        expect(outputFileStub).to.have.been.calledWithMatch(entityPath, renderedEntity)
       })
 
       it('creates Entity with multiple fields reducing PostCreated', async () => {
@@ -182,7 +189,7 @@ describe('new', (): void => {
           { name: 'identifier', type: 'UUID' },
         ]
         const renderedEntity = renderEntity(reducingEntityImports, entityName, fields, [{ eventName: 'PostCreated' }])
-        expect(fs.outputFile).to.have.been.calledWithMatch(entityPath, renderedEntity)
+        expect(outputFileStub).to.have.been.calledWithMatch(entityPath, renderedEntity)
       })
 
       it('creates Entity with multiple fields reducing PostCreated and CommentCreated', async () => {
@@ -209,7 +216,7 @@ describe('new', (): void => {
           { eventName: 'PostCreated' },
           { eventName: 'CommentCreated' },
         ])
-        expect(fs.outputFile).to.have.been.calledWithMatch(entityPath, renderedEntity)
+        expect(outputFileStub).to.have.been.calledWithMatch(entityPath, renderedEntity)
       })
     })
 
@@ -218,7 +225,7 @@ describe('new', (): void => {
         replace(console, 'error', fake.resolves({}))
         const config = await Config.load()
         await new Entity([], config).run()
-        expect(fs.outputFile).to.have.not.been.calledWithMatch(entitysRoot)
+        expect(outputFileStub).to.have.not.been.calledWithMatch(entitysRoot)
         expect(console.error).to.have.been.calledWithMatch(/You haven't provided an entity name/)
       })
 
@@ -304,7 +311,7 @@ describe('new', (): void => {
         }
         expect(exceptionThrown).to.be.equal(true)
         expect(exceptionMessage).to.contain('Error parsing field title')
-        expect(fs.outputFile).to.have.not.been.calledWithMatch(entityPath)
+        expect(outputFileStub).to.have.not.been.calledWithMatch(entityPath)
       })
 
       it('with repeated fields', async () => {
@@ -322,7 +329,7 @@ describe('new', (): void => {
         }
         expect(exceptionThrown).to.be.equal(true)
         expect(exceptionMessage).to.contain('Error parsing field title')
-        expect(fs.outputFile).to.have.not.been.calledWithMatch(entityPath)
+        expect(outputFileStub).to.have.not.been.calledWithMatch(entityPath)
       })
     })
   })

@@ -1,15 +1,19 @@
 import { fake, replace, restore, spy, stub } from 'sinon'
+import type { SinonSpy } from 'sinon'
 import { Config } from '@oclif/core'
 import { ClassDeclaration, MethodDeclarationStructure, Project, SourceFile } from 'ts-morph'
-import * as ProjectChecker from '../../../src/services/project-checker'
-import { expect } from '../../expect'
-import Reducer from '../../../src/commands/add/reducer'
-import * as MethodGenerator from '../../../src/services/method-generator'
-import * as Filenames from '../../../src/common/filenames'
-import { oraLogger } from '../../../src/services/logger'
+import * as ProjectChecker from '../../../src/services/project-checker.js'
+import { expect } from '../../expect.js'
+import Reducer from '../../../src/commands/add/reducer.js'
+import * as MethodGenerator from '../../../src/services/method-generator.js'
+import * as Filenames from '../../../src/common/filenames.js'
+import { oraLogger } from '../../../src/services/logger.js'
 
 describe('add', async () => {
   describe('reducer', async () => {
+    const projectCheckerInstance = ProjectChecker.projectChecker
+    const methodGeneratorInstance = MethodGenerator.methodGenerator
+    let fileNameWithExtensionStub: SinonSpy
     const entityName = 'Post'
     const sourceFileText = `
     import { Entity } from '@magek/core'
@@ -22,9 +26,10 @@ describe('add', async () => {
     `
 
     beforeEach(() => {
-      stub(ProjectChecker, 'checkCurrentDirIsAMagekProject').returnsThis()
-      replace(ProjectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
-      replace(Filenames, 'fileNameWithExtension', fake.returns('post.ts'))
+      stub(projectCheckerInstance, 'checkCurrentDirIsAMagekProject').resolves()
+      replace(projectCheckerInstance, 'checkCurrentDirMagekVersion', fake.resolves({}))
+      fileNameWithExtensionStub = fake.returns('post.ts')
+      replace(Filenames.filenames, 'fileNameWithExtension', fileNameWithExtensionStub)
     })
 
     afterEach(() => {
@@ -34,7 +39,7 @@ describe('add', async () => {
     it('init calls checkCurrentDirMagekVersion', async () => {
       const config = await Config.load()
       await new Reducer([], config).init()
-      expect(ProjectChecker.checkCurrentDirMagekVersion).to.have.been.called
+      expect(ProjectChecker.projectChecker.checkCurrentDirMagekVersion).to.have.been.called
     })
 
     describe('Created correctly', () => {
@@ -43,7 +48,7 @@ describe('add', async () => {
 
       beforeEach(() => {
         stub(Project.prototype, 'getSourceFileOrThrow').returns(fakeSourceFile)
-        stub(MethodGenerator, 'generateReducers').returns([{}] as MethodDeclarationStructure[])
+        stub(methodGeneratorInstance, 'generateReducers').returns([{}] as MethodDeclarationStructure[])
         stub(SourceFile.prototype, 'getClassOrThrow').returns({
           addMethods: stub(),
         } as unknown as ClassDeclaration)
@@ -62,9 +67,11 @@ describe('add', async () => {
         const config = await Config.load()
         await new Reducer(['--entity', entityName, '--event', 'PostCreated'], config).run()
 
-        expect(Filenames.fileNameWithExtension).to.have.been.calledWith(entityName)
+        expect(fileNameWithExtensionStub).to.have.been.calledWith(entityName)
         expect(Project.prototype.getSourceFileOrThrow).to.have.been.calledOnceWith('post.ts')
-        expect(MethodGenerator.generateReducers).to.have.been.calledOnceWith(entityName, [{ eventName: 'PostCreated' }])
+        expect(methodGeneratorInstance.generateReducers).to.have.been.calledOnceWith(entityName, [
+          { eventName: 'PostCreated' },
+        ])
         expect(SourceFile.prototype.getClassOrThrow).to.have.been.calledOnceWith(entityName)
         expect(SourceFile.prototype.fixMissingImports).to.have.been.calledOnce
         expect(SourceFile.prototype.save).to.have.been.calledOnce
@@ -75,9 +82,9 @@ describe('add', async () => {
         const config = await Config.load()
         await new Reducer(['--entity', entityName, '--event', 'PostCreated', 'PostUpdated'], config).run()
 
-        expect(Filenames.fileNameWithExtension).to.have.been.calledWith(entityName)
+        expect(fileNameWithExtensionStub).to.have.been.calledWith(entityName)
         expect(Project.prototype.getSourceFileOrThrow).to.have.been.calledOnceWith('post.ts')
-        expect(MethodGenerator.generateReducers).to.have.been.calledOnceWith(entityName, [
+        expect(methodGeneratorInstance.generateReducers).to.have.been.calledOnceWith(entityName, [
           { eventName: 'PostCreated' },
           { eventName: 'PostUpdated' },
         ])
@@ -153,7 +160,7 @@ describe('add', async () => {
         }
 
         expect(exceptionThrown).to.be.true
-        expect(Filenames.fileNameWithExtension).to.have.been.calledWith(entityName)
+        expect(fileNameWithExtensionStub).to.have.been.calledWith(entityName)
         expect(Project.prototype.getSourceFileOrThrow).to.have.been.calledOnceWith('post.ts')
         expect(classDeclarationSpy.addMethod).to.have.not.been.calledOnce
         expect(sourceFileSpy.getClassOrThrow).to.have.not.been.called
@@ -184,7 +191,7 @@ describe('add', async () => {
         }
 
         expect(exceptionThrown).to.be.true
-        expect(Filenames.fileNameWithExtension).to.have.been.calledWith(entityName)
+        expect(fileNameWithExtensionStub).to.have.been.calledWith(entityName)
         expect(Project.prototype.getSourceFileOrThrow).to.have.been.calledOnceWith('post.ts')
         expect(SourceFile.prototype.getClassOrThrow).to.throw
         expect(SourceFile.prototype.fixMissingImports).to.have.not.been.called

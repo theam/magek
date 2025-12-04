@@ -1,10 +1,10 @@
 import { Flags } from '@oclif/core'
-import BaseCommand from '../../common/base-command'
-import { HasName, HasReaction, joinParsers, parseName, parseReaction } from '../../services/generator/target'
-import { Script } from '../../common/script'
-import Brand from '../../common/brand'
-import { checkCurrentDirIsAMagekProject } from '../../services/project-checker'
-import { generateReducers, getResourceSourceFile } from '../../services/method-generator'
+import BaseCommand from '../../common/base-command.js'
+import { HasName, HasReaction, joinParsers, parseName, parseReaction } from '../../services/generator/target/index.js'
+import { Script } from '../../common/script.js'
+import Brand from '../../common/brand.js'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker.js'
+import { generateReducers, getResourceSourceFile } from '../../services/method-generator.js'
 
 export default class Reducer extends BaseCommand {
   public static description = 'add new reducer to entity'

@@ -1,6 +1,6 @@
 import { ReadModelAuthorizer, ReadModelFilterHooks, UUID } from '.'
 import { Class } from '../typelevel'
-import { PropertyMetadata } from '@magek/metadata'
+import { PropertyMetadata } from '../metadata-types'
 
 export interface MagekMetadata {
   version: number

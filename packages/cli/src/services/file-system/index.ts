@@ -2,7 +2,11 @@ import { Effect, Context } from 'effect'
 
 export class FileSystemError {
   readonly _tag = 'FileSystemError'
-  constructor(readonly error: Error) {}
+  public readonly error: Error
+
+  constructor(error: Error) {
+    this.error = error
+  }
 }
 
 export interface FileSystemService {

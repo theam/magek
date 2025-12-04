@@ -1,16 +1,20 @@
 import * as path from 'path'
-import * as fs from 'fs-extra'
 import * as Mustache from 'mustache'
-import { Target, HasName, HasFields, HasReaction, HasEvent, HasProjections } from '../../src/services/generator/target'
-import * as projectChecker from '../../src/services/project-checker'
-import { generate, template } from '../../src/services/generator'
+import { Target, HasName, HasFields, HasReaction, HasEvent, HasProjections } from '../../src/services/generator/target/index.js'
+import * as projectChecker from '../../src/services/project-checker.js'
+import { generate, template } from '../../src/services/generator.js'
 import { restore, replace, fake } from 'sinon'
-import { expect } from '../expect'
+import { expect } from '../expect.js'
+import { createRequire } from 'module'
+
+const requireFn = typeof require === 'function' ? require : createRequire(process.cwd() + '/')
+const fs: typeof import('fs-extra') = requireFn('fs-extra')
 
 describe('generate service', (): void => {
+  const projectCheckerInstance = projectChecker.projectChecker
   beforeEach(() => {
     replace(fs, 'outputFile', fake.resolves({}))
-    replace(projectChecker, 'checkResourceExists', fake.resolves({}))
+    replace(projectCheckerInstance, 'checkResourceExists', fake.resolves({}))
   })
 
   afterEach(() => {
@@ -40,7 +44,7 @@ describe('generate service', (): void => {
       await generate(target)
 
       expect(fs.outputFile).to.have.been.calledWithMatch('src/commands/new-command.ts', rendered)
-      expect(projectChecker.checkResourceExists).to.have.been.called
+      expect(projectCheckerInstance.checkResourceExists).to.have.been.called
       expect(rendered).not.to.contain('-> Custom code in the command!')
     })
 
@@ -66,7 +70,7 @@ describe('generate service', (): void => {
       await generate(target)
 
       expect(fs.outputFile).to.have.been.calledWithMatch('src/entities/new-entity.ts', rendered)
-      expect(projectChecker.checkResourceExists).to.have.been.called
+      expect(projectCheckerInstance.checkResourceExists).to.have.been.called
       expect(rendered).not.to.contain('-> Custom code in the entity!')
     })
 
@@ -89,7 +93,7 @@ describe('generate service', (): void => {
       await generate(target)
 
       expect(fs.outputFile).to.have.been.calledWithMatch('src/event-handlers/new-event-handler.ts', rendered)
-      expect(projectChecker.checkResourceExists).to.have.been.called
+      expect(projectCheckerInstance.checkResourceExists).to.have.been.called
       expect(rendered).not.to.contain('-> Custom code in the event handler!')
     })
 
@@ -115,7 +119,7 @@ describe('generate service', (): void => {
       await generate(target)
 
       expect(fs.outputFile).to.have.been.calledWithMatch('src/events/new-event.ts', rendered)
-      expect(projectChecker.checkResourceExists).to.have.been.called
+      expect(projectCheckerInstance.checkResourceExists).to.have.been.called
       expect(rendered).not.to.contain('-> Custom code in the event!')
     })
 
@@ -142,7 +146,7 @@ describe('generate service', (): void => {
       await generate(target)
 
       expect(fs.outputFile).to.have.been.calledWithMatch('src/read-models/new-read-model.ts', rendered)
-      expect(projectChecker.checkResourceExists).to.have.been.called
+      expect(projectCheckerInstance.checkResourceExists).to.have.been.called
       expect(rendered).not.to.contain('-> Custom code in the read model!')
     })
 
@@ -164,7 +168,7 @@ describe('generate service', (): void => {
       await generate(target)
 
       expect(fs.outputFile).to.have.been.calledWithMatch('src/scheduled-commands/new-scheduled-command.ts', rendered)
-      expect(projectChecker.checkResourceExists).to.have.been.called
+      expect(projectCheckerInstance.checkResourceExists).to.have.been.called
       expect(rendered).not.to.contain('-> Custom code in the scheduled command!')
     })
 
@@ -190,7 +194,7 @@ describe('generate service', (): void => {
       await generate(target)
 
       expect(fs.outputFile).to.have.been.calledWithMatch('src/common/new-type.ts', rendered)
-      expect(projectChecker.checkResourceExists).to.have.been.called
+      expect(projectCheckerInstance.checkResourceExists).to.have.been.called
       expect(rendered).not.to.contain('-> Custom code in the type!')
     })
   })

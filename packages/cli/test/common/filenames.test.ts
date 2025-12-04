@@ -1,10 +1,11 @@
-import { checkResourceNameIsValid, classNameToFileName, fileNameWithExtension } from '../../src/common/filenames'
-import { expect } from '../expect'
-
-const rewire = require('rewire')
-const filenames = rewire('../../src/common/filenames')
-const formatResourceName = filenames.__get__('formatResourceName')
-const titleCaseString = filenames.__get__('titleCaseString')
+import {
+  checkResourceNameIsValid,
+  classNameToFileName,
+  fileNameWithExtension,
+  formatResourceName,
+  titleCaseString,
+} from '../../src/common/filenames.js'
+import { expect } from '../expect.js'
 
 describe('filenames', () => {
   describe('checkResourceNameIsValid', () => {

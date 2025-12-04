@@ -4,12 +4,20 @@ export type PackageManagerError = InstallDependenciesError | RunScriptError
 
 export class InstallDependenciesError {
   readonly _tag = 'InstallDependenciesError'
-  constructor(readonly error: Error) {}
+  public readonly error: Error
+
+  constructor(error: Error) {
+    this.error = error
+  }
 }
 
 export class RunScriptError {
   readonly _tag = 'RunScriptError'
-  constructor(readonly error: Error) {}
+  public readonly error: Error
+
+  constructor(error: Error) {
+    this.error = error
+  }
 }
 
 export interface PackageManagerService {

@@ -1,11 +1,16 @@
-import type { execaCommand as ExecaCommandFn } from 'execa'
-import { execaCommand as defaultExecaCommand } from 'execa'
 import * as process from 'process'
-import { ProcessError, ProcessService } from '.'
+import { ProcessError, ProcessService } from './index.js'
 import { Effect, Layer } from 'effect'
-import { unknownToError } from '../../common/errors'
+import { unknownToError } from '../../common/errors.js'
 
-export const makeLiveProcess = (execaCommand: typeof ExecaCommandFn) =>
+type ExecaCommandFn = typeof import('execa').execaCommand
+
+const resolveExecaCommand = async () => (await import('execa')).execaCommand
+
+const lazyExecaCommand: ExecaCommandFn = ((command: string, options?: Parameters<ExecaCommandFn>[1]) =>
+  resolveExecaCommand().then((fn) => fn(command, options))) as ExecaCommandFn
+
+export const makeLiveProcess = (execaCommand: ExecaCommandFn) =>
   Layer.succeed(ProcessService, {
     exec: (command: string, cwd?: string) =>
       Effect.tryPromise({
@@ -25,4 +30,4 @@ ${stdout}
       }),
   })
 
-export const LiveProcess = makeLiveProcess(defaultExecaCommand)
+export const LiveProcess = makeLiveProcess(lazyExecaCommand)

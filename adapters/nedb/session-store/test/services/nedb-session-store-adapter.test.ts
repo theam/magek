@@ -143,10 +143,13 @@ describe('NedbSessionStoreAdapter', () => {
     it('should delete subscription data', async () => {
       subscriptionStoreMock.delete.resolves(1)
       
-      await adapter.deleteSubscription(config, subscriptionId)
+      await adapter.deleteSubscription(config, connectionId, subscriptionId)
       
       expect(subscriptionStoreMock.delete).to.have.been.calledOnce
-      expect(subscriptionStoreMock.delete).to.have.been.calledWith({ subscriptionID: subscriptionId })
+      expect(subscriptionStoreMock.delete).to.have.been.calledWith({ 
+        connectionID: connectionId, 
+        subscriptionID: subscriptionId 
+      })
     })
 
     it('should fetch subscriptions for a connection', async () => {

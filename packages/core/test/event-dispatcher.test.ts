@@ -1,19 +1,24 @@
- 
- 
+import 'reflect-metadata'
 import { MagekEventDispatcher } from '../src/event-dispatcher'
 import { fake, replace, restore, SinonSpy } from 'sinon'
-import { MagekConfig, ProviderLibrary, UUID } from '@magek/common'
+import { MagekConfig, ProviderLibrary, UUID, Field } from '@magek/common'
 import { expect } from './expect'
 import { RawEventsParser } from '../src/services/raw-events-parser'
 import { MagekEventProcessor } from '../src/event-processor'
 import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
 
 class SomeEvent {
-  public constructor(readonly id: UUID) {}
+  @Field(type => UUID)
+  public readonly id: UUID
+
+  public constructor(id: UUID) {
+    this.id = id
+  }
 
   public entityID(): UUID {
     return this.id
   }
+
   public getPrefixedId(prefix: string): string {
     return `${prefix}-${this.id}`
   }

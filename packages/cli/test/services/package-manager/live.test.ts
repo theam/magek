@@ -1,11 +1,11 @@
 import { fake } from 'sinon'
 import { Effect, Layer, pipe } from 'effect'
-import { expect } from '../../expect'
-import { makeTestFileSystem } from '../file-system/test.impl'
-import { makeTestProcess } from '../process/test.impl'
-import { PackageManagerService } from '../../../src/services/package-manager'
-import { InferredPackageManager } from '../../../src/services/package-manager/live.impl'
-import { guardError } from '../../../src/common/errors'
+import { expect } from '../../expect.js'
+import { makeTestFileSystem } from '../file-system/test.impl.js'
+import { makeTestProcess } from '../process/test.impl.js'
+import { PackageManagerService } from '../../../src/services/package-manager/index.js'
+import { InferredPackageManager } from '../../../src/services/package-manager/live.impl.js'
+import { guardError } from '../../../src/common/errors.js'
 
 describe('PackageManager - Live Implementation (with inference)', () => {
   const TestProcess = makeTestProcess()

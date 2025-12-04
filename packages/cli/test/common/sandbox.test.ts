@@ -1,10 +1,14 @@
-import { fake, replace, restore, SinonSpy, stub } from 'sinon'
-import { expect } from '../expect'
-import * as fs from 'fs'
-import * as fse from 'fs-extra'
-import { createSandboxProject } from '../../src/common/sandbox'
+import { fake, replace, restore, stub } from 'sinon'
+import type { SinonSpy } from 'sinon'
+import { expect } from '../expect.js'
+import { createRequire } from 'module'
 import { Dirent } from 'fs'
 import * as path from 'path'
+import { createSandboxProject } from '../../src/common/sandbox.js'
+
+const requireFn = typeof require === 'function' ? require : createRequire(process.cwd() + '/')
+const fs: typeof import('fs') = requireFn('fs')
+const fse: typeof import('fs-extra') = requireFn('fs-extra')
 
 describe('sandbox', () => {
   let fakeRmSync: SinonSpy

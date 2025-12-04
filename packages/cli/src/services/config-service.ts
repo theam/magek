@@ -1,16 +1,33 @@
-import { MagekConfig, UserApp } from '@magek/common'
+import type { MagekConfig, UserApp } from '@magek/common'
 import { Effect, pipe } from 'effect'
 import * as path from 'path'
-import { guardError } from '../common/errors'
-import { checkItIsAMagekProject } from './project-checker'
-import { currentEnvironment } from './environment'
-import { createSandboxProject, removeSandboxProject } from '../common/sandbox'
-import { PackageManagerService, type PackageManagerError } from './package-manager'
-import { LivePackageManager } from './package-manager/live.impl'
+import { guardError } from '../common/errors.js'
+import { checkItIsAMagekProject } from './project-checker.js'
+import { currentEnvironment } from './environment.js'
+import { createSandboxProject, removeSandboxProject } from '../common/sandbox.js'
+import { PackageManagerService, type PackageManagerError } from './package-manager/index.js'
+import { packageManagerLayers } from './package-manager/live.impl.js'
 
 export const DEPLOYMENT_SANDBOX = path.join(process.cwd(), '.deploy')
 
-export async function createDeploymentSandbox(): Promise<string> {
+const loadUserProject = (userProjectPath: string): UserApp => {
+  const projectIndexJSPath = path.resolve(path.join(userProjectPath, 'dist', 'index.js'))
+  return require(projectIndexJSPath)
+}
+
+type ConfigServiceDependencies = {
+  readonly loadUserProject: typeof loadUserProject
+  readonly checkItIsAMagekProject: typeof checkItIsAMagekProject
+  readonly currentEnvironment: typeof currentEnvironment
+}
+
+export const configServiceDependencies: ConfigServiceDependencies = {
+  loadUserProject,
+  checkItIsAMagekProject,
+  currentEnvironment,
+}
+
+const createDeploymentSandboxImpl = async (): Promise<string> => {
   const config = await compileProjectAndLoadConfig(process.cwd())
   const sandboxRelativePath = createSandboxProject(DEPLOYMENT_SANDBOX, config.assets)
   const effect = Effect.gen(function* () {
@@ -22,30 +39,30 @@ export async function createDeploymentSandbox(): Promise<string> {
     pipe(
       effect,
       Effect.mapError<PackageManagerError, Error>((e) => e.error),
-      Effect.provide(LivePackageManager),
+      Effect.provide(packageManagerLayers.LivePackageManager),
       Effect.orDieWith<Error>(guardError('Could not install production dependencies'))
     )
   )
   return sandboxRelativePath
 }
 
-export async function cleanDeploymentSandbox(): Promise<void> {
+const cleanDeploymentSandboxImpl = async (): Promise<void> => {
   removeSandboxProject(DEPLOYMENT_SANDBOX)
 }
 
-export async function compileProjectAndLoadConfig(userProjectPath: string): Promise<MagekConfig> {
-  await checkItIsAMagekProject(userProjectPath)
-  await compileProject(userProjectPath)
+const compileProjectAndLoadConfigImpl = async (userProjectPath: string): Promise<MagekConfig> => {
+  await configServiceDependencies.checkItIsAMagekProject(userProjectPath)
+  await configService.compileProject(userProjectPath)
   return readProjectConfig(userProjectPath)
 }
 
-export async function compileProject(projectPath: string): Promise<void> {
+const compileProjectImpl = async (projectPath: string): Promise<void> => {
   const effect = compileProjectEff(projectPath)
   await Effect.runPromise(
     pipe(
       effect,
       Effect.mapError<PackageManagerError, Error>((e) => e.error),
-      Effect.provide(LivePackageManager),
+      Effect.provide(packageManagerLayers.LivePackageManager),
       Effect.orDieWith<Error>(guardError('Project contains compilation errors'))
     )
   )
@@ -59,13 +76,13 @@ const compileProjectEff = (projectPath: string) =>
     return yield* build([])
   })
 
-export async function cleanProject(projectPath: string): Promise<void> {
+const cleanProjectImpl = async (projectPath: string): Promise<void> => {
   const effect = cleanProjectEff(projectPath)
   await Effect.runPromise(
     pipe(
       effect,
       Effect.mapError<PackageManagerError, Error>((e) => e.error),
-      Effect.provide(LivePackageManager),
+      Effect.provide(packageManagerLayers.LivePackageManager),
       Effect.orDieWith<Error>(guardError('Could not clean project'))
     )
   )
@@ -79,7 +96,7 @@ const cleanProjectEff = (projectPath: string) =>
   })
 
 function readProjectConfig(userProjectPath: string): Promise<MagekConfig> {
-  const userProject = loadUserProject(userProjectPath)
+  const userProject = configServiceDependencies.loadUserProject(userProjectPath)
   return new Promise((resolve): void => {
     userProject.Magek.configureCurrentEnv((config: MagekConfig): void => {
       checkEnvironmentWasConfigured(userProject)
@@ -88,18 +105,13 @@ function readProjectConfig(userProjectPath: string): Promise<MagekConfig> {
   })
 }
 
-function loadUserProject(userProjectPath: string): UserApp {
-  const projectIndexJSPath = path.resolve(path.join(userProjectPath, 'dist', 'index.js'))
-  return require(projectIndexJSPath)
-}
-
 function checkEnvironmentWasConfigured(userProject: UserApp): void {
   if (userProject.Magek.configuredEnvironments.size == 0) {
     throw new Error(
       "You haven't configured any environment. Please make sure you have at least one environment configured by calling 'Magek.configure' method (normally done inside the folder 'src/config')"
     )
   }
-  const currentEnv = currentEnvironment()
+  const currentEnv = configServiceDependencies.currentEnvironment()
   if (!currentEnv) {
     throw new Error(
       "You haven't provided any environment. Please make sure you are using option '-e' with a valid environment name"
@@ -113,3 +125,25 @@ function checkEnvironmentWasConfigured(userProject: UserApp): void {
     )
   }
 }
+
+export const configService = {
+  createDeploymentSandbox: createDeploymentSandboxImpl,
+  cleanDeploymentSandbox: cleanDeploymentSandboxImpl,
+  compileProjectAndLoadConfig: compileProjectAndLoadConfigImpl,
+  compileProject: compileProjectImpl,
+  cleanProject: cleanProjectImpl,
+}
+
+export const createDeploymentSandbox = (...args: Parameters<typeof createDeploymentSandboxImpl>) =>
+  configService.createDeploymentSandbox(...args)
+
+export const cleanDeploymentSandbox = (...args: Parameters<typeof cleanDeploymentSandboxImpl>) =>
+  configService.cleanDeploymentSandbox(...args)
+
+export const compileProjectAndLoadConfig = (...args: Parameters<typeof compileProjectAndLoadConfigImpl>) =>
+  configService.compileProjectAndLoadConfig(...args)
+
+export const compileProject = (...args: Parameters<typeof compileProjectImpl>) =>
+  configService.compileProject(...args)
+
+export const cleanProject = (...args: Parameters<typeof cleanProjectImpl>) => configService.cleanProject(...args)

@@ -1,5 +1,6 @@
 import { MagekConfig } from './config'
 import { UUID } from './concepts'
+import { SubscriptionEnvelope } from './envelope'
 
 /**
  * Interface for session store adapters that handle connection and subscription management
@@ -73,10 +74,11 @@ export interface SessionStoreAdapter {
    * Removes a subscription
    *
    * @param config - The Magek configuration object
+   * @param connectionId - Unique identifier for the connection
    * @param subscriptionId - Unique identifier for the subscription
    * @returns A promise that resolves when the subscription is removed
    */
-  deleteSubscription(config: MagekConfig, subscriptionId: UUID): Promise<void>
+  deleteSubscription(config: MagekConfig, connectionId: UUID, subscriptionId: UUID): Promise<void>
 
   /**
    * Retrieves all subscriptions for a specific connection
@@ -98,6 +100,19 @@ export interface SessionStoreAdapter {
    * @returns A promise that resolves when all subscriptions are removed
    */
   deleteSubscriptionsForConnection(config: MagekConfig, connectionId: UUID): Promise<void>
+
+  /**
+   * Retrieves subscriptions filtered by read model class name
+   * This method supports querying subscriptions by the read model type they are listening to
+   *
+   * @param config - The Magek configuration object
+   * @param className - The name of the read model class to filter subscriptions by
+   * @returns A promise that resolves to an array of subscription envelopes matching the class name
+   */
+  fetchSubscriptionsByClassName(
+    config: MagekConfig,
+    className: string
+  ): Promise<Array<SubscriptionEnvelope>>
 
   /**
    * Health check methods for the session store

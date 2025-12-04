@@ -21,12 +21,13 @@ import {
   createInstances,
   createInstanceWithCalculatedProperties,
   getLogger,
+  PropertyMetadata,
 } from '@magek/common'
 import { Magek } from './magek'
 import { applyReadModelRequestBeforeFunctions } from './services/filter-helpers'
 import { ReadModelSchemaMigrator } from './read-model-schema-migrator'
 import { Trace } from './instrumentation'
-import { PropertyMetadata } from '@magek/metadata'
+
 
 export class MagekReadModelsReader {
   public constructor(readonly config: MagekConfig) {}
@@ -112,7 +113,7 @@ export class MagekReadModelsReader {
       selectWithDependencies = Array.from(extendedSelect) as ProjectionFor<TReadModel>
     }
 
-    const searchResult = await this.config.provider.readModels.search<TReadModel>(
+    const searchResult = await this.config.readModelStore.search<TReadModel>(
       this.config,
       readModelName,
       filters ?? {},
@@ -135,11 +136,14 @@ export class MagekReadModelsReader {
     id: UUID,
     sequenceKey?: SequenceKey
   ): Promise<ReadOnlyNonEmptyArray<TReadModel> | TReadModel> {
-    const readModels = await this.config.provider.readModels.fetch(this.config, readModelClass.name, id, sequenceKey)
-    if (sequenceKey) {
-      return readModels as ReadOnlyNonEmptyArray<TReadModel>
+    const result = await this.config.readModelStore.fetch<TReadModel>(this.config, readModelClass.name, id, sequenceKey)
+    if (!result) {
+      throw new Error(`Read model not found: ${readModelClass.name} with id ${id}`)
     }
-    return readModels[0] as TReadModel
+    
+    // The adapter returns ReadOnlyNonEmptyArray<TReadModel> | undefined
+    // For backward compatibility, we return a single item if sequenceKey is not provided
+    return sequenceKey ? result : result[0]
   }
 
   private async migrateReadModels<TReadModel extends ReadModelInterface>(
@@ -207,11 +211,11 @@ export class MagekReadModelsReader {
   }
 
   public async unsubscribe(connectionID: string, subscriptionID: string): Promise<void> {
-    return this.config.provider.readModels.deleteSubscription(this.config, connectionID, subscriptionID)
+    return this.config.sessionStore.deleteSubscription(this.config, connectionID, subscriptionID)
   }
 
   public async unsubscribeAll(connectionID: string): Promise<void> {
-    return this.config.provider.readModels.deleteAllSubscriptions(this.config, connectionID)
+    return this.config.sessionStore.deleteSubscriptionsForConnection(this.config, connectionID)
   }
 
   private async validateByIdRequest(readModelByIdRequest: ReadModelRequestEnvelope<ReadModelInterface>): Promise<void> {
@@ -278,7 +282,14 @@ export class MagekReadModelsReader {
       connectionID,
       operation,
     }
-    return this.config.provider.readModels.subscribe(this.config, subscription)
+    
+    // Store subscription using session store adapter
+    await this.config.sessionStore.storeSubscription(
+      this.config,
+      connectionID,
+      operation.id || subscription.requestID,
+      subscription
+    )
   }
 
   /**

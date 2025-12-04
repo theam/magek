@@ -1,15 +1,15 @@
 import { Flags } from '@oclif/core'
-import BaseCommand from '../common/base-command'
-import { startProvider } from '../services/provider-service'
-import { compileProjectAndLoadConfig } from '../services/config-service'
-import { MAGEK_LOCAL_PORT, MagekConfig } from '@magek/common'
-import { Script } from '../common/script'
-import Brand from '../common/brand'
-import { logger } from '../services/logger'
-import { currentEnvironment, initializeEnvironment } from '../services/environment'
+import BaseCommand from '../common/base-command.js'
+import { startProvider } from '../services/provider-service.js'
+import { compileProjectAndLoadConfig } from '../services/config-service.js'
+import { MAGEK_LOCAL_PORT, type MagekConfig } from '@magek/common'
+import { Script } from '../common/script.js'
+import Brand from '../common/brand.js'
+import { logger } from '../services/logger.js'
+import { currentEnvironment, initializeEnvironment } from '../services/environment.js'
 import * as process from 'process'
 
-const runTasks = async (
+export const runTasks = async (
   port: number,
   loader: Promise<MagekConfig>,
   runner: (config: MagekConfig) => Promise<void>

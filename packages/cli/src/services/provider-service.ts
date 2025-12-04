@@ -1,4 +1,4 @@
-import { MagekConfig } from '@magek/common'
+import type { MagekConfig } from '@magek/common'
 
 export function assertNameIsCorrect(name: string): void {
   // Current characters max length: 37
@@ -19,18 +19,25 @@ export function assertNameIsCorrect(name: string): void {
 }
 
 class ForbiddenProjectName extends Error {
-  constructor(public name: string, public restrictionText: string) {
+  public readonly name: string
+  public readonly restrictionText: string
+
+  constructor(name: string, restrictionText: string) {
     super(`Project name cannot ${restrictionText}:\n\n    Found: '${name}'`)
+    this.name = name
+    this.restrictionText = restrictionText
   }
 }
 
  
+type ProviderOperation = (config: MagekConfig, ...args: Array<unknown>) => Promise<void>
+
 function supportedInfrastructureMethodOrDie(
   methodName: 'deploy' | 'nuke' | 'start' | 'synth',
   config: MagekConfig
-): any {
+): ProviderOperation {
   assertNameIsCorrect(config.appName)
-  const method = config.provider.infrastructure()[methodName]
+  const method = config.provider.infrastructure()[methodName] as ProviderOperation | undefined
   if (!method) {
     throw new Error(
       `Attempted to perform the '${methodName}' operation with a provider that does not support this feature, please check your environment configuration.`
@@ -39,18 +46,33 @@ function supportedInfrastructureMethodOrDie(
   return method
 }
 
-export function deployToCloudProvider(config: MagekConfig): Promise<void> {
-  return supportedInfrastructureMethodOrDie('deploy', config)(config)
+const deployToCloudProviderImpl = (config: MagekConfig): Promise<void> =>
+  supportedInfrastructureMethodOrDie('deploy', config)(config)
+
+const synthToProviderImpl = (config: MagekConfig): Promise<void> =>
+  supportedInfrastructureMethodOrDie('synth', config)(config)
+
+const nukeCloudProviderResourcesImpl = (config: MagekConfig): Promise<void> =>
+  supportedInfrastructureMethodOrDie('nuke', config)(config)
+
+const startProviderImpl = (port: number, config: MagekConfig): Promise<void> =>
+  supportedInfrastructureMethodOrDie('start', config)(config, port)
+
+export const providerService = {
+  deployToCloudProvider: deployToCloudProviderImpl,
+  synthToProvider: synthToProviderImpl,
+  nukeCloudProviderResources: nukeCloudProviderResourcesImpl,
+  startProvider: startProviderImpl,
 }
 
-export function synthToProvider(config: MagekConfig): Promise<void> {
-  return supportedInfrastructureMethodOrDie('synth', config)(config)
-}
+export const deployToCloudProvider = (...args: Parameters<typeof deployToCloudProviderImpl>) =>
+  providerService.deployToCloudProvider(...args)
 
-export function nukeCloudProviderResources(config: MagekConfig): Promise<void> {
-  return supportedInfrastructureMethodOrDie('nuke', config)(config)
-}
+export const synthToProvider = (...args: Parameters<typeof synthToProviderImpl>) =>
+  providerService.synthToProvider(...args)
 
-export async function startProvider(port: number, config: MagekConfig): Promise<void> {
-  return supportedInfrastructureMethodOrDie('start', config)(config, port)
-}
+export const nukeCloudProviderResources = (...args: Parameters<typeof nukeCloudProviderResourcesImpl>) =>
+  providerService.nukeCloudProviderResources(...args)
+
+export const startProvider = (...args: Parameters<typeof startProviderImpl>) =>
+  providerService.startProvider(...args)

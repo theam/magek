@@ -32,9 +32,9 @@ export class MagekGraphQLDispatcher {
     this.readModelDispatcher = new MagekReadModelsReader(config)
     this.graphQLSchema = GraphQLGenerator.generateSchema(config)
     this.tokenVerifier = new MagekTokenVerifier(config)
+
     this.websocketHandler = new GraphQLWebsocketHandler(
       config,
-      this.config.provider.connections,
       {
         onStartOperation: this.runGraphQLOperation.bind(this),
         onStopOperation: this.readModelDispatcher.unsubscribe.bind(this.readModelDispatcher),
@@ -213,7 +213,7 @@ export class MagekGraphQLDispatcher {
       return
     }
     logger.debug('Deleting all subscriptions and connection data')
-    await this.config.provider.connections.deleteData(this.config, connectionID)
+    await this.config.sessionStore.deleteConnection(this.config, connectionID)
     await this.readModelDispatcher.unsubscribeAll(connectionID)
   }
 }

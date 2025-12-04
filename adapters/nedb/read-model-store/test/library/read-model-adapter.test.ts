@@ -27,7 +27,7 @@ async function fetchMock(
   mockConfig: MagekConfig,
   mockReadModelTypeName: string,
   mockReadModelID: UUID
-): Promise<ReadOnlyNonEmptyArray<ReadModelInterface>> {
+): Promise<ReadOnlyNonEmptyArray<ReadModelInterface> | undefined> {
   // @ts-ignore
   return await fetchReadModel(mockReadModelRegistry, mockConfig, mockReadModelTypeName, mockReadModelID)
 }
@@ -133,9 +133,8 @@ describe('read-models-adapter', () => {
 
     it('should call read model registry query and return a value', async () => {
       queryStub.resolves([mockReadModel])
-      const result: ReadModelInterface = (
-        await fetchMock(mockReadModelRegistry, mockConfig, mockReadModelTypeName, mockReadModelID)
-      )[0]
+      const fetchResult = await fetchMock(mockReadModelRegistry, mockConfig, mockReadModelTypeName, mockReadModelID)
+      const result: ReadModelInterface = fetchResult![0]
 
       expect(queryStub).to.have.been.calledOnceWithExactly({
         'value.id': mockReadModelID,
@@ -154,7 +153,7 @@ describe('read-models-adapter', () => {
 
     it('should call read model registry query and no results', async () => {
       queryStub.resolves([])
-      const result = (await fetchMock(mockReadModelRegistry, mockConfig, mockReadModelTypeName, mockReadModelID))[0]
+      const result = await fetchMock(mockReadModelRegistry, mockConfig, mockReadModelTypeName, mockReadModelID)
 
       expect(queryStub).to.have.been.calledOnceWithExactly({
         'value.id': mockReadModelID,

@@ -1,8 +1,8 @@
 import { Flags, Args } from '@oclif/core'
-import BaseCommand from '../../common/base-command'
-import { Script } from '../../common/script'
-import Brand from '../../common/brand'
-import { generate, template } from '../../services/generator'
+import BaseCommand from '../../common/base-command.js'
+import { Script } from '../../common/script.js'
+import Brand from '../../common/brand.js'
+import { generate, template } from '../../services/generator.js'
 import {
   HasName,
   HasFields,
@@ -10,9 +10,9 @@ import {
   parseName,
   parseFields,
   ImportDeclaration,
-} from '../../services/generator/target'
+} from '../../services/generator/target/index.js'
 import * as path from 'path'
-import { checkCurrentDirIsAMagekProject } from '../../services/project-checker'
+import { checkCurrentDirIsAMagekProject } from '../../services/project-checker.js'
 
 export default class Query extends BaseCommand {
   public static description = "generate new query resource, write 'boost new' to see options"

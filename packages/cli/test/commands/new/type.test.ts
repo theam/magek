@@ -1,11 +1,15 @@
-import * as ProjectChecker from '../../../src/services/project-checker'
+import * as ProjectChecker from '../../../src/services/project-checker.js'
 import { restore, replace, fake, stub } from 'sinon'
-import Type from '../../../src/commands/new/type'
+import type { SinonSpy } from 'sinon'
+import Type from '../../../src/commands/new/type.js'
 import Mustache = require('mustache')
-import * as fs from 'fs-extra'
+import { createRequire } from 'module'
 import { Config } from '@oclif/core'
-import { expect } from '../../expect'
-import { template } from '../../../src/services/generator'
+import { expect } from '../../expect.js'
+import { template } from '../../../src/services/generator.js'
+
+const requireFn = typeof require === 'function' ? require : createRequire(process.cwd() + '/')
+const fs: typeof import('fs-extra') = requireFn('fs-extra')
 
 describe('new', (): void => {
   describe('Type', () => {
@@ -41,10 +45,13 @@ describe('new', (): void => {
       })
     }
 
+    let outputFileStub: SinonSpy
+
     beforeEach(() => {
-      stub(ProjectChecker, 'checkCurrentDirIsAMagekProject').returnsThis()
-      replace(fs, 'outputFile', fake.resolves({}))
-      replace(ProjectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
+      stub(ProjectChecker.projectChecker, 'checkCurrentDirIsAMagekProject').resolves()
+      outputFileStub = fake.resolves({})
+      replace(fs, 'outputFile', outputFileStub)
+      replace(ProjectChecker.projectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
     })
 
     afterEach(() => {
@@ -54,7 +61,7 @@ describe('new', (): void => {
     it('init calls checkCurrentDirMagekVersion', async () => {
       const config = await Config.load()
       await new Type([], config).init()
-      expect(ProjectChecker.checkCurrentDirMagekVersion).to.have.been.called
+      expect(ProjectChecker.projectChecker.checkCurrentDirMagekVersion).to.have.been.called
     })
 
     describe('Created correctly', () => {
@@ -62,28 +69,28 @@ describe('new', (): void => {
         const config = await Config.load()
         await new Type([typeName], config).run()
         const renderedType = renderType(defaultTypeImports, typeName, [])
-        expect(fs.outputFile).to.have.been.calledWithMatch(typePath, renderedType)
+        expect(outputFileStub).to.have.been.calledWithMatch(typePath, renderedType)
       })
 
       it('creates Type with a string field', async () => {
         const config = await Config.load()
         await new Type([typeName, '--fields', 'title:string'], config).run()
         const renderedType = renderType(defaultTypeImports, typeName, [{ name: 'title', type: 'string' }])
-        expect(fs.outputFile).to.have.been.calledWithMatch(typePath, renderedType)
+        expect(outputFileStub).to.have.been.calledWithMatch(typePath, renderedType)
       })
 
       it('creates Type with a number field', async () => {
         const config = await Config.load()
         await new Type([typeName, '--fields', 'quantity:number'], config).run()
         const renderedType = renderType(defaultTypeImports, typeName, [{ name: 'quantity', type: 'number' }])
-        expect(fs.outputFile).to.have.been.calledWithMatch(typePath, renderedType)
+        expect(outputFileStub).to.have.been.calledWithMatch(typePath, renderedType)
       })
 
       it('creates Type with UUID field', async () => {
         const config = await Config.load()
         await new Type([typeName, '--fields', 'identifier:UUID'], config).run()
         const renderedType = renderType(uuidTypeImports, typeName, [{ name: 'identifier', type: 'UUID' }])
-        expect(fs.outputFile).to.have.been.calledWithMatch(typePath, renderedType)
+        expect(outputFileStub).to.have.been.calledWithMatch(typePath, renderedType)
       })
 
       it('creates Type with multiple fields', async () => {
@@ -98,7 +105,7 @@ describe('new', (): void => {
           { name: 'identifier', type: 'UUID' },
         ]
         const renderedType = renderType(uuidTypeImports, typeName, fields)
-        expect(fs.outputFile).to.have.been.calledWithMatch(typePath, renderedType)
+        expect(outputFileStub).to.have.been.calledWithMatch(typePath, renderedType)
       })
     })
 
@@ -107,7 +114,7 @@ describe('new', (): void => {
         replace(console, 'error', fake.resolves({}))
         const config = await Config.load()
         await new Type([], config).run()
-        expect(fs.outputFile).to.have.not.been.calledWithMatch(typesRoot)
+        expect(outputFileStub).to.have.not.been.calledWithMatch(typesRoot)
         expect(console.error).to.have.been.calledWithMatch(/You haven't provided a type name/)
       })
 
@@ -151,7 +158,7 @@ describe('new', (): void => {
         }
         expect(exceptionThrown).to.be.equal(true)
         expect(exceptionMessage).to.contain('Error parsing field title')
-        expect(fs.outputFile).to.have.not.been.calledWithMatch(typePath)
+        expect(outputFileStub).to.have.not.been.calledWithMatch(typePath)
       })
 
       it('with repeated fields', async () => {
@@ -166,7 +173,7 @@ describe('new', (): void => {
         }
         expect(exceptionThrown).to.be.equal(true)
         expect(exceptionMessage).to.contain('Error parsing field title')
-        expect(fs.outputFile).to.have.not.been.calledWithMatch(typePath)
+        expect(outputFileStub).to.have.not.been.calledWithMatch(typePath)
       })
     })
   })

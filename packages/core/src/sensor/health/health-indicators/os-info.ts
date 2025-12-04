@@ -16,15 +16,15 @@ export interface OsInfoResult {
 }
 
 export async function osInfo(): Promise<OsInfoResult> {
-  const cpus = os.cpus()
+  const rawCpus = os.cpus()
+  const cpus = rawCpus.length > 0 ? rawCpus : [fallbackCpuInfo()]
   const cpuResult = cpus.map((cpu: os.CpuInfo) => {
     // times is an object containing the number of CPU ticks spent in: user, nice, sys, idle, and irq
-    const totalTimes = Object.values(cpu.times).reduce((accumulator, value) => {
-      return accumulator + value
-    }, 0)
-    const timesPercentages = Object.values(cpu.times).map((time) => {
-      return Math.round((100 * time) / totalTimes)
-    })
+    const totalTimes = Object.values(cpu.times).reduce((accumulator, value) => accumulator + value, 0)
+    const safeTotalTimes = totalTimes === 0 ? 1 : totalTimes
+    const timesPercentages = Object.values(cpu.times).map((time) =>
+      Math.round((100 * time) / safeTotalTimes)
+    )
     return {
       cpu,
       timesPercentages,
@@ -36,6 +36,20 @@ export async function osInfo(): Promise<OsInfoResult> {
     memory: {
       totalBytes: os.totalmem(),
       freeBytes: os.freemem(),
+    },
+  }
+}
+
+function fallbackCpuInfo(): os.CpuInfo {
+  return {
+    model: 'unknown',
+    speed: 0,
+    times: {
+      user: 0,
+      nice: 0,
+      sys: 0,
+      idle: 0,
+      irq: 0,
     },
   }
 }

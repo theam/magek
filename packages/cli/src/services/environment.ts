@@ -1,12 +1,11 @@
-import { Logger } from '@magek/common'
+import type { Logger } from '@magek/common'
 
-export function initializeEnvironment(logger: Logger, environment?: string): boolean {
-  // We override the environment with the one passed via flags
+const initializeEnvironmentImpl = (logger: Logger, environment?: string): boolean => {
   if (environment) {
     process.env.MAGEK_ENV = environment
   }
-  // If the resulting environment is not set, the user didn't provide an environment and it's not configured in the OS
-  if (!currentEnvironment()) {
+
+  if (!environmentService.currentEnvironment()) {
     logger.error(
       'Error: No environment set. Use the flag `-e` or set the environment variable MAGEK_ENV to set it before running this command. Example usage: `boost deploy -e <environment>`.'
     )
@@ -15,6 +14,15 @@ export function initializeEnvironment(logger: Logger, environment?: string): boo
   return true
 }
 
-export function currentEnvironment(): string | undefined {
-  return process.env.MAGEK_ENV
+const currentEnvironmentImpl = (): string | undefined => process.env.MAGEK_ENV
+
+export const environmentService = {
+  initializeEnvironment: initializeEnvironmentImpl,
+  currentEnvironment: currentEnvironmentImpl,
 }
+
+export const initializeEnvironment = (...args: Parameters<typeof initializeEnvironmentImpl>) =>
+  environmentService.initializeEnvironment(...args)
+
+export const currentEnvironment = (...args: Parameters<typeof currentEnvironmentImpl>) =>
+  environmentService.currentEnvironment(...args)

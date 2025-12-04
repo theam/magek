@@ -1,7 +1,9 @@
 import type { Dirent } from 'fs-extra'
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'fs-extra'
+import * as fsExtra from 'fs-extra'
 import { join } from 'path'
-import { wrapExecError } from '../common/errors'
+import { wrapExecError } from '../common/errors.js'
+
+const currentDir = typeof __dirname !== 'undefined' ? __dirname : process.cwd()
 
 export type TemplateType =
   | 'command'
@@ -13,17 +15,17 @@ export type TemplateType =
   | 'scheduled-command'
   | 'type'
 
-export const resourceTemplatesPath: string = join(__dirname, '..', 'templates')
+export const resourceTemplatesPath: string = join(currentDir, '..', 'templates')
 
 export const resourceStubFilePath = (fileName: string): string => join(process.cwd(), 'stubs', fileName)
 
 export const resourceTemplateFilePath = (fileName: string): string => join(resourceTemplatesPath, fileName)
 
-export const checkStubsFolderExists = (): boolean => existsSync(join(process.cwd(), 'stubs'))
+export const checkStubsFolderExists = (): boolean => fsExtra.existsSync(join(process.cwd(), 'stubs'))
 
-export const checkResourceStubFileExists = (filePath: string): boolean => existsSync(filePath)
+export const checkResourceStubFileExists = (filePath: string): boolean => fsExtra.existsSync(filePath)
 
-export const createStubsFolder = (): void => mkdirSync(join(process.cwd(), 'stubs'))
+export const createStubsFolder = (): void => fsExtra.mkdirSync(join(process.cwd(), 'stubs'))
 
 export const createTemplateFileMap = (files: Dirent[]): Record<string, string> =>
   files
@@ -37,7 +39,7 @@ export const createTemplateFileMap = (files: Dirent[]): Record<string, string> =
     }, {})
 
 export async function publishStubFiles(): Promise<void> {
-  const files: Dirent[] = readdirSync(resourceTemplatesPath, { withFileTypes: true })
+  const files: Dirent[] = fsExtra.readdirSync(resourceTemplatesPath, { withFileTypes: true })
   const templateFilesMap = createTemplateFileMap(files)
 
   try {
@@ -49,4 +51,4 @@ export async function publishStubFiles(): Promise<void> {
   }
 }
 
-const copyStubFile = (from: string, to: string): void => writeFileSync(to, readFileSync(from))
+export const copyStubFile = (from: string, to: string): void => fsExtra.writeFileSync(to, fsExtra.readFileSync(from))

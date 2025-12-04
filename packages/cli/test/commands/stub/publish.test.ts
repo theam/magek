@@ -1,13 +1,20 @@
 import { Config } from '@oclif/core'
-import * as fs from 'fs-extra'
 import { join } from 'path'
-import { restore, replace, fake, stub, SinonSpy, spy } from 'sinon'
-import * as ProjectChecker from '../../../src/services/project-checker'
-import { expect } from '../../expect'
-import Publish from '../../../src/commands/stub/publish'
-import Prompter from '../../../src/services/user-prompt'
-import { resourceTemplatesPath } from '../../../src/services/stub-publisher'
+import { restore, replace, fake, stub, spy } from 'sinon'
+import type { SinonSpy } from 'sinon'
+import type { Dirent } from 'fs'
+import * as ProjectChecker from '../../../src/services/project-checker.js'
+import { expect } from '../../expect.js'
+import Publish from '../../../src/commands/stub/publish.js'
+import Prompter from '../../../src/services/user-prompt.js'
+import { resourceTemplatesPath } from '../../../src/services/stub-publisher.js'
 import inquirer from 'inquirer'
+import { createRequire } from 'module'
+
+const requireFn = typeof require === 'function' ? require : createRequire(process.cwd() + '/')
+const fs: typeof import('fs-extra') = requireFn('fs-extra')
+
+const projectCheckerInstance = ProjectChecker.projectChecker
 
 describe('stub', async () => {
   describe('publish', async () => {
@@ -16,7 +23,7 @@ describe('stub', async () => {
     let fakeReadFileSync: SinonSpy
     let readdirSyncSpy: SinonSpy
 
-    const directoryFileMocks: fs.Dirent[] = [
+    const directoryFileMocks: Dirent[] = [
       {
         name: 'fake-command.stub',
         path: '/someDir',
@@ -61,8 +68,8 @@ describe('stub', async () => {
       fakeReadFileSync = fake()
       readdirSyncSpy = spy()
 
-      stub(ProjectChecker, 'checkCurrentDirIsAMagekProject').returnsThis()
-      replace(ProjectChecker, 'checkCurrentDirMagekVersion', fake.resolves({}))
+      stub(projectCheckerInstance, 'checkCurrentDirIsAMagekProject').resolves()
+      replace(projectCheckerInstance, 'checkCurrentDirMagekVersion', fake.resolves({}))
 
       replace(fs, 'outputFile', fake.resolves({}))
       replace(fs, 'mkdirSync', fakeMkdirSync)
@@ -85,7 +92,7 @@ describe('stub', async () => {
     it('init calls checkCurrentDirMagekVersion', async () => {
       const config = await Config.load()
       await new Publish([], config).init()
-      expect(ProjectChecker.checkCurrentDirMagekVersion).to.have.been.called
+      expect(projectCheckerInstance.checkCurrentDirMagekVersion).to.have.been.called
     })
 
     describe('Publishes stub files correctly', () => {
@@ -103,7 +110,7 @@ describe('stub', async () => {
         expect(fakeMkdirSync).to.have.been.calledOnce
         expect(fakeMkdirSync).to.have.been.calledOnceWith(join(process.cwd(), 'stubs'))
 
-        expect(ProjectChecker.checkCurrentDirIsAMagekProject).to.have.been.calledOnce
+        expect(projectCheckerInstance.checkCurrentDirIsAMagekProject).to.have.been.calledOnce
         expect(Prompter.confirmPrompt).not.to.have.been.called
 
         expect(readdirSyncSpy).to.have.been.calledOnceWith(resourceTemplatesPath, { withFileTypes: true })
@@ -127,7 +134,7 @@ describe('stub', async () => {
         expect(fakeMkdirSync).not.to.have.been.calledOnce
         expect(fakeMkdirSync).not.to.have.been.calledOnceWith(join(process.cwd(), 'stubs'))
 
-        expect(ProjectChecker.checkCurrentDirIsAMagekProject).to.have.been.calledOnce
+        expect(projectCheckerInstance.checkCurrentDirIsAMagekProject).to.have.been.calledOnce
 
         expect(Prompter.confirmPrompt).to.have.been.called
 
@@ -151,7 +158,7 @@ describe('stub', async () => {
         expect(fakeMkdirSync).not.to.have.been.calledOnce
         expect(fakeMkdirSync).not.to.have.been.calledOnceWith(join(process.cwd(), 'stubs'))
 
-        expect(ProjectChecker.checkCurrentDirIsAMagekProject).to.have.been.calledOnce
+        expect(projectCheckerInstance.checkCurrentDirIsAMagekProject).to.have.been.calledOnce
 
         expect(Prompter.confirmPrompt).not.to.have.been.called
 

@@ -53,12 +53,13 @@ export function getKeyWithClient(client: JwksClient, header: jwt.JwtHeader, call
 export async function verifyJWT(
   token: string,
   issuer: string,
-  key: jwt.Secret | jwt.GetPublicKeyOrSecret
+  key: jwt.Secret | jwt.GetPublicKeyOrSecret,
+  verifier: typeof jwt.verify = jwt.verify
 ): Promise<DecodedToken> {
   const sanitizedToken = token.replace('Bearer ', '') // Remove the 'Bearer' prefix from the token
 
   return await new Promise((resolve, reject) => {
-    jwt.verify(
+    verifier(
       sanitizedToken,
       key,
       {

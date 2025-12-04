@@ -3,7 +3,9 @@
   "compilerOptions": {
     "declaration": false, // Required for MS Rush to compile Oclif properly
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
   },
   "include": ["src/**/*"]
 }

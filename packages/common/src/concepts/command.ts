@@ -1,5 +1,5 @@
 import { Class } from '../typelevel'
-import { PropertyMetadata } from '@magek/metadata'
+import { PropertyMetadata } from '../metadata-types'
 import { Register, CommandAuthorizer, CommandFilterHooks } from './.'
 
 export type CommandInput = Record<string, any>

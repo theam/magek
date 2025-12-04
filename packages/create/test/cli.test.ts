@@ -1,15 +1,20 @@
 import { describe, it, beforeEach, afterEach } from 'mocha'
 import { expect } from 'chai'
-import { stub, restore, SinonStub } from 'sinon'
-import * as fs from 'fs'
-import * as path from 'path'
-import { assertNameIsCorrect, checkProjectAlreadyExists, replaceInFile } from '../src/cli'
+import { stub, restore, type SinonStub } from 'sinon'
+import { createRequire } from 'module'
+import { assertNameIsCorrect, checkProjectAlreadyExists, replaceInFile } from '../src/cli.ts'
+
+const require = createRequire(import.meta.url)
+const fs = require('fs') as typeof import('fs')
+const path = require('path') as typeof import('path')
+type TestFileSystem = Pick<typeof fs, 'existsSync' | 'readFileSync' | 'writeFileSync' | 'statSync'>
 
 describe('create-magek CLI', () => {
   let fsExistsStub: SinonStub
   let fsReadFileStub: SinonStub
   let fsWriteFileStub: SinonStub
   let fsStatStub: SinonStub
+  let fileSystem: TestFileSystem
 
   beforeEach(() => {
     // Mock filesystem operations
@@ -22,6 +27,13 @@ describe('create-magek CLI', () => {
     // Set default behaviors
     fsExistsStub.returns(false)
     fsStatStub.returns({ isFile: () => true, isDirectory: () => false })
+
+    fileSystem = {
+      existsSync: fsExistsStub as unknown as typeof fs.existsSync,
+      readFileSync: fsReadFileStub as unknown as typeof fs.readFileSync,
+      writeFileSync: fsWriteFileStub as unknown as typeof fs.writeFileSync,
+      statSync: fsStatStub as unknown as typeof fs.statSync,
+    }
   })
 
   afterEach(() => {
@@ -87,7 +99,7 @@ describe('create-magek CLI', () => {
     it('should throw error if project directory already exists', () => {
       fsExistsStub.withArgs(path.join('/test/cwd', 'existing-project')).returns(true)
 
-      expect(() => checkProjectAlreadyExists('existing-project')).to.throw(
+      expect(() => checkProjectAlreadyExists('existing-project', fileSystem)).to.throw(
         'Directory "existing-project" already exists'
       )
     })
@@ -95,7 +107,7 @@ describe('create-magek CLI', () => {
     it('should not throw error if project directory does not exist', () => {
       fsExistsStub.withArgs(path.join('/test/cwd', 'new-project')).returns(false)
 
-      expect(() => checkProjectAlreadyExists('new-project')).to.not.throw()
+      expect(() => checkProjectAlreadyExists('new-project', fileSystem)).to.not.throw()
     })
   })
 
@@ -108,7 +120,7 @@ describe('create-magek CLI', () => {
       fsExistsStub.withArgs(filePath).returns(true)
       fsReadFileStub.withArgs(filePath, 'utf-8').returns(originalContent)
 
-      await replaceInFile(filePath, { name: 'world', version: '1.0.0' })
+      await replaceInFile(filePath, { name: 'world', version: '1.0.0' }, fileSystem)
 
       expect(fsWriteFileStub.calledOnce).to.be.true
       expect(fsWriteFileStub.calledWith(filePath, expectedContent, 'utf-8')).to.be.true
@@ -119,7 +131,7 @@ describe('create-magek CLI', () => {
 
       fsExistsStub.withArgs(filePath).returns(false)
 
-      await replaceInFile(filePath, { name: 'world' })
+      await replaceInFile(filePath, { name: 'world' }, fileSystem)
 
       expect(fsReadFileStub.called).to.be.false
       expect(fsWriteFileStub.called).to.be.false
@@ -138,7 +150,7 @@ describe('create-magek CLI', () => {
         description: 'My awesome app',
         version: '2.0.0',
         author: 'John Doe',
-      })
+      }, fileSystem)
 
       expect(fsWriteFileStub.calledWith(filePath, expectedContent, 'utf-8')).to.be.true
     })

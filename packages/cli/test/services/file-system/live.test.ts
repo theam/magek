@@ -1,10 +1,10 @@
 import * as fs from 'fs'
 import { fake, replace } from 'sinon'
 import { Effect, pipe } from 'effect'
-import { expect } from '../../expect'
-import { FileSystemService } from '../../../src/services/file-system'
-import { LiveFileSystem } from '../../../src/services/file-system/live.impl'
-import { guardError } from '../../../src/common/errors'
+import { expect } from '../../expect.js'
+import { FileSystemService } from '../../../src/services/file-system/index.js'
+import { LiveFileSystem } from '../../../src/services/file-system/live.impl.js'
+import { guardError } from '../../../src/common/errors.js'
 
 describe('FileSystem - Live Implementation', () => {
   beforeEach(() => {

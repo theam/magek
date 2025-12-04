@@ -1,16 +1,27 @@
 import { expect } from './expect'
-import { Register, MagekConfig, Level, UserEnvelope, UUID } from '@magek/common'
+import { Register, MagekConfig, Level, UserEnvelope, UUID, Field } from '@magek/common'
 import { replace, fake, restore, spy } from 'sinon'
 import { RegisterHandler } from '../src'
 import { MagekEntityMigrated } from '../src/core-concepts/data-migration/events/entity-migrated'
 import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
 
 class SomeEntity {
-  public constructor(readonly id: UUID) {}
+  @Field(type => UUID)
+  public readonly id: UUID
+
+  public constructor(id: UUID) {
+    this.id = id
+  }
 }
 
 class SomeEvent {
-  public constructor(readonly someField: string) {}
+  @Field()
+  public readonly someField: string
+
+  public constructor(someField: string) {
+    this.someField = someField
+  }
+
   entityID() {
     return '42'
   }

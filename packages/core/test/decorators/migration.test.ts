@@ -4,7 +4,7 @@ import { expect } from '../expect'
 import { SchemaMigration, ToVersion } from '../../src/decorators'
 import { Magek } from '../../src'
 import { SchemaMigrationMetadata } from '@magek/common'
-import { getMetadata } from '@magek/metadata'
+import { getMetadata } from '@magek/common'
 
 // Entities to test the annotations
 class Product {}
@@ -47,6 +47,9 @@ describe('the `ToVersion` decorator', () => {
         return {} as any
       }
     }
+
+    // Create an instance to trigger Stage 3 decorator initializers
+    new MigrateProduct()
 
     const expectedMetadata: Array<SchemaMigrationMetadata> = [
       {
