@@ -45,13 +45,29 @@ fi
 # Install dependencies explicitly to ensure registry config is inherited
 cd "$APP_DIR"
 echo "📦 Installing dependencies..."
-npm install
+if ! npm install; then
+  echo "❌ Failed to install dependencies"
+  echo "Registry config: $(npm config get registry)"
+  exit 1
+fi
+echo "✅ Dependencies installed successfully"
 
 # Initialize git repository
 echo "🔄 Initializing git repository..."
-git init
-git add -A
-git commit -m "Initial commit"
+if ! git init; then
+  echo "❌ Failed to initialize git repository"
+  exit 1
+fi
+if ! git add -A; then
+  echo "❌ Failed to add files to git"
+  exit 1
+fi
+if ! git commit -m "Initial commit"; then
+  echo "❌ Failed to create initial commit"
+  echo "Git config: user.name=$(git config user.name), user.email=$(git config user.email)"
+  exit 1
+fi
+echo "✅ Git repository initialized successfully"
 
 # Return to parent directory
 cd /work
