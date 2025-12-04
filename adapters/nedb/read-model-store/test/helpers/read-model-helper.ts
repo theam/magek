@@ -5,32 +5,32 @@ import { expect } from '../expect'
 export function createMockReadModelEnvelope(partialValue?: Partial<ReadModelInterface>): ReadModelEnvelope {
   return {
     value: {
-      id: faker.datatype.uuid(),
-      age: faker.datatype.number(40),
+      id: faker.string.uuid(),
+      age: faker.number.int({ max: 40 }),
       foo: faker.lorem.word(),
-      bar: faker.datatype.float(),
+      bar: faker.number.float(),
       magekMetadata: {
         version: 1,
         schemaVersion: 1,
       },
       arr: [
         {
-          id: faker.datatype.uuid(),
+          id: faker.string.uuid(),
           name: faker.lorem.word(),
         },
         {
-          id: faker.datatype.uuid(),
+          id: faker.string.uuid(),
           name: faker.lorem.word(),
         },
       ],
       prop: {
         items: [
           {
-            id: faker.datatype.uuid(),
+            id: faker.string.uuid(),
             name: faker.lorem.word(),
           },
           {
-            id: faker.datatype.uuid(),
+            id: faker.string.uuid(),
             name: faker.lorem.word(),
           },
         ],
