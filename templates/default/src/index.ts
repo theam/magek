@@ -1,3 +1,4 @@
+import './config/config'
 import { Magek } from '@magek/core'
 export {
   Magek,
