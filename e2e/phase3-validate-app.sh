@@ -53,6 +53,48 @@ else
     echo "📚 Dependencies found:"
     node -p "Object.keys(require('./package.json').dependencies || {}).join(', ')"
   fi
+  
+  # Validate git repository initialization
+  echo ""
+  echo "🔍 Validating git repository..."
+  if [ -d ".git" ]; then
+    echo "✅ Git repository initialized"
+  else
+    echo "❌ Git repository not initialized"
+    echo "🔧 Note: This may indicate an issue with create-magek package"
+    exit 1
+  fi
+  
+  # Validate node_modules exists and is populated
+  echo ""
+  echo "🔍 Validating dependencies installation..."
+  if [ -d "node_modules" ] && [ "$(ls -A node_modules)" ]; then
+    echo "✅ Dependencies installed"
+  else
+    echo "❌ Dependencies not installed or node_modules empty"
+    exit 1
+  fi
+  
+  # Validate @magek/cli is available
+  echo ""
+  echo "🔍 Validating @magek/cli dependency..."
+  if npm list @magek/cli > /dev/null 2>&1; then
+    echo "✅ @magek/cli dependency found"
+  else
+    echo "❌ @magek/cli dependency missing"
+    exit 1
+  fi
+  
+  # Validate npm works out of the box
+  echo ""
+  echo "🔍 Validating NPM scripts functionality..."
+  if npm run --silent > /dev/null 2>&1; then
+    echo "✅ NPM scripts functional"
+  else
+    echo "❌ NPM scripts not working"
+    exit 1
+  fi
 fi
 
+echo ""
 echo "✅ Phase 3 completed: Project validation successful" 
