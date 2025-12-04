@@ -29,10 +29,43 @@ if [ -f "/work/tests/scaffold.spec.js" ]; then
 else
   echo "⚠️  Validation script not found at /work/tests/scaffold.spec.js"
   echo "📋 Performing basic validation..."
-  
+
   # Basic validation checks
   cd "$APP_DIR"
-  
+
+  # Validate git repository initialization
+  if [ -d ".git" ]; then
+    echo "✅ Git repository initialized"
+  else
+    echo "❌ Git repository not initialized"
+    echo "🔧 Note: This may indicate an issue with create-magek package"
+    exit 1
+  fi
+
+  # Validate dependencies are installed
+  if [ -d "node_modules" ] && [ "$(ls -A node_modules)" ]; then
+    echo "✅ Dependencies installed"
+  else
+    echo "❌ Dependencies not installed or node_modules empty"
+    exit 1
+  fi
+
+  # Validate @magek/cli is available
+  if npm list @magek/cli > /dev/null 2>&1; then
+    echo "✅ @magek/cli dependency found"
+  else
+    echo "❌ @magek/cli dependency missing"
+    exit 1
+  fi
+
+  # Validate npm works out of the box
+  if npm run --silent > /dev/null 2>&1; then
+    echo "✅ NPM scripts functional"
+  else
+    echo "❌ NPM scripts not working"
+    exit 1
+  fi
+
   # Check essential files exist
   REQUIRED_FILES=("package.json" "tsconfig.json" "src/index.ts")
   for file in "${REQUIRED_FILES[@]}"; do
@@ -43,11 +76,11 @@ else
       exit 1
     fi
   done
-  
+
   # Check package.json has correct name
   PROJECT_NAME=$(node -p "require('./package.json').name")
   echo "📦 Project name: $PROJECT_NAME"
-  
+
   # Check dependencies
   if [ -f "package.json" ]; then
     echo "📚 Dependencies found:"
@@ -55,4 +88,4 @@ else
   fi
 fi
 
-echo "✅ Phase 3 completed: Project validation successful" 
+echo "✅ Phase 3 completed: Project validation successful"
