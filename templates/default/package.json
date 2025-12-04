@@ -17,7 +17,7 @@
     "@magek/server-infrastructure": "{{magekVersion}}",
     "@magek/metadata": "{{magekVersion}}",
     "rimraf": "5.0.0",
-    "@magek/eslint-config": "${VERSION}",
+    "@magek/eslint-config": "{{magekVersion}}",
     "mocha": "11.7.1",
     "@types/mocha": "10.0.1",
     "@types/jsonwebtoken": "9.0.1",
