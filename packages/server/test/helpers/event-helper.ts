@@ -2,7 +2,7 @@ import { EntitySnapshotEnvelope, EventEnvelope, NonPersistedEventEnvelope } from
 import { faker } from '@faker-js/faker'
 
 export function createMockNonPersistedEventEnvelop(): NonPersistedEventEnvelope {
-  return createMockNonPersistedEventEnvelopeForEntity(faker.lorem.word(), faker.datatype.uuid())
+  return createMockNonPersistedEventEnvelopeForEntity(faker.lorem.word(), faker.string.uuid())
 }
 
 export function createMockNonPersistedEventEnvelopeForEntity(
@@ -15,16 +15,16 @@ export function createMockNonPersistedEventEnvelopeForEntity(
     entityID: entityID,
     entityTypeName: entityTypeName,
     value: {
-      id: faker.datatype.uuid(),
+      id: faker.string.uuid(),
     },
-    requestID: faker.datatype.uuid(),
+    requestID: faker.string.uuid(),
     typeName: faker.lorem.word(),
-    version: faker.datatype.number(),
+    version: faker.number.int(),
   }
 }
 
 export function createMockEventEnvelope(): EventEnvelope {
-  return createMockEventEnvelopeForEntity(faker.lorem.word(), faker.datatype.uuid())
+  return createMockEventEnvelopeForEntity(faker.lorem.word(), faker.string.uuid())
 }
 
 export function createMockEventEnvelopeForEntity(entityTypeName: string, entityID: string): EventEnvelope {
@@ -34,12 +34,12 @@ export function createMockEventEnvelopeForEntity(entityTypeName: string, entityI
     entityID: entityID,
     entityTypeName: entityTypeName,
     value: {
-      id: faker.datatype.uuid(),
+      id: faker.string.uuid(),
     },
     createdAt: faker.date.past().toISOString(),
-    requestID: faker.datatype.uuid(),
+    requestID: faker.string.uuid(),
     typeName: faker.lorem.word(),
-    version: faker.datatype.number(),
+    version: faker.number.int(),
   }
 }
 
@@ -49,16 +49,16 @@ export function createMockEntitySnapshotEnvelope(entityTypeName?: string, entity
   return {
     kind: 'snapshot',
     superKind: 'domain',
-    entityID: entityId ?? faker.datatype.uuid(),
+    entityID: entityId ?? faker.string.uuid(),
     entityTypeName: entityTypeName ?? faker.lorem.word(),
     value: {
-      id: faker.datatype.uuid(),
+      id: faker.string.uuid(),
     },
     createdAt: snapshottedEventCreatedAt,
     persistedAt: new Date(creationDate.getTime() + 1000).toISOString(),
-    requestID: faker.datatype.uuid(),
+    requestID: faker.string.uuid(),
     typeName: faker.lorem.word(),
-    version: faker.datatype.number(),
+    version: faker.number.int(),
     snapshottedEventCreatedAt,
   }
 }

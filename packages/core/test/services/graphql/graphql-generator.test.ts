@@ -113,15 +113,15 @@ describe('GraphQL generator', () => {
 
     beforeEach(() => {
       mockType = faker.helpers.arrayElement([Boolean, String, Number])
-      mockRequestId = faker.datatype.uuid()
+      mockRequestId = faker.string.uuid()
       mockEmail = faker.internet.email()
       mockRole = faker.lorem.word(10)
       mockFetchResult = []
 
-      for (let i = 0; i < faker.datatype.number({min: 1, max: 10}); i++) {
+      for (let i = 0; i < faker.number.int({min: 1, max: 10}); i++) {
         mockFetchResult.push({
-          id: faker.datatype.uuid(),
-          testKey: faker.datatype.number(),
+          id: faker.string.uuid(),
+          testKey: faker.number.int(),
         })
       }
 
@@ -389,7 +389,7 @@ describe('GraphQL generator', () => {
       let returnedFunction: GraphQLFieldResolver<any, GraphQLResolverContext, ReadModelRequestArgs<ReadModelInterface>>
 
       beforeEach(() => {
-        mockContextConnectionID = faker.datatype.uuid()
+        mockContextConnectionID = faker.string.uuid()
 
         mockResolverContext.connectionID = mockContextConnectionID
 

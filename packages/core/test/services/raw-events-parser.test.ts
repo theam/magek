@@ -47,18 +47,18 @@ describe('RawEventsParser', () => {
 
     eventSource = [
       persistedEventEnvelopeForEntityA1,
-      createEntitySnapshotEnvelope(snapshottedEntityName, faker.datatype.uuid()),
+      createEntitySnapshotEnvelope(snapshottedEntityName, faker.string.uuid()),
       persistedEventEnvelopeForEntityA2,
       persistedEventEnvelopeForEntityA3,
-      createEntitySnapshotEnvelope(snapshottedEntityName, faker.datatype.uuid()),
-      createEntitySnapshotEnvelope(snapshottedEntityName, faker.datatype.uuid()),
+      createEntitySnapshotEnvelope(snapshottedEntityName, faker.string.uuid()),
+      createEntitySnapshotEnvelope(snapshottedEntityName, faker.string.uuid()),
       persistedEventEnvelopeForEntityB1,
       persistedEventEnvelopeForEntityB2,
       persistedEventEnvelopeForEntityB3,
-      createEntitySnapshotEnvelope(snapshottedEntityName, faker.datatype.uuid()),
-      createEntitySnapshotEnvelope(snapshottedEntityName, faker.datatype.uuid()),
+      createEntitySnapshotEnvelope(snapshottedEntityName, faker.string.uuid()),
+      createEntitySnapshotEnvelope(snapshottedEntityName, faker.string.uuid()),
       persistedEventEnvelopeForEntityB4,
-      createEntitySnapshotEnvelope(snapshottedEntityName, faker.datatype.uuid()),
+      createEntitySnapshotEnvelope(snapshottedEntityName, faker.string.uuid()),
     ]
 
     fakeRawToEnvelopes = fake.returns(eventSource)
@@ -154,8 +154,8 @@ function createPersistedEventEnvelope(entityTypeName: string, entityID: string):
     kind: 'event',
     superKind: 'domain',
     version: 1,
-    value: { id: faker.datatype.uuid() },
-    requestID: faker.datatype.uuid(),
+    value: { id: faker.string.uuid() },
+    requestID: faker.string.uuid(),
     typeName: 'Event' + faker.lorem.word(),
     createdAt,
   }
@@ -169,8 +169,8 @@ function createEntitySnapshotEnvelope(entityTypeName: string, entityID: string):
     kind: 'snapshot',
     superKind: 'domain',
     version: 1,
-    value: { id: faker.datatype.uuid() },
-    requestID: faker.datatype.uuid(),
+    value: { id: faker.string.uuid() },
+    requestID: faker.string.uuid(),
     typeName: 'Snapshot' + faker.lorem.word(),
     createdAt: snapshottedEventCreatedAt,
     persistedAt: faker.lorem.word(),

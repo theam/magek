@@ -23,8 +23,8 @@ describe('Local provider graphql-adapter', () => {
     let generateStub: SinonStub
 
     beforeEach(() => {
-      mockUuid = faker.datatype.uuid()
-      mockUserToken = faker.datatype.uuid()
+      mockUuid = faker.string.uuid()
+      mockUserToken = faker.string.uuid()
       mockBody = {
         query: '',
         variables: {},
