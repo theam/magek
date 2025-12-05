@@ -11,7 +11,7 @@ describe('providerService', () => {
 
   describe('assertNameIsCorrect', () => {
     it('should throw an error on surpassing project name max length', () => {
-      const inputString = faker.string.alphanumeric({ length: faker.number.int({ min: 38 }) })
+      const inputString = faker.string.alphanumeric({ length: faker.number.int({ min: 38, max: 100 }), casing: 'lower' })
       const errorString = `Project name cannot be longer than 37 characters:\n\n    Found: '${inputString}'`
 
       expect(() => providerService.assertNameIsCorrect(inputString)).to.throw(errorString)
@@ -25,7 +25,7 @@ describe('providerService', () => {
     })
 
     it('should throw an error if project name includes an uppercase letter', () => {
-      const inputString = faker.string.alphanumeric({ length: 37 }).toUpperCase()
+      const inputString = faker.string.alphanumeric({ length: 37, casing: 'lower' }).toUpperCase()
       const errorString = `Project name cannot contain uppercase letters:\n\n    Found: '${inputString}'`
 
       expect(() => providerService.assertNameIsCorrect(inputString)).to.throw(errorString)
@@ -39,7 +39,7 @@ describe('providerService', () => {
     })
 
     it('should not throw an error if project name is correct', () => {
-      const inputString = faker.string.alphanumeric({ length: 37 })
+      const inputString = faker.string.alphanumeric({ length: 37, casing: 'lower' })
 
       expect(() => providerService.assertNameIsCorrect(inputString)).to.not.throw()
     })
