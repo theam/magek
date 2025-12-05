@@ -27,7 +27,7 @@
     "@magek/adapter-event-store-nedb": "workspace:^0.0.1",
     "@magek/adapter-read-model-store-nedb": "workspace:^0.0.1",
     "@magek/adapter-session-store-nedb": "workspace:^0.0.1",
-    "@seald-io/nedb": "4.1.1",
+    "@seald-io/nedb": "4.1.2",
     "tslib": "2.8.1",
     "@effect-ts/core": "0.60.5",
     "fastify": "5.6.2"
