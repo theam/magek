@@ -29,8 +29,6 @@ cd /work
 echo "📦 Creating test-app with default template..."
 npm create magek@latest test-app -- \
   --template /workspace/templates/default \
-  --skip-install \
-  --skip-git \
   --description "Test app"
 
 APP_DIR="test-app"
@@ -45,4 +43,4 @@ fi
 # Store app directory for next phase
 echo "$APP_DIR" > /tmp/app-directory.txt
 
-echo "✅ Phase 2 completed: App created successfully in '$APP_DIR'" 
+echo "✅ Phase 2 completed: App created successfully in '$APP_DIR'"

@@ -189,7 +189,7 @@ describe.skip('the `GraphQLWebsocketHandler`', () => {
             envelope.value = {
               type: MessageTypes.GQL_CONNECTION_INIT,
               payload: {
-                Authorization: faker.datatype.uuid(),
+                Authorization: faker.string.uuid(),
               },
             }
           })
@@ -294,7 +294,7 @@ describe.skip('the `GraphQLWebsocketHandler`', () => {
               roles: [faker.lorem.word()],
               claims: {},
             },
-            expirationTime: faker.datatype.number(),
+            expirationTime: faker.number.int(),
           }
           const fetchDataFake: SinonStub = config.sessionStore.fetchConnection as any
           fetchDataFake.withArgs(config, envelope.connectionID).returns(connectionData)

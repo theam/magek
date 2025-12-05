@@ -21,12 +21,12 @@ describe('the `Instances` helper', () => {
 
   beforeEach(() => {
     rawObject = {
-      id: faker.datatype.uuid(),
+      id: faker.string.uuid(),
       firstName: faker.lorem.word(),
       lastName: faker.lorem.word(),
       friends: [
-        { id: faker.datatype.uuid(), firstName: faker.lorem.word(), lastName: faker.lorem.word() },
-        { id: faker.datatype.uuid(), firstName: faker.lorem.word(), lastName: faker.lorem.word() },
+        { id: faker.string.uuid(), firstName: faker.lorem.word(), lastName: faker.lorem.word() },
+        { id: faker.string.uuid(), firstName: faker.lorem.word(), lastName: faker.lorem.word() },
       ],
     }
   })

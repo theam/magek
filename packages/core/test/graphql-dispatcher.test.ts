@@ -50,7 +50,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
       it.skip('with default config introspection is enabled', async () => {
         const graphQLResult = { data: { result: 'the result' } }
         const messageEnvelope: GraphQLRequestEnvelope = {
-          requestID: faker.datatype.uuid(),
+          requestID: faker.string.uuid(),
           eventType: 'MESSAGE',
           value: {
             query: '{__schema {queryType {name},mutationType { name }  }}',
@@ -74,7 +74,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
       it.skip('override the introspection configuration and disable it', async () => {
         const graphQLResult = { data: { result: 'the result' } }
         const messageEnvelope: GraphQLRequestEnvelope = {
-          requestID: faker.datatype.uuid(),
+          requestID: faker.string.uuid(),
           eventType: 'MESSAGE',
           value: {
             query: '{__schema {queryType {name},mutationType { name }  }}',
@@ -111,7 +111,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
     context('on CONNECT message', () => {
       it('calls the provider "handleGraphQLResult" with the GraphQL websocket subprotocol headers', async () => {
         const config = mockConfigForGraphQLEnvelope({
-          requestID: faker.datatype.uuid(),
+          requestID: faker.string.uuid(),
           eventType: 'CONNECT',
         })
         const dispatcher = new MagekGraphQLDispatcher(config)
@@ -126,7 +126,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
     context('on DISCONNECT message', () => {
       it('does does not delete connection or subscription data when there is no connection ID', async () => {
         const config = mockConfigForGraphQLEnvelope({
-          requestID: faker.datatype.uuid(),
+          requestID: faker.string.uuid(),
           eventType: 'DISCONNECT',
           connectionID: undefined,
         })
@@ -139,9 +139,9 @@ describe('the `MagekGraphQLDispatcher`', () => {
       })
 
       it('calls deletes connection and subscription data', async () => {
-        const mockConnectionID = faker.datatype.uuid()
+        const mockConnectionID = faker.string.uuid()
         const config = mockConfigForGraphQLEnvelope({
-          requestID: faker.datatype.uuid(),
+          requestID: faker.string.uuid(),
           eventType: 'DISCONNECT',
           connectionID: mockConnectionID,
         })
@@ -161,9 +161,9 @@ describe('the `MagekGraphQLDispatcher`', () => {
       describe('when the message came through socket', () => {
         it('calls the websocket handler', async () => {
           const messageEnvelope: GraphQLRequestEnvelope = {
-            requestID: faker.datatype.uuid(),
+            requestID: faker.string.uuid(),
             eventType: 'MESSAGE',
-            connectionID: faker.datatype.uuid(), // A non-null connectionID means it came through socket
+            connectionID: faker.string.uuid(), // A non-null connectionID means it came through socket
           }
           const config = mockConfigForGraphQLEnvelope(messageEnvelope)
 
@@ -181,7 +181,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
       describe('when the message came through HTTP', () => {
         it('does not call the websocket handler', async () => {
           const config = mockConfigForGraphQLEnvelope({
-            requestID: faker.datatype.uuid(),
+            requestID: faker.string.uuid(),
             eventType: 'MESSAGE',
           })
           const dispatcher = new MagekGraphQLDispatcher(config)
@@ -196,7 +196,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
         it('calls the provider "handleGraphQLResult" when the envelope contains errors', async () => {
           const errorMessage = faker.lorem.sentences(1)
           const config = mockConfigForGraphQLEnvelope({
-            requestID: faker.datatype.uuid(),
+            requestID: faker.string.uuid(),
             eventType: 'MESSAGE',
             error: new Error(errorMessage),
           })
@@ -214,7 +214,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
 
         it('calls the provider "handleGraphQLResult" with an error when there is an empty query', async () => {
           const config = mockConfigForGraphQLEnvelope({
-            requestID: faker.datatype.uuid(),
+            requestID: faker.string.uuid(),
             eventType: 'MESSAGE',
           })
           const dispatcher = new MagekGraphQLDispatcher(config)
@@ -231,7 +231,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
 
         it('calls the provider "handleGraphQLResult" with an error when there is an empty body', async () => {
           const config = mockConfigForGraphQLEnvelope({
-            requestID: faker.datatype.uuid(),
+            requestID: faker.string.uuid(),
             eventType: 'MESSAGE',
             value: {
               query: undefined,
@@ -254,7 +254,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
         it.skip('calls the provider "handleGraphQLResult" with an error when a subscription operation is used', async () => {
           const errorRegex = /This API and protocol does not support "subscription" operations/
           const config = mockConfigForGraphQLEnvelope({
-            requestID: faker.datatype.uuid(),
+            requestID: faker.string.uuid(),
             eventType: 'MESSAGE',
             value: {
               query: 'subscription { a { x }}',
@@ -281,7 +281,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
           const graphQLResult = { data: { result: 'the result' } }
           const graphQLVariables = { productId: 'productId' }
           const graphQLEnvelope: GraphQLRequestEnvelope = {
-            requestID: faker.datatype.uuid(),
+            requestID: faker.string.uuid(),
             eventType: 'MESSAGE',
             value: {
               query: graphQLBody,
@@ -324,7 +324,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
           const graphQLResult = { data: { result: 'the result' } }
           const graphQLVariables = { productId: 'productId' }
           const graphQLEnvelope: GraphQLRequestEnvelope = {
-            requestID: faker.datatype.uuid(),
+            requestID: faker.string.uuid(),
             eventType: 'MESSAGE',
             value: {
               query: graphQLBody,
@@ -373,14 +373,14 @@ describe('the `MagekGraphQLDispatcher`', () => {
           const graphQLResult = { data: { result: 'the result' } }
           const graphQLVariables = { productId: 'productId' }
           const graphQLEnvelope: GraphQLRequestEnvelope = {
-            requestID: faker.datatype.uuid(),
+            requestID: faker.string.uuid(),
             eventType: 'MESSAGE',
             value: {
               query: graphQLBody,
               variables: graphQLVariables,
             },
             currentUser: undefined,
-            token: faker.datatype.uuid(),
+            token: faker.string.uuid(),
           }
           const resolverContext: GraphQLResolverContext = {
             requestID: graphQLEnvelope.requestID,
@@ -439,7 +439,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
 
           it('calls the provider "handleGraphQLResult" with the error with a query', async () => {
             const config = mockConfigForGraphQLEnvelope({
-              requestID: faker.datatype.uuid(),
+              requestID: faker.string.uuid(),
               eventType: 'MESSAGE',
               value: {
                 query: 'query { a { x }}',
@@ -455,7 +455,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
 
           it('calls the provider "handleGraphQLResult" with the error with a mutation', async () => {
             const config = mockConfigForGraphQLEnvelope({
-              requestID: faker.datatype.uuid(),
+              requestID: faker.string.uuid(),
               eventType: 'MESSAGE',
               value: {
                 query: 'mutation { a { x }}',

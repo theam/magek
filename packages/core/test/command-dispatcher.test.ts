@@ -162,7 +162,7 @@ describe('the `MagekCommandsDispatcher`', () => {
         }
 
         public entityID() {
-          return faker.datatype.uuid()
+          return faker.string.uuid()
         }
       }
 

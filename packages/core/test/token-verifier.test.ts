@@ -14,7 +14,7 @@ describe('the "verifyToken" method', () => {
   const jwks = createJWKSMock(auth0VerifierUri)
   const email = faker.internet.email()
   const phoneNumber = faker.phone.number()
-  const userId = faker.datatype.uuid()
+  const userId = faker.string.uuid()
   const config = new MagekConfig('test')
   let tokenVerifier: MagekTokenVerifier
 

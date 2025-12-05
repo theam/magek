@@ -343,27 +343,29 @@ async function createProject(config: ProjectConfig): Promise<void> {
 
     console.log(kleur.green('✓ Project configured'))
 
-    // Install dependencies
+    // Install dependencies and fail fast if installation does not complete
     if (!config.skipInstall) {
       console.log(kleur.blue('📦 Installing dependencies...'))
-      try {
-        switch (config.packageManager) {
-          case 'pnpm':
-            await runCommand('pnpm', ['install'], targetDir)
-            break
-          case 'npm':
-            await runCommand('npm', ['install'], targetDir)
-            break
-          default:
-            throw new Error(`Unsupported package manager: ${config.packageManager}`)
-        }
 
-        console.log(kleur.green('✓ Dependencies installed'))
-      } catch (error) {
-        console.log(
-          kleur.yellow(`⚠ Failed to install dependencies. You can run "${config.packageManager} install" manually.`)
-        )
+      switch (config.packageManager) {
+        case 'pnpm':
+          await runCommand('pnpm', ['install'], targetDir)
+          break
+        case 'npm':
+          await runCommand('npm', ['install'], targetDir)
+          break
+        default:
+          throw new Error(`Unsupported package manager: ${config.packageManager}`)
       }
+
+      const nodeModulesPath = path.join(targetDir, 'node_modules')
+      const hasNodeModules = fs.existsSync(nodeModulesPath) && fs.readdirSync(nodeModulesPath).length > 0
+
+      if (!hasNodeModules) {
+        throw new Error('Dependency installation finished without populating node_modules')
+      }
+
+      console.log(kleur.green('✓ Dependencies installed'))
     }
 
     // Initialize git repository

@@ -15,6 +15,8 @@
     "@magek/adapter-session-store-nedb": "{{magekVersion}}"
   },
   "devDependencies": {
+    "@magek/server": "{{magekVersion}}",
+    "@magek/server-infrastructure": "{{magekVersion}}",
     "rimraf": "5.0.0",
     "@magek/eslint-config": "{{magekVersion}}",
     "mocha": "11.7.1",
