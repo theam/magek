@@ -31,7 +31,7 @@
   "devDependencies": {
     "@magek/eslint-config": "workspace:^0.0.1",
     "@oclif/test": "4.1.10",
-    "@types/chai": "5.2.2",
+    "@types/chai": "5.2.3",
     "@types/chai-as-promised": "8.0.2",
     "@types/fs-extra": "11.0.4",
     "@types/inflected": "2.1.3",
