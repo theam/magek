@@ -24,7 +24,11 @@ We run `npm create magek@latest test-app --template /workspace/templates/default
 
 We validate the generated project structure and token replacements.
 
-### Phase 4: TODO: To be defined
+### Phase 4: Build and launch the local Magek server with NeDB
+
+The generated app installs its dependencies, builds the TypeScript sources, starts the Fastify-based `@magek/server`
+using the NeDB adapters, and verifies that the health endpoint responds without errors. This ensures the scaffolding
+works end-to-end with the local server runtime.
 
 ## Components
 
@@ -46,4 +50,4 @@ To run the E2E tests, execute the following command from the workspace root:
 docker build -f e2e/Dockerfile .
 ```
 
-This will build the Docker image and run all three phases of the test.
+This will build the Docker image and run all four phases of the test.

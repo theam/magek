@@ -20,5 +20,9 @@ echo "🔍 Running Phase 3: Validating the generated project..."
 source "$SCRIPT_DIR/phase3-validate-app.sh"
 
 echo ""
+echo "🧪 Running Phase 4: Building and starting Magek server with NeDB..."
+source "$SCRIPT_DIR/phase4-run-server.sh"
+
+echo ""
 echo "✅ All E2E tests completed successfully!"
 echo "========================================"
