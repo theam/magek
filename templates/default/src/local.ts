@@ -5,7 +5,7 @@ async function main(): Promise<void> {
 
   const { Magek } = await import('./index')
 
-  Magek.start(__dirname)
+  await Magek.start(__dirname)
 
   const infrastructureFactory = Magek.config.provider?.infrastructure
   if (!infrastructureFactory) {

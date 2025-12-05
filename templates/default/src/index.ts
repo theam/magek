@@ -11,5 +11,3 @@ export {
   triggerScheduledCommands,
   rocketDispatcher,
 } from '@magek/core'
-
-Magek.start(__dirname)
