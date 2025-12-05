@@ -49,7 +49,7 @@
     "sinon": "21.0.0",
     "tsx": "^4.19.2",
     "tsup": "8.5.1",
-    "typescript": "5.8.3",
+    "typescript": "5.9.3",
     "@types/degit": "~2.8.6",
     "rimraf": "6.0.1"
   },
