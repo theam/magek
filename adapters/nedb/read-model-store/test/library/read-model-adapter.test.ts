@@ -127,8 +127,8 @@ describe('read-models-adapter', () => {
     let mockReadModelID: UUID
 
     beforeEach(() => {
-      mockReadModelTypeName = faker.random.alphaNumeric(10)
-      mockReadModelID = faker.datatype.uuid()
+      mockReadModelTypeName = faker.string.alphanumeric({ length: 10 })
+      mockReadModelID = faker.string.uuid()
     })
 
     it('should call read model registry query and return a value', async () => {
@@ -515,12 +515,12 @@ describe('read-models-adapter', () => {
 
   describe('deleteReadModel', () => {
     it('delete one read model', async () => {
-      const expectedId = faker.datatype.uuid()
+      const expectedId = faker.string.uuid()
       const mockReadModelInterface: ReadModelInterface = {
         id: expectedId,
-        age: faker.datatype.number(40),
+        age: faker.number.int({ max: 40 }),
         foo: faker.lorem.word(),
-        bar: faker.datatype.float(),
+        bar: faker.number.float(),
         magekMetadata: {
           version: 1,
           schemaVersion: 1,

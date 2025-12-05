@@ -106,7 +106,7 @@ describe('MagekHealthService', () => {
     const jwks = createJWKSMock('https://myauth0app.auth0.com/')
     const stop = jwks.start()
     const token = jwks.token({
-      sub: faker.datatype.uuid(),
+      sub: faker.string.uuid(),
       iss: issuer,
       'custom:role': 'UserRole',
       extraParam: 'claims',
@@ -130,7 +130,7 @@ describe('MagekHealthService', () => {
     const jwks = createJWKSMock('https://myauth0app.auth0.com/')
     const stop = jwks.start()
     const token = jwks.token({
-      sub: faker.datatype.uuid(),
+      sub: faker.string.uuid(),
       iss: issuer,
       'custom:role': 'UserRole1',
       extraParam: 'claims',

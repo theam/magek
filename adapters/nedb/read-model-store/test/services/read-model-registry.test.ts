@@ -70,7 +70,7 @@ describe('the read model registry', () => {
 
   describe('query', () => {
     beforeEach(async () => {
-      mockReadModel = createMockReadModelEnvelope({ foo: `unique-${faker.datatype.uuid()}` })
+      mockReadModel = createMockReadModelEnvelope({ foo: `unique-${faker.string.uuid()}` })
     })
 
     it('should call find with correct query parameters', async () => {
@@ -131,7 +131,7 @@ describe('the read model registry', () => {
 
     it('should return empty results when no matches found', async () => {
       const query = {
-        'value.id': faker.datatype.uuid(),
+        'value.id': faker.string.uuid(),
         typeName: mockReadModel.typeName,
       }
       
@@ -336,7 +336,7 @@ describe('the read model registry', () => {
     it('should handle database errors properly', async () => {
       const readModel: ReadModelEnvelope = {
         value: {
-          id: faker.datatype.uuid(),
+          id: faker.string.uuid(),
         },
         typeName: faker.lorem.word(),
       }

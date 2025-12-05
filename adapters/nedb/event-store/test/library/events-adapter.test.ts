@@ -90,8 +90,8 @@ describe('events-adapter', () => {
     beforeEach(() => {
       queryStub.resolves([mockEventEnvelop])
 
-      mockEntityTypeName = faker.random.alphaNumeric(10)
-      mockEntityID = faker.datatype.uuid()
+      mockEntityTypeName = faker.string.alphanumeric({ length: 10 })
+      mockEntityID = faker.string.uuid()
     })
 
     it('should return expected result', async () => {
@@ -176,8 +176,8 @@ describe('events-adapter', () => {
     beforeEach(() => {
       queryLatestStub.resolves(mockSnapshot)
 
-      mockEntityTypeName = faker.random.alphaNumeric(10)
-      mockEntityID = faker.datatype.uuid()
+      mockEntityTypeName = faker.string.alphanumeric({ length: 10 })
+      mockEntityID = faker.string.uuid()
     })
 
     it('should call event registry queryLatest', async () => {

@@ -321,7 +321,7 @@ describe('MagekReadModelReader', () => {
     it('throws the right error when request is missing "version"', async () => {
       const envelope = {
         class: { name: 'anyReadModel' },
-        requestID: faker.datatype.uuid(),
+        requestID: faker.string.uuid(),
          
       } as any // To avoid the compilation failure of "missing version field"
 
@@ -335,7 +335,7 @@ describe('MagekReadModelReader', () => {
       const envelope: ReadModelRequestEnvelope<any> = {
         class: { name: 'nonExistentReadModel' },
         filters: {},
-        requestID: faker.datatype.uuid(),
+        requestID: faker.string.uuid(),
         version: 1,
       } as any
       await expect(readModelReader.search(envelope)).to.eventually.be.rejectedWith(NotFoundError)
@@ -348,7 +348,7 @@ describe('MagekReadModelReader', () => {
       const envelope: ReadModelRequestEnvelope<TestReadModel> = {
         class: TestReadModel,
         className: TestReadModel.name,
-        requestID: faker.datatype.uuid(),
+        requestID: faker.string.uuid(),
         filters: {},
         version: 1,
         currentUser: {
@@ -372,7 +372,7 @@ describe('MagekReadModelReader', () => {
       },
       field: {
         operation: 'lt',
-        values: [faker.datatype.number({ max: 10 })],
+        values: [faker.number.int({ max: 10 })],
       },
     }
 
@@ -385,7 +385,7 @@ describe('MagekReadModelReader', () => {
     const readModelRequestEnvelope: ReadModelRequestEnvelope<TestReadModel> = {
       class: TestReadModel,
       className: TestReadModel.name,
-      requestID: faker.datatype.uuid(),
+      requestID: faker.string.uuid(),
       version: 1,
       filters,
       currentUser,
@@ -501,7 +501,7 @@ describe('MagekReadModelReader', () => {
           const readModelWithProjectionRequestEnvelope: ReadModelRequestEnvelope<TestReadModel> = {
             class: TestReadModel,
             className: TestReadModel.name,
-            requestID: faker.datatype.uuid(),
+            requestID: faker.string.uuid(),
             version: 1,
             filters,
             currentUser,
@@ -536,7 +536,7 @@ describe('MagekReadModelReader', () => {
           const readModelWithProjectionRequestEnvelope: ReadModelRequestEnvelope<TestReadModel> = {
             class: TestReadModel,
             className: TestReadModel.name,
-            requestID: faker.datatype.uuid(),
+            requestID: faker.string.uuid(),
             version: 1,
             filters,
             currentUser,
@@ -667,7 +667,7 @@ describe('MagekReadModelReader', () => {
         })
 
         it('calls the provider subscribe function and returns its results', async () => {
-          const connectionID = faker.datatype.uuid()
+          const connectionID = faker.string.uuid()
           const expectedSubscriptionEnvelope: SubscriptionEnvelope = {
             ...readModelRequestEnvelope,
             connectionID,
@@ -700,7 +700,7 @@ describe('MagekReadModelReader', () => {
         })
 
         it('calls the provider subscribe function when setting before hooks and returns the new filter in the result', async () => {
-          const connectionID = faker.datatype.uuid()
+          const connectionID = faker.string.uuid()
           readModelRequestEnvelope.filters = { id: { eq: currentUser?.username } } as Record<string, FilterFor<unknown>>
           const expectedSubscriptionEnvelope: SubscriptionEnvelope = {
             ...readModelRequestEnvelope,
@@ -725,8 +725,8 @@ describe('MagekReadModelReader', () => {
     it('calls the provider "deleteSubscription" method with the right data', async () => {
       const deleteSubscriptionFake = fake()
       replace(config.sessionStoreAdapter as any, 'deleteSubscription', deleteSubscriptionFake)
-      const connectionID = faker.datatype.uuid()
-      const subscriptionID = faker.datatype.uuid()
+      const connectionID = faker.string.uuid()
+      const subscriptionID = faker.string.uuid()
       await readModelReader.unsubscribe(connectionID, subscriptionID)
 
       expect(deleteSubscriptionFake).to.have.been.calledOnceWithExactly(match.any, connectionID, subscriptionID)
@@ -737,7 +737,7 @@ describe('MagekReadModelReader', () => {
     it('calls the provider "deleteAllSubscription" method with the right data', async () => {
       const deleteAllSubscriptionsFake = fake()
       replace(config.sessionStoreAdapter as any, 'deleteSubscriptionsForConnection', deleteAllSubscriptionsFake)
-      const connectionID = faker.datatype.uuid()
+      const connectionID = faker.string.uuid()
       await readModelReader.unsubscribeAll(connectionID)
 
       expect(deleteAllSubscriptionsFake).to.have.been.calledOnceWithExactly(match.any, connectionID)

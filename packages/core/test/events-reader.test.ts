@@ -30,10 +30,10 @@ describe('MagekEventsReader', () => {
   let providerEventsSearch: SinonSpy
   const searchResult: EventSearchResponse[] = [
     {
-      requestID: faker.datatype.uuid(),
+      requestID: faker.string.uuid(),
       type: TestEvent.name,
       entity: faker.lorem.word(),
-      entityID: faker.datatype.uuid(),
+      entityID: faker.string.uuid(),
       createdAt: faker.date.recent().toISOString(),
       value: {
         entityID: () => UUID.generate(),
@@ -75,7 +75,7 @@ describe('MagekEventsReader', () => {
   describe('the validation for the method `fetch` throws the right error when', () => {
     it('is a "byEntity" search and entity metadata is not found', async () => {
       const request: EventSearchRequest = {
-        requestID: faker.datatype.uuid(),
+        requestID: faker.string.uuid(),
         parameters: {
           entity: 'NonExistingEntity',
         },
@@ -87,7 +87,7 @@ describe('MagekEventsReader', () => {
 
     it('is a "byType" search and the associated entity is not found', async () => {
       const request: EventSearchRequest = {
-        requestID: faker.datatype.uuid(),
+        requestID: faker.string.uuid(),
         parameters: {
           type: 'NonExistingEventType',
         },
@@ -99,7 +99,7 @@ describe('MagekEventsReader', () => {
 
     it('is a "byEvent" search and the associated entity metadata is not found', async () => {
       const request: EventSearchRequest = {
-        requestID: faker.datatype.uuid(),
+        requestID: faker.string.uuid(),
         parameters: {
           type: TestEventReducedByNonRegisteredEntity.name,
         },
@@ -111,7 +111,7 @@ describe('MagekEventsReader', () => {
 
     it('is an invalid type of event search: it is not a "byEntity" or a "byType" search', async () => {
       const request: EventSearchRequest = {
-        requestID: faker.datatype.uuid(),
+        requestID: faker.string.uuid(),
         parameters: {} as never,
       }
       await expect(eventsReader.fetch(request)).to.be.rejectedWith(/Invalid event search request/)
@@ -119,7 +119,7 @@ describe('MagekEventsReader', () => {
 
     it('is an invalid type of event search: it is both a "byEntity" and a "byType" search', async () => {
       const request: EventSearchRequest = {
-        requestID: faker.datatype.uuid(),
+        requestID: faker.string.uuid(),
         parameters: {
           entity: TestEntity.name,
           type: TestEvent.name,
@@ -135,7 +135,7 @@ describe('MagekEventsReader', () => {
           username: faker.internet.email(),
           claims: {},
         },
-        requestID: faker.datatype.uuid(),
+        requestID: faker.string.uuid(),
         parameters: {
           entity: TestEntity.name,
         },
@@ -152,7 +152,7 @@ describe('MagekEventsReader', () => {
           username: faker.internet.email(),
           claims: {},
         },
-        requestID: faker.datatype.uuid(),
+        requestID: faker.string.uuid(),
         parameters: {
           entity: TestEntity.name,
           from: 'fromTime',

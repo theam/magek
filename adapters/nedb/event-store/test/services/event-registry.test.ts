@@ -18,7 +18,7 @@ describe('the event registry', () => {
   let eventRegistry: EventRegistry
 
   beforeEach(async () => {
-    initialEventsCount = faker.datatype.number({ min: 2, max: 10 })
+    initialEventsCount = faker.number.int({ min: 2, max: 10 })
     eventRegistry = new EventRegistry()
 
     // Clear all events
@@ -63,7 +63,7 @@ describe('the event registry', () => {
 
     describe('with events of the same entity', () => {
       const entityName: string = faker.lorem.word()
-      const entityId: string = faker.datatype.uuid()
+      const entityId: string = faker.string.uuid()
 
       beforeEach(async () => {
         const publishPromises: Array<Promise<any>> = []
@@ -73,7 +73,7 @@ describe('the event registry', () => {
         }
 
         for (let i = 0; i < initialEventsCount; i++) {
-          publishPromises.push(eventRegistry.store(createMockEventEnvelopeForEntity(entityName, faker.datatype.uuid())))
+          publishPromises.push(eventRegistry.store(createMockEventEnvelopeForEntity(entityName, faker.string.uuid())))
         }
 
         for (let i = 0; i < initialEventsCount; i++) {
@@ -129,7 +129,7 @@ describe('the event registry', () => {
 
     it('should return null', async () => {
       const result = await eventRegistry.queryLatestSnapshot({
-        entityID: faker.datatype.uuid(),
+        entityID: faker.string.uuid(),
         entityTypeName: mockTargetSnapshot.entityTypeName,
       })
 
@@ -165,15 +165,15 @@ describe('the event registry', () => {
       const event: EventEnvelope = {
         kind: 'event',
         superKind: 'domain',
-        entityID: faker.datatype.uuid(),
+        entityID: faker.string.uuid(),
         entityTypeName: faker.lorem.word(),
         value: {
-          id: faker.datatype.uuid(),
+          id: faker.string.uuid(),
         },
         createdAt: faker.date.past().toISOString(),
-        requestID: faker.datatype.uuid(),
+        requestID: faker.string.uuid(),
         typeName: faker.lorem.word(),
-        version: faker.datatype.number(),
+        version: faker.number.int(),
       }
 
       const error = new Error(faker.lorem.words())

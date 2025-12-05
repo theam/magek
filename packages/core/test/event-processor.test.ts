@@ -339,7 +339,7 @@ describe('MagekEventProcessor', () => {
       })
 
       it('waits for async event handlers to finish', async () => {
-        let capturedRegister: Register = new Register(faker.datatype.uuid(), {} as any, RegisterHandler.flush)
+        let capturedRegister: Register = new Register(faker.string.uuid(), {} as any, RegisterHandler.flush)
         const fakeHandler = fake(async (event: EventInterface, register: Register) => {
           await new Promise((resolve) => setTimeout(resolve, 100))
           register.events(someEvent.value as EventInterface)

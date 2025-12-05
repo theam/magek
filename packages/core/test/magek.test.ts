@@ -222,10 +222,10 @@ describe('the `Magek` class', () => {
     it('has an instance method', async () => {
       const searchResult: EventSearchResponse[] = [
         {
-          requestID: faker.datatype.uuid(),
+          requestID: faker.string.uuid(),
           type: TestEvent.name,
           entity: faker.lorem.word(),
-          entityID: faker.datatype.uuid(),
+          entityID: faker.string.uuid(),
           createdAt: faker.date.recent().toISOString(),
           value: {
             id: '1',
@@ -233,10 +233,10 @@ describe('the `Magek` class', () => {
           } as EventInterface,
         },
         {
-          requestID: faker.datatype.uuid(),
+          requestID: faker.string.uuid(),
           type: BestEvent.name,
           entity: faker.lorem.word(),
-          entityID: faker.datatype.uuid(),
+          entityID: faker.string.uuid(),
           createdAt: faker.date.recent().toISOString(),
           value: {
             id: '1',
@@ -283,10 +283,10 @@ describe('the `Magek` class', () => {
     it('has a plain object if event class does not exist', async () => {
       const searchResult: EventSearchResponse[] = [
         {
-          requestID: faker.datatype.uuid(),
+          requestID: faker.string.uuid(),
           type: TestEvent.name,
           entity: faker.lorem.word(),
-          entityID: faker.datatype.uuid(),
+          entityID: faker.string.uuid(),
           createdAt: faker.date.recent().toISOString(),
           value: {
             id: '1',
@@ -294,10 +294,10 @@ describe('the `Magek` class', () => {
           } as EventInterface,
         },
         {
-          requestID: faker.datatype.uuid(),
+          requestID: faker.string.uuid(),
           type: BestEvent.name,
           entity: faker.lorem.word(),
-          entityID: faker.datatype.uuid(),
+          entityID: faker.string.uuid(),
           createdAt: faker.date.recent().toISOString(),
           value: {
             id: '1',
@@ -343,10 +343,10 @@ describe('the `Magek` class', () => {
     it('has a plain object if notification class does not exist', async () => {
       const searchResult: EventSearchResponse[] = [
         {
-          requestID: faker.datatype.uuid(),
+          requestID: faker.string.uuid(),
           type: TestEvent.name,
           entity: faker.lorem.word(),
-          entityID: faker.datatype.uuid(),
+          entityID: faker.string.uuid(),
           createdAt: faker.date.recent().toISOString(),
           value: {
             id: '1',
