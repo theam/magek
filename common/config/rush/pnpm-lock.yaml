@@ -214,8 +214,8 @@ importers:
         specifier: workspace:^0.0.1
         version: link:../core
       '@oclif/core':
-        specifier: 4.5.2
-        version: 4.5.2
+        specifier: 4.8.0
+        version: 4.8.0
       '@oclif/plugin-help':
         specifier: 6.2.31
         version: 6.2.31
@@ -261,7 +261,7 @@ importers:
         version: link:../../tools/eslint-config
       '@oclif/test':
         specifier: 4.1.10
-        version: 4.1.10(@oclif/core@4.5.2)
+        version: 4.1.10(@oclif/core@4.8.0)
       '@types/chai':
         specifier: 5.2.2
         version: 5.2.2
@@ -1419,8 +1419,8 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@oclif/core@4.5.2':
-    resolution: {integrity: sha512-eQcKyrEcDYeZJKu4vUWiu0ii/1Gfev6GF4FsLSgNez5/+aQyAUCjg3ZWlurf491WiYZTXCWyKAxyPWk8DKv2MA==}
+  '@oclif/core@4.8.0':
+    resolution: {integrity: sha512-jteNUQKgJHLHFbbz806aGZqf+RJJ7t4gwF4MYa8fCwCxQ8/klJNWc0MvaJiBebk7Mc+J39mdlsB4XraaCKznFw==}
     engines: {node: '>=18.0.0'}
 
   '@oclif/plugin-help@6.2.31':
@@ -4675,7 +4675,7 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
 
-  '@oclif/core@4.5.2':
+  '@oclif/core@4.8.0':
     dependencies:
       ansi-escapes: 4.3.2
       ansis: 3.17.0
@@ -4698,11 +4698,11 @@ snapshots:
 
   '@oclif/plugin-help@6.2.31':
     dependencies:
-      '@oclif/core': 4.5.2
+      '@oclif/core': 4.8.0
 
-  '@oclif/test@4.1.10(@oclif/core@4.5.2)':
+  '@oclif/test@4.1.10(@oclif/core@4.8.0)':
     dependencies:
-      '@oclif/core': 4.5.2
+      '@oclif/core': 4.8.0
       ansis: 3.17.0
       debug: 4.4.3(supports-color@8.1.1)
     transitivePeerDependencies:
