@@ -3,7 +3,7 @@ import { Effect, pipe } from 'effect'
 import { makeLiveProcess, LiveProcess } from '../../../src/services/process/live.impl.js'
 import { expect } from '../../expect.js'
 import { guardError } from '../../../src/common/errors.js'
-import { ProcessService } from '../../../src/services/process/index.js'
+import { ProcessService, ProcessError } from '../../../src/services/process/index.js'
 
 describe('Process - Live Implementation', () => {
   beforeEach(() => {
@@ -14,16 +14,16 @@ describe('Process - Live Implementation', () => {
     restore()
   })
 
-  const mapEffError = <A, R>(effect: Effect.Effect<A, { error: Error }, R>) =>
+  const mapEffError = <A, R>(effect: Effect.Effect<A, ProcessError, R>) =>
     pipe(
       effect,
-      Effect.mapError((e: { error: Error }) => e.error)
+      Effect.mapError((e: ProcessError) => e.error)
     )
 
   it('uses process.cwd', async () => {
     const effect = Effect.gen(function* () {
       const { cwd } = yield* ProcessService
-      return yield* cwd()
+      return yield* Effect.promise(() => cwd())
     })
     await Effect.runPromise(
       pipe(
@@ -43,7 +43,7 @@ describe('Process - Live Implementation', () => {
 
     const effect = Effect.gen(function* () {
       const { exec } = yield* ProcessService
-      return yield* exec(command, cwd)
+      return yield* Effect.promise(() => exec(command, cwd))
     })
 
     await Effect.runPromise(

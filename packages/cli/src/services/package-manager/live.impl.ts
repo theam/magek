@@ -1,5 +1,5 @@
 import { FileSystemService } from '../file-system/index.js'
-import { ProcessService } from '../process/index.js'
+import { ProcessError, ProcessService } from '../process/index.js'
 import { PackageManagerService } from './index.js'
 import { Effect, Layer } from 'effect'
 import { makeRushPackageManager } from './rush.impl.js'
@@ -12,7 +12,11 @@ import { LiveProcess } from '../process/live.impl.js'
 const inferPackageManagerNameFromDirectoryContents = Effect.gen(function* () {
   const { cwd } = yield* ProcessService
   const { readDirectoryContents } = yield* FileSystemService
-  const workingDir = yield* cwd()
+  // ProcessService.cwd() throws ProcessError on failure
+  const workingDir = yield* Effect.tryPromise({
+    try: () => cwd(),
+    catch: (error): ProcessError => error as ProcessError,
+  })
   const contents = yield* readDirectoryContents(workingDir)
   if (contents.includes('.rush')) {
     return yield* makeRushPackageManager
