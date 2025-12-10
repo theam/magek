@@ -51,7 +51,7 @@
     "tsup": "8.5.1",
     "typescript": "5.9.3",
     "@types/degit": "~2.8.6",
-    "rimraf": "6.0.1"
+    "rimraf": "6.1.2"
   },
   "publishConfig": {
     "access": "public"
