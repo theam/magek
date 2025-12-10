@@ -12,7 +12,10 @@ import { LiveProcess } from '../process/live.impl.js'
 const inferPackageManagerNameFromDirectoryContents = Effect.gen(function* () {
   const { cwd } = yield* ProcessService
   const { readDirectoryContents } = yield* FileSystemService
-  const workingDir = yield* Effect.promise(() => cwd())
+  const workingDir = yield* Effect.tryPromise({
+    try: () => cwd(),
+    catch: (error) => error,
+  })
   const contents = yield* readDirectoryContents(workingDir)
   if (contents.includes('.rush')) {
     return yield* makeRushPackageManager
