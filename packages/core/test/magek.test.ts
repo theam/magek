@@ -18,6 +18,7 @@ import { faker } from '@faker-js/faker'
 import { afterEach } from 'mocha'
 import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
 import { createMockReadModelStoreAdapter } from './helpers/read-model-store-adapter-helper'
+import { createMockSessionStoreAdapter } from './helpers/session-store-adapter-helper'
 
 describe('the `Magek` class', () => {
   afterEach(() => {
@@ -57,6 +58,7 @@ describe('the `Magek` class', () => {
       Magek.configureCurrentEnv((config) => {
         config.eventStoreAdapter = createMockEventStoreAdapter()
         config.readModelStoreAdapter = createMockReadModelStoreAdapter()
+        config.sessionStoreAdapter = createMockSessionStoreAdapter()
       })
       Magek.start('path/to/code')
       expect(fakeImporter).to.have.been.calledOnce
@@ -72,8 +74,7 @@ describe('the `Magek` class', () => {
       )
     })
 
-    it.skip('throws an error when no readModelStoreAdapter is configured', () => {
-      // TODO: Re-enable this test once the readModelStoreAdapter refactor is complete
+    it('throws an error when no readModelStoreAdapter is configured', () => {
       Magek.configureCurrentEnv((config) => {
         config.eventStoreAdapter = createMockEventStoreAdapter()
         config.readModelStoreAdapter = undefined
@@ -83,8 +84,7 @@ describe('the `Magek` class', () => {
       )
     })
 
-    it.skip('throws an error when no sessionStoreAdapter is configured', () => {
-      // TODO: Re-enable this test once the sessionStoreAdapter refactor is complete
+    it('throws an error when no sessionStoreAdapter is configured', () => {
       Magek.configureCurrentEnv((config) => {
         config.eventStoreAdapter = createMockEventStoreAdapter()
         config.readModelStoreAdapter = createMockReadModelStoreAdapter()
@@ -95,13 +95,13 @@ describe('the `Magek` class', () => {
       )
     })
 
-    it('succeeds when both eventStoreAdapter and readModelStoreAdapter are configured', () => {
-      // TODO: Re-enable this test once the readModelStoreAdapter refactor is complete
+    it('succeeds when all adapters are configured', () => {
       const fakeImporter = fake()
       replace(Importer, 'importUserProjectFiles', fakeImporter)
       Magek.configureCurrentEnv((config) => {
         config.eventStoreAdapter = createMockEventStoreAdapter()
-        // config.readModelStoreAdapter = createMockReadModelStoreAdapter()
+        config.readModelStoreAdapter = createMockReadModelStoreAdapter()
+        config.sessionStoreAdapter = createMockSessionStoreAdapter()
       })
       expect(() => Magek.start('path/to/code')).to.not.throw()
       expect(fakeImporter).to.have.been.calledOnce

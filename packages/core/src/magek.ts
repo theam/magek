@@ -64,6 +64,12 @@ export class Magek {
     if (!this.config.eventStoreAdapter) {
       throw new Error('No eventStoreAdapter configured. Please add one in MagekConfig.')
     }
+    if (!this.config.readModelStoreAdapter) {
+      throw new Error('No readModelStoreAdapter configured. Please add one in MagekConfig.')
+    }
+    if (!this.config.sessionStoreAdapter) {
+      throw new Error('No sessionStoreAdapter configured. Please add one in MagekConfig.')
+    }
     const projectRootPath = codeRootPath.replace(new RegExp(this.config.codeRelativePath + '$'), '')
     this.config.userProjectRootPath = projectRootPath
     Importer.importUserProjectFiles(codeRootPath)
