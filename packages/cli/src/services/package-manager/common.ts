@@ -11,6 +11,7 @@ import { FileSystemService } from '../file-system/index.js'
 const ensureProjectDir = (processService: ProcessService, projectDirRef: Ref.Ref<string>) =>
   Effect.gen(function* () {
     const { cwd } = processService
+    // ProcessService.cwd() throws ProcessError on failure
     const pwd = yield* Effect.tryPromise({
       try: () => cwd(),
       catch: (error): ProcessError => error as ProcessError,
@@ -26,6 +27,7 @@ const checkScriptExists = (processService: ProcessService, fileSystemService: Fi
   Effect.gen(function* () {
     const { cwd } = processService
     const { readFileContents } = fileSystemService
+    // ProcessService.cwd() throws ProcessError on failure
     const pwd = yield* Effect.tryPromise({
       try: () => cwd(),
       catch: (error): ProcessError => error as ProcessError,
@@ -60,6 +62,7 @@ export const makeScopedRun = (packageManagerCommand: string, projectDirRef: Ref.
     return (scriptName: string, subscriptName: string | null, args: ReadonlyArray<string>) =>
       Effect.gen(function* () {
         const projectDir = yield* ensureProjectDir(processService, projectDirRef)
+        // ProcessService.exec() throws ProcessError on failure
         return yield* Effect.tryPromise({
           try: () =>
             processService.exec(
