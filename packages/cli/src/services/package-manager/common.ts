@@ -11,7 +11,7 @@ import { FileSystemService } from '../file-system/index.js'
 const ensureProjectDir = (processService: ProcessService, projectDirRef: Ref.Ref<string>) =>
   Effect.gen(function* () {
     const { cwd } = processService
-    const pwd = yield* cwd()
+    const pwd = yield* Effect.promise(() => cwd())
     const projectDir = yield* Ref.updateAndGet(projectDirRef, (dir) => dir || pwd)
     return projectDir
   })
@@ -23,7 +23,7 @@ const checkScriptExists = (processService: ProcessService, fileSystemService: Fi
   Effect.gen(function* () {
     const { cwd } = processService
     const { readFileContents } = fileSystemService
-    const pwd = yield* cwd()
+    const pwd = yield* Effect.promise(() => cwd())
     const packageJson = yield* readFileContents(`${pwd}/package.json`)
     const packageJsonContents = JSON.parse(packageJson)
     return packageJsonContents.scripts && packageJsonContents.scripts[scriptName]
@@ -54,11 +54,13 @@ export const makeScopedRun = (packageManagerCommand: string, projectDirRef: Ref.
     return (scriptName: string, subscriptName: string | null, args: ReadonlyArray<string>) =>
       Effect.gen(function* () {
         const projectDir = yield* ensureProjectDir(processService, projectDirRef)
-        return yield* processService.exec(
-          `${packageManagerCommand} ${scriptName} ${subscriptName ? subscriptName + ' ' : ''}${args.join(
-            ' '
-          )}`.trim(),
-          projectDir
+        return yield* Effect.promise(() =>
+          processService.exec(
+            `${packageManagerCommand} ${scriptName} ${subscriptName ? subscriptName + ' ' : ''}${args.join(
+              ' '
+            )}`.trim(),
+            projectDir
+          )
         )
       })
   })
