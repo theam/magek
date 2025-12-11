@@ -25,7 +25,7 @@ describe('PackageManager - Live Implementation (with inference)', () => {
   )
 
   it('infers Rush when a `.rush` folder is present', async () => {
-    const TestFileSystem = makeTestFileSystem({ readDirectoryContents: fake.returns(['.rush']) })
+    const TestFileSystem = makeTestFileSystem({ readDirectoryContents: fake.resolves(['.rush']) })
     const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
     await Effect.runPromise(
       pipe(
@@ -38,7 +38,7 @@ describe('PackageManager - Live Implementation (with inference)', () => {
   })
 
   it('infers pnpm when a `pnpm-lock.yaml` file is present', async () => {
-    const TestFileSystem = makeTestFileSystem({ readDirectoryContents: fake.returns(['pnpm-lock.yaml']) })
+    const TestFileSystem = makeTestFileSystem({ readDirectoryContents: fake.resolves(['pnpm-lock.yaml']) })
     const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
     await Effect.runPromise(
       pipe(
@@ -51,7 +51,7 @@ describe('PackageManager - Live Implementation (with inference)', () => {
   })
 
   it('infers npm when a `package-lock.json` file is present', async () => {
-    const TestFileSystem = makeTestFileSystem({ readDirectoryContents: fake.returns(['package-lock.json']) })
+    const TestFileSystem = makeTestFileSystem({ readDirectoryContents: fake.resolves(['package-lock.json']) })
     const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
     await Effect.runPromise(
       pipe(
@@ -64,7 +64,7 @@ describe('PackageManager - Live Implementation (with inference)', () => {
   })
 
   it('infers yarn when a `yarn.lock` file is present', async () => {
-    const TestFileSystem = makeTestFileSystem({ readDirectoryContents: fake.returns(['yarn.lock']) })
+    const TestFileSystem = makeTestFileSystem({ readDirectoryContents: fake.resolves(['yarn.lock']) })
     const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
     await Effect.runPromise(
       pipe(
@@ -77,7 +77,7 @@ describe('PackageManager - Live Implementation (with inference)', () => {
   })
 
   it('infers npm when no lock file is present', async () => {
-    const TestFileSystem = makeTestFileSystem({ readDirectoryContents: fake.returns([]) })
+    const TestFileSystem = makeTestFileSystem({ readDirectoryContents: fake.resolves([]) })
     const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
     await Effect.runPromise(
       pipe(
