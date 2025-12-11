@@ -9,30 +9,49 @@ import { makeNpmPackageManager } from './npm.impl.js'
 import { LiveFileSystem } from '../file-system/live.impl.js'
 import { LiveProcess } from '../process/live.impl.js'
 
-const inferPackageManagerNameFromDirectoryContents = Effect.gen(function* () {
-  const { cwd } = yield* ProcessService
-  const { readDirectoryContents } = yield* FileSystemService
-  // ProcessService.cwd() throws ProcessError on failure
-  const workingDir = yield* Effect.tryPromise({
-    try: () => cwd(),
-    catch: (error): ProcessError => error as ProcessError,
-  })
-  const contents = yield* Effect.tryPromise({
-    try: () => readDirectoryContents(workingDir),
-    catch: (error): FileSystemError => error as FileSystemError,
-  })
-  if (contents.includes('.rush')) {
-    return yield* makeRushPackageManager
-  } else if (contents.includes('pnpm-lock.yaml')) {
-    return yield* makePnpmPackageManager
-  } else if (contents.includes('yarn.lock')) {
-    return yield* makeYarnPackageManager
-  } else if (contents.includes('package-lock.json')) {
-    return yield* makeNpmPackageManager
-  } else {
-    // Infer npm by default
-    return yield* makeNpmPackageManager
+const inferPackageManagerFromContents = async (
+  processService: ProcessService,
+  fileSystemService: FileSystemService
+) => {
+  let workingDir: string
+  try {
+    workingDir = await processService.cwd()
+  } catch (error) {
+    throw error as ProcessError
   }
+
+  let contents: ReadonlyArray<string>
+  try {
+    contents = await fileSystemService.readDirectoryContents(workingDir)
+  } catch (error) {
+    throw error as FileSystemError
+  }
+
+  if (contents.includes('.rush')) {
+    return makeRushPackageManager
+  }
+  if (contents.includes('pnpm-lock.yaml')) {
+    return makePnpmPackageManager
+  }
+  if (contents.includes('yarn.lock')) {
+    return makeYarnPackageManager
+  }
+  if (contents.includes('package-lock.json')) {
+    return makeNpmPackageManager
+  }
+  // Infer npm by default
+  return makeNpmPackageManager
+}
+
+const inferPackageManagerNameFromDirectoryContents = Effect.gen(function* () {
+  const processService = yield* ProcessService
+  const fileSystemService = yield* FileSystemService
+  const packageManagerEffect = yield* Effect.tryPromise({
+    try: () => inferPackageManagerFromContents(processService, fileSystemService),
+    catch: (error) => error as ProcessError | FileSystemError,
+  })
+
+  return yield* packageManagerEffect
 })
 
 const inferredPackageManagerLayer = Layer.effect(
