@@ -1,4 +1,4 @@
-import { Effect, Context } from 'effect'
+import { Context } from 'effect'
 
 export class FileSystemError {
   readonly _tag = 'FileSystemError'
@@ -10,8 +10,8 @@ export class FileSystemError {
 }
 
 export interface FileSystemService {
-  readonly readDirectoryContents: (directoryPath: string) => Effect.Effect<ReadonlyArray<string>, FileSystemError>
-  readonly readFileContents: (filePath: string) => Effect.Effect<string, FileSystemError>
+  readonly readDirectoryContents: (directoryPath: string) => Promise<ReadonlyArray<string>>
+  readonly readFileContents: (filePath: string) => Promise<string>
 }
 
 export const FileSystemService = Context.GenericTag<FileSystemService>('FileSystemService')

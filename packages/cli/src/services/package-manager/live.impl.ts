@@ -1,4 +1,4 @@
-import { FileSystemService } from '../file-system/index.js'
+import { FileSystemError, FileSystemService } from '../file-system/index.js'
 import { ProcessError, ProcessService } from '../process/index.js'
 import { PackageManagerService } from './index.js'
 import { Effect, Layer } from 'effect'
@@ -17,7 +17,10 @@ const inferPackageManagerNameFromDirectoryContents = Effect.gen(function* () {
     try: () => cwd(),
     catch: (error): ProcessError => error as ProcessError,
   })
-  const contents = yield* readDirectoryContents(workingDir)
+  const contents = yield* Effect.tryPromise({
+    try: () => readDirectoryContents(workingDir),
+    catch: (error): FileSystemError => error as FileSystemError,
+  })
   if (contents.includes('.rush')) {
     return yield* makeRushPackageManager
   } else if (contents.includes('pnpm-lock.yaml')) {

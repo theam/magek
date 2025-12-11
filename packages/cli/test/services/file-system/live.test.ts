@@ -15,7 +15,10 @@ describe('FileSystem - Live Implementation', () => {
     const directoryPath = 'directoryPath'
     const effect = Effect.gen(function* () {
       const { readDirectoryContents } = yield* FileSystemService
-      return yield* readDirectoryContents(directoryPath)
+      return yield* Effect.tryPromise({
+        try: () => readDirectoryContents(directoryPath),
+        catch: (error) => error,
+      })
     })
     await Effect.runPromise(
       pipe(

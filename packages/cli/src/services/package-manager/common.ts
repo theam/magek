@@ -1,7 +1,7 @@
 import { Effect, Ref, pipe } from 'effect'
 import { InstallDependenciesError, PackageManagerService, RunScriptError } from './index.js'
 import { ProcessError, ProcessService } from '../process/index.js'
-import { FileSystemService } from '../file-system/index.js'
+import { FileSystemError, FileSystemService } from '../file-system/index.js'
 
 /**
  * Gets the project root directory from the reference.
@@ -32,7 +32,10 @@ const checkScriptExists = (processService: ProcessService, fileSystemService: Fi
       try: () => cwd(),
       catch: (error): ProcessError => error as ProcessError,
     })
-    const packageJson = yield* readFileContents(`${pwd}/package.json`)
+    const packageJson = yield* Effect.tryPromise({
+      try: () => readFileContents(`${pwd}/package.json`),
+      catch: (error): FileSystemError => error as FileSystemError,
+    })
     const packageJsonContents = JSON.parse(packageJson)
     return packageJsonContents.scripts && packageJsonContents.scripts[scriptName]
   })
