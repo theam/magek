@@ -53,8 +53,8 @@ importers:
         specifier: 6.2.1
         version: 6.2.1
       chai-as-promised:
-        specifier: 8.0.1
-        version: 8.0.1(chai@6.2.1)
+        specifier: 8.0.2
+        version: 8.0.2(chai@6.2.1)
       mocha:
         specifier: 11.7.5
         version: 11.7.5
@@ -117,8 +117,8 @@ importers:
         specifier: 6.2.1
         version: 6.2.1
       chai-as-promised:
-        specifier: 8.0.1
-        version: 8.0.1(chai@6.2.1)
+        specifier: 8.0.2
+        version: 8.0.2(chai@6.2.1)
       mocha:
         specifier: 11.7.5
         version: 11.7.5
@@ -181,8 +181,8 @@ importers:
         specifier: 6.2.1
         version: 6.2.1
       chai-as-promised:
-        specifier: 8.0.1
-        version: 8.0.1(chai@6.2.1)
+        specifier: 8.0.2
+        version: 8.0.2(chai@6.2.1)
       memfs:
         specifier: ~4.36.0
         version: 4.36.3
@@ -284,8 +284,8 @@ importers:
         specifier: 22.19.2
         version: 22.19.2
       '@types/rewire':
-        specifier: 2.5.28
-        version: 2.5.28
+        specifier: 2.5.30
+        version: 2.5.30
       '@types/sinon':
         specifier: 21.0.0
         version: 21.0.0
@@ -299,8 +299,8 @@ importers:
         specifier: 6.2.1
         version: 6.2.1
       chai-as-promised:
-        specifier: 8.0.1
-        version: 8.0.1(chai@6.2.1)
+        specifier: 8.0.2
+        version: 8.0.2(chai@6.2.1)
       copyfiles:
         specifier: 2.4.1
         version: 2.4.1
@@ -369,8 +369,8 @@ importers:
         specifier: 22.19.2
         version: 22.19.2
       '@types/rewire':
-        specifier: 2.5.28
-        version: 2.5.28
+        specifier: 2.5.30
+        version: 2.5.30
       '@types/sinon':
         specifier: 21.0.0
         version: 21.0.0
@@ -387,8 +387,8 @@ importers:
         specifier: 6.2.1
         version: 6.2.1
       chai-as-promised:
-        specifier: 8.0.1
-        version: 8.0.1(chai@6.2.1)
+        specifier: 8.0.2
+        version: 8.0.2(chai@6.2.1)
       fast-check:
         specifier: 4.1.1
         version: 4.1.1
@@ -529,8 +529,8 @@ importers:
         specifier: 6.2.1
         version: 6.2.1
       chai-as-promised:
-        specifier: 8.0.1
-        version: 8.0.1(chai@6.2.1)
+        specifier: 8.0.2
+        version: 8.0.2(chai@6.2.1)
       cross-env:
         specifier: 7.0.3
         version: 7.0.3
@@ -675,8 +675,8 @@ importers:
         specifier: 6.2.1
         version: 6.2.1
       chai-as-promised:
-        specifier: 8.0.1
-        version: 8.0.1(chai@6.2.1)
+        specifier: 8.0.2
+        version: 8.0.2(chai@6.2.1)
       mocha:
         specifier: 11.7.5
         version: 11.7.5
@@ -760,8 +760,8 @@ importers:
         specifier: 6.2.1
         version: 6.2.1
       chai-as-promised:
-        specifier: 8.0.1
-        version: 8.0.1(chai@6.2.1)
+        specifier: 8.0.2
+        version: 8.0.2(chai@6.2.1)
       mocha:
         specifier: 11.7.5
         version: 11.7.5
@@ -812,8 +812,8 @@ importers:
         specifier: 8.0.2
         version: 8.0.2
       chai-as-promised:
-        specifier: 8.0.1
-        version: 8.0.1(chai@6.2.1)
+        specifier: 8.0.2
+        version: 8.0.2(chai@6.2.1)
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -1805,8 +1805,8 @@ packages:
   '@types/range-parser@1.2.7':
     resolution: {integrity: sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==}
 
-  '@types/rewire@2.5.28':
-    resolution: {integrity: sha512-uD0j/AQOa5le7afuK+u+woi8jNKF1vf3DN0H7LCJhft/lNNibUr7VcAesdgtWfEKveZol3ZG1CJqwx2Bhrnl8w==}
+  '@types/rewire@2.5.30':
+    resolution: {integrity: sha512-CSyzr7TF1EUm85as2noToMtLaBBN/rKKlo5ZDdXedQ64cUiHT25LCNo1J1cI4QghBlGmTymElW/2h3TiWYOsZw==}
 
   '@types/send@0.17.6':
     resolution: {integrity: sha512-Uqt8rPBE8SY0RK8JB1EzVOIZ32uqy8HwdxCnoCOsYrvnswqmFZ/k+9Ikidlk/ImhsdvBsloHbAlewb2IEBV/Og==}
@@ -2080,10 +2080,10 @@ packages:
   caniuse-lite@1.0.30001759:
     resolution: {integrity: sha512-Pzfx9fOKoKvevQf8oCXoyNRQ5QyxJj+3O0Rqx2V5oxT61KGx8+n6hV/IUyJeifUci2clnmmKVpvtiqRzgiWjSw==}
 
-  chai-as-promised@8.0.1:
-    resolution: {integrity: sha512-OIEJtOL8xxJSH8JJWbIoRjybbzR52iFuDHuF8eb+nTPD6tgXLjRqsgnUGqQfFODxYvq5QdirT0pN9dZ0+Gz6rA==}
+  chai-as-promised@8.0.2:
+    resolution: {integrity: sha512-1GadL+sEJVLzDjcawPM4kjfnL+p/9vrxiEUonowKOAzvVg0PixJUdtuDzdkDeQhK3zfOE76GqGkZIQ7/Adcrqw==}
     peerDependencies:
-      chai: '>= 2.1.2 < 6'
+      chai: '>= 2.1.2 < 7'
 
   chai@6.2.1:
     resolution: {integrity: sha512-p4Z49OGG5W/WBCPSS/dH3jQ73kD6tiMmUM+bckNK6Jr5JHMG3k9bg/BvKR8lKmtVBKmOiuVaV2ws8s9oSbwysg==}
@@ -5058,7 +5058,7 @@ snapshots:
 
   '@types/range-parser@1.2.7': {}
 
-  '@types/rewire@2.5.28': {}
+  '@types/rewire@2.5.30': {}
 
   '@types/send@0.17.6':
     dependencies:
@@ -5385,7 +5385,7 @@ snapshots:
 
   caniuse-lite@1.0.30001759: {}
 
-  chai-as-promised@8.0.1(chai@6.2.1):
+  chai-as-promised@8.0.2(chai@6.2.1):
     dependencies:
       chai: 6.2.1
       check-error: 2.1.1
