@@ -59,7 +59,7 @@
     "rewire": "9.0.1",
     "rimraf": "6.1.2",
     "sinon": "21.0.0",
-    "sinon-chai": "4.0.0",
+    "sinon-chai": "4.0.1",
     "tsx": "^4.19.2",
     "typescript": "5.9.3",
     "@faker-js/faker": "10.1.0",
