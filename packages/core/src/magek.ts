@@ -67,7 +67,7 @@ export class Magek {
     if (!this.config.readModelStoreAdapter) {
       throw new Error('No readModelStoreAdapter configured. Please add one in MagekConfig.')
     }
-    if (!this.config.sessionStoreAdapter) {
+    if (this.config.enableSubscriptions && !this.config.sessionStoreAdapter) {
       throw new Error('No sessionStoreAdapter configured. Please add one in MagekConfig.')
     }
     const projectRootPath = codeRootPath.replace(new RegExp(this.config.codeRelativePath + '$'), '')

@@ -84,15 +84,29 @@ describe('the `Magek` class', () => {
       )
     })
 
-    it('throws an error when no sessionStoreAdapter is configured', () => {
+    it('throws an error when no sessionStoreAdapter is configured and subscriptions are enabled', () => {
       Magek.configureCurrentEnv((config) => {
         config.eventStoreAdapter = createMockEventStoreAdapter()
         config.readModelStoreAdapter = createMockReadModelStoreAdapter()
         config.sessionStoreAdapter = undefined
+        config.enableSubscriptions = true
       })
       expect(() => Magek.start('path/to/code')).to.throw(
         'No sessionStoreAdapter configured. Please add one in MagekConfig.'
       )
+    })
+
+    it('succeeds when subscriptions are disabled and sessionStoreAdapter is not configured', () => {
+      const fakeImporter = fake()
+      replace(Importer, 'importUserProjectFiles', fakeImporter)
+      Magek.configureCurrentEnv((config) => {
+        config.eventStoreAdapter = createMockEventStoreAdapter()
+        config.readModelStoreAdapter = createMockReadModelStoreAdapter()
+        config.sessionStoreAdapter = undefined
+        config.enableSubscriptions = false
+      })
+      expect(() => Magek.start('path/to/code')).to.not.throw()
+      expect(fakeImporter).to.have.been.calledOnce
     })
 
     it('succeeds when all adapters are configured', () => {
