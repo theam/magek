@@ -2,7 +2,7 @@ import * as fs from 'fs'
 import { fake, replace } from 'sinon'
 import { Effect, pipe } from 'effect'
 import { expect } from '../../expect.js'
-import { FileSystemService } from '../../../src/services/file-system/index.js'
+import { FileSystemService, FileSystemError } from '../../../src/services/file-system/index.js'
 import { LiveFileSystem } from '../../../src/services/file-system/live.impl.js'
 import { guardError } from '../../../src/common/errors.js'
 
@@ -17,7 +17,7 @@ describe('FileSystem - Live Implementation', () => {
       const { readDirectoryContents } = yield* FileSystemService
       return yield* Effect.tryPromise({
         try: () => readDirectoryContents(directoryPath),
-        catch: (error) => error,
+        catch: (error) => error as FileSystemError,
       })
     })
     await Effect.runPromise(
