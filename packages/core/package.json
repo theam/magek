@@ -51,7 +51,7 @@
     "@effect/rpc": "0.64.14",
     "@effect/sql": "0.40.14",
     "@effect/experimental": "0.57.10",
-    "fast-check": "4.1.1",
+    "fast-check": "4.4.0",
     "@effect/cli": "~0.66.13",
     "@effect/printer": "~0.44.13",
     "@effect/printer-ansi": "~0.44.13",
