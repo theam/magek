@@ -50,7 +50,7 @@
     "@effect/sql": "0.40.14",
     "@effect/experimental": "0.57.10",
     "@effect/cli": "~0.66.13",
-    "@effect/printer": "~0.44.13",
+    "@effect/printer": "~0.47.0",
     "@effect/printer-ansi": "~0.44.13",
     "@effect/typeclass": "~0.35.13"
   },
