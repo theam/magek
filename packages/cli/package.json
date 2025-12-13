@@ -53,8 +53,7 @@
     "sinon": "21.0.0",
     "sinon-chai": "4.0.1",
     "tsx": "^4.19.2",
-    "typescript": "5.9.3",
-    "ts-patch": "3.3.0"
+    "typescript": "5.9.3"
   },
   "engines": {
     "node": ">=22.0.0 <23.0.0"
