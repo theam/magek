@@ -1,35 +1,31 @@
-import * as process from 'process'
-import { ProcessError, ProcessService } from './index.js'
-import { Layer } from 'effect'
-import { unknownToError } from '../../common/errors.js'
+import { ProcessService, ProcessError } from './index.js'
 
-type ExecaCommandFn = typeof import('execa').execaCommand
+type ExecaCommandFn = (command: string, options?: { cwd?: string }) => Promise<{ stdout: string; stderr: string }>
 
-const resolveExecaCommand = async () => (await import('execa')).execaCommand
+const lazyExecaCommand = async (command: string, options?: { cwd?: string }) => {
+  const { execaCommand } = await import('execa')
+  return execaCommand(command, options)
+}
 
-const lazyExecaCommand: ExecaCommandFn = ((command: string, options?: Parameters<ExecaCommandFn>[1]) =>
-  resolveExecaCommand().then((fn) => fn(command, options))) as ExecaCommandFn
+const unknownToError = (e: unknown): Error =>
+  e instanceof Error ? e : new Error(String(e))
 
-export const makeLiveProcess = (execaCommand: ExecaCommandFn) =>
-  Layer.succeed(ProcessService, {
-    exec: async (command: string, cwd?: string) => {
-      try {
-        const { stdout, stderr } = await execaCommand(command, { cwd })
-        return `
-${stderr ? `There were some issues running the command: ${stderr}\n` : ''}
-${stdout}
-`
-      } catch (reason) {
-        throw new ProcessError(unknownToError(reason))
-      }
-    },
-    cwd: async () => {
-      try {
-        return process.cwd()
-      } catch (reason) {
-        throw new ProcessError(unknownToError(reason))
-      }
-    },
-  })
+export const createProcessService = (execaCommand: ExecaCommandFn = lazyExecaCommand): ProcessService => ({
+  exec: async (command: string, cwd?: string): Promise<string> => {
+    try {
+      const { stdout, stderr } = await execaCommand(command, { cwd })
+      return `\n${stderr ? `There were some issues running the command: ${stderr}\n` : ''}\n${stdout}\n`
+    } catch (reason: unknown) {
+      throw new ProcessError('Failed to execute command', unknownToError(reason))
+    }
+  },
+  cwd: (): string => {
+    try {
+      return process.cwd()
+    } catch (reason: unknown) {
+      throw new ProcessError('Failed to get current working directory', unknownToError(reason))
+    }
+  },
+})
 
-export const LiveProcess = makeLiveProcess(lazyExecaCommand)
+export const liveProcessService = createProcessService()

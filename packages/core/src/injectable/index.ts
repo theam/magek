@@ -1,28 +1,24 @@
- 
-import { PlatformError } from '@effect/platform/Error'
-import { CliApp, Command } from '@effect/cli'
-import { RunMain } from '@effect/platform/Runtime'
-import { Effect, Layer, Types } from 'effect'
+import type { Command as OclifCommand, Config } from '@oclif/core'
 
-export type Context = CliApp.CliApp.Environment
-export type Error = PlatformError
+/**
+ * Type for a concrete oclif Command class (non-abstract).
+ * This represents a class constructor that creates Command instances.
+ */
+export type ConcreteCommand = new (argv: string[], config: Config) => OclifCommand
 
+/**
+ * Injectable interface for registering custom CLI commands with Magek.
+ * Commands should be oclif Command classes (concrete implementations, not abstract).
+ */
 export interface Injectable {
-  commands: readonly [Command, ...Array<Command>]
-  runMain?: RunMain
-  contextProvider?: Layer.Layer<CliApp.CliApp.Environment, never, never>
+  /**
+   * Map of command names to oclif Command classes.
+   * The command name will be used as the subcommand name.
+   */
+  commands: Record<string, ConcreteCommand>
 }
 
-export type Command = Command.Command<any, Context, Error, any>
-
-export type Args<T extends Command.Command.Config> = Types.Simplify<Command.Command.ParseConfig<T>>
-
-export type Handler<T extends Command.Command.Config> = (args: Args<T>) => Effect.Effect<void, Error, Context>
-
-export const command = <TName extends string, TArgs extends Command.Command.Config>(
-  name: TName,
-  args: TArgs,
-  handler: (args: Args<TArgs>) => Effect.Effect<void, Error, Context>
-): Command => Command.make(name, args, handler)
-
-export const handler = <T extends Command.Command.Config>(_: T, handler: Handler<T>): Handler<T> => handler
+/**
+ * Type for an oclif Command class.
+ */
+export type Command = ConcreteCommand

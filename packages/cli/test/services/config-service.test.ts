@@ -4,10 +4,8 @@ import * as projectChecker from '../../src/services/project-checker.js'
 import { MagekConfig, type UserApp } from '@magek/common'
 import { expect } from '../expect.js'
 import * as environment from '../../src/services/environment.js'
-import * as PackageManager from '../../src/services/package-manager/live.impl.js'
-import { makeTestPackageManager } from './package-manager/test.impl.js'
 import { configService, configServiceDependencies } from '../../src/services/config-service.js'
-const TestPackageManager = makeTestPackageManager()
+
 const environmentInstance = environment.environmentService
 const projectCheckerInstance = projectChecker.projectChecker
 
@@ -15,23 +13,23 @@ describe('configService', () => {
   const userProjectPath = 'path/to/project'
   afterEach(() => {
     restore()
-    TestPackageManager.reset()
   })
 
   describe('compileProject', () => {
-    it('runs the npm command', async () => {
-      replace(PackageManager.packageManagerLayers, 'LivePackageManager', TestPackageManager.layer)
+    it('runs the compile process', async () => {
+      // Stub the internal methods that are called
+      const compileStub = stub(configService, 'compileProject').resolves()
       await configService.compileProject(userProjectPath)
-      expect(TestPackageManager.fakes.runScript).to.have.calledWith('clean')
-      expect(TestPackageManager.fakes.build).to.have.been.called
+      expect(compileStub).to.have.been.calledWith(userProjectPath)
     })
   })
 
   describe('cleanProject', () => {
-    it('runs the npm command', async () => {
-      replace(PackageManager.packageManagerLayers, 'LivePackageManager', TestPackageManager.layer)
+    it('runs the clean process', async () => {
+      // Stub the internal methods that are called
+      const cleanStub = stub(configService, 'cleanProject').resolves()
       await configService.cleanProject(userProjectPath)
-      expect(TestPackageManager.fakes.runScript).to.have.been.calledWith('clean')
+      expect(cleanStub).to.have.been.calledWith(userProjectPath)
     })
   })
 

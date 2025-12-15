@@ -1,7 +1,6 @@
 import { PackageManagerService } from './index.js'
-import { Effect, Layer } from 'effect'
-import { makePackageManager } from './common.js'
+import { createPackageManagerService, PackageManagerDependencies } from './common.js'
 
-export const makeYarnPackageManager = makePackageManager('yarn')
-
-export const YarnPackageManager = Layer.effect(PackageManagerService, Effect.orDie(makeYarnPackageManager))
+export const createYarnPackageManager = (deps: PackageManagerDependencies): PackageManagerService => {
+  return createPackageManagerService('yarn', deps)
+}

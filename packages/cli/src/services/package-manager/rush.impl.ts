@@ -1,43 +1,52 @@
 import { InstallDependenciesError, PackageManagerService, RunScriptError } from './index.js'
-import { Effect, Layer, pipe, Ref } from 'effect'
-import { makePackageManager, makeScopedRun } from './common.js'
+import { makeScopedRun, createPackageManagerService, PackageManagerDependencies } from './common.js'
 
 // TODO: Look recursively up for a rush.json file and run ./common/scripts/install-run-rushx.js
-export const makeRushPackageManager = Effect.gen(function* () {
+export const createRushPackageManager = (deps: PackageManagerDependencies): PackageManagerService => {
+  const { processService } = deps
   // Create a reference to store the current project directory
-  const projectDirRef = yield* Ref.make('')
+  const projectDirRef = { value: '' }
 
   // Create a function to run a script in the project directory
-  const runRush = yield* makeScopedRun('rush', projectDirRef)
-  const runRushX = yield* makeScopedRun('rushx', projectDirRef)
+  const runRush = makeScopedRun('rush', processService, projectDirRef)
+  const runRushX = makeScopedRun('rushx', processService, projectDirRef)
 
-  const commonService = yield* makePackageManager('rush')
+  const commonService = createPackageManagerService('rush', deps)
 
   const service: PackageManagerService = {
     ...commonService,
-    runScript: (scriptName: string, args: ReadonlyArray<string>) =>
-      pipe(
-        runRushX(scriptName, null, args),
-        Effect.mapError((error) => new RunScriptError(error.error))
-      ),
-    build: (args: ReadonlyArray<string>) =>
-      pipe(
-        runRush('build', null, args),
-        Effect.mapError((error) => new RunScriptError(error.error))
-      ),
-    installProductionDependencies: () =>
-      Effect.fail(
-        new InstallDependenciesError(
-          new Error('Rush is a monorepo manager, so it does not support installing production dependencies')
+    setProjectRoot: (projectDir: string): void => {
+      projectDirRef.value = projectDir
+    },
+    runScript: async (scriptName: string, args: ReadonlyArray<string>): Promise<string> => {
+      try {
+        return await runRushX(scriptName, null, args)
+      } catch (error) {
+        throw new RunScriptError(`Failed to run script ${scriptName}`, error instanceof Error ? error : undefined)
+      }
+    },
+    build: async (args: ReadonlyArray<string>): Promise<string> => {
+      try {
+        return await runRush('build', null, args)
+      } catch (error) {
+        throw new RunScriptError('Failed to build', error instanceof Error ? error : undefined)
+      }
+    },
+    installProductionDependencies: async (): Promise<void> => {
+      throw new InstallDependenciesError(
+        'Rush is a monorepo manager, so it does not support installing production dependencies'
+      )
+    },
+    installAllDependencies: async (): Promise<void> => {
+      try {
+        await runRush('update', null, [])
+      } catch (error) {
+        throw new InstallDependenciesError(
+          'Failed to install dependencies',
+          error instanceof Error ? error : undefined
         )
-      ),
-    installAllDependencies: () =>
-      pipe(
-        runRush('update', null, []),
-        Effect.mapError((error) => new InstallDependenciesError(error.error))
-      ),
+      }
+    },
   }
   return service
-})
-
-export const RushPackageManager = Layer.effect(PackageManagerService, Effect.orDie(makeRushPackageManager))
+}

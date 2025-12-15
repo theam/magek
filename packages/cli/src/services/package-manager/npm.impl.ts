@@ -1,7 +1,6 @@
 import { PackageManagerService } from './index.js'
-import { Effect, Layer } from 'effect'
-import { makePackageManager } from './common.js'
+import { createPackageManagerService, PackageManagerDependencies } from './common.js'
 
-export const makeNpmPackageManager = makePackageManager('npm')
-
-export const NpmPackageManager = Layer.effect(PackageManagerService, Effect.orDie(makeNpmPackageManager))
+export const createNpmPackageManager = (deps: PackageManagerDependencies): PackageManagerService => {
+  return createPackageManagerService('npm', deps)
+}

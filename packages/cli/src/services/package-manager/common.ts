@@ -1,116 +1,97 @@
-import { Effect, Ref, pipe } from 'effect'
 import { InstallDependenciesError, PackageManagerService, RunScriptError } from './index.js'
-import { ProcessError, ProcessService } from '../process/index.js'
-import { FileSystemError, FileSystemService } from '../file-system/index.js'
+import { ProcessService } from '../process/index.js'
+import { FileSystemService } from '../file-system/index.js'
 
-/**
- * Gets the project root directory from the reference.
- * If the reference is an empty string, it will set it
- * to the current working directory and return it.
- */
-const ensureProjectDir = (processService: ProcessService, projectDirRef: Ref.Ref<string>) =>
-  Effect.gen(function* () {
-    const { cwd } = processService
-    // ProcessService.cwd() throws ProcessError on failure
-    const pwd = yield* Effect.tryPromise({
-      try: () => cwd(),
-      catch: (error): ProcessError => error as ProcessError,
-    })
-    const projectDir = yield* Ref.updateAndGet(projectDirRef, (dir) => dir || pwd)
-    return projectDir
-  })
-
-/**
- * Checks if a script exists in the package.json file
- */
-const checkScriptExists = (processService: ProcessService, fileSystemService: FileSystemService, scriptName: string) =>
-  Effect.gen(function* () {
-    const { cwd } = processService
-    const { readFileContents } = fileSystemService
-    // ProcessService.cwd() throws ProcessError on failure
-    const pwd = yield* Effect.tryPromise({
-      try: () => cwd(),
-      catch: (error): ProcessError => error as ProcessError,
-    })
-    const packageJson = yield* Effect.tryPromise({
-      try: () => readFileContents(`${pwd}/package.json`),
-      catch: (error): FileSystemError => error as FileSystemError,
-    })
-    const packageJsonContents = JSON.parse(packageJson)
-    return packageJsonContents.scripts && packageJsonContents.scripts[scriptName]
-  })
-
-/**
- * Function that returns a function to run the build script in the project directory.
- */
-const makeRunBuildScript = (command: string, projectDirRef: Ref.Ref<string>) =>
-  Effect.gen(function* () {
-    const run = yield* makeScopedRun(command, projectDirRef)
-    const processService = yield* ProcessService
-    const fileSystemService = yield* FileSystemService
-    return (args: ReadonlyArray<string>) =>
-      Effect.gen(function* () {
-        const scriptExists = yield* checkScriptExists(processService, fileSystemService, 'compile')
-        const scriptName = scriptExists ? 'compile' : 'build'
-        return yield* run('run', scriptName, args)
-      })
-  })
+export type PackageManagerDependencies = {
+  processService: ProcessService
+  fileSystemService: FileSystemService
+}
 
 /**
  * Returns a function that executes a package manager command in the project directory.
  */
-export const makeScopedRun = (packageManagerCommand: string, projectDirRef: Ref.Ref<string>) =>
-  Effect.gen(function* () {
-    const processService = yield* ProcessService
-    return (scriptName: string, subscriptName: string | null, args: ReadonlyArray<string>) =>
-      Effect.gen(function* () {
-        const projectDir = yield* ensureProjectDir(processService, projectDirRef)
-        // ProcessService.exec() throws ProcessError on failure
-        return yield* Effect.tryPromise({
-          try: () =>
-            processService.exec(
-              `${packageManagerCommand} ${scriptName} ${subscriptName ? subscriptName + ' ' : ''}${args.join(
-                ' '
-              )}`.trim(),
-              projectDir
-            ),
-          catch: (error): ProcessError => error as ProcessError,
-        })
-      })
-  })
-
-export const makePackageManager = (packageManagerCommand: string) =>
-  Effect.gen(function* () {
-    // Create a reference to store the current project directory
-    const projectDirRef = yield* Ref.make('')
-
-    // Create a function to run a script in the project directory
-    const run = yield* makeScopedRun(packageManagerCommand, projectDirRef)
-
-    const runBuild = yield* makeRunBuildScript(packageManagerCommand, projectDirRef)
-
-    const service: PackageManagerService = {
-      setProjectRoot: (projectDir: string) => Ref.set(projectDirRef, projectDir),
-      runScript: (scriptName: string, args: ReadonlyArray<string>) =>
-        pipe(
-          run('run', scriptName, args),
-          Effect.mapError((error) => new RunScriptError(error.error))
-        ),
-      build: (args: ReadonlyArray<string>) =>
-        pipe(
-          runBuild(args),
-          Effect.mapError((error) => new RunScriptError(error.error))
-        ),
-      installProductionDependencies: () =>
-        pipe(
-          run('install', null, ['--omit=dev', '--omit=optional', '--no-bin-links']),
-          Effect.mapError((error) => new InstallDependenciesError(error.error))
-        ),
-      installAllDependencies: () =>
-        pipe(
-          run('install', null, []),
-          Effect.mapError((error) => new InstallDependenciesError(error.error))
-        ),
+export const makeScopedRun = (
+  packageManagerCommand: string,
+  processService: ProcessService,
+  projectDirRef: { value: string }
+) => {
+  return async (scriptName: string, subscriptName: string | null, args: ReadonlyArray<string>): Promise<string> => {
+    const projectDir = projectDirRef.value || processService.cwd()
+    if (!projectDirRef.value) {
+      projectDirRef.value = projectDir
     }
-    return service
-  })
+    return processService.exec(
+      `${packageManagerCommand} ${scriptName} ${subscriptName ? subscriptName + ' ' : ''}${args.join(' ')}`.trim(),
+      projectDir
+    )
+  }
+}
+
+/**
+ * Checks if a script exists in the package.json file
+ */
+const checkScriptExists = async (
+  processService: ProcessService,
+  fileSystemService: FileSystemService,
+  scriptName: string
+): Promise<boolean> => {
+  const pwd = processService.cwd()
+  const packageJson = await fileSystemService.readFileContents(`${pwd}/package.json`)
+  const packageJsonContents = JSON.parse(packageJson)
+  return !!(packageJsonContents.scripts && packageJsonContents.scripts[scriptName])
+}
+
+export const createPackageManagerService = (
+  packageManagerCommand: string,
+  deps: PackageManagerDependencies
+): PackageManagerService => {
+  const { processService, fileSystemService } = deps
+  // Create a reference to store the current project directory
+  const projectDirRef = { value: '' }
+
+  // Create a function to run a script in the project directory
+  const run = makeScopedRun(packageManagerCommand, processService, projectDirRef)
+
+  const service: PackageManagerService = {
+    setProjectRoot: (projectDir: string): void => {
+      projectDirRef.value = projectDir
+    },
+    runScript: async (scriptName: string, args: ReadonlyArray<string>): Promise<string> => {
+      try {
+        return await run('run', scriptName, args)
+      } catch (error) {
+        throw new RunScriptError(`Failed to run script ${scriptName}`, error instanceof Error ? error : undefined)
+      }
+    },
+    build: async (args: ReadonlyArray<string>): Promise<string> => {
+      try {
+        const scriptExists = await checkScriptExists(processService, fileSystemService, 'compile')
+        const scriptName = scriptExists ? 'compile' : 'build'
+        return await run('run', scriptName, args)
+      } catch (error) {
+        throw new RunScriptError('Failed to build', error instanceof Error ? error : undefined)
+      }
+    },
+    installProductionDependencies: async (): Promise<void> => {
+      try {
+        await run('install', null, ['--omit=dev', '--omit=optional', '--no-bin-links'])
+      } catch (error) {
+        throw new InstallDependenciesError(
+          'Failed to install production dependencies',
+          error instanceof Error ? error : undefined
+        )
+      }
+    },
+    installAllDependencies: async (): Promise<void> => {
+      try {
+        await run('install', null, [])
+      } catch (error) {
+        throw new InstallDependenciesError(
+          'Failed to install dependencies',
+          error instanceof Error ? error : undefined
+        )
+      }
+    },
+  }
+  return service
+}

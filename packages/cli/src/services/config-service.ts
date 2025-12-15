@@ -1,12 +1,10 @@
 import type { MagekConfig, UserApp } from '@magek/common'
-import { Effect, pipe } from 'effect'
 import * as path from 'path'
 import { guardError } from '../common/errors.js'
 import { checkItIsAMagekProject } from './project-checker.js'
 import { currentEnvironment } from './environment.js'
 import { createSandboxProject, removeSandboxProject } from '../common/sandbox.js'
-import { PackageManagerService, type PackageManagerError } from './package-manager/index.js'
-import { packageManagerLayers } from './package-manager/live.impl.js'
+import { createLivePackageManager } from './package-manager/live.impl.js'
 
 export const DEPLOYMENT_SANDBOX = path.join(process.cwd(), '.deploy')
 
@@ -30,19 +28,13 @@ export const configServiceDependencies: ConfigServiceDependencies = {
 const createDeploymentSandboxImpl = async (): Promise<string> => {
   const config = await compileProjectAndLoadConfig(process.cwd())
   const sandboxRelativePath = createSandboxProject(DEPLOYMENT_SANDBOX, config.assets)
-  const effect = Effect.gen(function* () {
-    const { setProjectRoot, installProductionDependencies } = yield* PackageManagerService
-    yield* setProjectRoot(sandboxRelativePath)
-    yield* installProductionDependencies()
-  })
-  await Effect.runPromise(
-    pipe(
-      effect,
-      Effect.mapError<PackageManagerError, Error>((e) => e.error),
-      Effect.provide(packageManagerLayers.LivePackageManager),
-      Effect.orDieWith<Error>(guardError('Could not install production dependencies'))
-    )
-  )
+  try {
+    const packageManager = await createLivePackageManager()
+    packageManager.setProjectRoot(sandboxRelativePath)
+    await packageManager.installProductionDependencies()
+  } catch (error) {
+    throw guardError('Could not install production dependencies')(error)
+  }
   return sandboxRelativePath
 }
 
@@ -57,43 +49,25 @@ const compileProjectAndLoadConfigImpl = async (userProjectPath: string): Promise
 }
 
 const compileProjectImpl = async (projectPath: string): Promise<void> => {
-  const effect = compileProjectEff(projectPath)
-  await Effect.runPromise(
-    pipe(
-      effect,
-      Effect.mapError<PackageManagerError, Error>((e) => e.error),
-      Effect.provide(packageManagerLayers.LivePackageManager),
-      Effect.orDieWith<Error>(guardError('Project contains compilation errors'))
-    )
-  )
+  try {
+    const packageManager = await createLivePackageManager()
+    packageManager.setProjectRoot(projectPath)
+    await cleanProjectImpl(projectPath)
+    await packageManager.build([])
+  } catch (error) {
+    throw guardError('Project contains compilation errors')(error)
+  }
 }
-
-const compileProjectEff = (projectPath: string) =>
-  Effect.gen(function* () {
-    const { setProjectRoot, build } = yield* PackageManagerService
-    yield* setProjectRoot(projectPath)
-    yield* cleanProjectEff(projectPath)
-    return yield* build([])
-  })
 
 const cleanProjectImpl = async (projectPath: string): Promise<void> => {
-  const effect = cleanProjectEff(projectPath)
-  await Effect.runPromise(
-    pipe(
-      effect,
-      Effect.mapError<PackageManagerError, Error>((e) => e.error),
-      Effect.provide(packageManagerLayers.LivePackageManager),
-      Effect.orDieWith<Error>(guardError('Could not clean project'))
-    )
-  )
+  try {
+    const packageManager = await createLivePackageManager()
+    packageManager.setProjectRoot(projectPath)
+    await packageManager.runScript('clean', [])
+  } catch (error) {
+    throw guardError('Could not clean project')(error)
+  }
 }
-
-const cleanProjectEff = (projectPath: string) =>
-  Effect.gen(function* () {
-    const { setProjectRoot, runScript } = yield* PackageManagerService
-    yield* setProjectRoot(projectPath)
-    yield* runScript('clean', [])
-  })
 
 function readProjectConfig(userProjectPath: string): Promise<MagekConfig> {
   const userProject = configServiceDependencies.loadUserProject(userProjectPath)

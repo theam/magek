@@ -1,17 +1,12 @@
-import { Context } from 'effect'
-
-export class ProcessError {
+export class ProcessError extends Error {
   readonly _tag = 'ProcessError'
-  public readonly error: Error
-
-  constructor(error: Error) {
-    this.error = error
+  constructor(message: string, public readonly cause?: Error) {
+    super(message)
+    this.name = 'ProcessError'
   }
 }
 
 export interface ProcessService {
-  readonly exec: (command: string, cwd?: string) => Promise<string>
-  readonly cwd: () => Promise<string>
+  exec(command: string, cwd?: string): Promise<string>
+  cwd(): string
 }
-
-export const ProcessService = Context.GenericTag<ProcessService>('ProcessService')
