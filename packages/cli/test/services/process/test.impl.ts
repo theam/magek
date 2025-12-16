@@ -1,27 +1,26 @@
 import { ProcessService } from '../../../src/services/process/index.js'
 import { fake, type SinonSpy } from 'sinon'
-import { Layer } from 'effect'
 
 type ProcessFakes = {
-  cwd: SinonSpy<[], string | Promise<string>>
-  exec: SinonSpy<[string, (string | undefined)?], string | Promise<string>>
+  cwd: SinonSpy<[], string>
+  exec: SinonSpy<[string, (string | undefined)?], Promise<string>>
 }
 
 export const makeTestProcess = (overrides?: Partial<ProcessFakes>) => {
   const fakes: ProcessFakes = {
-    cwd: overrides?.cwd ?? fake.resolves(''),
+    cwd: overrides?.cwd ?? fake.returns(''),
     exec: overrides?.exec ?? fake.resolves(''),
   }
 
-  const layer = Layer.succeed(ProcessService, {
-    cwd: async () => fakes.cwd(),
+  const service: ProcessService = {
+    cwd: () => fakes.cwd(),
     exec: async (command: string, cwd?: string) => fakes.exec(command, cwd),
-  })
+  }
 
   const reset = () => {
     fakes.cwd.resetHistory()
     fakes.exec.resetHistory()
   }
 
-  return { layer, fakes, reset }
+  return { service, fakes, reset }
 }

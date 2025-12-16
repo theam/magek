@@ -1,11 +1,10 @@
 import type * as sinon from 'sinon'
 import { FileSystemService } from '../../../src/services/file-system/index.js'
 import { fake } from 'sinon'
-import { Layer } from 'effect'
 
 type FileSystemFakes = {
-  readDirectoryContents: sinon.SinonSpy<[string], ReadonlyArray<string> | Promise<ReadonlyArray<string>>>
-  readFileContents: sinon.SinonSpy<[string], string | Promise<string>>
+  readDirectoryContents: sinon.SinonSpy<[string], Promise<ReadonlyArray<string>>>
+  readFileContents: sinon.SinonSpy<[string], Promise<string>>
 }
 
 export const makeTestFileSystem = (overrides?: Partial<FileSystemFakes>) => {
@@ -14,15 +13,15 @@ export const makeTestFileSystem = (overrides?: Partial<FileSystemFakes>) => {
     readFileContents: overrides?.readFileContents ?? fake.resolves('{}'),
   }
 
-  const layer = Layer.succeed(FileSystemService, {
+  const service: FileSystemService = {
     readDirectoryContents: async (directoryPath: string) => fakes.readDirectoryContents(directoryPath),
     readFileContents: async (filePath: string) => fakes.readFileContents(filePath),
-  })
+  }
 
   const reset = () => {
     fakes.readDirectoryContents.resetHistory()
     fakes.readFileContents.resetHistory()
   }
 
-  return { layer, fakes, reset }
+  return { service, fakes, reset }
 }
