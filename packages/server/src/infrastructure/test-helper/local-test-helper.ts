@@ -42,7 +42,7 @@ export class LocalTestHelper {
   }
 
   private static async websocketURL(): Promise<string> {
-    const url = 'ws://localhost:65529/websocket'
+    const url = 'ws://localhost:3000/websocket'
     return url
   }
 }
