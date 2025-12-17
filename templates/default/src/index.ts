@@ -1,4 +1,4 @@
-import { Magek } from '@magek/core'
+import './config/config'
 export {
   Magek,
   eventDispatcher,
@@ -10,5 +10,3 @@ export {
   triggerScheduledCommands,
   rocketDispatcher,
 } from '@magek/core'
-
-Magek.start(__dirname)

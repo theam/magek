@@ -24,6 +24,7 @@ COPY ./e2e/verdaccio-config.yaml /etc/verdaccio/config.yaml
 COPY ./e2e/phase1-setup-registry.sh /scripts/
 COPY ./e2e/phase2-create-app.sh /scripts/
 COPY ./e2e/phase3-validate-app.sh /scripts/
+COPY ./e2e/phase4-run-server.sh /scripts/
 COPY ./e2e/run-e2e-tests.sh /scripts/
 
 # Make scripts executable
