@@ -1,20 +1,11 @@
 import { fake } from 'sinon'
-import { Effect, Layer, pipe } from 'effect'
 import { expect } from '../../expect.js'
 import { makeTestFileSystem } from '../file-system/test.impl.js'
 import { makeTestProcess } from '../process/test.impl.js'
-import { RushPackageManager } from '../../../src/services/package-manager/rush.impl.js'
-import { guardError } from '../../../src/common/errors.js'
-import { PackageManagerService } from '../../../src/services/package-manager/index.js'
+import { createRushPackageManager } from '../../../src/services/package-manager/rush.impl.js'
 
 const TestFileSystem = makeTestFileSystem()
 const TestProcess = makeTestProcess()
-
-const mapEffError = <A, R>(effect: Effect.Effect<A, { error: Error }, R>) =>
-  pipe(
-    effect,
-    Effect.mapError((e: { error: Error }) => e.error)
-  )
 
 describe('PackageManager - Rush Implementation', () => {
   beforeEach(() => {
@@ -25,97 +16,57 @@ describe('PackageManager - Rush Implementation', () => {
   it('run arbitrary scripts from package.json', async () => {
     const script = 'script'
     const args = ['arg1', 'arg2']
-    const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
-
-    const effect = Effect.gen(function* () {
-      const { runScript } = yield* PackageManagerService
-      return yield* runScript(script, args)
+    const packageManager = createRushPackageManager({
+      processService: TestProcess.service,
+      fileSystemService: TestFileSystem.service,
     })
 
-    await Effect.runPromise(
-      pipe(
-        mapEffError(effect),
-        Effect.provide(Layer.provide(RushPackageManager, testLayer)),
-        Effect.orDieWith(guardError('An error ocurred'))
-      )
-    )
+    await packageManager.runScript(script, args)
+
     expect(TestProcess.fakes.exec).to.have.been.calledWith(`rushx ${script} ${args.join(' ')}`)
   })
 
   it('runs the `build` script', async () => {
-    const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
-
-    const effect = Effect.gen(function* () {
-      const { build } = yield* PackageManagerService
-      return yield* build([])
+    const packageManager = createRushPackageManager({
+      processService: TestProcess.service,
+      fileSystemService: TestFileSystem.service,
     })
 
-    await Effect.runPromise(
-      pipe(
-        mapEffError(effect),
-        Effect.provide(Layer.provide(RushPackageManager, testLayer)),
-        Effect.orDieWith(guardError('An error ocurred'))
-      )
-    )
+    await packageManager.build([])
+
     expect(TestProcess.fakes.exec).to.have.been.calledWith('rush build')
   })
 
   it('can set the project root properly', async () => {
     const projectRoot = 'projectRoot'
-
     const CwdTestProcess = makeTestProcess({ cwd: fake.returns(projectRoot) })
-    const testLayer = Layer.merge(TestFileSystem.layer, CwdTestProcess.layer)
-
-    const effect = Effect.gen(function* () {
-      const { setProjectRoot, runScript } = yield* PackageManagerService
-      yield* setProjectRoot(projectRoot)
-      yield* runScript('script', [])
+    const packageManager = createRushPackageManager({
+      processService: CwdTestProcess.service,
+      fileSystemService: TestFileSystem.service,
     })
 
-    await Effect.runPromise(
-      pipe(
-        mapEffError(effect),
-        Effect.provide(Layer.provide(RushPackageManager, testLayer)),
-        Effect.orDieWith(guardError('An error ocurred'))
-      )
-    )
+    packageManager.setProjectRoot(projectRoot)
+    await packageManager.runScript('script', [])
+
     expect(CwdTestProcess.fakes.exec).to.have.been.calledWith('rushx script', projectRoot)
   })
 
   it('cannot install production dependencies', async () => {
-    const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
-
-    const effect = Effect.gen(function* () {
-      const { installProductionDependencies } = yield* PackageManagerService
-      return yield* installProductionDependencies()
+    const packageManager = createRushPackageManager({
+      processService: TestProcess.service,
+      fileSystemService: TestFileSystem.service,
     })
 
-    return expect(
-      Effect.runPromise(
-        pipe(
-          mapEffError(effect),
-          Effect.provide(Layer.provide(RushPackageManager, testLayer)),
-          Effect.orDieWith(guardError('An error ocurred'))
-        )
-      )
-    ).to.be.eventually.rejected
+    await expect(packageManager.installProductionDependencies()).to.be.eventually.rejected
   })
 
   it('can install all dependencies', async () => {
-    const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
-
-    const effect = Effect.gen(function* () {
-      const { installAllDependencies } = yield* PackageManagerService
-      return yield* installAllDependencies()
+    const packageManager = createRushPackageManager({
+      processService: TestProcess.service,
+      fileSystemService: TestFileSystem.service,
     })
 
-    await Effect.runPromise(
-      pipe(
-        mapEffError(effect),
-        Effect.provide(Layer.provide(RushPackageManager, testLayer)),
-        Effect.orDieWith(guardError('An error ocurred'))
-      )
-    )
+    await packageManager.installAllDependencies()
 
     expect(TestProcess.fakes.exec).to.have.been.calledWith('rush update')
   })

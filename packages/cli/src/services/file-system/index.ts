@@ -1,17 +1,12 @@
-import { Context } from 'effect'
-
-export class FileSystemError {
+export class FileSystemError extends Error {
   readonly _tag = 'FileSystemError'
-  public readonly error: Error
-
-  constructor(error: Error) {
-    this.error = error
+  constructor(message: string, public readonly cause?: Error) {
+    super(message)
+    this.name = 'FileSystemError'
   }
 }
 
 export interface FileSystemService {
-  readonly readDirectoryContents: (directoryPath: string) => Promise<ReadonlyArray<string>>
-  readonly readFileContents: (filePath: string) => Promise<string>
+  readDirectoryContents(directoryPath: string): Promise<ReadonlyArray<string>>
+  readFileContents(filePath: string): Promise<string>
 }
-
-export const FileSystemService = Context.GenericTag<FileSystemService>('FileSystemService')

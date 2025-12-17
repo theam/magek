@@ -8,10 +8,8 @@ import * as providerService from '../../src/services/provider-service.js'
 import { oraLogger } from '../../src/services/logger.js'
 import { Config } from '@oclif/core'
 import * as environment from '../../src/services/environment.js'
-import * as packageManagerImpl from '../../src/services/package-manager/live.impl.js'
 import * as configService from '../../src/services/config-service.js'
 import * as projectChecker from '../../src/services/project-checker.js'
-import { makeTestPackageManager } from '../services/package-manager/test.impl.js'
 
 const projectCheckerInstance = projectChecker.projectChecker
 const configServiceInstance = configService.configService
@@ -25,15 +23,12 @@ type DeployRunTasks = (
 
 const runTasks: DeployRunTasks = Deploy.runTasks
 
-const TestPackageManager = makeTestPackageManager()
-
 describe('deploy', () => {
   beforeEach(() => {
     delete process.env.MAGEK_ENV
   })
 
   afterEach(() => {
-    TestPackageManager.reset()
     // Restore the default sinon sandbox here
     restore()
   })
@@ -67,9 +62,6 @@ describe('deploy', () => {
 
     context('when there is a valid index.ts', () => {
       fancy.stdout().it('Starts deployment', async (ctx) => {
-        // TODO: Once we migrate all services to the new way, we can remove this and just use the Test Layer for each of them
-        replace(packageManagerImpl.packageManagerLayers, 'LivePackageManager', TestPackageManager.layer)
-
         const fakeProvider = {} as ProviderLibrary
 
         const fakeLoader = fake.resolves({

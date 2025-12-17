@@ -1,20 +1,11 @@
 import { fake } from 'sinon'
-import { Effect, Layer, pipe } from 'effect'
 import { expect } from '../../expect.js'
 import { makeTestFileSystem } from '../file-system/test.impl.js'
 import { makeTestProcess } from '../process/test.impl.js'
-import { YarnPackageManager } from '../../../src/services/package-manager/yarn.impl.js'
-import { guardError } from '../../../src/common/errors.js'
-import { PackageManagerService } from '../../../src/services/package-manager/index.js'
+import { createYarnPackageManager } from '../../../src/services/package-manager/yarn.impl.js'
 
 const TestFileSystem = makeTestFileSystem()
 const TestProcess = makeTestProcess()
-
-const mapEffError = <A, R>(effect: Effect.Effect<A, { error: Error }, R>) =>
-  pipe(
-    effect,
-    Effect.mapError((e: { error: Error }) => e.error)
-  )
 
 describe('PackageManager - Yarn Implementation', () => {
   beforeEach(() => {})
@@ -22,123 +13,78 @@ describe('PackageManager - Yarn Implementation', () => {
   it('run arbitrary scripts from package.json', async () => {
     const script = 'script'
     const args = ['arg1', 'arg2']
-    const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
-
-    const effect = Effect.gen(function* () {
-      const { runScript } = yield* PackageManagerService
-      return yield* runScript(script, args)
+    const packageManager = createYarnPackageManager({
+      processService: TestProcess.service,
+      fileSystemService: TestFileSystem.service,
     })
 
-    await Effect.runPromise(
-      pipe(
-        mapEffError(effect),
-        Effect.provide(Layer.provide(YarnPackageManager, testLayer)),
-        Effect.orDieWith(guardError('An error ocurred'))
-      )
-    )
+    await packageManager.runScript(script, args)
+
     expect(TestProcess.fakes.exec).to.have.been.calledWith(`yarn run ${script} ${args.join(' ')}`)
   })
 
   describe('when the `compile` script exists', () => {
     const TestFileSystemWithCompileScript = makeTestFileSystem({
-      readFileContents: fake.returns('{"scripts": {"compile": "tsc"}}'),
+      readFileContents: fake.resolves('{"scripts": {"compile": "tsc"}}'),
     })
 
     it('run the `compile` script', async () => {
-      const testLayer = Layer.merge(TestFileSystemWithCompileScript.layer, TestProcess.layer)
-
-      const effect = Effect.gen(function* () {
-        const { build } = yield* PackageManagerService
-        return yield* build([])
+      const packageManager = createYarnPackageManager({
+        processService: TestProcess.service,
+        fileSystemService: TestFileSystemWithCompileScript.service,
       })
 
-      await Effect.runPromise(
-        pipe(
-          mapEffError(effect),
-          Effect.provide(Layer.provide(YarnPackageManager, testLayer)),
-          Effect.orDieWith(guardError('An error ocurred'))
-        )
-      )
+      await packageManager.build([])
+
       expect(TestProcess.fakes.exec).to.have.been.calledWith('yarn run compile')
     })
   })
 
   describe('when the `compile` script does not exist', () => {
     it('run the `build` script', async () => {
-      const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
-
-      const effect = Effect.gen(function* () {
-        const { build } = yield* PackageManagerService
-        return yield* build([])
+      const packageManager = createYarnPackageManager({
+        processService: TestProcess.service,
+        fileSystemService: TestFileSystem.service,
       })
 
-      await Effect.runPromise(
-        pipe(
-          mapEffError(effect),
-          Effect.provide(Layer.provide(YarnPackageManager, testLayer)),
-          Effect.orDieWith(guardError('An error ocurred'))
-        )
-      )
+      await packageManager.build([])
+
       expect(TestProcess.fakes.exec).to.have.been.calledWith('yarn run build')
     })
   })
 
   it('can set the project root properly', async () => {
     const projectRoot = 'projectRoot'
-
     const CwdTestProcess = makeTestProcess({ cwd: fake.returns(projectRoot) })
-    const testLayer = Layer.merge(TestFileSystem.layer, CwdTestProcess.layer)
-
-    const effect = Effect.gen(function* () {
-      const { setProjectRoot, runScript } = yield* PackageManagerService
-      yield* setProjectRoot(projectRoot)
-      yield* runScript('script', [])
+    const packageManager = createYarnPackageManager({
+      processService: CwdTestProcess.service,
+      fileSystemService: TestFileSystem.service,
     })
 
-    await Effect.runPromise(
-      pipe(
-        mapEffError(effect),
-        Effect.provide(Layer.provide(YarnPackageManager, testLayer)),
-        Effect.orDieWith(guardError('An error ocurred'))
-      )
-    )
+    packageManager.setProjectRoot(projectRoot)
+    await packageManager.runScript('script', [])
+
     expect(CwdTestProcess.fakes.exec).to.have.been.calledWith('yarn run script', projectRoot)
   })
 
   it('can install production dependencies', async () => {
-    const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
-
-    const effect = Effect.gen(function* () {
-      const { installProductionDependencies } = yield* PackageManagerService
-      return yield* installProductionDependencies()
+    const packageManager = createYarnPackageManager({
+      processService: TestProcess.service,
+      fileSystemService: TestFileSystem.service,
     })
 
-    await Effect.runPromise(
-      pipe(
-        mapEffError(effect),
-        Effect.provide(Layer.provide(YarnPackageManager, testLayer)),
-        Effect.orDieWith(guardError('An error ocurred'))
-      )
-    )
+    await packageManager.installProductionDependencies()
 
     expect(TestProcess.fakes.exec).to.have.been.calledWith('yarn install --omit=dev --omit=optional --no-bin-links')
   })
 
   it('can install all dependencies', async () => {
-    const testLayer = Layer.merge(TestFileSystem.layer, TestProcess.layer)
-
-    const effect = Effect.gen(function* () {
-      const { installAllDependencies } = yield* PackageManagerService
-      return yield* installAllDependencies()
+    const packageManager = createYarnPackageManager({
+      processService: TestProcess.service,
+      fileSystemService: TestFileSystem.service,
     })
 
-    await Effect.runPromise(
-      pipe(
-        mapEffError(effect),
-        Effect.provide(Layer.provide(YarnPackageManager, testLayer)),
-        Effect.orDieWith(guardError('An error ocurred'))
-      )
-    )
+    await packageManager.installAllDependencies()
 
     expect(TestProcess.fakes.exec).to.have.been.calledWith('yarn install')
   })

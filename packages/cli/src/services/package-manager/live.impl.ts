@@ -1,70 +1,42 @@
-import { FileSystemError, FileSystemService } from '../file-system/index.js'
-import { ProcessError, ProcessService } from '../process/index.js'
+import { FileSystemService } from '../file-system/index.js'
+import { ProcessService } from '../process/index.js'
 import { PackageManagerService } from './index.js'
-import { Effect, Layer } from 'effect'
-import { makeRushPackageManager } from './rush.impl.js'
-import { makePnpmPackageManager } from './pnpm.impl.js'
-import { makeYarnPackageManager } from './yarn.impl.js'
-import { makeNpmPackageManager } from './npm.impl.js'
-import { LiveFileSystem } from '../file-system/live.impl.js'
-import { LiveProcess } from '../process/live.impl.js'
+import { createRushPackageManager } from './rush.impl.js'
+import { createPnpmPackageManager } from './pnpm.impl.js'
+import { createYarnPackageManager } from './yarn.impl.js'
+import { createNpmPackageManager } from './npm.impl.js'
+import { liveFileSystemService } from '../file-system/live.impl.js'
+import { liveProcessService } from '../process/live.impl.js'
+import { PackageManagerDependencies } from './common.js'
 
-const inferPackageManagerFromContents = async (
+type PackageManagerFactory = (deps: PackageManagerDependencies) => PackageManagerService
+
+export const inferPackageManagerFromDirectoryContents = async (
   processService: ProcessService,
   fileSystemService: FileSystemService
-) => {
-  let workingDir: string
-  try {
-    workingDir = await processService.cwd()
-  } catch (error) {
-    throw error as ProcessError
-  }
-
-  let contents: ReadonlyArray<string>
-  try {
-    contents = await fileSystemService.readDirectoryContents(workingDir)
-  } catch (error) {
-    throw error as FileSystemError
-  }
+): Promise<PackageManagerFactory> => {
+  const workingDir = processService.cwd()
+  const contents = await fileSystemService.readDirectoryContents(workingDir)
 
   if (contents.includes('.rush')) {
-    return makeRushPackageManager
+    return createRushPackageManager
   }
   if (contents.includes('pnpm-lock.yaml')) {
-    return makePnpmPackageManager
+    return createPnpmPackageManager
   }
   if (contents.includes('yarn.lock')) {
-    return makeYarnPackageManager
+    return createYarnPackageManager
   }
   if (contents.includes('package-lock.json')) {
-    return makeNpmPackageManager
+    return createNpmPackageManager
   }
   // Infer npm by default
-  return makeNpmPackageManager
+  return createNpmPackageManager
 }
 
-const inferPackageManagerNameFromDirectoryContents = Effect.gen(function* () {
-  const processService = yield* ProcessService
-  const fileSystemService = yield* FileSystemService
-  const packageManagerEffect = yield* Effect.tryPromise({
-    try: () => inferPackageManagerFromContents(processService, fileSystemService),
-    catch: (error) => error as ProcessError | FileSystemError,
-  })
-
-  return yield* packageManagerEffect
-})
-
-const inferredPackageManagerLayer = Layer.effect(
-  PackageManagerService,
-  Effect.orDie(inferPackageManagerNameFromDirectoryContents)
-)
-
-const livePackageManagerLayer = Layer.provide(inferredPackageManagerLayer, Layer.merge(LiveFileSystem, LiveProcess))
-
-export const packageManagerLayers = {
-  InferredPackageManager: inferredPackageManagerLayer,
-  LivePackageManager: livePackageManagerLayer,
+export const createLivePackageManager = async (): Promise<PackageManagerService> => {
+  const processService = liveProcessService
+  const fileSystemService = liveFileSystemService
+  const factory = await inferPackageManagerFromDirectoryContents(processService, fileSystemService)
+  return factory({ processService, fileSystemService })
 }
-
-export const InferredPackageManager = packageManagerLayers.InferredPackageManager
-export const LivePackageManager = packageManagerLayers.LivePackageManager

@@ -1,9 +1,6 @@
 import { fake, replace, restore } from 'sinon'
-import { Effect, pipe } from 'effect'
-import { makeLiveProcess, LiveProcess } from '../../../src/services/process/live.impl.js'
+import { createProcessService } from '../../../src/services/process/live.impl.js'
 import { expect } from '../../expect.js'
-import { guardError } from '../../../src/common/errors.js'
-import { ProcessService, ProcessError } from '../../../src/services/process/index.js'
 
 describe('Process - Live Implementation', () => {
   beforeEach(() => {
@@ -14,24 +11,9 @@ describe('Process - Live Implementation', () => {
     restore()
   })
 
-  const mapEffError = <A, R>(effect: Effect.Effect<A, ProcessError, R>) =>
-    pipe(
-      effect,
-      Effect.mapError((e: ProcessError) => e.error)
-    )
-
-  it('uses process.cwd', async () => {
-    const effect = Effect.gen(function* () {
-      const { cwd } = yield* ProcessService
-      return yield* Effect.promise(() => cwd())
-    })
-    await Effect.runPromise(
-      pipe(
-        mapEffError(effect), 
-        Effect.provide(LiveProcess),
-        Effect.orDieWith(guardError('An error ocurred'))
-      )
-    )
+  it('uses process.cwd', () => {
+    const processService = createProcessService()
+    processService.cwd()
     expect(process.cwd).to.have.been.called
   })
 
@@ -39,20 +21,9 @@ describe('Process - Live Implementation', () => {
     const command = 'command'
     const cwd = 'cwd'
     const fakeExeca = fake.resolves({ stdout: '', stderr: '' })
-    const layer = makeLiveProcess(fakeExeca)
+    const processService = createProcessService(fakeExeca)
 
-    const effect = Effect.gen(function* () {
-      const { exec } = yield* ProcessService
-      return yield* Effect.promise(() => exec(command, cwd))
-    })
-
-    await Effect.runPromise(
-      pipe(
-        mapEffError(effect),
-        Effect.provide(layer),
-        Effect.orDieWith(guardError('An error ocurred'))
-      )
-    )
+    await processService.exec(command, cwd)
     expect(fakeExeca).to.have.been.calledWith(command, { cwd })
   })
 })
