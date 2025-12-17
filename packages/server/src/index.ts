@@ -1,10 +1,4 @@
-import { 
-  HasInfrastructure, 
-  ProviderLibrary, 
-  RocketDescriptor,
-  MagekConfig,
-  getLogger
-} from '@magek/common'
+import { ProviderLibrary, RocketDescriptor, MagekConfig, getLogger } from '@magek/common'
 import { healthRequestResult, requestFailed, requestSucceeded } from './library/api-adapter'
 import { rawGraphQLRequestToEnvelope } from './library/graphql-adapter'
 
@@ -16,14 +10,12 @@ import {
   isGraphQLFunctionUp,
   rawRequestToSensorHealth,
 } from './library/health-adapter'
+import { Infrastructure } from './infrastructure'
 
 export * from './paths'
 export * from './services'
 export * from './library/graphql-adapter'
-
-export function loadInfrastructurePackage(packageName: string): HasInfrastructure {
-  return require(packageName)
-}
+export * from './infrastructure'
 
 export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrary => ({
   // ProviderGraphQLLibrary
@@ -103,19 +95,6 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
   },
   // ProviderInfrastructureGetter
   infrastructure: () => {
-    const infrastructurePackageName = '@magek/server-infrastructure'
-    let infrastructure: HasInfrastructure | undefined
-
-    try {
-      infrastructure = loadInfrastructurePackage(infrastructurePackageName)
-    } catch (e) {
-      throw new Error(
-        `The Local infrastructure package could not be loaded. The following error was thrown: ${e.message}. Please ensure that one of the following actions has been done:\n` +
-          `  - It has been specified in your "devDependencies" section of your "package.json" file. You can do so by running 'npm install --save-dev ${infrastructurePackageName}'\n` +
-          `  - Or it has been installed globally. You can do so by running 'npm install -g ${infrastructurePackageName}'`
-      )
-    }
-
-    return infrastructure.Infrastructure(rocketDescriptors)
+    return Infrastructure(rocketDescriptors)
   },
 })
