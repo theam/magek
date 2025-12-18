@@ -1,6 +1,6 @@
 import { restore, SinonStub, SinonStubbedInstance, createStubInstance, stub, replace } from 'sinon'
 import { GraphQLService } from '@magek/server'
-import { GraphQLController } from '../../src/controllers/graphql'
+import { GraphQLController } from '@magek/server/infrastructure'
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { expect } from '../expect'
 import { faker } from '@faker-js/faker'

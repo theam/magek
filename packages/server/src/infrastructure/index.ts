@@ -17,6 +17,8 @@ import { WebSocketRegistry } from './websocket-registry'
 export * from './test-helper/local-test-helper'
 export * from './infrastructure-rocket'
 export * from './websocket-registry'
+export { GraphQLController } from './controllers/graphql'
+export { HealthController } from './controllers/health-controller'
 
 // Global WebSocket registry instance
 let globalWebSocketRegistry: WebSocketRegistry | undefined
