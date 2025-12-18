@@ -35,8 +35,8 @@ Magek is a Rush.js monorepo with PNPM workspaces:
   - `@magek/core` - Event sourcing engine, CQRS, GraphQL generation
   - `@magek/common` - Shared types, utilities, and concepts  
   - `@magek/cli` - Command-line tool for project scaffolding
-  - `@magek/server` - Fastify-based runtime for local development
-  - `@magek/server-infrastructure` - HTTP controllers and infrastructure
+  - `@magek/server` - Fastify-based runtime for local development (includes infrastructure)
+  - `@magek/server-infrastructure` - Compatibility wrapper (re-exports from @magek/server/infrastructure)
   - `@magek/metadata` - Metadata extraction and reflection system
   - `create-magek` - Project creation tool
 

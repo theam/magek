@@ -11,9 +11,9 @@ If you want to create a rocket that supports several cloud providers or want to 
 
 A rocket is an npm package that extends your current Magek architecture. The structure is simple, and it mainly has 2 methods: `mountStack` and `unmountStack`. We'll explain what they are shortly.
 
-*Infrastructure Rocket* interfaces are provider-dependent because each provider defines their own way to manage context, so *Infrastructure Rockets* must import the corresponding booster infrastructure package for their chosen provider:
+*Infrastructure Rocket* interfaces are provider-dependent because each provider defines their own way to manage context, so *Infrastructure Rockets* must import the corresponding infrastructure package for their chosen provider:
 
-All providers use the same package: `@magek/server-infrastructure`.
+All providers use the same package: `@magek/server`.
  
 Notice that, as the only thing you'll need from that package is the `InfrastructureRocket` interface, it is preferable to import it as a dev dependency to avoid including such a big package in your deployed lambdas.
 
@@ -24,7 +24,7 @@ mkdir rocket-your-rocket-name-aws-infrastructure
 cd rocket-your-rocket-name-aws-infrastructure
 npm init
 ...
-npm install --save-dev @magek/server-infrastructure @magek/common typescript
+npm install --save-dev @magek/server @magek/common typescript
 ```
 
 In the case of AWS we use the [AWS CDK for TypeScript](https://docs.aws.amazon.com/cdk/v2/guide/work-with-cdk-typescript.html), so you'll also need to import the AWS CDK package:
@@ -47,7 +47,7 @@ rocket-your-rocket-name-aws-infrastructure
 `<your-main-class>.ts`  can be named as you want and this is where we define the mountStack and unmount methods.
 
 ```typescript
-import { RocketUtils } from '@magek/server-infrastructure'
+import { RocketUtils } from '@magek/server/infrastructure'
 import { MagekConfig } from '@magek/common'
 import { Stack } from '@aws-cdk/core'
 import { YourRocketParams } from '.'
@@ -82,7 +82,7 @@ export interface InfrastructureRocket {
 You'll have to implement a default exported function that accepts a parameters object and returns an initialized `InfrastructureRocket` object:
 
 ```typescript
-import { InfrastructureRocket } from '@magek/server-infrastructure'
+import { InfrastructureRocket } from '@magek/server/infrastructure'
 import { YourMainClass } from './your-main-class';
 
 export interface YourRocketParams {
