@@ -134,6 +134,7 @@ fi
 # Test 3: Verify data persisted in NeDB
 echo "💾 Test 3: Verifying data persisted in NeDB..."
 
+# Note: NeDB stores data as newline-delimited JSON, making grep a reliable way to check for data presence
 # Check events in event store
 if [ -f ".magek/nedb/events.db" ]; then
   EVENT_COUNT=$(grep -c "MoneyDeposited" .magek/nedb/events.db || echo "0")
