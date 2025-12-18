@@ -7,6 +7,7 @@ export default [
       '**/lib/**',
       '**/node_modules/**',
       'packages/create/template/**',
+      'e2e/fixtures/**',
       '**/*.tsbuildinfo'
     ]
   },
