@@ -34,7 +34,7 @@
     "clean": "rimraf ./dist tsconfig.tsbuildinfo",
     "prepack": "tsc -b tsconfig.src.json",
     "test:provider-local-infrastructure": "npm run test",
-    "test": "tsc --noEmit -p tsconfig.test.json && MAGEK_ENV=test c8 mocha --forbid-only \"test/**/*.test.ts\""
+    "test": "echo 'Tests for @magek/server-infrastructure have been moved to @magek/server/test/infrastructure'"
   },
   "bugs": {
     "url": "https://github.com/theam/magek/issues"

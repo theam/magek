@@ -1,4 +1,4 @@
-import { expect } from './expect'
+import { expect } from '../expect'
 
 /**
  * Test that @magek/server-infrastructure properly re-exports from @magek/server/infrastructure
