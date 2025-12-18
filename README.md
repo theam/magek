@@ -79,7 +79,7 @@ Magek gives you full control without sacrificing the developer experience.
 We’re building Magek in the open. Here’s what’s happening:
 
 - ✅ Core event sourcing + CQRS engine (inherited from Booster Framework)
-- 🚧 `@magek/server`: Fastify-based runtime (local/Docker)
+- ✅ `@magek/server`: Fastify-based runtime (local/Docker)
 - 🚧 `create-magek`: project scaffolding CLI
 - 🚧 Modular DB adapters: PostgreSQL (first), others via community
 - 🛠 LLM & RAG integrations: OpenAI, vector DBs, prompt tooling

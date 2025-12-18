@@ -30,6 +30,20 @@ The generated app installs its dependencies, builds the TypeScript sources, star
 using the NeDB adapters, and verifies that the health endpoint responds without errors. This ensures the scaffolding
 works end-to-end with the local server runtime.
 
+### Phase 5: Integration test with bank deposit scenario
+
+This phase adds a complete domain implementation to the generated app and verifies the full event sourcing and CQRS
+workflow:
+
+- Copies pre-built domain files (Command, Entity, Event, EventHandler, ReadModel) for a bank deposit scenario
+- Rebuilds and restarts the server
+- Tests command execution via GraphQL mutation (`DepositMoney`)
+- Verifies events are stored in the NeDB event store
+- Verifies entities are updated correctly
+- Tests read model queries via GraphQL
+- Tests GraphQL subscription functionality
+- Validates the complete happy path: command → event → entity → read model → query/subscription
+
 ## Components
 
 ### TODO: Run e2e tests in GitHub Actions Workflow
