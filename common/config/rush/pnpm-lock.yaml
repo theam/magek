@@ -708,6 +708,9 @@ importers:
       chai-as-promised:
         specifier: 8.0.2
         version: 8.0.2(chai@6.2.1)
+      fastify:
+        specifier: 5.6.2
+        version: 5.6.2
       mocha:
         specifier: 11.7.5
         version: 11.7.5
