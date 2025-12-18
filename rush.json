@@ -411,12 +411,6 @@
       "projectFolder": "packages/server"
     },
     {
-      "packageName": "@magek/server-infrastructure",
-      "shouldPublish": true,
-      "versionPolicyName": "magek",
-      "projectFolder": "packages/server-infrastructure"
-    },
-    {
       "packageName": "@magek/adapter-event-store-nedb",
       "shouldPublish": true,
       "versionPolicyName": "magek",
