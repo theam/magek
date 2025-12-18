@@ -12,6 +12,10 @@
     "access": "public"
   },
   "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./infrastructure": "./dist/infrastructure/index.js"
+  },
   "files": [
     "dist"
   ],
