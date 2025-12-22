@@ -1,5 +1,5 @@
-import { Command, Register } from '@magek/core'
-import { Field, UUID } from '@magek/common'
+import { Command } from '@magek/core'
+import { Field, UUID, Register } from '@magek/common'
 import { MoneyDeposited } from '../events/money-deposited'
 
 @Command({
