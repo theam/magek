@@ -60,6 +60,20 @@ for i in {1..30}; do
   sleep 1
 done
 
+# Verify health endpoint returns a valid response
+echo "🔍 Verifying health endpoint response..."
+HEALTH_RESPONSE=$(curl -s "http://localhost:${PORT}/sensor/health/")
+echo "Health endpoint response: $HEALTH_RESPONSE"
+
+if [ -z "$HEALTH_RESPONSE" ]; then
+  echo "❌ Health endpoint returned empty response"
+  cat /tmp/magek-server.log
+  kill $SERVER_PID || true
+  exit 1
+fi
+
+echo "✅ Health endpoint returned a valid response"
+
 echo "📋 Recent server logs:"
 tail -n 20 /tmp/magek-server.log
 

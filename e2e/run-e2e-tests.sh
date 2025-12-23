@@ -24,5 +24,9 @@ echo "🧪 Running Phase 4: Building and starting Magek server with NeDB..."
 source "$SCRIPT_DIR/phase4-run-server.sh"
 
 echo ""
+echo "🧪 Running Phase 5: Integration test with bank deposit scenario..."
+source "$SCRIPT_DIR/phase5-integration-test.sh"
+
+echo ""
 echo "✅ All E2E tests completed successfully!"
 echo "========================================"
