@@ -64,12 +64,11 @@ The packages are published to `npmjs` under the prefix `@magek/`, their purpose 
 - `cli` - The command-line tool for Magek (`magek` command), providing project scaffolding, build management, and development workflow commands.
 - `core` - Contains the framework runtime logic including command dispatching, event handling, GraphQL processing, and all core Magek functionality.
 - `common` - Shared types, concepts, and utilities used across the framework including entities, commands, events, and other core abstractions.
-- `server` - Implements adapters for running Magek applications both locally for development and in production environments, providing GraphQL, health monitoring, and read-model capabilities.
-- `server` - Provides the local development server with Fastify-based HTTP, WebSocket, SSE support, scheduling, and infrastructure components.
+- `server` - Provides the local development server with Fastify-based HTTP, WebSocket, SSE support, scheduling, and infrastructure components for running Magek applications locally and in production.
 - `metadata` - Handles metadata extraction and reflection for framework decorators, enabling schema-aware operations like GraphQL schema generation.
 - `create` - Package for scaffolding new Magek projects (available as `create-magek` on npm).
 
-The packages have dependencies among themselves, with `common` and `metadata` providing foundational functionality, `core` building the main framework logic on top of them, and the server packages implementing the runtime environment for both development and production.
+The packages have dependencies among themselves, with `common` and `metadata` providing foundational functionality, `core` building the main framework logic on top of them, and the `server` package implementing the runtime environment for both development and production.
 
 ## How Can I Contribute?
 
