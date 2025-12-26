@@ -6,34 +6,37 @@ Remove all Effect.js dependencies (`effect`, `@effect/*`, `@effect-ts/*`) from t
 
 ## Summary of Affected Packages
 
-| Package | Effect Packages | Files to Refactor |
-|---------|-----------------|-------------------|
-| @magek/cli | `effect@3.17.6` | 12 source + 8 test files |
-| @magek/core | `effect@3.17.6` + 11 @effect/* packages | 2 source files |
-| @magek/common | `effect@3.17.6` | 0 files (unused dependency) |
-| @magek/server | `@effect-ts/core@0.60.5` | 0 files (unused dependency) |
-| @magek/server-infrastructure | `@effect-ts/core@0.60.5` | 0 files (unused dependency) |
+| Package | Effect Packages | Files to Refactor | Status |
+|---------|-----------------|-------------------|--------|
+| @magek/cli | `effect@3.17.6` | 12 source + 8 test files | ✅ COMPLETED |
+| @magek/core | `effect@3.17.6` + 11 @effect/* packages | 2 source files | ✅ COMPLETED |
+| @magek/common | `effect@3.17.6` | 0 files (unused dependency) | ✅ COMPLETED |
+| @magek/server | `@effect-ts/core@0.60.5` | 0 files (unused dependency) | ✅ COMPLETED |
+| ~~@magek/server-infrastructure~~ | ~~`@effect-ts/core@0.60.5`~~ | ~~0 files (unused dependency)~~ | ✅ PACKAGE MERGED INTO @magek/server |
+
+**Note:** The `@magek/server-infrastructure` package has been merged into `@magek/server` as part of the server unification effort. Infrastructure components are now available via `@magek/server/infrastructure`.
 
 ---
 
-## Phase 1: Remove Unused Dependencies (Quick Wins)
+## Phase 1: Remove Unused Dependencies (Quick Wins) ✅ COMPLETED
 
-These packages have Effect listed as a dependency but don't actually import it in any source files:
+These packages had Effect listed as a dependency but didn't actually import it in any source files.
+All unused dependencies have been removed.
 
-### Step 1.1: @magek/common
+### ~~Step 1.1: @magek/common~~
 - **File:** `packages/common/package.json`
 - **Action:** Remove `"effect": "3.17.6"` from dependencies
-- **Risk:** None - no imports found
+- **Status:** ✅ COMPLETED
 
-### Step 1.2: @magek/server
+### ~~Step 1.2: @magek/server~~
 - **File:** `packages/server/package.json`
 - **Action:** Remove `"@effect-ts/core": "0.60.5"` from dependencies
-- **Risk:** None - no imports found
+- **Status:** ✅ COMPLETED
 
-### Step 1.3: @magek/server-infrastructure
+### ~~Step 1.3: @magek/server-infrastructure~~
 - **File:** `packages/server-infrastructure/package.json`
 - **Action:** Remove `"@effect-ts/core": "0.60.5"` from dependencies
-- **Risk:** None - no imports found
+- **Status:** ✅ COMPLETED (package merged into @magek/server)
 
 ---
 

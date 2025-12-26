@@ -65,7 +65,7 @@ The packages are published to `npmjs` under the prefix `@magek/`, their purpose 
 - `core` - Contains the framework runtime logic including command dispatching, event handling, GraphQL processing, and all core Magek functionality.
 - `common` - Shared types, concepts, and utilities used across the framework including entities, commands, events, and other core abstractions.
 - `server` - Implements adapters for running Magek applications both locally for development and in production environments, providing GraphQL, health monitoring, and read-model capabilities.
-- `server-infrastructure` - Provides infrastructure components for the Magek server including HTTP controllers, WebSocket management, scheduling, and test helpers.
+- `server` - Provides the local development server with Fastify-based HTTP, WebSocket, SSE support, scheduling, and infrastructure components.
 - `metadata` - Handles metadata extraction and reflection for framework decorators, enabling schema-aware operations like GraphQL schema generation.
 - `create` - Package for scaffolding new Magek projects (available as `create-magek` on npm).
 

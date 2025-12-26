@@ -34,8 +34,7 @@ The packages are published to `npmjs` under the prefix `@magek/`, their purpose 
 
 - `cli` - You guessed it! This package is the `magek` command-line tool, it interacts only with the core package in order to load the project configuration. The specific provider packages to interact with the cloud providers are loaded dynamically from the project config.
 - `core` - This one contains all the framework runtime vendor-independent logic. Stuff like the generation of the config or the commands and events handling happens here. The specific provider packages to interact with the cloud providers are loaded dynamically from the project config.
-- `server` - Implements all the required adapters to run the Magek application locally using the Magek server.
-- `server-infrastructure` - Implements all the required code to run the local development server.
+- `server` - Local development server with Fastify-based HTTP, WebSocket, SSE support, and all infrastructure components.
 - `common` - This package defines shared types and helpers used across all other packages. It includes the main Magek concepts like:
   - Entity
   - Command
@@ -224,7 +223,6 @@ Unit tests are executed when you type `rush test`. If you want to run the unit t
 - `rushx test:cli -v`: Run unit tests for the `cli` package.
 - `rushx test:core -v`: Run unit tests for the `core` package.
 - `rushx test:server -v`: Run unit tests for the `server` package.
-- `rushx test:server-infrastructure -v`: Run unit tests for the `server-infrastructure` package.
 - `rushx test:common -v`: Run unit tests for the `common` package.
 
 - `doc/*` - PR that enhances the documentation
