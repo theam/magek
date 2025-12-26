@@ -19,7 +19,7 @@
     "chalk": "5.6.2",
     "execa": "9.6.1",
     "fp-ts": "2.16.11",
-    "fs-extra": "11.3.2",
+    "fs-extra": "11.3.3",
     "inflected": "2.1.0",
     "inquirer": "13.1.0",
     "mustache": "4.2.0",
