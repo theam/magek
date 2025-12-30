@@ -3,7 +3,6 @@ import { MagekEventDispatcher } from './event-dispatcher'
 import { MagekGraphQLDispatcher } from './graphql-dispatcher'
 import { MagekScheduledCommandDispatcher } from './scheduled-command-dispatcher'
 import { MagekSubscribersNotifier } from './subscribers-notifier'
-import { MagekRocketDispatcher } from './rocket-dispatcher'
 import { MagekEventStreamConsumer } from './event-stream-consumer'
 import { MagekEventStreamProducer } from './event-stream-producer'
 import { MagekHealthService } from './sensor'
@@ -59,16 +58,6 @@ export async function triggerScheduledCommands(rawRequest: unknown): Promise<voi
  */
 export async function notifySubscribers(rawRequest: unknown): Promise<void> {
   return new MagekSubscribersNotifier(Magek.config).dispatch(rawRequest)
-}
-
-/**
- * Endpoint that proxies a request to functionality exposed by a Rocket
- *
- * @param rawRequest A provider-specific representation of the request to be processed
- * @returns A promise that resolves when the request is processed
- */
-export async function rocketDispatcher(rawRequest: unknown): Promise<unknown> {
-  return new MagekRocketDispatcher(Magek.config).dispatch(rawRequest)
 }
 
 /**

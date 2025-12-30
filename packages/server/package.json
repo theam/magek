@@ -13,8 +13,7 @@
   },
   "main": "dist/index.js",
   "exports": {
-    ".": "./dist/index.js",
-    "./infrastructure": "./dist/infrastructure/index.js"
+    ".": "./dist/index.js"
   },
   "files": [
     "dist"

@@ -1,13 +1,21 @@
 import { expect } from './expect'
-import { Infrastructure, Provider } from '../src'
+import { createServer, Provider } from '../src'
 
-describe('server Provider infrastructure', () => {
-  it('exposes Infrastructure builder', () => {
-    expect(Infrastructure).to.be.a('function')
+describe('server package', () => {
+  it('exposes createServer function', () => {
+    expect(createServer).to.be.a('function')
   })
 
-  it('returns infrastructure from local builder', () => {
-    const infrastructure = Provider().infrastructure()
-    expect(infrastructure.start).to.be.a('function')
+  it('exposes Provider function', () => {
+    expect(Provider).to.be.a('function')
+  })
+
+  it('Provider returns ProviderLibrary', () => {
+    const provider = Provider()
+    expect(provider.graphQL).to.exist
+    expect(provider.api).to.exist
+    expect(provider.messaging).to.exist
+    expect(provider.scheduled).to.exist
+    expect(provider.sensor).to.exist
   })
 })
