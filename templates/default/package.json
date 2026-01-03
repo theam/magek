@@ -21,7 +21,7 @@
     "@types/jsonwebtoken": "9.0.1",
     "nyc": "15.1.0",
     "typescript": "5.1.6",
-    "ts-node": "9.1.1",
+    "tsx": "4.19.2",
     "@types/node": "20.17.17",
     "ts-patch": "3.1.2",
     "graphql": "16.8.1"
@@ -37,7 +37,8 @@
       "lint:check": "eslint \"**/*.ts\"",
       "lint:fix": "eslint --quiet --fix \"**/*.ts\"",
       "build": "tsc -b tsconfig.json",
-      "start:local": "npm run build && node dist/local.js",
+      "dev": "tsx watch src/server.ts",
+      "start": "node dist/server.js",
       "clean": "rimraf ./dist tsconfig.tsbuildinfo"
     },
   "types": "lib/index.d.ts"

@@ -34,7 +34,7 @@ MAGEK_ENV=local npm run build
 # Start the local server in the background
 PORT=3000
 echo "🚀 Starting Magek server on port $PORT using NeDB adapters..."
-MAGEK_ENV=local npm run start:local > /tmp/magek-server.log 2>&1 &
+MAGEK_ENV=local npm run start > /tmp/magek-server.log 2>&1 &
 SERVER_PID=$!
 
 echo "⏳ Waiting for server to become healthy..."

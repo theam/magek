@@ -390,8 +390,7 @@ async function createProject(config: ProjectConfig): Promise<void> {
     if (config.skipInstall) {
       console.log(kleur.cyan(`  ${config.packageManager} install`))
     }
-    console.log(kleur.cyan(`  ${config.packageManager} run build`))
-    console.log(kleur.cyan(`  ${config.packageManager} run start:local`))
+    console.log(kleur.cyan(`  ${config.packageManager} run dev`))
     console.log()
     console.log('Learn more at: https://docs.magek.ai')
   } catch (error) {
