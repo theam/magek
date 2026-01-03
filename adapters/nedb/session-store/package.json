@@ -51,7 +51,7 @@
     "@types/node": "22.19.3",
     "@types/sinon": "21.0.0",
     "@types/sinon-chai": "4.0.0",
-    "chai": "6.2.1",
+    "chai": "6.2.2",
     "chai-as-promised": "8.0.2",
     "@faker-js/faker": "10.1.0",
     "mocha": "11.7.5",
