@@ -36,7 +36,6 @@ export interface ProviderSensorLibrary {
   isGraphQLFunctionUp(config: MagekConfig): Promise<boolean>
   graphQLFunctionUrl(config: MagekConfig): Promise<string>
   rawRequestToHealthEnvelope(rawRequest: unknown): HealthEnvelope
-  areRocketFunctionsUp(config: MagekConfig): Promise<{ [key: string]: boolean }>
 }
 
 export interface ProviderGraphQLLibrary {
@@ -84,7 +83,7 @@ export interface ProviderAPIHandling {
    * Handles a health check response with appropriate status code.
    *
    * @param body - The health check results
-   * @param isHealthy - Whether all the components (except UNKNOWN rockets) are UP
+   * @param isHealthy - Whether all the components are UP
    * @returns A promise that resolves with the response
    */
   healthRequestResult(body: unknown, isHealthy: boolean): Promise<unknown>

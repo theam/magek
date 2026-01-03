@@ -310,9 +310,8 @@ We're using the following scopes in the project:
 
 - **cli**
 - **core**
-- **types**
-- **aws**
-- **local**
+- **common**
+- **server**
 
 Apart of using conventional commits for triggering releases, we use them to build the project changelog.
 

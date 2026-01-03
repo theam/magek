@@ -29,7 +29,6 @@ export enum HEALTH_INDICATORS_IDS {
   DATABASE = 'magek/database',
   DATABASE_EVENTS = 'magek/database/events',
   DATABASE_READ_MODELS = 'magek/database/readmodels',
-  ROCKETS = 'rockets',
 }
 
 export const DEFAULT_HEALTH_CONFIGURATION: SensorMagekHealthConfigurationDetails = {
@@ -47,7 +46,6 @@ export const DEFAULT_SENSOR_HEALTH_CONFIGURATIONS: Record<
   [HEALTH_INDICATORS_IDS.DATABASE]: { ...DEFAULT_HEALTH_CONFIGURATION },
   [HEALTH_INDICATORS_IDS.DATABASE_EVENTS]: { ...DEFAULT_HEALTH_CONFIGURATION },
   [HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS]: { ...DEFAULT_HEALTH_CONFIGURATION },
-  [HEALTH_INDICATORS_IDS.ROCKETS]: { ...DEFAULT_HEALTH_CONFIGURATION },
 }
 
 export type SensorMagekHealthConfigurationDetails = HealthIndicatorConfigurationBase
@@ -60,7 +58,6 @@ export interface SensorMagekHealthConfiguration {
     [HEALTH_INDICATORS_IDS.DATABASE]: SensorMagekHealthConfigurationDetails
     [HEALTH_INDICATORS_IDS.DATABASE_EVENTS]: SensorMagekHealthConfigurationDetails
     [HEALTH_INDICATORS_IDS.DATABASE_READ_MODELS]: SensorMagekHealthConfigurationDetails
-    [HEALTH_INDICATORS_IDS.ROCKETS]: SensorMagekHealthConfigurationDetails
   }
 }
 

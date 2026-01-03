@@ -1,5 +1,5 @@
 import { eventsDatabase, readModelsDatabase } from '../paths'
-import { MagekConfig, localPort, HealthEnvelope, UUID, request } from '@magek/common'
+import { localPort, HealthEnvelope, UUID, request } from '@magek/common'
 import { existsSync } from 'fs'
 import { FastifyRequest } from 'fastify'
 import Nedb from '@seald-io/nedb'
@@ -70,22 +70,4 @@ export function rawRequestToSensorHealth(rawRequest: FastifyRequest): HealthEnve
     componentPath: componentPath,
     token: Array.isArray(headers?.authorization) ? headers.authorization[0] : headers?.authorization,
   }
-}
-
-
-export async function areRocketFunctionsUp(config: MagekConfig): Promise<{ [key: string]: boolean }> {
-  // In local provider, rockets run in the same process, so they're always "up" if configured
-  const results: { [key: string]: boolean } = {}
-  if (config.rockets) {
-    for (const rocket of config.rockets) {
-      const params = rocket.parameters as { rocketProviderPackage: string }
-      if (params?.rocketProviderPackage) {
-        const basePackage = params.rocketProviderPackage
-          .replace(/^@[^/]+\//, '') // Remove scope (@org/)
-          .replace(/-[^-]+$/, '') // Remove last segment after dash (provider)
-        results[basePackage] = true
-      }
-    }
-  }
-  return results
 }

@@ -6,11 +6,6 @@ description: Learn how to get Magek health information
 
 The Health functionality allows users to easily monitor the health status of their applications. With this functionality, users can make GET requests to a specific endpoint and retrieve detailed information about the health and status of their application components.
 
-## Supported Providers
-
-- Azure Provider
-- Local Provider
-
 ### Enabling Health Functionality
 
 To enable the Health functionality in your Magek application, follow these steps:
@@ -90,16 +85,8 @@ Magek provides the following endpoints to retrieve the enabled components:
 - <https://your-application-url/sensor/health/magek/database/events>: Events status
 - <https://your-application-url/sensor/health/magek/database/readmodels>: ReadModels status
 - <https://your-application-url/sensor/health/magek/function>: Functions status
-- <https://your-application-url/sensor/health/rockets>: All rockets status
-- <https://your-application-url/sensor/health/rockets/rocket-name>: Individual rocket status
 - <https://your-application-url/sensor/health/your-component-id>: User defined status
 - <https://your-application-url/sensor/health/your-component-id/your-component-child-id>: User child component status
-
-:::note
-When accessing individual rocket health status, the rocket-name is derived from the rocket's package name. For example,
-if your rocket package is `@org/my-rocket-provider`, the rocket name would be `my-rocket`. The name is extracted by
-removing the scope (`@org`) and the provider suffix (`-provider`).
-:::
 
 Depending on the `showChildren` configuration, child components will be included or not.
 
@@ -156,13 +143,8 @@ Example:
 
 The health endpoint returns different HTTP status codes based on the overall health of the application:
 
-- 200 OK: All components are healthy (UP), or in the case of rockets, either UP or UNKNOWN
+- 200 OK: All components are healthy (UP)
 - 503 Service Unavailable: One or more components are unhealthy (DOWN or PARTIALLY_UP)
-
-:::note
-When checking rockets health, an UNKNOWN status (when no rockets are found) is considered health and will return a 200
-status code.
-:::
 
 ### Get specific component health information
 
@@ -173,8 +155,6 @@ Use the `id` field to get specific component health information. Magek provides 
 - magek/database
 - magek/database/events
 - magek/database/readmodels
-- rockets
-- rockets/rocket-name (NEW: You can now check individual rocket health)
 
 You can provide new components:
 
@@ -318,45 +298,18 @@ export class ApplicationHealthIndicator {
 
 - status: UP if and only if events are UP
 - details:
-  - **AZURE PROVIDER**:
-    - url: Events url
-    - count: number of rows
-  - **LOCAL PROVIDER**:
-    - file: event database file
-    - count: number of rows
+  - file: event database file
+  - count: number of rows
 
 #### magek/database/readmodels
 
 - status: UP if and only if Read Models are UP
 - details:
-  - **AZURE PROVIDER**:
-    - For each Read Model:
-      - url: Event url
-      - count: number of rows
-  - **LOCAL PROVIDER**:
-    - file: Read Models database file
-    - count: number of total rows
+  - file: Read Models database file
+  - count: number of total rows
 
 :::note
 Details will be included only if `details` is enabled
-:::
-
-#### rockets
-
-- status:
-  - UP: All rockets are UP
-  - PARTIALLY_UP: Some rockets are UP and some are DOWN
-  - DOWN: All rockets are DOWN
-  - UNKNOWN: No rockets are found (considered healthy for HTTP status)
-
-You can now check individual rocket health using the
-endpoint: <http://your-application-url/sensor/health/rockets/rocket-name>
-
-:::note
-Rocket health sensors are only available for the Azure provider. When using the local provider, rocket health status
-will always be UP since rockets run in the same process as the main Magek application. The health check behavior
-described above (UP, PARTIALLY_UP, DOWN, UNKNOWN) applies specifically to the Azure provider where rockets run as
-separate functions.
 :::
 
 ### Health status

@@ -4,7 +4,6 @@ import { rawGraphQLRequestToEnvelope } from './library/graphql-adapter'
 
 import { rawScheduledInputToEnvelope } from './library/scheduled-adapter'
 import {
-  areRocketFunctionsUp,
   graphqlFunctionUrl,
   isGraphQLFunctionUp,
   rawRequestToSensorHealth,
@@ -87,6 +86,5 @@ export const Provider = (): ProviderLibrary => ({
     isGraphQLFunctionUp: isGraphQLFunctionUp,
     graphQLFunctionUrl: graphqlFunctionUrl,
     rawRequestToHealthEnvelope: rawRequestToSensorHealth,
-    areRocketFunctionsUp: areRocketFunctionsUp,
   },
 })

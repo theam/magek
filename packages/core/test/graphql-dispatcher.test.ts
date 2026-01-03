@@ -508,7 +508,6 @@ function mockConfigForGraphQLEnvelope(envelope: GraphQLRequestEnvelope | GraphQL
         requestID: UUID.generate(),
         componentPath: '',
       } satisfies HealthEnvelope),
-      areRocketFunctionsUp: fake.resolves({}),
     },
   }
 
