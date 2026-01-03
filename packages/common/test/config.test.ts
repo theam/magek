@@ -192,10 +192,18 @@ describe('the config type', () => {
   })
 
   describe('sessionStoreAdapter', () => {
-    it('throws when there is no sessionStoreAdapter set', () => {
+    it('throws when there is no sessionStoreAdapter set and subscriptions are enabled', () => {
       const config = new MagekConfig('test')
+      config.enableSubscriptions = true
 
       expect(() => config.sessionStore).to.throw(/SessionStoreAdapter is not configured/)
+    })
+
+    it('does not throw when there is no sessionStoreAdapter set but subscriptions are disabled', () => {
+      const config = new MagekConfig('test')
+      config.enableSubscriptions = false
+
+      expect(() => config.sessionStore).to.not.throw()
     })
 
     it('does not throw when there is a sessionStoreAdapter set', () => {

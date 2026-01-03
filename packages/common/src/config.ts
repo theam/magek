@@ -239,10 +239,10 @@ export class MagekConfig {
   }
 
   public get sessionStore(): SessionStoreAdapter {
-    if (!this.sessionStoreAdapter) {
+    if (this.enableSubscriptions && !this.sessionStoreAdapter) {
       throw new Error('SessionStoreAdapter is not configured. Please set config.sessionStoreAdapter.')
     }
-    return this.sessionStoreAdapter
+    return this.sessionStoreAdapter!
   }
 
   public mustGetEnvironmentVar(varName: string): string {
