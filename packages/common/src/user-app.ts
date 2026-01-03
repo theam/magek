@@ -13,7 +13,6 @@ export interface UserApp {
   graphQLDispatcher(_: unknown): Promise<unknown>
   triggerScheduledCommands(_: unknown): Promise<void>
   notifySubscribers(_: unknown): Promise<void>
-  rocketDispatcher(_: unknown): Promise<unknown>
   consumeEventStream(_: unknown): Promise<unknown>
   produceEventStream(_: unknown): Promise<unknown>
   health(_: unknown): Promise<any>
