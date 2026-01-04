@@ -168,8 +168,7 @@ describe('the config type', () => {
   })
 
   describe('readModelStoreAdapter', () => {
-    it.skip('throws when there is no readModelStoreAdapter set', () => {
-      // TODO: Re-enable this test once the readModelStoreAdapter refactor is complete
+    it('throws when there is no readModelStoreAdapter set', () => {
       const config = new MagekConfig('test')
 
       expect(() => config.readModelStore).to.throw(/ReadModelStoreAdapter is not configured/)
@@ -193,11 +192,18 @@ describe('the config type', () => {
   })
 
   describe('sessionStoreAdapter', () => {
-    it.skip('throws when there is no sessionStoreAdapter set', () => {
-      // TODO: Re-enable this test once the sessionStoreAdapter refactor is complete
+    it('throws when there is no sessionStoreAdapter set and subscriptions are enabled', () => {
       const config = new MagekConfig('test')
+      config.enableSubscriptions = true
 
       expect(() => config.sessionStore).to.throw(/SessionStoreAdapter is not configured/)
+    })
+
+    it('does not throw when there is no sessionStoreAdapter set but subscriptions are disabled', () => {
+      const config = new MagekConfig('test')
+      config.enableSubscriptions = false
+
+      expect(() => config.sessionStore).to.not.throw()
     })
 
     it('does not throw when there is a sessionStoreAdapter set', () => {

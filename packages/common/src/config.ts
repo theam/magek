@@ -232,18 +232,16 @@ export class MagekConfig {
   }
 
   public get readModelStore(): ReadModelStoreAdapter {
-    // TODO: Uncomment this validation once the readModelStoreAdapter refactor is complete
-    // if (!this.readModelStoreAdapter) {
-    //   throw new Error('ReadModelStoreAdapter is not configured. Please set config.readModelStoreAdapter.')
-    // }
-    return this.readModelStoreAdapter!
+    if (!this.readModelStoreAdapter) {
+      throw new Error('ReadModelStoreAdapter is not configured. Please set config.readModelStoreAdapter.')
+    }
+    return this.readModelStoreAdapter
   }
 
   public get sessionStore(): SessionStoreAdapter {
-    // TODO: Uncomment this validation once the sessionStoreAdapter refactor is complete
-    // if (!this.sessionStoreAdapter) {
-    //   throw new Error('SessionStoreAdapter is not configured. Please set config.sessionStoreAdapter.')
-    // }
+    if (this.enableSubscriptions && !this.sessionStoreAdapter) {
+      throw new Error('SessionStoreAdapter is not configured. Please set config.sessionStoreAdapter.')
+    }
     return this.sessionStoreAdapter!
   }
 

@@ -50,11 +50,11 @@ importers:
         specifier: ^10.1.3
         version: 10.1.3
       chai:
-        specifier: 6.2.1
-        version: 6.2.1
+        specifier: 6.2.2
+        version: 6.2.2
       chai-as-promised:
         specifier: 8.0.2
-        version: 8.0.2(chai@6.2.1)
+        version: 8.0.2(chai@6.2.2)
       mocha:
         specifier: 11.7.5
         version: 11.7.5
@@ -62,11 +62,11 @@ importers:
         specifier: 6.1.2
         version: 6.1.2
       sinon:
-        specifier: 21.0.0
-        version: 21.0.0
+        specifier: 21.0.1
+        version: 21.0.1
       sinon-chai:
         specifier: 4.0.1
-        version: 4.0.1(chai@6.2.1)(sinon@21.0.0)
+        version: 4.0.1(chai@6.2.2)(sinon@21.0.1)
       tsx:
         specifier: ^4.19.2
         version: 4.21.0
@@ -114,11 +114,11 @@ importers:
         specifier: ^10.1.3
         version: 10.1.3
       chai:
-        specifier: 6.2.1
-        version: 6.2.1
+        specifier: 6.2.2
+        version: 6.2.2
       chai-as-promised:
         specifier: 8.0.2
-        version: 8.0.2(chai@6.2.1)
+        version: 8.0.2(chai@6.2.2)
       mocha:
         specifier: 11.7.5
         version: 11.7.5
@@ -126,11 +126,11 @@ importers:
         specifier: 6.1.2
         version: 6.1.2
       sinon:
-        specifier: 21.0.0
-        version: 21.0.0
+        specifier: 21.0.1
+        version: 21.0.1
       sinon-chai:
         specifier: 4.0.1
-        version: 4.0.1(chai@6.2.1)(sinon@21.0.0)
+        version: 4.0.1(chai@6.2.2)(sinon@21.0.1)
       tsx:
         specifier: ^4.19.2
         version: 4.21.0
@@ -178,11 +178,11 @@ importers:
         specifier: ^10.1.3
         version: 10.1.3
       chai:
-        specifier: 6.2.1
-        version: 6.2.1
+        specifier: 6.2.2
+        version: 6.2.2
       chai-as-promised:
         specifier: 8.0.2
-        version: 8.0.2(chai@6.2.1)
+        version: 8.0.2(chai@6.2.2)
       memfs:
         specifier: ~4.36.0
         version: 4.36.3
@@ -193,11 +193,11 @@ importers:
         specifier: 6.1.2
         version: 6.1.2
       sinon:
-        specifier: 21.0.0
-        version: 21.0.0
+        specifier: 21.0.1
+        version: 21.0.1
       sinon-chai:
         specifier: 4.0.1
-        version: 4.0.1(chai@6.2.1)(sinon@21.0.0)
+        version: 4.0.1(chai@6.2.2)(sinon@21.0.1)
       tsx:
         specifier: ^4.19.2
         version: 4.21.0
@@ -293,11 +293,11 @@ importers:
         specifier: ^10.1.3
         version: 10.1.3
       chai:
-        specifier: 6.2.1
-        version: 6.2.1
+        specifier: 6.2.2
+        version: 6.2.2
       chai-as-promised:
         specifier: 8.0.2
-        version: 8.0.2(chai@6.2.1)
+        version: 8.0.2(chai@6.2.2)
       copyfiles:
         specifier: 2.4.1
         version: 2.4.1
@@ -314,11 +314,11 @@ importers:
         specifier: 6.1.2
         version: 6.1.2
       sinon:
-        specifier: 21.0.0
-        version: 21.0.0
+        specifier: 21.0.1
+        version: 21.0.1
       sinon-chai:
         specifier: 4.0.1
-        version: 4.0.1(chai@6.2.1)(sinon@21.0.0)
+        version: 4.0.1(chai@6.2.2)(sinon@21.0.1)
       tsx:
         specifier: ^4.19.2
         version: 4.21.0
@@ -378,11 +378,11 @@ importers:
         specifier: ^10.1.3
         version: 10.1.3
       chai:
-        specifier: 6.2.1
-        version: 6.2.1
+        specifier: 6.2.2
+        version: 6.2.2
       chai-as-promised:
         specifier: 8.0.2
-        version: 8.0.2(chai@6.2.1)
+        version: 8.0.2(chai@6.2.2)
       fast-check:
         specifier: 4.5.3
         version: 4.5.3
@@ -399,11 +399,11 @@ importers:
         specifier: 6.1.2
         version: 6.1.2
       sinon:
-        specifier: 21.0.0
-        version: 21.0.0
+        specifier: 21.0.1
+        version: 21.0.1
       sinon-chai:
         specifier: 4.0.1
-        version: 4.0.1(chai@6.2.1)(sinon@21.0.0)
+        version: 4.0.1(chai@6.2.2)(sinon@21.0.1)
       tsx:
         specifier: ^4.19.2
         version: 4.21.0
@@ -435,8 +435,8 @@ importers:
         specifier: 1.3.0
         version: 1.3.0
       jsonwebtoken:
-        specifier: 9.0.2
-        version: 9.0.2
+        specifier: 9.0.3
+        version: 9.0.3
       jwks-rsa:
         specifier: 3.2.0
         version: 3.2.0
@@ -481,11 +481,11 @@ importers:
         specifier: ^10.1.3
         version: 10.1.3
       chai:
-        specifier: 6.2.1
-        version: 6.2.1
+        specifier: 6.2.2
+        version: 6.2.2
       chai-as-promised:
         specifier: 8.0.2
-        version: 8.0.2(chai@6.2.1)
+        version: 8.0.2(chai@6.2.2)
       cross-env:
         specifier: 10.1.0
         version: 10.1.0
@@ -502,11 +502,11 @@ importers:
         specifier: 6.1.2
         version: 6.1.2
       sinon:
-        specifier: 21.0.0
-        version: 21.0.0
+        specifier: 21.0.1
+        version: 21.0.1
       sinon-chai:
         specifier: 4.0.1
-        version: 4.0.1(chai@6.2.1)(sinon@21.0.0)
+        version: 4.0.1(chai@6.2.2)(sinon@21.0.1)
       tsx:
         specifier: ^4.19.2
         version: 4.21.0
@@ -551,8 +551,8 @@ importers:
         specifier: 21.0.0
         version: 21.0.0
       chai:
-        specifier: 6.2.1
-        version: 6.2.1
+        specifier: 6.2.2
+        version: 6.2.2
       mocha:
         specifier: 11.7.5
         version: 11.7.5
@@ -560,8 +560,8 @@ importers:
         specifier: 6.1.2
         version: 6.1.2
       sinon:
-        specifier: 21.0.0
-        version: 21.0.0
+        specifier: 21.0.1
+        version: 21.0.1
       tsup:
         specifier: 8.5.1
         version: 8.5.1(tsx@4.21.0)(typescript@5.9.3)
@@ -630,11 +630,11 @@ importers:
         specifier: ^10.1.3
         version: 10.1.3
       chai:
-        specifier: 6.2.1
-        version: 6.2.1
+        specifier: 6.2.2
+        version: 6.2.2
       chai-as-promised:
         specifier: 8.0.2
-        version: 8.0.2(chai@6.2.1)
+        version: 8.0.2(chai@6.2.2)
       mocha:
         specifier: 11.7.5
         version: 11.7.5
@@ -642,11 +642,11 @@ importers:
         specifier: 6.1.2
         version: 6.1.2
       sinon:
-        specifier: 21.0.0
-        version: 21.0.0
+        specifier: 21.0.1
+        version: 21.0.1
       sinon-chai:
         specifier: 4.0.1
-        version: 4.0.1(chai@6.2.1)(sinon@21.0.0)
+        version: 4.0.1(chai@6.2.2)(sinon@21.0.1)
       tsx:
         specifier: ^4.19.2
         version: 4.21.0
@@ -686,7 +686,7 @@ importers:
         version: 8.0.2
       chai-as-promised:
         specifier: 8.0.2
-        version: 8.0.2(chai@6.2.1)
+        version: 8.0.2(chai@6.2.2)
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -1373,8 +1373,8 @@ packages:
   '@sinonjs/fake-timers@11.3.1':
     resolution: {integrity: sha512-EVJO7nW5M/F5Tur0Rf2z/QoMo+1Ia963RiMtapiQrEWvY0iBUvADo8Beegwjpnle5BHkyHuoxSTW3jF43H1XRA==}
 
-  '@sinonjs/fake-timers@13.0.5':
-    resolution: {integrity: sha512-36/hTbH2uaWuGVERyC6da9YwGWnzUZXuPro/F2LfsdOsLnCojz/iSH8MxUt/FD2S5XBSVPhmArFUXcpCQ2Hkiw==}
+  '@sinonjs/fake-timers@15.1.0':
+    resolution: {integrity: sha512-cqfapCxwTGsrR80FEgOoPsTonoefMBY7dnUEbQ+GRcved0jvkJLzvX6F4WtN+HBqbPX/SiFsIRUp+IrCW/2I2w==}
 
   '@sinonjs/samsam@8.0.3':
     resolution: {integrity: sha512-hw6HbX+GyVZzmaYNh82Ecj1vdGZrqVIn/keDTg63IgAwiQPO+xCz99uG6Woqgb4tM0mUiFENKZ4cqd7IX94AXQ==}
@@ -1744,8 +1744,8 @@ packages:
     peerDependencies:
       chai: '>= 2.1.2 < 7'
 
-  chai@6.2.1:
-    resolution: {integrity: sha512-p4Z49OGG5W/WBCPSS/dH3jQ73kD6tiMmUM+bckNK6Jr5JHMG3k9bg/BvKR8lKmtVBKmOiuVaV2ws8s9oSbwysg==}
+  chai@6.2.2:
+    resolution: {integrity: sha512-NUPRluOfOiTKBKvWPtSD4PhFvWCqOi0BGStNWs57X9js7XGTprSmFoz5F0tWhR4WPjNeR9jXqdC7/UpSJTnlRg==}
     engines: {node: '>=18'}
 
   chalk@4.1.2:
@@ -1913,6 +1913,10 @@ packages:
 
   diff@7.0.0:
     resolution: {integrity: sha512-PJWHUb1RFevKCwaFA9RlG5tCd+FO5iRh9A8HEtkmBH2Li03iJriB6m6JIN4rGz3K3JLawI7/veA1xzRKP6ISBw==}
+    engines: {node: '>=0.3.1'}
+
+  diff@8.0.2:
+    resolution: {integrity: sha512-sSuxWU5j5SR9QQji/o2qMvqRNYRDOcBTgsJ/DeCf4iSN4gW+gNMXM7wFIP+fdXZxoNiAnHUTGjCr+TSWXdRDKg==}
     engines: {node: '>=0.3.1'}
 
   doctrine@2.1.0:
@@ -2670,22 +2674,22 @@ packages:
   jsonfile@6.2.0:
     resolution: {integrity: sha512-FGuPw30AdOIUTRMC2OMRtQV+jkVj2cfPqSeWXv1NEAJ1qZ5zb1X6z1mFhbfOB/iy3ssJCD+3KuZ8r8C3uVFlAg==}
 
-  jsonwebtoken@9.0.2:
-    resolution: {integrity: sha512-PRp66vJ865SSqOlgqS8hujT5U4AOgMfhrwYIuIhfKaoSCZcirrmASQr8CX7cUg+RMih+hgznrjp99o+W4pJLHQ==}
+  jsonwebtoken@9.0.3:
+    resolution: {integrity: sha512-MT/xP0CrubFRNLNKvxJ2BYfy53Zkm++5bX9dtuPbqAeQpTVe0MQTFhao8+Cp//EmJp244xt6Drw/GVEGCUj40g==}
     engines: {node: '>=12', npm: '>=6'}
 
   just-extend@6.2.0:
     resolution: {integrity: sha512-cYofQu2Xpom82S6qD778jBDpwvvy39s1l/hrYij2u9AMdQcGRpaBu6kY4mVhuno5kJVi1DAz4aiphA2WI1/OAw==}
 
-  jwa@1.4.2:
-    resolution: {integrity: sha512-eeH5JO+21J78qMvTIDdBXidBd6nG2kZjg5Ohz/1fpa28Z4CcsWUzJ1ZZyFq/3z3N17aZy+ZuBoHljASbL1WfOw==}
+  jwa@2.0.1:
+    resolution: {integrity: sha512-hRF04fqJIP8Abbkq5NKGN0Bbr3JxlQ+qhZufXVr0DvujKy93ZCbXZMHDL4EOtodSbCWxOqR8MS1tXA5hwqCXDg==}
 
   jwks-rsa@3.2.0:
     resolution: {integrity: sha512-PwchfHcQK/5PSydeKCs1ylNym0w/SSv8a62DgHJ//7x2ZclCoinlsjAfDxAAbpoTPybOum/Jgy+vkvMmKz89Ww==}
     engines: {node: '>=14'}
 
-  jws@3.2.3:
-    resolution: {integrity: sha512-byiJ0FLRdLdSVSReO/U4E7RoEyOCKnEnEPMjq3HxWtvzLsV08/i5RQKsFVNkCldrCaPr2vDNAOMsfs8T/Hze7g==}
+  jws@4.0.1:
+    resolution: {integrity: sha512-EKI/M/yqPncGUUh44xz0PxSidXFr/+r0pA70+gIYhjv+et7yxM+s29Y+VGDkovRofQem0fs7Uvf4+YmAdyRduA==}
 
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
@@ -3333,8 +3337,8 @@ packages:
   sinon@16.1.3:
     resolution: {integrity: sha512-mjnWWeyxcAf9nC0bXcPmiDut+oE8HYridTNzBbF98AYVLmWwGRp2ISEpyhYflG1ifILT+eNn3BmKUJPxjXUPlA==}
 
-  sinon@21.0.0:
-    resolution: {integrity: sha512-TOgRcwFPbfGtpqvZw+hyqJDvqfapr1qUlOizROIk4bBLjlsjlB00Pg6wMFXNtJRpu+eCZuVOaLatG7M8105kAw==}
+  sinon@21.0.1:
+    resolution: {integrity: sha512-Z0NVCW45W8Mg5oC/27/+fCqIHFnW8kpkFOq0j9XJIev4Ld0mKmERaZv5DMLAb9fGCevjKwaEeIQz5+MBXfZcDw==}
 
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
@@ -4341,7 +4345,7 @@ snapshots:
     dependencies:
       '@sinonjs/commons': 3.0.1
 
-  '@sinonjs/fake-timers@13.0.5':
+  '@sinonjs/fake-timers@15.1.0':
     dependencies:
       '@sinonjs/commons': 3.0.1
 
@@ -4774,12 +4778,12 @@ snapshots:
 
   caniuse-lite@1.0.30001762: {}
 
-  chai-as-promised@8.0.2(chai@6.2.1):
+  chai-as-promised@8.0.2(chai@6.2.2):
     dependencies:
-      chai: 6.2.1
       check-error: 2.1.3
+      chai: 6.2.2
 
-  chai@6.2.1: {}
+  chai@6.2.2: {}
 
   chalk@4.1.2:
     dependencies:
@@ -4932,6 +4936,8 @@ snapshots:
   diff@5.2.0: {}
 
   diff@7.0.0: {}
+
+  diff@8.0.2: {}
 
   doctrine@2.1.0:
     dependencies:
@@ -5826,9 +5832,9 @@ snapshots:
     optionalDependencies:
       graceful-fs: 4.2.11
 
-  jsonwebtoken@9.0.2:
+  jsonwebtoken@9.0.3:
     dependencies:
-      jws: 3.2.3
+      jws: 4.0.1
       lodash.includes: 4.3.0
       lodash.isboolean: 3.0.3
       lodash.isinteger: 4.0.4
@@ -5841,7 +5847,7 @@ snapshots:
 
   just-extend@6.2.0: {}
 
-  jwa@1.4.2:
+  jwa@2.0.1:
     dependencies:
       buffer-equal-constant-time: 1.0.1
       ecdsa-sig-formatter: 1.0.11
@@ -5858,9 +5864,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  jws@3.2.3:
+  jws@4.0.1:
     dependencies:
-      jwa: 1.4.2
+      jwa: 2.0.1
       safe-buffer: 5.2.1
 
   keyv@4.5.4:
@@ -6032,8 +6038,8 @@ snapshots:
   mock-jwks@3.3.5(@types/node@22.19.3)(typescript@5.9.3):
     dependencies:
       base64-url: 2.3.3
-      jsonwebtoken: 9.0.2
       msw: 2.12.7(@types/node@22.19.3)(typescript@5.9.3)
+      jsonwebtoken: 9.0.3
       node-forge: 1.3.3
       node-rsa: 1.1.1
     transitivePeerDependencies:
@@ -6563,10 +6569,10 @@ snapshots:
 
   signal-exit@4.1.0: {}
 
-  sinon-chai@4.0.1(chai@6.2.1)(sinon@21.0.0):
+  sinon-chai@4.0.1(chai@6.2.2)(sinon@21.0.1):
     dependencies:
-      chai: 6.2.1
-      sinon: 21.0.0
+      chai: 6.2.2
+      sinon: 21.0.1
 
   sinon@16.1.3:
     dependencies:
@@ -6577,12 +6583,12 @@ snapshots:
       nise: 5.1.9
       supports-color: 7.2.0
 
-  sinon@21.0.0:
+  sinon@21.0.1:
     dependencies:
       '@sinonjs/commons': 3.0.1
-      '@sinonjs/fake-timers': 13.0.5
+      '@sinonjs/fake-timers': 15.1.0
       '@sinonjs/samsam': 8.0.3
-      diff: 7.0.0
+      diff: 8.0.2
       supports-color: 7.2.0
 
   sisteransi@1.0.5: {}
