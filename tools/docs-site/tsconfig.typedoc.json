@@ -1,0 +1,30 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "../../",
+    "paths": {
+      "@magek/common": ["packages/common/src"],
+      "@magek/core": ["packages/core/src"],
+      "@magek/server": ["packages/server/src"],
+      "@magek/cli": ["packages/cli/src"]
+    },
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../../packages/core/src/**/*",
+    "../../packages/common/src/**/*",
+    "../../packages/server/src/**/*",
+    "../../packages/cli/src/**/*"
+  ],
+  "exclude": [
+    "../../**/node_modules",
+    "../../**/dist",
+    "../../**/test",
+    "../../**/tests",
+    "../../**/*.test.ts",
+    "../../**/*.spec.ts"
+  ]
+}

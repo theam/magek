@@ -10,7 +10,7 @@
   "out": "../../common/temp/docs-site",
   "name": "Magek Framework",
   "readme": "../../README.md",
-  "tsconfig": "../../packages/core/tsconfig.json",
+  "tsconfig": "./tsconfig.typedoc.json",
   "exclude": [
     "../../e2e/**/*",
     "../../templates/**/*",
