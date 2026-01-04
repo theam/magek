@@ -30,7 +30,7 @@ const hook: Hook<'command_not_found'> = async function (opts) {
   const cwd = process.cwd()
 
   if (initializeEnvironment(logger, environment)) {
-    // to allow doing `boost -e <env>` and show the help
+    // to allow doing `magek -e <env>` and show the help
     if (!opts.id && opts.argv.length === 0) {
       ;(process.argv as unknown) = [...firstArgs, '--help']
     }

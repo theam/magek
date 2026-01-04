@@ -6,7 +6,7 @@ import { Script } from '../common/script.js'
 import Brand from '../common/brand.js'
 
 const runTasks = async (compileAndLoad: (ctx: string) => Promise<void>): Promise<void> =>
-  Script.init(`boost ${Brand.dangerize('build')} 🚀`, Promise.resolve(process.cwd()))
+  Script.init(`magek ${Brand.dangerize('build')} 🚀`, Promise.resolve(process.cwd()))
     .step('Checking project structure', checkCurrentDirIsAMagekProject)
     .step('Building project', compileAndLoad)
     .info('Build complete!')

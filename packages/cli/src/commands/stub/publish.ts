@@ -9,9 +9,9 @@ import Prompter from '../../services/user-prompt.js'
 export default class Publish extends BaseCommand {
   public static description = 'publish all resource template stubs that are available for customization'
 
-  public static usage = 'boost stub:publish --force'
+  public static usage = 'magek stub:publish --force'
 
-  public static examples = ['$ boost stub:publish --force', '$ boost stub:publish']
+  public static examples = ['$ magek stub:publish --force', '$ magek stub:publish']
 
   public static flags = {
     force: Flags.boolean({
@@ -44,7 +44,7 @@ export default class Publish extends BaseCommand {
 }
 
 const run = async (): Promise<void> =>
-  Script.init(`boost ${Brand.energize('stub:publish')} 🗄`, Promise.resolve(process.cwd()))
+  Script.init(`magek ${Brand.energize('stub:publish')} 🗄`, Promise.resolve(process.cwd()))
     .step('Verifying project', checkCurrentDirIsAMagekProject)
     .step('Publishing stubs', publishStubFiles)
     .info('Resource template stubs published!')

@@ -48,7 +48,7 @@ export default class EventHandler extends BaseCommand {
 type EventHandlerInfo = HasName & HasEvent
 
 const run = async (name: string, eventName: string): Promise<void> =>
-  Script.init(`boost ${Brand.energize('new:event-handler')} 🚧`, joinParsers(parseName(name), parseEvent(eventName)))
+  Script.init(`magek ${Brand.energize('new:event-handler')} 🚧`, joinParsers(parseName(name), parseEvent(eventName)))
     .step('Verifying project', checkCurrentDirIsAMagekProject)
     .step('Creating new event handler', generateEventHandler)
     .info('Event handler generated!')

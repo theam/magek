@@ -56,7 +56,7 @@ type ReadModelInfo = HasName & HasFields & HasProjections
 
 const run = async (name: string, rawFields: Array<string>, rawProjections: Array<string>): Promise<void> =>
   Script.init(
-    `boost ${Brand.energize('new:read-model')} 🚧`,
+    `magek ${Brand.energize('new:read-model')} 🚧`,
     joinParsers(parseName(name), parseFields(rawFields), parseProjections(rawProjections))
   )
     .step('Verifying project', checkCurrentDirIsAMagekProject)
