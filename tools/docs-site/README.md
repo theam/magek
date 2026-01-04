@@ -81,6 +81,19 @@ Additional documentation files in `/docs` are automatically included in the site
 
 The documentation is automatically deployed to GitHub Pages when changes are pushed to the `main` branch via the GitHub Actions workflow `.github/workflows/docs-deploy.yml`.
 
+### Initial Setup (Repository Administrator)
+
+After the first merge, a repository administrator must configure GitHub Pages:
+
+1. Navigate to: https://github.com/theam/magek/settings/pages
+2. Under "Build and deployment":
+   - Source: Select **"GitHub Actions"**
+   - Save the settings
+
+Once configured, the documentation will be automatically deployed on every push to `main`.
+
+**Documentation URL**: https://theam.github.io/magek/
+
 ## Troubleshooting
 
 ### Missing Types
