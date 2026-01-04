@@ -381,6 +381,12 @@
       "projectFolder": "tools/eslint-config"
     },
     {
+      "packageName": "@magek/docs-site",
+      "shouldPublish": false,
+      "versionPolicyName": "magek",
+      "projectFolder": "tools/docs-site"
+    },
+    {
       "packageName": "@magek/cli",
       "shouldPublish": true,
       "versionPolicyName": "magek",
