@@ -7,8 +7,8 @@ import { MagekEventProcessor } from './event-processor'
 
 export class MagekEventDispatcher {
   /**
-   * Entry point to dispatch events coming from the cloud provider.
-   * @param rawEvents List of raw events from the cloud provider
+   * Entry point to dispatch events.
+   * @param rawEvents List of raw events
    * @param config
    */
   @Trace(TraceActionTypes.DISPATCH_EVENTS)

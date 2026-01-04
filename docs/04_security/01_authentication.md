@@ -52,13 +52,12 @@ The issuer and JWKS URI may change depending on the region you're using. Please 
 The following list is not exhaustive and the information may be deprecated. If you want to add a new provider, or update an existing one, please open a PR to have this content up to date.
 :::
 
-| Provider    | Issuer                                                      | JWKS URI                                                                          |
-| ----------- | ----------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| Auth0       | `https://<your-tenant>.auth0.com/`                          | `https://<your-tenant>.auth0.com/.well-known/jwks.json`                           |
-| AWS Cognito | `https://cognito-idp.<region>.amazonaws.com/<user-pool-id>` | `https://cognito-idp.<region>.amazonaws.com/<user-pool-id>/.well-known/jwks.json` |
-| Okta        | `https://<your-tenant>.okta.com/oauth2/default`             | `https://<your-tenant>.okta.com/oauth2/default/v1/keys`                           |
-| Google      | `https://accounts.google.com`                               | `https://www.googleapis.com/oauth2/v3/certs`                                      |
-| Firebase    | `https://accounts.google.com`                               | `https://www.googleapis.com/oauth2/v3/certs`                                      |
+| Provider    | Issuer                                          | JWKS URI                                                    |
+| ----------- | ----------------------------------------------- | ----------------------------------------------------------- |
+| Auth0       | `https://<your-tenant>.auth0.com/`              | `https://<your-tenant>.auth0.com/.well-known/jwks.json`     |
+| Okta        | `https://<your-tenant>.okta.com/oauth2/default` | `https://<your-tenant>.okta.com/oauth2/default/v1/keys`     |
+| Google      | `https://accounts.google.com`                   | `https://www.googleapis.com/oauth2/v3/certs`                |
+| Firebase    | `https://accounts.google.com`                   | `https://www.googleapis.com/oauth2/v3/certs`                |
 
 ## Public key based authentication
 

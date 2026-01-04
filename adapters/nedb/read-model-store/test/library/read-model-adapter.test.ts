@@ -82,7 +82,7 @@ describe('read-models-adapter', () => {
 
   beforeEach(() => {
     mockConfig = new MagekConfig('test')
-    mockConfig.appName = 'nuke-button'
+    mockConfig.appName = 'test-app'
 
     loggerDebugStub = stub()
     storeStub = stub()

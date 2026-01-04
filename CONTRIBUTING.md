@@ -53,7 +53,7 @@ Go ahead and [create a new issue](https://github.com/theam/magek/issues) or [sta
 
 Magek is divided in many different packages. The criteria to split the code in packages is that each package meets at least one of the following conditions:
 
-- They must be run separately, for instance, the CLI is run locally, while the support code for the project is run on the cloud.
+- They must be run separately, for instance, the CLI is run locally, while the server code runs as a standalone server or serverless function.
 - They contain code that is used by at least two of the other packages.
 - They're a vendor-specific specialization of some abstract part of the framework (for instance, the adapter packages).
 

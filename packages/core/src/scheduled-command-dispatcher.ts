@@ -53,9 +53,8 @@ export class MagekScheduledCommandDispatcher {
   }
 
   /**
-   * Entry point to dispatch events coming from the cloud provider.
-   * @param request request from the cloud provider
-   * @param logger
+   * Entry point to dispatch scheduled commands.
+   * @param request The incoming request
    */
   public async dispatch(request: unknown): Promise<void> {
     const logger = getLogger(this.config, 'MagekScheduledCommandDispatcher#dispatch')

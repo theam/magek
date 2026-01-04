@@ -919,16 +919,11 @@ For example, you can sort and get the products in your commands like this:
 }
 ```
 
-This is a preview feature available only for some Providers and with some limitations:
+This is a preview feature with some limitations:
 
-- Azure:
-  - Sort by one field supported.
-  - Nested fields supported.
-  - Sort by more than one file: **unsupported**.
-- Local:
-  - Sort by one field supported.
-  - Nested fields supported.
-  - Sort by more than one file: **unsupported**.
+- Sort by one field supported.
+- Nested fields supported.
+- Sort by more than one field: **unsupported**.
 
 :::warning
 It is not possible to sort by fields defined as Interface, only classes or primitives types.

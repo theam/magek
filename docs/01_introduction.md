@@ -4,7 +4,7 @@
 
 ## What is Magek?
 
-Magek is the fastest way to create an application in the cloud. It is a new kind of framework to build scalable and reliable systems easier, reimagining the software development experience to maximize your team’s speed and reduce friction on every level.
+Magek is the fastest way to create a scalable application. It is a new kind of framework to build scalable and reliable systems easier, reimagining the software development experience to maximize your team's speed and reduce friction on every level.
 
 Magek follows an Event-Driven and a Domain-Driven Design approach in which you define your application in terms that are understandable by anyone in your company. From a bird’s eye view, your project is organized into:
 
@@ -23,7 +23,7 @@ Events are the cornerstone of a Magek application, and that’s why we say that 
 
 Before Magek, building an event-driven system with the mentioned characteristics required huge investments in hiring engineers with the needed expertise. Magek packs this expertise, acquired from real-case scenarios in high-scale companies, into a very simple tool that handles the hard parts for you!
 
-We have redesigned the whole developer experience from scratch, taking advantage of the advanced TypeScript type system and Serverless technologies to go from project generation to a production-ready application in the cloud which provides a real-time GraphQL API that can ingest thousands of concurrent users in a matter of minutes.
+We have redesigned the whole developer experience from scratch, taking advantage of the advanced TypeScript type system to go from project generation to a production-ready application which provides a real-time GraphQL API that can ingest thousands of concurrent users in a matter of minutes.
 
 Magek's ultimate goal is making developer's lives easier, fulfilling the dream of writing code in a domain-driven way that eases communications for the whole team, without caring about how anything else is done at the infrastructure level!
 
@@ -41,7 +41,7 @@ Magek enhances developers' productivity by focusing only on business logic. Writ
 
 ## Why use Magek
 
-What does _Magek_ boost? Your team’s productivity. Not just because it helps you work faster, but because it makes you worry about fewer buttons and switches. We aim to solve major productivity sinks for developers like designing the right cloud infrastructure, writing APIs or dealing with ORMs.
+What does _Magek_ boost? Your team's productivity. Not just because it helps you work faster, but because it makes you worry about fewer buttons and switches. We aim to solve major productivity sinks for developers like designing the right infrastructure, writing APIs or dealing with ORMs.
 
 Magek will fit like a glove in applications that are naturally event-driven like commerce applications (retail, e-commerce, omnichannel applications, warehouse management, etc.), business applications or communication systems, but it's a general-purpose framework that has several advantages over other solutions:
 

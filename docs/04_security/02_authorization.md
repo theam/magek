@@ -23,7 +23,7 @@ export class CreateComment {
 }
 ```
 
-> **Danger:** Think twice if you really need fully open GraphQL endpoints in your application, this might be useful during development, but we recommend to **avoid exposing your endpoints in this way in production**. Even for public APIs, it might be useful to issue API keys to avoid abuse. Magek is designed to scale to any given demand, but scaling also increases the cloud bill! (See [Denial of wallet attacks](https://www.sciencedirect.com/science/article/pii/S221421262100079X))
+> **Danger:** Think twice if you really need fully open GraphQL endpoints in your application, this might be useful during development, but we recommend to **avoid exposing your endpoints in this way in production**. Even for public APIs, it might be useful to issue API keys to avoid abuse. Magek is designed to scale to any given demand, but scaling also increases infrastructure costs! (See [Denial of wallet attacks](https://www.sciencedirect.com/science/article/pii/S221421262100079X))
 
 ## Simple Role-based authorization
 
