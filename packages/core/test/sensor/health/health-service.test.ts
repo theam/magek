@@ -240,26 +240,6 @@ describe('MagekHealthService', () => {
       expect(healthRequestResult?.isHealthy).to.be.false
     })
 
-    it('returns isHealthy true when rockets are UNKNOWN', async () => {
-      config.provider.sensor = defaultSensor()
-      config.provider.sensor.areRocketFunctionsUp = fake.resolves({}) // Empty object means no rockets
-      await health(config)
-      expect(healthRequestResult?.isHealthy).to.be.true
-    })
-
-    it('returns isHealthy false when rockets are DOWN', async () => {
-      config.provider.sensor = defaultSensor()
-      config.provider.sensor.areRocketFunctionsUp = fake.resolves({ rocket1: false })
-      await health(config)
-      expect(healthRequestResult?.isHealthy).to.be.false
-    })
-
-    it('returns isHealthy true when rockets are UP', async () => {
-      config.provider.sensor = defaultSensor()
-      config.provider.sensor.areRocketFunctionsUp = fake.resolves({ rocket1: true })
-      await health(config)
-      expect(healthRequestResult?.isHealthy).to.be.true
-    })
   })
 })
 
@@ -275,7 +255,6 @@ function defaultSensor(token?: string, url?: string) {
     rawRequestToHealthEnvelope: fake(() => {
       return { requestID: 'test-request-id', token: token, componentPath: url || '' }
     }),
-    areRocketFunctionsUp: fake.resolves({ rocket1: true }),
   }
 }
 

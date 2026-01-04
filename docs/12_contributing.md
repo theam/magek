@@ -24,18 +24,17 @@ Go ahead and ask the community in [Discord](https://discord.com/invite/bDY8MKx) 
 
 Magek is divided in many different packages. The criteria to split the code in packages is that each package meets at least one of the following conditions:
 
-- They must be run separately, for instance, the CLI is run locally, while the support code for the project is run on the cloud.
+- They must be run separately, for instance, the CLI is run locally, while the server code runs as a standalone server or serverless function.
 - They contain code that is used by at least two of the other packages.
-- They're a vendor-specific specialization of some abstract part of the framework (for instance, all the code that is required by Azure is in separate packages).
+- They're an adapter implementation of some abstract part of the framework (for instance, the storage adapter packages).
 
 The packages are managed using [rush](https://rushjs.io/) and [npm](https://npmjs.com), if you run `rush build`, it will build all the packages.
 
 The packages are published to `npmjs` under the prefix `@magek/`, their purpose is as follows:
 
-- `cli` - You guessed it! This package is the `magek` command-line tool, it interacts only with the core package in order to load the project configuration. The specific provider packages to interact with the cloud providers are loaded dynamically from the project config.
-- `core` - This one contains all the framework runtime vendor-independent logic. Stuff like the generation of the config or the commands and events handling happens here. The specific provider packages to interact with the cloud providers are loaded dynamically from the project config.
-- `server` - Implements all the required adapters to run the Magek application locally using the Magek server.
-- `server-infrastructure` - Implements all the required code to run the local development server.
+- `cli` - You guessed it! This package is the `magek` command-line tool, it interacts only with the core package in order to load the project configuration.
+- `core` - This one contains all the framework runtime logic. Stuff like the generation of the config or the commands and events handling happens here.
+- `server` - Local development server with Fastify-based HTTP, WebSocket, SSE support, and all infrastructure components.
 - `common` - This package defines shared types and helpers used across all other packages. It includes the main Magek concepts like:
   - Entity
   - Command
@@ -224,7 +223,6 @@ Unit tests are executed when you type `rush test`. If you want to run the unit t
 - `rushx test:cli -v`: Run unit tests for the `cli` package.
 - `rushx test:core -v`: Run unit tests for the `core` package.
 - `rushx test:server -v`: Run unit tests for the `server` package.
-- `rushx test:server-infrastructure -v`: Run unit tests for the `server-infrastructure` package.
 - `rushx test:common -v`: Run unit tests for the `common` package.
 
 - `doc/*` - PR that enhances the documentation
@@ -273,10 +271,8 @@ We're using the following scopes in the project:
 
 - **cli**
 - **core**
-- **types**
-- **integration**
-- **aws**
-- **local**
+- **common**
+- **server**
 
 Apart of using conventional commits for triggering releases, we use them to build the project changelog.
 

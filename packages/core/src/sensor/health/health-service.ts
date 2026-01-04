@@ -1,5 +1,4 @@
 import {
-  HEALTH_INDICATORS_IDS,
   MagekConfig,
   HealthAuthorizer,
   HealthEnvelope,
@@ -30,7 +29,7 @@ export class MagekHealthService {
       const parents = this.parentsHealthProviders(healthEnvelope, healthProviders)
       const healthIndicatorResults = await this.healthProviderResolver(parents, healthProviders)
 
-      // Check if all components are healthy (considering UNKNOWN rockets as healthy)
+      // Check if all components are healthy
       const isHealthy = this.isOverallHealthy(healthIndicatorResults)
 
       // Use the new health specific response handler
@@ -65,7 +64,6 @@ export class MagekHealthService {
 
       const newResult: HealthIndicatorsResult = {
         ...indicatorResult,
-        // Only use the configuration name if we don't already have a name (for individual rocket checks)
         name: isHealthIndicatorsResult
           ? (indicatorResult as HealthIndicatorsResult).name
           : current.healthIndicatorConfiguration.name,
@@ -118,25 +116,6 @@ export class MagekHealthService {
       return rootHealthProviders(healthProviders)
     }
 
-    // Special handling for rockets - always use the root rockets provider
-    if (componentPath.startsWith('rockets/')) {
-      const rocketsProvider = healthProviders[HEALTH_INDICATORS_IDS.ROCKETS]
-      if (!rocketsProvider) {
-        throw new Error('Rockets health provider not found')
-      }
-      // Pass the full path in the configuration so RocketsHealthIndicator can handle it
-      return [
-        {
-          ...rocketsProvider,
-          healthIndicatorConfiguration: {
-            ...rocketsProvider.healthIndicatorConfiguration,
-            id: componentPath,
-          },
-        },
-      ]
-    }
-
-    // Normal handling for other health providers
     return [metadataFromId(healthProviders, componentPath)]
   }
 
@@ -151,11 +130,6 @@ export class MagekHealthService {
 
   private isOverallHealthy(results: Array<HealthIndicatorsResult>): boolean {
     for (const result of results) {
-      // Special case: UNKNOWN status for rockets is considered healthy
-      if (result.id === HEALTH_INDICATORS_IDS.ROCKETS && result.status === HealthStatus.UNKNOWN) {
-        continue
-      }
-
       // Check current component's status
       if (result.status !== HealthStatus.UP) {
         return false

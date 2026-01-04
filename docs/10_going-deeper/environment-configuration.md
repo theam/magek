@@ -76,14 +76,6 @@ Magek.configure('john', (config: MagekConfig): void => {
 })
 ```
 
-The environment name will be required by any command from the Magek CLI that depends on the provider. For instance, when you deploy your application, you'll need to specify on which environment you want to deploy it:
-
-```sh
-npx magek deploy -e prod
-```
-
 This way, you can have different configurations depending on your needs.
 
-Magek environments are extremely flexible. As shown in the first example, your 'fruit-store' app can have three team-wide environments: 'dev', 'stage', and 'prod', each of them with different app names or providers, that are deployed by your CI/CD processes. Developers, like "John" in the second example, can create their own private environments in separate config files to test their changes in realistic environments before committing them. Likewise, CI/CD processes could generate separate production-like environments to test different branches to perform QA in separate environments without interferences from other features under test.
-
-The only thing you need to do to deploy a whole new completely-independent copy of your application is to use a different name. Also, Magek uses the credentials available in the machine (`~/.aws/credentials` in AWS) that performs the deployment process, so developers can even work on separate accounts than production or staging environments.
+Magek environments are extremely flexible. As shown in the first example, your 'fruit-store' app can have three team-wide environments: 'dev', 'stage', and 'prod', each of them with different app names or configurations. Developers, like "John" in the second example, can create their own private environments in separate config files to test their changes before committing them.

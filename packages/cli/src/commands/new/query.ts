@@ -15,7 +15,7 @@ import * as path from 'path'
 import { checkCurrentDirIsAMagekProject } from '../../services/project-checker.js'
 
 export default class Query extends BaseCommand {
-  public static description = "generate new query resource, write 'boost new' to see options"
+  public static description = "generate new query resource, write 'magek new' to see options"
   public static flags = {
     help: Flags.help({ char: 'h' }),
     fields: Flags.string({
@@ -44,7 +44,7 @@ export default class Query extends BaseCommand {
 type QueryInfo = HasName & HasFields
 
 const run = async (name: string, rawFields: Array<string>): Promise<void> =>
-  Script.init(`boost ${Brand.energize('new:query')} 🚧`, joinParsers(parseName(name), parseFields(rawFields)))
+  Script.init(`magek ${Brand.energize('new:query')} 🚧`, joinParsers(parseName(name), parseFields(rawFields)))
     .step('Verifying project', checkCurrentDirIsAMagekProject)
     .step('Creating new query', generateQuery)
     .info('Query generated!')

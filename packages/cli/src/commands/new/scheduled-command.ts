@@ -8,7 +8,7 @@ import * as path from 'path'
 import { checkCurrentDirIsAMagekProject } from '../../services/project-checker.js'
 
 export default class ScheduledCommand extends BaseCommand {
-  public static description = "generate new scheduled command, write 'boost new:scheduled-command -h' to see options"
+  public static description = "generate new scheduled command, write 'magek new:scheduled-command -h' to see options"
   public static flags = {
     help: Flags.help({ char: 'h' }),
   }
@@ -33,7 +33,7 @@ export default class ScheduledCommand extends BaseCommand {
 type ScheduledCommandInfo = HasName
 
 const run = async (name: string): Promise<void> =>
-  Script.init(`boost ${Brand.energize('new:scheduled-command')} 🚧`, joinParsers(parseName(name)))
+  Script.init(`magek ${Brand.energize('new:scheduled-command')} 🚧`, joinParsers(parseName(name)))
     .step('Verifying project', checkCurrentDirIsAMagekProject)
     .step('Creating new scheduled command', generateScheduledCommand)
     .info('Scheduled command generated!')

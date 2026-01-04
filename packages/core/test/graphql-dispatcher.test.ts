@@ -13,7 +13,6 @@ import {
   ReadModelInterface,
   ReadModelStoreAdapter,
   ReadModelStoreEnvelope,
-  RocketEnvelope,
   ScheduledCommandEnvelope,
   SessionStoreAdapter,
   UUID,
@@ -497,10 +496,6 @@ function mockConfigForGraphQLEnvelope(envelope: GraphQLRequestEnvelope | GraphQL
         requestID: UUID.generate(),
       } satisfies ScheduledCommandEnvelope),
     },
-    infrastructure: () => ({}),
-    rockets: {
-      rawToEnvelopes: fake.returns({ rocketId: undefined } satisfies RocketEnvelope),
-    },
     sensor: {
       databaseEventsHealthDetails: fake.resolves(undefined),
       databaseReadModelsHealthDetails: fake.resolves(undefined),
@@ -513,7 +508,6 @@ function mockConfigForGraphQLEnvelope(envelope: GraphQLRequestEnvelope | GraphQL
         requestID: UUID.generate(),
         componentPath: '',
       } satisfies HealthEnvelope),
-      areRocketFunctionsUp: fake.resolves({}),
     },
   }
 

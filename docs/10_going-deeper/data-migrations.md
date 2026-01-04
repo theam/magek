@@ -104,13 +104,11 @@ To create a data migration in Magek, you can use the `@DataMigration` decorator 
 
 Data migrations are not run automatically, you need to invoke the `MagekDataMigrations.run()` method from an event handler or a command. This will emit a `MagekDataMigrationStarted` event, which will make Magek check for any pending migrations and run them in the specified order. A common pattern to be able to run migrations on demand is to add a special command, with access limited to an administrator role which calls this function.
 
-Take into account that, depending on your cloud provider implementation, data migrations are executed in the context of a lambda or function app, so it's advisable to design these functions in a way that allow to re-run them in case of failures (i.e. lambda timeouts). In order to tell Magek that your migration has been applied successfully, at the end of each `DataMigration.start` method, you must emit a `MagekDataMigrationFinished` event manually.
+It's advisable to design these functions in a way that allows re-running them in case of failures. In order to tell Magek that your migration has been applied successfully, at the end of each `DataMigration.start` method, you must emit a `MagekDataMigrationFinished` event manually.
 
 Inside your `@DataMigration` classes, you can use the `MagekDataMigrations.migrateEntity` method to update the data for a specific entity. This method takes the old entity name, the old entity ID, and the new entity data as arguments. It will also generate an internal `MagekEntityMigrated` event before performing the migration.
 
-**Note that Data migrations are only available in the Azure provider at the moment.**
-
-Here is an example of how you might use the `@DataMigration` decorator and the `Magek.migrateEntity` method to update the quantity of the first item in a cart (**Notice that at the time of writing this document, the method `Magek.entitiesIDs` used in the following example is only available in the Azure provider, so you may need to approach the migration differently in AWS.**):
+Here is an example of how you might use the `@DataMigration` decorator and the `Magek.migrateEntity` method to update the quantity of the first item in a cart:
 
 ```typescript
 @DataMigration({
@@ -165,52 +163,3 @@ export class CartIdDataMigrateV2 {
   },
 ```
 
-## Migrate to Magek version 1.19.0
-
-Magek version 1.19.0 requires updating your index.ts file to export the `health` method. If you have an index.ts file created from a previous Magek version, update it accordingly. Example:
-
-```typescript
-import { Magek } from '@magek/core'
-export {
-  Magek,
-  eventDispatcher,
-  graphQLDispatcher,
-  health,
-  notifySubscribers,
-  triggerScheduledCommands,
-  rocketDispatcher,
-} from '@magek/core'
-
-Magek.start(__dirname)
-
-```
-
-## Migrate to Magek version 2.3.0
-
-Magek version 2.3.0 updates the url for the GraphQL API, sensors, etc. for the Azure Provider. New base url is `http://[resourcegroupname]apis.eastus.cloudapp.azure.com`
-
-Also, Magek version 2.3.0 deprecated the Azure Api Management in favor of Azure Application Gateway. You don't need to do anything to migrate to the new Application Gateway.
-
-Magek 2.3.0 provides an improved Rocket process to handle Rockets with more than one function. To use this new feature, you need to implement method `mountCode` in your `Rocket` class. Example:
-
-```typescript
-const AzureWebhook = (params: WebhookParams): InfrastructureRocket => ({
-  mountStack: Synth.mountStack.bind(Synth, params),
-  mountCode: Functions.mountCode.bind(Synth, params),
-  getFunctionAppName: Functions.getFunctionAppName.bind(Synth, params),
-})
-```
-
-This method will return an Array of functions definitions, the function name, and the host.json file. Example:
-
-```typescript
-export interface FunctionAppFunctionsDefinition<T extends Binding = Binding> {
-  functionAppName: string
-  functionsDefinitions: Array<FunctionDefinition<T>>
-  hostJsonPath?: string
-}
-```
-
-## Migrate to Magek version 2.6.0
-
-Magek 2.6.0 allows you to set the Azure Application Gateway SKU used. Setting the `USE_WAF` (default value false) environment variable to true will force the use of a WAF sku instead of the Standard sku.

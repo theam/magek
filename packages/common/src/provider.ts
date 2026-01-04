@@ -5,15 +5,12 @@ import {
   HealthEnvelope,
   ScheduledCommandEnvelope,
 } from './envelope'
-import { RocketDescriptor, RocketEnvelope } from './rockets'
 
 export interface ProviderLibrary {
   graphQL: ProviderGraphQLLibrary
   api: ProviderAPIHandling
   messaging: ProviderMessagingLibrary
   scheduled: ScheduledCommandsLibrary
-  infrastructure: () => ProviderInfrastructure
-  rockets: ProviderRocketLibrary
   sensor: ProviderSensorLibrary
 }
 
@@ -29,9 +26,6 @@ export interface ProviderMessagingLibrary {
   sendMessage(config: MagekConfig, connectionID: string, data: unknown): Promise<void>
 }
 
-export interface ProviderRocketLibrary {
-  rawToEnvelopes(config: MagekConfig, request: unknown): RocketEnvelope
-}
 
 export interface ProviderSensorLibrary {
   databaseEventsHealthDetails(config: MagekConfig): Promise<unknown>
@@ -42,7 +36,6 @@ export interface ProviderSensorLibrary {
   isGraphQLFunctionUp(config: MagekConfig): Promise<boolean>
   graphQLFunctionUrl(config: MagekConfig): Promise<string>
   rawRequestToHealthEnvelope(rawRequest: unknown): HealthEnvelope
-  areRocketFunctionsUp(config: MagekConfig): Promise<{ [key: string]: boolean }>
 }
 
 export interface ProviderGraphQLLibrary {
@@ -90,45 +83,10 @@ export interface ProviderAPIHandling {
    * Handles a health check response with appropriate status code.
    *
    * @param body - The health check results
-   * @param isHealthy - Whether all the components (except UNKNOWN rockets) are UP
+   * @param isHealthy - Whether all the components are UP
    * @returns A promise that resolves with the response
    */
   healthRequestResult(body: unknown, isHealthy: boolean): Promise<unknown>
-}
-
-export interface ProviderInfrastructure {
-  /**
-   * Deploys the application.
-   *
-   * @param config - The configuration for the application.
-   * @returns A promise that resolves when the deployment is complete.
-   */
-  deploy?: (config: MagekConfig) => Promise<void>
-
-  /**
-   * Deletes all resources created by the application.
-   *
-   * @param config - The configuration for the application.
-   * @returns A promise that resolves when the deletion is complete.
-   */
-  nuke?: (config: MagekConfig) => Promise<void>
-
-  /**
-   * Starts the application.
-   *
-   * @param config - The configuration for the application.
-   * @param port - The port number to start the application on.
-   * @returns A promise that resolves when the application has started.
-   */
-  start?: (config: MagekConfig, port: number) => Promise<void>
-
-  /**
-   * Synthesizes the application.
-   *
-   * @param config - The configuration for the application.
-   * @returns A promise that resolves when the synthesis is complete.
-   */
-  synth?: (config: MagekConfig) => Promise<void>
 }
 
 export interface ScheduledCommandsLibrary {
@@ -142,12 +100,3 @@ export interface ScheduledCommandsLibrary {
   rawToEnvelope(config: MagekConfig, rawMessage: unknown): Promise<ScheduledCommandEnvelope>
 }
 
-export interface HasInfrastructure {
-  /**
-   * Creates a `ProviderInfrastructure` instance.
-   *
-   * @param rockets - An optional array of `RocketDescriptor` objects.
-   * @returns A `ProviderInfrastructure` instance.
-   */
-  Infrastructure: (rockets?: RocketDescriptor[]) => ProviderInfrastructure
-}

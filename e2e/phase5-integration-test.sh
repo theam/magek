@@ -49,7 +49,7 @@ MAGEK_ENV=local npm run build
 # Start the server in the background
 PORT=3000
 echo "🚀 Starting Magek server on port $PORT..."
-MAGEK_ENV=local npm run start:local > /tmp/magek-server-phase5.log 2>&1 &
+MAGEK_ENV=local npm run start > /tmp/magek-server-phase5.log 2>&1 &
 SERVER_PID=$!
 
 # Wait for server to become healthy

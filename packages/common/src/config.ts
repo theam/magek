@@ -24,10 +24,8 @@ import { ReadModelStoreAdapter } from './read-model-store-adapter'
 import { SessionStoreAdapter } from './session-store-adapter'
 import { Level } from './logger'
 import * as path from 'path'
-import { RocketDescriptor, RocketFunction } from './rockets'
 import { DEFAULT_SENSOR_HEALTH_CONFIGURATIONS, HealthIndicatorMetadata, Logger, SensorConfiguration } from '.'
 import { TraceConfiguration } from './instrumentation/trace-types'
-import { AzureConfiguration, DEFAULT_CHUNK_SIZE } from './provider/azure-configuration'
 
 /**
  * Class used by external packages that needs to get a representation of
@@ -42,8 +40,6 @@ export class MagekConfig {
   public eventStoreAdapter?: EventStoreAdapter
   public readModelStoreAdapter?: ReadModelStoreAdapter
   public sessionStoreAdapter?: SessionStoreAdapter
-
-  public rockets?: Array<RocketDescriptor>
 
   public appName = 'new-magek-app'
 
@@ -74,7 +70,6 @@ export class MagekConfig {
     'index.triggerScheduledCommands'
   )
   public readonly notifySubscribersHandler: string = path.join(this.codeRelativePath, 'index.notifySubscribers')
-  public readonly rocketDispatcherHandler: string = path.join(this.codeRelativePath, 'index.rocketDispatcher')
 
   public readonly functionRelativePath: string = path.join('..', this.codeRelativePath, 'index.js')
 
@@ -105,35 +100,13 @@ export class MagekConfig {
       magek: DEFAULT_SENSOR_HEALTH_CONFIGURATIONS,
     },
   }
-  public readonly azureConfiguration: AzureConfiguration = {
-    enableEventBatching: true, // enable batching by default
-    cosmos: {
-      batchSize: DEFAULT_CHUNK_SIZE,
-    },
-  }
 
   public globalErrorsHandler: GlobalErrorHandlerMetadata | undefined
   public enableSubscriptions = true
   public readonly nonExposedGraphQLMetadataKey: Record<string, Array<string>> = {}
 
-  private rocketFunctionMap: Record<string, RocketFunction> = {}
-
   // TTL for events stored in dispatched events table. Default to 5 minutes (i.e., 300 seconds).
   public dispatchedEventsTtl = 300
-
-  public registerRocketFunction(id: string, func: RocketFunction): void {
-    const currentFunction = this.rocketFunctionMap[id]
-    if (currentFunction) {
-      throw new Error(
-        `Error registering rocket function with id ${id}: There is already a rocket function registered under the same ID, "${currentFunction.name}"`
-      )
-    }
-    this.rocketFunctionMap[id] = func
-  }
-
-  public getRegisteredRocketFunction(id: string): RocketFunction | undefined {
-    return this.rocketFunctionMap[id]
-  }
 
   public traceConfiguration: TraceConfiguration = {
     enableTraceNotification: false,
@@ -144,7 +117,7 @@ export class MagekConfig {
 
   public eventStreamConfiguration: EventStreamConfiguration = { enabled: false }
 
-  /** Environment variables set at deployment time on the target lambda functions */
+  /** Environment variables to set when running the application */
   public readonly env: Record<string, string> = {}
 
   /**

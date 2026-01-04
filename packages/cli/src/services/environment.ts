@@ -7,7 +7,7 @@ const initializeEnvironmentImpl = (logger: Logger, environment?: string): boolea
 
   if (!environmentService.currentEnvironment()) {
     logger.error(
-      'Error: No environment set. Use the flag `-e` or set the environment variable MAGEK_ENV to set it before running this command. Example usage: `boost deploy -e <environment>`.'
+      'Error: No environment set. Use the flag `-e` or set the environment variable MAGEK_ENV to set it before running this command. Example usage: `magek build -e <environment>`.'
     )
     return false
   }

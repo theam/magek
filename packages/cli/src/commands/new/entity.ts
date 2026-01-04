@@ -55,7 +55,7 @@ type EntityInfo = HasName & HasFields & HasReaction
 
 const run = async (name: string, rawFields: Array<string>, rawEvents: Array<string>): Promise<void> =>
   Script.init(
-    `boost ${Brand.energize('new:entity')} 🚧`,
+    `magek ${Brand.energize('new:entity')} 🚧`,
     joinParsers(parseName(name), parseFields(rawFields), parseReaction(rawEvents))
   )
     .step('Verifying project', checkCurrentDirIsAMagekProject)

@@ -8,5 +8,4 @@ export {
   notifySubscribers,
   health,
   triggerScheduledCommands,
-  rocketDispatcher,
 } from '@magek/core'

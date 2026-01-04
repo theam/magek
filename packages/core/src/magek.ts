@@ -28,9 +28,7 @@ import { Errors, Config } from '@oclif/core'
 /**
  * Main class to interact with Magek and configure it.
  * Sensible defaults are used whenever possible:
- * - `provider`: `Provider.AWS`
  * - `appName`: `new-magek-app`
- * - `region`: 'eu-west-1'
  *
  */
 export class Magek {

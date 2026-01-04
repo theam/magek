@@ -45,7 +45,7 @@ export default class Event extends BaseCommand {
 type EventInfo = HasName & HasFields
 
 const run = async (name: string, rawFields: Array<string>): Promise<void> =>
-  Script.init(`boost ${Brand.energize('new:event')} 🚧`, joinParsers(parseName(name), parseFields(rawFields)))
+  Script.init(`magek ${Brand.energize('new:event')} 🚧`, joinParsers(parseName(name), parseFields(rawFields)))
     .step('Verifying project', checkCurrentDirIsAMagekProject)
     .step('Creating new event', generateEvent)
     .info('Event generated!')

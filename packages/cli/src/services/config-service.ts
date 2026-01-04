@@ -3,10 +3,7 @@ import * as path from 'path'
 import { guardError } from '../common/errors.js'
 import { checkItIsAMagekProject } from './project-checker.js'
 import { currentEnvironment } from './environment.js'
-import { createSandboxProject, removeSandboxProject } from '../common/sandbox.js'
 import { createLivePackageManager } from './package-manager/live.impl.js'
-
-export const DEPLOYMENT_SANDBOX = path.join(process.cwd(), '.deploy')
 
 const loadUserProject = (userProjectPath: string): UserApp => {
   const projectIndexJSPath = path.resolve(path.join(userProjectPath, 'dist', 'index.js'))
@@ -23,23 +20,6 @@ export const configServiceDependencies: ConfigServiceDependencies = {
   loadUserProject,
   checkItIsAMagekProject,
   currentEnvironment,
-}
-
-const createDeploymentSandboxImpl = async (): Promise<string> => {
-  const config = await compileProjectAndLoadConfig(process.cwd())
-  const sandboxRelativePath = createSandboxProject(DEPLOYMENT_SANDBOX, config.assets)
-  try {
-    const packageManager = await createLivePackageManager()
-    packageManager.setProjectRoot(sandboxRelativePath)
-    await packageManager.installProductionDependencies()
-  } catch (error) {
-    throw guardError('Could not install production dependencies')(error)
-  }
-  return sandboxRelativePath
-}
-
-const cleanDeploymentSandboxImpl = async (): Promise<void> => {
-  removeSandboxProject(DEPLOYMENT_SANDBOX)
 }
 
 const compileProjectAndLoadConfigImpl = async (userProjectPath: string): Promise<MagekConfig> => {
@@ -101,18 +81,10 @@ function checkEnvironmentWasConfigured(userProject: UserApp): void {
 }
 
 export const configService = {
-  createDeploymentSandbox: createDeploymentSandboxImpl,
-  cleanDeploymentSandbox: cleanDeploymentSandboxImpl,
   compileProjectAndLoadConfig: compileProjectAndLoadConfigImpl,
   compileProject: compileProjectImpl,
   cleanProject: cleanProjectImpl,
 }
-
-export const createDeploymentSandbox = (...args: Parameters<typeof createDeploymentSandboxImpl>) =>
-  configService.createDeploymentSandbox(...args)
-
-export const cleanDeploymentSandbox = (...args: Parameters<typeof cleanDeploymentSandboxImpl>) =>
-  configService.cleanDeploymentSandbox(...args)
 
 export const compileProjectAndLoadConfig = (...args: Parameters<typeof compileProjectAndLoadConfigImpl>) =>
   configService.compileProjectAndLoadConfig(...args)

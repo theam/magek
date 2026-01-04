@@ -62,7 +62,7 @@ GraphQL uses two existing protocols:
 
 The reason for the WebSocket protocol is that, in order for subscriptions to work, there must be a way for the server to send data to clients when it is changed. HTTP doesn't allow that, as it is the client the one which always initiates the request.
 
-So you should use the **graphqlURL** to send GraphQL queries and mutations, and the **websocketURL** to send subscriptions. You can see both URLs after deploying your application.
+So you should use the **graphqlURL** to send GraphQL queries and mutations, and the **websocketURL** to send subscriptions. You can see both URLs when starting your application.
 
 Therefore:
 
@@ -80,9 +80,9 @@ To have a great developer experience, we **strongly recommend** to use a GraphQL
 - **[Altair](https://altair.sirmuel.design/)**: Ideal for testing sending manual requests, getting the schema, etc.
 - **Apollo clients**: These are the "go-to" SDKs to interact with a GraphQL API from your clients. It is very likely that there is a version for your client programming language. Check the ["Using Apollo Client"](#using-apollo-client) section to know more about this.
 
-## Get GraphQL schema from deployed application
+## Get GraphQL schema from your application
 
-After deploying your application with the command `magek deploy -e development`, you can get your GraphQL schema by using a tool like **[Altair](https://altair.sirmuel.design/)**. The previous command displays multiple endpoints, one of them is **graphqlURL**, which has the following pattern:
+After starting your application, you can get your GraphQL schema by using a tool like **[Altair](https://altair.sirmuel.design/)**. The graphqlURL endpoint has the following pattern:
 
 `https://<base_url>/<environment>/graphql`
 
@@ -712,11 +712,6 @@ query {
 | regex*     |  String  |                  Regular expression |
 | iRegex*    |  String  | Case insensitive Regular expression |
 
-**NOTE**: 
-
-:::note
-`regex` and `iRegex` are supported by Azure and Local Provider only
-:::
 
 
 Example:
@@ -883,10 +878,6 @@ export class GetCartItems {
 The above search will return an array of carts with their `id` property, as well as an array of the `cartItems` of each cart with only the `productId` for each item.
 
 :::warning
-Only available for Azure and Local Providers. `select` will be ignored for AWS Provider.
-:::
-
-:::warning
 Using `select` will skip any Read Models migrations that need to be applied to the result. If you need to apply migrations to the result, don't use `select`.
 :::
 
@@ -928,16 +919,11 @@ For example, you can sort and get the products in your commands like this:
 }
 ```
 
-This is a preview feature available only for some Providers and with some limitations:
+This is a preview feature with some limitations:
 
-- Azure:
-  - Sort by one field supported.
-  - Nested fields supported.
-  - Sort by more than one file: **unsupported**.
-- Local:
-  - Sort by one field supported.
-  - Nested fields supported.
-  - Sort by more than one file: **unsupported**.
+- Sort by one field supported.
+- Nested fields supported.
+- Sort by more than one field: **unsupported**.
 
 :::warning
 It is not possible to sort by fields defined as Interface, only classes or primitives types.
@@ -1078,7 +1064,7 @@ subscriptionOperation.subscribe({
 
 When you have a command or read model whose access is authorized to users with a specific set of roles (see [Authentication and Authorization](#authentication-and-authorization)), you need to use an authorization token to send queries, mutations or subscriptions to that command or read model.
 
-You can use Authentication Rocket to authorize operations, see its [documentation](https://github.com/boostercloud/rocket-auth-aws-infrastructure) and, more especifically, the [Sign in](https://github.com/boostercloud/rocket-auth-aws-infrastructure#sign-in) section to know how to get a token. Once you have a token, the way to send it varies depending on the protocol you are using to send GraphQL operations:
+You can use any JWT-based authentication provider to issue tokens. Once you have a token, the way to send it varies depending on the protocol you are using to send GraphQL operations:
 
 - For **HTTP**, you need to send the HTTP header `Authorization` with the token, making sure you prefix it with `Bearer` (the kind of token Magek uses). For example:
 
@@ -1096,7 +1082,7 @@ You normally won't be sending tokens in such a low-level way. GraphQL clients ha
 
 ### Sending tokens with Apollo clients
 
-We recommend going to the specific documentation of the specific Apollo client you are using to know how to send tokens. However, the basics of this guide remains the same. Here is an example of how you would configure the Javascript/Typescript Apollo client to send the authorization token. The example is exactly the same as the one shown in the [Using Apollo clients](#using-apollo-client) section, but with the changes needed to send the token. Notice that `<AuthApiEndpoint>` and `<idToken>` are obtained from the [Authentication Rocket](https://github.com/boostercloud/rocket-auth-aws-infrastructure).
+We recommend going to the specific documentation of the specific Apollo client you are using to know how to send tokens. However, the basics of this guide remains the same. Here is an example of how you would configure the Javascript/Typescript Apollo client to send the authorization token. The example is exactly the same as the one shown in the [Using Apollo clients](#using-apollo-client) section, but with the changes needed to send the token.
 
 ```typescript
 import { split, HttpLink, ApolloLink } from '@apollo/client'
@@ -1110,12 +1096,11 @@ function isSubscriptionOperation({ query }) {
   return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
 }
 
-// CHANGED: We now use the AuthApiEndpoint obtained by the auth rocket
 const httpLink = new HttpLink({
   uri: '<graphqlURL>',
 })
 
-// CHANGED: We create an "authLink" that modifies the operation by adding the token to the headers
+// Create an "authLink" that modifies the operation by adding the token to the headers
 const authLink = new ApolloLink((operation, forward) => {
   operation.setContext({
     headers: {
@@ -1125,12 +1110,12 @@ const authLink = new ApolloLink((operation, forward) => {
   return forward(operation)
 })
 
-// <-- CHANGED: Concatenate the links so that the "httpLink" receives the operation with the headers set by the "authLink"
+// Concatenate the links so that the "httpLink" receives the operation with the headers set by the "authLink"
 const httpLinkWithAuth = authLink.concat(httpLink)
 
 const subscriptionClient = new SubscriptionClient('<websocketURL>', {
   reconnect: true,
-  // CHANGED: added a "connectionParam" property with a function that returns the `Authorizaiton` header containing our token
+  // Add a "connectionParam" property with a function that returns the `Authorization` header containing our token
   connectionParams: () => {
     return {
       Authorization: 'Bearer <idToken>',
@@ -1139,7 +1124,7 @@ const subscriptionClient = new SubscriptionClient('<websocketURL>', {
 })
 const wsLink = new WebSocketLink(subscriptionClient)
 
-const splitLink = split(isSubscriptionOperation, wsLink, httpLinkWithAuth) // Note that we now are using "httpLinkWithAuth"
+const splitLink = split(isSubscriptionOperation, wsLink, httpLinkWithAuth)
 
 const client = new ApolloClient({
   link: splitLink,
@@ -1149,7 +1134,7 @@ const client = new ApolloClient({
 
 ### Refreshing tokens with Apollo clients
 
-Authorization tokens expire after a certain amount of time. When a token is expired, you will get an error and you will need to call the [refresh the token](https://github.com/boostercloud/rocket-auth-aws-infrastructure#refresh-token) endpoint to get a new token. After you have done so, you need to use the new token in your GraphQL operations.
+Authorization tokens expire after a certain amount of time. When a token is expired, you will get an error and you will need to refresh the token using your authentication provider. After you have done so, you need to use the new token in your GraphQL operations.
 
 There are several ways to do this. Here we show the simplest one for learning purposes.
 

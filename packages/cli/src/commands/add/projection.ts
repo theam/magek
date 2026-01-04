@@ -12,8 +12,8 @@ export default class Projection extends BaseCommand {
   static usage = 'projection --read-model ReadModel --entity Entity:id'
 
   static examples = [
-    '$ boost add:projection --read-model PostReadModel --entity Post:id',
-    '$ boost add:projection --read-model CommentReadModel --entity Comment:id',
+    '$ magek add:projection --read-model PostReadModel --entity Post:id',
+    '$ magek add:projection --read-model CommentReadModel --entity Comment:id',
   ]
 
   public static flags = {
@@ -45,7 +45,7 @@ type ProjectionInfo = HasName & HasProjection
 
 const run = async (rawReadModel: string, rawProjection: string): Promise<void> =>
   Script.init(
-    `boost ${Brand.energize('add:projection')} 🚧`,
+    `magek ${Brand.energize('add:projection')} 🚧`,
     joinParsers(parseName(rawReadModel), parseProjectionField(rawProjection))
   )
     .step('Verifying project', checkCurrentDirIsAMagekProject)

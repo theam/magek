@@ -35,7 +35,7 @@ describe('events-adapter', () => {
 
   beforeEach(() => {
     mockConfig = new MagekConfig('test')
-    mockConfig.appName = 'nuke-button'
+    mockConfig.appName = 'test-app'
 
     mockEventEnvelop = createMockNonPersistedEventEnvelop()
     mockSnapshot = createMockEntitySnapshotEnvelope()

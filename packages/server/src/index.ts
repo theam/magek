@@ -1,23 +1,21 @@
-import { ProviderLibrary, RocketDescriptor, MagekConfig, getLogger } from '@magek/common'
+import { ProviderLibrary, MagekConfig, getLogger } from '@magek/common'
 import { healthRequestResult, requestFailed, requestSucceeded } from './library/api-adapter'
 import { rawGraphQLRequestToEnvelope } from './library/graphql-adapter'
 
 import { rawScheduledInputToEnvelope } from './library/scheduled-adapter'
-import { rawRocketInputToEnvelope } from './library/rocket-adapter'
 import {
-  areRocketFunctionsUp,
   graphqlFunctionUrl,
   isGraphQLFunctionUp,
   rawRequestToSensorHealth,
 } from './library/health-adapter'
-import { Infrastructure } from './infrastructure'
 
 export * from './paths'
 export * from './services'
 export * from './library/graphql-adapter'
-export * from './infrastructure'
+export { createServer, getWebSocketRegistry, sendWebSocketMessage } from './server'
+export type { ServerOptions } from './server'
 
-export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrary => ({
+export const Provider = (): ProviderLibrary => ({
   // ProviderGraphQLLibrary
   graphQL: {
     rawToEnvelope: rawGraphQLRequestToEnvelope,
@@ -45,9 +43,6 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
   // ScheduledCommandsLibrary
   scheduled: {
     rawToEnvelope: rawScheduledInputToEnvelope,
-  },
-  rockets: {
-    rawToEnvelopes: rawRocketInputToEnvelope,
   },
   sensor: {
     databaseEventsHealthDetails: (config: MagekConfig) => {
@@ -91,10 +86,5 @@ export const Provider = (rocketDescriptors?: RocketDescriptor[]): ProviderLibrar
     isGraphQLFunctionUp: isGraphQLFunctionUp,
     graphQLFunctionUrl: graphqlFunctionUrl,
     rawRequestToHealthEnvelope: rawRequestToSensorHealth,
-    areRocketFunctionsUp: areRocketFunctionsUp,
-  },
-  // ProviderInfrastructureGetter
-  infrastructure: () => {
-    return Infrastructure(rocketDescriptors)
   },
 })

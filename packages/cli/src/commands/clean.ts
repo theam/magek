@@ -6,7 +6,7 @@ import { Script } from '../common/script.js'
 import Brand from '../common/brand.js'
 
 const runTasks = async (clean: (ctx: string) => Promise<void>): Promise<void> =>
-  Script.init(`boost ${Brand.dangerize('clean')} 🚀`, Promise.resolve(process.cwd()))
+  Script.init(`magek ${Brand.dangerize('clean')} 🚀`, Promise.resolve(process.cwd()))
     .step('Checking project structure', checkCurrentDirIsAMagekProject)
     .step('Cleaning project', clean)
     .info('Clean complete!')

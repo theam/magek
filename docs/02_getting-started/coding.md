@@ -358,34 +358,9 @@ This will execute a local `Express.js` server and will try to expose it in port 
 npx magek start -e local -p 8080
 ```
 
-#### 7.2 Deploying to the cloud
+Once the server is running, you can access the GraphQL API at the URL shown in the console (typically `http://localhost:3000/graphql`).
 
-Also, we can deploy our application to the cloud with no additional changes by running
-the deploy command:
-
-```bash
-npx magek deploy -e production
-```
-
-This is the Magek magic! ✨ When running the start or the deploy commands, Magek will handle the creation of all the resources, _like Lambdas, API Gateway,_ and the "glue" between them; _permissions, events, triggers, etc._ It even creates a fully functional GraphQL API!
-
-> **Note:** Deploy command automatically builds the project for you before performing updates in the cloud provider, so, build command it's not required beforehand.
-
-> With `-e production` we are specifying which environment we want to deploy. We'll talk about them later.
-
-> **Tip:** If at this point you still don't believe everything is done, feel free to check in your provider's console. You should see, as in the AWS example below, that the stack and all the services are up and running! It will be the same for other providers. 🚀
-
-![resources](/img/aws-resources.png)
-
-When deploying, it will take a couple of minutes to deploy all the resources. Once finished, you will see
-information about your application endpoints and other outputs. For this example, we will
-only need to pick the output ending in `httpURL`, e.g.:
-
-```text
-https://<some random name>.execute-api.us-east-1.amazonaws.com/production
-```
-
-> **Note:** By default, the full error stack trace is send to a local file, `./errors.log`. To see the full error stack trace directly from the console, use the `--verbose` flag.
+> **Note:** By default, the full error stack trace is sent to a local file, `./errors.log`. To see the full error stack trace directly from the console, use the `--verbose` flag.
 
 ### 8. Testing
 
@@ -510,23 +485,9 @@ You should get a response similar to this:
 }
 ```
 
-### 9. Removing the stack
+> Congratulations! You've built an event-driven backend in less than 10 minutes. We hope you have enjoyed discovering the magic of the Magek Framework.
 
-It is convenient to destroy all the infrastructure created after you stop using
-it to avoid generating cloud resource costs. Execute the following command from
-the root of the project. For safety reasons, you have to confirm this action by
-writing the project's name, in our case `boosted-blog` that is the same used when
-we ran the `npm create magek` command.
-
-```bash
-> npx magek nuke -e production
-
-? Please, enter the app name to confirm deletion of all resources: boosted-blog
-```
-
-> Congratulations! You've built a serverless backend in less than 10 minutes. We hope you have enjoyed discovering the magic of the Magek Framework.
-
-### 10. More functionalities
+### 9. More functionalities
 
 This is a really basic example of a Magek application. The are many other features Magek provides like:
 

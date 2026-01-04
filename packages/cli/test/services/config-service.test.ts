@@ -46,7 +46,6 @@ describe('configService', () => {
       graphQLDispatcher: async (): Promise<undefined> => undefined,
       triggerScheduledCommands: async (): Promise<void> => undefined,
       notifySubscribers: async (): Promise<void> => undefined,
-      rocketDispatcher: async (): Promise<undefined> => undefined,
       consumeEventStream: async (): Promise<undefined> => undefined,
       produceEventStream: async (): Promise<undefined> => undefined,
       health: async (): Promise<undefined> => undefined,

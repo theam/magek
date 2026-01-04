@@ -1,6 +1,6 @@
 # Magek CLI
 
-The Magek CLI is a command line interface that helps you develop and deploy your Magek applications. It is built with Node.js and published to NPM through the package `@magek/cli`. It's automatically included as a dependency in every Magek project - no global installation required!
+The Magek CLI is a command line interface that helps you develop your Magek applications. It is built with Node.js and published to NPM through the package `@magek/cli`. It's automatically included as a dependency in every Magek project - no global installation required!
 
 ## No Installation Required
 
@@ -32,10 +32,7 @@ Once you're in your Magek project directory, you can use the `npx magek` command
 | [`new:read-model`](/architecture/read-model#creating-a-read-model) | Creates a new read model in the project |
 | [`new:scheduled-command`](/features/schedule-actions#creating-a-scheduled-command) | Creates a new scheduled command in the project |
 | | |
-| [`start -e <environment>`](/getting-started/coding#6-deployment) | Starts the project in development mode |
 | [`build`](/getting-started/coding#6-deployment) | Builds the project |
-| [`deploy -e <environment>`](/getting-started/coding#6-deployment) | Deploys the project to the cloud |
-| `nuke` | Deletes all the resources created by the deploy command |
 | | |
 
 > **Tip:** To create a new Magek project, use the modern npm create pattern:

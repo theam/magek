@@ -39,7 +39,7 @@ export default class Type extends BaseCommand {
 type TypeInfo = HasName & HasFields
 
 const run = async (name: string, rawFields: Array<string>): Promise<void> =>
-  Script.init(`boost ${Brand.energize('new:type')} 🚧`, joinParsers(parseName(name), parseFields(rawFields)))
+  Script.init(`magek ${Brand.energize('new:type')} 🚧`, joinParsers(parseName(name), parseFields(rawFields)))
     .step('Verifying project', checkCurrentDirIsAMagekProject)
     .step('Creating new type', generateType)
     .info('Type generated!')

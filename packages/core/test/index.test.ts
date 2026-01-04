@@ -3,7 +3,6 @@ import {
   Magek,
   eventDispatcher,
   notifySubscribers,
-  rocketDispatcher,
   graphQLDispatcher,
   triggerScheduledCommands,
   consumeEventStream,
@@ -15,7 +14,6 @@ import { MagekEventDispatcher } from '../src/event-dispatcher'
 import { MagekGraphQLDispatcher } from '../src/graphql-dispatcher'
 import { MagekScheduledCommandDispatcher } from '../src/scheduled-command-dispatcher'
 import { MagekSubscribersNotifier } from '../src/subscribers-notifier'
-import { MagekRocketDispatcher } from '../src/rocket-dispatcher'
 import { MagekEventStreamConsumer } from '../src/event-stream-consumer'
 import { MagekEventStreamProducer } from '../src/event-stream-producer'
 import { MagekHealthService } from '../src/sensor'
@@ -61,16 +59,6 @@ describe('framework-core package', () => {
       const fakeRawRequest = { some: 'request' }
       replace(MagekSubscribersNotifier.prototype, 'dispatch', fakeDispatch)
       await notifySubscribers(fakeRawRequest)
-      expect(fakeDispatch).to.have.been.calledOnceWithExactly(fakeRawRequest)
-    })
-  })
-
-  context('`rocketDispatcher` function', () => {
-    it('calls the `dispatch` method of the `MagekRocketDispatcher` class', async () => {
-      const fakeDispatch = fake.resolves(undefined)
-      const fakeRawRequest = { some: 'request' }
-      replace(MagekRocketDispatcher.prototype, 'dispatch', fakeDispatch)
-      await rocketDispatcher(fakeRawRequest)
       expect(fakeDispatch).to.have.been.calledOnceWithExactly(fakeRawRequest)
     })
   })

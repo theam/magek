@@ -15,7 +15,7 @@ import * as path from 'path'
 import { checkCurrentDirIsAMagekProject } from '../../services/project-checker.js'
 
 export default class Command extends BaseCommand {
-  public static description = "Generate new resource, write 'boost new' to see options"
+  public static description = "Generate new resource, write 'magek new' to see options"
 
   public static flags = {
     help: Flags.help({ char: 'h' }),
@@ -45,7 +45,7 @@ export default class Command extends BaseCommand {
 type CommandInfo = HasName & HasFields
 
 const run = async (name: string, rawFields: Array<string>): Promise<void> =>
-  Script.init(`boost ${Brand.energize('new:command')} 🚧`, joinParsers(parseName(name), parseFields(rawFields)))
+  Script.init(`magek ${Brand.energize('new:command')} 🚧`, joinParsers(parseName(name), parseFields(rawFields)))
     .step('Verifying project', checkCurrentDirIsAMagekProject)
     .step('Creating new command', generateCommand)
     .info('Command generated!')

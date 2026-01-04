@@ -10,7 +10,6 @@ import { MagekDatabaseHealthIndicator } from './database-health-indicator'
 import { MagekDatabaseEventsHealthIndicator } from './database-events-health-indicator'
 import { MagekFunctionHealthIndicator } from './function-health-indicator'
 import { MagekDatabaseReadModelsHealthIndicator } from './database-read-models-health-indicator'
-import { RocketsHealthIndicator } from './rockets-health-indicator'
 
 function buildMetadata(
   config: MagekConfig,
@@ -60,18 +59,11 @@ export function defaultMagekHealthIndicators(config: MagekConfig): Record<string
     'Magek Database ReadModels',
     MagekDatabaseReadModelsHealthIndicator
   )
-  const rocketFunctions = buildMetadata(
-    config,
-    HEALTH_INDICATORS_IDS.ROCKETS,
-    'Rockets',
-    RocketsHealthIndicator
-  )
   return {
     [root.healthIndicatorConfiguration.id]: root,
     [magekFunction.healthIndicatorConfiguration.id]: magekFunction,
     [magekDatabase.healthIndicatorConfiguration.id]: magekDatabase,
     [databaseEvents.healthIndicatorConfiguration.id]: databaseEvents,
     [databaseReadModels.healthIndicatorConfiguration.id]: databaseReadModels,
-    [rocketFunctions.healthIndicatorConfiguration.id]: rocketFunctions,
   }
 }

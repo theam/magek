@@ -5,7 +5,6 @@ export {
   graphQLDispatcher,
   triggerScheduledCommands,
   notifySubscribers,
-  rocketDispatcher,
   consumeEventStream,
   produceEventStream,
   health,

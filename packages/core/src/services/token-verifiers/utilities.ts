@@ -14,7 +14,7 @@ export function getJwksClient(jwksUri: string): JwksClient {
   return jwksRSA({
     jwksUri,
     cache: true,
-    cacheMaxAge: 15 * 60 * 1000, // 15 Minutes, at least to be equal to AWS max lambda limit runtime
+    cacheMaxAge: 15 * 60 * 1000, // 15 Minutes cache
   })
 }
 

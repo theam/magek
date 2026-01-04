@@ -12,8 +12,8 @@ export default class Reducer extends BaseCommand {
   static usage = 'reducer --entity Entity --event Event'
 
   static examples = [
-    '$ boost add:reducer --entity Post --event PostCreated',
-    '$ boost add:reducer --entity Comment --event CommentUpdated CommentVoted',
+    '$ magek add:reducer --entity Post --event PostCreated',
+    '$ magek add:reducer --entity Comment --event CommentUpdated CommentVoted',
   ]
 
   public static flags = {
@@ -47,7 +47,7 @@ type ReducerInfo = HasName & HasReaction
 const pluralize = (word: string, count: number): string => (count === 1 ? word : `${word}s`)
 
 const run = async (rawEntity: string, rawEvents: string[]): Promise<void> =>
-  Script.init(`boost ${Brand.energize('add:reducer')} 🚧`, joinParsers(parseName(rawEntity), parseReaction(rawEvents)))
+  Script.init(`magek ${Brand.energize('add:reducer')} 🚧`, joinParsers(parseName(rawEntity), parseReaction(rawEvents)))
     .step('Verifying project', checkCurrentDirIsAMagekProject)
     .step(`Generating ${pluralize('reducer', rawEvents.length)}`, generateReducerMethods)
     .info(`${pluralize('Reducer', rawEvents.length)} generated!`)
