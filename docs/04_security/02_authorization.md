@@ -126,48 +126,6 @@ Magek will check that the token contains the `firebase:groups` claim and that it
 Also, if the token doesn't contain the `Admin` role, the command will not be executed. As you can see, the decoded token
 has `User` as value of the `firebase:groups` claim, so the command will not be executed.
 
-### Extended roles using the [Authentication Magek Rocket for AWS](https://github.com/boostercloud/rocket-auth-aws-infrastructure)
-
-The Authentication Rocket for AWS is an opinionated implementation of a JWT tokens issuer on top of AWS Cognito that includes out-of-the-box features like
-sign-up, sign-in, passwordless tokens, change password and many other features. When a user goes through the sign up and sign in mecanisms provided by the rocket,
-they'll get a standard JWT access token that can be included in any request as a Bearer token and will work in the same way as any other JWT token.
-
-When you use this rocket, you can use extra configuration parameters in the `@Role` decorator to enable some of these features. In the following example we define `Admin`, `User`, `SuperUser` and `SuperUserWithoutConfirmation` roles. They all contain an extra `auth` configuration attribute that set the behavior of the authorization role for each role:
-
-```typescript
-@Role({
-  auth: {
-    signUpMethods: [], // Using an empty array here prevents sign-ups (Admin has no special treatment. If you don't enable signup, you'll need to create the first admin manually in the AWS console)
-  },
-})
-export class Admin {}
-
-@Role({
-  auth: {
-    signUpMethods: ['email'], // Enable email sign-ups for Users
-  },
-})
-export class User {}
-
-@Role({
-  auth: {
-    signUpMethods: ['email', 'phone'], // Can sign up by email or phone
-    skipConfirmation: false, // It requires email or phone confirmation. The rocket will send either an email or a SMS with a confirmation link.
-  },
-})
-export class SuperUser {}
-
-@Role({
-  auth: {
-    signUpMethods: ['email', 'phone'],
-    skipConfirmation: true, // It doesn't require email or phone confirmation
-  },
-})
-export class SuperUserWithoutConfirmation {}
-```
-
-To learn more about the Authorization rocket for AWS, please read the [README](https://github.com/boostercloud/rocket-auth-aws-infrastructure/blob/main/README.md) in its Github repository.
-
 ## Custom authorization functions
 
 Magek also allows you to implement your own authorization functions, in case the role-based authorization model doesn't work for your application. In order to

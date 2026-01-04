@@ -9,9 +9,7 @@ account that:
 - Because it is a framework and not only a library, the framework will take decisions on behalf of the user, in terms of design
   and other things, so in case of failure, we make sure that we have done as much as possible to prevent it so
   the user is not confused.
-- It handles the creation and wiring of many cloud components, which are lots of moving pieces, so everything is double-checked
-  to prevent errors in deployed environments.
-- It is a multi-cloud framework, and behavior is double-checked both on AWS and Azure. Ensuring everything runs smoothly, regardless of the choice of the user.
+- It handles many moving pieces, so everything is double-checked to prevent errors.
 
 We always keep improving our CI/CD processes, but we always make sure that we have the above covered.
 

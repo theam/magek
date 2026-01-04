@@ -99,7 +99,7 @@ export interface ContextEnvelope {
 
 The `request` property exposes a normalized version of the request headers and body that can be used regardless the provider. We recommend using this property instead of the `rawContext` property, as it will be more portable across providers.
 
-The `rawContext` property exposes the full raw request context as it comes in the original request, so it will depend on the underlying provider used. For instance, in AWS, it will be [a lambda context object](https://docs.aws.amazon.com/lambda/latest/dg/nodejs-context.html), while in Azure it will be [an Azure Functions context object](https://docs.microsoft.com/en-us/azure/azure-functions/functions-reference-node#context-object).
+The `rawContext` property exposes the full raw request context as it comes in the original request.
 
 ### Alter the HTTP response headers
 

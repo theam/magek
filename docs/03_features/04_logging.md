@@ -8,7 +8,7 @@ If no configuration is provided, Magek uses the default JavaScript logging capab
 - `console.error` for `Level.error`
 
 
-In this regard, there's no distinction from any other node process and you'll find the logs in your cloud provider's default log aggregator (i.e. Cloudwatch if you use AWS).
+In this regard, there's no distinction from any other node process and you'll find the logs in your standard output.
 
 ## Advanced logging
 

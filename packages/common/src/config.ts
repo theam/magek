@@ -117,7 +117,7 @@ export class MagekConfig {
 
   public eventStreamConfiguration: EventStreamConfiguration = { enabled: false }
 
-  /** Environment variables set at deployment time on the target lambda functions */
+  /** Environment variables to set when running the application */
   public readonly env: Record<string, string> = {}
 
   /**
