@@ -58,7 +58,7 @@
     "chai": "6.2.2",
     "chai-as-promised": "8.0.2",
     "cross-env": "10.1.0",
-    "@faker-js/faker": "10.1.0",
+    "@faker-js/faker": "10.2.0",
     "mocha": "11.7.5",
     "mock-jwks": "3.3.5",
     "c8": "^10.1.3",
