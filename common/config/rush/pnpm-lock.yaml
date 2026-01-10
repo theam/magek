@@ -23,8 +23,8 @@ importers:
         version: 2.8.1
     devDependencies:
       '@faker-js/faker':
-        specifier: 10.1.0
-        version: 10.1.0
+        specifier: 10.2.0
+        version: 10.2.0
       '@magek/eslint-config':
         specifier: workspace:^0.0.1
         version: link:../../../tools/eslint-config
@@ -87,8 +87,8 @@ importers:
         version: 2.8.1
     devDependencies:
       '@faker-js/faker':
-        specifier: 10.1.0
-        version: 10.1.0
+        specifier: 10.2.0
+        version: 10.2.0
       '@magek/eslint-config':
         specifier: workspace:^0.0.1
         version: link:../../../tools/eslint-config
@@ -151,8 +151,8 @@ importers:
         version: 2.8.1
     devDependencies:
       '@faker-js/faker':
-        specifier: 10.1.0
-        version: 10.1.0
+        specifier: 10.2.0
+        version: 10.2.0
       '@magek/eslint-config':
         specifier: workspace:^0.0.1
         version: link:../../../tools/eslint-config
@@ -205,6 +205,25 @@ importers:
         specifier: 5.9.3
         version: 5.9.3
 
+  ../../docs:
+    dependencies:
+      typedoc:
+        specifier: ^0.27.5
+        version: 0.27.9(typescript@5.9.3)
+      typedoc-plugin-markdown:
+        specifier: ^4.4.1
+        version: 4.9.0(typedoc@0.27.9(typescript@5.9.3))
+      typedoc-plugin-merge-modules:
+        specifier: ^6.0.2
+        version: 6.1.0(typedoc@0.27.9(typescript@5.9.3))
+    devDependencies:
+      rimraf:
+        specifier: 6.1.2
+        version: 6.1.2
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
   ../../packages/cli:
     dependencies:
       '@magek/common':
@@ -251,8 +270,8 @@ importers:
         version: 2.8.1
     devDependencies:
       '@faker-js/faker':
-        specifier: 10.1.0
-        version: 10.1.0
+        specifier: 10.2.0
+        version: 10.2.0
       '@magek/eslint-config':
         specifier: workspace:^0.0.1
         version: link:../../tools/eslint-config
@@ -345,8 +364,8 @@ importers:
         version: 13.0.0
     devDependencies:
       '@faker-js/faker':
-        specifier: 10.1.0
-        version: 10.1.0
+        specifier: 10.2.0
+        version: 10.2.0
       '@magek/eslint-config':
         specifier: workspace:^0.0.1
         version: link:../../tools/eslint-config
@@ -384,8 +403,8 @@ importers:
         specifier: 8.0.2
         version: 8.0.2(chai@6.2.2)
       fast-check:
-        specifier: 4.4.0
-        version: 4.4.0
+        specifier: 4.5.3
+        version: 4.5.3
       graphql:
         specifier: 16.12.0
         version: 16.12.0
@@ -420,8 +439,8 @@ importers:
         specifier: 4.8.0
         version: 4.8.0
       fast-check:
-        specifier: 4.4.0
-        version: 4.4.0
+        specifier: 4.5.3
+        version: 4.5.3
       fp-ts:
         specifier: 2.16.11
         version: 2.16.11
@@ -448,8 +467,8 @@ importers:
         version: 13.15.26
     devDependencies:
       '@faker-js/faker':
-        specifier: 10.1.0
-        version: 10.1.0
+        specifier: 10.2.0
+        version: 10.2.0
       '@magek/eslint-config':
         specifier: workspace:^0.0.1
         version: link:../../tools/eslint-config
@@ -600,8 +619,8 @@ importers:
         version: 2.8.1
     devDependencies:
       '@faker-js/faker':
-        specifier: 10.1.0
-        version: 10.1.0
+        specifier: 10.2.0
+        version: 10.2.0
       '@magek/eslint-config':
         specifier: workspace:^0.0.1
         version: link:../../tools/eslint-config
@@ -650,25 +669,6 @@ importers:
       tsx:
         specifier: ^4.19.2
         version: 4.21.0
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
-
-  ../../tools/docs-site:
-    dependencies:
-      typedoc:
-        specifier: ^0.27.5
-        version: 0.27.9(typescript@5.9.3)
-      typedoc-plugin-markdown:
-        specifier: ^4.4.1
-        version: 4.9.0(typedoc@0.27.9(typescript@5.9.3))
-      typedoc-plugin-merge-modules:
-        specifier: ^6.0.2
-        version: 6.1.0(typedoc@0.27.9(typescript@5.9.3))
-    devDependencies:
-      rimraf:
-        specifier: 6.1.2
-        version: 6.1.2
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -929,8 +929,8 @@ packages:
     resolution: {integrity: sha512-Z5kJ+wU3oA7MMIqVR9tyZRtjYPr4OC004Q4Rw7pgOKUOKkJfZ3O24nz3WYfGRpMDNmcOi3TwQOmgm7B7Tpii0w==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@faker-js/faker@10.1.0':
-    resolution: {integrity: sha512-C3mrr3b5dRVlKPJdfrAXS8+dq+rq8Qm5SNRazca0JKgw1HQERFmrVb0towvMmw5uu8hHKNiQasMaR/tydf3Zsg==}
+  '@faker-js/faker@10.2.0':
+    resolution: {integrity: sha512-rTXwAsIxpCqzUnZvrxVh3L0QA0NzToqWBLAhV+zDV3MIIwiQhAZHMdPCIaj5n/yADu/tyk12wIPgL6YHGXJP+g==}
     engines: {node: ^20.19.0 || ^22.13.0 || ^23.5.0 || >=24.0.0, npm: '>=10'}
 
   '@fastify/ajv-compiler@4.0.5':
@@ -2137,8 +2137,8 @@ packages:
     engines: {node: '>=18.0.0'}
     deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
-  fast-check@4.4.0:
-    resolution: {integrity: sha512-s87BFAp8YaWYOBXjbTxeotaOhmA4hPYAyk9gBTFxdab25P6eAlqrryUvVMA2qd9bT/0Xq+YNJGtoVhJd/BxI4g==}
+  fast-check@4.5.3:
+    resolution: {integrity: sha512-IE9csY7lnhxBnA8g/WI5eg/hygA6MGWJMSNfFRrBlXUciADEhS1EDB0SIsMSvzubzIlOBbVITSsypCsW717poA==}
     engines: {node: '>=12.17.0'}
 
   fast-decode-uri-component@1.0.1:
@@ -4003,7 +4003,7 @@ snapshots:
       '@eslint/core': 0.15.2
       levn: 0.4.1
 
-  '@faker-js/faker@10.1.0': {}
+  '@faker-js/faker@10.2.0': {}
 
   '@fastify/ajv-compiler@4.0.5':
     dependencies:
@@ -5370,7 +5370,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  fast-check@4.4.0:
+  fast-check@4.5.3:
     dependencies:
       pure-rand: 7.0.1
 

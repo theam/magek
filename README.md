@@ -1,6 +1,6 @@
 # ✨ Magek — Build AI-Native Backends with Event-Driven Intelligence
 
-![Magek Framework](magek-logo.svg)
+![Magek Framework](docs/content/magek-logo.svg)
 
 > A framework for building intelligent, agentic applications with event sourcing, swarming agents, and LLM integrations — cloud-agnostic and fully open source.
 

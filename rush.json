@@ -384,7 +384,7 @@
       "packageName": "@magek/docs-site",
       "shouldPublish": false,
       "versionPolicyName": "magek",
-      "projectFolder": "tools/docs-site"
+      "projectFolder": "docs"
     },
     {
       "packageName": "@magek/cli",

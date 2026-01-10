@@ -1,0 +1,45 @@
+---
+title: "Touch Entities"
+group: "Advanced"
+---
+
+# TouchEntities
+
+Magek provides a way to refresh the value of an entity and update the corresponding ReadModels that depend on it.
+This functionality is useful when a new projection is added to a ReadModel and you want to apply it retroactively to the events that have already occurred.
+It is also helpful when there was an error when calculating a ReadModel or when the snapshot of an entity was not generated.
+
+To migrate an existing entity to a new version, you need to call `MagekTouchEntityHandler.touchEntity` to touch entities.
+For example, this command will touch all the entities of the class Cart.:
+
+```typescript
+
+@Command({
+  authorize: 'all',
+})
+export class TouchCommand {
+  public constructor() {}
+
+  public static async handle(_command: TouchCommand, _register: Register): Promise<void> {
+    const entitiesIdsResult = await Magek.entitiesIDs('Cart', 500, undefined)
+    const paginatedEntityIdResults = entitiesIdsResult.items
+    const carts = await Promise.all(
+      paginatedEntityIdResults.map(async (entity) => await Magek.entity(Cart, entity.entityID))
+    )
+    if (!carts || carts.length === 0) {
+      return
+    }
+    await Promise.all(
+      carts.map(async (cart) => {
+        const validCart = cart!
+        await MagekTouchEntityHandler.touchEntity('Cart', validCart.id)
+        console.log('Touched', validCart)
+        return validCart.id
+      })
+    )
+  }
+}
+```
+
+Please note that touching entities is an advanced feature that should be used with caution and only when necessary.
+It may affect your application performance and consistency if not used properly.
