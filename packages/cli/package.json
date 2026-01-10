@@ -43,7 +43,7 @@
     "chai": "6.2.2",
     "chai-as-promised": "8.0.2",
     "copyfiles": "2.4.1",
-    "@faker-js/faker": "10.1.0",
+    "@faker-js/faker": "10.2.0",
     "fancy-test": "3.0.16",
     "mocha": "11.7.5",
     "c8": "^10.1.3",
