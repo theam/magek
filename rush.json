@@ -383,7 +383,6 @@
     {
       "packageName": "@magek/docs-site",
       "shouldPublish": false,
-      "versionPolicyName": "magek",
       "projectFolder": "docs"
     },
     {
