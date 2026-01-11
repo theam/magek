@@ -2,9 +2,11 @@ import { Magek } from '../magek'
 import { DataMigrationInterface, DataMigrationParameters } from '@magek/common'
 
 /**
- * Annotation to tell Magek which classes are data migration scripts
- * @param attributes
- * @constructor
+ * Decorator to mark a class as a Magek Data Migration.
+ * Data migrations are background processes that update existing data in the database.
+ *
+ * @param attributes - Migration configuration (e.g., execution order)
+ * @returns A class decorator function
  */
 export function DataMigration(
   attributes: DataMigrationParameters

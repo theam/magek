@@ -1,0 +1,18 @@
+/* Custom styles for Magek documentation */
+
+/* Replace title text with logo in the navbar */
+.tsd-page-toolbar .title {
+  font-size: 0; /* Hide the text */
+  display: inline-block;
+}
+
+.tsd-page-toolbar .title::before {
+  content: "";
+  display: inline-block;
+  width: 120px;
+  height: 32px;
+  background-image: url("../media/magek-logo.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center left;
+}

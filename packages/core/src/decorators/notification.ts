@@ -35,9 +35,11 @@ function isStage3FieldContext(arg: unknown): arg is Stage3FieldContext {
 const PARTITION_KEY_SYMBOL = Symbol.for('magek:partitionKey')
 
 /**
- * Annotation to tell Magek which classes are your Notifications
- * @param eventClass
- * @constructor
+ * Decorator to mark a class as a Magek Notification.
+ * Notifications are events that can be published to external systems.
+ *
+ * @param options - Optional configuration for the notification (e.g., topic name)
+ * @returns A class decorator function
  */
 export const Notification =
   <TEvent extends NotificationInterface>(options?: NotificationOptions) =>

@@ -48,6 +48,22 @@
       "ignoreMissingScript": true,
       "enableParallelism": true
     },
+    {
+      "commandKind": "global",
+      "name": "docs:build",
+      "summary": "Builds the documentation site using TypeDoc",
+      "description": "Generates static HTML documentation from TypeScript packages and Markdown files",
+      "safeForSimultaneousRushProcesses": true,
+      "shellCommand": "cd docs && rushx build"
+    },
+    {
+      "commandKind": "global",
+      "name": "docs:serve",
+      "summary": "Builds and serves the documentation site locally",
+      "description": "Generates documentation from TypeScript and Markdown, then serves it at http://localhost:8080",
+      "safeForSimultaneousRushProcesses": false,
+      "shellCommand": "cd docs && rushx serve"
+    }
   ],
 
   /**

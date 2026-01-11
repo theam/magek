@@ -33,9 +33,11 @@ function isStage3ClassContext(arg: unknown): arg is Stage3ClassContext {
 }
 
 /**
- * Annotation to tell Magek which classes are your entities
- * @param attributes
- * @constructor
+ * Decorator to mark a class as a Magek Command.
+ * Commands represent user intentions and trigger business logic.
+ *
+ * @param attributes - Role access control and filter hooks configuration
+ * @returns A class decorator function
  */
 export function Command(
   attributes: CommandRoleAccess & CommandFilterHooks

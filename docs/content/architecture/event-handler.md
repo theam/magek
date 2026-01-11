@@ -1,0 +1,108 @@
+---
+title: "Event Handlers"
+group: "Architecture"
+---
+
+# Event handler
+
+An event handler is a class that reacts to events. They are commonly used to trigger side effects in case of a new event. For instance, if a new event is registered in the system, an event handler could send an email to the user.
+
+## Creating an event handler
+
+The Magek CLI will help you to create new event handlers. You just need to run the following command and the CLI will generate all the boilerplate for you:
+
+```bash
+npx magek new:event-handler HandleAvailability --event StockMoved
+```
+
+This will generate a new file called `handle-availability.ts` in the `src/event-handlers` directory. You can also create the file manually, but you will need to create the class and decorate it, so we recommend using the CLI.
+
+## Declaring an event handler
+
+In Magek, event handlers are classes decorated with the `@EventHandler` decorator. The parameter of the decorator is the event that the handler will react to. The logic to be triggered after an event is registered is defined in the `handle` method of the class. This `handle` function will receive the event that triggered the handler.
+
+```typescript title="src/event-handlers/handle-availability.ts"
+// highlight-next-line
+@EventHandler(StockMoved)
+export class HandleAvailability {
+  // highlight-start
+  public static async handle(event: StockMoved): Promise<void> {
+    // Do something here
+  }
+  // highlight-end
+}
+```
+
+## Creating an event handler
+
+Event handlers can be easily created using the Magek CLI command `npx magek new:event-handler`. There are two mandatory arguments: the event handler name, and the name of the event it will react to. For instance:
+
+```typescript
+npx magek new:event-handler HandleAvailability --event StockMoved
+```
+
+Once the creation is completed, there will be a new file in the event handlers directory `<project-root>/src/event-handlers/handle-availability.ts`.
+
+```text
+<project-root>
+├── src
+│   ├── commands
+│   ├── common
+│   ├── config
+│   ├── entities
+│   ├── events
+│   ├── event-handlers <------ put them here
+│   └── read-models
+```
+
+## Registering events from an event handler
+
+Event handlers can also register new events. This is useful when you want to trigger a new event after a certain condition is met. For example, if you want to send an email to the user when a product is out of stock.
+
+In order to register new events, Magek injects the `register` instance in the `handle` method as a second parameter. This `register` instance has a `events(...)` method that allows you to store any side effect events, you can specify as many as you need separated by commas as arguments of the function.
+
+```typescript title="src/event-handlers/handle-availability.ts"
+@EventHandler(StockMoved)
+export class HandleAvailability {
+  public static async handle(event: StockMoved, register: Register): Promise<void> {
+    if (event.quantity < 0) {
+      // highlight-next-line
+      register.events([new ProductOutOfStock(event.productID)])
+    }
+  }
+}
+```
+
+## Reading entities from event handlers
+
+There are cases where you need to read an entity to make a decision based on its current state. Different side effects can be triggered depending on the current state of the entity. Given the previous example, if a user does not want to receive emails when a product is out of stock, we should be able check the user preferences before sending the email.
+
+For that reason, Magek provides the `Magek.entity` function. This function allows you to retrieve the current state of an entity. Let's say that we want to check the status of a product before we trigger its availability update. In that case we would call the `Magek.entity` function, which will return information about the entity.
+
+```typescript title="src/event-handlers/handle-availability.ts"
+@EventHandler(StockMoved)
+export class HandleAvailability {
+  public static async handle(event: StockMoved, register: Register): Promise<void> {
+    // highlight-next-line
+    const product = await Magek.entity(Product, event.productID)
+    if (product.stock < 0) {
+      register.events([new ProductOutOfStock(event.productID)])
+    }
+  }
+}
+```
+
+## Creating a global event handler
+
+**Magek** includes a `Global event handler`. This feature allows you to react to any event that occurs within the system.
+By annotating a class with the @GlobalEventHandler decorator, the handle method within that class will be automatically called for any event that is generated
+
+```typescript
+@GlobalEventHandler
+export class GlobalHandler {
+  public static async handle(event: EventInterface | NotificationInterface, register: Register): Promise<void> {
+    if (event instanceof LogEventReceived) {
+      register.events(new LogEventReceivedTest(event.entityID(), event.value))
+    }
+  }
+```

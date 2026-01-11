@@ -2,9 +2,10 @@ import { Class, EventInterface } from '@magek/common'
 import { Magek } from '../magek'
 
 /**
- * Annotation to tell Magek which classes are your Events
- * @param eventClass
- * @constructor
+ * Decorator to mark a class as a Magek Event.
+ * Events are immutable records of facts that occurred in your system.
+ *
+ * @param eventClass - The event class to register
  */
 // Disabling unused vars here, because it won't allow us to call the decorator without parens
  
