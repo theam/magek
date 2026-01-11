@@ -37,7 +37,7 @@ Once you're in your Magek project directory, you can use the `npx magek` command
 | [`new:read-model`](/architecture/read-model#creating-a-read-model) | Creates a new read model in the project |
 | [`new:scheduled-command`](/features/schedule-actions#creating-a-scheduled-command) | Creates a new scheduled command in the project |
 | | |
-| [`build`](/getting-started/coding#6-deployment) | Builds the project |
+| [`build`](/getting-started/coding#7-building-and-running) | Builds the project |
 | | |
 
 > **Tip:** To create a new Magek project, use the modern npm create pattern:
