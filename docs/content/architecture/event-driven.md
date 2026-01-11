@@ -21,10 +21,10 @@ In this chapter you'll walk through these concepts in detail.
 
 ## Architecture Components
 
-- [Commands](02_command.md) - The input interface for your application
-- [Events](03_event.md) - Records of facts that represent the source of truth
-- [Event Handlers](04_event-handler.md) - React to events and trigger side effects
-- [Entities](05_entity.md) - Current state derived from events
-- [Read Models](06_read-model.md) - Public projections of your data
-- [Notifications](07_notifications.md) - Real-time updates and messaging
-- [Queries](08_queries.md) - How to query your read models
+- [Commands](./command.md) - The input interface for your application
+- [Events](./event.md) - Records of facts that represent the source of truth
+- [Event Handlers](./event-handler.md) - React to events and trigger side effects
+- [Entities](./entity.md) - Current state derived from events
+- [Read Models](./read-model.md) - Public projections of your data
+- [Notifications](./notifications.md) - Real-time updates and messaging
+- [Queries](./queries.md) - How to query your read models

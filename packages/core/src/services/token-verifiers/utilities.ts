@@ -47,8 +47,8 @@ export function getKeyWithClient(client: JwksClient, header: jwt.JwtHeader, call
  * @param token The token to verify
  * @param issuer The issuer of the token
  * @param key The public key to use to verify the token or a function that will resolve a jwksUri to get the public key. The function can be generated using the `getKeyWithClient` function.
- * @param rolesClaim The name of the claim containing the roles
- * @returns A promise that resolves to the UserEnvelope object
+ * @param verifier Optional custom JWT verify function (defaults to jsonwebtoken's verify)
+ * @returns A promise that resolves to the DecodedToken object
  */
 export async function verifyJWT(
   token: string,

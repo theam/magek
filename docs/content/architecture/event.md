@@ -32,7 +32,7 @@ The class name is the name of the event. The event name is used to identify the 
 
 ## Events and entities
 
-Events and [Entities](entity) are closely related. Each event will be aggregated (or _reduced_) into an entity. Therefore, Magek needs a way to know which entity is associated with each event. For that reason, it is required to provide an entity ID with each event. You can declare it with a class function named `entityID`. For example:
+Events and [Entities](./entity.md) are closely related. Each event will be aggregated (or _reduced_) into an entity. Therefore, Magek needs a way to know which entity is associated with each event. For that reason, it is required to provide an entity ID with each event. You can declare it with a class function named `entityID`. For example:
 
 ```typescript title="src/events/cart-paid.ts"
 @Event
@@ -55,7 +55,7 @@ export class CartPaid {
 
 ## Registering events in the event store
 
-We have shown you how to _declare_ an event in Magek, but we haven't explained how to store them in the event store. In Magek terminology, creating an instance of an event and storing in the event store is known as `registering` it. You can do that on Magek using the `register.events(...)` function. The `register` object is provided as a parameter in the `handle` method of both [commands](command#registering-events) and the [event handlers](event-handler#registering-events). For example:
+We have shown you how to _declare_ an event in Magek, but we haven't explained how to store them in the event store. In Magek terminology, creating an instance of an event and storing in the event store is known as `registering` it. You can do that on Magek using the `register.events(...)` function. The `register` object is provided as a parameter in the `handle` method of both [commands](./command.md#registering-events) and the [event handlers](./event-handler.md#registering-events-from-an-event-handler). For example:
 
 ### Registering events from command handlers
 

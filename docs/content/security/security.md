@@ -12,5 +12,5 @@ authorizer functions.
 
 ## Security Topics
 
-- [Authentication](01_authentication.md) - How to authenticate users
-- [Authorization](02_authorization.md) - How to authorize access to resources
+- [Authentication](./authentication.md) - How to authenticate users
+- [Authorization](./authorization.md) - How to authorize access to resources

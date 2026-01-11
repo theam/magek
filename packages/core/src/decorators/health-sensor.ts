@@ -9,15 +9,16 @@ import { Magek } from '../magek'
 import { defaultMagekHealthIndicators } from '../sensor/health/health-indicators'
 
 /**
+ * Decorator to mark a class as a Magek Health Sensor.
+ * Health sensors provide health status information for monitoring endpoints.
  *
- * @param {Object} attributes
- * @param {string} attributes.id - Unique indicator identifier
- * @param {string} attributes.name - Indicator description
- * @param {boolean} attributes.enabled - If false, this indicator and the components of this indicator will be skipped
- * @param {boolean} attributes.details - If false, the indicator will not include the details
- * @param {boolean} [attributes.showChildren] - If false, this indicator will not include children components in the tree.
- *      Children components will be shown through children urls
- * @constructor
+ * @param attributes - Health indicator configuration
+ * @param attributes.id - Unique indicator identifier
+ * @param attributes.name - Indicator description
+ * @param attributes.enabled - If false, this indicator and its children will be skipped
+ * @param attributes.details - If false, the indicator will not include details
+ * @param attributes.showChildren - If false, children components won't be included in the tree
+ * @returns A class decorator function
  */
 export function HealthSensor(
   attributes: HealthIndicatorConfiguration

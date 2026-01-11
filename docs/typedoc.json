@@ -73,5 +73,21 @@
     "Accessor",
     "Method",
     "Reference"
+  ],
+  "highlightLanguages": [
+    "bash",
+    "console",
+    "css",
+    "graphql",
+    "html",
+    "http",
+    "javascript",
+    "json",
+    "jsonc",
+    "json5",
+    "shell",
+    "tsx",
+    "typescript",
+    "yaml"
   ]
 }

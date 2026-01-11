@@ -2,9 +2,11 @@ import { Magek } from '../magek'
 import { ScheduledCommandInterface, ScheduleInterface } from '@magek/common'
 
 /**
- * Annotation to tell Magek which classes are scheduled commands
- * @param attributes
- * @constructor
+ * Decorator to mark a class as a Magek Scheduled Command.
+ * Scheduled commands are executed automatically based on a schedule.
+ *
+ * @param attributes - Schedule configuration (e.g., cron expression)
+ * @returns A class decorator function
  */
 export function ScheduledCommand(
   attributes: ScheduleInterface

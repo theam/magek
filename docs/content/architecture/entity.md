@@ -92,7 +92,7 @@ This property is called [Eventual Consistency](https://en.wikipedia.org/wiki/Eve
 
 ## Entity ID
 
-In order to identify each entity instance, you must define an `id` field on each entity. This field will be used by the framework to identify the entity instance. If the value of the `id` field matches the value returned by the [`entityID()` method](event#events-and-entities) of an Event, the framework will consider that the event belongs to that entity instance.
+In order to identify each entity instance, you must define an `id` field on each entity. This field will be used by the framework to identify the entity instance. If the value of the `id` field matches the value returned by the [`entityID()` method](./event.md#events-and-entities) of an Event, the framework will consider that the event belongs to that entity instance.
 
 ```typescript title="src/entities/entity-name.ts"
 @Entity

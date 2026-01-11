@@ -22,8 +22,11 @@ type EntityDecoratorResult<TEntity, TParam> = TParam extends EntityAttributes
   : void
 
 /**
- * Decorator to register a class as an Entity
- * @constructor
+ * Decorator to mark a class as a Magek Entity.
+ * Entities represent the current state derived from events.
+ *
+ * @param classOrAttributes - Either the class itself or entity configuration attributes
+ * @returns A class decorator function or void if used without parentheses
  */
 export function Entity<TEntity extends EntityInterface, TParam extends EntityDecoratorParam>(
   classOrAttributes: TParam

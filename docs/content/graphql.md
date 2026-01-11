@@ -1048,7 +1048,7 @@ You can use any JWT-based authentication provider to issue tokens. Once you have
 
 - For **HTTP**, you need to send the HTTP header `Authorization` with the token, making sure you prefix it with `Bearer` (the kind of token Magek uses). For example:
 
-```http request
+```http
 Authorization: Bearer <your token>
 ```
 

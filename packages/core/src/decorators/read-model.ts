@@ -127,7 +127,7 @@ const CALCULATED_FIELDS_SYMBOL = Symbol.for('magek:calculatedFields')
 
 /**
  * Transfer calculated field dependencies from Stage 3 context.metadata to class metadata.
- * Called by @ReadModel class decorator.
+ * Called by the ReadModel class decorator.
  */
 function transferCalculatedFieldDependencies(
   classType: Function,
@@ -158,7 +158,7 @@ export function CalculatedField(
       const context = propertyKeyOrContext
       const propertyName = String(context.name)
 
-      // Store in context.metadata for @ReadModel to pick up
+      // Store in context.metadata for ReadModel decorator to pick up
       if (!context.metadata[CALCULATED_FIELDS_SYMBOL]) {
         context.metadata[CALCULATED_FIELDS_SYMBOL] = {}
       }

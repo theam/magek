@@ -52,7 +52,8 @@ function registerSequenceKey(klass: AnyClass, propertyName: string): void {
 }
 
 /**
- * @sequencedBy decorator - can be used as both a parameter decorator and property decorator
+ * Decorator to specify the sequencing key for a ReadModel.
+ * Can be used as both a parameter decorator and property decorator.
  * Supports both legacy (experimentalDecorators) and Stage 3 decorators.
  */
 export function sequencedBy(
@@ -65,7 +66,7 @@ export function sequencedBy(
     const context = propertyKeyOrContext
     const propertyName = String(context.name)
 
-    // Store the sequence key in context.metadata for @ReadModel to pick up
+    // Store the sequence key in context.metadata for ReadModel decorator to pick up
     context.metadata[SEQUENCE_KEY_SYMBOL] = propertyName
 
     // Also use addInitializer to register immediately when class is defined
@@ -98,7 +99,7 @@ export function sequencedBy(
 
 /**
  * Transfer sequence key metadata from Stage 3 context to class.
- * Called by @ReadModel class decorator.
+ * Called by the ReadModel class decorator.
  */
 export function transferSequenceKeyMetadata(
   classType: AnyClass,

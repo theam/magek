@@ -7,7 +7,7 @@ group: "Architecture"
 
 A read model contains the data of your application that is exposed to the client through the GraphQL API. It's a _projection_ of one or more entities, so you dont have to directly expose them to the client. Magek generates the GraphQL queries that allow you to fetch your read models.
 
-In other words, Read Models are cached data optimized for read operations. They're updated reactively when [Entities](entity) are updated after reducing [events](event).
+In other words, Read Models are cached data optimized for read operations. They're updated reactively when [Entities](./entity.md) are updated after reducing [events](./event.md).
 
 ## Creating a read model
 
@@ -256,7 +256,7 @@ public get currentTime(): Date {
 
 With the getters in place, your GraphQL API will start exposing the getters as regular fields and you will be able to transparently read them as follows:
 
-```gql
+```graphql
 query {
   user(id: "123") {
     id
