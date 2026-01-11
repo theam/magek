@@ -334,13 +334,13 @@ with Magek.
 You can check that code compiles correctly by running the build command:
 
 ```bash
-npx magek build
+npm run build
 ```
 
 You can also clean the compiled code by running:
 
 ```bash
-npx magek clean
+npm run clean
 ```
 
 #### 7.1 Running your application locally
