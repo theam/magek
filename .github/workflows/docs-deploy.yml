@@ -35,9 +35,6 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install Rush
-        run: node common/scripts/install-run-rush.js --version
-
       - name: Update dependencies
         run: node common/scripts/install-run-rush.js update
 
