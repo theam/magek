@@ -1,0 +1,25 @@
+#!/bin/sh
+#
+# Pre-commit hook that verifies rush change files exist for modified packages.
+# To skip (for docs-only or non-package changes): git commit --no-verify
+#
+
+echo ''
+echo '=== Verifying rush change files ==='
+
+node common/scripts/install-run-rush.js change --verify
+
+if [ $? -ne 0 ]; then
+    echo ''
+    echo '##############################################################'
+    echo '#  ERROR: Missing rush change files for modified packages    #'
+    echo '#                                                            #'
+    echo '#  To fix: run `rush change`, then stage common/changes/     #'
+    echo '#  To skip: git commit --no-verify                           #'
+    echo '##############################################################'
+    echo ''
+    exit 1
+fi
+
+echo '=== Rush change verification passed ==='
+echo ''

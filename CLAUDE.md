@@ -89,3 +89,10 @@ Magek implements event sourcing and CQRS patterns:
 - The full CI pipeline can be run locally with `./scripts/check-all-the-things.sh`
 - Some packages may have different test frameworks (check package.json scripts)
 - The project uses workspace dependencies (`workspace:^0.0.1`) for internal packages
+
+### Pull Request Workflow
+- **Always run `rush change` before creating a PR** if you modified any published package
+- Published packages: most packages under `packages/` and `adapters/` (those with `shouldPublish: true` in rush.json)
+- Skip `rush change` for: documentation-only changes, CI/CD config changes, or non-published packages (tools/, docs/)
+- After running `rush change`, commit the generated files in `common/changes/`
+- A pre-commit hook will verify change files exist; use `git commit --no-verify` to bypass for non-package changes

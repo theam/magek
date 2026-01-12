@@ -56,9 +56,17 @@ All production code is TypeScript; tests use Mocha.  Standard utilities such as 
 2. The CI pipeline mirrors the steps in `scripts/check-all-the-things.sh`; ensure it passes locally before creating a pull request.
 
 ## 6. Pull Requests & Releases
-1. **Fork → Branch → PR against `main`**.
-2. Make sure `./scripts/check-all-the-things.sh` exits without errors.
-3. After review, core maintainers will trigger full CI and (if applicable) publish to npm following semver derived from Conventional Commits.
+
+1. **Fork -> Branch -> PR against `main`**.
+2. **Run `rush change`** before creating your PR if you modified any published package:
+   - Published packages have `shouldPublish: true` in rush.json
+   - Skip for documentation-only changes, CI/CD configs, or non-published packages (tools/, docs/)
+   - Commit the generated change files in `common/changes/`
+3. Make sure `./scripts/check-all-the-things.sh` exits without errors.
+4. After review, core maintainers will trigger full CI and publish to npm using semver derived from change files.
+
+> **Note**: A pre-commit hook verifies change files. Use `git commit --no-verify` to bypass for non-package changes.
+
 ## 7. Useful References
 
 
