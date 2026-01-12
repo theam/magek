@@ -1,0 +1,19 @@
+name: Verify Change Files
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  verify-change-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Verify change files
+        uses: ./.github/actions/call-rush
+        with:
+          command: 'change --verify'
