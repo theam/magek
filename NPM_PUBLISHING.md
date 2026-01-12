@@ -128,6 +128,8 @@ For releasing specific versions (e.g., hotfixes on older versions):
 4. Select bump type (patch or minor)
 5. The workflow publishes and creates a GitHub Release
 
+**Note**: This workflow uses `--override-version` which bypasses the normal change file workflow. This is intentional for emergency hotfix scenarios but means the changelog must be managed manually for these releases. For standard releases, use the automated `publish.yml` workflow.
+
 ## Testing Before Publishing
 
 ### Dry-run Mode

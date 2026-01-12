@@ -6,7 +6,7 @@ on:
       - main
     paths-ignore:
       - 'docs/**'
-      - '*.md'
+      - '**/*.md'
   release:
     types: [published]
   workflow_dispatch:
@@ -66,7 +66,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          rush version --bump --target-branch origin/main
+          rush version --bump
 
       - name: Publish packages
         run: >-

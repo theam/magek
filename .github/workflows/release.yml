@@ -43,6 +43,8 @@ jobs:
       - run: rush test
 
       - name: Set version
+        # Note: --override-version bypasses change files for hotfix scenarios
+        # This is intentional for emergency releases on older versions
         run: rush version --override-version ${{ inputs.version }}
 
       - name: Publish
