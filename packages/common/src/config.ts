@@ -29,7 +29,7 @@ import { TraceConfiguration } from './instrumentation/trace-types'
 
 /**
  * Class used by external packages that needs to get a representation of
- * the Magek config. Used mainly for vendor-specific deployment packages
+ * the Magek config.
  */
 export class MagekConfig {
   public logLevel: Level = Level.debug

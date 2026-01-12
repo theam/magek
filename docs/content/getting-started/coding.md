@@ -319,7 +319,7 @@ export class PostReadModel {
 }
 ```
 
-### 7. Deployment
+### 7. Building and Running
 
 At this point, we've:
 
@@ -493,7 +493,6 @@ This is a really basic example of a Magek application. The are many other featur
 - Use a more complex authorization schema for commands and read models based on user roles
 - Use GraphQL subscriptions to get updates in real-time
 - Make events trigger other events
-- Deploy static content
 - Reading entities within command handlers to apply domain-driven decisions
 - And much more...
 
