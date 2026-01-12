@@ -32,10 +32,12 @@ jobs:
           node-version: '22'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Setup npm for OIDC
-        run: |
-          npm config set //registry.npmjs.org/:_authToken ""
-          corepack enable
+      - name: Upgrade npm for OIDC support
+        # npm 11.5.1+ required for OIDC trusted publishing
+        run: npm install -g npm@latest
+
+      - name: Enable corepack
+        run: corepack enable
 
       - run: npm install -g @microsoft/rush
       - run: rush install
@@ -48,11 +50,11 @@ jobs:
         run: rush version --override-version ${{ inputs.version }}
 
       - name: Publish
+        # OIDC trusted publishing: npm automatically uses GitHub's OIDC token
+        # No NPM_TOKEN secret needed - configure trusted publishers on npmjs.com
         run: >-
           rush publish --publish --include-all
           --set-access-level public --apply
-        env:
-          NPM_CONFIG_PROVENANCE: true
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1

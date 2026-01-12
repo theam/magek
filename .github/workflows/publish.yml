@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - 'docs/**'
-      - '**/*.md'
+    # Only trigger on changes to publishable packages or change files
+    paths:
+      - 'packages/**'
+      - 'adapters/**'
+      - 'common/changes/**'
   release:
     types: [published]
   workflow_dispatch:
@@ -29,9 +31,56 @@ env:
   CI: true
 
 jobs:
-  publish:
+  # Check if there are actual changes that require publishing
+  check-changes:
     runs-on: ubuntu-latest
-    environment: npm-publish  # Optional: for deployment protection rules
+    outputs:
+      has_changes: ${{ steps.check.outputs.has_changes }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for publishable changes
+        id: check
+        run: |
+          # For workflow_dispatch or release events, always publish
+          if [[ "${{ github.event_name }}" != "push" ]]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Check if there are change files (excluding .gitkeep)
+          CHANGE_FILES=$(find common/changes -type f -name "*.json" 2>/dev/null | wc -l)
+          if [[ $CHANGE_FILES -gt 0 ]]; then
+            echo "Found $CHANGE_FILES change file(s)"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Check if any source files in publishable packages changed
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD -- \
+            'packages/*/src/**' \
+            'packages/*/package.json' \
+            'adapters/**/src/**' \
+            'adapters/**/package.json' \
+            2>/dev/null || echo "")
+
+          if [[ -n "$CHANGED_FILES" ]]; then
+            echo "Found changes in publishable packages:"
+            echo "$CHANGED_FILES"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "No publishable changes found"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+
+  publish:
+    needs: check-changes
+    if: needs.check-changes.outputs.has_changes == 'true'
+    runs-on: ubuntu-latest
+    environment: npm-publish
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -45,10 +94,12 @@ jobs:
           node-version: '22'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Setup npm for OIDC
-        run: |
-          npm config set //registry.npmjs.org/:_authToken ""
-          corepack enable
+      - name: Upgrade npm for OIDC support
+        # npm 11.5.1+ required for OIDC trusted publishing
+        run: npm install -g npm@latest
+
+      - name: Enable corepack
+        run: corepack enable
 
       - name: Install Rush
         run: npm install -g @microsoft/rush
@@ -69,11 +120,12 @@ jobs:
           rush version --bump
 
       - name: Publish packages
+        # OIDC trusted publishing: npm automatically uses GitHub's OIDC token
+        # No NPM_TOKEN secret needed - configure trusted publishers on npmjs.com
+        # Provenance attestations are automatically generated with trusted publishing
         run: >-
           rush publish --publish --include-all
           --set-access-level public --apply
-        env:
-          NPM_CONFIG_PROVENANCE: true
 
       - name: Push version changes and tags
         run: |
