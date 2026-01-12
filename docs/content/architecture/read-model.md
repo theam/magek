@@ -393,7 +393,7 @@ query MessageReadModel(id: ID!, timestamp: string): [MessageReadModel]
 
 Using this query, when only the id is provided, you get an array of all the messages in the channel sorted by timestamp in ascending order (from older to newer). When you also provide an specific timestamp, you still get an array, but it will only contain the message sent in that exact moment.
 
-It is important to guarantee that the sequence key is unique for each message. This could be difficult to achieve if you are using a timestamp as the sequence key. Magek provides a utility function to generate unique timestamps that you can use in your read models: `TimeKey.generate()`. It will generate a timestamp with a random UUID as a suffix to avoid any coincidences.
+It is important to guarantee that the sequence key is unique for each message. This could be difficult to achieve if you are using a timestamp as the sequence key. Magek provides a utility function to generate unique time-ordered identifiers that you can use in your read models: `UUID.generate()`. UUIDv7 (RFC 9562) is used, which generates time-ordered, lexicographically sortable identifiers with built-in uniqueness guarantees.
 
 For more information about queries and how to use them, please check the [GraphQL API](/graphql#reading-read-models) section.
 
