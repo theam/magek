@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Add createdAt, updatedAt, and lastEventId to entities and read models for better auditability",
+      "type": "none",
+      "packageName": "@magek/core"
+    }
+  ],
+  "packageName": "@magek/core",
+  "email": "198982749+Copilot@users.noreply.github.com"
+}

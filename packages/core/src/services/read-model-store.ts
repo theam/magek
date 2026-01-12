@@ -438,6 +438,27 @@ export class ReadModelStore {
       migratedReadModel?.magekMetadata?.schemaVersion ?? this.config.currentVersionFor(readModelName)
     // Increment the read model version in 1 before storing
     const newReadModelVersion = expectedCurrentDatabaseVersion + 1
+    
+    // Automatically manage read model timestamps
+    // Use entity's updatedAt as reference, copy literally (no Date libraries)
+    const entityUpdatedAt = (entity as any).updatedAt || lastProjectedEntity?.createdAt || new Date().toISOString()
+    let readModelCreatedAt: string
+    let readModelUpdatedAt: string
+    
+    if (!migratedReadModel || !(migratedReadModel as any).createdAt) {
+      // First projection or migrating old read model: initialize both to entity's updatedAt
+      readModelCreatedAt = entityUpdatedAt
+      readModelUpdatedAt = entityUpdatedAt
+    } else {
+      // Successive projections: preserve createdAt, update updatedAt
+      readModelCreatedAt = migratedReadModel.createdAt
+      readModelUpdatedAt = entityUpdatedAt
+    }
+    
+    // Set timestamps on the read model value itself
+    newReadModel.createdAt = readModelCreatedAt
+    newReadModel.updatedAt = readModelUpdatedAt
+    
     newReadModel.magekMetadata = {
       ...migratedReadModel?.magekMetadata,
       version: newReadModelVersion,
@@ -459,8 +480,8 @@ export class ReadModelStore {
       value: newReadModel,
       id: readModelID!,
       version: newReadModel.magekMetadata.version,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdAt: readModelCreatedAt,
+      updatedAt: readModelUpdatedAt,
     }
     return await this.config.readModelStore.store(this.config, readModelName, envelope)
   }

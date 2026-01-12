@@ -7,6 +7,9 @@ export class MagekDataMigrationEntity {
     public id: string,
     public status: DataMigrationStatus,
     public lastUpdated: string,
+    public createdAt: string,
+    public updatedAt: string,
+    public lastEventId: string,
     public duration?: MagekDataMigrationEntityDuration
   ) {}
 
@@ -17,7 +20,16 @@ export class MagekDataMigrationEntity {
     const duration = {
       start: new Date().toISOString(),
     }
-    return new MagekDataMigrationEntity(event.name, DataMigrationStatus.RUNNING, event.lastUpdated, duration)
+    // Timestamps will be managed automatically by the framework
+    return new MagekDataMigrationEntity(
+      event.name,
+      DataMigrationStatus.RUNNING,
+      event.lastUpdated,
+      '', // createdAt - will be set by framework
+      '', // updatedAt - will be set by framework
+      '', // lastEventId - will be set by framework
+      duration
+    )
   }
 
   public static finished(
@@ -36,8 +48,23 @@ export class MagekDataMigrationEntity {
         end: end,
         elapsedMilliseconds: elapsedTime,
       }
-      return new MagekDataMigrationEntity(event.name, DataMigrationStatus.FINISHED, event.lastUpdated, duration)
+      return new MagekDataMigrationEntity(
+        event.name,
+        DataMigrationStatus.FINISHED,
+        event.lastUpdated,
+        currentDataMigration.createdAt,
+        '', // updatedAt - will be set by framework
+        '', // lastEventId - will be set by framework
+        duration
+      )
     }
-    return new MagekDataMigrationEntity(event.name, DataMigrationStatus.FINISHED, event.lastUpdated)
+    return new MagekDataMigrationEntity(
+      event.name,
+      DataMigrationStatus.FINISHED,
+      event.lastUpdated,
+      currentDataMigration.createdAt,
+      '', // updatedAt - will be set by framework
+      '', // lastEventId - will be set by framework
+    )
   }
 }

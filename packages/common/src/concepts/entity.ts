@@ -6,6 +6,9 @@ import { EventStreamAuthorizer, UUID } from '.'
 
 export interface EntityInterface {
   id: UUID
+  createdAt: string
+  updatedAt: string
+  lastEventId: string
 }
 
 export interface EntityMetadata {

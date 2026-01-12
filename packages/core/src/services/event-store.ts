@@ -210,6 +210,20 @@ export class EventStore {
         snapshotInstance
       )(eventInstance, snapshotInstance)
 
+      // Automatically manage entity timestamps
+      // Copy timestamps literally from processed event (no Date libraries or arithmetic)
+      if (!snapshotInstance || !(snapshotInstance as any).createdAt) {
+        // First event or migrating old entity: initialize createdAt and updatedAt to the same value
+        newEntity.createdAt = migratedEventEnvelope.createdAt
+        newEntity.updatedAt = migratedEventEnvelope.createdAt
+      } else {
+        // Successive events: preserve createdAt, update updatedAt
+        newEntity.createdAt = snapshotInstance.createdAt
+        newEntity.updatedAt = migratedEventEnvelope.createdAt
+      }
+      // Always update lastEventId to reference the current event
+      newEntity.lastEventId = eventEnvelope.id ?? ''
+
       const newSnapshot: NonPersistedEntitySnapshotEnvelope = {
         version: this.config.currentVersionFor(eventEnvelope.entityTypeName),
         kind: 'snapshot',
@@ -272,6 +286,17 @@ export class EventStore {
     className: string
   ): NonPersistedEntitySnapshotEnvelope {
     const logger = getLogger(this.config, 'EventStore#toMagekEntitySnapshot')
+    
+    // Ensure timestamps are set for magek superkind events
+    if (!entity.createdAt || !entity.updatedAt) {
+      entity.createdAt = entity.createdAt || eventEnvelope.createdAt
+      entity.updatedAt = eventEnvelope.createdAt
+    } else {
+      // Update updatedAt for touch events
+      entity.updatedAt = eventEnvelope.createdAt
+    }
+    entity.lastEventId = eventEnvelope.id ?? ''
+    
     const migratedSnapshot: NonPersistedEntitySnapshotEnvelope = {
       version: this.config.currentVersionFor(className),
       kind: 'snapshot',

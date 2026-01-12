@@ -17,6 +17,8 @@ export interface MagekMetadata {
 
 export interface ReadModelInterface {
   id: UUID
+  createdAt: string
+  updatedAt: string
   magekMetadata?: MagekMetadata
    
   [key: string]: any
