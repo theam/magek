@@ -1,0 +1,61 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 1.2.3)'
+        required: true
+      bump_type:
+        description: 'Bump type for changelog'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: npm-publish
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Setup npm for OIDC
+        run: |
+          npm config set //registry.npmjs.org/:_authToken ""
+          corepack enable
+
+      - run: npm install -g @microsoft/rush
+      - run: rush install
+      - run: rush build
+      - run: rush test
+
+      - name: Set version
+        # Note: --override-version bypasses change files for hotfix scenarios
+        # This is intentional for emergency releases on older versions
+        run: rush version --override-version ${{ inputs.version }}
+
+      - name: Publish
+        run: >-
+          rush publish --publish --include-all
+          --set-access-level public --apply
+        env:
+          NPM_CONFIG_PROVENANCE: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ inputs.version }}
+          generate_release_notes: true

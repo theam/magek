@@ -1,0 +1,80 @@
+name: Publish to npm
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: 'Version bump type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  id-token: write   # Required for OIDC
+  contents: write   # Required to push version commits/tags
+
+env:
+  CI: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: npm-publish  # Optional: for deployment protection rules
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Setup npm for OIDC
+        run: |
+          npm config set //registry.npmjs.org/:_authToken ""
+          corepack enable
+
+      - name: Install Rush
+        run: npm install -g @microsoft/rush
+
+      - name: Install dependencies
+        run: rush install
+
+      - name: Build
+        run: rush build
+
+      - name: Run tests
+        run: rush test
+
+      - name: Bump versions
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          rush version --bump
+
+      - name: Publish packages
+        run: >-
+          rush publish --publish --include-all
+          --set-access-level public --apply
+        env:
+          NPM_CONFIG_PROVENANCE: true
+
+      - name: Push version changes and tags
+        run: |
+          git push origin main --follow-tags
