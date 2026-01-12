@@ -46,7 +46,9 @@ jobs:
         run: rush version --override-version ${{ inputs.version }}
 
       - name: Publish
-        run: rush publish --publish --include-all --set-access-level public --apply
+        run: >-
+          rush publish --publish --include-all
+          --set-access-level public --apply
         env:
           NPM_CONFIG_PROVENANCE: true
 

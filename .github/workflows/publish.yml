@@ -69,7 +69,9 @@ jobs:
           rush version --bump --target-branch origin/main
 
       - name: Publish packages
-        run: rush publish --publish --include-all --set-access-level public --apply
+        run: >-
+          rush publish --publish --include-all
+          --set-access-level public --apply
         env:
           NPM_CONFIG_PROVENANCE: true
 
