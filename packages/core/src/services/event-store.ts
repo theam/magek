@@ -222,7 +222,11 @@ export class EventStore {
         newEntity.updatedAt = migratedEventEnvelope.createdAt
       }
       // Always update lastEventId to reference the current event
-      newEntity.lastEventId = eventEnvelope.id ?? ''
+      // Event ID should always be present, but fallback to empty string for safety
+      newEntity.lastEventId = eventEnvelope.id || ''
+      if (!eventEnvelope.id) {
+        logger.warn('Event envelope missing ID, lastEventId will be empty', eventEnvelope)
+      }
 
       const newSnapshot: NonPersistedEntitySnapshotEnvelope = {
         version: this.config.currentVersionFor(eventEnvelope.entityTypeName),
@@ -295,7 +299,10 @@ export class EventStore {
       // Update updatedAt for touch events
       entity.updatedAt = eventEnvelope.createdAt
     }
-    entity.lastEventId = eventEnvelope.id ?? ''
+    entity.lastEventId = eventEnvelope.id || ''
+    if (!eventEnvelope.id) {
+      logger.warn('Event envelope missing ID, lastEventId will be empty', eventEnvelope)
+    }
     
     const migratedSnapshot: NonPersistedEntitySnapshotEnvelope = {
       version: this.config.currentVersionFor(className),

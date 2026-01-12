@@ -451,7 +451,7 @@ export class ReadModelStore {
       readModelUpdatedAt = entityUpdatedAt
     } else {
       // Successive projections: preserve createdAt, update updatedAt
-      readModelCreatedAt = migratedReadModel.createdAt
+      readModelCreatedAt = (migratedReadModel as any).createdAt
       readModelUpdatedAt = entityUpdatedAt
     }
     

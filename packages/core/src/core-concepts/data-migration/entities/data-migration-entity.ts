@@ -20,14 +20,15 @@ export class MagekDataMigrationEntity {
     const duration = {
       start: new Date().toISOString(),
     }
-    // Timestamps will be managed automatically by the framework
+    // Timestamps will be managed automatically by the framework's event processing
+    // These empty strings are temporary placeholders that will be replaced
     return new MagekDataMigrationEntity(
       event.name,
       DataMigrationStatus.RUNNING,
       event.lastUpdated,
-      '', // createdAt - will be set by framework
-      '', // updatedAt - will be set by framework
-      '', // lastEventId - will be set by framework
+      '', // createdAt - will be set automatically by EventStore.createNewSnapshot()
+      '', // updatedAt - will be set automatically by EventStore.createNewSnapshot()
+      '', // lastEventId - will be set automatically by EventStore.createNewSnapshot()
       duration
     )
   }
@@ -52,9 +53,9 @@ export class MagekDataMigrationEntity {
         event.name,
         DataMigrationStatus.FINISHED,
         event.lastUpdated,
-        currentDataMigration.createdAt,
-        '', // updatedAt - will be set by framework
-        '', // lastEventId - will be set by framework
+        currentDataMigration.createdAt, // Preserve createdAt from previous state
+        '', // updatedAt - will be set automatically by EventStore.createNewSnapshot()
+        '', // lastEventId - will be set automatically by EventStore.createNewSnapshot()
         duration
       )
     }
@@ -62,9 +63,9 @@ export class MagekDataMigrationEntity {
       event.name,
       DataMigrationStatus.FINISHED,
       event.lastUpdated,
-      currentDataMigration.createdAt,
-      '', // updatedAt - will be set by framework
-      '', // lastEventId - will be set by framework
+      currentDataMigration.createdAt, // Preserve createdAt from previous state
+      '', // updatedAt - will be set automatically by EventStore.createNewSnapshot()
+      '', // lastEventId - will be set automatically by EventStore.createNewSnapshot()
     )
   }
 }
