@@ -9,7 +9,9 @@ describe('the `Instances` helper', () => {
       readonly id: UUID,
       readonly firstName: string,
       readonly lastName: string,
-      readonly friends: Array<PersonReadModel>
+      readonly friends: Array<PersonReadModel>,
+      readonly createdAt: string = '',
+      readonly updatedAt: string = ''
     ) {}
 
     public get fullName(): Promise<string> {
@@ -24,9 +26,23 @@ describe('the `Instances` helper', () => {
       id: faker.string.uuid(),
       firstName: faker.lorem.word(),
       lastName: faker.lorem.word(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
       friends: [
-        { id: faker.string.uuid(), firstName: faker.lorem.word(), lastName: faker.lorem.word() },
-        { id: faker.string.uuid(), firstName: faker.lorem.word(), lastName: faker.lorem.word() },
+        { 
+          id: faker.string.uuid(), 
+          firstName: faker.lorem.word(), 
+          lastName: faker.lorem.word(),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        { 
+          id: faker.string.uuid(), 
+          firstName: faker.lorem.word(), 
+          lastName: faker.lorem.word(),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
       ],
     }
   })
