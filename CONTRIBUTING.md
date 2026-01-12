@@ -315,6 +315,57 @@ We're using the following scopes in the project:
 
 Apart of using conventional commits for triggering releases, we use them to build the project changelog.
 
+### Rush Change Files
+
+Before submitting a pull request that modifies any package code, you must run `rush change` to generate a change file. This helps track changes and automatically generate changelogs and determine version bumps.
+
+**When to run `rush change`:**
+- When you modify code in any published package (`shouldPublish: true` in rush.json)
+- Before submitting your pull request
+- After making significant changes to your PR based on review feedback
+
+**When to skip `rush change`:**
+- Documentation-only changes (*.md files)
+- Changes to non-published packages (e.g., tools, docs-site)
+- Changes to CI/CD configuration files
+
+**How to use `rush change`:**
+
+1. After committing your changes, run:
+   ```bash
+   rush change
+   ```
+
+2. Rush will prompt you for each changed package:
+   - Select the type of change (major, minor, patch, or none)
+   - Provide a description of the change (this will appear in the CHANGELOG)
+
+3. Commit the generated change files in `common/changes/`:
+   ```bash
+   git add common/changes/
+   git commit -m "chore: add change files"
+   ```
+
+**Change type guidelines:**
+
+| Change Type | When to Use | Example |
+|-------------|-------------|---------|
+| **major** | Breaking changes (`feat!:` or `BREAKING CHANGE:`) | Removing deprecated APIs, changing function signatures |
+| **minor** | New features (`feat:`) | Adding new commands, new GraphQL resolvers |
+| **patch** | Bug fixes, performance, refactoring (`fix:`, `perf:`, `refactor:`) | Fixing event handler bugs, performance improvements |
+| **none** | No version bump needed | Internal refactoring with no API changes |
+
+**Example:**
+```bash
+$ rush change
+# Output:
+# Rush change files:
+#   @magek/core - patch - Fixed event handler registration bug
+#   @magek/cli - minor - Added new scaffolding command
+```
+
+The CI pipeline will verify that change files exist for PRs that modify published packages. If the check fails, simply run `rush change` and commit the generated files.
+
 ## Code Style Guidelines
 
 The Magek project comes with a nice set of ESLint config files to help you follow a consistent style, and we really encourage to use it in your editor. You can also run the `rush lint:fix` commands to try solving any linter problems automatically.
