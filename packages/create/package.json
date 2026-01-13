@@ -31,6 +31,14 @@
   ],
   "author": "Boosterin Labs SLU",
   "license": "Apache-2.0",
+  "homepage": "https://magek.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theam/magek.git"
+  },
+  "bugs": {
+    "url": "https://github.com/theam/magek/issues"
+  },
   "dependencies": {
     "degit": "2.8.4",
     "prompts": "2.4.2",
