@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@magek/core",
-      "comment": "Migrate from TimeKey to UUIDv7 for sequence keys",
+      "comment": "Update GraphQL generator to use UUID instead of TimeKey for sequence keys",
       "type": "minor"
     }
   ],
