@@ -1,8 +1,7 @@
- 
 import { replace, restore, fake } from 'sinon'
 import { expect } from '../../../expect'
 import { GraphQLTypeInformer } from '../../../../src/services/graphql/graphql-type-informer'
-import { MagekConfig, UUID, TimeKey, Level, AnyClass, Logger, getLogger, Field } from '@magek/common'
+import { MagekConfig, UUID, Level, AnyClass, Logger, getLogger, Field } from '@magek/common'
 import { GraphqlQueryByKeysGenerator } from '../../../../src/services/graphql/query-generators/graphql-query-by-keys-generator'
 import { faker } from '@faker-js/faker'
 
@@ -23,12 +22,12 @@ class ASequencedReadModel {
   @Field(type => UUID)
   public readonly id: UUID
 
-  @Field(type => TimeKey)
-  public readonly timestamp: TimeKey
+  @Field(type => UUID)
+  public readonly sortKey: UUID
 
-  public constructor(id: UUID, timestamp: TimeKey) {
+  public constructor(id: UUID, sortKey: UUID) {
     this.id = id
-    this.timestamp = timestamp
+    this.sortKey = sortKey
   }
 }
 
@@ -42,7 +41,7 @@ class AnotherSequencedReadModel {
   readonly id: string = 'µ'
 
   @Field()
-  readonly timestamp: string = '™'
+  readonly sortKey: string = '™'
 }
 
 describe('GraphQLQueryGenerator', () => {
@@ -66,7 +65,7 @@ describe('GraphQLQueryGenerator', () => {
     beforeEach(() => {
       const fakeReadModels = [AnotherReadModel, ASequencedReadModel] as AnyClass[]
       const typeInformer = new GraphQLTypeInformer(mockLogger)
-      mockConfig.readModelSequenceKeys['ASequencedReadModel'] = 'timestamp'
+      mockConfig.readModelSequenceKeys['ASequencedReadModel'] = 'sortKey'
       graphqlQueryByKeysGenerator = new GraphqlQueryByKeysGenerator(mockConfig, fakeReadModels, typeInformer, () =>
         fake()
       ) as any // So we can see private methods
@@ -85,7 +84,7 @@ describe('GraphQLQueryGenerator', () => {
       graphqlQueryByKeysGenerator.generateByKeysQueries()
 
       expect(fakeGenerateByIdQuery).to.have.been.calledOnceWith(AnotherReadModel)
-      expect(fakeGenerateByIdAndSequenceKeyQuery).to.have.been.calledOnceWith(ASequencedReadModel, 'timestamp')
+      expect(fakeGenerateByIdAndSequenceKeyQuery).to.have.been.calledOnceWith(ASequencedReadModel, 'sortKey')
     })
   })
 
@@ -135,12 +134,12 @@ describe('GraphQLQueryGenerator', () => {
       const fakeByIdResolverBuilder = fake.returns(fake())
       replace(graphQLQueryGenerator, 'byIDResolverBuilder', fakeByIdResolverBuilder)
 
-      const query = graphQLQueryGenerator.generateByIdAndSequenceKeyQuery(AnotherSequencedReadModel, 'timestamp')
+      const query = graphQLQueryGenerator.generateByIdAndSequenceKeyQuery(AnotherSequencedReadModel, 'sortKey')
 
       expect(query.type).to.be.a('GraphQLList')
       expect(query.type.ofType).to.have.a.property('name', 'AnotherSequencedReadModel')
       expect(query.args).to.have.a.property('id')
-      expect(query.args).to.have.a.property('timestamp')
+      expect(query.args).to.have.a.property('sortKey')
       expect(query.resolve).to.be.a('Function')
       expect(fakeByIdResolverBuilder).to.have.been.calledWith(AnotherSequencedReadModel)
     })

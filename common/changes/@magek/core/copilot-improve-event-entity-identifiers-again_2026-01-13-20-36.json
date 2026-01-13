@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@magek/core",
+      "comment": "Update GraphQL generator to use UUID instead of TimeKey for sequence keys",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@magek/core"
+}

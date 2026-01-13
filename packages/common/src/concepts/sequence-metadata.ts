@@ -1,6 +1,6 @@
-import { TimeKey } from './uuid'
+import { UUID } from './uuid'
 
 export interface SequenceKey {
   name: string
-  value: TimeKey
+  value: UUID
 }
