@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@magek/core",
+      "comment": "Migrate from TimeKey to UUIDv7 for sequence keys",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@magek/core"
+}

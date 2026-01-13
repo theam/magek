@@ -13,7 +13,7 @@ import {
   ReadModelRequestArgs,
   ReadModelRequestEnvelope,
   ReadModelRequestProperties,
-  TimeKey,
+  UUID,
   getLogger,
 } from '@magek/common'
 import {
@@ -209,7 +209,7 @@ export class GraphQLGenerator {
           id: args.id,
           sequenceKey: {
             name: sequenceKeyName,
-            value: args[sequenceKeyName] as TimeKey,
+            value: args[sequenceKeyName] as UUID,
           },
         }
       : { id: args.id }

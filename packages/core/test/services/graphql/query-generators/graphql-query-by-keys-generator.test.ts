@@ -1,8 +1,7 @@
- 
 import { replace, restore, fake } from 'sinon'
 import { expect } from '../../../expect'
 import { GraphQLTypeInformer } from '../../../../src/services/graphql/graphql-type-informer'
-import { MagekConfig, UUID, TimeKey, Level, AnyClass, Logger, getLogger, Field } from '@magek/common'
+import { MagekConfig, UUID, Level, AnyClass, Logger, getLogger, Field } from '@magek/common'
 import { GraphqlQueryByKeysGenerator } from '../../../../src/services/graphql/query-generators/graphql-query-by-keys-generator'
 import { faker } from '@faker-js/faker'
 
@@ -23,10 +22,10 @@ class ASequencedReadModel {
   @Field(type => UUID)
   public readonly id: UUID
 
-  @Field(type => TimeKey)
-  public readonly timestamp: TimeKey
+  @Field(type => UUID)
+  public readonly timestamp: UUID
 
-  public constructor(id: UUID, timestamp: TimeKey) {
+  public constructor(id: UUID, timestamp: UUID) {
     this.id = id
     this.timestamp = timestamp
   }
