@@ -23,12 +23,16 @@ export class TimeKey extends String {
   /**
    * @deprecated Use UUID.generate() instead. UUIDv7 provides time-ordering by design.
    * Time-based unique identifier generator
-   * @param moment Number of milliseconds since epoch for the moment in which the identifier should be generated. It defaults to the current time.
-   * @returns A unique identifier in the form "<moment>-<random UUID>"
+   * @param moment Deprecated. This parameter is ignored. UUIDv7 uses the current timestamp internally.
+   * @returns A UUIDv7 identifier with time-ordering
    */
-  public static generate(moment = Date.now()): TimeKey {
+  public static generate(moment?: number): TimeKey {
     // For backward compatibility, we now generate a UUIDv7
     // UUIDv7 already includes timestamp information and is time-ordered
+    // The moment parameter is ignored as UUIDv7 generates its own timestamp
+    if (moment !== undefined) {
+      console.warn('TimeKey.generate(moment) is deprecated. The moment parameter is ignored. Use UUID.generate() instead.')
+    }
     return uuid() as TimeKey
   }
 }
