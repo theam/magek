@@ -25,8 +25,6 @@ Magek.configure('prod', (config: MagekConfig): void => {
 })
 ```
 
-> **Note:** The provider is automatically injected by the runtime when you use `createServer()` from `@magek/server`. You no longer need to import or configure it manually in your configuration files.
-
 ## Pluggable Adapters
 
 Magek uses a pluggable architecture for data storage, allowing you to choose the most appropriate storage solution for your needs. The framework provides several adapter types:

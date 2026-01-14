@@ -189,19 +189,9 @@ export class MagekConfig {
   }
 
   /**
-   * Sets the provider. This setter is primarily for testing purposes.
-   * In production code, use setProvider() instead as it's the designated method for runtime injection.
+   * This method is typically used by runtime adapters (like @magek/server) to inject the provider.
    */
   public set provider(provider: ProviderLibrary) {
-    this._provider = provider
-  }
-
-  /**
-   * Internal method for runtime adapters to inject the provider.
-   * This should only be called by runtime packages like @magek/server.
-   * @internal
-   */
-  public setProvider(provider: ProviderLibrary): void {
     this._provider = provider
   }
 
