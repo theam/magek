@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@magek/core",
+      "comment": "No changes - merge artifact",
+      "type": "none"
+    }
+  ],
+  "packageName": "@magek/core"
+}
