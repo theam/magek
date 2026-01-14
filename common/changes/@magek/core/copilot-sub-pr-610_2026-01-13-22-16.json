@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Bump inquirer from 13.1.0 to 13.2.0",
+      "type": "none",
+      "packageName": "@magek/core"
+    }
+  ],
+  "packageName": "@magek/core",
+  "email": "copilot@github.com"
+}
