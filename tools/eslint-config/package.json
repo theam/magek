@@ -2,10 +2,20 @@
   "name": "@magek/eslint-config",
   "version": "0.0.1",
   "description": "Shared eslint rules",
+  "author": "Boosterin Labs SLU",
+  "homepage": "https://magek.ai",
+  "license": "Apache-2.0",
   "main": "index.js",
   "type": "module",
   "publishConfig": {
     "access": "restricted"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theam/magek.git"
+  },
+  "bugs": {
+    "url": "https://github.com/theam/magek/issues"
   },
   "scripts": {
     "build": "",
