@@ -71,9 +71,10 @@ export async function createServer(userApp: UserApp, options: ServerOptions = {}
   const { logger = true, bodyLimit = 6 * 1024 * 1024 } = options
 
   // Inject the server provider into the Magek configuration
-  if (userApp?.Magek?.config) {
-    userApp.Magek.config.provider = Provider()
+  if (!userApp?.Magek?.config) {
+    throw new Error('Cannot inject provider: userApp.Magek.config is not available')
   }
+  userApp.Magek.config.provider = Provider()
 
   // Initialize WebSocket registry
   globalWebSocketRegistry = new WebSocketRegistry()
