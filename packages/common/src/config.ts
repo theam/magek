@@ -179,11 +179,25 @@ export class MagekConfig {
   }
 
   public get provider(): ProviderLibrary {
-    if (!this._provider) throw new Error('It is required to set a valid provider runtime in your configuration files')
+    if (!this._provider) {
+      throw new Error(
+        'Provider not initialized. The provider should be automatically injected by the runtime (e.g., @magek/server). ' +
+        'If you are seeing this error, ensure you are using createServer() or another runtime entry point correctly.'
+      )
+    }
     return this._provider
   }
 
   public set provider(provider: ProviderLibrary) {
+    this._provider = provider
+  }
+
+  /**
+   * Internal method for runtime adapters to inject the provider.
+   * This should only be called by runtime packages like @magek/server.
+   * @internal
+   */
+  public setProvider(provider: ProviderLibrary): void {
     this._provider = provider
   }
 

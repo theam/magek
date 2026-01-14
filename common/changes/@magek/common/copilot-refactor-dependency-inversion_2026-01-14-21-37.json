@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat(common): add setProvider() internal method for runtime injection, make provider optional with improved error message",
+      "type": "minor",
+      "packageName": "@magek/common"
+    }
+  ],
+  "packageName": "@magek/common",
+  "email": "198982749+Copilot@users.noreply.github.com"
+}

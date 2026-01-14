@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "chore(core): dependency update for @magek/common provider injection changes",
+      "type": "patch",
+      "packageName": "@magek/core"
+    }
+  ],
+  "packageName": "@magek/core",
+  "email": "198982749+Copilot@users.noreply.github.com"
+}

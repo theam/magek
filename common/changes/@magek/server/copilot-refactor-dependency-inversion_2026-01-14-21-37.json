@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat(server): inject Provider automatically in createServer(), removing need for apps to import Provider",
+      "type": "minor",
+      "packageName": "@magek/server"
+    }
+  ],
+  "packageName": "@magek/server",
+  "email": "198982749+Copilot@users.noreply.github.com"
+}

@@ -9,6 +9,7 @@ import { HealthController } from './infrastructure/controllers/health-controller
 import { WebSocketRegistry } from './infrastructure/websocket-registry'
 import { requestFailed } from './infrastructure/http'
 import { configureScheduler } from './infrastructure/scheduler'
+import { Provider } from './index'
 
 // Global WebSocket registry instance
 let globalWebSocketRegistry: WebSocketRegistry | undefined
@@ -68,6 +69,12 @@ async function defaultErrorHandler(error: unknown, request: FastifyRequest, repl
  */
 export async function createServer(userApp: UserApp, options: ServerOptions = {}): Promise<FastifyInstance> {
   const { logger = true, bodyLimit = 6 * 1024 * 1024 } = options
+
+  // Inject the server provider into the Magek configuration
+  const config = userApp.Magek.config
+  if (config) {
+    config.setProvider(Provider())
+  }
 
   // Initialize WebSocket registry
   globalWebSocketRegistry = new WebSocketRegistry()
