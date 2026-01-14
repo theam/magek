@@ -124,7 +124,7 @@ describe('the config type', () => {
     it('throws when there is no provider set', () => {
       const config = new MagekConfig('test')
 
-      expect(() => config.provider).to.throw(/set a valid provider runtime/)
+      expect(() => config.provider).to.throw(/Provider not initialized/)
     })
 
     it('does not throw when there is a provider set', () => {
