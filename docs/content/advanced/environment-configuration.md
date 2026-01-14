@@ -12,7 +12,6 @@ You can create multiple environments calling the `Magek.configure` function seve
 
 Magek.configure('stage', (config: MagekConfig): void => {
   config.appName = 'fruit-store-stage'
-  config.provider = Provider()
   config.eventStoreAdapter = eventStore
   config.readModelStoreAdapter = readModelStore
   config.sessionStoreAdapter = sessionStore
@@ -20,12 +19,13 @@ Magek.configure('stage', (config: MagekConfig): void => {
 
 Magek.configure('prod', (config: MagekConfig): void => {
   config.appName = 'fruit-store-prod'
-  config.provider = Provider()
   config.eventStoreAdapter = eventStore
   config.readModelStoreAdapter = readModelStore
   config.sessionStoreAdapter = sessionStore
 })
 ```
+
+> **Note:** The provider is automatically injected by the runtime when you use `createServer()` from `@magek/server`. You no longer need to import or configure it manually in your configuration files.
 
 ## Pluggable Adapters
 
@@ -62,7 +62,6 @@ It is also possible to place an environment configuration in a separated file. L
 
 Magek.configure('john', (config: MagekConfig): void => {
   config.appName = 'john-fruit-store'
-  config.provider = Provider()
   config.eventStoreAdapter = eventStore
   config.readModelStoreAdapter = readModelStore
   config.sessionStoreAdapter = sessionStore
