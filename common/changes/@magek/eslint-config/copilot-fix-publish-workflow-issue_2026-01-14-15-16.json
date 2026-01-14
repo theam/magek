@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@magek/eslint-config",
+      "comment": "Add repository metadata to package.json for npm provenance verification",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@magek/eslint-config"
+}
