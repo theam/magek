@@ -9,7 +9,7 @@ import {
   HealthEnvelope,
   Level,
   Logger,
-  ProviderLibrary,
+  Runtime,
   ReadModelInterface,
   ReadModelStoreAdapter,
   ReadModelStoreEnvelope,
@@ -66,7 +66,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
 
         await dispatcher.dispatch({})
 
-        expect(config.provider.graphQL.handleResult).to.have.been.calledOnceWithExactly(graphQLResult, {})
+        expect(config.runtime.graphQL.handleResult).to.have.been.calledOnceWithExactly(graphQLResult, {})
       })
 
       // TODO: Fix this test - graphql module exports are non-configurable ES modules that can't be mocked with sinon
@@ -93,7 +93,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
 
         await dispatcher.dispatch({})
 
-        expect(config.provider.graphQL.handleResult).to.have.been.calledOnceWithExactly(
+        expect(config.runtime.graphQL.handleResult).to.have.been.calledOnceWithExactly(
           match((result) => {
             return (
               result.errors[0].message ==
@@ -116,7 +116,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
         const dispatcher = new MagekGraphQLDispatcher(config)
         await dispatcher.dispatch({})
 
-        expect(config.provider.graphQL.handleResult).to.have.been.calledOnceWithExactly(null, {
+        expect(config.runtime.graphQL.handleResult).to.have.been.calledOnceWithExactly(null, {
           'Sec-WebSocket-Protocol': 'graphql-ws',
         })
       })
@@ -134,7 +134,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
 
         expect(config.sessionStoreAdapter!.deleteSubscriptionsForConnection).not.to.have.been.called
         expect(config.sessionStoreAdapter!.deleteConnection).not.to.have.been.called
-        expect(config.provider.graphQL.handleResult).to.have.been.calledOnceWithExactly(undefined)
+        expect(config.runtime.graphQL.handleResult).to.have.been.calledOnceWithExactly(undefined)
       })
 
       it('calls deletes connection and subscription data', async () => {
@@ -152,7 +152,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
           config,
           mockConnectionID
         )
-        expect(config.provider.graphQL.handleResult).to.have.been.calledOnceWithExactly(undefined)
+        expect(config.runtime.graphQL.handleResult).to.have.been.calledOnceWithExactly(undefined)
       })
     })
 
@@ -203,7 +203,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
 
           await dispatcher.dispatch({})
 
-          expect(config.provider.graphQL.handleResult).to.have.been.calledOnceWithExactly(
+          expect(config.runtime.graphQL.handleResult).to.have.been.calledOnceWithExactly(
             match((result) => {
               return result.errors[0].message == errorMessage
             }),
@@ -220,7 +220,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
 
           await dispatcher.dispatch({})
 
-          expect(config.provider.graphQL.handleResult).to.have.been.calledOnceWithExactly(
+          expect(config.runtime.graphQL.handleResult).to.have.been.calledOnceWithExactly(
             match((result) => {
               return result.errors[0].message == 'Received an empty GraphQL body'
             }),
@@ -241,7 +241,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
 
           await dispatcher.dispatch({})
 
-          expect(config.provider.graphQL.handleResult).to.have.been.calledOnceWithExactly(
+          expect(config.runtime.graphQL.handleResult).to.have.been.calledOnceWithExactly(
             match((result) => {
               return result.errors[0].message == 'Received an empty GraphQL query'
             }),
@@ -265,7 +265,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
           //await expect(dispatcher.dispatch({})).to.be.rejectedWith(errorRegex)
           await dispatcher.dispatch({})
 
-          expect(config.provider.graphQL.handleResult).to.have.been.calledOnceWithExactly(
+          expect(config.runtime.graphQL.handleResult).to.have.been.calledOnceWithExactly(
             match((result) => {
               return new RegExp(errorRegex).test(result.errors[0].message)
             }),
@@ -315,7 +315,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
             variableValues: match(graphQLVariables),
             operationName: match.any,
           })
-          expect(config.provider.graphQL.handleResult).to.have.been.calledWithExactly(graphQLResult, {})
+          expect(config.runtime.graphQL.handleResult).to.have.been.calledWithExactly(graphQLResult, {})
         })
 
         it.skip('calls the GraphQL engine with the passed envelope and handles the result including the `responseHeaders`', async () => {
@@ -362,7 +362,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
             variableValues: match(graphQLVariables),
             operationName: match.any,
           })
-          expect(config.provider.graphQL.handleResult).to.have.been.calledWithExactly(graphQLResult, {
+          expect(config.runtime.graphQL.handleResult).to.have.been.calledWithExactly(graphQLResult, {
             'Test-Header': 'Test-Value',
           })
         })
@@ -421,7 +421,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
             variableValues: match(graphQLVariables),
             operationName: match.any,
           })
-          expect(config.provider.graphQL.handleResult).to.have.been.calledWithExactly(graphQLResult, {})
+          expect(config.runtime.graphQL.handleResult).to.have.been.calledWithExactly(graphQLResult, {})
         })
 
         // TODO: Fix this context - graphql module exports are non-configurable ES modules that can't be mocked with sinon
@@ -449,7 +449,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
             await dispatcher.dispatch({})
 
             // Check that the handled error includes all the errors that GraphQL reported
-            expect(config.provider.graphQL.handleResult).to.have.been.calledWithExactly(graphQLErrorResult, {})
+            expect(config.runtime.graphQL.handleResult).to.have.been.calledWithExactly(graphQLErrorResult, {})
           })
 
           it('calls the provider "handleGraphQLResult" with the error with a mutation', async () => {
@@ -465,7 +465,7 @@ describe('the `MagekGraphQLDispatcher`', () => {
             await dispatcher.dispatch({})
 
             // Check that the handled error includes all the errors that GraphQL reported
-            expect(config.provider.graphQL.handleResult).to.have.been.calledWithExactly(graphQLErrorResult, {})
+            expect(config.runtime.graphQL.handleResult).to.have.been.calledWithExactly(graphQLErrorResult, {})
           })
         })
       })
@@ -477,7 +477,7 @@ function mockConfigForGraphQLEnvelope(envelope: GraphQLRequestEnvelope | GraphQL
   const config = new MagekConfig('test')
   config.logLevel = Level.error
   config.logger = createSilentLogger()
-  const graphQLProvider: ProviderLibrary = {
+  const graphQLProvider: Runtime = {
     graphQL: {
       rawToEnvelope: fake.resolves(envelope),
       handleResult: fake.resolves(undefined),
@@ -511,7 +511,7 @@ function mockConfigForGraphQLEnvelope(envelope: GraphQLRequestEnvelope | GraphQL
     },
   }
 
-  config.provider = graphQLProvider
+  config.runtime = graphQLProvider
 
   // Mock adapters instead of provider interfaces
   const readModelStoreAdapter: ReadModelStoreAdapter = {

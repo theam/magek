@@ -38,7 +38,7 @@ In the example below, we add 2 "empty" read-models, since we are iterating `Mage
 
 const config = new MagekConfig('test')
 config.appName = 'testing-time'
-config.provider = {} as ProviderLibrary
+config.runtime = {} as Runtime
 config.readModels['WoW'] = {} as ReadModelMetadata
 config.readModels['Amazing'] = {} as ReadModelMetadata
 replace(Magek, 'config', config)

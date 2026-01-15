@@ -58,7 +58,7 @@ export class MagekScheduledCommandDispatcher {
    */
   public async dispatch(request: unknown): Promise<void> {
     const logger = getLogger(this.config, 'MagekScheduledCommandDispatcher#dispatch')
-    const envelopeOrError = await this.config.provider.scheduled.rawToEnvelope(this.config, request)
+    const envelopeOrError = await this.config.runtime.scheduled.rawToEnvelope(this.config, request)
     logger.debug('Received ScheduledCommand envelope...', envelopeOrError)
     await this.dispatchCommand(envelopeOrError)
   }

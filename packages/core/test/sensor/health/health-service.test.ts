@@ -3,7 +3,7 @@ import { MagekHealthService } from '../../../src/sensor'
 import {
   HEALTH_INDICATORS_IDS,
   MagekConfig,
-  ProviderLibrary,
+  Runtime,
   HealthIndicatorsResult,
   HealthStatus,
   Level,
@@ -22,7 +22,7 @@ describe('MagekHealthService', () => {
   let healthRequestResult: { body: HealthIndicatorsResult | Array<HealthIndicatorsResult>; isHealthy: boolean } | undefined
 
   before(() => {
-    config.provider = {
+    config.runtime = {
       api: {
         requestSucceeded: fake((request: any) => request),
         requestFailed: fake((error: any) => error),
@@ -31,7 +31,7 @@ describe('MagekHealthService', () => {
           return body
         },
       },
-    } as unknown as ProviderLibrary
+    } as unknown as Runtime
   })
 
   beforeEach(() => {
@@ -45,7 +45,7 @@ describe('MagekHealthService', () => {
   })
 
   it('All indicators are UP', async () => {
-    config.provider.sensor = defaultSensor()
+    config.runtime.sensor = defaultSensor()
     const result = await health(config)
     const magekFunction = getMagekFunction(result)
     const magekDatabase = getMagekDatabase(result)
@@ -60,10 +60,10 @@ describe('MagekHealthService', () => {
   })
 
   it('All indicators are DOWN', async () => {
-    config.provider.sensor = defaultSensor()
-    config.provider.sensor.isGraphQLFunctionUp = fake.resolves(false)
-    config.provider.sensor.isDatabaseEventUp = fake.resolves(false)
-    config.provider.sensor.areDatabaseReadModelsUp = fake.resolves(false)
+    config.runtime.sensor = defaultSensor()
+    config.runtime.sensor.isGraphQLFunctionUp = fake.resolves(false)
+    config.runtime.sensor.isDatabaseEventUp = fake.resolves(false)
+    config.runtime.sensor.areDatabaseReadModelsUp = fake.resolves(false)
     const expectedStatus = 'DOWN'
     const result = await health(config)
     const magekFunction = getMagekFunction(result)
@@ -78,11 +78,11 @@ describe('MagekHealthService', () => {
   })
 
   it('Details are processed', async () => {
-    config.provider.sensor = defaultSensor()
-    config.provider.sensor.databaseEventsHealthDetails = fake.resolves({
+    config.runtime.sensor = defaultSensor()
+    config.runtime.sensor.databaseEventsHealthDetails = fake.resolves({
       test: true,
     })
-    config.provider.sensor.databaseReadModelsHealthDetails = fake.resolves({
+    config.runtime.sensor.databaseReadModelsHealthDetails = fake.resolves({
       test: true,
     })
     const result = await health(config)
@@ -114,7 +114,7 @@ describe('MagekHealthService', () => {
       email: faker.internet.email(),
       phoneNumber: faker.phone.number(),
     })
-    config.provider.sensor = defaultSensor(token)
+    config.runtime.sensor = defaultSensor(token)
     config.sensorConfiguration.health.globalAuthorizer = {
       authorize: [UserRole],
     }
@@ -139,7 +139,7 @@ describe('MagekHealthService', () => {
       phoneNumber: faker.phone.number(),
     })
 
-    config.provider.sensor = defaultSensor(token)
+    config.runtime.sensor = defaultSensor(token)
     config.sensorConfiguration.health.globalAuthorizer = {
       authorize: [UserRole],
     }
@@ -151,7 +151,7 @@ describe('MagekHealthService', () => {
   })
 
   it('Only root enabled and without children and details', async () => {
-    config.provider.sensor = defaultSensor()
+    config.runtime.sensor = defaultSensor()
     config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.ROOT].enabled = true
     config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE].enabled = false
     config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_EVENTS].enabled = false
@@ -183,7 +183,7 @@ describe('MagekHealthService', () => {
   })
 
   it('if parent disabled then children are disabled', async () => {
-    config.provider.sensor = defaultSensor('', 'magek/database/readmodels')
+    config.runtime.sensor = defaultSensor('', 'magek/database/readmodels')
     config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.ROOT].enabled = false
     config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE].enabled = false
     config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_EVENTS].enabled = false
@@ -205,7 +205,7 @@ describe('MagekHealthService', () => {
   })
 
   it('Only ReadModels enabled and without children and details', async () => {
-    config.provider.sensor = defaultSensor('', 'magek/database/readmodels')
+    config.runtime.sensor = defaultSensor('', 'magek/database/readmodels')
     config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.ROOT].enabled = true
     config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE].enabled = true
     config.sensorConfiguration.health.magek[HEALTH_INDICATORS_IDS.DATABASE_EVENTS].enabled = false
@@ -228,14 +228,14 @@ describe('MagekHealthService', () => {
 
   describe('Health Response Status', () => {
     it('returns isHealthy true when all components are UP', async () => {
-      config.provider.sensor = defaultSensor()
+      config.runtime.sensor = defaultSensor()
       await health(config)
       expect(healthRequestResult?.isHealthy).to.be.true
     })
 
     it('returns isHealthy false when any component is DOWN', async () => {
-      config.provider.sensor = defaultSensor()
-      config.provider.sensor.isGraphQLFunctionUp = fake.resolves(false)
+      config.runtime.sensor = defaultSensor()
+      config.runtime.sensor.isGraphQLFunctionUp = fake.resolves(false)
       await health(config)
       expect(healthRequestResult?.isHealthy).to.be.false
     })

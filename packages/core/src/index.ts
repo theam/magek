@@ -23,7 +23,7 @@ export * as Injectable from './injectable'
 /**
  * Pushes a page of events to be processed by the event dispatcher.
  *
- * @param rawEvents A provider-specific representation of the events to be processed
+ * @param rawEvents A runtime-specific representation of the events to be processed
  * @returns A promise that resolves when the events are processed
  */
 export async function eventDispatcher(rawEvents: unknown): Promise<void> {
@@ -33,7 +33,7 @@ export async function eventDispatcher(rawEvents: unknown): Promise<void> {
 /**
  * Serves a GraphQL request. GraphQL resolvers can send response objects back to the client.
  *
- * @param rawRequest A provider-specific representation of the GraphQL request.
+ * @param rawRequest A runtime-specific representation of the GraphQL request.
  * @returns A promise that resolves to the GraphQL response.
  */
 export async function graphQLDispatcher(rawRequest: unknown): Promise<unknown> {
@@ -43,7 +43,7 @@ export async function graphQLDispatcher(rawRequest: unknown): Promise<unknown> {
 /**
  * Triggers pending scheduled commands. This function is meant to be called by a scheduler.
  *
- * @param rawRequest A provider-specific representation of the request to trigger scheduled commands
+ * @param rawRequest A runtime-specific representation of the request to trigger scheduled commands
  * @returns A promise that resolves when the scheduled commands are triggered
  */
 export async function triggerScheduledCommands(rawRequest: unknown): Promise<void> {
@@ -53,7 +53,7 @@ export async function triggerScheduledCommands(rawRequest: unknown): Promise<voi
 /**
  * Notifies subscribers of a new update on a read model
  *
- * @param rawRequest A provider-specific representation of the request to notify subscribers.
+ * @param rawRequest A runtime-specific representation of the request to notify subscribers.
  * @returns A promise that resolves when the subscribers are notified
  */
 export async function notifySubscribers(rawRequest: unknown): Promise<void> {
@@ -63,7 +63,7 @@ export async function notifySubscribers(rawRequest: unknown): Promise<void> {
 /**
  * Consumes events from the event stream and dispatches them to the event handlers
  *
- * @param rawEvent A provider-specific representation of the event to be processed
+ * @param rawEvent A runtime-specific representation of the event to be processed
  * @returns A promise that resolves when the event is processed
  */
 export async function consumeEventStream(rawEvent: unknown): Promise<unknown> {
@@ -73,7 +73,7 @@ export async function consumeEventStream(rawEvent: unknown): Promise<unknown> {
 /**
  * Produces events to the event stream
  *
- * @param rawEvent A provider-specific representation of the event to be produced
+ * @param rawEvent A runtime-specific representation of the event to be produced
  * @returns A promise that resolves when the event is produced
  */
 export async function produceEventStream(rawEvent: unknown): Promise<unknown> {
@@ -83,7 +83,7 @@ export async function produceEventStream(rawEvent: unknown): Promise<unknown> {
 /**
  * Returns the health of the application
  *
- * @param request A provider-specific representation of the request to check the health
+ * @param request A runtime-specific representation of the request to check the health
  * @returns A promise that resolves to the health of the application
  */
 export async function health(request: unknown): Promise<unknown> {

@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 import { MagekEventDispatcher } from '../src/event-dispatcher'
 import { fake, replace, restore, SinonSpy } from 'sinon'
-import { MagekConfig, ProviderLibrary, UUID, Field } from '@magek/common'
+import { MagekConfig, Runtime, UUID, Field } from '@magek/common'
 import { expect } from './expect'
 import { RawEventsParser } from '../src/services/raw-events-parser'
 import { MagekEventProcessor } from '../src/event-processor'
@@ -34,7 +34,7 @@ describe('MagekEventDispatcher', () => {
   })
 
   const config = new MagekConfig('test')
-  config.provider = {} as ProviderLibrary
+  config.runtime = {} as Runtime
   config.events[SomeEvent.name] = { class: SomeEvent }
   config.notifications[SomeNotification.name] = { class: SomeNotification }
   config.logger = {

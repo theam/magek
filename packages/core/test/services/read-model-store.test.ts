@@ -8,7 +8,7 @@ import {
   OptimisticConcurrencyUnexpectedVersionError,
   ProjectionMetadata,
   ProjectionResult,
-  ProviderLibrary,
+  Runtime,
   ReadModelAction,
   ReadModelInterface,
   UUID,
@@ -163,12 +163,12 @@ describe('ReadModelStore', () => {
   }
 
   const config = new MagekConfig('test')
-  config.provider = {
+  config.runtime = {
     graphQL: {
       rawToEnvelope: fake(),
       handleResult: fake(),
     },
-  } as unknown as ProviderLibrary
+  } as unknown as Runtime
   
   // Mock the adapters instead of provider interfaces
   config.readModelStoreAdapter = {

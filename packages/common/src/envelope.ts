@@ -14,7 +14,7 @@ import { Class } from './typelevel'
 /**
  * An `Envelope` carries a command/event body together with the name
  * of its class. This is important information for the `Distributor` to
- * work. Each provider has to implement their own `Envelope`.
+ * work. Each runtime has to implement their own `Envelope`.
  */
 export interface Envelope {
   currentUser?: UserEnvelope
@@ -213,7 +213,7 @@ export interface ContextEnvelope {
     headers: unknown
     body: unknown
   }
-  /** Provider-dependent raw request context object */
+  /** Runtime-dependent raw request context object */
   rawContext: unknown
 }
 

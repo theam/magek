@@ -34,7 +34,7 @@ export class Register {
    *
    * @param {UUID} requestID - The ID of the current request
    * @param {Record<string, string>} responseHeaders - The response headers object. It can be changed by the user.
-   * @param {FlusherFunction} flusher - The provider-dependent function used to flush the events to the event store.
+   * @param {FlusherFunction} flusher - The runtime-dependent function used to flush the events to the event store.
    * @param {UserEnvelope} [currentUser] - The current user envelope, if available
    * @param {ContextEnvelope} [context] - The current context envelope, if available
    */
@@ -71,7 +71,7 @@ export class Register {
   }
 
   /**
-   * Flushes the accumulated events and commands to the event store using the provider-depdent flusher function.
+   * Flushes the accumulated events and commands to the event store using the runtime-dependent flusher function.
    * This method can be called from a command or event handler to force the persistion of the events
    * to the event store. After the events have been flushed, the eventList is cleared, so the same
    * register instance can be used to register more events.

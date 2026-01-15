@@ -31,7 +31,7 @@ interface Logger {
 
 Magek.configure('development', (config: MagekConfig): void => {
   config.appName = 'my-store'
-  config.provider = Provider()
+  config.runtime = ServerRuntime
   config.eventStoreAdapter = eventStore
   // highlight-start
   config.logger = new MyCustomLogger() // Overrides the default logger object

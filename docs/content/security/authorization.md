@@ -69,7 +69,7 @@ For example, given the following setup:
 
 Magek.configure('production', (config: MagekConfig): void => {
   config.appName = 'my-store'
-  config.provider = Provider()
+  config.runtime = ServerRuntime
   config.eventStoreAdapter = eventStore
   config.tokenVerifiers = [
     new JwksUriTokenVerifier(

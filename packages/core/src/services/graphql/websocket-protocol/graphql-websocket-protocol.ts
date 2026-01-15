@@ -70,7 +70,7 @@ export class GraphQLWebsocketHandler {
     } catch (e) {
       const error = e as Error
       logger.error(e)
-      await this.config.provider.messaging.sendMessage(this.config, envelope.connectionID, new GraphQLInitError(error.message))
+      await this.config.runtime.messaging.sendMessage(this.config, envelope.connectionID, new GraphQLInitError(error.message))
     }
   }
 
@@ -88,7 +88,7 @@ export class GraphQLWebsocketHandler {
     logger.debug('Storing connection data: ', connectionData)
     await this.config.sessionStore.storeConnection(this.config, connectionID, connectionData)
     logger.debug('Sending ACK')
-    await this.config.provider.messaging.sendMessage(this.config, connectionID, new GraphQLInitAck())
+    await this.config.runtime.messaging.sendMessage(this.config, connectionID, new GraphQLInitAck())
   }
 
   private async handleStart(
@@ -101,7 +101,7 @@ export class GraphQLWebsocketHandler {
       throw new Error(`Missing "id" in ${message.type} message`)
     }
     if (!message.payload || !message.payload.query) {
-      await this.config.provider.messaging.sendMessage(
+      await this.config.runtime.messaging.sendMessage(
         this.config,
         connectionID,
         new GraphQLError(message.id, {
@@ -122,8 +122,8 @@ export class GraphQLWebsocketHandler {
 
     logger.debug('Operation finished. Sending DATA:', result)
     // It was a query or mutation. We send data and complete the operation
-    await this.config.provider.messaging.sendMessage(this.config, connectionID, new GraphQLData(message.id, result))
-    await this.config.provider.messaging.sendMessage(this.config, connectionID, new GraphQLComplete(message.id))
+    await this.config.runtime.messaging.sendMessage(this.config, connectionID, new GraphQLData(message.id, result))
+    await this.config.runtime.messaging.sendMessage(this.config, connectionID, new GraphQLComplete(message.id))
   }
 
   private async augmentEnvelope(
@@ -154,7 +154,7 @@ export class GraphQLWebsocketHandler {
     await this.callbacks.onStopOperation(connectionID, message.id)
     logger.debug('Stop operation finished')
     try {
-      await this.config.provider.messaging.sendMessage(this.config, connectionID, new GraphQLComplete(message.id))
+      await this.config.runtime.messaging.sendMessage(this.config, connectionID, new GraphQLComplete(message.id))
     } catch (e) {
       // It could be the case that the client already closed the connection without waiting for stop operation to finish
       // Log this but ignore it

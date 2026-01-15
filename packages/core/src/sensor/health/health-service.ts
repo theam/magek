@@ -23,7 +23,7 @@ export class MagekHealthService {
 
   public async health(request: unknown): Promise<unknown> {
     try {
-      const healthEnvelope: HealthEnvelope = this.config.provider.sensor.rawRequestToHealthEnvelope(request)
+      const healthEnvelope: HealthEnvelope = this.config.runtime.sensor.rawRequestToHealthEnvelope(request)
       await this.validate(healthEnvelope)
       const healthProviders = this.getHealthProviders()
       const parents = this.parentsHealthProviders(healthEnvelope, healthProviders)
@@ -33,9 +33,9 @@ export class MagekHealthService {
       const isHealthy = this.isOverallHealthy(healthIndicatorResults)
 
       // Use the new health specific response handler
-      return await this.config.provider.api.healthRequestResult(healthIndicatorResults, isHealthy)
+      return await this.config.runtime.api.healthRequestResult(healthIndicatorResults, isHealthy)
     } catch (e) {
-      return await this.config.provider.api.requestFailed(e)
+      return await this.config.runtime.api.requestFailed(e)
     }
   }
 

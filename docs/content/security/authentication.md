@@ -23,7 +23,7 @@ Here is an example of how to configure a `JwksUriTokenVerifier`:
 
 Magek.configure('production', (config: MagekConfig): void => {
   config.appName = 'app-name'
-  config.provider = Provider()
+  config.runtime = ServerRuntime
   config.eventStoreAdapter = eventStore
   config.tokenVerifiers = [
       new JwksUriTokenVerifier(
@@ -66,7 +66,7 @@ function publicKeyResolver(): Promise<string> {
 
 Magek.configure('production', (config: MagekConfig): void => {
   config.appName = 'app-name'
-  config.provider = Provider()
+  config.runtime = ServerRuntime
   config.eventStoreAdapter = eventStore
   config.tokenVerifiers = [
     new PublicKeyTokenVerifier(
@@ -118,7 +118,7 @@ class CustomTokenVerifier implements TokenVerifier {
 
 Magek.configure('production', (config: MagekConfig): void => {
   config.appName = 'app-name'
-  config.provider = Provider()
+  config.runtime = ServerRuntime
   config.eventStoreAdapter = eventStore
   config.tokenVerifiers = [new CustomTokenVerifier()]
 })

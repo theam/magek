@@ -33,7 +33,7 @@ export interface ReadModelStoreAdapter {
 
   /**
    * Searches for read models based on specific parameters
-   * This method signature matches the original provider library interface
+   * This method signature matches the original runtime interface
    *
    * @param config - The Magek configuration object
    * @param readModelName - The name of the read model type
