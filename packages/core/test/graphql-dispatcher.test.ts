@@ -477,7 +477,7 @@ function mockConfigForGraphQLEnvelope(envelope: GraphQLRequestEnvelope | GraphQL
   const config = new MagekConfig('test')
   config.logLevel = Level.error
   config.logger = createSilentLogger()
-  const graphQLProvider: Runtime = {
+  const runtime: Runtime = {
     graphQL: {
       rawToEnvelope: fake.resolves(envelope),
       handleResult: fake.resolves(undefined),
@@ -511,7 +511,7 @@ function mockConfigForGraphQLEnvelope(envelope: GraphQLRequestEnvelope | GraphQL
     },
   }
 
-  config.runtime = graphQLProvider
+  config.runtime = runtime
 
   // Mock adapters instead of provider interfaces
   const readModelStoreAdapter: ReadModelStoreAdapter = {
