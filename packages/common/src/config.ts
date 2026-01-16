@@ -18,7 +18,7 @@ import {
   SchemaMigrationMetadata,
   TokenVerifier,
 } from './concepts'
-import { ProviderLibrary } from './provider'
+import { Runtime } from './runtime'
 import { EventStoreAdapter } from './event-store-adapter'
 import { ReadModelStoreAdapter } from './read-model-store-adapter'
 import { SessionStoreAdapter } from './session-store-adapter'
@@ -36,7 +36,7 @@ export class MagekConfig {
   public logPrefix?: string
   public logger?: Logger
 
-  private _provider?: ProviderLibrary
+  private _runtime?: Runtime
   public eventStoreAdapter?: EventStoreAdapter
   public readModelStoreAdapter?: ReadModelStoreAdapter
   public sessionStoreAdapter?: SessionStoreAdapter
@@ -178,13 +178,16 @@ export class MagekConfig {
     this.validateAllMigrations()
   }
 
-  public get provider(): ProviderLibrary {
-    if (!this._provider) throw new Error('It is required to set a valid provider runtime in your configuration files')
-    return this._provider
+  public get runtime(): Runtime {
+    if (!this._runtime)
+      throw new Error(
+        'It is required to set a runtime implementation (graphQL, api, messaging, scheduled, sensor) in your configuration files'
+      )
+    return this._runtime
   }
 
-  public set provider(provider: ProviderLibrary) {
-    this._provider = provider
+  public set runtime(runtime: Runtime) {
+    this._runtime = runtime
   }
 
   public get userProjectRootPath(): string {

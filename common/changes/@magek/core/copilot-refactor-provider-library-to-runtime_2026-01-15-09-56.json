@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "refactor: rename ProviderLibrary to Runtime and update runtime usage",
+      "type": "patch",
+      "packageName": "@magek/core"
+    }
+  ],
+  "packageName": "@magek/core",
+  "email": "198982749+Copilot@users.noreply.github.com"
+}

@@ -47,20 +47,20 @@ export class MagekGraphQLDispatcher {
   @Trace(TraceActionTypes.GRAPHQL_DISPATCH)
   public async dispatch(request: unknown): Promise<unknown> {
     const logger = getLogger(this.config, 'MagekGraphQLDispatcher#dispatch')
-    const envelopeOrError = await this.config.provider.graphQL.rawToEnvelope(this.config, request)
+    const envelopeOrError = await this.config.runtime.graphQL.rawToEnvelope(this.config, request)
     logger.debug('Received the following GraphQL envelope: ', envelopeOrError)
 
     switch (envelopeOrError.eventType) {
       case 'CONNECT':
-        return this.config.provider.graphQL.handleResult(null, graphQLWebsocketSubprotocolHeaders)
+        return this.config.runtime.graphQL.handleResult(null, graphQLWebsocketSubprotocolHeaders)
       case 'MESSAGE':
         const responseHeaders = { ...this.config.defaultResponseHeaders }
         const result = await this.handleMessage(envelopeOrError, responseHeaders)
-        return this.config.provider.graphQL.handleResult(result, responseHeaders)
+        return this.config.runtime.graphQL.handleResult(result, responseHeaders)
       case 'DISCONNECT':
-        return this.config.provider.graphQL.handleResult(await this.handleDisconnect(envelopeOrError.connectionID))
+        return this.config.runtime.graphQL.handleResult(await this.handleDisconnect(envelopeOrError.connectionID))
       default:
-        return this.config.provider.graphQL.handleResult({
+        return this.config.runtime.graphQL.handleResult({
           errors: [new Error(`Unknown message type ${envelopeOrError.eventType}`)],
         })
     }

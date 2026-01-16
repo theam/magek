@@ -18,7 +18,7 @@ To enable the Health functionality in your Magek application, follow these steps
 
 Magek.configure('local', (config: MagekConfig): void => {
   config.appName = 'my-store'
-  config.provider = Provider()
+  config.runtime = ServerRuntime
   Object.values(config.sensorConfiguration.health.magek).forEach((indicator) => {
     indicator.enabled = true
   })
@@ -30,7 +30,7 @@ Or enable only the components you want:
 ```typescript
 Magek.configure('local', (config: MagekConfig): void => {
   config.appName = 'my-store'
-  config.provider = Provider()
+  config.runtime = ServerRuntime
   const sensors = config.sensorConfiguration.health.magek
   sensors[HEALTH_INDICATORS_IDS.DATABASE].enabled = true
 })

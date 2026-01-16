@@ -40,8 +40,6 @@ jobs:
           file: ./e2e/Dockerfile
           tags: magek-e2e:latest
           load: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
       - name: Run E2E tests in Docker
         run: |

@@ -6,15 +6,18 @@ import {
   ScheduledCommandEnvelope,
 } from './envelope'
 
-export interface ProviderLibrary {
-  graphQL: ProviderGraphQLLibrary
-  api: ProviderAPIHandling
-  messaging: ProviderMessagingLibrary
-  scheduled: ScheduledCommandsLibrary
-  sensor: ProviderSensorLibrary
+export interface Runtime {
+  graphQL: GraphQLRuntime
+  api: APIRuntime
+  messaging: MessagingRuntime
+  scheduled: ScheduledRuntime
+  sensor: SensorRuntime
 }
 
-export interface ProviderMessagingLibrary {
+/**
+ * Runtime messaging adapter for pushing data to client connections.
+ */
+export interface MessagingRuntime {
   /**
    * Sends a message to a specific connection.
    *
@@ -27,7 +30,7 @@ export interface ProviderMessagingLibrary {
 }
 
 
-export interface ProviderSensorLibrary {
+export interface SensorRuntime {
   databaseEventsHealthDetails(config: MagekConfig): Promise<unknown>
   databaseReadModelsHealthDetails(config: MagekConfig): Promise<unknown>
   isDatabaseEventUp(config: MagekConfig): Promise<boolean>
@@ -38,7 +41,7 @@ export interface ProviderSensorLibrary {
   rawRequestToHealthEnvelope(rawRequest: unknown): HealthEnvelope
 }
 
-export interface ProviderGraphQLLibrary {
+export interface GraphQLRuntime {
   /**
    * Converts a raw GraphQL request to a `GraphQLRequestEnvelope` or a `GraphQLRequestEnvelopeError`.
    *
@@ -61,7 +64,7 @@ export interface ProviderGraphQLLibrary {
   handleResult(result?: unknown, headers?: Record<string, string>): Promise<unknown>
 }
 
-export interface ProviderAPIHandling {
+export interface APIRuntime {
   /**
    * Handles a successful API request by returning the response body.
    *
@@ -89,7 +92,7 @@ export interface ProviderAPIHandling {
   healthRequestResult(body: unknown, isHealthy: boolean): Promise<unknown>
 }
 
-export interface ScheduledCommandsLibrary {
+export interface ScheduledRuntime {
   /**
    * Converts a raw message into a `ScheduledCommandEnvelope`.
    *
@@ -99,4 +102,3 @@ export interface ScheduledCommandsLibrary {
    */
   rawToEnvelope(config: MagekConfig, rawMessage: unknown): Promise<ScheduledCommandEnvelope>
 }
-

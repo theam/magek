@@ -130,7 +130,7 @@ export class MagekSubscribersNotifier {
       `Notifying connectionID '${subscription.connectionID}' with the following wrappeed read model: `,
       readModel
     )
-    await this.config.provider.messaging.sendMessage(this.config, subscription.connectionID, message)
+    await this.config.runtime.messaging.sendMessage(this.config, subscription.connectionID, message)
     logger.debug('Notifications sent')
   }
 }

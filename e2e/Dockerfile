@@ -8,8 +8,8 @@ RUN git config --global user.email "test@example.com" && \
     git config --global user.name "Test User" && \
     git config --global init.defaultBranch main
 
-# Install Verdaccio and pnpm globally
-RUN npm install -g verdaccio@5 pnpm@10.14.0
+# Install Verdaccio, pnpm, and Rush globally
+RUN npm install -g verdaccio@5 pnpm@10.14.0 @microsoft/rush@5.153.2
 
 # Set working directory
 WORKDIR /work
@@ -31,8 +31,14 @@ COPY ./e2e/run-e2e-tests.sh /scripts/
 # Make scripts executable
 RUN chmod +x /scripts/*.sh
 
-# Create necessary directories
-RUN mkdir -p /tmp/verdaccio-storage
+# Create necessary directories and set ownership for non-root user
+RUN mkdir -p /tmp/verdaccio-storage && \
+    chown -R node:node /tmp/verdaccio-storage && \
+    chown -R node:node /workspace && \
+    chown -R node:node /work
+
+# Switch to non-root user
+USER node
 
 # Default command runs the orchestrator script
 CMD ["/scripts/run-e2e-tests.sh"]

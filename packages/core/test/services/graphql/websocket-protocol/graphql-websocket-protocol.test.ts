@@ -53,7 +53,7 @@ describe.skip('the `GraphQLWebsocketHandler`', () => {
     replace(config, 'sessionStore', mockSessionStore)
     
     // Mock the provider messaging
-    config.provider = {
+    config.runtime = {
       messaging: {
         sendMessage: stub(),
       },
@@ -123,7 +123,7 @@ describe.skip('the `GraphQLWebsocketHandler`', () => {
         it('sends the error to the client', async () => {
           resultPromise = websocketHandler.handle(envelopeWithError)
           await resultPromise
-          expect(config.provider.messaging.sendMessage).to.be.calledOnceWithExactly(
+          expect(config.runtime.messaging.sendMessage).to.be.calledOnceWithExactly(
             config,
             envelopeWithError.connectionID,
             match({
@@ -142,7 +142,7 @@ describe.skip('the `GraphQLWebsocketHandler`', () => {
         it('sends the right error', async () => {
           resultPromise = websocketHandler.handle(envelope)
           await resultPromise
-          expect(config.provider.messaging.sendMessage).to.be.calledOnceWithExactly(
+          expect(config.runtime.messaging.sendMessage).to.be.calledOnceWithExactly(
             config,
             envelope.connectionID,
             match({
@@ -164,7 +164,7 @@ describe.skip('the `GraphQLWebsocketHandler`', () => {
         it('sends back a GQL_CONNECTION_ACK', async () => {
           resultPromise = websocketHandler.handle(envelope)
           await resultPromise
-          expect(config.provider.messaging.sendMessage).to.be.calledOnceWithExactly(
+          expect(config.runtime.messaging.sendMessage).to.be.calledOnceWithExactly(
             config,
             envelope.connectionID,
             match({ type: MessageTypes.GQL_CONNECTION_ACK })
@@ -236,7 +236,7 @@ describe.skip('the `GraphQLWebsocketHandler`', () => {
           value.id = undefined as any // Force "id" to be undefined
           resultPromise = websocketHandler.handle(envelope)
           await resultPromise
-          expect(config.provider.messaging.sendMessage).to.be.calledOnceWithExactly(
+          expect(config.runtime.messaging.sendMessage).to.be.calledOnceWithExactly(
             config,
             envelope.connectionID,
             match({
@@ -251,7 +251,7 @@ describe.skip('the `GraphQLWebsocketHandler`', () => {
           value.payload = undefined as any
           resultPromise = websocketHandler.handle(envelope)
           await resultPromise
-          expect(config.provider.messaging.sendMessage).to.be.calledOnceWithExactly(
+          expect(config.runtime.messaging.sendMessage).to.be.calledOnceWithExactly(
             config,
             envelope.connectionID,
             match({
@@ -271,7 +271,7 @@ describe.skip('the `GraphQLWebsocketHandler`', () => {
           message.payload.query = undefined as any
           resultPromise = websocketHandler.handle(envelope)
           await resultPromise
-          expect(config.provider.messaging.sendMessage).to.be.calledOnceWithExactly(
+          expect(config.runtime.messaging.sendMessage).to.be.calledOnceWithExactly(
             config,
             envelope.connectionID,
             match({
@@ -328,7 +328,7 @@ describe.skip('the `GraphQLWebsocketHandler`', () => {
           it('does not send anything back', async () => {
             resultPromise = websocketHandler.handle(envelope)
             await resultPromise
-            expect(config.provider.messaging.sendMessage).not.to.be.called
+            expect(config.runtime.messaging.sendMessage).not.to.be.called
           })
         })
 
@@ -352,8 +352,8 @@ describe.skip('the `GraphQLWebsocketHandler`', () => {
           it('sends back the expected messages', async () => {
             resultPromise = websocketHandler.handle(envelope)
             await resultPromise
-            expect(config.provider.messaging.sendMessage).to.be.calledTwice
-            expect((config.provider.messaging.sendMessage as any).getCall(0).args).to.be.deep.equal([
+            expect(config.runtime.messaging.sendMessage).to.be.calledTwice
+            expect((config.runtime.messaging.sendMessage as any).getCall(0).args).to.be.deep.equal([
               config,
               envelope.connectionID,
               {
@@ -362,7 +362,7 @@ describe.skip('the `GraphQLWebsocketHandler`', () => {
                 payload: result,
               },
             ])
-            expect((config.provider.messaging.sendMessage as any).getCall(1).args).to.be.deep.equal([
+            expect((config.runtime.messaging.sendMessage as any).getCall(1).args).to.be.deep.equal([
               config,
               envelope.connectionID,
               {
@@ -387,7 +387,7 @@ describe.skip('the `GraphQLWebsocketHandler`', () => {
           value.id = undefined as any // Force "id" to be undefined
           resultPromise = websocketHandler.handle(envelope)
           await resultPromise
-          expect(config.provider.messaging.sendMessage).to.be.calledOnceWithExactly(
+          expect(config.runtime.messaging.sendMessage).to.be.calledOnceWithExactly(
             config,
             envelope.connectionID,
             match({
@@ -408,7 +408,7 @@ describe.skip('the `GraphQLWebsocketHandler`', () => {
           const value = envelope.value as GraphQLStop
           resultPromise = websocketHandler.handle(envelope)
           await resultPromise
-          expect(config.provider.messaging.sendMessage).to.have.been.calledOnceWithExactly(
+          expect(config.runtime.messaging.sendMessage).to.have.been.calledOnceWithExactly(
             config,
             envelope.connectionID,
             match({
@@ -430,7 +430,7 @@ describe.skip('the `GraphQLWebsocketHandler`', () => {
           resultPromise = websocketHandler.handle(envelope)
           await resultPromise
           expect(onTerminateCallback).to.have.been.calledOnceWithExactly(envelope.connectionID)
-          expect(config.provider.messaging.sendMessage).not.to.have.been.called
+          expect(config.runtime.messaging.sendMessage).not.to.have.been.called
         })
       })
     })

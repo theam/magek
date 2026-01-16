@@ -1,4 +1,4 @@
-import { ProviderLibrary, EventSearchRequest, EventSearchResponse, UUID } from '@magek/common'
+import { Runtime, EventSearchRequest, EventSearchResponse, UUID } from '@magek/common'
 import { restore, fake, SinonSpy, match } from 'sinon'
 import { faker } from '@faker-js/faker'
 import { MagekEventsReader } from '../src/events-reader'
@@ -46,7 +46,7 @@ describe('MagekEventsReader', () => {
     Magek.configureCurrentEnv((config) => {
       providerEventsSearch = fake.returns(searchResult)
 
-      config.provider = {} as ProviderLibrary
+      config.runtime = {} as Runtime
       config.eventStoreAdapter = createMockEventStoreAdapter({
         search: providerEventsSearch,
       })

@@ -1,4 +1,4 @@
-import { ProviderLibrary, MagekConfig, getLogger } from '@magek/common'
+import { Runtime, MagekConfig, getLogger } from '@magek/common'
 import { healthRequestResult, requestFailed, requestSucceeded } from './library/api-adapter'
 import { rawGraphQLRequestToEnvelope } from './library/graphql-adapter'
 
@@ -15,19 +15,19 @@ export * from './library/graphql-adapter'
 export { createServer, getWebSocketRegistry, sendWebSocketMessage } from './server'
 export type { ServerOptions } from './server'
 
-export const Provider = (): ProviderLibrary => ({
-  // ProviderGraphQLLibrary
+export const ServerRuntime: Runtime = {
+  // GraphQLRuntime
   graphQL: {
     rawToEnvelope: rawGraphQLRequestToEnvelope,
     handleResult: requestSucceeded,
   },
-  // ProviderAPIHandling
+  // APIRuntime
   api: {
     requestSucceeded,
     requestFailed,
     healthRequestResult,
   },
-  // ProviderMessagingLibrary
+  // MessagingRuntime
   messaging: {
     sendMessage: async (config: MagekConfig, connectionID: string, data: unknown) => {
       // Use the global WebSocket registry for message sending
@@ -35,12 +35,12 @@ export const Provider = (): ProviderLibrary => ({
       if (globalRegistry && typeof globalRegistry.sendMessage === 'function') {
         globalRegistry.sendMessage(connectionID, data)
       } else {
-        const logger = getLogger(config, 'ServerProvider')
+        const logger = getLogger(config, 'ServerRuntime')
         logger.warn(`WebSocket registry not available. Message not sent to connection ${connectionID}`)
       }
     },
   },
-  // ScheduledCommandsLibrary
+  // ScheduledRuntime
   scheduled: {
     rawToEnvelope: rawScheduledInputToEnvelope,
   },
@@ -87,4 +87,4 @@ export const Provider = (): ProviderLibrary => ({
     graphQLFunctionUrl: graphqlFunctionUrl,
     rawRequestToHealthEnvelope: rawRequestToSensorHealth,
   },
-})
+}

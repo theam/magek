@@ -22,7 +22,7 @@ import { ReadModelSchemaMigrator } from '../src/read-model-schema-migrator'
 
 describe('MagekReadModelReader', () => {
   const config = new MagekConfig('test')
-  config.provider = {
+  config.runtime = {
     graphQL: {
       rawToEnvelope: fake(),
       handleResult: fake(),

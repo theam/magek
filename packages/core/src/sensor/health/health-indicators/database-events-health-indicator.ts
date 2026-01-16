@@ -15,7 +15,7 @@ export class MagekDatabaseEventsHealthIndicator {
         status: await this.isUp(config),
       }
       if (healthIndicatorMetadata.healthIndicatorConfiguration.details) {
-        const details = await config.provider.sensor.databaseEventsHealthDetails(config)
+        const details = await config.runtime.sensor.databaseEventsHealthDetails(config)
         result.details = details as any
       }
       return result
@@ -25,7 +25,7 @@ export class MagekDatabaseEventsHealthIndicator {
   }
 
   private async isUp(config: MagekConfig): Promise<HealthStatus> {
-    const databaseEvents = await config.provider.sensor.isDatabaseEventUp(config)
+    const databaseEvents = await config.runtime.sensor.isDatabaseEventUp(config)
     return databaseEvents ? HealthStatus.UP : HealthStatus.DOWN
   }
 }

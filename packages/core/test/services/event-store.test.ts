@@ -8,7 +8,7 @@ import {
   EventInterface,
   Level,
   NonPersistedEntitySnapshotEnvelope,
-  ProviderLibrary,
+  Runtime,
   UUID,
   Field,
 } from '@magek/common'
@@ -94,13 +94,13 @@ describe('EventStore', () => {
   }
 
   const config = new MagekConfig('test')
-  config.provider = {
+  config.runtime = {
     events: {
       storeSnapshot: () => {},
       latestEntitySnapshot: () => {},
       forEntitySince: () => {},
     },
-  } as any as ProviderLibrary
+  } as any as Runtime
   config.eventStoreAdapter = createMockEventStoreAdapter({
     storeSnapshot: async () => ({} as any),
     latestEntitySnapshot: async () => undefined,

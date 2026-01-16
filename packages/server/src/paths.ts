@@ -1,4 +1,4 @@
-// Paths used by the local provider internally
+// Paths used by the local runtime internally
 import * as path from 'path'
 export const registeredUsersDatabase = internalPath('registered_users.json')
 export const authenticatedUsersDatabase = internalPath('authenticated_users.json')

@@ -1,6 +1,6 @@
  
 import { expect } from './helpers/expect'
-import { SchemaMigrationMetadata, ProviderLibrary, MagekConfig, EventStoreAdapter, ReadModelStoreAdapter, SessionStoreAdapter } from '../src'
+import { SchemaMigrationMetadata, Runtime, MagekConfig, EventStoreAdapter, ReadModelStoreAdapter, SessionStoreAdapter } from '../src'
 
 describe('the config type', () => {
   describe('resourceNames', () => {
@@ -97,7 +97,7 @@ describe('the config type', () => {
   describe('validate', () => {
     it('throws when there are gaps in the migration versions for a concept', () => {
       const config = new MagekConfig('test')
-      config.provider = {} as ProviderLibrary
+      config.runtime = {} as Runtime
       const schemaMigrations = new Map()
       schemaMigrations.set(3, {} as any)
       schemaMigrations.set(2, {} as any)
@@ -109,7 +109,7 @@ describe('the config type', () => {
 
     it('does not throw when there are no gaps in the migration versions for a concept', () => {
       const config = new MagekConfig('test')
-      config.provider = {} as ProviderLibrary
+      config.runtime = {} as Runtime
       const schemaMigrations = new Map()
       schemaMigrations.set(4, {} as any)
       schemaMigrations.set(2, {} as any)
@@ -120,25 +120,25 @@ describe('the config type', () => {
     })
   })
 
-  describe('provider', () => {
-    it('throws when there is no provider set', () => {
+  describe('runtime', () => {
+    it('throws when there is no runtime set', () => {
       const config = new MagekConfig('test')
 
-      expect(() => config.provider).to.throw(/set a valid provider runtime/)
+      expect(() => config.runtime).to.throw(/set a runtime implementation/)
     })
 
-    it('does not throw when there is a provider set', () => {
+    it('does not throw when there is a runtime set', () => {
       const config = new MagekConfig('test')
-      config.provider = {} as ProviderLibrary
+      config.runtime = {} as Runtime
 
-      expect(() => config.provider).to.not.throw()
+      expect(() => config.runtime).to.not.throw()
     })
 
-    it('does not set eventStoreAdapter when provider is set (direct assignment required)', () => {
+    it('does not set eventStoreAdapter when runtime is set (direct assignment required)', () => {
       const config = new MagekConfig('test')
-      const mockProvider = {} as ProviderLibrary
+      const mockRuntime = {} as Runtime
 
-      config.provider = mockProvider
+      config.runtime = mockRuntime
 
       expect(config.eventStoreAdapter).to.be.undefined
     })
@@ -152,17 +152,17 @@ describe('the config type', () => {
       expect(config.eventStoreAdapter).to.equal(mockEventStoreAdapter)
     })
 
-    it('eventStoreAdapter remains unchanged when provider is set after direct assignment', () => {
+    it('eventStoreAdapter remains unchanged when runtime is set after direct assignment', () => {
       const config = new MagekConfig('test')
       const directlySetAdapter = {} as EventStoreAdapter
-      const mockProvider = {} as ProviderLibrary
+      const mockRuntime = {} as Runtime
 
       // First set directly
       config.eventStoreAdapter = directlySetAdapter
       expect(config.eventStoreAdapter).to.equal(directlySetAdapter)
 
-      // Then set provider - should NOT overwrite
-      config.provider = mockProvider
+      // Then set runtime - should NOT overwrite
+      config.runtime = mockRuntime
       expect(config.eventStoreAdapter).to.equal(directlySetAdapter)
     })
   })

@@ -16,6 +16,7 @@ auth:
   htpasswd:
     file: /tmp/verdaccio-storage/htpasswd
     max_users: -1
+    algorithm: bcrypt
     # leaving `verify_passwords` to the default (false) keeps things simple for CI
 
 uplinks:
@@ -23,8 +24,18 @@ uplinks:
     url: https://registry.npmjs.org/
 
 packages:
+  '@magek/*':
+    # magek packages - local only, no proxy to npmjs
+    access: $all
+    publish: $all
+
+  'create-magek':
+    # create-magek package - local only, no proxy to npmjs
+    access: $all
+    publish: $all
+
   '@*/*':
-    # scoped packages
+    # other scoped packages
     access: $all
     publish: $all
     proxy: npmjs
@@ -38,8 +49,7 @@ packages:
 server:
   keepAliveTimeout: 60
 
-listen:
-  - 0.0.0.0:4873
+listen: 0.0.0.0:4873
 
 log:
   - {type: stdout, format: pretty, level: info} 

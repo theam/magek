@@ -16,7 +16,7 @@ export class MagekFunctionHealthIndicator {
         status: await this.isUp(config),
       }
       if (healthIndicatorMetadata.healthIndicatorConfiguration.details) {
-        const graphQLUrl = await config.provider.sensor.graphQLFunctionUrl(config)
+        const graphQLUrl = await config.runtime.sensor.graphQLFunctionUrl(config)
         const osInfoResult = await osInfo()
         result.details = {
           ...osInfoResult,
@@ -30,6 +30,6 @@ export class MagekFunctionHealthIndicator {
   }
 
   private async isUp(config: MagekConfig): Promise<HealthStatus> {
-    return (await config.provider.sensor.isGraphQLFunctionUp(config)) ? HealthStatus.UP : HealthStatus.DOWN
+    return (await config.runtime.sensor.isGraphQLFunctionUp(config)) ? HealthStatus.UP : HealthStatus.DOWN
   }
 }

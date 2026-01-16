@@ -7,7 +7,7 @@ import {
   EntitySnapshotEnvelope,
   EventInterface,
   NonPersistedEventEnvelope,
-  ProviderLibrary,
+  Runtime,
   Register,
   UUID,
   PromisesError,
@@ -99,7 +99,7 @@ describe('MagekEventProcessor', () => {
   })
 
   const config = new MagekConfig('test')
-  config.provider = {} as ProviderLibrary
+  config.runtime = {} as Runtime
   config.events[SomeEvent.name] = { class: SomeEvent }
   config.notifications[SomeNotification.name] = { class: SomeNotification }
   config.logger = {

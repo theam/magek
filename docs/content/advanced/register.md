@@ -97,7 +97,7 @@ export interface ContextEnvelope {
     headers: unknown
     body: unknown
   }
-  /** Provider-dependent raw request context object */
+  /** Runtime-dependent raw request context object */
   rawContext: unknown
 }
 ```

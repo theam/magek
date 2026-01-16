@@ -15,7 +15,7 @@ export class MagekDatabaseReadModelsHealthIndicator {
         status: await this.isUp(config),
       }
       if (healthIndicatorMetadata.healthIndicatorConfiguration.details) {
-        const details = await config.provider.sensor.databaseReadModelsHealthDetails(config)
+        const details = await config.runtime.sensor.databaseReadModelsHealthDetails(config)
         result.details = details as any
       }
       return result
@@ -25,7 +25,7 @@ export class MagekDatabaseReadModelsHealthIndicator {
   }
 
   private async isUp(config: MagekConfig): Promise<HealthStatus> {
-    const databaseReadModels = await config.provider.sensor.areDatabaseReadModelsUp(config)
+    const databaseReadModels = await config.runtime.sensor.areDatabaseReadModelsUp(config)
     return databaseReadModels ? HealthStatus.UP : HealthStatus.DOWN
   }
 }

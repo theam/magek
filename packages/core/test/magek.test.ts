@@ -7,7 +7,7 @@ import {
   EventParametersFilterByType,
   EventInterface,
   EventSearchResponse,
-  ProviderLibrary,
+  Runtime,
   UUID,
   NotificationInterface,
   Field,
@@ -37,7 +37,7 @@ describe('the `Magek` class', () => {
 
       Magek.configure('test', (config) => {
         config.appName = 'test-app-name'
-        config.provider = {} as ProviderLibrary
+        config.runtime = {} as Runtime
       })
 
       Magek.configure('another-environment', (config) => {
@@ -47,7 +47,7 @@ describe('the `Magek` class', () => {
       expect(magek.configuredEnvironments).to.have.lengthOf(2)
       expect(magek.configuredEnvironments).to.include.keys(['test', 'another-environment'])
       expect(magek.config.appName).to.equal('test-app-name')
-      expect(magek.config.provider).to.be.an('object')
+      expect(magek.config.runtime).to.be.an('object')
     })
   })
 
@@ -133,7 +133,7 @@ describe('the `Magek` class', () => {
     it.skip('returns a properly configured Searcher', async () => {
       const searcherFunctionFake = fake.resolves([])
       Magek.configureCurrentEnv((config) => {
-        replaceGetter(config, 'provider', () => {
+        replaceGetter(config, 'runtime', () => {
           return {
             readModels: {
               search: searcherFunctionFake,
@@ -153,11 +153,11 @@ describe('the `Magek` class', () => {
         undefined
       )
     })
-    // TODO: Fix this test - mock provider setup issue
+    // TODO: Fix this test - mock runtime setup issue
     it.skip('has an instance method', async () => {
       const searcherFunctionFake = fake.returns([{ id: '42' }])
       Magek.configureCurrentEnv((config) => {
-        replaceGetter(config, 'provider', () => {
+        replaceGetter(config, 'runtime', () => {
           return {
             readModels: {
               search: searcherFunctionFake,
@@ -176,7 +176,7 @@ describe('the `Magek` class', () => {
     it('has an instance method', async () => {
       const providerSearchEntitiesIds = fake.resolves([])
       Magek.configureCurrentEnv((config) => {
-        config.provider = {} as ProviderLibrary
+        config.runtime = {} as Runtime
         config.eventStoreAdapter = createMockEventStoreAdapter({
           searchEntitiesIDs: providerSearchEntitiesIds,
         })
@@ -261,7 +261,7 @@ describe('the `Magek` class', () => {
       const providerEventsSearch = fake.resolves(searchResult)
       Magek.configureCurrentEnv((config) => {
         config.logLevel = Level.error
-        config.provider = {} as ProviderLibrary
+        config.runtime = {} as Runtime
         config.eventStoreAdapter = createMockEventStoreAdapter({
           search: providerEventsSearch,
         })
@@ -322,7 +322,7 @@ describe('the `Magek` class', () => {
       const providerEventsSearch = fake.resolves(searchResult)
       Magek.configureCurrentEnv((config) => {
         config.logLevel = Level.error
-        config.provider = {} as ProviderLibrary
+        config.runtime = {} as Runtime
         config.eventStoreAdapter = createMockEventStoreAdapter({
           search: providerEventsSearch,
         })
@@ -371,7 +371,7 @@ describe('the `Magek` class', () => {
       const providerEventsSearch = fake.resolves(searchResult)
       Magek.configureCurrentEnv((config) => {
         config.logLevel = Level.error
-        config.provider = {} as ProviderLibrary
+        config.runtime = {} as Runtime
         config.eventStoreAdapter = createMockEventStoreAdapter({
           search: providerEventsSearch,
         })
@@ -403,7 +403,7 @@ describe('the `Magek` class', () => {
   describe('The `entity` method', () => {
     context('given a MagekConfig', () => {
       const config = new MagekConfig('test')
-      config.provider = {} as ProviderLibrary
+      config.runtime = {} as Runtime
 
       it('the `entity` function calls to the `fetchEntitySnapshot` method in the EventStore', async () => {
         replace(EventStore.prototype, 'fetchEntitySnapshot', fake.resolves({ value: { id: '42' } }))

@@ -27,9 +27,9 @@ export class MagekHealthIndicator {
   }
 
   private async isUp(config: MagekConfig): Promise<HealthStatus> {
-    const graphqlUp = await config.provider.sensor.isGraphQLFunctionUp(config)
-    const databaseEvents = await config.provider.sensor.isDatabaseEventUp(config)
-    const databaseReadModels = await config.provider.sensor.areDatabaseReadModelsUp(config)
+    const graphqlUp = await config.runtime.sensor.isGraphQLFunctionUp(config)
+    const databaseEvents = await config.runtime.sensor.isDatabaseEventUp(config)
+    const databaseReadModels = await config.runtime.sensor.areDatabaseReadModelsUp(config)
     return graphqlUp && databaseEvents && databaseReadModels ? HealthStatus.UP : HealthStatus.DOWN
   }
 }
