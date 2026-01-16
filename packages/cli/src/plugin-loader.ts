@@ -1,4 +1,4 @@
-import type { Command, Config, Plugin } from '@oclif/core'
+import type { Command, Config, Interfaces } from '@oclif/core'
 import type { Injectable } from '@magek/core'
 import { readdir } from 'node:fs/promises'
 import { createRequire } from 'node:module'
@@ -107,16 +107,57 @@ const buildLoadableCommands = (
   })
 }
 
+type OclifPlugin = Interfaces.Plugin
+
+const createPlugin = (config: Config, packageName: string, commands: Array<Command.Loadable>): OclifPlugin => {
+  const findCommand = (async (id: string, opts?: { must: boolean }) => {
+    const command = commands.find((commandEntry) => commandEntry.id === id)
+    const commandClass = command ? await command.load() : undefined
+    if (!commandClass && opts?.must) {
+      throw new Error(`command ${id} not found`)
+    }
+    return commandClass
+  }) as OclifPlugin['findCommand']
+  const pjson = { name: packageName, version: '0.0.0', oclif: {} } as Interfaces.PJSON
+  return {
+  _base: '',
+  alias: packageName,
+  commandIDs: commands.map((command) => command.id),
+  commands,
+  commandsDir: undefined,
+  findCommand,
+  hasManifest: false,
+  hooks: {},
+  isRoot: false,
+  load: async () => {},
+  moduleType: 'commonjs',
+  name: packageName,
+  options: config.options,
+  parent: undefined,
+  pjson,
+  root: config.root,
+  tag: undefined,
+  topics: [],
+  type: 'user',
+  valid: true,
+  version: '0.0.0',
+  }
+}
+
 export const registerMagekCliPlugins = async (config: Config, projectRoot = process.cwd()): Promise<void> => {
   const adapterPackages = await discoverAdapterPackages(projectRoot)
   if (adapterPackages.length === 0) {
     return
   }
   // @oclif/core does not expose a public API for registering runtime commands.
-  const registerPlugin = (plugin: Plugin): void => {
+  const registerPlugin = (plugin: OclifPlugin): void => {
     const configLoader = config as unknown as {
-      loadCommands: (plugin: Plugin) => void
-      loadTopics: (plugin: Plugin) => void
+      loadCommands?: (plugin: OclifPlugin) => void
+      loadTopics?: (plugin: OclifPlugin) => void
+    }
+    if (!configLoader.loadCommands || !configLoader.loadTopics) {
+      console.warn('Unable to register Magek CLI plugins with this oclif version.')
+      return
     }
     configLoader.loadCommands(plugin)
     configLoader.loadTopics(plugin)
@@ -132,7 +173,7 @@ export const registerMagekCliPlugins = async (config: Config, projectRoot = proc
       if (loadableCommands.length === 0) {
         continue
       }
-      const plugin = { name: packageName, commands: loadableCommands, topics: [] } as unknown as Plugin
+      const plugin = createPlugin(config, packageName, loadableCommands)
       registerPlugin(plugin)
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error)
