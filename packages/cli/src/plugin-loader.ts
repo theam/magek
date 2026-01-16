@@ -66,16 +66,19 @@ const normalizeArgs = (
   return args
 }
 
+const isCommandClass = (command: unknown): command is Command.Class =>
+  typeof command === 'function' && typeof (command as Command.Class).run === 'function'
+
 const buildLoadableCommands = (
   commands: Record<string, Injectable.Command>,
   pluginName: string
 ): Array<Command.Loadable> => {
   const commandEntries = Object.entries(commands)
   return commandEntries.flatMap(([commandId, command]) => {
-    if (typeof command !== 'function') {
+    if (!isCommandClass(command)) {
       return []
     }
-    const commandClass = command as unknown as Command.Class
+    const commandClass = command
     commandClass.id ??= commandId
     const legacyExample = (commandClass as { example?: Command.Example[] }).example
     return [
@@ -109,9 +112,14 @@ export const registerMagekCliPlugins = async (config: Config, projectRoot = proc
   if (adapterPackages.length === 0) {
     return
   }
-  const configLoader = config as unknown as {
-    loadCommands: (plugin: Plugin) => void
-    loadTopics: (plugin: Plugin) => void
+  // @oclif/core does not expose a public API for registering runtime commands.
+  const registerPlugin = (plugin: Plugin): void => {
+    const configLoader = config as unknown as {
+      loadCommands: (plugin: Plugin) => void
+      loadTopics: (plugin: Plugin) => void
+    }
+    configLoader.loadCommands(plugin)
+    configLoader.loadTopics(plugin)
   }
   for (const packageName of adapterPackages) {
     try {
@@ -125,10 +133,10 @@ export const registerMagekCliPlugins = async (config: Config, projectRoot = proc
         continue
       }
       const plugin = { name: packageName, commands: loadableCommands, topics: [] } as unknown as Plugin
-      configLoader.loadCommands(plugin)
-      configLoader.loadTopics(plugin)
-    } catch {
-      continue
+      registerPlugin(plugin)
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error)
+      console.warn(`Skipping Magek CLI plugin ${packageName}: ${errorMessage}`)
     }
   }
 }
