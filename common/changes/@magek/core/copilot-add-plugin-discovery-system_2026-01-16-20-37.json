@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Add CLI adapter plugin discovery.",
+      "type": "patch",
+      "packageName": "@magek/core"
+    }
+  ],
+  "packageName": "@magek/core",
+  "email": "198982749+Copilot@users.noreply.github.com"
+}
