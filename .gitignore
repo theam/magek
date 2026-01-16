@@ -76,4 +76,3 @@ common/autoinstallers/*/.npmrc
 .magek
 *-integration-sandbox
 *.tsbuildinfo
-# Trigger push
