@@ -66,7 +66,9 @@ const normalizeArgs = (
   return args
 }
 
-const isCommandClass = (command: unknown): command is Command.Class =>
+type MagekCommandClass = Command.Class & Injectable.Command
+
+const isCommandClass = (command: unknown): command is MagekCommandClass =>
   typeof command === 'function' && typeof (command as Command.Class).run === 'function'
 
 const buildLoadableCommands = (
