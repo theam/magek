@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@magek/core",
+      "comment": "chore(deps): bump fastify from 5.6.2 to 5.7.1 in /packages/server",
+      "type": "none"
+    }
+  ],
+  "packageName": "@magek/core"
+}
