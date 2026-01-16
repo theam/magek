@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Dependency update: bump jwks-rsa from 3.2.0 to 3.2.1",
+      "type": "none",
+      "packageName": "@magek/core"
+    }
+  ],
+  "packageName": "@magek/core",
+  "email": "198982749+Copilot@users.noreply.github.com"
+}
