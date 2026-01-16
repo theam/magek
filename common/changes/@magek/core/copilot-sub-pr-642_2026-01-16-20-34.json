@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@magek/core",
+      "comment": "Bump @types/node to 22.19.7",
+      "type": "none"
+    }
+  ],
+  "packageName": "@magek/core",
+  "email": "198982749+Copilot@users.noreply.github.com"
+}
