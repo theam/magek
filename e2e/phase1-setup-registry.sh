@@ -79,28 +79,28 @@ EOF
 echo "🔨 Building workspace packages..."
 cd /workspace
 
-# Install Rush if needed
-if [ ! -f "common/scripts/install-run-rush.js" ]; then
-  echo "❌ Rush scripts not found"
-  exit 1
-fi
-
 # Update dependencies first to sync shrinkwrap file
 echo "🔄 Updating dependencies to sync shrinkwrap file..."
-node common/scripts/install-run-rush.js update
+rush update
 
 # Install dependencies
 echo "📦 Installing dependencies..."
 # Use --purge to handle store path changes in containerized environment
-node common/scripts/install-run-rush.js install --purge
+rush install --purge
 
 # Build all packages
 echo "🔨 Building all packages..."
 # Build all projects to ensure dist files are ready
-node common/scripts/install-run-rush.js rebuild
+rush rebuild
 
-# Publish packages to Verdaccio using Rush built-in publish command
-echo "📤 Publishing packages to local registry using Rush publish..."
-node common/scripts/install-run-rush.js publish --registry http://localhost:4873 --publish --include-all
+# Publish packages to Verdaccio using Rush's built-in publish command
+echo "📤 Publishing packages to local registry..."
+
+# Use rush publish with --include-all to publish all packages with shouldPublish=true
+# --apply: Apply version changes
+# --publish: Actually publish to registry
+# --include-all: Publish all packages regardless of change files
+# --registry: Target our local Verdaccio registry
+rush publish --apply --publish --include-all --registry http://localhost:4873
 
 echo "✅ Phase 1 completed: Registry is running and packages are published" 
