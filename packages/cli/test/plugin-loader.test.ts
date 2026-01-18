@@ -94,7 +94,7 @@ describe('plugin loader', () => {
     const tempDir = await createTempProject()
     try {
       await writeAdapterPackage(tempDir, 'adapter-invalid', {
-        source: 'module.exports = { magekCli: \'not-an-object\' }',
+        source: 'module.exports = { magekCli: \'string\' }',
       })
       const config = await Config.load({ root: tempDir })
       await registerMagekCliPlugins(config, tempDir)

@@ -98,7 +98,7 @@ const buildLoadableCommands = (
       return []
     }
     const commandClass = command
-    const resolvedCommandId = commandClass.id ?? commandId
+    const effectiveCommandId = commandClass.id ?? commandId
     const legacyExample = (commandClass as { example?: Command.Example[] }).example
     return [
       {
@@ -112,7 +112,7 @@ const buildLoadableCommands = (
         hasDynamicHelp: commandClass.hasDynamicHelp ?? false,
         hidden: commandClass.hidden ?? false,
         hiddenAliases: commandClass.hiddenAliases ?? [],
-        id: resolvedCommandId,
+        id: effectiveCommandId,
         pluginAlias: pluginName,
         pluginName,
         pluginType: 'user',
@@ -174,7 +174,7 @@ export const registerMagekCliPlugins = async (config: Config, projectRoot = proc
     return
   }
   // @oclif/core does not expose a public API for registering runtime commands.
-  // Tested against @oclif/core 4.8.0; future upgrades may require adjustments.
+  // Tested against @oclif/core 4.8.0; changes to loadCommands/loadTopics internals may require adjustments.
   const registerPlugin = (plugin: MagekPlugin): void => {
     const configLoader = config as unknown as {
       loadCommands?: (plugin: MagekPlugin) => void
