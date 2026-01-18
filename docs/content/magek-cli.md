@@ -49,4 +49,19 @@ Once you're in your Magek project directory, you can use the `npx magek` command
 npm create magek@latest my-project
 ```
 
+## Adapter CLI plugins
+
+Magek CLI automatically discovers adapter packages named `@magek/adapter-*` that export a `magekCli` object. Any commands listed there are registered at startup and appear in `npx magek --help`.
+
+```ts
+export const magekCli = {
+  commands: {
+    'migrate:status': MigrateStatusCommand,
+    'migrate:apply': MigrateApplyCommand,
+  },
+}
+```
+
+> **Note:** Plugin discovery executes code from installed adapter packages. Only install trusted adapters in your project.
+
 See the [Getting Started guide](/getting-started/coding#1-create-the-project) for details.

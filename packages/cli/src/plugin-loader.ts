@@ -1,4 +1,5 @@
-import type { Command, Config, Interfaces } from '@oclif/core'
+import { Command } from '@oclif/core'
+import type { Config, Interfaces } from '@oclif/core'
 import type { Injectable } from '@magek/core'
 import { readdir } from 'node:fs/promises'
 import { createRequire } from 'node:module'
@@ -17,6 +18,9 @@ type MagekCliModule = {
 const isNodeError = (error: unknown): error is NodeJS.ErrnoException =>
   error instanceof Error && 'code' in error
 
+/**
+ * Discover Magek adapter packages under the @magek scope.
+ */
 const discoverAdapterPackages = async (projectRoot: string): Promise<Array<string>> => {
   const scopeDir = join(projectRoot, 'node_modules', '@magek')
   try {
@@ -37,6 +41,7 @@ const loadMagekCliModule = async (projectRoot: string, packageName: string): Pro
   try {
     return projectRequire(packageName) as MagekCliModule
   } catch (error) {
+    // Only ERR_REQUIRE_ESM indicates an ESM package that we should re-load via dynamic import.
     if (isNodeError(error) && error.code === 'ERR_REQUIRE_ESM') {
       const resolved = projectRequire.resolve(packageName)
       const module = await import(pathToFileURL(resolved).href)
@@ -46,9 +51,12 @@ const loadMagekCliModule = async (projectRoot: string, packageName: string): Pro
   }
 }
 
+const isCommandMap = (value: unknown): value is Record<string, Injectable.Command> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value)
+
 const resolveMagekCli = (module: MagekCliModule): Injectable.Injectable | null => {
   const magekCli = module.magekCli ?? module.default?.magekCli
-  if (!magekCli || typeof magekCli !== 'object') {
+  if (!magekCli || typeof magekCli !== 'object' || !isCommandMap(magekCli.commands)) {
     return null
   }
   return magekCli
@@ -61,7 +69,14 @@ const normalizeArgs = (
     return {}
   }
   if (Array.isArray(args)) {
-    return Object.fromEntries(args.map((arg) => [arg.name, arg]))
+    const normalized: Record<string, Command.Arg.Any> = {}
+    for (const arg of args) {
+      if (normalized[arg.name]) {
+        throw new Error(`Duplicate argument name detected in command args: "${arg.name}"`)
+      }
+      normalized[arg.name] = arg
+    }
+    return normalized
   }
   return args
 }
@@ -69,7 +84,9 @@ const normalizeArgs = (
 type MagekCommandClass = Command.Class & Injectable.Command
 
 const isCommandClass = (command: unknown): command is MagekCommandClass =>
-  typeof command === 'function' && typeof (command as Command.Class).run === 'function'
+  typeof command === 'function' &&
+  command.prototype instanceof Command &&
+  typeof (command as Command.Class).run === 'function'
 
 const buildLoadableCommands = (
   commands: Record<string, Injectable.Command>,
@@ -81,7 +98,7 @@ const buildLoadableCommands = (
       return []
     }
     const commandClass = command
-    commandClass.id ??= commandId
+    const resolvedCommandId = commandClass.id ?? commandId
     const legacyExample = (commandClass as { example?: Command.Example[] }).example
     return [
       {
@@ -95,7 +112,7 @@ const buildLoadableCommands = (
         hasDynamicHelp: commandClass.hasDynamicHelp ?? false,
         hidden: commandClass.hidden ?? false,
         hiddenAliases: commandClass.hiddenAliases ?? [],
-        id: commandClass.id,
+        id: resolvedCommandId,
         pluginAlias: pluginName,
         pluginName,
         pluginType: 'user',
@@ -109,9 +126,14 @@ const buildLoadableCommands = (
   })
 }
 
-type OclifPlugin = Interfaces.Plugin
+type MagekPlugin = Interfaces.Plugin
 
-const createPlugin = (config: Config, packageName: string, commands: Array<Command.Loadable>): OclifPlugin => {
+const createPlugin = (
+  config: Config,
+  packageName: string,
+  version: string,
+  commands: Array<Command.Loadable>
+): MagekPlugin => {
   const findCommand = (async (id: string, opts?: { must: boolean }) => {
     const command = commands.find((commandEntry) => commandEntry.id === id)
     const commandClass = command ? await command.load() : undefined
@@ -119,30 +141,30 @@ const createPlugin = (config: Config, packageName: string, commands: Array<Comma
       throw new Error(`command ${id} not found`)
     }
     return commandClass
-  }) as OclifPlugin['findCommand']
-  const pjson = { name: packageName, version: '0.0.0', oclif: {} } as Interfaces.PJSON
+  }) as MagekPlugin['findCommand']
+  const pjson = { name: packageName, version, oclif: {} } as Interfaces.PJSON
   return {
-  _base: '',
-  alias: packageName,
-  commandIDs: commands.map((command) => command.id),
-  commands,
-  commandsDir: undefined,
-  findCommand,
-  hasManifest: false,
-  hooks: {},
-  isRoot: false,
-  load: async () => {},
-  moduleType: 'commonjs',
-  name: packageName,
-  options: config.options,
-  parent: undefined,
-  pjson,
-  root: config.root,
-  tag: undefined,
-  topics: [],
-  type: 'user',
-  valid: true,
-  version: '0.0.0',
+    _base: '',
+    alias: packageName,
+    commandIDs: commands.map((command) => command.id),
+    commands,
+    commandsDir: undefined,
+    findCommand,
+    hasManifest: false,
+    hooks: {},
+    isRoot: false,
+    load: async () => {},
+    moduleType: 'commonjs',
+    name: packageName,
+    options: config.options,
+    parent: undefined,
+    pjson,
+    root: config.root,
+    tag: undefined,
+    topics: [],
+    type: 'user',
+    valid: true,
+    version,
   }
 }
 
@@ -152,13 +174,14 @@ export const registerMagekCliPlugins = async (config: Config, projectRoot = proc
     return
   }
   // @oclif/core does not expose a public API for registering runtime commands.
-  const registerPlugin = (plugin: OclifPlugin): void => {
+  // Tested against @oclif/core 4.8.0; future upgrades may require adjustments.
+  const registerPlugin = (plugin: MagekPlugin): void => {
     const configLoader = config as unknown as {
-      loadCommands?: (plugin: OclifPlugin) => void
-      loadTopics?: (plugin: OclifPlugin) => void
+      loadCommands?: (plugin: MagekPlugin) => void
+      loadTopics?: (plugin: MagekPlugin) => void
     }
     if (!configLoader.loadCommands || !configLoader.loadTopics) {
-      console.warn('Unable to register Magek CLI plugins with this oclif version.')
+      console.warn('Warning: Unable to register Magek CLI plugins with this oclif version.')
       return
     }
     configLoader.loadCommands(plugin)
@@ -175,11 +198,20 @@ export const registerMagekCliPlugins = async (config: Config, projectRoot = proc
       if (loadableCommands.length === 0) {
         continue
       }
-      const plugin = createPlugin(config, packageName, loadableCommands)
+      const projectRequire = createRequire(join(projectRoot, 'package.json'))
+      const packageVersion = (() => {
+        try {
+          const packageJson = projectRequire(`${packageName}/package.json`) as { version?: string }
+          return packageJson.version ?? '0.0.0'
+        } catch {
+          return '0.0.0'
+        }
+      })()
+      const plugin = createPlugin(config, packageName, packageVersion, loadableCommands)
       registerPlugin(plugin)
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error)
-      console.warn(`Skipping Magek CLI plugin ${packageName}: ${errorMessage}`)
+      console.warn(`Warning: Skipping Magek CLI plugin ${packageName}: ${errorMessage}`)
     }
   }
 }
