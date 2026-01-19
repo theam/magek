@@ -124,7 +124,7 @@ describe('plugin loader', () => {
     const tempDir = await createTempProject()
     try {
       await writeAdapterPackage(tempDir, 'adapter-command-array', {
-        source: 'module.exports = { magekCli: { commands: [\'not-a-map\'] } }',
+        source: 'module.exports = { magekCli: { commands: [\'not-an-object\'] } }',
       })
       const config = await Config.load({ root: tempDir })
       await registerMagekCliPlugins(config, tempDir)
@@ -191,7 +191,7 @@ describe('plugin loader', () => {
     }
   })
 
-  it('loads default magekCli exports from CJS adapters', async () => {
+  it('loads default magekCli exports from CJS transpiled adapters', async () => {
     const tempDir = await createTempProject()
     try {
       await writeAdapterPackage(tempDir, 'adapter-default', {
