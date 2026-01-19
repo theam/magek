@@ -105,6 +105,36 @@ describe('plugin loader', () => {
     }
   })
 
+  it('ignores adapters with missing command maps', async () => {
+    const tempDir = await createTempProject()
+    try {
+      await writeAdapterPackage(tempDir, 'adapter-missing-commands', {
+        source: 'module.exports = { magekCli: {} }',
+      })
+      const config = await Config.load({ root: tempDir })
+      await registerMagekCliPlugins(config, tempDir)
+      const command = config.findCommand('adapter:missing')
+      expect(command).to.equal(undefined)
+    } finally {
+      await rm(tempDir, { recursive: true, force: true })
+    }
+  })
+
+  it('ignores adapters with non-object command maps', async () => {
+    const tempDir = await createTempProject()
+    try {
+      await writeAdapterPackage(tempDir, 'adapter-command-array', {
+        source: 'module.exports = { magekCli: { commands: [\'not-a-map\'] } }',
+      })
+      const config = await Config.load({ root: tempDir })
+      await registerMagekCliPlugins(config, tempDir)
+      const command = config.findCommand('adapter:array')
+      expect(command).to.equal(undefined)
+    } finally {
+      await rm(tempDir, { recursive: true, force: true })
+    }
+  })
+
   it('ignores commands that are not oclif Command classes', async () => {
     const tempDir = await createTempProject()
     try {
@@ -156,6 +186,31 @@ describe('plugin loader', () => {
       await registerMagekCliPlugins(config, tempDir)
       const command = config.findCommand('helper:run')
       expect(command).to.equal(undefined)
+    } finally {
+      await rm(tempDir, { recursive: true, force: true })
+    }
+  })
+
+  it('loads default magekCli exports from CJS adapters', async () => {
+    const tempDir = await createTempProject()
+    try {
+      await writeAdapterPackage(tempDir, 'adapter-default', {
+        source: `
+          const { Command } = require('${oclifCorePath}')
+
+          class AdapterCommand extends Command {
+            static id = 'adapter:default'
+            static flags = {}
+            static args = {}
+            async run() {}
+          }
+          module.exports = { default: { magekCli: { commands: { 'adapter:default': AdapterCommand } } } }
+        `,
+      })
+      const config = await Config.load({ root: tempDir })
+      await registerMagekCliPlugins(config, tempDir)
+      const command = config.findCommand('adapter:default')
+      expect(command?.id).to.equal('adapter:default')
     } finally {
       await rm(tempDir, { recursive: true, force: true })
     }
