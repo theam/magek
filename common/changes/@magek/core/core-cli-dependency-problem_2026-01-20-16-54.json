@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@magek/core",
+      "comment": "Remove @oclif/core dependency and unused Injectable feature to fix bundling issues in serverless environments (Next.js, Vercel, Vite)",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@magek/core",
+  "email": "javier@theagilemonkeys.com"
+}

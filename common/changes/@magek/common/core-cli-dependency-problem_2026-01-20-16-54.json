@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@magek/common",
+      "comment": "Remove unused injectable property from MagekConfig",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@magek/common",
+  "email": "javier@theagilemonkeys.com"
+}
