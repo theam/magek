@@ -585,11 +585,11 @@ importers:
         specifier: 4.1.2
         version: 4.1.2
       fastify:
-        specifier: 5.6.2
-        version: 5.6.2
+        specifier: 5.7.1
+        version: 5.7.1
       fastify-sse-v2:
         specifier: 4.2.1
-        version: 4.2.1(fastify@5.6.2)
+        version: 4.2.1(fastify@5.7.1)
       node-schedule:
         specifier: 2.1.1
         version: 2.1.1
@@ -2148,8 +2148,8 @@ packages:
     peerDependencies:
       fastify: '>=4'
 
-  fastify@5.6.2:
-    resolution: {integrity: sha512-dPugdGnsvYkBlENLhCgX8yhyGCsCPrpA8lFWbTNU428l+YOnLgYHR69hzV8HWPC79n536EqzqQtvhtdaCE0dKg==}
+  fastify@5.7.1:
+    resolution: {integrity: sha512-ZW7S4fxlZhE+tYWVokFzjh+i56R+buYKNGhrVl6DtN8sxkyMEzpJnzvO8A/ZZrsg5w6X37u6I4EOQikYS5DXpA==}
 
   fastq@1.19.1:
     resolution: {integrity: sha512-GwLTyxkCXjXbxqIhTsMI2Nui8huMPtnxg7krajPJAjnEG/iiOS7i+zCtWGZR9G0NBKbXKh6X9m9UIsYX/N6vvQ==}
@@ -5453,14 +5453,14 @@ snapshots:
 
   fastify-plugin@5.1.0: {}
 
-  fastify-sse-v2@4.2.1(fastify@5.6.2):
+  fastify-sse-v2@4.2.1(fastify@5.7.1):
     dependencies:
-      fastify: 5.6.2
+      fastify: 5.7.1
       fastify-plugin: 4.5.1
       it-pushable: 1.4.2
       it-to-stream: 1.0.0
 
-  fastify@5.6.2:
+  fastify@5.7.1:
     dependencies:
       '@fastify/ajv-compiler': 4.0.5
       '@fastify/error': 4.2.0
