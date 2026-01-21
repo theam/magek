@@ -41,8 +41,12 @@ const loadMagekCliModule = async (projectRoot: string, packageName: string): Pro
   try {
     return projectRequire(packageName) as MagekCliModule
   } catch (error) {
-    // Only ERR_REQUIRE_ESM indicates an ESM package that we should re-load via dynamic import.
-    if (isNodeError(error) && error.code === 'ERR_REQUIRE_ESM') {
+    // These error codes indicate an ESM package that we should re-load via dynamic import:
+    // - ERR_REQUIRE_ESM: Package has "type": "module"
+    // - ERR_PACKAGE_PATH_NOT_EXPORTED: Package uses exports map without require condition
+    // - ERR_REQUIRE_ASYNC_MODULE: ESM module uses top-level await (Node.js 22+)
+    const esmErrorCodes = ['ERR_REQUIRE_ESM', 'ERR_PACKAGE_PATH_NOT_EXPORTED', 'ERR_REQUIRE_ASYNC_MODULE']
+    if (isNodeError(error) && error.code && esmErrorCodes.includes(error.code)) {
       const resolved = projectRequire.resolve(packageName)
       const module = await import(pathToFileURL(resolved).href)
       return module as MagekCliModule
