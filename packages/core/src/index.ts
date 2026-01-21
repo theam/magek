@@ -18,7 +18,7 @@ export { MagekTouchEntityHandler } from './touch-entity-handler'
 export * from './services/token-verifiers'
 export * from './instrumentation/index'
 export * from './decorators/health-sensor'
-export * as Injectable from './injectable'
+export type { CLIPlugin, CLIPluginCommand, CLICommandExample } from './cli-plugin'
 
 /**
  * Pushes a page of events to be processed by the event dispatcher.

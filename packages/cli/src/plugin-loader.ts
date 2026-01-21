@@ -1,6 +1,6 @@
 import { Command } from '@oclif/core'
 import type { Config, Interfaces } from '@oclif/core'
-import type { Injectable } from '@magek/core'
+import type { CLIPlugin, CLIPluginCommand } from '@magek/core'
 import { readdir } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import { join } from 'node:path'
@@ -9,9 +9,9 @@ import { pathToFileURL } from 'node:url'
 const adapterPrefix = 'adapter-'
 
 type MagekCliModule = {
-  magekCli?: Injectable.Injectable
+  magekCli?: CLIPlugin
   default?: {
-    magekCli?: Injectable.Injectable
+    magekCli?: CLIPlugin
   }
 }
 
@@ -51,10 +51,10 @@ const loadMagekCliModule = async (projectRoot: string, packageName: string): Pro
   }
 }
 
-const isCommandMap = (value: unknown): value is Record<string, Injectable.Command> =>
+const isCommandMap = (value: unknown): value is Record<string, CLIPluginCommand> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
 
-const resolveMagekCli = (module: MagekCliModule): Injectable.Injectable | null => {
+const resolveMagekCli = (module: MagekCliModule): CLIPlugin | null => {
   const magekCli = module.magekCli ?? module.default?.magekCli
   if (!magekCli || typeof magekCli !== 'object' || !isCommandMap(magekCli.commands)) {
     return null
@@ -81,7 +81,7 @@ const normalizeArgs = (
   return args
 }
 
-type MagekCommandClass = Command.Class & Injectable.Command
+type MagekCommandClass = Command.Class & CLIPluginCommand
 
 const isCommandClass = (command: unknown): command is MagekCommandClass =>
   typeof command === 'function' &&
@@ -89,7 +89,7 @@ const isCommandClass = (command: unknown): command is MagekCommandClass =>
   typeof (command as Command.Class).run === 'function'
 
 const buildLoadableCommands = (
-  commands: Record<string, Injectable.Command>,
+  commands: Record<string, CLIPluginCommand>,
   pluginName: string
 ): Array<Command.Loadable> => {
   const commandEntries = Object.entries(commands)
