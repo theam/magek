@@ -22,8 +22,6 @@ import { MagekEntityTouched } from './core-concepts/touch-entity/events/entity-t
 import { readModelSearcher } from './services/read-model-searcher'
 import { MagekDeleteEventDispatcher } from './delete-event-dispatcher'
 import { eventSearch } from './event-search'
-import * as Injectable from './injectable'
-import { Errors, Config } from '@oclif/core'
 
 /**
  * Main class to interact with Magek and configure it.
@@ -70,41 +68,6 @@ export class Magek {
     Importer.importUserProjectFiles(codeRootPath)
     this.configureMagekConcepts()
     this.config.validate()
-    const args = process.argv
-    if (process.env['MAGEK_CLI_HOOK']?.trim() !== 'true') {
-      return
-    }
-    const injectable = this.config.injectable
-    if (injectable) {
-      const { commands } = injectable as Injectable.Injectable
-      // Run the injectable CLI commands using oclif
-      this.runInjectableCommands(args, commands, projectRootPath).catch((error) => {
-        if (error instanceof Errors.ExitError) {
-          process.exit(error.oclif.exit)
-        }
-        console.error(error)
-        process.exit(1)
-      })
-    }
-  }
-
-  private static async runInjectableCommands(
-    args: string[],
-    commands: Injectable.Injectable['commands'],
-    projectRootPath: string
-  ): Promise<void> {
-    // Get the subcommand from args (skip node and script path)
-    const subcommand = args[2]
-    if (!subcommand || !commands[subcommand]) {
-      console.log('Available commands:', Object.keys(commands).join(', '))
-      return
-    }
-    const CommandClass = commands[subcommand]
-    // Create a minimal oclif config
-    const config = await Config.load({ root: projectRootPath })
-    // Instantiate and run the command
-    const instance = new CommandClass(args.slice(3), config)
-    await instance.run()
   }
 
   /**

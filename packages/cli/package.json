@@ -12,10 +12,10 @@
   },
   "bugs": "https://github.com/theam/magek/issues",
   "dependencies": {
-    "@magek/core": "workspace:^0.0.1",
     "@magek/common": "workspace:^0.0.1",
     "@oclif/core": "4.8.0",
     "@oclif/plugin-help": "6.2.36",
+    "@oclif/plugin-plugins": "5.4.54",
     "chalk": "5.6.2",
     "execa": "9.6.1",
     "fp-ts": "2.16.11",
@@ -65,11 +65,19 @@
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "oclif": {
-    "commands": "./dist/commands",
+    "commands": {
+      "strategy": "explicit",
+      "target": "./dist/commands/index.js",
+      "identifier": "COMMANDS"
+    },
     "bin": "magek",
     "plugins": [
-      "@oclif/plugin-help"
+      "@oclif/plugin-help",
+      "@oclif/plugin-plugins"
     ],
+    "jitPlugins": {
+      "@magek/adapter-nedb": "^0.0.1"
+    },
     "hooks": {
       "command_not_found": "./dist/hooks/command_not_found/custom-parse"
     }
