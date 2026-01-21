@@ -118,6 +118,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           rush version --bump
+          # Commit version changes if there are any
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git add .
+            git commit -m "chore: bump versions [skip ci]"
+          fi
 
       - name: Publish packages
         # OIDC trusted publishing: npm automatically uses GitHub's OIDC token

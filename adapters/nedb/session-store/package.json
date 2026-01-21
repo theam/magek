@@ -1,6 +1,6 @@
 {
   "name": "@magek/adapter-session-store-nedb",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Nedb-based session store adapter for the Magek framework",
   "keywords": [
     "session-store",

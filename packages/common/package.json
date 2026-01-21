@@ -1,6 +1,6 @@
 {
   "name": "@magek/common",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Contains Magek common helpers used by the core and provider packages",
   "keywords": [
     "framework-common-helpers"

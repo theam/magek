@@ -1,7 +1,7 @@
 {
   "name": "@magek/cli",
   "description": "CLI of the Magek Framework, the next level of abstraction for cloud-native applications",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Boosterin Labs SLU",
   "homepage": "https://magek.ai",
   "publishConfig": {
