@@ -12,7 +12,7 @@
   },
   "bugs": "https://github.com/theam/magek/issues",
   "dependencies": {
-    "@magek/common": "workspace:^0.0.1",
+    "@magek/common": "workspace:^0.0.2",
     "@oclif/core": "4.8.0",
     "@oclif/plugin-help": "6.2.36",
     "@oclif/plugin-plugins": "5.4.54",
@@ -28,7 +28,7 @@
     "tslib": "2.8.1"
   },
   "devDependencies": {
-    "@magek/eslint-config": "workspace:^0.0.1",
+    "@magek/eslint-config": "workspace:^0.0.2",
     "@oclif/test": "4.1.15",
     "@types/chai": "5.2.3",
     "@types/chai-as-promised": "8.0.2",
@@ -76,7 +76,7 @@
       "@oclif/plugin-plugins"
     ],
     "jitPlugins": {
-      "@magek/adapter-nedb": "^0.0.1"
+      "@magek/adapter-nedb": "^0.0.2"
     },
     "hooks": {
       "command_not_found": "./dist/hooks/command_not_found/custom-parse"
