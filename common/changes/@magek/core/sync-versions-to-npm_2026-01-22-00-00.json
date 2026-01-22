@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Sync package versions to match npm registry (0.0.2)",
+      "type": "none",
+      "packageName": "@magek/core"
+    }
+  ],
+  "packageName": "@magek/core",
+  "email": "noreply@anthropic.com"
+}
