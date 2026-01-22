@@ -13,9 +13,13 @@ on:
     types: [published]
   workflow_dispatch:
     inputs:
+      version:
+        description: 'Specific version to release (optional, e.g., 1.0.0). If empty, uses automatic bump.'
+        required: false
+        type: string
       bump_type:
-        description: 'Version bump type'
-        required: true
+        description: 'Version bump type (only used if version is not specified)'
+        required: false
         default: 'patch'
         type: choice
         options:
@@ -114,15 +118,28 @@ jobs:
         run: rush test
 
       - name: Bump versions
+        id: bump
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          rush version --bump
+
+          # Use override version if provided, otherwise auto-bump
+          if [[ -n "${{ github.event.inputs.version }}" ]]; then
+            echo "Using override version: ${{ github.event.inputs.version }}"
+            rush version --override-version ${{ github.event.inputs.version }}
+          else
+            rush version --bump
+          fi
+
           # Commit version changes if there are any
           if [[ -n "$(git status --porcelain)" ]]; then
             git add .
             git commit --no-verify -m "chore: bump versions [skip ci]"
           fi
+
+          # Extract the new version from the main package
+          VERSION=$(node -p "require('./packages/core/package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Publish packages
         # OIDC trusted publishing: npm automatically uses GitHub's OIDC token
@@ -135,3 +152,9 @@ jobs:
       - name: Push version changes and tags
         run: |
           git push origin main --follow-tags
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.bump.outputs.version }}
+          generate_release_notes: true
