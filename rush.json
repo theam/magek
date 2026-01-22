@@ -376,7 +376,7 @@
   "projects": [
     {
       "packageName": "@magek/eslint-config",
-      "shouldPublish": false,
+      "shouldPublish": true,
       "versionPolicyName": "magek",
       "projectFolder": "tools/eslint-config"
     },

@@ -121,7 +121,7 @@ jobs:
           # Commit version changes if there are any
           if [[ -n "$(git status --porcelain)" ]]; then
             git add .
-            git commit -m "chore: bump versions [skip ci]"
+            git commit --no-verify -m "chore: bump versions [skip ci]"
           fi
 
       - name: Publish packages
