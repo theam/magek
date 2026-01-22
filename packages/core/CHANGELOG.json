@@ -1,0 +1,45 @@
+{
+  "name": "@magek/core",
+  "entries": [
+    {
+      "version": "0.0.3",
+      "tag": "@magek/core_v0.0.3",
+      "date": "Thu, 22 Jan 2026 16:08:02 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Add CLI adapter plugin discovery."
+          },
+          {
+            "comment": "refactor: rename ProviderLibrary to Runtime and update runtime usage"
+          }
+        ],
+        "none": [
+          {
+            "comment": "No changes - merge artifact"
+          },
+          {
+            "comment": "Bump inquirer from 13.1.0 to 13.2.0"
+          },
+          {
+            "comment": "Bump @types/node from 22.19.3 to 22.19.6 to resolve version mismatch"
+          },
+          {
+            "comment": "Bump @types/node to 22.19.7"
+          },
+          {
+            "comment": "chore(deps): bump fastify from 5.6.2 to 5.7.1 in /packages/server"
+          },
+          {
+            "comment": "Sync package versions to match npm registry (0.0.2)"
+          }
+        ],
+        "minor": [
+          {
+            "comment": "Update GraphQL generator to use UUID instead of TimeKey for sequence keys"
+          }
+        ]
+      }
+    }
+  ]
+}
