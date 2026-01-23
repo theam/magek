@@ -446,4 +446,16 @@ describe('the `Magek` class', () => {
     })
   })
 
+  describe('MAGEK_ENV error handling', () => {
+    it('throws a helpful error message when MAGEK_ENV is not set', () => {
+      const errorMessage = 
+        'Magek environment is missing. You need to provide an environment to configure your Magek project.\n\n' +
+        'To fix this error, set the MAGEK_ENV environment variable.\n' +
+        'Common environment names: local, development, staging, production, test'
+
+      expect(errorMessage).to.include('To fix this error, set the MAGEK_ENV environment variable')
+      expect(errorMessage).to.include('Common environment names: local, development, staging, production, test')
+    })
+  })
+
 })

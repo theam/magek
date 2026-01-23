@@ -157,7 +157,9 @@ function checkAndGetCurrentEnv(): string {
   const env = process.env.MAGEK_ENV
   if (!env || env.trim().length == 0) {
     throw new Error(
-      'Magek environment is missing. You need to provide an environment to configure your Magek project'
+      'Magek environment is missing. You need to provide an environment to configure your Magek project.\n\n' +
+      'To fix this error, set the MAGEK_ENV environment variable.\n' +
+      'Common environment names: local, development, staging, production, test'
     )
   }
   return env
