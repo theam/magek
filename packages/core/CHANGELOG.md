@@ -1,6 +1,17 @@
 # Change Log - @magek/core
 
-This log was last generated on Thu, 22 Jan 2026 16:08:02 GMT and should not be manually modified.
+This log was last generated on Fri, 23 Jan 2026 18:30:48 GMT and should not be manually modified.
+
+## 0.0.4
+Fri, 23 Jan 2026 18:30:48 GMT
+
+### Patches
+
+- Improve MAGEK_ENV error message with detailed fix instructions
+
+### Updates
+
+- Update jwks-rsa from 3.2.0 to 3.2.1
 
 ## 0.0.3
 Thu, 22 Jan 2026 16:08:02 GMT
