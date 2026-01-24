@@ -55,10 +55,19 @@ jobs:
             exit 0
           fi
 
-          # Check if there are change files (excluding .gitkeep)
-          CHANGE_FILES=$(find common/changes -type f -name "*.json" 2>/dev/null | wc -l)
-          if [[ $CHANGE_FILES -gt 0 ]]; then
-            echo "Found $CHANGE_FILES change file(s)"
+          # Check if there are change files with publishable change types (patch, minor, major)
+          # Change files with type "none" should not trigger a publish
+          PUBLISHABLE_CHANGES=0
+          for file in $(find common/changes -type f -name "*.json" 2>/dev/null); do
+            # Check if any change in the file has a publishable type
+            if grep -qE '"type":\s*"(patch|minor|major)"' "$file"; then
+              echo "Found publishable change in: $file"
+              PUBLISHABLE_CHANGES=$((PUBLISHABLE_CHANGES + 1))
+            fi
+          done
+
+          if [[ $PUBLISHABLE_CHANGES -gt 0 ]]; then
+            echo "Found $PUBLISHABLE_CHANGES change file(s) with publishable types"
             echo "has_changes=true" >> $GITHUB_OUTPUT
             exit 0
           fi
