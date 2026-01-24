@@ -1,0 +1,17 @@
+{
+  "name": "@magek/eslint-config",
+  "entries": [
+    {
+      "version": "0.0.5",
+      "tag": "@magek/eslint-config_v0.0.5",
+      "date": "Sat, 24 Jan 2026 18:28:05 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Add repository metadata to package.json for npm provenance verification"
+          }
+        ]
+      }
+    }
+  ]
+}
