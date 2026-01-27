@@ -56,9 +56,16 @@ function generateImports(info: TypeInfo): Array<ImportDeclaration> {
   const typeFieldTypes = info.fields.map((f) => f.type)
   const typeUsesUUID = typeFieldTypes.some((type) => type == 'UUID')
 
-  const componentsFromMagekCommon = ['Field']
+  const componentsFromMagekCommon: string[] = []
+  if (info.fields.length > 0) {
+    componentsFromMagekCommon.push('Field')
+  }
   if (typeUsesUUID) {
     componentsFromMagekCommon.push('UUID')
+  }
+
+  if (componentsFromMagekCommon.length === 0) {
+    return []
   }
 
   return [

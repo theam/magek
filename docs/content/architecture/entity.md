@@ -82,6 +82,11 @@ export class Cart {
   @Field()
   readonly items!: Array<CartItem>
 
+  public constructor(id: UUID, items: Array<CartItem>) {
+    this.id = id
+    this.items = items
+  }
+
   @Reduces(ProductAdded)
   public static reduceProductAdded(event: ProductAdded, currentCart?: Cart): Cart {
     const newItems = addToCart(event.item, currentCart)

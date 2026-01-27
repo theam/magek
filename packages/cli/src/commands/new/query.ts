@@ -54,7 +54,10 @@ function generateImports(info: QueryInfo): Array<ImportDeclaration> {
   const queryFieldTypes = info.fields.map((f) => f.type)
   const queryUsesUUID = queryFieldTypes.some((type) => type == 'UUID')
 
-  const componentsFromMagekCommon = ['Field', 'QueryInfo']
+  const componentsFromMagekCommon = ['QueryInfo']
+  if (info.fields.length > 0) {
+    componentsFromMagekCommon.unshift('Field')
+  }
   if (queryUsesUUID) {
     componentsFromMagekCommon.push('UUID')
   }

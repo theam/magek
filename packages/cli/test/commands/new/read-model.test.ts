@@ -16,6 +16,16 @@ describe('new', (): void => {
     const readModelName = 'ExampleReadModel'
     const readModelsRoot = 'src/read-models/'
     const readModelPath = `${readModelsRoot}example-read-model.ts`
+    const noFieldsReadModelImports = [
+      {
+        packagePath: '@magek/core',
+        commaSeparatedComponents: 'ReadModel',
+      },
+      {
+        packagePath: '@magek/common',
+        commaSeparatedComponents: 'UUID',
+      },
+    ]
     const defaultReadModelImports = [
       {
         packagePath: '@magek/core',
@@ -91,7 +101,7 @@ describe('new', (): void => {
       it('with no fields and no projects', async () => {
         const config = await Config.load()
         await new ReadModel([readModelName], config).run()
-        const renderedReadModel = renderReadModel(defaultReadModelImports, readModelName, [], [])
+        const renderedReadModel = renderReadModel(noFieldsReadModelImports, readModelName, [], [])
         expect(outputFileStub).to.have.been.calledWithMatch(readModelPath, renderedReadModel)
       })
 

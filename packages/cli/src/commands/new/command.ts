@@ -55,7 +55,10 @@ function generateImports(info: CommandInfo): Array<ImportDeclaration> {
   const commandFieldTypes = info.fields.map((f) => f.type)
   const commandUsesUUID = commandFieldTypes.some((type) => type == 'UUID')
 
-  const componentsFromMagekCommon = ['Field', 'Register']
+  const componentsFromMagekCommon = ['Register']
+  if (info.fields.length > 0) {
+    componentsFromMagekCommon.unshift('Field')
+  }
   if (commandUsesUUID) {
     componentsFromMagekCommon.push('UUID')
   }

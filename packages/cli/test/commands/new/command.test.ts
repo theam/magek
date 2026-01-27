@@ -16,6 +16,16 @@ describe('new', (): void => {
     const command = 'ExampleCommand'
     const commandsRoot = 'src/commands/'
     const commandPath = `${commandsRoot}example-command.ts`
+    const noFieldsCommandImports = [
+      {
+        packagePath: '@magek/core',
+        commaSeparatedComponents: 'Command',
+      },
+      {
+        packagePath: '@magek/common',
+        commaSeparatedComponents: 'Register',
+      },
+    ]
     const defaultCommandImports = [
       {
         packagePath: '@magek/core',
@@ -68,7 +78,7 @@ describe('new', (): void => {
       it('with no fields', async () => {
         const config = await Config.load()
         await new Command([command], config).run()
-        const renderedCommand = renderCommand(defaultCommandImports, command, [])
+        const renderedCommand = renderCommand(noFieldsCommandImports, command, [])
         expect(outputFileStub).to.have.been.calledWithMatch(commandPath, renderedCommand)
       })
 
