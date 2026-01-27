@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Bump @oclif/test from 4.1.15 to 4.1.16 in /packages/cli",
+      "type": "none",
+      "packageName": "@magek/cli"
+    }
+  ],
+  "packageName": "@magek/cli",
+  "email": "dependabot[bot]@users.noreply.github.com"
+}
