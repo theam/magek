@@ -222,13 +222,21 @@ const CustomEventAuthorizer: EventStreamAuthorizer = async (currentUser, eventSe
   authorizeReadEvents: CustomEventAuthorizer
 })
 export class Cart {
-  public constructor(
-    readonly id: UUID,
-    readonly ownerUserName: string,
-    readonly cartItems: Array<CartItem>,
-    public shippingAddress?: Address,
-    public checks = 0
-  ) {}
-  ...
+  @Field(type => UUID)
+  readonly id!: UUID
+
+  @Field()
+  readonly ownerUserName!: string
+
+  @Field()
+  readonly cartItems!: Array<CartItem>
+
+  @Field()
+  public shippingAddress?: Address
+
+  @Field()
+  public checks: number = 0
+
+  // ... reducers
 }
 ```

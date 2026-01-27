@@ -28,7 +28,14 @@ To declare an entity in Magek, you must define a class decorated with the `@Enti
 ```typescript title="src/entities/entity-name.ts"
 @Entity
 export class EntityName {
-  public constructor(readonly fieldA: SomeType, readonly fieldB: SomeOtherType /* as many fields as needed */) {}
+  @Field(type => UUID)
+  public id!: UUID
+
+  @Field()
+  readonly fieldA!: SomeType
+
+  @Field()
+  readonly fieldB!: SomeOtherType
 }
 ```
 
@@ -39,7 +46,14 @@ In order to tell Magek how to reduce the events, you must define a static method
 ```typescript title="src/entities/entity-name.ts"
 @Entity
 export class EntityName {
-  public constructor(readonly fieldA: SomeType, readonly fieldB: SomeOtherType /* as many fields as needed */) {}
+  @Field(type => UUID)
+  public id!: UUID
+
+  @Field()
+  readonly fieldA!: SomeType
+
+  @Field()
+  readonly fieldB!: SomeOtherType
 
   // highlight-start
   @Reduces(SomeEvent)
@@ -62,18 +76,27 @@ You can define as many reducer methods as you want, each one for a different eve
 ```typescript title="src/entities/cart.ts"
 @Entity
 export class Cart {
-  public constructor(readonly items: Array<CartItem>) {}
+  @Field(type => UUID)
+  public id!: UUID
+
+  @Field()
+  readonly items!: Array<CartItem>
+
+  public constructor(id: UUID, items: Array<CartItem>) {
+    this.id = id
+    this.items = items
+  }
 
   @Reduces(ProductAdded)
   public static reduceProductAdded(event: ProductAdded, currentCart?: Cart): Cart {
     const newItems = addToCart(event.item, currentCart)
-    return new Cart(newItems)
+    return new Cart(event.entityID(), newItems)
   }
 
   @Reduces(ProductRemoved)
   public static reduceProductRemoved(event: ProductRemoved, currentCart?: Cart): Cart {
     const newItems = removeFromCart(event.item, currentCart)
-    return new Cart(newItems)
+    return new Cart(event.entityID(), newItems)
   }
 }
 ```
@@ -97,12 +120,15 @@ In order to identify each entity instance, you must define an `id` field on each
 ```typescript title="src/entities/entity-name.ts"
 @Entity
 export class EntityName {
-  public constructor(
-    // highlight-next-line
-    readonly id: UUID,
-    readonly fieldA: SomeType,
-    readonly fieldB: SomeOtherType /* as many fields as needed */
-  ) {}
+  // highlight-next-line
+  @Field(type => UUID)
+  public id!: UUID
+
+  @Field()
+  readonly fieldA!: SomeType
+
+  @Field()
+  readonly fieldB!: SomeOtherType
 
   @Reduces(SomeEvent)
   public static reduceSomeEvent(event: SomeEvent, currentEntityState?: EntityName): EntityName {

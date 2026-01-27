@@ -16,7 +16,7 @@ describe('new', (): void => {
     const entityName = 'ExampleEntity'
     const entitysRoot = 'src/entities/'
     const entityPath = `${entitysRoot}example-entity.ts`
-    const defaultEntityImports = [
+    const noFieldsEntityImports = [
       {
         packagePath: '@magek/core',
         commaSeparatedComponents: 'Entity',
@@ -26,6 +26,16 @@ describe('new', (): void => {
         commaSeparatedComponents: 'UUID',
       },
     ]
+    const defaultEntityImports = [
+      {
+        packagePath: '@magek/core',
+        commaSeparatedComponents: 'Entity',
+      },
+      {
+        packagePath: '@magek/common',
+        commaSeparatedComponents: 'Field, UUID',
+      },
+    ]
     const reducingEntityImports = [
       {
         packagePath: '@magek/core',
@@ -33,7 +43,7 @@ describe('new', (): void => {
       },
       {
         packagePath: '@magek/common',
-        commaSeparatedComponents: 'UUID',
+        commaSeparatedComponents: 'Field, UUID',
       },
       {
         packagePath: '../events/post-created',
@@ -47,7 +57,7 @@ describe('new', (): void => {
       },
       {
         packagePath: '@magek/common',
-        commaSeparatedComponents: 'UUID',
+        commaSeparatedComponents: 'Field, UUID',
       },
       {
         packagePath: '../events/post-created',
@@ -91,7 +101,7 @@ describe('new', (): void => {
       it('with no fields and no reduces', async () => {
         const config = await Config.load()
         await new Entity([entityName], config).run()
-        const renderedEntity = renderEntity(defaultEntityImports, entityName, [], [])
+        const renderedEntity = renderEntity(noFieldsEntityImports, entityName, [], [])
         expect(outputFileStub).to.have.been.calledWithMatch(entityPath, renderedEntity)
       })
 

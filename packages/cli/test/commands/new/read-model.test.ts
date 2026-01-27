@@ -16,7 +16,7 @@ describe('new', (): void => {
     const readModelName = 'ExampleReadModel'
     const readModelsRoot = 'src/read-models/'
     const readModelPath = `${readModelsRoot}example-read-model.ts`
-    const defaultReadModelImports = [
+    const noFieldsReadModelImports = [
       {
         packagePath: '@magek/core',
         commaSeparatedComponents: 'ReadModel',
@@ -26,6 +26,16 @@ describe('new', (): void => {
         commaSeparatedComponents: 'UUID',
       },
     ]
+    const defaultReadModelImports = [
+      {
+        packagePath: '@magek/core',
+        commaSeparatedComponents: 'ReadModel',
+      },
+      {
+        packagePath: '@magek/common',
+        commaSeparatedComponents: 'Field, UUID',
+      },
+    ]
     const projectingReadModelImports = [
       {
         packagePath: '@magek/core',
@@ -33,7 +43,7 @@ describe('new', (): void => {
       },
       {
         packagePath: '@magek/common',
-        commaSeparatedComponents: 'UUID, ProjectionResult',
+        commaSeparatedComponents: 'Field, UUID, ProjectionResult',
       },
       {
         packagePath: '../entities/post',
@@ -47,7 +57,7 @@ describe('new', (): void => {
       },
       {
         packagePath: '@magek/common',
-        commaSeparatedComponents: 'UUID, ProjectionResult',
+        commaSeparatedComponents: 'Field, UUID, ProjectionResult',
       },
       {
         packagePath: '../entities/post',
@@ -91,7 +101,7 @@ describe('new', (): void => {
       it('with no fields and no projects', async () => {
         const config = await Config.load()
         await new ReadModel([readModelName], config).run()
-        const renderedReadModel = renderReadModel(defaultReadModelImports, readModelName, [], [])
+        const renderedReadModel = renderReadModel(noFieldsReadModelImports, readModelName, [], [])
         expect(outputFileStub).to.have.been.calledWithMatch(readModelPath, renderedReadModel)
       })
 

@@ -16,24 +16,17 @@ describe('new', (): void => {
     const typeName = 'ExampleType'
     const typesRoot = 'src/common/'
     const typePath = `${typesRoot}example-type.ts`
+    const noFieldsTypeImports: any[] = []
     const defaultTypeImports = [
       {
-        packagePath: '@magek/core',
-        commaSeparatedComponents: 'Type',
-      },
-      {
         packagePath: '@magek/common',
-        commaSeparatedComponents: 'Register',
+        commaSeparatedComponents: 'Field',
       },
     ]
     const uuidTypeImports = [
       {
-        packagePath: '@magek/core',
-        commaSeparatedComponents: 'Type',
-      },
-      {
         packagePath: '@magek/common',
-        commaSeparatedComponents: 'Register, UUID',
+        commaSeparatedComponents: 'Field, UUID',
       },
     ]
 
@@ -65,10 +58,10 @@ describe('new', (): void => {
     })
 
     describe('Created correctly', () => {
-      it('with no fields', async () => {      
+      it('with no fields', async () => {
         const config = await Config.load()
         await new Type([typeName], config).run()
-        const renderedType = renderType(defaultTypeImports, typeName, [])
+        const renderedType = renderType(noFieldsTypeImports, typeName, [])
         expect(outputFileStub).to.have.been.calledWithMatch(typePath, renderedType)
       })
 

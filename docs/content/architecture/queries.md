@@ -21,7 +21,12 @@ import {
   authorize: 'all',
 })
 export class CartTotalQuantity {
-  public constructor(readonly cartId: UUID, @NonExposed readonly multiply: number) {}
+  @Field()
+  readonly cartId!: UUID
+
+  @Field()
+  @NonExposed
+  readonly multiply!: number
 
   public static async handle(query: CartTotalQuantity, queryInfo: QueryInfo): Promise<number> {
     const cart = await Magek.entity(Cart, query.cartId)
@@ -102,7 +107,8 @@ For every query, Magek automatically creates the corresponding GraphQL query. Fo
   authorize: 'all',
 })
 export class CartTotalQuantityQuery {
-  public constructor(readonly cartId: UUID) {}
+  @Field()
+  readonly cartId!: UUID
 
   public static async handle(query: CartTotalQuantity, queryInfo: QueryInfo): Promise<number> {
     const cart = await Magek.entity(Cart, query.cartId)
@@ -143,7 +149,8 @@ class SearchResult {
   authorize: 'all',
 })
 export class SearchMedia {
-  public constructor(readonly searchword: string) {}
+  @Field()
+  readonly searchword!: string
 
   public static async handle(query: SearchMedia, queryInfo: QueryInfo): Promise<SearchResult> {
     const [books, movies] = await Promise.all([

@@ -16,7 +16,7 @@ describe('new', (): void => {
     const eventName = 'ExampleEvent'
     const eventsRoot = 'src/events/'
     const eventPath = `${eventsRoot}example-event.ts`
-    const defaultEventImports = [
+    const noFieldsEventImports = [
       {
         packagePath: '@magek/core',
         commaSeparatedComponents: 'Event',
@@ -26,10 +26,20 @@ describe('new', (): void => {
         commaSeparatedComponents: 'UUID',
       },
     ]
+    const defaultEventImports = [
+      {
+        packagePath: '@magek/core',
+        commaSeparatedComponents: 'Event',
+      },
+      {
+        packagePath: '@magek/common',
+        commaSeparatedComponents: 'Field, UUID',
+      },
+    ]
 
-    const renderEvent = (name: string, fields: any[]): string => {
+    const renderEvent = (imports: any[], name: string, fields: any[]): string => {
       return Mustache.render(template('event'), {
-        imports: defaultEventImports,
+        imports: imports,
         name: name,
         fields: fields,
       })
@@ -58,28 +68,28 @@ describe('new', (): void => {
       it('with no fields', async () => {
         const config = await Config.load()
         await new Event([eventName], config).run()
-        const renderedEvent = renderEvent(eventName, [])
+        const renderedEvent = renderEvent(noFieldsEventImports, eventName, [])
         expect(outputFileStub).to.have.been.calledWithMatch(eventPath, renderedEvent)
       })
 
       it('creates Event with a string field', async () => {
         const config = await Config.load()
         await new Event([eventName, '--fields', 'title:string'], config).run()
-        const renderedEvent = renderEvent(eventName, [{ name: 'title', type: 'string' }])
+        const renderedEvent = renderEvent(defaultEventImports, eventName, [{ name: 'title', type: 'string' }])
         expect(outputFileStub).to.have.been.calledWithMatch(eventPath, renderedEvent)
       })
 
       it('creates Event with a number field', async () => {
         const config = await Config.load()
         await new Event([eventName, '--fields', 'quantity:number'], config).run()
-        const renderedEvent = renderEvent(eventName, [{ name: 'quantity', type: 'number' }])
+        const renderedEvent = renderEvent(defaultEventImports, eventName, [{ name: 'quantity', type: 'number' }])
         expect(outputFileStub).to.have.been.calledWithMatch(eventPath, renderedEvent)
       })
 
       it('creates Event with UUID field', async () => {
         const config = await Config.load()
         await new Event([eventName, '--fields', 'identifier:UUID'], config).run()
-        const renderedEvent = renderEvent(eventName, [{ name: 'identifier', type: 'UUID' }])
+        const renderedEvent = renderEvent(defaultEventImports, eventName, [{ name: 'identifier', type: 'UUID' }])
         expect(outputFileStub).to.have.been.calledWithMatch(eventPath, renderedEvent)
       })
 
@@ -94,7 +104,7 @@ describe('new', (): void => {
           { name: 'quantity', type: 'number' },
           { name: 'identifier', type: 'UUID' },
         ]
-        const renderedEvent = renderEvent(eventName, fields)
+        const renderedEvent = renderEvent(defaultEventImports, eventName, fields)
         expect(outputFileStub).to.have.been.calledWithMatch(eventPath, renderedEvent)
       })
     })

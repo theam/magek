@@ -55,9 +55,12 @@ function generateImports(info: CommandInfo): Array<ImportDeclaration> {
   const commandFieldTypes = info.fields.map((f) => f.type)
   const commandUsesUUID = commandFieldTypes.some((type) => type == 'UUID')
 
-  const componentsFromMagekTypes = ['Register']
+  const componentsFromMagekCommon = ['Register']
+  if (info.fields.length > 0) {
+    componentsFromMagekCommon.unshift('Field')
+  }
   if (commandUsesUUID) {
-    componentsFromMagekTypes.push('UUID')
+    componentsFromMagekCommon.push('UUID')
   }
 
   return [
@@ -67,7 +70,7 @@ function generateImports(info: CommandInfo): Array<ImportDeclaration> {
     },
     {
       packagePath: '@magek/common',
-      commaSeparatedComponents: componentsFromMagekTypes.join(', '),
+      commaSeparatedComponents: componentsFromMagekCommon.join(', '),
     },
   ]
 }
