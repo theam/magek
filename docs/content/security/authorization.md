@@ -235,7 +235,7 @@ export class Cart {
   public shippingAddress?: Address
 
   @Field()
-  public checks!: number
+  public checks: number = 0
 
   // ... reducers
 }
