@@ -1,6 +1,13 @@
 # Change Log - @magek/cli
 
-This log was last generated on Sat, 24 Jan 2026 18:28:05 GMT and should not be manually modified.
+This log was last generated on Tue, 27 Jan 2026 18:50:37 GMT and should not be manually modified.
+
+## 0.0.6
+Tue, 27 Jan 2026 18:50:37 GMT
+
+### Patches
+
+- Add Field import to CLI-generated code for @Field decorator support
 
 ## 0.0.5
 Sat, 24 Jan 2026 18:28:05 GMT
