@@ -45,7 +45,7 @@ brew install node
 Just run the following commands on the terminal:
 
 ```bash
-curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 sudo apt install nodejs
 ```
 
@@ -55,15 +55,15 @@ Verify that it was installed properly by checking so from your terminal:
 node -v
 ```
 
-> v14.14.0
+> v20.11.0
 
 ```bash
 npm -v
 ```
 
-> 7.0.0
+> 10.5.0
 
-As soon as you have a Node.js version higher than `v14.14`, and an `npm` version higher than
+As soon as you have a Node.js version `20.x` or higher, and an `npm` version higher than
 `7`, you are good to go. Just note that `npm` comes with node, you don't have to install
 it apart.
 
@@ -138,6 +138,6 @@ Verify the Magek CLI installation with the `npx magek version` command. You shou
 npx magek version
 ```
 
-> @magek/cli/0.16.1 darwin-x64 node-v14.14.0
+> @magek/cli/0.16.1 darwin-x64 node-v20.11.0
 
 > **Tip:** The CLI is automatically included in every Magek project - no global installation needed! Use `npx magek` for all CLI commands within your project directory.
