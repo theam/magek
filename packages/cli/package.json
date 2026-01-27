@@ -15,7 +15,7 @@
     "@magek/common": "workspace:^0.0.6",
     "@oclif/core": "4.8.0",
     "@oclif/plugin-help": "6.2.36",
-    "@oclif/plugin-plugins": "5.4.54",
+    "@oclif/plugin-plugins": "5.4.55",
     "chalk": "5.6.2",
     "execa": "9.6.1",
     "fp-ts": "2.16.11",
