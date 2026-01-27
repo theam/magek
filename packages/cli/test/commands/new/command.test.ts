@@ -23,7 +23,7 @@ describe('new', (): void => {
       },
       {
         packagePath: '@magek/common',
-        commaSeparatedComponents: 'Register',
+        commaSeparatedComponents: 'Field, Register',
       },
     ]
     const uuidCommandImports = [
@@ -33,7 +33,7 @@ describe('new', (): void => {
       },
       {
         packagePath: '@magek/common',
-        commaSeparatedComponents: 'Register, UUID',
+        commaSeparatedComponents: 'Field, Register, UUID',
       },
     ]
 

@@ -23,7 +23,7 @@ describe('new', (): void => {
       },
       {
         packagePath: '@magek/common',
-        commaSeparatedComponents: 'UUID',
+        commaSeparatedComponents: 'Field, UUID',
       },
     ]
     const reducingEntityImports = [
@@ -33,7 +33,7 @@ describe('new', (): void => {
       },
       {
         packagePath: '@magek/common',
-        commaSeparatedComponents: 'UUID',
+        commaSeparatedComponents: 'Field, UUID',
       },
       {
         packagePath: '../events/post-created',
@@ -47,7 +47,7 @@ describe('new', (): void => {
       },
       {
         packagePath: '@magek/common',
-        commaSeparatedComponents: 'UUID',
+        commaSeparatedComponents: 'Field, UUID',
       },
       {
         packagePath: '../events/post-created',

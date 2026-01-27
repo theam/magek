@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Add Field import to CLI-generated code for @Field decorator support",
+      "type": "patch",
+      "packageName": "@magek/cli"
+    }
+  ],
+  "packageName": "@magek/cli",
+  "email": "javier@theagilemonkeys.com"
+}

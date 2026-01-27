@@ -23,7 +23,7 @@ describe('new', (): void => {
       },
       {
         packagePath: '@magek/common',
-        commaSeparatedComponents: 'UUID',
+        commaSeparatedComponents: 'Field, UUID',
       },
     ]
     const projectingReadModelImports = [
@@ -33,7 +33,7 @@ describe('new', (): void => {
       },
       {
         packagePath: '@magek/common',
-        commaSeparatedComponents: 'UUID, ProjectionResult',
+        commaSeparatedComponents: 'Field, UUID, ProjectionResult',
       },
       {
         packagePath: '../entities/post',
@@ -47,7 +47,7 @@ describe('new', (): void => {
       },
       {
         packagePath: '@magek/common',
-        commaSeparatedComponents: 'UUID, ProjectionResult',
+        commaSeparatedComponents: 'Field, UUID, ProjectionResult',
       },
       {
         packagePath: '../entities/post',

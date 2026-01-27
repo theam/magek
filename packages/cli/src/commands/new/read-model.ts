@@ -85,7 +85,7 @@ function generateImports(info: ReadModelInfo): Array<ImportDeclaration> {
     },
     {
       packagePath: '@magek/common',
-      commaSeparatedComponents: info.projections.length > 0 ? 'UUID, ProjectionResult' : 'UUID',
+      commaSeparatedComponents: info.projections.length > 0 ? 'Field, UUID, ProjectionResult' : 'Field, UUID',
     },
     ...eventsImports,
   ]

@@ -84,7 +84,7 @@ function generateImports(info: EntityInfo): Array<ImportDeclaration> {
     },
     {
       packagePath: '@magek/common',
-      commaSeparatedComponents: 'UUID',
+      commaSeparatedComponents: 'Field, UUID',
     },
     ...eventsImports,
   ]

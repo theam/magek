@@ -22,18 +22,30 @@ This will generate a new file called `create-product` in the `src/commands` dire
 In Magek you define them as TypeScript classes decorated with the `@Command` decorator. The `Command` parameters will be declared as properties of the class.
 
 ```typescript title="src/commands/command-name.ts"
-@Command()
+@Command({
+  authorize: 'all',
+})
 export class CommandName {
-  public constructor(readonly fieldA: SomeType, readonly fieldB: SomeOtherType) {}
+  @Field()
+  readonly fieldA!: SomeType
+
+  @Field()
+  readonly fieldB!: SomeOtherType
 }
 ```
 
 These commands are handled by `Command Handlers`, the same way a **REST Controller** do with a request. To create a `Command handler` of a specific Command, you must declare a `handle` class function inside the corresponding command you want to handle. For example:
 
 ```typescript title="src/commands/command-name.ts"
-@Command()
+@Command({
+  authorize: 'all',
+})
 export class CommandName {
-  public constructor(readonly fieldA: SomeType, readonly fieldB: SomeOtherType) {}
+  @Field()
+  readonly fieldA!: SomeType
+
+  @Field()
+  readonly fieldB!: SomeOtherType
 
   // highlight-start
   public static async handle(command: CommandName, register: Register): Promise<void> {
@@ -58,9 +70,15 @@ Each command class must have a method called `handle`. This function is the comm
 Within the command handler execution, it is possible to register domain events. The command handler function receives the `register` argument, so within the handler, it is possible to call `register.events(...)` with a list of events.
 
 ```typescript title="src/commands/create-product.ts"
-@Command()
+@Command({
+  authorize: 'all',
+})
 export class CreateProduct {
-  public constructor(readonly sku: string, readonly price: number) {}
+  @Field()
+  readonly sku!: string
+
+  @Field()
+  readonly price!: number
 
   public static async handle(command: CreateProduct, register: Register): Promise<string> {
     // highlight-next-line
@@ -80,9 +98,15 @@ If you want to return a value, you can change the return type of the handler fun
 For example:
 
 ```typescript title="src/commands/create-product.ts"
-@Command()
+@Command({
+  authorize: 'all',
+})
 export class CreateProduct {
-  public constructor(readonly sku: string, readonly price: number) {}
+  @Field()
+  readonly sku!: string
+
+  @Field()
+  readonly price!: number
 
   public static async handle(command: CreateProduct, register: Register): Promise<string> {
     register.event(new ProductCreated(/*...*/))
@@ -103,9 +127,15 @@ A command will fail if there is an uncaught error during its handling. When a co
 One case where you might want to throw an error is when the command is invalid because it breaks a business rule. For example, if the command contains a negative price. In that case, you can throw an error in the handler. Magek will use the error's message as the response to make it descriptive. For example, given this command:
 
 ```typescript title="src/commands/create-product.ts"
-@Command()
+@Command({
+  authorize: 'all',
+})
 export class CreateProduct {
-  public constructor(readonly sku: string, readonly price: number) {}
+  @Field()
+  readonly sku!: string
+
+  @Field()
+  readonly price!: number
 
   public static async handle(command: CreateProduct, register: Register): Promise<void> {
     const priceLimit = 10
@@ -135,14 +165,21 @@ You'll get something like this response:
 There could be situations in which you want to register an event representing an error. For example, when moving items with insufficient stock from one location to another:
 
 ```typescript title="src/commands/move-stock.ts"
-@Command()
+@Command({
+  authorize: 'all',
+})
 export class MoveStock {
-  public constructor(
-    readonly productID: string,
-    readonly origin: string,
-    readonly destination: string,
-    readonly quantity: number
-  ) {}
+  @Field()
+  readonly productID!: string
+
+  @Field()
+  readonly origin!: string
+
+  @Field()
+  readonly destination!: string
+
+  @Field()
+  readonly quantity!: number
 
   public static async handle(command: MoveStock, register: Register): Promise<void> {
     if (!command.enoughStock(command.productID, command.origin, command.quantity)) {
@@ -166,14 +203,21 @@ In this case, the command operation can still be completed. An event handler wil
 Event handlers are a good place to make decisions and, to make better decisions, you need information. The `Magek.entity` function allows you to inspect the application state. This function receives two arguments, the `Entity`'s name to fetch and the `entityID`. Here is an example of fetching an entity called `Stock`:
 
 ```typescript title="src/commands/move-stock.ts"
-@Command()
+@Command({
+  authorize: 'all',
+})
 export class MoveStock {
-  public constructor(
-    readonly productID: string,
-    readonly origin: string,
-    readonly destination: string,
-    readonly quantity: number
-  ) {}
+  @Field()
+  readonly productID!: string
+
+  @Field()
+  readonly origin!: string
+
+  @Field()
+  readonly destination!: string
+
+  @Field()
+  readonly quantity!: number
 
   public static async handle(command: MoveStock, register: Register): Promise<void> {
     // highlight-next-line
@@ -200,12 +244,17 @@ Commands are part of the public API of a Magek application, so you can define wh
   authorize: 'all',
 })
 export class CreateProduct {
-  public constructor(
-    readonly sku: Sku,
-    readonly displayName: string,
-    readonly description: string,
-    readonly price: number
-  ) {}
+  @Field()
+  readonly sku!: Sku
+
+  @Field()
+  readonly displayName!: string
+
+  @Field()
+  readonly description!: string
+
+  @Field()
+  readonly price!: number
 
   public static async handle(command: CreateProduct, register: Register): Promise<void> {
     register.events(/* YOUR EVENT HERE */)
@@ -226,12 +275,17 @@ Magek automatically creates one mutation per command. The framework infers the m
   authorize: 'all',
 })
 export class CreateProduct {
-  public constructor(
-    readonly sku: Sku,
-    readonly displayName: string,
-    readonly description: string,
-    readonly price: number
-  ) {}
+  @Field()
+  readonly sku!: Sku
+
+  @Field()
+  readonly displayName!: string
+
+  @Field()
+  readonly description!: string
+
+  @Field()
+  readonly price!: number
 
   public static async handle(command: CreateProduct, register: Register): Promise<void> {
     register.events(/* YOUR EVENT HERE */)

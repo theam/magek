@@ -59,7 +59,7 @@ function generateImports(): Array<ImportDeclaration> {
     },
     {
       packagePath: '@magek/common',
-      commaSeparatedComponents: 'UUID',
+      commaSeparatedComponents: 'Field, UUID',
     },
   ]
 }

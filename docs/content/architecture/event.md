@@ -24,7 +24,20 @@ Events are the cornerstone of Magek because of its event-driven and event-source
 ```typescript title="src/events/event-name.ts"
 @Event
 export class EventName {
-  public constructor(readonly field1: SomeType, readonly field2: SomeOtherType) {}
+  @Field()
+  public readonly field1!: SomeType
+
+  @Field()
+  public readonly field2!: SomeOtherType
+
+  public constructor(field1: SomeType, field2: SomeOtherType) {
+    this.field1 = field1
+    this.field2 = field2
+  }
+
+  public entityID(): UUID {
+    return /* the associated entity ID */
+  }
 }
 ```
 
@@ -37,7 +50,16 @@ Events and [Entities](./entity.md) are closely related. Each event will be aggre
 ```typescript title="src/events/cart-paid.ts"
 @Event
 export class CartPaid {
-  public constructor(readonly cartID: UUID, readonly paymentID: UUID) {}
+  @Field()
+  public readonly cartID!: UUID
+
+  @Field()
+  public readonly paymentID!: UUID
+
+  public constructor(cartID: UUID, paymentID: UUID) {
+    this.cartID = cartID
+    this.paymentID = paymentID
+  }
 
   // highlight-start
   public entityID(): UUID {
@@ -64,12 +86,17 @@ We have shown you how to _declare_ an event in Magek, but we haven't explained h
   authorize: [Admin],
 })
 export class MoveStock {
-  public constructor(
-    readonly productID: string,
-    readonly origin: string,
-    readonly destination: string,
-    readonly quantity: number
-  ) {}
+  @Field()
+  readonly productID!: string
+
+  @Field()
+  readonly origin!: string
+
+  @Field()
+  readonly destination!: string
+
+  @Field()
+  readonly quantity!: number
 
   public static async handle(command: MoveStock, register: Register): Promise<void> {
     if (!command.enoughStock(command.origin, command.quantity, command.productID)) {

@@ -23,7 +23,7 @@ describe('new', (): void => {
       },
       {
         packagePath: '@magek/common',
-        commaSeparatedComponents: 'UUID',
+        commaSeparatedComponents: 'Field, UUID',
       },
     ]
 

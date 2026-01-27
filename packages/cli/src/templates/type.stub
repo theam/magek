@@ -1,7 +1,11 @@
+{{#imports}}
+import { {{commaSeparatedComponents}} } from '{{{packagePath}}}'
+{{/imports}}
+
 export class {{{ name }}} {
-  public constructor(
-    {{#fields}}
-    public {{{name}}}: {{{type}}},
-    {{/fields}}
-  ) {}
+  {{#fields}}
+  @Field()
+  public {{{name}}}!: {{{type}}}
+
+  {{/fields}}
 }

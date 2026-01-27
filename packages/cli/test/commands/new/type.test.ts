@@ -18,22 +18,14 @@ describe('new', (): void => {
     const typePath = `${typesRoot}example-type.ts`
     const defaultTypeImports = [
       {
-        packagePath: '@magek/core',
-        commaSeparatedComponents: 'Type',
-      },
-      {
         packagePath: '@magek/common',
-        commaSeparatedComponents: 'Register',
+        commaSeparatedComponents: 'Field',
       },
     ]
     const uuidTypeImports = [
       {
-        packagePath: '@magek/core',
-        commaSeparatedComponents: 'Type',
-      },
-      {
         packagePath: '@magek/common',
-        commaSeparatedComponents: 'Register, UUID',
+        commaSeparatedComponents: 'Field, UUID',
       },
     ]
 
