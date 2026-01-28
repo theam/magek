@@ -13,9 +13,23 @@ export interface ProjectionMetadata<TEntity extends EntityInterface, TReadModel 
   joinKey: keyof TEntity | ReadModelJoinKeyFunction<TEntity, TReadModel>
 }
 
-export type ProjectionResult<TReadModel> = TReadModel | ReadModelAction
+export type ProjectionResult<TReadModel> = TReadModel | ProjectionAction
 
-export enum ReadModelAction {
+export enum ProjectionAction {
+  Skip,
   Delete,
-  Nothing,
+}
+
+/**
+ * @deprecated Use ProjectionAction instead
+ */
+export enum ReadModelAction {
+  /**
+   * @deprecated Use ProjectionAction.Delete instead
+   */
+  Delete = ProjectionAction.Delete,
+  /**
+   * @deprecated Use ProjectionAction.Skip instead
+   */
+  Nothing = ProjectionAction.Skip,
 }

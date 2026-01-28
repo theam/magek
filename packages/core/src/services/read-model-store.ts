@@ -7,12 +7,12 @@ import {
   EntitySnapshotEnvelope,
   FilterFor,
   OptimisticConcurrencyUnexpectedVersionError,
+  ProjectionAction,
   ProjectionGlobalError,
   ProjectionInfo,
   ProjectionInfoReason,
   ProjectionMetadata,
   ProjectionResult,
-  ReadModelAction,
   ReadModelInterface,
   ReadModelJoinKeyFunction,
   SequenceKey,
@@ -403,10 +403,10 @@ export class ReadModelStore {
       if (error) throw error
     }
 
-    if (newReadModel === ReadModelAction.Delete) {
+    if (newReadModel === ProjectionAction.Delete) {
       logger.debug(`Deleting read model ${readModelName} with ID ${readModelID}:`, migratedReadModel)
       return this.config.readModelStore.delete(this.config, readModelName, readModelID!)
-    } else if (newReadModel === ReadModelAction.Nothing) {
+    } else if (newReadModel === ProjectionAction.Skip) {
       logger.debug(`Skipping actions for ${readModelName} with ID ${readModelID}:`, newReadModel)
       return
     }

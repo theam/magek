@@ -12,6 +12,7 @@ import {
   InvalidParameterError,
   InvalidReducerError,
   NonPersistedEntitySnapshotEnvelope,
+  ReducerAction,
   ReducerGlobalError,
   TraceActionTypes,
   UUID,
@@ -59,7 +60,11 @@ export class EventStore {
         // We double-check that what we are reducing is an event
         if (pendingEvent.kind === 'event') {
           try {
-            newEntitySnapshot = await this.entityReducer(pendingEvent, newEntitySnapshot)
+            const reducerResult = await this.entityReducer(pendingEvent, newEntitySnapshot)
+            // If reducer returns undefined (Skip action), keep the current snapshot unchanged
+            if (reducerResult !== undefined) {
+              newEntitySnapshot = reducerResult
+            }
           } catch (e) {
             if (e instanceof InvalidEventError) {
               const globalErrorDispatcher = new MagekGlobalErrorDispatcher(this.config)
@@ -201,14 +206,19 @@ export class EventStore {
     snapshotInstance: EntityInterface | null,
     eventEnvelope: EventEnvelope,
     reducerMetadata: ReducerMetadata
-  ): Promise<NonPersistedEntitySnapshotEnvelope> {
+  ): Promise<NonPersistedEntitySnapshotEnvelope | undefined> {
     const logger = getLogger(this.config, 'createNewSnapshot')
     try {
-      const newEntity = this.reducerForEvent(
+      const reducerResult = this.reducerForEvent(
         migratedEventEnvelope.typeName,
         eventInstance,
         snapshotInstance
       )(eventInstance, snapshotInstance)
+
+      if (reducerResult === ReducerAction.Skip) {
+        logger.debug('Reducer returned ReducerAction.Skip, skipping snapshot creation')
+        return undefined
+      }
 
       const newSnapshot: NonPersistedEntitySnapshotEnvelope = {
         version: this.config.currentVersionFor(eventEnvelope.entityTypeName),
@@ -218,7 +228,7 @@ export class EventStore {
         entityID: migratedEventEnvelope.entityID,
         entityTypeName: migratedEventEnvelope.entityTypeName,
         typeName: migratedEventEnvelope.entityTypeName,
-        value: newEntity,
+        value: reducerResult,
         snapshottedEventCreatedAt: migratedEventEnvelope.createdAt,
       }
       logger.debug('Reducer result: ', newSnapshot)
