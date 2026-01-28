@@ -56,6 +56,9 @@ export function createInstances<T>(instanceClass: Class<T>, rawObjects: Array<Re
  *
  * @returns The evolved entity state
  *
+ * @remarks
+ * When creating a new entity without defaults, ensure the changes include all required fields.
+ *
  * @example
  * ```typescript
  * const updated = evolve(current, { balance: current.balance + event.amount })
