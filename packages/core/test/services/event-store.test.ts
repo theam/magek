@@ -987,6 +987,63 @@ describe('EventStore', () => {
           expect(reducer).to.be.equal(eval('AnEntity')['reducerThatCallsEntityMethod'])
         })
       })
+
+      describe('when reducer returns ReducerAction.Skip', () => {
+        it('keeps the current snapshot unchanged', async () => {
+          const eventStore = new EventStore(config) as any
+          const someSnapshotEnvelope = snapshotEnvelopeFor(someEntity)
+          const someEventEnvelopePersistedAt = new Date()
+          const someEventEnvelope = eventEnvelopeFor(someEvent, AnEvent.name, someEventEnvelopePersistedAt)
+
+          replace(eventStore, 'loadLatestSnapshot', fake.resolves(someSnapshotEnvelope))
+          replace(eventStore, 'loadEventStreamSince', fake.resolves([someEventEnvelope]))
+          
+          // Mock entityReducer to return undefined (Skip action)
+          const entityReducer = stub()
+            .onFirstCall()
+            .returns(undefined)
+          replace(eventStore, 'entityReducer', entityReducer)
+          replace(eventStore, 'storeSnapshot', fake.resolves(someSnapshotEnvelope))
+
+          const entityName = AnEntity.name
+          const entityID = '42'
+          const entity = await eventStore.fetchEntitySnapshot(entityName, entityID)
+
+          expect(eventStore.entityReducer).to.have.been.calledOnce
+          expect(eventStore.storeSnapshot).to.have.been.calledOnceWith(someSnapshotEnvelope)
+          expect(entity).to.be.deep.equal(someSnapshotEnvelope)
+        })
+
+        it('keeps the previous snapshot when Skip is returned for an event', async () => {
+          const eventStore = new EventStore(config) as any
+          const initialSnapshot = snapshotEnvelopeFor(someEntity)
+          const firstEventEnvelope = eventEnvelopeFor(someEvent, AnEvent.name, new Date())
+          const secondEventEnvelope = eventEnvelopeFor(otherEvent, AnEvent.name, new Date())
+
+          replace(eventStore, 'loadLatestSnapshot', fake.resolves(initialSnapshot))
+          replace(eventStore, 'loadEventStreamSince', fake.resolves([firstEventEnvelope, secondEventEnvelope]))
+          
+          const newSnapshot = snapshotEnvelopeFor(new AnEntity('42', 100))
+          
+          // First reducer returns updated entity, second reducer returns Skip
+          const entityReducer = stub()
+            .onFirstCall()
+            .returns(newSnapshot)
+            .onSecondCall()
+            .returns(undefined) // Skip
+          replace(eventStore, 'entityReducer', entityReducer)
+          replace(eventStore, 'storeSnapshot', fake.resolves(newSnapshot))
+
+          const entityName = AnEntity.name
+          const entityID = '42'
+          const entity = await eventStore.fetchEntitySnapshot(entityName, entityID)
+
+          expect(eventStore.entityReducer).to.have.been.calledTwice
+          // The snapshot should be the one from the first event, not changed by the skip
+          expect(eventStore.storeSnapshot).to.have.been.calledOnceWith(newSnapshot)
+          expect(entity).to.be.deep.equal(newSnapshot)
+        })
+      })
     })
   })
 })

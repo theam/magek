@@ -9,7 +9,7 @@ import {
   ProjectionMetadata,
   ProjectionResult,
   Runtime,
-  ReadModelAction,
+  ProjectionAction,
   ReadModelInterface,
   UUID,
   EntityInterface,
@@ -131,7 +131,7 @@ describe('ReadModelStore', () => {
       currentReadModel: SomeReadModel
     ): ProjectionResult<SomeReadModel> {
       currentReadModel.getId()
-      return ReadModelAction.Nothing
+      return ProjectionAction.Skip
     }
 
     public static projectionThatCallsEntityMethod(
@@ -140,7 +140,7 @@ describe('ReadModelStore', () => {
       currentReadModel: SomeReadModel
     ): ProjectionResult<SomeReadModel> {
       entity.getPrefixedKey('a prefix')
-      return ReadModelAction.Nothing
+      return ProjectionAction.Skip
     }
   }
 
@@ -290,7 +290,7 @@ describe('ReadModelStore', () => {
       })
     })
 
-    context('when the new read model returns ReadModelAction.Delete', () => {
+    context('when the new read model returns ProjectionAction.Delete', () => {
       it('deletes the associated read model', async () => {
         const mockAdapter = createMockAdapter({
           store: fake() as any,
@@ -302,7 +302,7 @@ describe('ReadModelStore', () => {
         replace(
           ReadModelStore.prototype,
           'getProjectionFunction',
-          fake.returns(() => ReadModelAction.Delete)
+          fake.returns(() => ProjectionAction.Delete)
         )
         const readModelStore = new ReadModelStore(config)
 
@@ -313,7 +313,7 @@ describe('ReadModelStore', () => {
       })
     })
 
-    context('when the new read model returns ReadModelAction.Nothing', () => {
+    context('when the new read model returns ProjectionAction.Skip', () => {
       it('ignores the read model', async () => {
         const mockAdapter = createMockAdapter({
           store: fake() as any,
@@ -325,7 +325,7 @@ describe('ReadModelStore', () => {
         replace(
           ReadModelStore.prototype,
           'getProjectionFunction',
-          fake.returns(() => ReadModelAction.Nothing)
+          fake.returns(() => ProjectionAction.Skip)
         )
         const readModelStore = new ReadModelStore(config)
 
@@ -1055,10 +1055,10 @@ describe('ReadModelStore', () => {
 
   // TODO: This method is tested indirectly in the `project` method tests, but it would be nice to have dedicated unit tests for it too
   describe('the `applyProjectionToReadModel` private method', () => {
-    context('when `ReadModelAction.Delete` is returned', () => {
+    context('when `ProjectionAction.Delete` is returned', () => {
       it('deletes the read model') // TODO
     })
-    context('when `ReadModelAction.Nothing` is returned', () => {
+    context('when `ProjectionAction.Skip` is returned', () => {
       it('does not update the read model state') // TODO
     })
     context('with no sequenceMetadata', () => {
