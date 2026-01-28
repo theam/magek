@@ -9,6 +9,7 @@ import {
   NonPersistedEntitySnapshotEnvelope,
   retryIfError,
   getLogger,
+  getTimestampGenerator,
 } from '@magek/common'
 import { EventRegistry, eventsDatabase } from '../event-registry'
 
@@ -80,7 +81,7 @@ export async function storeEvents(
   for (const nonPersistedEventEnvelope of nonPersistedEventEnvelopes) {
     const persistableEventEnvelope = {
       ...nonPersistedEventEnvelope,
-      createdAt: new Date().toISOString(),
+      createdAt: getTimestampGenerator().next(),
     }
     await retryIfError(
       async () => await persistEvent(eventRegistry, persistableEventEnvelope),
@@ -104,7 +105,7 @@ export async function storeSnapshot(
   const persistableEntitySnapshot = {
     ...snapshotEnvelope,
     createdAt: snapshotEnvelope.snapshottedEventCreatedAt,
-    persistedAt: new Date().toISOString(),
+    persistedAt: getTimestampGenerator().next(),
   }
   await retryIfError(() => eventRegistry.store(persistableEntitySnapshot), OptimisticConcurrencyUnexpectedVersionError)
   logger.debug('Snapshot stored')

@@ -14,6 +14,7 @@ import {
   UUID,
   MagekConfig,
   NonPersistedEventEnvelope,
+  getTimestampGenerator,
 } from '@magek/common'
 import { expect } from '../expect'
 import { createMockNonPersistedEventEnvelop, createMockEntitySnapshotEnvelope } from '../helpers/event-helper'
@@ -252,27 +253,33 @@ describe('events-adapter', () => {
     context('with event envelopes', () => {
       it('should call event registry store', async () => {
         const mockEventEnvelop = createMockNonPersistedEventEnvelop()
-        // The `createdAt` will be set in the `persistEvent` method
-        replace(Date.prototype, 'toISOString', () => 'a magical time')
+        // The `createdAt` will be set by the timestamp generator
+        const timestampGenerator = getTimestampGenerator()
+        const nextStub = stub(timestampGenerator, 'next').returns('2024-01-28T12:34:56.123456Z')
 
         await storeEvents(mockUserApp, mockEventRegistry, [mockEventEnvelop], mockConfig)
 
         expect(storeStub).to.have.been.calledWithExactly({
           ...mockEventEnvelop,
-          createdAt: 'a magical time',
+          createdAt: '2024-01-28T12:34:56.123456Z',
         })
+
+        nextStub.restore()
       })
 
       it('should call userApp eventDispatcher', async () => {
         const mockEventEnvelop = createMockNonPersistedEventEnvelop()
-        // The `createdAt` will be set in the `persistEvent` method
-        replace(Date.prototype, 'toISOString', () => 'a magical time')
+        // The `createdAt` will be set by the timestamp generator
+        const timestampGenerator = getTimestampGenerator()
+        const nextStub = stub(timestampGenerator, 'next').returns('2024-01-28T12:34:56.123456Z')
 
         await storeEvents(mockUserApp, mockEventRegistry, [mockEventEnvelop], mockConfig)
 
         expect(eventDispatcherStub).to.have.been.calledOnceWithExactly([
-          { ...mockEventEnvelop, createdAt: 'a magical time' },
+          { ...mockEventEnvelop, createdAt: '2024-01-28T12:34:56.123456Z' },
         ])
+
+        nextStub.restore()
       })
     })
   })
