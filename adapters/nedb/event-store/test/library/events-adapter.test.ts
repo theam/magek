@@ -15,6 +15,7 @@ import {
   MagekConfig,
   NonPersistedEventEnvelope,
   getTimestampGenerator,
+  resetTimestampGenerator,
 } from '@magek/common'
 import { expect } from '../expect'
 import { createMockNonPersistedEventEnvelop, createMockEntitySnapshotEnvelope } from '../helpers/event-helper'
@@ -65,6 +66,7 @@ describe('events-adapter', () => {
 
   afterEach(() => {
     restore()
+    resetTimestampGenerator()
   })
 
   describe('rawEventsToEnvelopes', () => {

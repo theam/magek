@@ -236,23 +236,26 @@ describe('TimestampGenerator', () => {
     it('should maintain string comparison ordering with mixed formats', () => {
       const timestamps = [
         '2024-01-28T12:34:56.123Z',      // old format
-        '2024-01-28T12:34:56.123045Z',   // new format, counter=0, seed=45
-        '2024-01-28T12:34:56.123145Z',   // new format, counter=1, seed=45
+        '2024-01-28T12:34:56.123005Z',   // new format, counter=00, seed=5
+        '2024-01-28T12:34:56.123015Z',   // new format, counter=01, seed=5
         '2024-01-28T12:34:56.124Z',      // old format, next ms
-        '2024-01-28T12:34:56.124067Z',   // new format, counter=0, seed=67
+        '2024-01-28T12:34:56.124007Z',   // new format, counter=00, seed=7
       ]
 
       // When sorting as strings, old format (ending with Z immediately after 3 digits)
       // will sort AFTER new format (with additional digits before Z)
-      // because '1' < 'Z' in ASCII (49 vs 90)
+      // because digit characters '0'-'9' (ASCII 48-57) < 'Z' (ASCII 90)
+      // This means new format timestamps will always appear BEFORE old format timestamps
+      // within the same millisecond, which is acceptable since order within the same
+      // millisecond was already non-deterministic with the old format.
       const sorted = [...timestamps].sort()
       
       // The actual sorted order:
       const expected = [
-        '2024-01-28T12:34:56.123045Z',   // new format
-        '2024-01-28T12:34:56.123145Z',   // new format
+        '2024-01-28T12:34:56.123005Z',   // new format
+        '2024-01-28T12:34:56.123015Z',   // new format
         '2024-01-28T12:34:56.123Z',      // old format (Z comes after digits)
-        '2024-01-28T12:34:56.124067Z',   // new format
+        '2024-01-28T12:34:56.124007Z',   // new format
         '2024-01-28T12:34:56.124Z',      // old format
       ]
 
