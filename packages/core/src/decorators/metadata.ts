@@ -5,10 +5,8 @@ export function getClassMetadata(classType: AnyClass): ClassMetadata {
   // Try new @Field() decorator system first
   try {
     const fieldMetadata = buildClassMetadataFromFields(classType)
-    // Check if any fields were actually found
-    if (fieldMetadata.fields.length > 0 || fieldMetadata.methods.length > 0) {
-      return fieldMetadata
-    }
+    // Always return field metadata from new system, even if empty
+    return fieldMetadata
   } catch (error) {
     // If field metadata reading fails, try old system
   }

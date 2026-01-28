@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@magek/core",
+      "comment": "Fix @Command decorator to work without @Field() properties",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@magek/core"
+}
