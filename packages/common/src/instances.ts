@@ -47,6 +47,27 @@ export function createInstances<T>(instanceClass: Class<T>, rawObjects: Array<Re
 }
 
 /**
+ * Applies partial changes to an entity, optionally using defaults when creating a new instance.
+ *
+ * @param current The current entity state, or undefined when creating a new entity
+ * @param changes The partial changes to apply
+ * @param defaults Optional defaults applied only when current is undefined
+ *
+ * @returns The evolved entity state
+ */
+export function evolve<T extends object>(current: T | undefined, changes: Partial<T>, defaults?: Partial<T>): T {
+  if (current !== undefined) {
+    return { ...current, ...changes } as T
+  }
+
+  if (defaults !== undefined) {
+    return { ...defaults, ...changes } as T
+  }
+
+  return changes as T
+}
+
+/**
  * Creates an instance of the read model class with the calculated properties included
  * @param instanceClass The read model class
  * @param raw The raw read model data

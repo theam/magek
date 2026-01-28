@@ -1,5 +1,5 @@
  
-import { createInstanceWithCalculatedProperties, ProjectionFor, ReadModelInterface, UUID } from '../src'
+import { createInstanceWithCalculatedProperties, evolve, ProjectionFor, ReadModelInterface, UUID } from '../src'
 import { expect } from './helpers/expect'
 import { faker } from '@faker-js/faker'
 
@@ -53,6 +53,24 @@ describe('the `Instances` helper', () => {
         fullName: `${rawObject.firstName} ${rawObject.lastName}`,
         friends: [{ id: rawObject.friends[0].id }, { id: rawObject.friends[1].id }],
       })
+    })
+  })
+
+  describe('the evolve method', () => {
+    it('merges changes into the current entity', () => {
+      const current = { id: faker.string.uuid(), name: faker.lorem.word(), count: 1 }
+
+      const evolved = evolve(current, { count: current.count + 1 })
+
+      expect(evolved).to.deep.equal({ ...current, count: 2 })
+    })
+
+    it('applies defaults when creating a new entity', () => {
+      const id = faker.string.uuid()
+
+      const evolved = evolve(undefined, { id }, { status: 'active', name: faker.lorem.word() })
+
+      expect(evolved).to.include({ id, status: 'active' })
     })
   })
 })
