@@ -63,14 +63,24 @@ describe('the `Instances` helper', () => {
       const evolved = evolve(current, { count: current.count + 1 })
 
       expect(evolved).to.deep.equal({ ...current, count: 2 })
+      expect(evolved).to.not.equal(current)
     })
 
     it('applies defaults when creating a new entity', () => {
       const id = faker.string.uuid()
+      const defaults = { status: 'active', name: faker.lorem.word() }
 
-      const evolved = evolve(undefined, { id }, { status: 'active', name: faker.lorem.word() })
+      const evolved = evolve(undefined, { id }, defaults)
 
-      expect(evolved).to.include({ id, status: 'active' })
+      expect(evolved).to.deep.equal({ ...defaults, id })
+    })
+
+    it('returns the changes when no defaults are provided', () => {
+      const changes = { id: faker.string.uuid(), status: faker.lorem.word() }
+
+      const evolved = evolve(undefined, changes)
+
+      expect(evolved).to.deep.equal(changes)
     })
   })
 })

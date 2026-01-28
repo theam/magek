@@ -53,7 +53,14 @@ export function createInstances<T>(instanceClass: Class<T>, rawObjects: Array<Re
  * @param changes The partial changes to apply
  * @param defaults Optional defaults applied only when current is undefined
  *
+ *
  * @returns The evolved entity state
+ *
+ * @example
+ * ```typescript
+ * const updated = evolve(current, { balance: current.balance + event.amount })
+ * const created = evolve(undefined, { id: event.entityId, name: event.name }, { status: 'active' })
+ * ```
  */
 export function evolve<T extends object>(current: T | undefined, changes: Partial<T>, defaults?: Partial<T>): T {
   if (current !== undefined) {
