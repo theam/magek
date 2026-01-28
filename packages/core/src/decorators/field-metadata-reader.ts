@@ -232,7 +232,7 @@ function getAllGetters(classType: AnyClass): PropertyMetadata[] {
 }
 
 /**
- * Get all static methods from a class
+ * Get all static methods from a class that are decorated with @Returns
  */
 function getAllStaticMethods(classType: AnyClass): PropertyMetadata[] {
   const staticMethods: PropertyMetadata[] = []
@@ -249,50 +249,36 @@ function getAllStaticMethods(classType: AnyClass): PropertyMetadata[] {
     // Check if there's a custom type function from @Returns decorator
     const typeFunction = Reflect.getMetadata('magek:returns:typeFunction', classType, propertyKey)
     
-    let typeMetadata: TypeMetadata
+    // Only include methods that have been explicitly decorated with @Returns
+    if (!typeFunction) {
+      continue
+    }
 
-    if (typeFunction) {
-      // Use the explicitly provided type function
-      const result = typeFunction()
-      const targetType = Array.isArray(result) ? result[0] : result
+    // Use the explicitly provided type function
+    const result = typeFunction()
+    const targetType = Array.isArray(result) ? result[0] : result
 
-      typeMetadata = analyzeType(targetType, {
-        isNullable: false,
-        isGetAccessor: false,
-        isArray: Array.isArray(result),
-        isReadonlyArray: false,
-      })
+    const typeMetadata = analyzeType(targetType, {
+      isNullable: false,
+      isGetAccessor: false,
+      isArray: Array.isArray(result),
+      isReadonlyArray: false,
+    })
 
-      // Wrap in Promise type to match async function signatures
-      typeMetadata = {
-        name: 'Promise',
-        typeGroup: 'Class',
-        typeName: 'Promise',
-        parameters: [typeMetadata],
-        isNullable: false,
-        isGetAccessor: false,
-        type: Promise as any,
-      }
-    } else {
-      // Fall back to design:returntype if available
-      const returnType = Reflect.getMetadata('design:returntype', classType, propertyKey)
-
-      if (!returnType) {
-        // No metadata available, skip this method
-        continue
-      }
-
-      typeMetadata = analyzeType(returnType, {
-        isNullable: false,
-        isGetAccessor: false,
-        isArray: false,
-        isReadonlyArray: false,
-      })
+    // Wrap in Promise type to match async function signatures
+    const wrappedTypeMetadata: TypeMetadata = {
+      name: 'Promise',
+      typeGroup: 'Class',
+      typeName: 'Promise',
+      parameters: [typeMetadata],
+      isNullable: false,
+      isGetAccessor: false,
+      type: Promise as any,
     }
 
     staticMethods.push({
       name: propertyKey,
-      typeInfo: typeMetadata,
+      typeInfo: wrappedTypeMetadata,
       dependencies: [],
     })
   }

@@ -37,10 +37,9 @@ function isStage3MethodContext(arg: unknown): arg is Stage3MethodContext {
  * This enables automatic return type inference for GraphQL schema generation.
  * 
  * TypeScript's emitDecoratorMetadata cannot capture generic type parameters like `Promise<UUID>`,
- * so this decorator allows explicit type specification.
+ * so this decorator is required to specify the return type explicitly.
  *
- * @param typeFunction - Optional function that returns the return type. If not provided,
- *                       will attempt to use emitDecoratorMetadata (works for non-generic types).
+ * @param typeFunction - Function that returns the return type. This parameter is required.
  *
  * @example
  * ```typescript
@@ -56,24 +55,31 @@ function isStage3MethodContext(arg: unknown): arg is Stage3MethodContext {
  *   }
  * }
  * ```
+ *
+ * @example
+ * For array return types, wrap the type in an array:
+ * ```typescript
+ * @Returns(() => [String])
+ * public static async handle(command: GetNames): Promise<string[]> {
+ *   return ['Alice', 'Bob', 'Charlie']
+ * }
+ * ```
  */
-export function Returns(typeFunction?: TypeFunction): MethodDecorator {
+export function Returns(typeFunction: TypeFunction): MethodDecorator {
   return (target: object | Function, propertyKey: string | symbol | Stage3MethodContext, descriptor?: PropertyDescriptor) => {
     // Handle Stage 3 decorators
     if (isStage3MethodContext(propertyKey)) {
       const context = propertyKey
       
-      if (typeFunction) {
-        // Store in context.metadata for later transfer by class decorator
-        if (!context.metadata[METHOD_RETURNS_KEY]) {
-          context.metadata[METHOD_RETURNS_KEY] = []
-        }
-        const methodReturns = context.metadata[METHOD_RETURNS_KEY] as Array<{ methodName: string; typeFunction: TypeFunction }>
-        methodReturns.push({
-          methodName: String(context.name),
-          typeFunction,
-        })
+      // Store in context.metadata for later transfer by class decorator
+      if (!context.metadata[METHOD_RETURNS_KEY]) {
+        context.metadata[METHOD_RETURNS_KEY] = []
       }
+      const methodReturns = context.metadata[METHOD_RETURNS_KEY] as Array<{ methodName: string; typeFunction: TypeFunction }>
+      methodReturns.push({
+        methodName: String(context.name),
+        typeFunction,
+      })
       
       return descriptor
     }
@@ -82,10 +88,8 @@ export function Returns(typeFunction?: TypeFunction): MethodDecorator {
     const classConstructor = target as Function
     const methodName = propertyKey as string | symbol
 
-    if (typeFunction) {
-      // Store the type function for later retrieval
-      Reflect.defineMetadata('magek:returns:typeFunction', typeFunction, classConstructor, methodName)
-    }
+    // Store the type function for later retrieval
+    Reflect.defineMetadata('magek:returns:typeFunction', typeFunction, classConstructor, methodName)
     
     // TypeScript's emitDecoratorMetadata will automatically add design:returntype metadata
     // which will be read by the field-metadata-reader
