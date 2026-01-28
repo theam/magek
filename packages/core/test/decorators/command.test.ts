@@ -116,6 +116,9 @@ describe('the `Command` decorator', () => {
       expect(commandMetadata.properties).to.be.empty
       expect(commandMetadata.methods).to.be.an('Array')
       expect(commandMetadata.methods).to.be.empty
+      expect(commandMetadata.authorizer).to.equal(MagekAuthorizer.allowAccess)
+      expect(commandMetadata.before).to.be.an('Array')
+      expect(commandMetadata.before).to.be.empty
     })
   })
 })
