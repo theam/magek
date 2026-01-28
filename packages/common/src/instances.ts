@@ -53,7 +53,6 @@ export function createInstances<T>(instanceClass: Class<T>, rawObjects: Array<Re
  * @param changes The partial changes to apply
  * @param defaults Optional defaults applied only when current is undefined
  *
- *
  * @returns The evolved entity state
  *
  * @remarks
