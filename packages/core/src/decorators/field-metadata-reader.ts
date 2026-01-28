@@ -232,6 +232,75 @@ function getAllGetters(classType: AnyClass): PropertyMetadata[] {
 }
 
 /**
+ * Get all static methods from a class
+ */
+function getAllStaticMethods(classType: AnyClass): PropertyMetadata[] {
+  const staticMethods: PropertyMetadata[] = []
+
+  // Get property descriptors for static members
+  const descriptors = Object.getOwnPropertyDescriptors(classType)
+
+  for (const [propertyKey, descriptor] of Object.entries(descriptors)) {
+    // Skip constructor and non-function properties
+    if (propertyKey === 'constructor' || typeof descriptor.value !== 'function') {
+      continue
+    }
+
+    // Check if there's a custom type function from @Returns decorator
+    const typeFunction = Reflect.getMetadata('magek:returns:typeFunction', classType, propertyKey)
+    
+    let typeMetadata: TypeMetadata
+
+    if (typeFunction) {
+      // Use the explicitly provided type function
+      const result = typeFunction()
+      const targetType = Array.isArray(result) ? result[0] : result
+
+      typeMetadata = analyzeType(targetType, {
+        isNullable: false,
+        isGetAccessor: false,
+        isArray: Array.isArray(result),
+        isReadonlyArray: false,
+      })
+
+      // Wrap in Promise type to match async function signatures
+      typeMetadata = {
+        name: 'Promise',
+        typeGroup: 'Class',
+        typeName: 'Promise',
+        parameters: [typeMetadata],
+        isNullable: false,
+        isGetAccessor: false,
+        type: Promise as any,
+      }
+    } else {
+      // Fall back to design:returntype if available
+      const returnType = Reflect.getMetadata('design:returntype', classType, propertyKey)
+
+      if (!returnType) {
+        // No metadata available, skip this method
+        continue
+      }
+
+      typeMetadata = analyzeType(returnType, {
+        isNullable: false,
+        isGetAccessor: false,
+        isArray: false,
+        isReadonlyArray: false,
+      })
+    }
+
+    staticMethods.push({
+      name: propertyKey,
+      typeInfo: typeMetadata,
+      dependencies: [],
+    })
+  }
+
+  return staticMethods
+}
+
+/**
  * Build ClassMetadata from @Field() decorators
  */
 export function buildClassMetadataFromFields(classType: AnyClass): ClassMetadata {
@@ -246,7 +315,13 @@ export function buildClassMetadataFromFields(classType: AnyClass): ClassMetadata
   }))
 
   // Get getter methods (for @CalculatedField)
-  const methods = getAllGetters(classType)
+  const getters = getAllGetters(classType)
+
+  // Get static methods (for command handlers)
+  const staticMethods = getAllStaticMethods(classType)
+
+  // Combine getters and static methods
+  const methods = [...getters, ...staticMethods]
 
   return {
     name: classType.name,

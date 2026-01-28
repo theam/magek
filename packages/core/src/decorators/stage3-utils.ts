@@ -3,6 +3,14 @@ import { FieldMetadata } from '@magek/common'
 // Symbol used by Stage 3 decorators to store field metadata
 const FIELDS_KEY = Symbol.for('magek:fields')
 
+// Symbol used by Stage 3 decorators to store method return type metadata
+const METHOD_RETURNS_KEY = Symbol.for('magek:method:returns')
+
+export interface MethodReturnMetadata {
+  methodName: string
+  typeFunction: () => any
+}
+
 /**
  * Transfer field metadata from Stage 3 decorator context.metadata to the class constructor.
  * This is needed because Symbol.metadata is not available in Node.js, so Stage 3 decorators
@@ -23,6 +31,15 @@ export function transferStage3FieldMetadata(
       if (!ctorWithFields.__magek_fields__.some((f) => f.name === field.name)) {
         ctorWithFields.__magek_fields__.push(field)
       }
+    }
+  }
+  
+  // Also transfer method return type metadata
+  const methodReturns = contextMetadata[METHOD_RETURNS_KEY] as MethodReturnMetadata[] | undefined
+  if (methodReturns && methodReturns.length > 0) {
+    for (const methodReturn of methodReturns) {
+      // Store metadata using Reflect for later retrieval
+      Reflect.defineMetadata('magek:returns:typeFunction', methodReturn.typeFunction, classType, methodReturn.methodName)
     }
   }
 }

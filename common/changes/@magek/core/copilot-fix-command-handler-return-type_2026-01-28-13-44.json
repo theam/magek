@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@magek/core",
+      "comment": "Add @Returns decorator for command handler return type inference",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@magek/core"
+}
