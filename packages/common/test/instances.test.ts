@@ -75,6 +75,14 @@ describe('the `Instances` helper', () => {
       expect(evolved).to.deep.equal({ ...defaults, id })
     })
 
+    it('prefers changes over defaults when both are provided', () => {
+      const defaults = { status: 'active', name: faker.lorem.word() }
+
+      const evolved = evolve(undefined, { status: 'pending' }, defaults)
+
+      expect(evolved).to.deep.equal({ ...defaults, status: 'pending' })
+    })
+
     it('returns the changes when no defaults are provided', () => {
       const changes = { id: faker.string.uuid(), status: faker.lorem.word() }
 
