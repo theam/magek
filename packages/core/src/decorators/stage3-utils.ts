@@ -4,6 +4,29 @@ import { FieldMetadata } from '@magek/common'
 const FIELDS_KEY = Symbol.for('magek:fields')
 
 /**
+ * Stage 3 class decorator context
+ */
+export interface Stage3ClassContext {
+  kind: 'class'
+  name: string | undefined
+  metadata: Record<string | symbol, unknown>
+  addInitializer?: (initializer: () => void) => void
+}
+
+/**
+ * Type guard to detect Stage 3 class decorator context
+ */
+export function isStage3ClassContext(arg: unknown): arg is Stage3ClassContext {
+  return (
+    arg !== null &&
+    typeof arg === 'object' &&
+    'kind' in arg &&
+    (arg as Stage3ClassContext).kind === 'class' &&
+    'metadata' in arg
+  )
+}
+
+/**
  * Transfer field metadata from Stage 3 decorator context.metadata to the class constructor.
  * This is needed because Symbol.metadata is not available in Node.js, so Stage 3 decorators
  * need an explicit step to make field metadata accessible on the class.
