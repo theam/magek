@@ -48,22 +48,24 @@ export function createInstances<T>(instanceClass: Class<T>, rawObjects: Array<Re
 
 /**
  * Applies partial changes to an entity, optionally using defaults when creating a new instance.
- *
- * @param current The current entity state, or undefined when creating a new entity
- * @param changes The partial changes to apply
- * @param defaults Optional defaults applied only when current is undefined
- *
- * @returns The evolved entity state
+ * Designed for plain objects (entity state); use `createInstance` for class instances.
  *
  * @remarks
- * When creating a new entity without defaults, ensure the changes include all required fields.
+ * This function always returns a shallow copy, ensuring immutability.
  *
  * @example
  * ```typescript
+ * // Update existing entity
  * const updated = evolve(current, { balance: current.balance + event.amount })
+ * // Create new entity with defaults
  * const created = evolve(undefined, { id: event.entityId, name: event.name }, { status: 'active' })
+ * // Create new entity without defaults (changes must be complete)
+ * const created = evolve(undefined, { id: event.entityId, name: event.name, status: 'active' })
  * ```
  */
+export function evolve<T extends object>(current: T, changes: Partial<T>): T
+export function evolve<C extends object, D extends object>(current: undefined, changes: C, defaults: D): C & D
+export function evolve<T extends object>(current: undefined, changes: T): T
 export function evolve<T extends object>(current: T | undefined, changes: Partial<T>, defaults?: Partial<T>): T {
   if (current !== undefined) {
     return { ...current, ...changes } as T
@@ -73,7 +75,7 @@ export function evolve<T extends object>(current: T | undefined, changes: Partia
     return { ...defaults, ...changes } as T
   }
 
-  return changes as T
+  return { ...changes } as T
 }
 
 /**

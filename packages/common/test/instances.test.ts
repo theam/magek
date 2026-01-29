@@ -89,6 +89,7 @@ describe('the `Instances` helper', () => {
       const evolved = evolve(undefined, changes)
 
       expect(evolved).to.deep.equal(changes)
+      expect(evolved).to.not.equal(changes)
     })
   })
 })
