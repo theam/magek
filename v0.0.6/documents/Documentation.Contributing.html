@@ -1,0 +1,242 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Contributing | Magek Framework</title><meta name="description" content="Documentation for Magek Framework"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><link rel="stylesheet" href="../assets/custom.css"/><script defer src="../assets/main.js"></script><script defer src="../assets/custom.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><a href="../index.html" class="title">Magek Framework</a><div id="tsd-toolbar-links"><a href="https://github.com/theam/magek">GitHub</a><a href="https://magek.ai">Website</a></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/><ul role="listbox" id="tsd-search-results"></ul><div id="tsd-search-status" aria-live="polite" aria-atomic="true"><div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb" aria-label="Breadcrumb"><li><a href="Documentation.html">Documentation</a></li><li><a href="" aria-current="page">Contributing</a></li></ul></div><div class="tsd-panel tsd-typography"><h1 id="contributing-to-magek" class="tsd-anchor-link">Contributing to Magek<a href="#contributing-to-magek" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1><blockquote>
+<p><strong>DISCLAIMER:</strong> The Magek docs are undergoing an overhaul. Most of what's written here applies, but expect some hiccups in the build process
+that is described here, as it changed in the last version. New documentation will have this documented properly.</p>
+</blockquote>
+<p>Thanks for taking the time to contribute to Magek. It is an open-source project and it wouldn't be possible without people like you 🙏🎉</p>
+<p>This document is a set of guidelines to help you contribute to Magek, which is hosted on the <a href="https://github.com/theam/magek"><code>theam/magek</code></a> GitHub
+repository. These aren’t absolute laws, use your judgment and common sense 😀.
+Remember that if something here doesn't make sense, you can also propose a change to this document.</p>
+<h2 id="code-of-conduct" class="tsd-anchor-link">Code of Conduct<a href="#code-of-conduct" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>This project and everyone participating in it are expected to uphold the <a href="https://github.com/theam/magek/blob/main/CODE_OF_CONDUCT.md">Magek's Code of Conduct</a>, based on the Covenant Code of Conduct.
+If you see unacceptable behavior, please communicate so to <code>info@theagilemonkeys.com</code>.</p>
+<h2 id="i-dont-want-to-read-this-whole-thing-i-just-have-a-question" class="tsd-anchor-link">I don't want to read this whole thing, I just have a question<a href="#i-dont-want-to-read-this-whole-thing-i-just-have-a-question" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Go ahead and ask the community in <a href="https://discord.com/invite/bDY8MKx">Discord</a> or <a href="https://github.com/theam/magek/issues">create a new issue</a>.</p>
+<h2 id="what-should-i-know-before-i-get-started" class="tsd-anchor-link">What should I know before I get started?<a href="#what-should-i-know-before-i-get-started" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><h3 id="packages" class="tsd-anchor-link">Packages<a href="#packages" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Magek is divided in many different packages. The criteria to split the code in packages is that each package meets at least one of the following conditions:</p>
+<ul>
+<li>They must be run separately, for instance, the CLI is run locally, while the server code runs as a standalone server or serverless function.</li>
+<li>They contain code that is used by at least two of the other packages.</li>
+<li>They're an adapter implementation of some abstract part of the framework (for instance, the storage adapter packages).</li>
+</ul>
+<p>The packages are managed using <a href="https://rushjs.io/">rush</a> and <a href="https://npmjs.com">npm</a>, if you run <code>rush build</code>, it will build all the packages.</p>
+<p>The packages are published to <code>npmjs</code> under the prefix <code>@magek/</code>, their purpose is as follows:</p>
+<ul>
+<li><code>cli</code> - You guessed it! This package is the <code>magek</code> command-line tool, it interacts only with the core package in order to load the project configuration.</li>
+<li><code>core</code> - This one contains all the framework runtime logic. Stuff like the generation of the config or the commands and events handling happens here.</li>
+<li><code>server</code> - Local development server with Fastify-based HTTP, WebSocket, SSE support, and all infrastructure components.</li>
+<li><code>common</code> - This package defines shared types and helpers used across all other packages. It includes the main Magek concepts like:
+<ul>
+<li>Entity</li>
+<li>Command</li>
+<li>etc…</li>
+</ul>
+</li>
+</ul>
+<p>This is a dependency graph that shows the dependencies among all packages, including the application using Magek:
+<img src="https://raw.githubusercontent.com/theam/magek/main/docs/img/packages-dependencies.png" alt="Magek packages dependencies"></p>
+<h2 id="how-can-i-contribute" class="tsd-anchor-link">How Can I Contribute?<a href="#how-can-i-contribute" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Contributing to an open source project is never just a matter of code, you can help us significantly by just using Magek and interacting with our community. Here you'll find some tips on how to do it effectively.</p>
+<h3 id="reporting-bugs" class="tsd-anchor-link">Reporting Bugs<a href="#reporting-bugs" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Before creating a bug report, please search for similar issues to make sure that they're not already reported. If you don't find any, go ahead and create an issue including as many details as possible. Fill out the required template, the information requested helps us to resolve issues faster.</p>
+<blockquote>
+<p><strong>Note:</strong>
+If you find a Closed issue that seems related to the issues that you're experiencing, make sure to reference it in the body of your new one by writing its number like this =&gt; #42 (Github will autolink it for you).</p>
+</blockquote>
+<p>Bugs are tracked as GitHub issues. Explain the problem and include additional details to help maintainers reproduce the problem:</p>
+<ul>
+<li>Use a clear and descriptive title for the issue to identify the problem.</li>
+<li>Describe the exact steps which reproduce the problem in as many details as possible.</li>
+<li>Provide specific examples to demonstrate the steps. Include links to files or GitHub projects, or copy/pasteable snippets, which you use in those examples. If you're providing snippets in the issue, use Markdown code blocks.</li>
+<li>Describe the behavior you observed after following the steps and point out what exactly is the problem with that behavior.</li>
+<li>Explain which behavior you expected to see instead and why.</li>
+<li>If the problem is related to performance or memory, include a CPU profile capture with your report.</li>
+</ul>
+<h3 id="suggesting-enhancements" class="tsd-anchor-link">Suggesting Enhancements<a href="#suggesting-enhancements" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Enhancement suggestions are tracked as GitHub issues. Make sure you provide the following information:</p>
+<ul>
+<li>Use a clear and descriptive title for the issue to identify the suggestion.</li>
+<li>Provide a step-by-step description of the suggested enhancement in as many details as possible.</li>
+<li>Provide specific examples to demonstrate the steps. Include copy/pasteable snippets which you use in those examples, as Markdown code blocks.</li>
+<li>Describe the current behavior and explain which behavior you expected to see instead and why.</li>
+<li>Explain why this enhancement would be useful to most Magek users and isn't something that can or should be implemented as a community package.</li>
+<li>List some other libraries or frameworks where this enhancement exists.</li>
+</ul>
+<h3 id="improving-documentation" class="tsd-anchor-link">Improving documentation<a href="#improving-documentation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p><a href="https://docs.magek.ai">Magek documentation</a> is treated as a live document that continues improving on a daily basis. If you find something that is missing or can be improved, please contribute, it will be of great help for other developers.
+To contribute you can use the button &quot;Edit on github&quot; at the top of each chapter.</p>
+<h4 id="documentation-principles-and-practices" class="tsd-anchor-link">Documentation principles and practices<a href="#documentation-principles-and-practices" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>The ultimate goal of a technical document is to translate the knowledge from the technology creators into the reader's mind so that they learn. The challenging
+part here is the one in which they learn. It is challenging because, under the same amount of information, a person can suffer an information overload because
+we (humans) don't have the same information-processing capacity. That idea is going to work as our compass, it should drive our efforts so people with less
+capacity is still able to follow and understand our documentation.</p>
+<p>To achieve our goal we propose writing documentation following these principles:</p>
+<ol>
+<li>Clean and Clear</li>
+<li>Simple</li>
+<li>Coherent</li>
+<li>Explicit</li>
+<li>Attractive</li>
+<li>Inclusive</li>
+<li>Cohesive</li>
+</ol>
+<h5 id="principles" class="tsd-anchor-link">Principles<a href="#principles" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h5><p><strong>1. Clean and Clear</strong></p>
+<p>Less is more. Apple is, among many others, a good example of creating clean and clear content, where visual elements are carefully chosen to look beautiful
+(e.g. <a href="https://developer.apple.com/tutorials/swiftui">Apple's swift UI</a>) and making the reader getting the point as soon as possible.</p>
+<p>The intention of every section, paragraph, and sentence must be clear, we should avoid writing details of two different things even when they are related.
+It is better to link pages and keep the focus and the intention clear, Wikipedia is the best example on this.</p>
+<p><strong>2. Simple</strong></p>
+<p>Technical writings deal with different backgrounds and expertise from the readers. We should not assume the reader knows everything we are talking about
+but we should not explain everything in the same paragraph or section. Every section has a goal to stick to the goal and link to internal or external resources
+to go deeper.</p>
+<p>Diagrams are great tools, you know a picture is worth more than a thousand words unless that picture contains too much information.
+Keep it simple intentionally omitting details.</p>
+<p><strong>3. Coherent</strong></p>
+<p>The documentation tells a story. Every section should integrate naturally without making the reader switch between different contexts. Text, diagrams,
+and code examples should support each other without introducing abrupt changes breaking the reader’s flow. Also, the font, colors, diagrams, code samples,
+animations, and all the visual elements we include, should support the story we are telling.</p>
+<p><strong>4. Explicit</strong></p>
+<p>Go straight to the point without assuming the readers should know about something. Again, link internal or external resources to clarify.</p>
+<p>The index of the whole content must be visible all the time so the reader knows exactly where they are and what is left.</p>
+<p><strong>5. Attractive</strong></p>
+<p>Our text must be nice to read, our diagrams delectable to see, and our site… a feast for the eyes!!</p>
+<p><strong>6. Inclusive</strong></p>
+<p>Everybody should understand our writings, especially the topics at the top. We have arranged the documentation structure in a way that anybody can dig
+deeper by just going down so, sections 1 to 4 must be suitable for all ages.</p>
+<p>Use gender-neutral language to avoid the use of he, him, his to refer to undetermined gender. It is better to use their or they as a gender-neutral
+approach than s/he or similars.</p>
+<p><strong>7. Cohesive</strong></p>
+<p>Writing short and concise sentences is good, but remember to use proper connectors (“Therefore”, “Besides”, “However”, “thus”, etc) that provide a
+sense of continuation to the whole paragraph. If not, when people read the paragraphs, their internal voice sounds like a robot with unnatural stops.</p>
+<p>For example, read this paragraph and try to hear your internal voice:</p>
+<blockquote>
+<p>Entities are created on the fly, by reducing the whole event stream. You shouldn't assume that they are stored anywhere.  Magek does create
+automatic snapshots to make the reduction process efficient. You are the one in charge of writing the reducer function.</p>
+</blockquote>
+<p>And now read this one:</p>
+<blockquote>
+<p>Entities are created on the fly by reducing the whole event stream. While you shouldn't assume that they are stored anywhere,  Magek does create automatic
+snapshots to make the reduction process efficient. In any case, this is opaque to you and the only thing you should care is to provide the reducer function.</p>
+</blockquote>
+<p>Did you feel the difference? The latter makes you feel that everything is connected, it is more cohesive.</p>
+<h5 id="practices" class="tsd-anchor-link">Practices<a href="#practices" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h5><p>There are many writing styles depending on the type of document. It is common within technical and scientific writing to use Inductive and/or Deductive styles
+for paragraphs. They have different outcomes and one style may suit better in one case or another, that is why it is important to know them, and decide which
+one to use in every moment. Let’s see the difference with 2 recursive examples.</p>
+<p><strong>Deductive paragraphs ease the reading for advanced users but still allows you to elaborate on ideas and concepts for newcomers</strong>. In deductive paragraphs,
+the conclusions or definitions appear at the beginning, and then, details, facts, or supporting phrases complete the paragraph’s idea. By placing the
+conclusion in the first sentence, the reader immediately identifies the main point so they can decide to skip the whole paragraph or keep reading.
+If you take a look at the structure of this paragraph, it is deductive.</p>
+<p>On the other hand, if you want to drive the readers' attention and play with it as if they were in a roller coaster, you can do so by using a different approach.
+In that approach, you first introduce the facts and ideas and then you wrap them with a conclusion. This style is more narrative and forces the reader to
+continue because the main idea is diluted in the whole paragraph. Once all the ideas are placed together, you can finally conclude the paragraph. <strong>This style is
+called Inductive.</strong></p>
+<p>The first paragraph is deductive and the last one is inductive. In general, it is better to use the deductive style, but if we stick to one, our writing will start looking weird and maybe boring.
+So decide one or another being conscious about your intention.</p>
+<h3 id="create-your-very-first-github-issue" class="tsd-anchor-link">Create your very first GitHub issue<a href="#create-your-very-first-github-issue" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p><a href="https://github.com/theam/magek/issues/new">Click here</a> to start making contributions to Magek.</p>
+<h2 id="your-first-code-contribution" class="tsd-anchor-link">Your First Code Contribution<a href="#your-first-code-contribution" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Unsure where to begin contributing to Magek? You can start by looking through issued tagged as <code>good-first-issue</code> and <code>help-wanted</code>:</p>
+<ul>
+<li>Beginner issues - issues which should only require a few lines of code, and a test or two.</li>
+<li>Help wanted issues - issues which should be a bit more involved than beginner issues.</li>
+</ul>
+<p>Both issue lists are sorted by the total number of comments. While not perfect, number of comments is a reasonable proxy for impact a given change will have.</p>
+<p>Make sure that you assign the chosen issue to yourself to communicate your intention to work on it and reduce the possibilities of other people taking the same assignment.</p>
+<h3 id="getting-the-code" class="tsd-anchor-link">Getting the code<a href="#getting-the-code" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>To start contributing to the project you would need to set up the project in your system, to do so, you must first follow these steps in your terminal.</p>
+<ul>
+<li>
+<p>Install Rush: <code>npm install -g @microsoft/rush</code></p>
+</li>
+<li>
+<p>Clone the repo and get into the directory of the project: <code>git clone https://github.com/theam/magek.git &amp;&amp; cd magek</code></p>
+</li>
+<li>
+<p>Install project dependencies: <code>rush update</code></p>
+</li>
+<li>
+<p>Compile the project <code>rush build</code></p>
+</li>
+<li>
+<p>Add your contribution</p>
+</li>
+<li>
+<p>Make sure everything works by <a href="#running-unit-tests">executing the unit tests</a>: <code>rush rest</code></p>
+</li>
+</ul>
+<h3 id="understanding-the-rush-monorepo-approach-and-how-dependencies-are-structured-in-the-project" class="tsd-anchor-link">Understanding the &quot;rush monorepo&quot; approach and how dependencies are structured in the project<a href="#understanding-the-rush-monorepo-approach-and-how-dependencies-are-structured-in-the-project" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The Magek Framework project is organized following the <a href="https://rushjs.io/">&quot;rush monorepo&quot;</a> structure. There are several &quot;package.json&quot; files and each one has its purpose with regard to the dependencies you include on them:</p>
+<ul>
+<li>The &quot;package.json&quot; files that are on each package root should contain the dependencies used by that specific package. Be sure to correctly differentiate which dependency is only for development and which one is for production.</li>
+</ul>
+<p>Finally, <strong>always use exact numbers for dependency versions</strong>. This means that if you want to add the dependency &quot;graphql&quot; in version 1.2.3, you should add <code>&quot;graphql&quot;: &quot;1.2.3&quot;</code> to the corresponding &quot;package.json&quot; file, and never <code>&quot;graphql&quot;: &quot;^1.2.3&quot;</code> or <code>&quot;graphql&quot;: &quot;~1.2.3&quot;</code>. This restriction comes from hard problems we've had in the past.</p>
+<h3 id="running-unit-tests" class="tsd-anchor-link">Running unit tests<a href="#running-unit-tests" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Unit tests are executed when you type <code>rush test</code>. If you want to run the unit tests for an especific package, you should move to the corresponding folder and run one of the following commands:</p>
+<ul>
+<li>
+<p><code>rushx test:cli -v</code>: Run unit tests for the <code>cli</code> package.</p>
+</li>
+<li>
+<p><code>rushx test:core -v</code>: Run unit tests for the <code>core</code> package.</p>
+</li>
+<li>
+<p><code>rushx test:server -v</code>: Run unit tests for the <code>server</code> package.</p>
+</li>
+<li>
+<p><code>rushx test:common -v</code>: Run unit tests for the <code>common</code> package.</p>
+</li>
+<li>
+<p><code>doc/*</code> - PR that enhances the documentation</p>
+</li>
+</ul>
+<p>In the right side of the branch name you can include the GitHub issue number. An example of doing this could be:</p>
+<pre><code class="bash"><span class="hl-0">git</span><span class="hl-1"> </span><span class="hl-2">checkout</span><span class="hl-1"> </span><span class="hl-3">-b</span><span class="hl-1"> </span><span class="hl-2">feature/XXX_add-an-awesome-new-feature</span>
+</code><button type="button">Copy</button></pre>
+
+<p>(where <code>XXX</code> is the issue number)</p>
+<h3 id="commit-message-guidelines" class="tsd-anchor-link">Commit message guidelines<a href="#commit-message-guidelines" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The merge commit message should be structured following the <a href="https://www.conventionalcommits.org/">conventional commits</a> standard:</p>
+<pre><code class="text">&lt;commit type&gt;([optional scope]): &lt;description&gt;
+</code><button type="button">Copy</button></pre>
+
+<p>As an example:</p>
+<pre><code class="text">fix(cli): Correct minor typos in code
+</code><button type="button">Copy</button></pre>
+
+<p>The most important kind of commits are the ones that trigger version bumps and therefore a new release in the CI/CD system:</p>
+<ul>
+<li><code>fix</code> - patch version bump (<code>0.0.x</code>)</li>
+<li><code>feat</code> - minor version bump (<code>0.x.0</code>)</li>
+<li>Any commit type followed by <code>!</code>, i.e. <code>feat!</code> - major version bump (<code>x.0.0</code>)</li>
+</ul>
+<p>Apart from those previously mentioned, there are more commit types:</p>
+<ul>
+<li><strong>build</strong>: Changes that affect the build system or external dependencies (example scopes: rush, tsconfig, npm)</li>
+<li><strong>ci</strong>: Changes to our CI configuration files and scripts</li>
+<li><strong>docs</strong>: Documentation only changes</li>
+<li><strong>feat</strong>: A new feature</li>
+<li><strong>fix</strong>: A bug fix</li>
+<li><strong>perf</strong>: A code change that improves performance</li>
+<li><strong>refactor</strong>: A code change that neither fixes a bug nor adds a feature</li>
+<li><strong>style</strong>: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)</li>
+<li><strong>test</strong>: Adding missing tests or correcting existing tests</li>
+</ul>
+<p>We're using the following scopes in the project:</p>
+<ul>
+<li><strong>cli</strong></li>
+<li><strong>core</strong></li>
+<li><strong>common</strong></li>
+<li><strong>server</strong></li>
+</ul>
+<p>Apart of using conventional commits for triggering releases, we use them to build the project changelog.</p>
+<h2 id="code-style-guidelines" class="tsd-anchor-link">Code Style Guidelines<a href="#code-style-guidelines" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The Magek project comes with a nice set of ESLint config files to help you follow a consistent style, and we really encourage to use it in your editor. You can also run the <code>rush run lint:fix</code> commands to try solving any linter problems automatically.</p>
+<p>For everything else, the rule of thumb is: Try to be consistent with the code around yours, and if you're not sure, ask :-)</p>
+<p>There are some things that the linter doesn't force but are preferred this way:</p>
+<h3 id="importing-other-files-and-libraries" class="tsd-anchor-link">Importing other files and libraries<a href="#importing-other-files-and-libraries" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Use ES modules (<code>import</code>/<code>export</code>) instead of CommonJS (<code>require</code>/<code>module.exports</code>), and import the objects individually when possible:</p>
+<pre><code class="typescript">
+</code><button type="button">Copy</button></pre>
+
+<h3 id="functional-style" class="tsd-anchor-link">Functional style<a href="#functional-style" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>We give priority to a functional style of programming, but always taking into account how the objects are used to make sure they form a nice DSL. Classes are allowed when there's an actual state to hold, and we usually avoid default exports:</p>
+<pre><code class="typescript"><span class="hl-5">// module-a.ts, a conventional functional module</span><br/><span class="hl-3">export</span><span class="hl-1"> </span><span class="hl-0">functionA</span><span class="hl-1">() {</span><br/><span class="hl-1">  ...</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-6">export</span><span class="hl-1"> </span><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-8">someConstantA</span><span class="hl-1"> = </span><span class="hl-9">42</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="dependency-injection" class="tsd-anchor-link">Dependency injection<a href="#dependency-injection" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Prefer functions and modules to accept their dependencies as parameters rather than hard-coding imports. This enhances testability and composability.</p>
+<pre><code class="typescript"><span class="hl-5">// module-b.ts, grouping functions with a scope</span><br/><span class="hl-6">export</span><span class="hl-1"> </span><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-8">ModuleB</span><span class="hl-1"> = {</span><br/><span class="hl-1">  </span><span class="hl-0">functionB1</span><span class="hl-4">:</span><span class="hl-1"> () </span><span class="hl-3">=&gt;</span><span class="hl-1"> {...},</span><br/><span class="hl-1">  </span><span class="hl-0">functionB2</span><span class="hl-4">:</span><span class="hl-1"> () </span><span class="hl-3">=&gt;</span><span class="hl-1"> {...},</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<pre><code class="typescript"><span class="hl-5">// object-c.ts, a class</span><br/><span class="hl-6">export</span><span class="hl-1"> </span><span class="hl-3">class</span><span class="hl-1"> </span><span class="hl-7">ObjectC</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-3">constructor</span><span class="hl-1">(</span><span class="hl-3">readonly</span><span class="hl-1"> </span><span class="hl-4">value</span><span class="hl-1">: </span><span class="hl-7">number</span><span class="hl-1">) {}</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<pre><code class="typescript"><br/><span class="hl-0">functionA</span><span class="hl-1">()</span><br/><span class="hl-4">ModuleB</span><span class="hl-1">.</span><span class="hl-0">functionB1</span><span class="hl-1">()</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-8">obj</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">ObjectC</span><span class="hl-1">(</span><span class="hl-4">someConstantA</span><span class="hl-1">)</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="use-and" class="tsd-anchor-link">Use <code>const</code> and <code>let</code><a href="#use-and" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Default to <code>const</code> and immutable objects when possible, otherwise, use <code>let</code>.</p>
+<pre><code class="typescript"><span class="hl-5">// Good</span><br/><span class="hl-3">let</span><span class="hl-1"> </span><span class="hl-4">a</span><span class="hl-1"> = </span><span class="hl-9">0</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-8">b</span><span class="hl-1"> = </span><span class="hl-9">3</span><br/><span class="hl-4">a</span><span class="hl-1"> = </span><span class="hl-4">a</span><span class="hl-1"> + </span><span class="hl-4">b</span><br/><br/><span class="hl-5">// Less Good</span><br/><span class="hl-3">var</span><span class="hl-1"> </span><span class="hl-4">c</span><span class="hl-1"> = </span><span class="hl-9">0</span><br/><span class="hl-3">let</span><span class="hl-1"> </span><span class="hl-4">d</span><span class="hl-1"> = </span><span class="hl-9">3</span><span class="hl-1"> </span><span class="hl-5">// Never updated</span>
+</code><button type="button">Copy</button></pre>
+
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#contributing-to-magek"><span>Contributing to <wbr/>Magek</span></a><ul><li><a href="#code-of-conduct"><span>Code of <wbr/>Conduct</span></a></li><li><a href="#i-dont-want-to-read-this-whole-thing-i-just-have-a-question"><span>I don&#39;t want to read this whole thing, <wbr/>I just have a question</span></a></li><li><a href="#what-should-i-know-before-i-get-started"><span>What should <wbr/>I know before <wbr/>I get started?</span></a></li><li><ul><li><a href="#packages"><span>Packages</span></a></li></ul></li><li><a href="#how-can-i-contribute"><span>How <wbr/>Can <wbr/>I <wbr/>Contribute?</span></a></li><li><ul><li><a href="#reporting-bugs"><span>Reporting <wbr/>Bugs</span></a></li><li><a href="#suggesting-enhancements"><span>Suggesting <wbr/>Enhancements</span></a></li><li><a href="#improving-documentation"><span>Improving documentation</span></a></li><li><ul><li><a href="#documentation-principles-and-practices"><span>Documentation principles and practices</span></a></li><li><ul><li><a href="#principles"><span>Principles</span></a></li><li><a href="#practices"><span>Practices</span></a></li></ul></li></ul></li><li><a href="#create-your-very-first-github-issue"><span>Create your very first <wbr/>Git<wbr/>Hub issue</span></a></li></ul></li><li><a href="#your-first-code-contribution"><span>Your <wbr/>First <wbr/>Code <wbr/>Contribution</span></a></li><li><ul><li><a href="#getting-the-code"><span>Getting the code</span></a></li><li><a href="#understanding-the-rush-monorepo-approach-and-how-dependencies-are-structured-in-the-project"><span>Understanding the &quot;rush monorepo&quot; approach and how dependencies are structured in the project</span></a></li><li><a href="#running-unit-tests"><span>Running unit tests</span></a></li><li><a href="#commit-message-guidelines"><span>Commit message guidelines</span></a></li></ul></li><li><a href="#code-style-guidelines"><span>Code <wbr/>Style <wbr/>Guidelines</span></a></li><li><ul><li><a href="#importing-other-files-and-libraries"><span>Importing other files and libraries</span></a></li><li><a href="#functional-style"><span>Functional style</span></a></li><li><a href="#dependency-injection"><span>Dependency injection</span></a></li><li><a href="#use-and"><span>Use  and </span></a></li></ul></li></ul></div></details></div><div class="site-menu"><nav id="tsd-sidebar-links" class="tsd-navigation"><a href="https://github.com/theam/magek" class="tsd-nav-link">GitHub</a><a href="https://magek.ai" class="tsd-nav-link">Website</a></nav><nav class="tsd-navigation"><a href="../modules.html">Magek Framework</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>

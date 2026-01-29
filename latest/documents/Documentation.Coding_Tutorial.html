@@ -1,0 +1,277 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Coding Tutorial | Magek Framework</title><meta name="description" content="Documentation for Magek Framework"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><link rel="stylesheet" href="../assets/custom.css"/><script defer src="../assets/main.js"></script><script defer src="../assets/custom.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><a href="../index.html" class="title">Magek Framework</a><div id="tsd-toolbar-links"><a href="https://github.com/theam/magek">GitHub</a><a href="https://magek.ai">Website</a></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/><ul role="listbox" id="tsd-search-results"></ul><div id="tsd-search-status" aria-live="polite" aria-atomic="true"><div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb" aria-label="Breadcrumb"><li><a href="Documentation.html">Documentation</a></li><li><a href="" aria-current="page">Coding Tutorial</a></li></ul></div><div class="tsd-panel tsd-typography"><h1 id="build-a-magek-app-in-minutes" class="tsd-anchor-link">Build a Magek app in minutes<a href="#build-a-magek-app-in-minutes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1><p>In this section, we will go through all the necessary steps to have the backend up and
+running for a blog application in just a few minutes.</p>
+<p>Before starting, make sure you have <a href="/getting-started/installation">Node.js installed</a>. You'll need the Magek CLI later for development tasks, but project creation doesn't require any global installations.</p>
+<h3 id="1-create-the-project" class="tsd-anchor-link">1. Create the project<a href="#1-create-the-project" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>In your favourite terminal, run this command:</p>
+<pre><code class="bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">create</span><span class="hl-1"> </span><span class="hl-2">magek@latest</span><span class="hl-1"> </span><span class="hl-2">boosted-blog</span>
+</code><button type="button">Copy</button></pre>
+
+<p>The create script will prompt you for project details like description, author, and license. You can press Enter to accept the defaults for any field. The script automatically configures your project to use <strong>Magek Server</strong>, which allows you to run and debug your application locally.</p>
+<p>After filling in the details, you will see your project generated!:</p>
+<pre><code class="bash"><span class="hl-0">📦</span><span class="hl-1"> </span><span class="hl-2">Creating</span><span class="hl-1"> </span><span class="hl-2">project...</span><br/><span class="hl-0">✓</span><span class="hl-1"> </span><span class="hl-2">Template</span><span class="hl-1"> </span><span class="hl-2">copied</span><br/><span class="hl-0">🔧</span><span class="hl-1"> </span><span class="hl-2">Configuring</span><span class="hl-1"> </span><span class="hl-2">project...</span><br/><span class="hl-0">✓</span><span class="hl-1"> </span><span class="hl-2">Project</span><span class="hl-1"> </span><span class="hl-2">configured</span><br/><span class="hl-0">📦</span><span class="hl-1"> </span><span class="hl-2">Installing</span><span class="hl-1"> </span><span class="hl-2">dependencies...</span><br/><span class="hl-0">✓</span><span class="hl-1"> </span><span class="hl-2">Dependencies</span><span class="hl-1"> </span><span class="hl-2">installed</span><br/><span class="hl-0">🔄</span><span class="hl-1"> </span><span class="hl-2">Initializing</span><span class="hl-1"> </span><span class="hl-2">git</span><span class="hl-1"> </span><span class="hl-2">repository...</span><br/><span class="hl-0">✓</span><span class="hl-1"> </span><span class="hl-2">Git</span><span class="hl-1"> </span><span class="hl-2">repository</span><span class="hl-1"> </span><span class="hl-2">initialized</span><br/><br/><span class="hl-0">🎉</span><span class="hl-1"> </span><span class="hl-2">Project</span><span class="hl-1"> </span><span class="hl-2">created</span><span class="hl-1"> </span><span class="hl-2">successfully!</span><br/><br/><span class="hl-0">Next</span><span class="hl-1"> </span><span class="hl-2">steps:</span><br/><span class="hl-1">  </span><span class="hl-0">cd</span><span class="hl-1"> </span><span class="hl-2">boosted-blog</span><br/><span class="hl-1">  </span><span class="hl-0">nvm</span><span class="hl-1"> </span><span class="hl-2">use</span><br/><span class="hl-1">  </span><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">install</span><br/><span class="hl-1">  </span><span class="hl-0">npx</span><span class="hl-1"> </span><span class="hl-2">magek</span><span class="hl-1"> </span><span class="hl-2">version</span>
+</code><button type="button">Copy</button></pre>
+
+<blockquote>
+<p><strong>Tip:</strong> You can create a project non-interactively by providing command line options:</p>
+<pre><code class="shell"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">create</span><span class="hl-1"> </span><span class="hl-2">magek@latest</span><span class="hl-1"> </span><span class="hl-2">my-app</span><span class="hl-1"> </span><span class="hl-3">--</span><span class="hl-1"> </span><span class="hl-3">--author</span><span class="hl-1"> </span><span class="hl-2">&quot;Your Name&quot;</span><span class="hl-1"> </span><span class="hl-3">--description</span><span class="hl-1"> </span><span class="hl-2">&quot;My awesome Magek app&quot;</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Available options:</p>
+<ul>
+<li><code>--author</code> - Author of the project</li>
+<li><code>--description</code> - Project description</li>
+<li><code>--license</code> - License (defaults to MIT)</li>
+<li><code>--skip-install</code> - Skip npm install</li>
+<li><code>--skip-git</code> - Skip git repository initialization</li>
+<li><code>--package-manager</code> - Package manager to use (npm or pnpm, defaults to npm)</li>
+<li><code>--template</code> - Custom template from GitHub (e.g., user/repo-name)</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>The <code>npm create</code> command follows the modern npm ecosystem pattern for project scaffolding:</p>
+<ul>
+<li><code>npm create</code> uses the standard npm create pattern (similar to <code>create-react-app</code>, <code>create-next-app</code>)</li>
+<li><code>magek@latest</code> specifies the package name and version to use for creating projects</li>
+<li><code>boosted-blog</code> is the name of the project directory to create</li>
+</ul>
+<p>This approach requires no global installations - just npm v7+ which comes with Node.js.</p>
+</blockquote>
+<blockquote>
+<p><strong>Tip:</strong> You can also use equivalent commands with other package managers:</p>
+<ul>
+<li><code>npx create-magek@latest boosted-blog</code></li>
+<li><code>pnpm dlx create-magek@latest boosted-blog</code></li>
+<li><code>bun create magek boosted-blog</code></li>
+</ul>
+</blockquote>
+<p>When finished, you'll see some scaffolding that has been generated. The project name will be the
+project's root so <code>cd</code> into it:</p>
+<pre><code class="bash"><span class="hl-0">cd</span><span class="hl-1"> </span><span class="hl-2">boosted-blog</span>
+</code><button type="button">Copy</button></pre>
+
+<p>There you should have these files and directories already generated:</p>
+<pre><code class="text">boosted-blog
+├── .eslintignore
+├── .gitignore
+├── .eslintrc.js
+├── .prettierrc.yaml
+├── package-lock.json
+├── package.json
+├── src
+│   ├── commands
+│   ├── common
+│   ├── config
+│   │   └── config.ts
+│   ├── entities
+│   ├── events
+│   ├── event-handlers
+│   ├── read-models
+│   └── index.ts
+├── tsconfig.eslint.json
+└── tsconfig.json
+</code><button type="button">Copy</button></pre>
+
+<p>Now open the project in your favorite editor, e.g. <a href="https://code.visualstudio.com/">Visual Studio Code</a>.</p>
+<h3 id="2-setting-up-your-development-environment" class="tsd-anchor-link">2. Setting up your development environment<a href="#2-setting-up-your-development-environment" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Now that you have a project, navigate to your project directory and set up your development environment. The project includes the Magek CLI as a dependency, so you can use it immediately:</p>
+<pre><code class="bash"><span class="hl-0">cd</span><span class="hl-1"> </span><span class="hl-2">boosted-blog</span><br/><span class="hl-0">nvm</span><span class="hl-1"> </span><span class="hl-2">use</span><br/><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">install</span>
+</code><button type="button">Copy</button></pre>
+
+<p>You can verify everything is working by running:</p>
+<pre><code class="bash"><span class="hl-0">npx</span><span class="hl-1"> </span><span class="hl-2">magek</span><span class="hl-1"> </span><span class="hl-2">version</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="3-first-command" class="tsd-anchor-link">3. First command<a href="#3-first-command" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Commands define the input to our system, so we'll start by generating our first
+<a href="/architecture/command">command</a> to create posts. Use the command generator, while in the project's root
+directory, as follows:</p>
+<pre><code class="bash"><span class="hl-0">npx</span><span class="hl-1"> </span><span class="hl-2">magek</span><span class="hl-1"> </span><span class="hl-2">new:command</span><span class="hl-1"> </span><span class="hl-2">CreatePost</span><span class="hl-1"> </span><span class="hl-3">--fields</span><span class="hl-1"> </span><span class="hl-2">postId:UUID</span><span class="hl-1"> </span><span class="hl-2">title:string</span><span class="hl-1"> </span><span class="hl-2">content:string</span><span class="hl-1"> </span><span class="hl-2">author:string</span>
+</code><button type="button">Copy</button></pre>
+
+<p>The <code>new:command</code> generator creates a <code>create-post.ts</code> file in the <code>commands</code> folder:</p>
+<pre><code class="text">boosted-blog
+└── src
+    └── commands
+        └── create-post.ts
+</code><button type="button">Copy</button></pre>
+
+<p>As we mentioned before, commands are the input of our system. They're sent
+by the users of our application. When they are received you can validate its data,
+execute some business logic, and register one or more events. Therefore, we have to define two more things:</p>
+<ol>
+<li>Who is authorized to run this command.</li>
+<li>The events that it will trigger.</li>
+</ol>
+<p>Magek allows you to define authorization strategies (we will cover that
+later). Let's start by allowing anyone to send this command to our application.
+To do that, open the file we have just generated and add the string <code>'all'</code> to the
+<code>authorize</code> parameter of the <code>@Command</code> decorator. Your <code>CreatePost</code> command should look like this:</p>
+<pre><code class="typescript"><span class="hl-1">@</span><span class="hl-0">Command</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-4">authorize:</span><span class="hl-1"> </span><span class="hl-2">&#39;all&#39;</span><span class="hl-1">, </span><span class="hl-5">// Specify authorized roles here. Use &#39;all&#39; to authorize anyone</span><br/><span class="hl-1">})</span><br/><span class="hl-6">export</span><span class="hl-1"> </span><span class="hl-3">class</span><span class="hl-1"> </span><span class="hl-7">CreatePost</span><span class="hl-1"> {</span><br/><span class="hl-1">  @</span><span class="hl-0">Field</span><span class="hl-1">()</span><br/><span class="hl-1">  </span><span class="hl-3">readonly</span><span class="hl-1"> </span><span class="hl-4">postId</span><span class="hl-1">!: </span><span class="hl-7">UUID</span><br/><br/><span class="hl-1">  @</span><span class="hl-0">Field</span><span class="hl-1">()</span><br/><span class="hl-1">  </span><span class="hl-3">readonly</span><span class="hl-1"> </span><span class="hl-4">title</span><span class="hl-1">!: </span><span class="hl-7">string</span><br/><br/><span class="hl-1">  @</span><span class="hl-0">Field</span><span class="hl-1">()</span><br/><span class="hl-1">  </span><span class="hl-3">readonly</span><span class="hl-1"> </span><span class="hl-4">content</span><span class="hl-1">!: </span><span class="hl-7">string</span><br/><br/><span class="hl-1">  @</span><span class="hl-0">Field</span><span class="hl-1">()</span><br/><span class="hl-1">  </span><span class="hl-3">readonly</span><span class="hl-1"> </span><span class="hl-4">author</span><span class="hl-1">!: </span><span class="hl-7">string</span><br/><br/><span class="hl-1">  </span><span class="hl-3">public</span><span class="hl-1"> </span><span class="hl-3">static</span><span class="hl-1"> </span><span class="hl-3">async</span><span class="hl-1"> </span><span class="hl-0">handle</span><span class="hl-1">(</span><span class="hl-4">command</span><span class="hl-1">: </span><span class="hl-7">CreatePost</span><span class="hl-1">, </span><span class="hl-4">register</span><span class="hl-1">: </span><span class="hl-7">Register</span><span class="hl-1">): </span><span class="hl-7">Promise</span><span class="hl-1">&lt;</span><span class="hl-7">void</span><span class="hl-1">&gt; {</span><br/><span class="hl-1">    </span><span class="hl-4">register</span><span class="hl-1">.</span><span class="hl-0">events</span><span class="hl-1">(</span><span class="hl-5">/* YOUR EVENT HERE */</span><span class="hl-1">)</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="4-first-event" class="tsd-anchor-link">4. First event<a href="#4-first-event" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Instead of creating, updating, or deleting objects, Magek stores data in the form of events.
+They are records of facts and represent the source of truth. Let's generate an event called <code>PostCreated</code>
+that will contain the initial post info:</p>
+<pre><code class="bash"><span class="hl-0">npx</span><span class="hl-1"> </span><span class="hl-2">magek</span><span class="hl-1"> </span><span class="hl-2">new:event</span><span class="hl-1"> </span><span class="hl-2">PostCreated</span><span class="hl-1"> </span><span class="hl-3">--fields</span><span class="hl-1"> </span><span class="hl-2">postId:UUID</span><span class="hl-1"> </span><span class="hl-2">title:string</span><span class="hl-1"> </span><span class="hl-2">content:string</span><span class="hl-1"> </span><span class="hl-2">author:string</span>
+</code><button type="button">Copy</button></pre>
+
+<p>The <code>new:event</code> generator creates a new file under the <code>src/events</code> directory.
+The name of the file is the name of the event:</p>
+<pre><code class="text">boosted-blog
+└── src
+    └── events
+        └── post-created.ts
+</code><button type="button">Copy</button></pre>
+
+<p>All events in Magek must target an entity, so we need to implement an <code>entityID</code>
+method. From there, we'll return the identifier of the post created, the field
+<code>postID</code>. This identifier will be used later by Magek to build the final state
+of the <code>Post</code> automatically. Edit the <code>entityID</code> method in <code>events/post-created.ts</code>
+to return our <code>postID</code>:</p>
+<pre><code class="typescript"><span class="hl-5">// src/events/post-created.ts</span><br/><br/><span class="hl-1">@</span><span class="hl-4">Event</span><br/><span class="hl-6">export</span><span class="hl-1"> </span><span class="hl-3">class</span><span class="hl-1"> </span><span class="hl-7">PostCreated</span><span class="hl-1"> {</span><br/><span class="hl-1">  @</span><span class="hl-0">Field</span><span class="hl-1">()</span><br/><span class="hl-1">  </span><span class="hl-3">public</span><span class="hl-1"> </span><span class="hl-3">readonly</span><span class="hl-1"> </span><span class="hl-4">postId</span><span class="hl-1">!: </span><span class="hl-7">UUID</span><br/><br/><span class="hl-1">  @</span><span class="hl-0">Field</span><span class="hl-1">()</span><br/><span class="hl-1">  </span><span class="hl-3">public</span><span class="hl-1"> </span><span class="hl-3">readonly</span><span class="hl-1"> </span><span class="hl-4">title</span><span class="hl-1">!: </span><span class="hl-7">string</span><br/><br/><span class="hl-1">  @</span><span class="hl-0">Field</span><span class="hl-1">()</span><br/><span class="hl-1">  </span><span class="hl-3">public</span><span class="hl-1"> </span><span class="hl-3">readonly</span><span class="hl-1"> </span><span class="hl-4">content</span><span class="hl-1">!: </span><span class="hl-7">string</span><br/><br/><span class="hl-1">  @</span><span class="hl-0">Field</span><span class="hl-1">()</span><br/><span class="hl-1">  </span><span class="hl-3">public</span><span class="hl-1"> </span><span class="hl-3">readonly</span><span class="hl-1"> </span><span class="hl-4">author</span><span class="hl-1">!: </span><span class="hl-7">string</span><br/><br/><span class="hl-1">  </span><span class="hl-3">public</span><span class="hl-1"> </span><span class="hl-3">constructor</span><span class="hl-1">(</span><span class="hl-4">postId</span><span class="hl-1">: </span><span class="hl-7">UUID</span><span class="hl-1">, </span><span class="hl-4">title</span><span class="hl-1">: </span><span class="hl-7">string</span><span class="hl-1">, </span><span class="hl-4">content</span><span class="hl-1">: </span><span class="hl-7">string</span><span class="hl-1">, </span><span class="hl-4">author</span><span class="hl-1">: </span><span class="hl-7">string</span><span class="hl-1">) {</span><br/><span class="hl-1">    </span><span class="hl-3">this</span><span class="hl-1">.</span><span class="hl-4">postId</span><span class="hl-1"> = </span><span class="hl-4">postId</span><br/><span class="hl-1">    </span><span class="hl-3">this</span><span class="hl-1">.</span><span class="hl-4">title</span><span class="hl-1"> = </span><span class="hl-4">title</span><br/><span class="hl-1">    </span><span class="hl-3">this</span><span class="hl-1">.</span><span class="hl-4">content</span><span class="hl-1"> = </span><span class="hl-4">content</span><br/><span class="hl-1">    </span><span class="hl-3">this</span><span class="hl-1">.</span><span class="hl-4">author</span><span class="hl-1"> = </span><span class="hl-4">author</span><br/><span class="hl-1">  }</span><br/><br/><span class="hl-1">  </span><span class="hl-3">public</span><span class="hl-1"> </span><span class="hl-0">entityID</span><span class="hl-1">(): </span><span class="hl-7">UUID</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-6">return</span><span class="hl-1"> </span><span class="hl-3">this</span><span class="hl-1">.</span><span class="hl-4">postId</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Now that we have an event, we can edit the <code>CreatePost</code> command to emit it. Let's change
+the command's <code>handle</code> method to look like this:</p>
+<pre><code class="typescript"><span class="hl-5">// src/commands/create-post.ts::handle</span><br/><span class="hl-4">public</span><span class="hl-1"> </span><span class="hl-4">static</span><span class="hl-1"> </span><span class="hl-4">async</span><span class="hl-1"> </span><span class="hl-0">handle</span><span class="hl-1">(</span><span class="hl-4">command</span><span class="hl-1">: </span><span class="hl-4">CreatePost</span><span class="hl-1">, </span><span class="hl-4">register</span><span class="hl-1">: </span><span class="hl-4">Register</span><span class="hl-1">): </span><span class="hl-7">Promise</span><span class="hl-1">&lt;</span><span class="hl-3">void</span><span class="hl-1">&gt; {</span><br/><span class="hl-1">  register.events(new </span><span class="hl-0">PostCreated</span><span class="hl-1">(command.postId, command.title, command.content, command.author))</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Remember to import the event class correctly on the top of the file:</p>
+<pre><code class="typescript">
+</code><button type="button">Copy</button></pre>
+
+<p>We can do any validation in the command handler before storing the event, for our
+example, we'll just save the received data in the <code>PostCreated</code> event.</p>
+<h3 id="5-first-entity" class="tsd-anchor-link">5. First entity<a href="#5-first-entity" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>So far, our <code>PostCreated</code> event suggests we need a <code>Post</code> entity. Entities are a
+representation of our system internal state. They are in charge of reducing (combining) all the events
+with the same <code>entityID</code>. Let's generate our <code>Post</code> entity:</p>
+<pre><code class="bash"><span class="hl-0">npx</span><span class="hl-1"> </span><span class="hl-2">magek</span><span class="hl-1"> </span><span class="hl-2">new:entity</span><span class="hl-1"> </span><span class="hl-2">Post</span><span class="hl-1"> </span><span class="hl-3">--fields</span><span class="hl-1"> </span><span class="hl-2">title:string</span><span class="hl-1"> </span><span class="hl-2">content:string</span><span class="hl-1"> </span><span class="hl-2">author:string</span><span class="hl-1"> </span><span class="hl-3">--reduces</span><span class="hl-1"> </span><span class="hl-2">PostCreated</span>
+</code><button type="button">Copy</button></pre>
+
+<p>You should see now a new file called <code>post.ts</code> in the <code>src/entities</code> directory.</p>
+<p>This time, besides using the <code>--fields</code> flag, we use the <code>--reduces</code> flag to specify the events the entity will reduce and, this way, produce the Post current state. The generator will create one <em>reducer function</em> for each event we have specified (only one in this case).</p>
+<p>Reducer functions in Magek work similarly to the <code>reduce</code> callbacks in Javascript: they receive an event
+and the current state of the entity, and returns the next version of the same entity.
+In this case, when we receive a <code>PostCreated</code> event, we can just return a new <code>Post</code> entity copying the fields
+from the event. There is no previous state of the Post as we are creating it for the first time:</p>
+<pre><code class="typescript"><span class="hl-5">// src/entities/post.ts</span><br/><span class="hl-1">@</span><span class="hl-4">Entity</span><br/><span class="hl-6">export</span><span class="hl-1"> </span><span class="hl-3">class</span><span class="hl-1"> </span><span class="hl-7">Post</span><span class="hl-1"> {</span><br/><span class="hl-1">  @</span><span class="hl-0">Field</span><span class="hl-1">(</span><span class="hl-4">type</span><span class="hl-1"> </span><span class="hl-3">=&gt;</span><span class="hl-1"> </span><span class="hl-8">UUID</span><span class="hl-1">)</span><br/><span class="hl-1">  </span><span class="hl-3">public</span><span class="hl-1"> </span><span class="hl-4">id</span><span class="hl-1">!: </span><span class="hl-7">UUID</span><br/><br/><span class="hl-1">  @</span><span class="hl-0">Field</span><span class="hl-1">()</span><br/><span class="hl-1">  </span><span class="hl-3">readonly</span><span class="hl-1"> </span><span class="hl-4">title</span><span class="hl-1">!: </span><span class="hl-7">string</span><br/><br/><span class="hl-1">  @</span><span class="hl-0">Field</span><span class="hl-1">()</span><br/><span class="hl-1">  </span><span class="hl-3">readonly</span><span class="hl-1"> </span><span class="hl-4">content</span><span class="hl-1">!: </span><span class="hl-7">string</span><br/><br/><span class="hl-1">  @</span><span class="hl-0">Field</span><span class="hl-1">()</span><br/><span class="hl-1">  </span><span class="hl-3">readonly</span><span class="hl-1"> </span><span class="hl-4">author</span><span class="hl-1">!: </span><span class="hl-7">string</span><br/><br/><span class="hl-1">  @</span><span class="hl-0">Reduces</span><span class="hl-1">(</span><span class="hl-4">PostCreated</span><span class="hl-1">)</span><br/><span class="hl-1">  </span><span class="hl-3">public</span><span class="hl-1"> </span><span class="hl-3">static</span><span class="hl-1"> </span><span class="hl-0">reducePostCreated</span><span class="hl-1">(</span><span class="hl-4">event</span><span class="hl-1">: </span><span class="hl-7">PostCreated</span><span class="hl-1">, </span><span class="hl-4">currentPost</span><span class="hl-1">?: </span><span class="hl-7">Post</span><span class="hl-1">): </span><span class="hl-7">Post</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-6">return</span><span class="hl-1"> </span><span class="hl-0">evolve</span><span class="hl-1">(</span><span class="hl-4">currentPost</span><span class="hl-1">, {</span><br/><span class="hl-1">      </span><span class="hl-4">id:</span><span class="hl-1"> </span><span class="hl-4">event</span><span class="hl-1">.</span><span class="hl-4">postId</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">title:</span><span class="hl-1"> </span><span class="hl-4">event</span><span class="hl-1">.</span><span class="hl-4">title</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">content:</span><span class="hl-1"> </span><span class="hl-4">event</span><span class="hl-1">.</span><span class="hl-4">content</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">author:</span><span class="hl-1"> </span><span class="hl-4">event</span><span class="hl-1">.</span><span class="hl-4">author</span><span class="hl-1">,</span><br/><span class="hl-1">    })</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Entities represent our domain model and can be queried from command or
+event handlers to make business decisions or enforcing business rules.</p>
+<h3 id="6-first-read-model" class="tsd-anchor-link">6. First read model<a href="#6-first-read-model" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>In a real application, we rarely want to make public our entire domain model (entities)
+including all their fields. What is more, different users may have different views of the data depending
+on their permissions or their use cases. That's the goal of <code>ReadModels</code>. Client applications can query or
+subscribe to them.</p>
+<p>Read models are <em>projections</em> of one or more entities into a new object that is reachable through the query and subscriptions APIs. Let's generate a <code>PostReadModel</code> that projects our
+<code>Post</code> entity:</p>
+<pre><code class="bash"><span class="hl-0">npx</span><span class="hl-1"> </span><span class="hl-2">magek</span><span class="hl-1"> </span><span class="hl-2">new:read-model</span><span class="hl-1"> </span><span class="hl-2">PostReadModel</span><span class="hl-1"> </span><span class="hl-3">--fields</span><span class="hl-1"> </span><span class="hl-2">title:string</span><span class="hl-1"> </span><span class="hl-2">author:string</span><span class="hl-1"> </span><span class="hl-3">--projects</span><span class="hl-1"> </span><span class="hl-2">Post:id</span>
+</code><button type="button">Copy</button></pre>
+
+<p>We have used a new flag, <code>--projects</code>, that allow us to specify the entities (can be many) the read model will
+watch for changes. You might be wondering what is the <code>:id</code> after the entity name. That's the <a href="/architecture/read-model#the-projection-function">joinKey</a>,
+but you can forget about it now.</p>
+<p>As you might guess, the read-model generator will create a file called
+<code>post-read-model.ts</code> under <code>src/read-models</code>:</p>
+<pre><code class="text">boosted-blog
+└── src
+    └── read-models
+        └── post-read-model.ts
+</code><button type="button">Copy</button></pre>
+
+<p>There are two things to do when creating a read model:</p>
+<ol>
+<li>Define who is authorized to query or subscribe it</li>
+<li>Add the logic of the projection functions, where you can filter, combine, etc., the entities fields.</li>
+</ol>
+<p>While commands define the input to our system, read models define the output, and together they compound
+the public API of a Magek application. Let's do the same we did in the command and authorize <code>all</code> to
+query/subscribe the <code>PostReadModel</code>. Also, and for learning purposes, we will exclude the <code>content</code> field
+from the <code>Post</code> entity, so it won't be returned when users request the read model.</p>
+<p>Edit the <code>post-read-model.ts</code> file to look like this:</p>
+<pre><code class="typescript"><span class="hl-5">// src/read-models/post-read-model.ts</span><br/><span class="hl-1">@</span><span class="hl-0">ReadModel</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-4">authorize:</span><span class="hl-1"> </span><span class="hl-2">&#39;all&#39;</span><span class="hl-1">, </span><span class="hl-5">// Specify authorized roles here. Use &#39;all&#39; to authorize anyone</span><br/><span class="hl-1">})</span><br/><span class="hl-6">export</span><span class="hl-1"> </span><span class="hl-3">class</span><span class="hl-1"> </span><span class="hl-7">PostReadModel</span><span class="hl-1"> {</span><br/><span class="hl-1">  @</span><span class="hl-0">Field</span><span class="hl-1">(</span><span class="hl-4">type</span><span class="hl-1"> </span><span class="hl-3">=&gt;</span><span class="hl-1"> </span><span class="hl-8">UUID</span><span class="hl-1">)</span><br/><span class="hl-1">  </span><span class="hl-3">public</span><span class="hl-1"> </span><span class="hl-4">id</span><span class="hl-1">!: </span><span class="hl-7">UUID</span><br/><br/><span class="hl-1">  @</span><span class="hl-0">Field</span><span class="hl-1">()</span><br/><span class="hl-1">  </span><span class="hl-3">readonly</span><span class="hl-1"> </span><span class="hl-4">title</span><span class="hl-1">!: </span><span class="hl-7">string</span><br/><br/><span class="hl-1">  @</span><span class="hl-0">Field</span><span class="hl-1">()</span><br/><span class="hl-1">  </span><span class="hl-3">readonly</span><span class="hl-1"> </span><span class="hl-4">author</span><span class="hl-1">!: </span><span class="hl-7">string</span><br/><br/><span class="hl-1">  @</span><span class="hl-0">Projects</span><span class="hl-1">(</span><span class="hl-4">Post</span><span class="hl-1">, </span><span class="hl-2">&#39;id&#39;</span><span class="hl-1">)</span><br/><span class="hl-1">  </span><span class="hl-3">public</span><span class="hl-1"> </span><span class="hl-3">static</span><span class="hl-1"> </span><span class="hl-0">projectPost</span><span class="hl-1">(</span><span class="hl-4">entity</span><span class="hl-1">: </span><span class="hl-7">Post</span><span class="hl-1">, </span><span class="hl-4">currentPostReadModel</span><span class="hl-1">?: </span><span class="hl-7">PostReadModel</span><span class="hl-1">): </span><span class="hl-7">ProjectionResult</span><span class="hl-1">&lt;</span><span class="hl-7">PostReadModel</span><span class="hl-1">&gt; {</span><br/><span class="hl-1">    </span><span class="hl-6">return</span><span class="hl-1"> </span><span class="hl-0">evolve</span><span class="hl-1">(</span><span class="hl-4">currentPostReadModel</span><span class="hl-1">, {</span><br/><span class="hl-1">      </span><span class="hl-4">id:</span><span class="hl-1"> </span><span class="hl-4">entity</span><span class="hl-1">.</span><span class="hl-4">id</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">title:</span><span class="hl-1"> </span><span class="hl-4">entity</span><span class="hl-1">.</span><span class="hl-4">title</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">author:</span><span class="hl-1"> </span><span class="hl-4">entity</span><span class="hl-1">.</span><span class="hl-4">author</span><span class="hl-1">,</span><br/><span class="hl-1">    })</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="7-building-and-running" class="tsd-anchor-link">7. Building and Running<a href="#7-building-and-running" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>At this point, we've:</p>
+<ul>
+<li>Created a publicly accessible command</li>
+<li>Emitted an event as a mechanism to store data</li>
+<li>Reduced the event into an entity to have a representation of our internal state</li>
+<li>Projected the entity into a read model that is also publicly accessible.</li>
+</ul>
+<p>With this, you already know the basics to build event-driven, CQRS-based applications
+with Magek.</p>
+<p>You can check that code compiles correctly by running the build command:</p>
+<pre><code class="bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">run</span><span class="hl-1"> </span><span class="hl-2">build</span>
+</code><button type="button">Copy</button></pre>
+
+<p>You can also clean the compiled code by running:</p>
+<pre><code class="bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">run</span><span class="hl-1"> </span><span class="hl-2">clean</span>
+</code><button type="button">Copy</button></pre>
+
+<h4 id="71-running-your-application-locally" class="tsd-anchor-link">7.1 Running your application locally<a href="#71-running-your-application-locally" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Now, let's run our application to see it working. It is as simple as running:</p>
+<pre><code class="bash"><span class="hl-0">npx</span><span class="hl-1"> </span><span class="hl-2">magek</span><span class="hl-1"> </span><span class="hl-2">start</span><span class="hl-1"> </span><span class="hl-3">-e</span><span class="hl-1"> </span><span class="hl-2">local</span>
+</code><button type="button">Copy</button></pre>
+
+<p>This will execute a local <code>Express.js</code> server and will try to expose it in port <code>3000</code>. You can change the port by using the <code>-p</code> option:</p>
+<pre><code class="bash"><span class="hl-0">npx</span><span class="hl-1"> </span><span class="hl-2">magek</span><span class="hl-1"> </span><span class="hl-2">start</span><span class="hl-1"> </span><span class="hl-3">-e</span><span class="hl-1"> </span><span class="hl-2">local</span><span class="hl-1"> </span><span class="hl-3">-p</span><span class="hl-1"> </span><span class="hl-9">8080</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Once the server is running, you can access the GraphQL API at the URL shown in the console (typically <code>http://localhost:3000/graphql</code>).</p>
+<blockquote>
+<p><strong>Note:</strong> By default, the full error stack trace is sent to a local file, <code>./errors.log</code>. To see the full error stack trace directly from the console, use the <code>--verbose</code> flag.</p>
+</blockquote>
+<h3 id="8-testing" class="tsd-anchor-link">8. Testing<a href="#8-testing" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Let's get started testing the project. We will perform three actions:</p>
+<ul>
+<li>Add a couple of posts</li>
+<li>Retrieve all posts</li>
+<li>Retrieve a specific post</li>
+</ul>
+<p>Magek applications provide you with a GraphQL API out of the box. You send commands using
+<em>mutations</em> and get read models data using <em>queries</em> or <em>subscriptions</em>.</p>
+<p>In this section, we will be sending requests by hand using the free <a href="https://altair.sirmuel.design/">Altair</a> GraphQL client,
+which is very simple and straightforward for this guide. However, you can use any client you want. Your endpoint URL should look like this:</p>
+<pre><code class="text">&lt;httpURL&gt;/graphql
+</code><button type="button">Copy</button></pre>
+
+<h4 id="81-creating-posts" class="tsd-anchor-link">8.1 Creating posts<a href="#81-creating-posts" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Let's use two mutations to send two <code>CreatePost</code> commands.</p>
+<pre><code class="graphql"><span class="hl-3">mutation</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">CreatePost</span><span class="hl-1">(</span><br/><span class="hl-1">    </span><span class="hl-4">input</span><span class="hl-1">: {</span><br/><span class="hl-1">      </span><span class="hl-2">postId</span><span class="hl-1">: </span><span class="hl-2">&quot;95ddb544-4a60-439f-a0e4-c57e806f2f6e&quot;</span><br/><span class="hl-1">      </span><span class="hl-2">title</span><span class="hl-1">: </span><span class="hl-2">&quot;Build a blog in 10 minutes with Magek&quot;</span><br/><span class="hl-1">      </span><span class="hl-2">content</span><span class="hl-1">: </span><span class="hl-2">&quot;I am so excited to write my first post&quot;</span><br/><span class="hl-1">      </span><span class="hl-2">author</span><span class="hl-1">: </span><span class="hl-2">&quot;Boosted developer&quot;</span><br/><span class="hl-1">    }</span><br/><span class="hl-1">  )</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<pre><code class="graphql"><span class="hl-3">mutation</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">CreatePost</span><span class="hl-1">(</span><br/><span class="hl-1">    </span><span class="hl-4">input</span><span class="hl-1">: {</span><br/><span class="hl-1">      </span><span class="hl-2">postId</span><span class="hl-1">: </span><span class="hl-2">&quot;05670e55-fd31-490e-b585-3a0096db0412&quot;</span><br/><span class="hl-1">      </span><span class="hl-2">title</span><span class="hl-1">: </span><span class="hl-2">&quot;Magek framework rocks&quot;</span><br/><span class="hl-1">      </span><span class="hl-2">content</span><span class="hl-1">: </span><span class="hl-2">&quot;I am so excited for writing the second post&quot;</span><br/><span class="hl-1">      </span><span class="hl-2">author</span><span class="hl-1">: </span><span class="hl-2">&quot;Another boosted developer&quot;</span><br/><span class="hl-1">    }</span><br/><span class="hl-1">  )</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<p>The expected response for each of those requests should be:</p>
+<pre><code class="json"><span class="hl-1">{</span><br/><span class="hl-1">  </span><span class="hl-10">&quot;data&quot;</span><span class="hl-1">: {</span><br/><span class="hl-1">    </span><span class="hl-10">&quot;CreatePost&quot;</span><span class="hl-1">: </span><span class="hl-3">true</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<blockquote>
+<p><strong>Note:</strong> In this example, the IDs are generated on the client-side. When running production applications consider adding validation for ID uniqueness. For this example, we have used <a href="https://www.uuidgenerator.net/version4">a UUID generator</a></p>
+</blockquote>
+<h4 id="82-retrieving-all-posts" class="tsd-anchor-link">8.2 Retrieving all posts<a href="#82-retrieving-all-posts" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Let's perform a GraphQL <code>query</code> that will be hitting our <code>PostReadModel</code>:</p>
+<pre><code class="graphql"><span class="hl-3">query</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">PostReadModels</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-4">id</span><br/><span class="hl-1">    </span><span class="hl-4">title</span><br/><span class="hl-1">    </span><span class="hl-4">author</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<p>It should respond with something like:</p>
+<pre><code class="json"><span class="hl-1">{</span><br/><span class="hl-1">  </span><span class="hl-10">&quot;data&quot;</span><span class="hl-1">: {</span><br/><span class="hl-1">    </span><span class="hl-10">&quot;PostReadModels&quot;</span><span class="hl-1">: [</span><br/><span class="hl-1">      {</span><br/><span class="hl-1">        </span><span class="hl-10">&quot;id&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;05670e55-fd31-490e-b585-3a0096db0412&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">        </span><span class="hl-10">&quot;title&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;Magek framework rocks&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">        </span><span class="hl-10">&quot;author&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;Another boosted developer&quot;</span><br/><span class="hl-1">      },</span><br/><span class="hl-1">      {</span><br/><span class="hl-1">        </span><span class="hl-10">&quot;id&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;95ddb544-4a60-439f-a0e4-c57e806f2f6e&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">        </span><span class="hl-10">&quot;title&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;Build a blog in 10 minutes with Magek&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">        </span><span class="hl-10">&quot;author&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;Boosted developer&quot;</span><br/><span class="hl-1">      }</span><br/><span class="hl-1">    ]</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<h4 id="83-retrieving-specific-post" class="tsd-anchor-link">8.3 Retrieving specific post<a href="#83-retrieving-specific-post" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>It is also possible to retrieve specific a <code>Post</code> by adding the <code>id</code> as input, e.g.:</p>
+<pre><code class="graphql"><span class="hl-3">query</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">PostReadModel</span><span class="hl-1">(</span><span class="hl-4">id</span><span class="hl-1">: </span><span class="hl-2">&quot;95ddb544-4a60-439f-a0e4-c57e806f2f6e&quot;</span><span class="hl-1">) {</span><br/><span class="hl-1">    </span><span class="hl-4">id</span><br/><span class="hl-1">    </span><span class="hl-4">title</span><br/><span class="hl-1">    </span><span class="hl-4">author</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<p>You should get a response similar to this:</p>
+<pre><code class="json"><span class="hl-1">{</span><br/><span class="hl-1">  </span><span class="hl-10">&quot;data&quot;</span><span class="hl-1">: {</span><br/><span class="hl-1">    </span><span class="hl-10">&quot;PostReadModel&quot;</span><span class="hl-1">: {</span><br/><span class="hl-1">      </span><span class="hl-10">&quot;id&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;95ddb544-4a60-439f-a0e4-c57e806f2f6e&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-10">&quot;title&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;Build a blog in 10 minutes with Magek&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-10">&quot;author&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;Boosted developer&quot;</span><br/><span class="hl-1">    }</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<blockquote>
+<p>Congratulations! You've built an event-driven backend in less than 10 minutes. We hope you have enjoyed discovering the magic of the Magek Framework.</p>
+</blockquote>
+<h3 id="9-more-functionalities" class="tsd-anchor-link">9. More functionalities<a href="#9-more-functionalities" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>This is a really basic example of a Magek application. The are many other features Magek provides like:</p>
+<ul>
+<li>Use a more complex authorization schema for commands and read models based on user roles</li>
+<li>Use GraphQL subscriptions to get updates in real-time</li>
+<li>Make events trigger other events</li>
+<li>Reading entities within command handlers to apply domain-driven decisions</li>
+<li>And much more...</li>
+</ul>
+<p>Continue reading to dig more. You've just scratched the surface of all the Magek
+capabilities!</p>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#build-a-magek-app-in-minutes"><span>Build a <wbr/>Magek app in minutes</span></a><ul><li><a href="#1-create-the-project"><span>1. <wbr/>Create the project</span></a></li><li><a href="#2-setting-up-your-development-environment"><span>2. <wbr/>Setting up your development environment</span></a></li><li><a href="#3-first-command"><span>3. <wbr/>First command</span></a></li><li><a href="#4-first-event"><span>4. <wbr/>First event</span></a></li><li><a href="#5-first-entity"><span>5. <wbr/>First entity</span></a></li><li><a href="#6-first-read-model"><span>6. <wbr/>First read model</span></a></li><li><a href="#7-building-and-running"><span>7. <wbr/>Building and <wbr/>Running</span></a></li><li><ul><li><a href="#71-running-your-application-locally"><span>7.1 <wbr/>Running your application locally</span></a></li></ul></li><li><a href="#8-testing"><span>8. <wbr/>Testing</span></a></li><li><ul><li><a href="#81-creating-posts"><span>8.1 <wbr/>Creating posts</span></a></li><li><a href="#82-retrieving-all-posts"><span>8.2 <wbr/>Retrieving all posts</span></a></li><li><a href="#83-retrieving-specific-post"><span>8.3 <wbr/>Retrieving specific post</span></a></li></ul></li><li><a href="#9-more-functionalities"><span>9. <wbr/>More functionalities</span></a></li></ul></div></details></div><div class="site-menu"><nav id="tsd-sidebar-links" class="tsd-navigation"><a href="https://github.com/theam/magek" class="tsd-nav-link">GitHub</a><a href="https://magek.ai" class="tsd-nav-link">Website</a></nav><nav class="tsd-navigation"><a href="../modules.html">Magek Framework</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>
