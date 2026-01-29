@@ -27,7 +27,11 @@ The GraphQL API is fully **auto-generated** based on your _commands_ and _read m
 // My type
 export class ItemWithQuantity {
   // Use "class", not "interface"
-  public constructor(sku: string, quantity: number) {}
+  @Field()
+  sku!: string
+
+  @Field()
+  quantity!: number
 }
 ```
 
@@ -37,10 +41,11 @@ export class ItemWithQuantity {
   authorize: 'all'
 })
 export class CartReadModel {
-  public constructor(
-          readonly id: UUID,
-          item: ItemWithQuantity // As ItemWithQuantity is a class, you will be able to query over nested attributes like item `quantity`
-  ) {}
+  @Field(type => UUID)
+  readonly id!: UUID
+
+  @Field()
+  item!: ItemWithQuantity // As ItemWithQuantity is a class, you will be able to query over nested attributes like item `quantity`
 ```
 
 ## Relationship between GraphQL operations and commands and read models
@@ -335,22 +340,30 @@ Example
   authorize: 'all',
 })
 export class CartReadModel {
-  @NonExposed
-  private internalProperty: number
+  @Field(type => UUID)
+  readonly id!: UUID
 
-  public constructor(
-    readonly id: UUID,
-    readonly cartItems: Array<CartItem>,
-    readonly checks: number,
-    public shippingAddress?: Address,
-    public payment?: Payment,
-    public cartItemsIds?: Array<string>,
-    @NonExposed readonly internalParameter?: number
-  ) {
-    ...
-  }
-  
-  ...
+  @Field()
+  readonly cartItems!: Array<CartItem>
+
+  @Field()
+  readonly checks!: number
+
+  @Field()
+  public shippingAddress?: Address
+
+  @Field()
+  public payment?: Payment
+
+  @Field()
+  public cartItemsIds?: Array<string>
+
+  @NonExposed
+  private internalProperty?: number
+
+  @Field()
+  @NonExposed
+  readonly internalParameter?: number
 }
 ```
 
@@ -385,10 +398,12 @@ In order to define a before hook you pass a list of functions with the right sig
   before: [validateUser],
 })
 export class CartReadModel {
-  public constructor(
-    readonly id: UUID,
-    readonly userId: UUID
-  ) {}
+  @Field(type => UUID)
+  readonly id!: UUID
+
+  @Field()
+  readonly userId!: UUID
+
   // Your projections go here
 }
 
@@ -404,16 +419,16 @@ You can also define more than one `before` hook for a read model, and they will 
 > The order in which filters are specified matters.
 
 ```typescript
-
 @ReadModel({
   authorize: [User],
   before: [validateUser, validateEmail, changeFilters],
 })
 export class CartReadModel {
-  public constructor(
-    readonly id: UUID,
-    readonly userId: UUID
-  ) {}
+  @Field(type => UUID)
+  readonly id!: UUID
+
+  @Field()
+  readonly userId!: UUID
 
   // Your projections go here
 }
@@ -439,8 +454,14 @@ You can use `before` hooks also in your command handlers, and [they work as the 
   before: [beforeFn],
 })
 export class ChangeCartItem {
-  public constructor(readonly cartId: UUID, readonly productId: UUID, readonly quantity: number) {
-  }
+  @Field()
+  readonly cartId!: UUID
+
+  @Field()
+  readonly productId!: UUID
+
+  @Field()
+  readonly quantity!: number
 }
 
 function beforeFn(input: CommandInput, currentUser?: UserEnvelope): CommandInput {
@@ -463,7 +484,12 @@ You can use `before` hooks also in your queries, and [they work as the Read Mode
   before: [CartTotalQuantity.beforeFn],
 })
 export class CartTotalQuantity {
-  public constructor(readonly cartId: UUID, @NonExposed readonly multiply: number) {}
+  @Field()
+  readonly cartId!: UUID
+
+  @Field()
+  @NonExposed
+  readonly multiply!: number
 
   public static async beforeFn(input: QueryInput, currentUser?: UserEnvelope): Promise<QueryInput> {
     input.multiply = 100
@@ -794,7 +820,8 @@ For example, you can filter and get the total number of the products that meet y
   authorize: 'all',
 })
 export class GetProductsCount {
-  public constructor(readonly filters: Record<string, any>) {}
+  @Field()
+  readonly filters!: Record<string, any>
 
   public static async handle(): Promise<void> {
     const searcher = Magek.readModel(ProductReadModel)
@@ -824,7 +851,8 @@ You can select which fields you want to get in your read model using the `select
   authorize: 'all',
 })
 export class GetProductsCount {
-  public constructor(readonly filters: Record<string, any>) {}
+  @Field()
+  readonly filters!: Record<string, any>
 
   public static async handle(): Promise<unknown> {
     const searcher = Magek.readModel(ProductReadModel)
@@ -854,7 +882,8 @@ You can also select properties in objects which are part of an array property in
   authorize: 'all',
 })
 export class GetCartItems {
-  public constructor(readonly filters: Record<string, any>) {}
+  @Field()
+  readonly filters!: Record<string, any>
 
   public static async handle(): Promise<unknown> {
     const searcher = Magek.readModel(CartReadModel)

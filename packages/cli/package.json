@@ -1,7 +1,7 @@
 {
   "name": "@magek/cli",
   "description": "CLI of the Magek Framework, the next level of abstraction for cloud-native applications",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "author": "Boosterin Labs SLU",
   "homepage": "https://magek.ai",
   "publishConfig": {
@@ -12,7 +12,7 @@
   },
   "bugs": "https://github.com/theam/magek/issues",
   "dependencies": {
-    "@magek/common": "workspace:^0.0.4",
+    "@magek/common": "workspace:^0.0.6",
     "@oclif/core": "4.8.0",
     "@oclif/plugin-help": "6.2.36",
     "@oclif/plugin-plugins": "5.4.54",
@@ -21,14 +21,14 @@
     "fp-ts": "2.16.11",
     "fs-extra": "11.3.3",
     "inflected": "2.1.0",
-    "inquirer": "13.2.0",
+    "inquirer": "13.2.1",
     "mustache": "4.2.0",
-    "ora": "9.0.0",
+    "ora": "9.1.0",
     "ts-morph": "27.0.2",
     "tslib": "2.8.1"
   },
   "devDependencies": {
-    "@magek/eslint-config": "workspace:^0.0.4",
+    "@magek/eslint-config": "workspace:^0.0.6",
     "@oclif/test": "4.1.15",
     "@types/chai": "5.2.3",
     "@types/chai-as-promised": "8.0.2",

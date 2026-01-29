@@ -1,6 +1,6 @@
 {
   "name": "create-magek",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "Create Magek AI applications with one command",
   "type": "module",
   "main": "dist/cli.cjs",
@@ -46,7 +46,7 @@
     "globby": "16.1.0"
   },
   "devDependencies": {
-    "@magek/eslint-config": "workspace:^0.0.4",
+    "@magek/eslint-config": "workspace:^0.0.6",
     "@types/node": "22.19.7",
     "@types/prompts": "2.4.9",
     "@types/chai": "5.2.3",

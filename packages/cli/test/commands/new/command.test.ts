@@ -16,7 +16,7 @@ describe('new', (): void => {
     const command = 'ExampleCommand'
     const commandsRoot = 'src/commands/'
     const commandPath = `${commandsRoot}example-command.ts`
-    const defaultCommandImports = [
+    const noFieldsCommandImports = [
       {
         packagePath: '@magek/core',
         commaSeparatedComponents: 'Command',
@@ -26,6 +26,16 @@ describe('new', (): void => {
         commaSeparatedComponents: 'Register',
       },
     ]
+    const defaultCommandImports = [
+      {
+        packagePath: '@magek/core',
+        commaSeparatedComponents: 'Command',
+      },
+      {
+        packagePath: '@magek/common',
+        commaSeparatedComponents: 'Field, Register',
+      },
+    ]
     const uuidCommandImports = [
       {
         packagePath: '@magek/core',
@@ -33,7 +43,7 @@ describe('new', (): void => {
       },
       {
         packagePath: '@magek/common',
-        commaSeparatedComponents: 'Register, UUID',
+        commaSeparatedComponents: 'Field, Register, UUID',
       },
     ]
 
@@ -68,7 +78,7 @@ describe('new', (): void => {
       it('with no fields', async () => {
         const config = await Config.load()
         await new Command([command], config).run()
-        const renderedCommand = renderCommand(defaultCommandImports, command, [])
+        const renderedCommand = renderCommand(noFieldsCommandImports, command, [])
         expect(outputFileStub).to.have.been.calledWithMatch(commandPath, renderedCommand)
       })
 

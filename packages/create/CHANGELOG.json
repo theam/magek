@@ -1,0 +1,31 @@
+{
+  "name": "create-magek",
+  "entries": [
+    {
+      "version": "0.0.6",
+      "tag": "create-magek_v0.0.6",
+      "date": "Tue, 27 Jan 2026 18:50:37 GMT",
+      "comments": {}
+    },
+    {
+      "version": "0.0.5",
+      "tag": "create-magek_v0.0.5",
+      "date": "Sat, 24 Jan 2026 18:28:05 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Add repository metadata to package.json for npm provenance verification"
+          }
+        ],
+        "none": [
+          {
+            "comment": "Bump @types/node from 22.19.3 to 22.19.6 to resolve version mismatch"
+          },
+          {
+            "comment": "Bump @types/node to 22.19.7"
+          }
+        ]
+      }
+    }
+  ]
+}

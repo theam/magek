@@ -154,12 +154,17 @@ To do that, open the file we have just generated and add the string `'all'` to t
   authorize: 'all', // Specify authorized roles here. Use 'all' to authorize anyone
 })
 export class CreatePost {
-  public constructor(
-    readonly postId: UUID,
-    readonly title: string,
-    readonly content: string,
-    readonly author: string
-  ) {}
+  @Field()
+  readonly postId!: UUID
+
+  @Field()
+  readonly title!: string
+
+  @Field()
+  readonly content!: string
+
+  @Field()
+  readonly author!: string
 
   public static async handle(command: CreatePost, register: Register): Promise<void> {
     register.events(/* YOUR EVENT HERE */)
@@ -198,12 +203,24 @@ to return our `postID`:
 
 @Event
 export class PostCreated {
-  public constructor(
-    readonly postId: UUID,
-    readonly title: string,
-    readonly content: string,
-    readonly author: string
-  ) {}
+  @Field()
+  public readonly postId!: UUID
+
+  @Field()
+  public readonly title!: string
+
+  @Field()
+  public readonly content!: string
+
+  @Field()
+  public readonly author!: string
+
+  public constructor(postId: UUID, title: string, content: string, author: string) {
+    this.postId = postId
+    this.title = title
+    this.content = content
+    this.author = author
+  }
 
   public entityID(): UUID {
     return this.postId
@@ -252,7 +269,17 @@ from the event. There is no previous state of the Post as we are creating it for
 // src/entities/post.ts
 @Entity
 export class Post {
-  public constructor(public id: UUID, readonly title: string, readonly content: string, readonly author: string) {}
+  @Field(type => UUID)
+  public id!: UUID
+
+  @Field()
+  readonly title!: string
+
+  @Field()
+  readonly content!: string
+
+  @Field()
+  readonly author!: string
 
   @Reduces(PostCreated)
   public static reducePostCreated(event: PostCreated, currentPost?: Post): Post {
@@ -310,7 +337,14 @@ Edit the `post-read-model.ts` file to look like this:
   authorize: 'all', // Specify authorized roles here. Use 'all' to authorize anyone
 })
 export class PostReadModel {
-  public constructor(public id: UUID, readonly title: string, readonly author: string) {}
+  @Field(type => UUID)
+  public id!: UUID
+
+  @Field()
+  readonly title!: string
+
+  @Field()
+  readonly author!: string
 
   @Projects(Post, 'id')
   public static projectPost(entity: Post, currentPostReadModel?: PostReadModel): ProjectionResult<PostReadModel> {

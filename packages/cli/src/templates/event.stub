@@ -4,11 +4,20 @@ import { {{commaSeparatedComponents}} } from '{{{packagePath}}}'
 
 @Event
 export class {{{ name }}} {
+  {{#fields}}
+  @Field()
+  public readonly {{{name}}}!: {{{type}}}
+
+  {{/fields}}
   public constructor(
     {{#fields}}
-    readonly {{{name}}}: {{{type}}},
+    {{{name}}}: {{{type}}},
     {{/fields}}
-  ) {}
+  ) {
+    {{#fields}}
+    this.{{{name}}} = {{{name}}}
+    {{/fields}}
+  }
 
   public entityID(): UUID {
     return /* the associated entity ID */

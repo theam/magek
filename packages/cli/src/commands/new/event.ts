@@ -51,7 +51,12 @@ const run = async (name: string, rawFields: Array<string>): Promise<void> =>
     .info('Event generated!')
     .done()
 
-function generateImports(): Array<ImportDeclaration> {
+function generateImports(info: EventInfo): Array<ImportDeclaration> {
+  const commonComponents = ['UUID']
+  if (info.fields.length > 0) {
+    commonComponents.unshift('Field')
+  }
+
   return [
     {
       packagePath: '@magek/core',
@@ -59,7 +64,7 @@ function generateImports(): Array<ImportDeclaration> {
     },
     {
       packagePath: '@magek/common',
-      commaSeparatedComponents: 'UUID',
+      commaSeparatedComponents: commonComponents.join(', '),
     },
   ]
 }
@@ -71,7 +76,7 @@ const generateEvent = (info: EventInfo): Promise<void> =>
     placementDir: path.join('src', 'events'),
     template: template('event'),
     info: {
-      imports: generateImports(),
+      imports: generateImports(info),
       ...info,
     },
   })

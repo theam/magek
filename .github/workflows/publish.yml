@@ -1,31 +1,12 @@
 name: Publish to npm
 
 on:
-  push:
-    branches:
-      - main
-    # Only trigger on changes to publishable packages or change files
-    paths:
-      - 'packages/**'
-      - 'adapters/**'
-      - 'common/changes/**'
-  release:
-    types: [published]
   workflow_dispatch:
     inputs:
       version:
-        description: 'Specific version to release (optional, e.g., 1.0.0). If empty, uses automatic bump.'
+        description: 'Version to release (e.g., 1.0.0). If empty, uses rush change files for automatic bump.'
         required: false
         type: string
-      bump_type:
-        description: 'Version bump type (only used if version is not specified)'
-        required: false
-        default: 'patch'
-        type: choice
-        options:
-          - patch
-          - minor
-          - major
 
 permissions:
   id-token: write   # Required for OIDC
@@ -49,39 +30,40 @@ jobs:
       - name: Check for publishable changes
         id: check
         run: |
-          # For workflow_dispatch or release events, always publish
-          if [[ "${{ github.event_name }}" != "push" ]]; then
+          # If a specific version is provided, always allow publishing
+          if [[ -n "${{ github.event.inputs.version }}" ]]; then
+            echo "Version override provided, allowing publish"
             echo "has_changes=true" >> $GITHUB_OUTPUT
             exit 0
           fi
 
-          # Check if there are change files (excluding .gitkeep)
-          CHANGE_FILES=$(find common/changes -type f -name "*.json" 2>/dev/null | wc -l)
-          if [[ $CHANGE_FILES -gt 0 ]]; then
-            echo "Found $CHANGE_FILES change file(s)"
-            echo "has_changes=true" >> $GITHUB_OUTPUT
-            exit 0
-          fi
+          # Check if there are change files with publishable change types (patch, minor, major)
+          # Change files with type "none" should not trigger a publish
+          PUBLISHABLE_CHANGES=0
+          for file in $(find common/changes -type f -name "*.json" 2>/dev/null); do
+            # Check if any change in the file has a publishable type
+            if grep -qE '"type":\s*"(patch|minor|major)"' "$file"; then
+              echo "Found publishable change in: $file"
+              PUBLISHABLE_CHANGES=$((PUBLISHABLE_CHANGES + 1))
+            fi
+          done
 
-          # Check if any source files in publishable packages changed
-          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD -- \
-            'packages/*/src/**' \
-            'packages/*/package.json' \
-            'adapters/**/src/**' \
-            'adapters/**/package.json' \
-            2>/dev/null || echo "")
-
-          if [[ -n "$CHANGED_FILES" ]]; then
-            echo "Found changes in publishable packages:"
-            echo "$CHANGED_FILES"
+          if [[ $PUBLISHABLE_CHANGES -gt 0 ]]; then
+            echo "Found $PUBLISHABLE_CHANGES change file(s) with publishable types"
             echo "has_changes=true" >> $GITHUB_OUTPUT
           else
-            echo "No publishable changes found"
+            echo "No publishable change files found. Run 'rush change' to create change files before releasing."
             echo "has_changes=false" >> $GITHUB_OUTPUT
           fi
 
-  publish:
+  # Run e2e tests before publishing
+  e2e-tests:
     needs: check-changes
+    if: needs.check-changes.outputs.has_changes == 'true'
+    uses: ./.github/workflows/wf_test-e2e.yml
+
+  publish:
+    needs: [check-changes, e2e-tests]
     if: needs.check-changes.outputs.has_changes == 'true'
     runs-on: ubuntu-latest
     environment: npm-publish
@@ -111,11 +93,20 @@ jobs:
       - name: Install dependencies
         run: rush install
 
+      - name: Verify change files
+        if: ${{ github.event.inputs.version == '' }}
+        run: rush change --verify
+
+      - name: Lint check
+        run: rush lint:check
+
       - name: Build
         run: rush build
 
-      - name: Run tests
+      - name: Run unit tests
         run: rush test
+
+      # E2E tests already ran in the e2e-tests job
 
       - name: Bump versions
         id: bump
@@ -141,6 +132,10 @@ jobs:
           VERSION=$(node -p "require('./packages/core/package.json').version")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
+      - name: Push version changes
+        # Push BEFORE npm publish to ensure git state is saved even if publish fails
+        run: git push origin main
+
       - name: Publish packages
         # OIDC trusted publishing: npm automatically uses GitHub's OIDC token
         # No NPM_TOKEN secret needed - configure trusted publishers on npmjs.com
@@ -148,10 +143,6 @@ jobs:
         run: >-
           rush publish --publish --include-all
           --set-access-level public --apply
-
-      - name: Push version changes and tags
-        run: |
-          git push origin main --follow-tags
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

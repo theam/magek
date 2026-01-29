@@ -1,11 +1,11 @@
 {
   "changes": [
     {
-      "comment": "Bump @types/node to 22.19.7",
+      "comment": "Bump fastify-sse-v2 from 4.2.1 to 4.2.2",
       "type": "none",
       "packageName": "@magek/server"
     }
   ],
   "packageName": "@magek/server",
-  "email": "198982749+Copilot@users.noreply.github.com"
+  "email": "github-actions[bot]@users.noreply.github.com"
 }

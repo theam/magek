@@ -24,9 +24,18 @@ This will generate a new file called `cart-read-model.ts` in the `src/read-model
 In Magek, a read model is a class decorated with the `@ReadModel` decorator. The properties of the class are the fields of the read model. The following example shows a read model with two fields:
 
 ```typescript
-@ReadModel
+@ReadModel({
+  authorize: 'all',
+})
 export class ReadModelName {
-  public constructor(readonly fieldA: SomeType, readonly fieldB: SomeType /* as many fields as needed */) {}
+  @Field(type => UUID)
+  public id!: UUID
+
+  @Field()
+  readonly fieldA!: SomeType
+
+  @Field()
+  readonly fieldB!: SomeType
 }
 ```
 
@@ -42,9 +51,18 @@ The projection function is a static method decorated with the `@Projects` decora
 You must provide the `@Projects` decorator with an entity class and the **_join key_**. The join key is the name of the field in the entity that is used to match it with the read model's `id` field. In the example below, we are using the `id` field of the `Cart` entity to match it with the `CartReadModel` read model.
 
 ```typescript
-@ReadModel
+@ReadModel({
+  authorize: 'all',
+})
 export class CartReadModel {
-  public constructor(readonly id: UUID, readonly cartItems: Array<CartItem>, readonly paid: boolean) {}
+  @Field(type => UUID)
+  public id!: UUID
+
+  @Field()
+  readonly cartItems!: Array<CartItem>
+
+  @Field()
+  readonly paid!: boolean
 
   // highlight-start
   @Projects(Cart, 'id')
@@ -60,9 +78,15 @@ export class CartReadModel {
 You are able to project multiple entities into the same read model. For example, you can have a `UserReadModel` that projects both the `User` entity and the `Post` entity. In this case, the join key will be different for each entity:
 
 ```typescript
-@ReadModel
+@ReadModel({
+  authorize: 'all',
+})
 export class UserReadModel {
-  public constructor(readonly username: string /* ...(other interesting fields from users)... */) {}
+  @Field(type => UUID)
+  public id!: UUID
+
+  @Field()
+  readonly username!: string
 
   // highlight-next-line
   @Projects(User, 'id')
@@ -109,14 +133,21 @@ You can even select arrays of UUIDs as `joinKey`. Magek get each value on the ar
 You can use a read model query as a join key to get all the read models that match the query. For example, consider the following read model for car purchases:
 
 ```typescript
-@ReadModel
+@ReadModel({
+  authorize: 'all',
+})
 export class CarPurchasesReadModel {
-  public constructor(
-    readonly id: UUID,
-    readonly carModel?: string,
-    readonly carOwner?: string,
-    readonly offers?: Array<CarOffers>
-  ) {}
+  @Field(type => UUID)
+  public id!: UUID
+
+  @Field()
+  readonly carModel?: string
+
+  @Field()
+  readonly carOwner?: string
+
+  @Field()
+  readonly offers?: Array<CarOffers>
 
   // rest of the code
 }
@@ -125,14 +156,21 @@ export class CarPurchasesReadModel {
 If a car model changed its name (or any other property of such an entity that's projected in `CarPurchasesReadModel` changed its value) and there are many purchases associated to that model, then it would be necessary to update all read model instances associated to that specific model so that name change is reflected. The better alternative is to instead project a `CarModel` entity:
 
 ```typescript
-@ReadModel
+@ReadModel({
+  authorize: 'all',
+})
 export class CarPurchasesReadModel {
-  public constructor(
-    readonly id: UUID,
-    readonly carModel?: CarModel,
-    readonly carOwner?: CarOwner,
-    readonly offers?: Array<CarOffers>
-  ) {}
+  @Field(type => UUID)
+  public id!: UUID
+
+  @Field()
+  readonly carModel?: CarModel
+
+  @Field()
+  readonly carOwner?: CarOwner
+
+  @Field()
+  readonly offers?: Array<CarOffers>
 
   @Projects(CarModel, (carModel: CarModel): FilterFor<CarPurchasesReadModel> => {
     return {
@@ -180,9 +218,15 @@ Projections usually return a new instance of the read model. However, there are 
 One of the most common cases is when you want to delete a read model. For example, if you have a `UserReadModel` that projects the `User` entity, you may want to delete the read model when the user is deleted. In this case you can return the `ReadModelAction.Delete` value:
 
 ```typescript
-@ReadModel
+@ReadModel({
+  authorize: 'all',
+})
 export class UserReadModel {
-  public constructor(readonly username: string, /* ...(other interesting fields from users)... */) {}
+  @Field(type => UUID)
+  public id!: UUID
+
+  @Field()
+  readonly username!: string
 
   @Projects(User, 'id')
   public static projectUser(entity: User, current?: UserReadModel): ProjectionResult<UserReadModel>  {
@@ -200,9 +244,15 @@ export class UserReadModel {
 Another common case is when you want to keep the read model untouched. For example, if you have a `UserReadModel` that projects the `User` entity, you may want to keep the read model untouched there are no releveant changes to your read model. In this case you can return the `ReadModelAction.Nothing` value:
 
 ```typescript
-@ReadModel
+@ReadModel({
+  authorize: 'all',
+})
 export class UserReadModel {
-  public constructor(readonly username: string, /* ...(other interesting fields from users)... */) {}
+  @Field(type => UUID)
+  public id!: UUID
+
+  @Field()
+  readonly username!: string
 
   @Projects(User, 'id')
   public static projectUser(entity: User, current?: UserReadModel): ProjectionResult<UserReadModel>  {
@@ -224,9 +274,17 @@ You can use TypeScript getters in your read models to allow nested queries and/o
 Here's an example of a getter in the `UserReadModel` class that returns all `PostReadModel`s that belong to a specific `UserReadModel`:
 
 ```typescript
-@ReadModel
+@ReadModel({
+  authorize: 'all',
+})
 export class UserReadModel {
-  public constructor(readonly id: UUID, readonly name: string, private postIds: UUID[]) {}
+  @Field(type => UUID)
+  public id!: UUID
+
+  @Field()
+  readonly name!: string
+
+  private postIds!: UUID[]
 
   @CalculatedField({ dependsOn: ['postIds'] })
   public get posts(): Promise<PostReadModel[]> {
@@ -308,7 +366,17 @@ Read models are part of the public API of a Magek application, so you can define
   authorize: 'all',
 })
 export class ProductReadModel {
-  public constructor(public id: UUID, readonly name: string, readonly description: string, readonly price: number) {}
+  @Field(type => UUID)
+  public id!: UUID
+
+  @Field()
+  readonly name!: string
+
+  @Field()
+  readonly description!: string
+
+  @Field()
+  readonly price!: number
 
   @Projects(Product, 'id')
   public static projectProduct(entity: Product, current?: ProductReadModel): ProjectionResult<ProductReadModel> {
@@ -330,7 +398,11 @@ Magek automatically creates the queries and subscriptions for each read model. Y
   authorize: 'all',
 })
 export class CartReadModel {
-  public constructor(public id: UUID, readonly items: Array<CartItem>) {}
+  @Field(type => UUID)
+  public id!: UUID
+
+  @Field()
+  readonly items!: Array<CartItem>
 
   @Projects(Cart, 'id')
   public static projectCart(entity: Cart, currentReadModel: CartReadModel): ProjectionResult<CartReadModel> {
@@ -362,12 +434,19 @@ Magek GraphQL API also provides support for real-time updates using subscription
 There are some cases when it's desirable to query your read models sorted a particular field. An example could be a chat app where you want to fetch the messages of a channel sorted by the time they were sent. Magek provides a special decorator to tag a specific property as a sequence key for a read model:
 
 ```typescript title="src/read-model/message-read-model.ts"
+@ReadModel({
+  authorize: 'all',
+})
 export class MessageReadModel {
-  public constructor(
-    readonly id: UUID, // A channel ID
-    @sequencedBy readonly timestamp: string,
-    readonly contents: string
-  )
+  @Field(type => UUID)
+  readonly id!: UUID // A channel ID
+
+  @Field()
+  @sequencedBy
+  readonly timestamp!: string
+
+  @Field()
+  readonly contents!: string
 
   @Projects(Message, 'id')
   public static projectMessage(

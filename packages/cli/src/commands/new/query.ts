@@ -54,9 +54,12 @@ function generateImports(info: QueryInfo): Array<ImportDeclaration> {
   const queryFieldTypes = info.fields.map((f) => f.type)
   const queryUsesUUID = queryFieldTypes.some((type) => type == 'UUID')
 
-  const componentsFromMagekTypes = ['QueryInfo']
+  const componentsFromMagekCommon = ['QueryInfo']
+  if (info.fields.length > 0) {
+    componentsFromMagekCommon.unshift('Field')
+  }
   if (queryUsesUUID) {
-    componentsFromMagekTypes.push('UUID')
+    componentsFromMagekCommon.push('UUID')
   }
 
   return [
@@ -66,7 +69,7 @@ function generateImports(info: QueryInfo): Array<ImportDeclaration> {
     },
     {
       packagePath: '@magek/common',
-      commaSeparatedComponents: componentsFromMagekTypes.join(', '),
+      commaSeparatedComponents: componentsFromMagekCommon.join(', '),
     },
   ]
 }

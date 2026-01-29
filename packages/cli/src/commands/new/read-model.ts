@@ -78,6 +78,14 @@ function generateImports(info: ReadModelInfo): Array<ImportDeclaration> {
     coreComponents.push('Projects')
   }
 
+  const commonComponents = ['UUID']
+  if (info.fields.length > 0) {
+    commonComponents.unshift('Field')
+  }
+  if (info.projections.length > 0) {
+    commonComponents.push('ProjectionResult')
+  }
+
   return [
     {
       packagePath: '@magek/core',
@@ -85,7 +93,7 @@ function generateImports(info: ReadModelInfo): Array<ImportDeclaration> {
     },
     {
       packagePath: '@magek/common',
-      commaSeparatedComponents: info.projections.length > 0 ? 'UUID, ProjectionResult' : 'UUID',
+      commaSeparatedComponents: commonComponents.join(', '),
     },
     ...eventsImports,
   ]

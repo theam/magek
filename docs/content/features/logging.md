@@ -58,7 +58,11 @@ _Example: Obtaining a logger for your command:_
   authorize: [User],
 })
 export class UpdateShippingAddress {
-  public constructor(readonly cartId: UUID, readonly address: Address) {}
+  @Field()
+  readonly cartId!: UUID
+
+  @Field()
+  readonly address!: Address
 
   public static async handle(command: UpdateShippingAddress, register: Register): Promise<void> {
     const logger = getLogger(Magek.config, 'UpdateShippingCommand#handler', 'MyApp')
@@ -66,7 +70,6 @@ export class UpdateShippingAddress {
     register.events(new ShippingAddressUpdated(command.cartId, command.address))
   }
 }
-
 ```
 
 When a `UpdateShippingAddress` command is handled, it wil log messages that look like the following:

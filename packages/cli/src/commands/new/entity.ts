@@ -77,6 +77,11 @@ function generateImports(info: EntityInfo): Array<ImportDeclaration> {
     coreComponents.push('Reduces')
   }
 
+  const commonComponents = ['UUID']
+  if (info.fields.length > 0) {
+    commonComponents.unshift('Field')
+  }
+
   return [
     {
       packagePath: '@magek/core',
@@ -84,7 +89,7 @@ function generateImports(info: EntityInfo): Array<ImportDeclaration> {
     },
     {
       packagePath: '@magek/common',
-      commaSeparatedComponents: 'UUID',
+      commaSeparatedComponents: commonComponents.join(', '),
     },
     ...eventsImports,
   ]
