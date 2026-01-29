@@ -10,7 +10,7 @@ import {
   NonPersistedEntitySnapshotEnvelope,
   Runtime,
   UUID,
-  Field,
+  field,
 } from '@magek/common'
 import { fake, replace, restore, stub, match, spy } from 'sinon'
 import { EventStore } from '../../src/services/event-store'
@@ -27,13 +27,13 @@ describe('EventStore', () => {
   testConfig.logLevel = Level.error
 
   class AnEvent {
-    @Field(type => UUID)
+    @field(type => UUID)
     public readonly id: UUID
 
-    @Field()
+    @field()
     public readonly entityId: string
 
-    @Field()
+    @field()
     public readonly delta: number
 
     public constructor(id: UUID, entityId: string, delta: number) {
@@ -48,7 +48,7 @@ describe('EventStore', () => {
   }
 
   class AnotherEvent {
-    @Field(type => UUID)
+    @field(type => UUID)
     public readonly id: UUID
 
     public constructor(id: UUID) {
@@ -65,10 +65,10 @@ describe('EventStore', () => {
   }
 
   class AnEntity {
-    @Field(type => UUID)
+    @field(type => UUID)
     public readonly id: UUID
 
-    @Field()
+    @field()
     public readonly count: number
 
     public constructor(id: UUID, count: number) {

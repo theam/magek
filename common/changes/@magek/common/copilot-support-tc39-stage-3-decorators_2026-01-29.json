@@ -1,8 +1,8 @@
 {
   "changes": [
     {
-      "comment": "Update @Field decorator to support Stage 3 decorators only (breaking change)",
-      "type": "major",
+      "comment": "Migrate to TC39 Stage 3 decorators only. Rename @Field to @field (PascalCase alias kept for compatibility). Remove reflect-metadata import. Remove legacy decorator support.",
+      "type": "minor",
       "packageName": "@magek/common"
     }
   ],

@@ -26,13 +26,13 @@ import {
 import { Magek } from './magek'
 import { applyReadModelRequestBeforeFunctions } from './services/filter-helpers'
 import { ReadModelSchemaMigrator } from './read-model-schema-migrator'
-import { Trace } from './instrumentation'
+import { trace } from './instrumentation'
 
 
 export class MagekReadModelsReader {
   public constructor(readonly config: MagekConfig) {}
 
-  @Trace(TraceActionTypes.READ_MODEL_FIND_BY_ID)
+  @trace(TraceActionTypes.READ_MODEL_FIND_BY_ID)
   public async findById(
     readModelRequest: ReadModelRequestEnvelope<ReadModelInterface>
   ): Promise<ReadModelInterface | ReadOnlyNonEmptyArray<ReadModelInterface>> {
@@ -62,7 +62,7 @@ export class MagekReadModelsReader {
     return currentReadModel
   }
 
-  @Trace(TraceActionTypes.GRAPHQL_READ_MODEL_SEARCH)
+  @trace(TraceActionTypes.GRAPHQL_READ_MODEL_SEARCH)
   public async search(
     readModelRequest: ReadModelRequestEnvelope<ReadModelInterface>
   ): Promise<Array<ReadModelInterface> | ReadModelListResult<ReadModelInterface>> {
@@ -85,7 +85,7 @@ export class MagekReadModelsReader {
     )
   }
 
-  @Trace(TraceActionTypes.READ_MODEL_SEARCH)
+  @trace(TraceActionTypes.READ_MODEL_SEARCH)
   public async readModelSearch<TReadModel extends ReadModelInterface>(
     readModelClass: AnyClass,
     filters: FilterFor<unknown>,

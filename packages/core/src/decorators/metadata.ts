@@ -2,7 +2,7 @@ import { AnyClass, ClassMetadata, getMetadata } from '@magek/common'
 import { buildClassMetadataFromFields } from './field-metadata-reader'
 
 export function getClassMetadata(classType: AnyClass): ClassMetadata {
-  // Try new @Field() decorator system first
+  // Try new @field() decorator system first
   try {
     const fieldMetadata = buildClassMetadataFromFields(classType)
     // Check if any fields were actually found
@@ -18,7 +18,7 @@ export function getClassMetadata(classType: AnyClass): ClassMetadata {
   if (!meta) {
     throw Error(
       `Couldn't get proper metadata information of ${classType.name}. ` +
-        'Make sure to decorate all properties with @Field() or enable the TypeScript transformer.'
+        'Make sure to decorate all properties with @field() or enable the TypeScript transformer.'
     )
   }
   return meta

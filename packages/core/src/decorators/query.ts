@@ -1,4 +1,3 @@
- 
 import { Magek } from '../magek'
 import {
   CommandFilterHooks,
@@ -9,26 +8,23 @@ import {
 } from '@magek/common'
 import { getClassMetadata } from './metadata'
 import { MagekAuthorizer } from '../authorizer'
-import { transferStage3FieldMetadata, isStage3ClassContext, Stage3ClassContext } from './stage3-utils'
+import { transferStage3FieldMetadata, Stage3ClassContext } from './stage3-utils'
 
 /**
  * Decorator to mark a class as a Magek Query.
  * Queries represent read operations that don't modify state.
  *
- * Supports both legacy decorators (experimentalDecorators) and
- * Stage 3 TC39 decorators.
+ * Uses TC39 Stage 3 decorators.
  *
  * @param attributes - Role access control and filter hooks configuration
  * @returns A class decorator function
  */
 export function Query(
   attributes: QueryRoleAccess & CommandFilterHooks
-): <TCommand>(queryClass: QueryInterface<TCommand>, context?: Stage3ClassContext) => void {
-  return (queryClass, context?) => {
-    // Transfer Stage 3 field metadata if applicable
-    if (isStage3ClassContext(context)) {
-      transferStage3FieldMetadata(queryClass, context.metadata)
-    }
+): <TCommand>(queryClass: QueryInterface<TCommand>, context: Stage3ClassContext) => void {
+  return (queryClass, context) => {
+    // Transfer Stage 3 field metadata
+    transferStage3FieldMetadata(queryClass, context.metadata)
 
     Magek.configureCurrentEnv((config): void => {
       if (config.queryHandlers[queryClass.name]) {

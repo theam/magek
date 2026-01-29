@@ -2,9 +2,9 @@
  
  
 import { expect } from '../expect'
-import { Event, Entity, Reduces, Role } from '../../src/decorators/'
+import { Event, Entity, reduces, Role } from '../../src/decorators/'
 import { Magek } from '../../src'
-import { UserEnvelope, UUID, Field } from '@magek/common'
+import { UserEnvelope, UUID, field } from '@magek/common'
 import { MagekAuthorizer } from '../../src/authorizer'
 import { fake, replace } from 'sinon'
 
@@ -28,7 +28,7 @@ describe('the `Entity` decorator', () => {
     it('injects the entity metadata and sets up the reducers in the Magek config denying event reads', () => {
       @Event
       class CommentPosted {
-        @Field()
+        @field()
         public readonly foo!: string
 
         public entityID(): UUID {
@@ -38,13 +38,13 @@ describe('the `Entity` decorator', () => {
 
       @Entity
       class Comment {
-        @Field(type => UUID)
+        @field(type => UUID)
         public readonly id!: UUID
 
-        @Field()
+        @field()
         public readonly content!: string
 
-        @Reduces(CommentPosted)
+        @reduces(CommentPosted)
         public static react(_event: CommentPosted): Comment {
           throw new Error('Not implemented')
         }
@@ -66,10 +66,10 @@ describe('the `Entity` decorator', () => {
         authorizeReadEvents: 'all',
       })
       class Comment {
-        @Field(type => UUID)
+        @field(type => UUID)
         public readonly id!: UUID
 
-        @Field()
+        @field()
         public readonly content!: string
       }
 
@@ -94,10 +94,10 @@ describe('the `Entity` decorator', () => {
         authorizeReadEvents: [Manager],
       })
       class User {
-        @Field(type => UUID)
+        @field(type => UUID)
         public readonly id!: UUID
 
-        @Field()
+        @field()
         public readonly content!: string
       }
 
@@ -119,10 +119,10 @@ describe('the `Entity` decorator', () => {
         },
       })
       class User {
-        @Field(type => UUID)
+        @field(type => UUID)
         public readonly id!: UUID
 
-        @Field()
+        @field()
         public readonly content!: string
       }
 

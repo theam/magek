@@ -6,15 +6,14 @@ import { Stage3ClassContext } from './stage3-utils'
  * Decorator to mark a class as a Magek Data Migration.
  * Data migrations are background processes that update existing data in the database.
  *
- * Supports both legacy decorators (experimentalDecorators) and
- * Stage 3 TC39 decorators.
+ * Uses TC39 Stage 3 decorators.
  *
  * @param attributes - Migration configuration (e.g., execution order)
  * @returns A class decorator function
  */
 export function DataMigration(
   attributes: DataMigrationParameters
-): (dataMigrationClass: DataMigrationInterface, context?: Stage3ClassContext) => void {
+): (dataMigrationClass: DataMigrationInterface, context: Stage3ClassContext) => void {
   return (migrationClass) => {
     Magek.configureCurrentEnv((config): void => {
       if (config.dataMigrationHandlers[migrationClass.name]) {

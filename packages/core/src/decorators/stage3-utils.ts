@@ -26,31 +26,6 @@ export interface Stage3MethodContext {
 }
 
 /**
- * Type guard to detect Stage 3 class decorator context
- */
-export function isStage3ClassContext(arg: unknown): arg is Stage3ClassContext {
-  return (
-    arg !== null &&
-    typeof arg === 'object' &&
-    'kind' in arg &&
-    (arg as Stage3ClassContext).kind === 'class'
-  )
-}
-
-/**
- * Type guard to detect Stage 3 method decorator context
- */
-export function isStage3MethodContext(arg: unknown): arg is Stage3MethodContext {
-  return (
-    arg !== null &&
-    typeof arg === 'object' &&
-    'kind' in arg &&
-    (arg as Stage3MethodContext).kind === 'method' &&
-    'name' in arg
-  )
-}
-
-/**
  * Transfer field metadata from Stage 3 decorator context.metadata to the class constructor.
  * This is needed because Symbol.metadata is not available in Node.js, so Stage 3 decorators
  * need an explicit step to make field metadata accessible on the class.
@@ -60,7 +35,7 @@ export function transferStage3FieldMetadata(
   contextMetadata?: Record<string | symbol, unknown>
 ): void {
   if (!contextMetadata) return
-  
+
   const fields = contextMetadata[FIELDS_KEY] as FieldMetadata[] | undefined
   if (fields && fields.length > 0) {
     const ctorWithFields = classType as { __magek_fields__?: FieldMetadata[] }

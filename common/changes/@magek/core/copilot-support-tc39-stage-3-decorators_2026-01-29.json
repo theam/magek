@@ -1,8 +1,8 @@
 {
   "changes": [
     {
-      "comment": "Remove experimentalDecorators and update all decorators to Stage 3 only (breaking change)",
-      "type": "major",
+      "comment": "Complete TC39 Stage 3 decorators migration. Rename decorators to camelCase: @reduces, @projects, @calculatedField, @toVersion, @trace, @nonExposed. Remove all legacy decorator support. Remove experimentalDecorators from all configs.",
+      "type": "minor",
       "packageName": "@magek/core"
     }
   ],

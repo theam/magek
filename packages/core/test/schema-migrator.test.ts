@@ -2,11 +2,11 @@
  
 
 import { expect } from './expect'
-import { MagekConfig, CommandEnvelope, SchemaMigrationMetadata, Field } from '@magek/common'
+import { MagekConfig, CommandEnvelope, SchemaMigrationMetadata, field } from '@magek/common'
 import { SchemaMigrator } from '../src/schema-migrator'
 
 class TestConceptV1 {
-  @Field()
+  @field()
   public readonly field1: string
 
   public constructor(field1: string) {
@@ -15,10 +15,10 @@ class TestConceptV1 {
 }
 
 class TestConceptV2 {
-  @Field()
+  @field()
   public readonly field1: string
 
-  @Field()
+  @field()
   public readonly field2: number
 
   public constructor(field1: string, field2: number) {
@@ -28,13 +28,13 @@ class TestConceptV2 {
 }
 
 class TestConceptV3 {
-  @Field()
+  @field()
   public readonly field1: string
 
-  @Field()
+  @field()
   public readonly field2: number
 
-  @Field()
+  @field()
   public readonly field3: string
 
   public constructor(field1: string, field2: number, field3: string) {

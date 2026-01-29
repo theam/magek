@@ -1,5 +1,4 @@
-import 'reflect-metadata'
-import { AnyClass, FieldMetadata, ClassMetadata, PropertyMetadata, TypeMetadata, ClassType } from '@magek/common'
+import { AnyClass, FieldMetadata, ClassMetadata, PropertyMetadata, TypeMetadata, ClassType, getMetadata } from '@magek/common'
 
 // Symbol used by Stage 3 decorators to store field metadata
 const FIELDS_KEY = Symbol.for('magek:fields')
@@ -9,7 +8,7 @@ const FIELDS_KEY = Symbol.for('magek:fields')
 const METADATA_KEY: symbol = (Symbol as { metadata?: symbol }).metadata ?? Symbol.for('Symbol.metadata')
 
 /**
- * Extract TypeMetadata from a @Field() decorator's metadata
+ * Extract TypeMetadata from a @field() decorator's metadata
  */
 function extractTypeMetadata(fieldMeta: FieldMetadata, isGetter: boolean = false): TypeMetadata {
   let targetType: any
@@ -20,7 +19,7 @@ function extractTypeMetadata(fieldMeta: FieldMetadata, isGetter: boolean = false
   if (fieldMeta.typeFunction) {
     const result = fieldMeta.typeFunction()
 
-    // Handle array syntax: @Field(type => [String])
+    // Handle array syntax: @field(type => [String])
     if (Array.isArray(result)) {
       isArray = true
       targetType = result[0]
@@ -28,7 +27,7 @@ function extractTypeMetadata(fieldMeta: FieldMetadata, isGetter: boolean = false
       targetType = result
     }
   } else {
-    // Fall back to design:type from emitDecoratorMetadata
+    // Fall back to design:type from emitDecoratorMetadata (legacy)
     targetType = fieldMeta.designType
   }
 
@@ -165,26 +164,20 @@ function getAllFields(classType: AnyClass): FieldMetadata[] {
     }
   }
 
-  // Then walk up the prototype chain for legacy decorator metadata
+  // Then walk up the prototype chain for __magek_fields__ fallback
   let currentPrototype = classType.prototype
 
   while (currentPrototype && currentPrototype !== Object.prototype) {
     const constructor = currentPrototype.constructor as { __magek_fields__?: FieldMetadata[] }
 
-    // Try Reflect.getMetadata first, then fallback to __magek_fields__
-    let prototypeFields: FieldMetadata[] = []
-    if (typeof (Reflect as { getMetadata?: Function }).getMetadata === 'function') {
-      prototypeFields = Reflect.getMetadata('magek:fields', constructor) || []
-    }
-    // Also check fallback property
-    if (prototypeFields.length === 0 && constructor.__magek_fields__) {
-      prototypeFields = constructor.__magek_fields__
-    }
-
-    // Add fields that aren't already in the list (child overrides parent)
-    for (const field of prototypeFields) {
-      if (!fields.some((f) => f.name === field.name)) {
-        fields.push(field)
+    // Check fallback property
+    if (constructor.__magek_fields__) {
+      const prototypeFields = constructor.__magek_fields__
+      // Add fields that aren't already in the list (child overrides parent)
+      for (const field of prototypeFields) {
+        if (!fields.some((f) => f.name === field.name)) {
+          fields.push(field)
+        }
       }
     }
 
@@ -206,14 +199,11 @@ function getAllGetters(classType: AnyClass): PropertyMetadata[] {
 
   for (const [propertyKey, descriptor] of Object.entries(descriptors)) {
     if (descriptor.get) {
-      // This is a getter, check if it has @CalculatedField metadata
+      // This is a getter, check if it has @calculatedField metadata
       const dependencies: string[] =
-        Reflect.getMetadata('dynamic:dependencies', classType)?.[propertyKey] || []
+        getMetadata<Record<string, string[]>>('dynamic:dependencies', classType)?.[propertyKey] || []
 
-      // Get return type from design:returntype if available
-      const returnType = Reflect.getMetadata('design:returntype', prototype, propertyKey)
-
-      const typeMetadata: TypeMetadata = analyzeType(returnType || Object, {
+      const typeMetadata: TypeMetadata = analyzeType(Object, {
         isNullable: false,
         isGetAccessor: true,
         isArray: false,
@@ -232,7 +222,7 @@ function getAllGetters(classType: AnyClass): PropertyMetadata[] {
 }
 
 /**
- * Build ClassMetadata from @Field() decorators
+ * Build ClassMetadata from @field() decorators
  */
 export function buildClassMetadataFromFields(classType: AnyClass): ClassMetadata {
   // Get all fields (including inherited)
@@ -245,7 +235,7 @@ export function buildClassMetadataFromFields(classType: AnyClass): ClassMetadata
     dependencies: [],
   }))
 
-  // Get getter methods (for @CalculatedField)
+  // Get getter methods (for @calculatedField)
   const methods = getAllGetters(classType)
 
   return {

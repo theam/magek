@@ -6,14 +6,13 @@ import { Stage3ClassContext } from './stage3-utils'
  * Decorator to mark a class as a Global Error Handler.
  * Global error handlers catch and handle errors from the entire system.
  *
- * Supports both legacy decorators (experimentalDecorators) and
- * Stage 3 TC39 decorators.
+ * Uses TC39 Stage 3 decorators.
  *
  * @returns A class decorator function
  */
 export function GlobalErrorHandler(): (
   errorHandlerClass: GlobalErrorHandlerInterface,
-  context?: Stage3ClassContext
+  context: Stage3ClassContext
 ) => void {
   return (errorHandlerClass) => {
     Magek.configureCurrentEnv((config): void => {

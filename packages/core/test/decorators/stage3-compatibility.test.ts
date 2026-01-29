@@ -1,19 +1,13 @@
 /**
- * This test file demonstrates Stage 3 decorator compatibility with Magek.
- * 
- * NOTE: These tests currently run with experimentalDecorators enabled,
- * so they test legacy decorator behavior. The decorators have been updated
- * to support both legacy and Stage 3 formats, maintaining backward compatibility.
- * 
- * To fully test Stage 3 decorators in a real project:
- * 1. Use TypeScript 5.0+
- * 2. Remove experimentalDecorators from tsconfig.json
- * 3. The decorators will automatically use the Stage 3 signature
+ * This test file tests Stage 3 TC39 decorator compatibility with Magek.
+ *
+ * The codebase now uses Stage 3 decorators exclusively (experimentalDecorators
+ * has been removed from all tsconfig.json files).
  */
 
 import { expect } from '../expect'
 import { Event, Role, GlobalErrorHandler } from '../../src/decorators'
-import { Field, UUID } from '@magek/common'
+import { field, UUID } from '@magek/common'
 import { Magek } from '../../src'
 
 describe('Stage 3 decorator compatibility', () => {
@@ -21,7 +15,7 @@ describe('Stage 3 decorator compatibility', () => {
     it('registers an event class with Stage 3 compatible signature', () => {
       @Event
       class TestEvent {
-        @Field()
+        @field()
         public readonly data!: string
 
         public entityID(): UUID {
@@ -37,10 +31,10 @@ describe('Stage 3 decorator compatibility', () => {
     it('transfers field metadata when using Stage 3 decorators', () => {
       @Event
       class EventWithFields {
-        @Field()
+        @field()
         public readonly field1!: string
 
-        @Field()
+        @field()
         public readonly field2!: number
 
         public entityID(): UUID {

@@ -14,7 +14,6 @@
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
-    "experimentalDecorators": true,
     "plugins": [
       {
         "transform": "@magek/metadata"

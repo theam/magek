@@ -18,7 +18,7 @@ import { GraphQLResolverContext } from './services/graphql/common'
 import { NoopReadModelPubSub } from './services/pub-sub/noop-read-model-pub-sub'
 import { GraphQLWebsocketHandler } from './services/graphql/websocket-protocol/graphql-websocket-protocol'
 import { MagekTokenVerifier } from './token-verifier'
-import { Trace } from './instrumentation'
+import { trace } from './instrumentation'
 
 type DispatchResult = AsyncIterableIterator<ExecutionResult> | ExecutionResult | void
 
@@ -44,7 +44,7 @@ export class MagekGraphQLDispatcher {
     )
   }
 
-  @Trace(TraceActionTypes.GRAPHQL_DISPATCH)
+  @trace(TraceActionTypes.GRAPHQL_DISPATCH)
   public async dispatch(request: unknown): Promise<unknown> {
     const logger = getLogger(this.config, 'MagekGraphQLDispatcher#dispatch')
     const envelopeOrError = await this.config.runtime.graphQL.rawToEnvelope(this.config, request)
@@ -100,7 +100,7 @@ export class MagekGraphQLDispatcher {
     return this.runGraphQLOperation(envelopeOrError, responseHeaders)
   }
 
-  @Trace(TraceActionTypes.GRAPHQL_RUN_OPERATION)
+  @trace(TraceActionTypes.GRAPHQL_RUN_OPERATION)
   private async runGraphQLOperation(
     envelope: GraphQLRequestEnvelope | GraphQLRequestEnvelopeError,
     responseHeaders: Record<string, string> = {}

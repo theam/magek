@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Update CLI stubs and templates to use camelCase decorator names (@field, @reduces, @projects)",
+      "type": "none",
+      "packageName": "@magek/cli"
+    }
+  ],
+  "packageName": "@magek/cli",
+  "email": "github-actions[bot]@users.noreply.github.com"
+}

@@ -14,7 +14,7 @@ import {
   UUID,
   EntityInterface,
   ReadModelStoreAdapter,
-  Field,
+  field,
 } from '@magek/common'
 import { expect } from '../expect'
 import { MagekAuthorizer } from '../../src/authorizer'
@@ -42,13 +42,13 @@ describe('ReadModelStore', () => {
   testConfig.logLevel = Level.error
 
   class AnImportantEntity {
-    @Field(type => UUID)
+    @field(type => UUID)
     public readonly id: UUID
 
-    @Field(type => UUID)
+    @field(type => UUID)
     public readonly someKey: UUID
 
-    @Field()
+    @field()
     public readonly count: number
 
     public constructor(id: UUID, someKey: UUID, count: number) {
@@ -63,13 +63,13 @@ describe('ReadModelStore', () => {
   }
 
   class AnImportantEntityWithArray {
-    @Field(type => UUID)
+    @field(type => UUID)
     public readonly id: UUID
 
-    @Field(type => [UUID])
+    @field(type => [UUID])
     public readonly someKey: Array<UUID>
 
-    @Field()
+    @field()
     public readonly count: number
 
     public constructor(id: UUID, someKey: Array<UUID>, count: number) {
@@ -84,13 +84,13 @@ describe('ReadModelStore', () => {
   }
 
   class AnEntity {
-    @Field(type => UUID)
+    @field(type => UUID)
     public readonly id: UUID
 
-    @Field(type => UUID)
+    @field(type => UUID)
     public readonly someKey: UUID
 
-    @Field()
+    @field()
     public readonly count: number
 
     public constructor(id: UUID, someKey: UUID, count: number) {
@@ -101,10 +101,10 @@ describe('ReadModelStore', () => {
   }
 
   class SomeReadModel {
-    @Field(type => UUID)
+    @field(type => UUID)
     public readonly id: UUID
 
-    @Field()
+    @field()
     public readonly count: number
 
     public constructor(id: UUID, count: number) {
@@ -145,10 +145,10 @@ describe('ReadModelStore', () => {
   }
 
   class AnotherReadModel {
-    @Field(type => UUID)
+    @field(type => UUID)
     public readonly id: UUID
 
-    @Field()
+    @field()
     public readonly count: number
 
     public constructor(id: UUID, count: number) {

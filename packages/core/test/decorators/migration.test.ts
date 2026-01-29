@@ -1,7 +1,7 @@
  
  
 import { expect } from '../expect'
-import { SchemaMigration, ToVersion } from '../../src/decorators'
+import { SchemaMigration, toVersion } from '../../src/decorators'
 import { Magek } from '../../src'
 import { SchemaMigrationMetadata } from '@magek/common'
 import { getMetadata } from '@magek/common'
@@ -21,13 +21,13 @@ class ProductV4 {
 }
 class ProductV5 extends Product {} // This would be the current version
 
-describe('the `ToVersion` decorator', () => {
+describe('the `toVersion` decorator', () => {
   it('throws when a version smaller than 1 is specified', () => {
     expect(() => {
       // @ts-ignore: Unused class
        
       class MigrateProduct {
-        @ToVersion(1, { fromSchema: ProductV1, toSchema: ProductV2 })
+        @toVersion(1, { fromSchema: ProductV1, toSchema: ProductV2 })
         public async changeField2(x: ProductV1): Promise<ProductV2> {
           return {} as any
         }
@@ -37,12 +37,12 @@ describe('the `ToVersion` decorator', () => {
 
   it('adds migrations as metadata to the migration class', () => {
     class MigrateProduct {
-      @ToVersion(2, { fromSchema: ProductV1, toSchema: ProductV2 })
+      @toVersion(2, { fromSchema: ProductV1, toSchema: ProductV2 })
       public async changeField2(x: ProductV1): Promise<ProductV2> {
         return {} as any
       }
 
-      @ToVersion(3, { fromSchema: ProductV2, toSchema: ProductV3 })
+      @toVersion(3, { fromSchema: ProductV2, toSchema: ProductV3 })
       public async changeField3(x: ProductV2): Promise<ProductV3> {
         return {} as any
       }
@@ -90,12 +90,12 @@ describe('the `Migrates` annotation', () => {
   it('adds several migrations correctly', () => {
     @SchemaMigration(Product)
     class MigrateProductFrom1To3 {
-      @ToVersion(2, { fromSchema: ProductV1, toSchema: ProductV2 })
+      @toVersion(2, { fromSchema: ProductV1, toSchema: ProductV2 })
       public async changeField2(x: ProductV1): Promise<ProductV2> {
         return {} as any
       }
 
-      @ToVersion(3, { fromSchema: ProductV2, toSchema: ProductV3 })
+      @toVersion(3, { fromSchema: ProductV2, toSchema: ProductV3 })
       public async changeField3(x: ProductV2): Promise<ProductV3> {
         return {} as any
       }
@@ -103,12 +103,12 @@ describe('the `Migrates` annotation', () => {
 
     @SchemaMigration(Product)
     class MigrateProductFrom3To5 {
-      @ToVersion(5, { fromSchema: ProductV4, toSchema: ProductV5 })
+      @toVersion(5, { fromSchema: ProductV4, toSchema: ProductV5 })
       public async changeField5(x: ProductV4): Promise<ProductV5> {
         return {} as any
       }
 
-      @ToVersion(4, { fromSchema: ProductV3, toSchema: ProductV4 })
+      @toVersion(4, { fromSchema: ProductV3, toSchema: ProductV4 })
       public async changeField4(x: ProductV3): Promise<ProductV4> {
         return {} as any
       }
@@ -154,12 +154,12 @@ describe('the `Migrates` annotation', () => {
     // @ts-ignore: Unused class
      
     class MigrateProductFrom1To3 {
-      @ToVersion(2, { fromSchema: ProductV1, toSchema: ProductV2 })
+      @toVersion(2, { fromSchema: ProductV1, toSchema: ProductV2 })
       public async changeField2(x: ProductV1): Promise<ProductV2> {
         return {} as any
       }
 
-      @ToVersion(3, { fromSchema: ProductV2, toSchema: ProductV3 })
+      @toVersion(3, { fromSchema: ProductV2, toSchema: ProductV3 })
       public async changeField3(x: ProductV2): Promise<ProductV3> {
         return {} as any
       }
@@ -170,7 +170,7 @@ describe('the `Migrates` annotation', () => {
       // @ts-ignore: Unused class
        
       class MigrateProductFrom3To5 {
-        @ToVersion(3, { fromSchema: ProductV2, toSchema: ProductV3 })
+        @toVersion(3, { fromSchema: ProductV2, toSchema: ProductV3 })
         public async changeField5(x: ProductV2): Promise<ProductV3> {
           return {} as any
         }

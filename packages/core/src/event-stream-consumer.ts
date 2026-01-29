@@ -1,4 +1,4 @@
-import { Trace } from './instrumentation'
+import { trace } from './instrumentation'
 import { MagekConfig, EventStream, TraceActionTypes, getLogger } from '@magek/common'
 import { EventStore } from './services/event-store'
 import { ReadModelStore } from './services/read-model-store'
@@ -9,7 +9,7 @@ import { MagekEventProcessor } from './event-processor'
  * This class consumes events from the event stream and dispatches them to the event handlers
  */
 export class MagekEventStreamConsumer {
-  @Trace(TraceActionTypes.CONSUME_STREAM_EVENTS)
+  @trace(TraceActionTypes.CONSUME_STREAM_EVENTS)
   public static async consume(rawEvents: unknown, config: MagekConfig): Promise<void> {
     const logger = getLogger(config, 'MagekEventDispatcher#dispatch')
     const eventStore = new EventStore(config)

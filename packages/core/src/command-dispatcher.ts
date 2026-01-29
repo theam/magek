@@ -15,7 +15,7 @@ import { applyBeforeFunctions } from './services/filter-helpers'
 import { MagekGlobalErrorDispatcher } from './global-error-dispatcher'
 import { SchemaMigrator } from './schema-migrator'
 import { GraphQLResolverContext } from './services/graphql/common'
-import { Trace } from './instrumentation'
+import { trace } from './instrumentation'
 
 export class MagekCommandDispatcher {
   private readonly globalErrorDispatcher: MagekGlobalErrorDispatcher
@@ -24,7 +24,7 @@ export class MagekCommandDispatcher {
     this.globalErrorDispatcher = new MagekGlobalErrorDispatcher(config)
   }
 
-  @Trace(TraceActionTypes.COMMAND_HANDLER)
+  @trace(TraceActionTypes.COMMAND_HANDLER)
   public async dispatchCommand(commandEnvelope: CommandEnvelope, context: GraphQLResolverContext): Promise<unknown> {
     const logger = getLogger(this.config, 'MagekCommandDispatcher#dispatchCommand')
     logger.debug('Dispatching the following command envelope: ', commandEnvelope)

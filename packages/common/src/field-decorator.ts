@@ -1,5 +1,3 @@
-import 'reflect-metadata'
-
 /**
  * Type function for specifying field types
  * The parameter is optional and not used - it's just for TypeGraphQL-style ergonomics
@@ -7,7 +5,7 @@ import 'reflect-metadata'
 export type TypeFunction = (type?: unknown) => unknown
 
 /**
- * Options for the @Field() decorator
+ * Options for the @field() decorator
  */
 export interface FieldOptions {
   nullable?: boolean
@@ -21,7 +19,7 @@ export interface FieldMetadata {
   name: string
   typeFunction?: TypeFunction
   options: FieldOptions
-  designType?: unknown // From emitDecoratorMetadata
+  designType?: unknown // From emitDecoratorMetadata (not used in Stage 3)
 }
 
 // Symbol for storing fields metadata (for Stage 3 decorators)
@@ -29,7 +27,6 @@ const FIELDS_KEY = Symbol.for('magek:fields')
 
 /**
  * Stage 3 decorator context for class fields (TypeScript 5.0+)
- * This is a simplified version compatible with ClassFieldDecoratorContext
  */
 interface Stage3FieldContext {
   kind: 'field'
@@ -37,92 +34,8 @@ interface Stage3FieldContext {
   static: boolean
   private: boolean
   metadata?: Record<string | symbol, unknown>
-  access?: unknown // Simplified to avoid variance issues
+  access?: unknown
   addInitializer?: (initializer: () => void) => void
-}
-
-/**
- * Type guard to detect Stage 3 decorator context
- */
-function isStage3Context(arg: unknown): arg is Stage3FieldContext {
-  return (
-    arg !== null &&
-    typeof arg === 'object' &&
-    'kind' in arg &&
-    (arg as Stage3FieldContext).kind === 'field' &&
-    'name' in arg
-  )
-}
-
-/**
- * Store field metadata on a constructor (works for both legacy and Stage 3)
- */
-function storeFieldMetadata(constructor: Function, fieldMetadata: FieldMetadata): void {
-  // Get existing fields
-  let existingFields: FieldMetadata[] = []
-
-  // Try Reflect.getMetadata first
-  try {
-    if (typeof Reflect !== 'undefined' && typeof Reflect.getMetadata === 'function') {
-      existingFields = Reflect.getMetadata('magek:fields', constructor) || []
-    }
-  } catch {
-    // Ignore
-  }
-
-  // Also check fallback property
-  const ctorWithFields = constructor as { __magek_fields__?: FieldMetadata[] }
-  if (existingFields.length === 0 && ctorWithFields.__magek_fields__) {
-    existingFields = ctorWithFields.__magek_fields__
-  }
-
-  // Add this field (avoid duplicates by name)
-  const filteredFields = existingFields.filter((f) => f.name !== fieldMetadata.name)
-  filteredFields.push(fieldMetadata)
-
-  // Store using both mechanisms for reliability
-  try {
-    if (typeof Reflect !== 'undefined' && typeof Reflect.defineMetadata === 'function') {
-      Reflect.defineMetadata('magek:fields', filteredFields, constructor)
-    }
-  } catch {
-    // Ignore
-  }
-
-  // Also store as a fallback property
-  ctorWithFields.__magek_fields__ = filteredFields
-}
-
-/**
- * Handle legacy decorator format (experimentalDecorators)
- */
-function handleLegacyDecorator(
-  target: object,
-  propertyKey: string | symbol,
-  typeFunction: TypeFunction | undefined,
-  fieldOptions: FieldOptions
-): void {
-  // Get design type from TypeScript decorator metadata
-  let designType: unknown
-  try {
-    if (typeof Reflect !== 'undefined' && typeof Reflect.getMetadata === 'function') {
-      designType = Reflect.getMetadata('design:type', target, propertyKey)
-    }
-  } catch {
-    // Ignore - Reflect.getMetadata may fail if called before initialization
-  }
-
-  const fieldMetadata: FieldMetadata = {
-    name: propertyKey.toString(),
-    typeFunction,
-    options: fieldOptions,
-    designType,
-  }
-
-  const constructor = target.constructor
-  if (constructor) {
-    storeFieldMetadata(constructor, fieldMetadata)
-  }
 }
 
 /**
@@ -154,37 +67,30 @@ function handleStage3Decorator(
 }
 
 /**
- * Decorator return type that supports both legacy and Stage 3 formats.
- * This is a function that can be called with either signature.
+ * Stage 3 field decorator type
  */
-type UniversalFieldDecorator = {
-  // Legacy signature
-  (target: object, propertyKey: string | symbol): void
-  // Stage 3 signature
-  (value: undefined, context: Stage3FieldContext): void
-}
+type Stage3FieldDecorator = (value: undefined, context: Stage3FieldContext) => void
 
 /**
- * @Field() decorator for explicit type declaration
+ * @field() decorator for explicit type declaration
  *
- * Supports both legacy decorators (experimentalDecorators) and
- * Stage 3 TC39 decorators.
+ * Uses TC39 Stage 3 decorators.
  *
  * Usage:
- *   @Field() - Simple type (inferred from design:type in legacy mode)
- *   @Field(type => String) - Explicit type
- *   @Field(type => [String]) - Array type
- *   @Field({ nullable: true }) - With options
- *   @Field(type => String, { nullable: true }) - Type with options
+ *   @field() - Simple type
+ *   @field(type => String) - Explicit type
+ *   @field(type => [String]) - Array type
+ *   @field({ nullable: true }) - With options
+ *   @field(type => String, { nullable: true }) - Type with options
  */
-export function Field(): UniversalFieldDecorator
-export function Field(options: FieldOptions): UniversalFieldDecorator
-export function Field(typeFunction: TypeFunction): UniversalFieldDecorator
-export function Field(typeFunction: TypeFunction, options: FieldOptions): UniversalFieldDecorator
-export function Field(
+export function field(): Stage3FieldDecorator
+export function field(options: FieldOptions): Stage3FieldDecorator
+export function field(typeFunction: TypeFunction): Stage3FieldDecorator
+export function field(typeFunction: TypeFunction, options: FieldOptions): Stage3FieldDecorator
+export function field(
   typeFunctionOrOptions?: TypeFunction | FieldOptions,
   options?: FieldOptions
-): UniversalFieldDecorator {
+): Stage3FieldDecorator {
   // Parse arguments
   let typeFunction: TypeFunction | undefined
   let fieldOptions: FieldOptions = {}
@@ -196,24 +102,12 @@ export function Field(
     fieldOptions = typeFunctionOrOptions
   }
 
-  // Return decorator that handles both formats
-  return function fieldDecorator(
-    targetOrValue: object | undefined,
-    propertyKeyOrContext: string | symbol | Stage3FieldContext
-  ): void {
-    // Detect Stage 3 vs Legacy based on the second argument
-    if (isStage3Context(propertyKeyOrContext)) {
-      // Stage 3 decorator
-      handleStage3Decorator(propertyKeyOrContext, typeFunction, fieldOptions)
-    } else if (targetOrValue) {
-      // Legacy decorator
-      handleLegacyDecorator(
-        targetOrValue,
-        propertyKeyOrContext as string | symbol,
-        typeFunction,
-        fieldOptions
-      )
-    }
-    // If targetOrValue is undefined and not Stage 3, silently skip
-  } as UniversalFieldDecorator
+  // Return Stage 3 decorator
+  return function fieldDecorator(_value: undefined, context: Stage3FieldContext): void {
+    handleStage3Decorator(context, typeFunction, fieldOptions)
+  }
 }
+
+// Re-export with PascalCase alias for backward compatibility during migration
+// TODO: Remove this alias after all usages have been updated to @field
+export { field as Field }

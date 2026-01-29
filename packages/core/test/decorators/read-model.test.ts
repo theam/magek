@@ -1,8 +1,8 @@
  
 import { expect } from '../expect'
 import { describe } from 'mocha'
-import { ReadModel, Magek, Entity, Projects, sequencedBy, Role, CalculatedField } from '../../src'
-import { UUID, ProjectionResult, UserEnvelope, Field } from '@magek/common'
+import { ReadModel, Magek, Entity, projects, sequencedBy, Role, calculatedField } from '../../src'
+import { UUID, ProjectionResult, UserEnvelope, field } from '@magek/common'
 import { MagekAuthorizer } from '../../src/authorizer'
 import { fake, restore } from 'sinon'
 
@@ -20,10 +20,10 @@ describe('the `ReadModel` decorator', () => {
     it('injects the read model metadata in the Magek configuration and denies access', () => {
       @ReadModel({})
       class Post {
-        @Field((type) => UUID)
+        @field((type) => UUID)
         public readonly id!: UUID
 
-        @Field((type) => String)
+        @field((type) => String)
         public readonly title!: string
       }
 
@@ -51,10 +51,10 @@ describe('the `ReadModel` decorator', () => {
         before: [fakeBeforeFilter],
       })
       class Post {
-        @Field((type) => UUID)
+        @field((type) => UUID)
         public readonly id!: UUID
 
-        @Field((type) => String)
+        @field((type) => String)
         public readonly aStringProp!: string
       }
 
@@ -72,16 +72,16 @@ describe('the `ReadModel` decorator', () => {
         authorize: 'all',
       })
       class SomeReadModel {
-        @Field(type => UUID)
+        @field(type => UUID)
         public readonly id!: UUID
 
-        @Field(type => String)
+        @field(type => String)
         public readonly aStringProp!: string
 
-        @Field(type => Number)
+        @field(type => Number)
         public readonly aNumberProp!: number
 
-        @Field(type => [String])
+        @field(type => [String])
         public readonly aReadonlyArray!: ReadonlyArray<string>
       }
 
@@ -131,10 +131,10 @@ describe('the `ReadModel` decorator', () => {
         authorize: [Admin],
       })
       class SomeReadModel {
-        @Field(type => UUID)
+        @field(type => UUID)
         public readonly id!: UUID
 
-        @Field()
+        @field()
         public readonly aStringProp!: string
       }
 
@@ -170,10 +170,10 @@ describe('the `ReadModel` decorator', () => {
         },
       })
       class RockingData {
-        @Field(type => UUID)
+        @field(type => UUID)
         public readonly id!: UUID
 
-        @Field()
+        @field()
         public readonly aStringProp!: string
       }
 
@@ -196,7 +196,7 @@ describe('the `ReadModel` decorator', () => {
   })
 })
 
-describe('the `Projects` decorator', () => {
+describe('the `projects` decorator', () => {
   afterEach(() => {
     Magek.configure('test', (config) => {
       for (const propName in config.readModels) {
@@ -211,7 +211,7 @@ describe('the `Projects` decorator', () => {
   it('registers a read model method as an entity projection in Magek configuration', () => {
     @Entity
     class SomeEntity {
-      @Field(type => UUID)
+      @field(type => UUID)
       public readonly id!: UUID
     }
 
@@ -219,10 +219,10 @@ describe('the `Projects` decorator', () => {
       authorize: 'all',
     })
     class SomeReadModel {
-      @Field(type => UUID)
+      @field(type => UUID)
       public readonly id!: UUID
 
-      @Projects(SomeEntity, 'id')
+      @projects(SomeEntity, 'id')
       public static observeSomeEntity(entity: SomeEntity): ProjectionResult<SomeReadModel> {
         throw new Error(`not implemented for ${entity}`)
       }
@@ -257,11 +257,11 @@ describe('the `Projects` decorator', () => {
         authorize: 'all',
       })
       class SequencedReadModel {
-        @Field(type => UUID)
+        @field(type => UUID)
         public readonly id!: UUID
 
         @sequencedBy
-        @Field(type => String)
+        @field(type => String)
         public readonly timestamp!: string
       }
 
@@ -272,7 +272,7 @@ describe('the `Projects` decorator', () => {
   })
 })
 
-describe('the `CalculatedField` decorator', () => {
+describe('the `calculatedField` decorator', () => {
   afterEach(() => {
     restore()
     Magek.configure('test', (config) => {
@@ -287,16 +287,16 @@ describe('the `CalculatedField` decorator', () => {
       authorize: 'all',
     })
     class PersonReadModel {
-      @Field(type => UUID)
+      @field(type => UUID)
       public readonly id!: UUID
 
-      @Field(type => String)
+      @field(type => String)
       public readonly firstName!: string
 
-      @Field(type => String)
+      @field(type => String)
       public readonly lastName!: string
 
-      @CalculatedField({ dependsOn: ['firstName', 'lastName'] })
+      @calculatedField({ dependsOn: ['firstName', 'lastName'] })
       public get fullName(): string {
         return `${this.firstName} ${this.lastName}`
       }

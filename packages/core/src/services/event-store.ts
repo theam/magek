@@ -23,7 +23,7 @@ import { MagekGlobalErrorDispatcher } from '../global-error-dispatcher'
 import { SchemaMigrator } from '../schema-migrator'
 import { MagekEntityMigrated } from '../core-concepts/data-migration/events/entity-migrated'
 import { MagekEntityTouched } from '../core-concepts/touch-entity/events/entity-touched'
-import { Trace } from '../instrumentation'
+import { trace } from '../instrumentation'
 
 const originOfTime = new Date(0).toISOString() // Unix epoch
 
@@ -40,7 +40,7 @@ export class EventStore {
    * Also, in order to make next calls faster, this method caches the newly calculated
    * snapshot storing it at the end of the process.
    */
-  @Trace(TraceActionTypes.FETCH_ENTITY_SNAPSHOT)
+  @trace(TraceActionTypes.FETCH_ENTITY_SNAPSHOT)
   public async fetchEntitySnapshot(entityName: string, entityID: UUID): Promise<EntitySnapshotEnvelope | undefined> {
     const logger = getLogger(this.config, 'EventStore#fetchEntitySnapshot')
     logger.debug(`Fetching snapshot for entity ${entityName} with ID ${entityID}`)
@@ -99,7 +99,7 @@ export class EventStore {
     }
   }
 
-  @Trace(TraceActionTypes.CUSTOM)
+  @trace(TraceActionTypes.CUSTOM)
   public async storeDispatchedEvent(eventEnvelope: EventEnvelope): Promise<boolean | undefined> {
     const logger = getLogger(this.config, 'EventStore#storeDispatchedEvent')
     try {
@@ -111,7 +111,7 @@ export class EventStore {
     }
   }
 
-  @Trace(TraceActionTypes.STORE_SNAPSHOT)
+  @trace(TraceActionTypes.STORE_SNAPSHOT)
   private async storeSnapshot(
     snapshot: NonPersistedEntitySnapshotEnvelope
   ): Promise<EntitySnapshotEnvelope | undefined> {
@@ -132,7 +132,7 @@ export class EventStore {
     }
   }
 
-  @Trace(TraceActionTypes.LOAD_LATEST_SNAPSHOT)
+  @trace(TraceActionTypes.LOAD_LATEST_SNAPSHOT)
   private async loadLatestSnapshot(entityName: string, entityID: UUID): Promise<EntitySnapshotEnvelope | undefined> {
     const logger = getLogger(this.config, 'EventStore#loadLatestSnapshot')
     logger.debug(`Loading latest snapshot for entity ${entityName} and ID ${entityID}`)
@@ -143,7 +143,7 @@ export class EventStore {
     return undefined
   }
 
-  @Trace(TraceActionTypes.LOAD_EVENT_STREAM_SINCE)
+  @trace(TraceActionTypes.LOAD_EVENT_STREAM_SINCE)
   private async loadEventStreamSince(
     entityTypeName: string,
     entityID: UUID,
@@ -154,7 +154,7 @@ export class EventStore {
     return this.config.eventStore.forEntitySince(this.config, entityTypeName, entityID, timestamp)
   }
 
-  @Trace(TraceActionTypes.ENTITY_REDUCER)
+  @trace(TraceActionTypes.ENTITY_REDUCER)
   private async entityReducer(
     eventEnvelope: EventEnvelope,
     latestSnapshot?: NonPersistedEntitySnapshotEnvelope

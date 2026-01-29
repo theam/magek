@@ -18,7 +18,7 @@ import { EventsStreamingCallback } from './services/raw-events-parser'
 import { ReadModelStore } from './services/read-model-store'
 import { RegisterHandler } from './register-handler'
 import { MagekGlobalErrorDispatcher } from './global-error-dispatcher'
-import { Trace } from './instrumentation'
+import { trace } from './instrumentation'
 import { GLOBAL_EVENT_HANDLERS } from './decorators'
 
 export class MagekEventProcessor {
@@ -86,7 +86,7 @@ export class MagekEventProcessor {
     await readModelStore.project(entitySnapshot)
   }
 
-  @Trace(TraceActionTypes.EVENT_HANDLERS_PROCESS)
+  @trace(TraceActionTypes.EVENT_HANDLERS_PROCESS)
   private static async dispatchEntityEventsToEventHandlers(
     entityEventEnvelopes: Array<EventEnvelope | NotificationInterface>,
     config: MagekConfig

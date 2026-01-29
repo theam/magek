@@ -1,4 +1,3 @@
- 
 import { Magek } from '../magek'
 import {
   Class,
@@ -10,7 +9,7 @@ import {
   EventStreamAuthorizer,
 } from '@magek/common'
 import { MagekAuthorizer } from '../authorizer'
-import { isStage3MethodContext, Stage3MethodContext } from './stage3-utils'
+import { Stage3MethodContext } from './stage3-utils'
 
 type EntityAttributes = EventStreamRoleAccess
 
@@ -71,47 +70,30 @@ function isEntityAttributes(param: EntityDecoratorParam): param is EntityAttribu
 }
 
 /**
- * Stage 3 method decorator context
- */
-
-/**
- * Type guard to detect Stage 3 method decorator context
- */
-
-/**
  * Decorator to register an entity class method as a reducer function
  * for a specific event.
  *
+ * Uses TC39 Stage 3 decorators.
+ *
  * @param eventClass The event that this method will react to
  */
-export function Reduces<TEvent extends EventInterface>(
+export function reduces<TEvent extends EventInterface>(
   eventClass: Class<TEvent>
 ): <TEntity>(
-  entityClassOrMethod: Class<TEntity> | Function,
-  methodNameOrContext: string | Stage3MethodContext,
-  methodDescriptor?: ReducerMethod<TEvent, TEntity>
+  entityClassOrMethod: Function,
+  context: Stage3MethodContext
 ) => void {
-  return (entityClassOrMethod, methodNameOrContext, _methodDescriptor?) => {
-    // Detect Stage 3 vs Legacy decorator
-    if (isStage3MethodContext(methodNameOrContext)) {
-      // Stage 3 decorator - use addInitializer to get the class
-      const context = methodNameOrContext
-      if (context.addInitializer) {
-        context.addInitializer(function (this: Function) {
-          // For static methods, 'this' is the class itself
-          // For instance methods, 'this' is an instance and we need this.constructor
-          const targetClass = context.static ? this : this.constructor
-          registerReducer(eventClass.name, {
-            class: targetClass as AnyClass,
-            methodName: context.name.toString(),
-          })
+  return (_method, context) => {
+    // Stage 3 decorator - use addInitializer to get the class
+    if (context.addInitializer) {
+      context.addInitializer(function (this: Function) {
+        // For static methods, 'this' is the class itself
+        // For instance methods, 'this' is an instance and we need this.constructor
+        const targetClass = context.static ? this : this.constructor
+        registerReducer(eventClass.name, {
+          class: targetClass as AnyClass,
+          methodName: context.name.toString(),
         })
-      }
-    } else {
-      // Legacy decorator
-      registerReducer(eventClass.name, {
-        class: entityClassOrMethod as AnyClass,
-        methodName: methodNameOrContext as string,
       })
     }
   }
@@ -131,6 +113,6 @@ function registerReducer(eventName: string, reducerMetadata: ReducerMetadata): v
   })
 }
 
-type ReducerMethod<TEvent, TEntity> =
-  | TypedPropertyDescriptor<(event: TEvent, entity: TEntity) => TEntity>
-  | TypedPropertyDescriptor<(event: TEvent, entity?: TEntity) => TEntity>
+// Re-export with PascalCase alias for backward compatibility during migration
+// TODO: Remove this alias after all usages have been updated to @reduces
+export { reduces as Reduces }

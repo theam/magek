@@ -15,10 +15,10 @@ import { MagekDataMigrationEntity } from './core-concepts/data-migration/entitie
 import { MagekEntityMigrated } from './core-concepts/data-migration/events/entity-migrated'
 import { Magek } from './index'
 import { MagekDataMigrationStarted } from './core-concepts/data-migration/events/data-migration-started'
-import { Trace } from './instrumentation'
+import { trace } from './instrumentation'
 
 export class MagekDataMigrations {
-  @Trace(TraceActionTypes.MIGRATION_RUN)
+  @trace(TraceActionTypes.MIGRATION_RUN)
   public static async run(): Promise<boolean> {
     const config = Magek.config
     const logger = getLogger(config, 'MagekDataMigrationDispatcher#dispatch')

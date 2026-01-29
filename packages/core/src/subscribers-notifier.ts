@@ -16,7 +16,7 @@ import { GraphQLGenerator } from './services/graphql/graphql-generator'
 import { FilteredReadModelPubSub, ReadModelPubSub } from './services/pub-sub/read-model-pub-sub'
 import { GraphQLResolverContext } from './services/graphql/common'
 import { ExecutionResult } from 'graphql/execution/execute'
-import { Trace } from './instrumentation'
+import { trace } from './instrumentation'
 
 export class MagekSubscribersNotifier {
   private readonly graphQLSchema: GraphQLSchema
@@ -25,7 +25,7 @@ export class MagekSubscribersNotifier {
     this.graphQLSchema = GraphQLGenerator.generateSchema(config)
   }
 
-  @Trace(TraceActionTypes.DISPATCH_SUBSCRIBER_NOTIFIER)
+  @trace(TraceActionTypes.DISPATCH_SUBSCRIBER_NOTIFIER)
   public async dispatch(request: unknown): Promise<void> {
     const logger = getLogger(this.config, 'MagekSubscribersNotifier#dispatch')
     try {

@@ -12,7 +12,7 @@ import {
   ReadModelInterface,
   ReadModelRequestArgs,
   ReadModelRequestProperties,
-  Field,
+  field,
 } from '@magek/common'
 import { expect } from '../../expect'
 import { GraphQLQueryGenerator } from '../../../src/services/graphql/graphql-query-generator'
@@ -204,10 +204,10 @@ describe('GraphQL generator', () => {
 
     describe('readModelByIDResolverBuilder', () => {
       class SomeReadModel {
-        @Field()
+        @field()
         public readonly id: string
 
-        @Field()
+        @field()
         public readonly timestamp: string
 
         public constructor(id: string, timestamp: string) {
