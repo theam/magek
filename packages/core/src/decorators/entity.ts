@@ -10,6 +10,7 @@ import {
   EventStreamAuthorizer,
 } from '@magek/common'
 import { MagekAuthorizer } from '../authorizer'
+import { isStage3MethodContext, Stage3MethodContext } from './stage3-utils'
 
 type EntityAttributes = EventStreamRoleAccess
 
@@ -72,27 +73,10 @@ function isEntityAttributes(param: EntityDecoratorParam): param is EntityAttribu
 /**
  * Stage 3 method decorator context
  */
-interface Stage3MethodContext {
-  kind: 'method'
-  name: string | symbol
-  static: boolean
-  private: boolean
-  metadata: Record<string | symbol, unknown>
-  addInitializer?: (initializer: () => void) => void
-}
 
 /**
  * Type guard to detect Stage 3 method decorator context
  */
-function isStage3MethodContext(arg: unknown): arg is Stage3MethodContext {
-  return (
-    arg !== null &&
-    typeof arg === 'object' &&
-    'kind' in arg &&
-    (arg as Stage3MethodContext).kind === 'method' &&
-    'name' in arg
-  )
-}
 
 /**
  * Decorator to register an entity class method as a reducer function

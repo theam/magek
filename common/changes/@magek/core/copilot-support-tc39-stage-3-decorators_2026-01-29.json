@@ -1,8 +1,8 @@
 {
   "changes": [
     {
-      "comment": "Add TC39 Stage 3 decorator support to all class decorators",
-      "type": "minor",
+      "comment": "Remove experimentalDecorators and update all decorators to Stage 3 only (breaking change)",
+      "type": "major",
       "packageName": "@magek/core"
     }
   ],

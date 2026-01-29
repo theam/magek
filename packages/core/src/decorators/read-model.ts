@@ -10,31 +10,8 @@ import {
 import { Magek } from '../magek'
 import { MagekAuthorizer } from '../authorizer'
 import { getClassMetadata } from './metadata'
-import { transferStage3FieldMetadata } from './stage3-utils'
+import { transferStage3FieldMetadata, isStage3ClassContext, Stage3ClassContext } from './stage3-utils'
 import { transferSequenceKeyMetadata } from './sequenced-by'
-
-/**
- * Stage 3 class decorator context
- */
-interface Stage3ClassContext {
-  kind: 'class'
-  name: string | undefined
-  metadata: Record<string | symbol, unknown>
-  addInitializer?: (initializer: () => void) => void
-}
-
-/**
- * Type guard to detect Stage 3 class decorator context
- */
-function isStage3ClassContext(arg: unknown): arg is Stage3ClassContext {
-  return (
-    arg !== null &&
-    typeof arg === 'object' &&
-    'kind' in arg &&
-    (arg as Stage3ClassContext).kind === 'class' &&
-    'metadata' in arg
-  )
-}
 
 /**
  * Decorator to register a class as a ReadModel
@@ -103,8 +80,8 @@ interface Stage3GetterContext {
   name: string | symbol
   static: boolean
   private: boolean
-  metadata: Record<string | symbol, unknown>
-  access?: { get: () => unknown }
+  metadata?: Record<string | symbol, unknown>
+  access?: unknown
   addInitializer?: (initializer: () => void) => void
 }
 
@@ -117,8 +94,7 @@ function isStage3GetterContext(arg: unknown): arg is Stage3GetterContext {
     typeof arg === 'object' &&
     'kind' in arg &&
     (arg as Stage3GetterContext).kind === 'getter' &&
-    'name' in arg &&
-    'metadata' in arg
+    'name' in arg
   )
 }
 
@@ -131,8 +107,10 @@ const CALCULATED_FIELDS_SYMBOL = Symbol.for('magek:calculatedFields')
  */
 function transferCalculatedFieldDependencies(
   classType: Function,
-  contextMetadata: Record<string | symbol, unknown>
+  contextMetadata?: Record<string | symbol, unknown>
 ): void {
+  if (!contextMetadata) return
+  
   const calculatedFields = contextMetadata[CALCULATED_FIELDS_SYMBOL] as Record<string, string[]> | undefined
   if (calculatedFields) {
     const existingDependencies =
@@ -159,11 +137,13 @@ export function CalculatedField(
       const propertyName = String(context.name)
 
       // Store in context.metadata for ReadModel decorator to pick up
-      if (!context.metadata[CALCULATED_FIELDS_SYMBOL]) {
-        context.metadata[CALCULATED_FIELDS_SYMBOL] = {}
+      if (context.metadata) {
+        if (!context.metadata[CALCULATED_FIELDS_SYMBOL]) {
+          context.metadata[CALCULATED_FIELDS_SYMBOL] = {}
+        }
+        const calculatedFields = context.metadata[CALCULATED_FIELDS_SYMBOL] as Record<string, string[]>
+        calculatedFields[propertyName] = options.dependsOn
       }
-      const calculatedFields = context.metadata[CALCULATED_FIELDS_SYMBOL] as Record<string, string[]>
-      calculatedFields[propertyName] = options.dependsOn
 
       // Also use addInitializer to set Reflect metadata
       if (context.addInitializer) {

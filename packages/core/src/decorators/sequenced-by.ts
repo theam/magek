@@ -13,8 +13,8 @@ interface Stage3FieldContext {
   name: string | symbol
   static: boolean
   private: boolean
-  metadata: Record<string | symbol, unknown>
-  access?: { get: () => unknown; set: (value: unknown) => void }
+  metadata?: Record<string | symbol, unknown>
+  access?: unknown
   addInitializer?: (initializer: () => void) => void
 }
 
@@ -27,8 +27,7 @@ function isStage3FieldContext(arg: unknown): arg is Stage3FieldContext {
     typeof arg === 'object' &&
     'kind' in arg &&
     (arg as Stage3FieldContext).kind === 'field' &&
-    'name' in arg &&
-    'metadata' in arg
+    'name' in arg
   )
 }
 
@@ -67,7 +66,9 @@ export function sequencedBy(
     const propertyName = String(context.name)
 
     // Store the sequence key in context.metadata for ReadModel decorator to pick up
-    context.metadata[SEQUENCE_KEY_SYMBOL] = propertyName
+    if (context.metadata) {
+      context.metadata[SEQUENCE_KEY_SYMBOL] = propertyName
+    }
 
     // Also use addInitializer to register immediately when class is defined
     if (context.addInitializer) {
@@ -103,8 +104,10 @@ export function sequencedBy(
  */
 export function transferSequenceKeyMetadata(
   classType: AnyClass,
-  contextMetadata: Record<string | symbol, unknown>
+  contextMetadata?: Record<string | symbol, unknown>
 ): void {
+  if (!contextMetadata) return
+  
   const sequenceKey = contextMetadata[SEQUENCE_KEY_SYMBOL] as string | undefined
   if (sequenceKey) {
     registerSequenceKey(classType, sequenceKey)

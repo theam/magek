@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Update @Field decorator to support Stage 3 decorators only (breaking change)",
+      "type": "major",
+      "packageName": "@magek/common"
+    }
+  ],
+  "packageName": "@magek/common",
+  "email": "198982749+Copilot@users.noreply.github.com"
+}

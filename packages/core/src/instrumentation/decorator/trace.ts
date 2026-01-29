@@ -10,7 +10,7 @@ interface Stage3MethodContext {
   name: string | symbol
   static: boolean
   private: boolean
-  metadata: Record<string | symbol, unknown>
+  metadata?: Record<string | symbol, unknown>
   addInitializer?: (initializer: () => void) => void
 }
 

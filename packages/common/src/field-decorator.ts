@@ -29,14 +29,15 @@ const FIELDS_KEY = Symbol.for('magek:fields')
 
 /**
  * Stage 3 decorator context for class fields (TypeScript 5.0+)
+ * This is a simplified version compatible with ClassFieldDecoratorContext
  */
 interface Stage3FieldContext {
   kind: 'field'
   name: string | symbol
   static: boolean
   private: boolean
-  metadata: Record<string | symbol, unknown>
-  access?: { get: () => unknown; set: (value: unknown) => void }
+  metadata?: Record<string | symbol, unknown>
+  access?: unknown // Simplified to avoid variance issues
   addInitializer?: (initializer: () => void) => void
 }
 
@@ -49,8 +50,7 @@ function isStage3Context(arg: unknown): arg is Stage3FieldContext {
     typeof arg === 'object' &&
     'kind' in arg &&
     (arg as Stage3FieldContext).kind === 'field' &&
-    'name' in arg &&
-    'metadata' in arg
+    'name' in arg
   )
 }
 
@@ -142,13 +142,15 @@ function handleStage3Decorator(
 
   // Store in context.metadata for later retrieval by class decorators
   // Class decorators (like @Command, @Entity, etc.) will transfer this to the class constructor
-  if (!context.metadata[FIELDS_KEY]) {
-    context.metadata[FIELDS_KEY] = []
+  if (context.metadata) {
+    if (!context.metadata[FIELDS_KEY]) {
+      context.metadata[FIELDS_KEY] = []
+    }
+    const fields = context.metadata[FIELDS_KEY] as FieldMetadata[]
+    const filteredFields = fields.filter((f) => f.name !== fieldMetadata.name)
+    filteredFields.push(fieldMetadata)
+    context.metadata[FIELDS_KEY] = filteredFields
   }
-  const fields = context.metadata[FIELDS_KEY] as FieldMetadata[]
-  const filteredFields = fields.filter((f) => f.name !== fieldMetadata.name)
-  filteredFields.push(fieldMetadata)
-  context.metadata[FIELDS_KEY] = filteredFields
 }
 
 /**

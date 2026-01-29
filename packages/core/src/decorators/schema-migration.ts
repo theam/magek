@@ -11,7 +11,7 @@ interface Stage3MethodContext {
   name: string | symbol
   static: boolean
   private: boolean
-  metadata: Record<string | symbol, unknown>
+  metadata?: Record<string | symbol, unknown>
   addInitializer?: (initializer: () => void) => void
 }
 
@@ -21,7 +21,7 @@ interface Stage3MethodContext {
 interface Stage3ClassContext {
   kind: 'class'
   name: string | undefined
-  metadata: Record<string | symbol, unknown>
+  metadata?: Record<string | symbol, unknown>
   addInitializer?: (initializer: () => void) => void
 }
 
@@ -69,13 +69,17 @@ export function SchemaMigration(
 
       if (isStage3ClassContext(context)) {
         // Stage 3: read from context.metadata
-        migrationMethodsMetadata =
-          (context.metadata[MIGRATIONS_METADATA_KEY] as Array<SchemaMigrationMetadata>) || []
-        // Update each metadata entry with the actual class reference
-        migrationMethodsMetadata = migrationMethodsMetadata.map((m) => ({
-          ...m,
-          migrationClass: schemaMigrationClass,
-        }))
+        if (context.metadata) {
+          migrationMethodsMetadata =
+            (context.metadata[MIGRATIONS_METADATA_KEY] as Array<SchemaMigrationMetadata>) || []
+          // Update each metadata entry with the actual class reference
+          migrationMethodsMetadata = migrationMethodsMetadata.map((m) => ({
+            ...m,
+            migrationClass: schemaMigrationClass,
+          }))
+        } else {
+          migrationMethodsMetadata = []
+        }
       } else {
         // Legacy: read from Reflect.getMetadata
         migrationMethodsMetadata = getMigrationMethods(schemaMigrationClass)
@@ -145,23 +149,25 @@ export function ToVersion<TOldSchema, TNewSchema>(
       // Stage 3 decorator - store in context.metadata so @SchemaMigration can read it
       const context = propertyNameOrContext
 
-      // Get or initialize the migrations array in context.metadata
-      let migrationMethods = context.metadata[MIGRATIONS_METADATA_KEY] as
-        | Array<SchemaMigrationMetadata>
-        | undefined
-      if (!migrationMethods) {
-        migrationMethods = []
-        context.metadata[MIGRATIONS_METADATA_KEY] = migrationMethods
-      }
+      if (context.metadata) {
+        // Get or initialize the migrations array in context.metadata
+        let migrationMethods = context.metadata[MIGRATIONS_METADATA_KEY] as
+          | Array<SchemaMigrationMetadata>
+          | undefined
+        if (!migrationMethods) {
+          migrationMethods = []
+          context.metadata[MIGRATIONS_METADATA_KEY] = migrationMethods
+        }
 
-      // Add this migration (migrationClass will be set by @SchemaMigration)
-      migrationMethods.push({
-        migrationClass: undefined as unknown as AnyClass, // Will be set by @SchemaMigration
-        methodName: context.name.toString(),
-        toVersion,
-        fromSchema: props.fromSchema,
-        toSchema: props.toSchema,
-      })
+        // Add this migration (migrationClass will be set by @SchemaMigration)
+        migrationMethods.push({
+          migrationClass: undefined as unknown as AnyClass, // Will be set by @SchemaMigration
+          methodName: context.name.toString(),
+          toVersion,
+          fromSchema: props.fromSchema,
+          toSchema: props.toSchema,
+        })
+      }
 
       // Also store in Reflect metadata for the standalone test case
       if (context.addInitializer) {

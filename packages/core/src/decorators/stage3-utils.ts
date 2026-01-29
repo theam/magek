@@ -9,7 +9,19 @@ const FIELDS_KEY = Symbol.for('magek:fields')
 export interface Stage3ClassContext {
   kind: 'class'
   name: string | undefined
-  metadata: Record<string | symbol, unknown>
+  metadata?: Record<string | symbol, unknown>
+  addInitializer?: (initializer: () => void) => void
+}
+
+/**
+ * Stage 3 method decorator context
+ */
+export interface Stage3MethodContext {
+  kind: 'method'
+  name: string | symbol
+  static: boolean
+  private: boolean
+  metadata?: Record<string | symbol, unknown>
   addInitializer?: (initializer: () => void) => void
 }
 
@@ -21,8 +33,20 @@ export function isStage3ClassContext(arg: unknown): arg is Stage3ClassContext {
     arg !== null &&
     typeof arg === 'object' &&
     'kind' in arg &&
-    (arg as Stage3ClassContext).kind === 'class' &&
-    'metadata' in arg
+    (arg as Stage3ClassContext).kind === 'class'
+  )
+}
+
+/**
+ * Type guard to detect Stage 3 method decorator context
+ */
+export function isStage3MethodContext(arg: unknown): arg is Stage3MethodContext {
+  return (
+    arg !== null &&
+    typeof arg === 'object' &&
+    'kind' in arg &&
+    (arg as Stage3MethodContext).kind === 'method' &&
+    'name' in arg
   )
 }
 
@@ -33,8 +57,10 @@ export function isStage3ClassContext(arg: unknown): arg is Stage3ClassContext {
  */
 export function transferStage3FieldMetadata(
   classType: Function,
-  contextMetadata: Record<string | symbol, unknown>
+  contextMetadata?: Record<string | symbol, unknown>
 ): void {
+  if (!contextMetadata) return
+  
   const fields = contextMetadata[FIELDS_KEY] as FieldMetadata[] | undefined
   if (fields && fields.length > 0) {
     const ctorWithFields = classType as { __magek_fields__?: FieldMetadata[] }

@@ -14,7 +14,7 @@ interface Stage3FieldContext {
   name: string | symbol
   static: boolean
   private: boolean
-  metadata: Record<string | symbol, unknown>
+  metadata?: Record<string | symbol, unknown>
   addInitializer?: (initializer: () => void) => void
 }
 
@@ -43,9 +43,9 @@ const PARTITION_KEY_SYMBOL = Symbol.for('magek:partitionKey')
  */
 export const Notification =
   <TEvent extends NotificationInterface>(options?: NotificationOptions) =>
-  (eventClass: Class<TEvent>, context?: { kind: 'class'; metadata: Record<string | symbol, unknown> }): void => {
+  (eventClass: Class<TEvent>, context?: { kind: 'class'; metadata?: Record<string | symbol, unknown> }): void => {
     // Handle Stage 3: transfer partition key from context.metadata to config
-    if (context && context.kind === 'class' && context.metadata[PARTITION_KEY_SYMBOL]) {
+    if (context && context.kind === 'class' && context.metadata && context.metadata[PARTITION_KEY_SYMBOL]) {
       const propertyName = context.metadata[PARTITION_KEY_SYMBOL] as string
       Magek.configureCurrentEnv((config): void => {
         config.partitionKeys[eventClass.name] = propertyName
@@ -85,7 +85,9 @@ export function partitionKey(
     const context = propertyKeyOrContext
     const propertyName = String(context.name)
     // Store in context.metadata so @Notification can read it
-    context.metadata[PARTITION_KEY_SYMBOL] = propertyName
+    if (context.metadata) {
+      context.metadata[PARTITION_KEY_SYMBOL] = propertyName
+    }
     return
   }
 

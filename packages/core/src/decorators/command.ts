@@ -7,30 +7,7 @@ import {
 } from '@magek/common'
 import { getClassMetadata } from './metadata'
 import { MagekAuthorizer } from '../authorizer'
-import { transferStage3FieldMetadata } from './stage3-utils'
-
-/**
- * Stage 3 class decorator context
- */
-interface Stage3ClassContext {
-  kind: 'class'
-  name: string | undefined
-  metadata: Record<string | symbol, unknown>
-  addInitializer?: (initializer: () => void) => void
-}
-
-/**
- * Type guard to detect Stage 3 class decorator context
- */
-function isStage3ClassContext(arg: unknown): arg is Stage3ClassContext {
-  return (
-    arg !== null &&
-    typeof arg === 'object' &&
-    'kind' in arg &&
-    (arg as Stage3ClassContext).kind === 'class' &&
-    'metadata' in arg
-  )
-}
+import { transferStage3FieldMetadata, isStage3ClassContext, Stage3ClassContext } from './stage3-utils'
 
 /**
  * Decorator to mark a class as a Magek Command.
