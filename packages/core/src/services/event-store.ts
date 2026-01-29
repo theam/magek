@@ -163,7 +163,7 @@ export class EventStore {
   private async entityReducer(
     eventEnvelope: EventEnvelope,
     latestSnapshot?: NonPersistedEntitySnapshotEnvelope
-  ): Promise<NonPersistedEntitySnapshotEnvelope | ReducerAction | undefined> {
+  ): Promise<NonPersistedEntitySnapshotEnvelope | ReducerAction> {
     const logger = getLogger(this.config, 'entityReducer')
     logger.debug('Calling reducer with event: ', eventEnvelope, ' and entity snapshot ', latestSnapshot)
     if (this.shouldReduceMagekSuperKind(eventEnvelope)) {
@@ -244,7 +244,7 @@ export class EventStore {
   private async reduceSuperKind(
     eventEnvelope: EventEnvelope,
     latestSnapshot?: NonPersistedEntitySnapshotEnvelope
-  ): Promise<NonPersistedEntitySnapshotEnvelope | undefined> {
+  ): Promise<NonPersistedEntitySnapshotEnvelope | ReducerAction> {
     if (eventEnvelope.typeName === MagekEntityTouched.name) {
       return this.reduceEntityTouched(eventEnvelope, latestSnapshot)
     }
@@ -262,12 +262,12 @@ export class EventStore {
   private reduceEntityTouched(
     eventEnvelope: EventEnvelope,
     latestSnapshot: NonPersistedEntitySnapshotEnvelope | undefined
-  ): NonPersistedEntitySnapshotEnvelope | undefined {
+  ): NonPersistedEntitySnapshotEnvelope | ReducerAction {
     const logger = getLogger(this.config, 'EventStore#reduceEntityTouched')
     logger.debug('Reducing ', eventEnvelope, ' with latestSnapshot')
     if (!latestSnapshot) {
-      logger.debug('Latest snapshot not found, returning')
-      return
+      logger.debug('Latest snapshot not found, returning Skip')
+      return ReducerAction.Skip
     }
 
     const event = eventEnvelope.value as MagekEntityTouched
