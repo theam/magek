@@ -102,6 +102,50 @@ export class Cart {
 
 > **Tip:** It's highly recommended to **keep your reducer functions pure**, which means that you should be able to produce the new entity version by just looking at the event and the current entity state. You should avoid calling third party services, reading or writing to a database, or changing any external state.
 
+### Skipping Events with ReducerAction.Skip
+
+Sometimes a reducer may need to skip an event instead of updating the entity state. This can happen when:
+- Receiving an update event for an entity that doesn't exist
+- Processing an event that is no longer relevant
+- Handling events that should be ignored under certain conditions
+
+To skip an event, return `ReducerAction.Skip` from your reducer. This tells Magek to keep the current entity state unchanged:
+
+```typescript title="src/entities/product.ts"
+import { ReducerAction, ReducerResult } from '@magek/common'
+
+@Entity
+export class Product {
+  @Field(type => UUID)
+  public id!: UUID
+
+  @Field()
+  readonly name!: string
+
+  @Field()
+  readonly price!: number
+
+  @Reduces(ProductUpdated)
+  public static reduceProductUpdated(
+    event: ProductUpdated,
+    currentProduct?: Product
+  ): ReducerResult<Product> {
+    if (!currentProduct) {
+      // Can't update a non-existent product - skip this event
+      return ReducerAction.Skip
+    }
+    return new Product(currentProduct.id, event.newName, event.newPrice)
+  }
+}
+```
+
+When a reducer returns `ReducerAction.Skip`, the framework will:
+- Keep the previous entity snapshot unchanged
+- Continue processing subsequent events in the event stream
+- Not store a new snapshot for this event
+
+> **Note:** `ReducerAction.Skip` should be used sparingly and only for events that genuinely should not affect entity state. In most cases, properly designed events and reducers won't need to skip events.
+
 There could be a lot of events being reduced concurrently among many entities, but, **for a specific entity instance, the events order is preserved**. This means that while one event is being reduced, all other events of any kind _that belong to the same entity instance_ will be waiting in a queue until the previous reducer has finished. This is how Magek guarantees that the entity state is consistent.
 
 ![reducer process gif](/img/reducer.gif)

@@ -191,7 +191,7 @@ export class CarPurchasesReadModel {
     oldCarPurchaseReadModel?: CarPurchasesReadModel
   ): ProjectionResult<CarPurchasesReadModel> {
     if (!readModelId) {
-      return ReadModelAction.Nothing
+      return ProjectionAction.Skip
     }
     return evolve(oldCarPurchaseReadModel, {
       id: readModelId,
@@ -217,7 +217,7 @@ Projections usually return a new instance of the read model. However, there are 
 
 #### Deleting read models
 
-One of the most common cases is when you want to delete a read model. For example, if you have a `UserReadModel` that projects the `User` entity, you may want to delete the read model when the user is deleted. In this case you can return the `ReadModelAction.Delete` value:
+One of the most common cases is when you want to delete a read model. For example, if you have a `UserReadModel` that projects the `User` entity, you may want to delete the read model when the user is deleted. In this case you can return the `ProjectionAction.Delete` value:
 
 ```typescript
 @ReadModel({
@@ -241,9 +241,9 @@ export class UserReadModel {
 
 > **Info:** Deleting a read model is a very expensive operation. It will trigger a write operation in the read model store. If you can, try to avoid deleting read models.
 
-#### Keeping read models untouched
+#### Skipping read model updates
 
-Another common case is when you want to keep the read model untouched. For example, if you have a `UserReadModel` that projects the `User` entity, you may want to keep the read model untouched there are no releveant changes to your read model. In this case you can return the `ReadModelAction.Nothing` value:
+Another common case is when you want to keep the read model untouched. For example, if you have a `UserReadModel` that projects the `User` entity, you may want to skip updating the read model when there are no relevant changes. In this case you can return the `ProjectionAction.Skip` value:
 
 ```typescript
 @ReadModel({
@@ -265,7 +265,7 @@ export class UserReadModel {
   }
 ```
 
-> **Info:** Keeping the read model untouched higly recommended in favour of returning a new instance of the read model with the same data. This will not only prevent a new write operation in the database, making your application more efficient. It will also prevent an unnecessary update to be dispatched to any GrahpQL clients subscribed to that read model.
+> **Info:** Skipping the read model update is highly recommended in favour of returning a new instance of the read model with the same data. This will not only prevent a new write operation in the database, making your application more efficient. It will also prevent an unnecessary update to be dispatched to any GraphQL clients subscribed to that read model.
 
 ## Nested queries and calculated values using getters
 
