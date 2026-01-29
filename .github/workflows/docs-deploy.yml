@@ -1,14 +1,8 @@
 name: Deploy Documentation to GitHub Pages
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'packages/*/src/**'
-      - 'docs/**'
-      - 'README.md'
-      - '.github/workflows/docs-deploy.yml'
+  # Documentation is now deployed as part of the publish workflow
+  # This workflow can be used for manual testing or emergency fixes
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages

@@ -42,6 +42,7 @@
     "includeFolders": false
   },
   "customCss": "./custom.css",
+  "customJs": "./version-selector.js",
   "plugin": [
     "typedoc-plugin-merge-modules",
     "./custom-theme.mjs"

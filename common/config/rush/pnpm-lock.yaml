@@ -236,8 +236,8 @@ importers:
         specifier: 6.2.36
         version: 6.2.36
       '@oclif/plugin-plugins':
-        specifier: 5.4.54
-        version: 5.4.54
+        specifier: 5.4.55
+        version: 5.4.55
       chalk:
         specifier: 5.6.2
         version: 5.6.2
@@ -273,8 +273,8 @@ importers:
         specifier: workspace:^0.0.6
         version: link:../../tools/eslint-config
       '@oclif/test':
-        specifier: 4.1.15
-        version: 4.1.15(@oclif/core@4.8.0)
+        specifier: 4.1.16
+        version: 4.1.16(@oclif/core@4.8.0)
       '@types/chai':
         specifier: 5.2.3
         version: 5.2.3
@@ -588,8 +588,8 @@ importers:
         specifier: 5.7.2
         version: 5.7.2
       fastify-sse-v2:
-        specifier: 4.2.1
-        version: 4.2.1(fastify@5.7.2)
+        specifier: 4.2.2
+        version: 4.2.2(fastify@5.7.2)
       node-schedule:
         specifier: 2.1.1
         version: 2.1.1
@@ -1213,12 +1213,12 @@ packages:
     resolution: {integrity: sha512-NBQIg5hEMhvdbi4mSrdqRGl5XJ0bqTAHq6vDCCCDXUcfVtdk3ZJbSxtRVWyVvo9E28vwqu6MZyHOJylevqcHbA==}
     engines: {node: '>=18.0.0'}
 
-  '@oclif/plugin-plugins@5.4.54':
-    resolution: {integrity: sha512-yzdukEfvvyXx31AhN+YhxLhuQdx2SrZDcRtPl5CNkuqh/uNSB2BuA3xpurdv2qotpaw/Z9InRl+Sa9bLp/4aLA==}
+  '@oclif/plugin-plugins@5.4.55':
+    resolution: {integrity: sha512-Dmcryvss0CJwaGSVimhIcnWfQto1rAMA5nMN6v6syrOhR76ygw2X7YWvkI6PXCFB/aekT2LJeQHy9Hl/OQJiYQ==}
     engines: {node: '>=18.0.0'}
 
-  '@oclif/test@4.1.15':
-    resolution: {integrity: sha512-OVTmz3RxnOWYPoE9sbB9Przfph+QSLMvHUfqEwXZKupuOHCJAJX0QDUfVyh1pK+XYEQ2RUaF+qhxqBfIfaahBw==}
+  '@oclif/test@4.1.16':
+    resolution: {integrity: sha512-LPrF++WGGBE0pe3GUkzEteI5WrwTT7usGpIMSxkyJhYnFXKkwASyTcCmOhNH4QC65kqsLt1oBA88BMkCJqPtxg==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       '@oclif/core': '>= 3.0.0'
@@ -2110,8 +2110,8 @@ packages:
   fastify-plugin@5.1.0:
     resolution: {integrity: sha512-FAIDA8eovSt5qcDgcBvDuX/v0Cjz0ohGhENZ/wpc3y+oZCY2afZ9Baqql3g/lC+OHRnciQol4ww7tuthOb9idw==}
 
-  fastify-sse-v2@4.2.1:
-    resolution: {integrity: sha512-VDUgAUpu+v+WsbAjcdiG7yB9zHhL64gHSN3mneiXB12nsC2QlCw+e0W97BfLApbSYcEgEz4J+1dqO2YmVqRbRw==}
+  fastify-sse-v2@4.2.2:
+    resolution: {integrity: sha512-/XFZ7uyc/9C6ANabIs2bwymS0d3B2ZiJEcu4r/czpqYOEVSn+znKNrx0TraHPZkdhy2v0QNpIdYbgeLHBixMeA==}
     peerDependencies:
       fastify: '>=4'
 
@@ -4332,7 +4332,7 @@ snapshots:
     dependencies:
       '@oclif/core': 4.8.0
 
-  '@oclif/plugin-plugins@5.4.54':
+  '@oclif/plugin-plugins@5.4.55':
     dependencies:
       '@oclif/core': 4.8.0
       ansis: 3.17.0
@@ -4348,7 +4348,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@oclif/test@4.1.15(@oclif/core@4.8.0)':
+  '@oclif/test@4.1.16(@oclif/core@4.8.0)':
     dependencies:
       '@oclif/core': 4.8.0
       ansis: 3.17.0
@@ -5374,7 +5374,7 @@ snapshots:
 
   fastify-plugin@5.1.0: {}
 
-  fastify-sse-v2@4.2.1(fastify@5.7.2):
+  fastify-sse-v2@4.2.2(fastify@5.7.2):
     dependencies:
       fastify: 5.7.2
       fastify-plugin: 4.5.1
