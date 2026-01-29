@@ -436,8 +436,8 @@ importers:
         specifier: 9.0.3
         version: 9.0.3
       jwks-rsa:
-        specifier: 3.2.1
-        version: 3.2.1
+        specifier: 3.2.2
+        version: 3.2.2
       tslib:
         specifier: 2.8.1
         version: 2.8.1
@@ -2659,8 +2659,8 @@ packages:
   jwa@2.0.1:
     resolution: {integrity: sha512-hRF04fqJIP8Abbkq5NKGN0Bbr3JxlQ+qhZufXVr0DvujKy93ZCbXZMHDL4EOtodSbCWxOqR8MS1tXA5hwqCXDg==}
 
-  jwks-rsa@3.2.1:
-    resolution: {integrity: sha512-r7QdN9TdqI6aFDFZt+GpAqj5yRtMUv23rL2I01i7B8P2/g8F0ioEN6VeSObKgTLs4GmmNJwP9J7Fyp/AYDBGRg==}
+  jwks-rsa@3.2.2:
+    resolution: {integrity: sha512-BqTyEDV+lS8F2trk3A+qJnxV5Q9EqKCBJOPti3W97r7qTympCZjb7h2X6f2kc+0K3rsSTY1/6YG2eaXKoj497w==}
     engines: {node: '>=14'}
 
   jws@4.0.1:
@@ -5926,7 +5926,7 @@ snapshots:
       ecdsa-sig-formatter: 1.0.11
       safe-buffer: 5.2.1
 
-  jwks-rsa@3.2.1:
+  jwks-rsa@3.2.2:
     dependencies:
       '@types/jsonwebtoken': 9.0.10
       debug: 4.4.3(supports-color@8.1.1)
