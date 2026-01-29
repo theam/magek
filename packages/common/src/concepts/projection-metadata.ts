@@ -19,17 +19,3 @@ export enum ProjectionAction {
   Skip,
   Delete,
 }
-
-/**
- * @deprecated Use ProjectionAction instead
- */
-export enum ReadModelAction {
-  /**
-   * @deprecated Use ProjectionAction.Delete instead
-   */
-  Delete = ProjectionAction.Delete,
-  /**
-   * @deprecated Use ProjectionAction.Skip instead
-   */
-  Nothing = ProjectionAction.Skip,
-}
