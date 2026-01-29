@@ -67,6 +67,8 @@ jobs:
     if: needs.check-changes.outputs.has_changes == 'true'
     runs-on: ubuntu-latest
     environment: npm-publish
+    outputs:
+      version: ${{ steps.bump.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -150,51 +152,9 @@ jobs:
           tag_name: v${{ steps.bump.outputs.version }}
           generate_release_notes: true
 
-      - name: Build landing page
-        run: |
-          VERSION=${{ steps.bump.outputs.version }}
-          echo "Building landing page with documentation link to v${VERSION}"
-          npm install marked
-          node scripts/build-landing-page.js $VERSION
-
-      - name: Build versioned documentation
-        run: |
-          VERSION=${{ steps.bump.outputs.version }}
-          echo "Building documentation for version $VERSION"
-
-          # Build documentation
-          rush docs:build
-
-          # Move built docs to versioned folder
-          mkdir -p common/temp/versioned-docs/v${VERSION}
-          mv common/temp/docs-site/* common/temp/versioned-docs/v${VERSION}/
-
-      - name: Checkout gh-pages branch
-        uses: actions/checkout@v6
-        with:
-          ref: gh-pages
-          path: gh-pages
-          # Use default token - gh-pages branch should exist
-
-      - name: Update gh-pages with new version
-        run: |
-          VERSION=${{ steps.bump.outputs.version }}
-
-          # Copy landing page to root (replaces existing redirect)
-          cp common/temp/landing-page/index.html gh-pages/index.html
-
-          # Copy new version folder
-          cp -r common/temp/versioned-docs/v${VERSION} gh-pages/v${VERSION}
-
-          # Update versions.json manifest
-          node scripts/update-versions-manifest.js gh-pages/versions.json $VERSION
-
-      - name: Commit and push to gh-pages
-        run: |
-          VERSION=${{ steps.bump.outputs.version }}
-          cd gh-pages
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git commit -m "docs: publish v${VERSION} documentation"
-          git push origin gh-pages
+  # Deploy documentation after successful publish
+  deploy-docs:
+    needs: publish
+    uses: ./.github/workflows/docs-deploy.yml
+    with:
+      version: ${{ needs.publish.outputs.version }}
