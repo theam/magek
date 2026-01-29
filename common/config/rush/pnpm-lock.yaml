@@ -436,8 +436,8 @@ importers:
         specifier: 9.0.3
         version: 9.0.3
       jwks-rsa:
-        specifier: 3.2.1
-        version: 3.2.1
+        specifier: 3.2.2
+        version: 3.2.2
       tslib:
         specifier: 2.8.1
         version: 2.8.1
@@ -585,11 +585,11 @@ importers:
         specifier: 4.1.2
         version: 4.1.2
       fastify:
-        specifier: 5.7.1
-        version: 5.7.1
+        specifier: 5.7.2
+        version: 5.7.2
       fastify-sse-v2:
         specifier: 4.2.1
-        version: 4.2.1(fastify@5.7.1)
+        version: 4.2.1(fastify@5.7.2)
       node-schedule:
         specifier: 2.1.1
         version: 2.1.1
@@ -2115,8 +2115,8 @@ packages:
     peerDependencies:
       fastify: '>=4'
 
-  fastify@5.7.1:
-    resolution: {integrity: sha512-ZW7S4fxlZhE+tYWVokFzjh+i56R+buYKNGhrVl6DtN8sxkyMEzpJnzvO8A/ZZrsg5w6X37u6I4EOQikYS5DXpA==}
+  fastify@5.7.2:
+    resolution: {integrity: sha512-dBJolW+hm6N/yJVf6J5E1BxOBNkuXNl405nrfeR8SpvGWG3aCC2XDHyiFBdow8Win1kj7sjawQc257JlYY6M/A==}
 
   fastq@1.19.1:
     resolution: {integrity: sha512-GwLTyxkCXjXbxqIhTsMI2Nui8huMPtnxg7krajPJAjnEG/iiOS7i+zCtWGZR9G0NBKbXKh6X9m9UIsYX/N6vvQ==}
@@ -2659,8 +2659,8 @@ packages:
   jwa@2.0.1:
     resolution: {integrity: sha512-hRF04fqJIP8Abbkq5NKGN0Bbr3JxlQ+qhZufXVr0DvujKy93ZCbXZMHDL4EOtodSbCWxOqR8MS1tXA5hwqCXDg==}
 
-  jwks-rsa@3.2.1:
-    resolution: {integrity: sha512-r7QdN9TdqI6aFDFZt+GpAqj5yRtMUv23rL2I01i7B8P2/g8F0ioEN6VeSObKgTLs4GmmNJwP9J7Fyp/AYDBGRg==}
+  jwks-rsa@3.2.2:
+    resolution: {integrity: sha512-BqTyEDV+lS8F2trk3A+qJnxV5Q9EqKCBJOPti3W97r7qTympCZjb7h2X6f2kc+0K3rsSTY1/6YG2eaXKoj497w==}
     engines: {node: '>=14'}
 
   jws@4.0.1:
@@ -5374,14 +5374,14 @@ snapshots:
 
   fastify-plugin@5.1.0: {}
 
-  fastify-sse-v2@4.2.1(fastify@5.7.1):
+  fastify-sse-v2@4.2.1(fastify@5.7.2):
     dependencies:
-      fastify: 5.7.1
+      fastify: 5.7.2
       fastify-plugin: 4.5.1
       it-pushable: 1.4.2
       it-to-stream: 1.0.0
 
-  fastify@5.7.1:
+  fastify@5.7.2:
     dependencies:
       '@fastify/ajv-compiler': 4.0.5
       '@fastify/error': 4.2.0
@@ -5926,7 +5926,7 @@ snapshots:
       ecdsa-sig-formatter: 1.0.11
       safe-buffer: 5.2.1
 
-  jwks-rsa@3.2.1:
+  jwks-rsa@3.2.2:
     dependencies:
       '@types/jsonwebtoken': 9.0.10
       debug: 4.4.3(supports-color@8.1.1)

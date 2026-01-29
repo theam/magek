@@ -30,8 +30,8 @@
     "@fastify/cors": "11.2.0",
     "@fastify/websocket": "11.2.0",
     "@seald-io/nedb": "4.1.2",
-    "fastify": "5.7.1",
-    "fastify-sse-v2": "4.2.1",
+    "fastify": "5.7.2",
+    "fastify-sse-v2": "4.2.2",
     "node-schedule": "2.1.1",
     "tslib": "2.8.1"
   },

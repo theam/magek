@@ -246,17 +246,28 @@ Finally, **always use exact numbers for dependency versions**. This means that i
 Unit tests are executed when you type `rush test`. If you want to run the unit tests for a specific package, you should move to the corresponding package folder and run `rushx test` there.
 
 
-Once the PR is merged, the CICD process will publish the latest changes to NPM. When this finishes, as a maintainer, make sure to create a new GitHub release in the [releases page](https://github.com/theam/magek/releases):
+### Creating a Release
 
-![Screenshot 2023-04-19 at 12 23 01](https://user-images.githubusercontent.com/7448243/233060277-d3cdcdbb-29ee-4fab-95d8-0e122bac9ab6.png)
+Releases are triggered manually via GitHub Actions workflow dispatch. This gives maintainers full control over when releases happen.
 
-In the release creation screen select the "Choose a tag" dropdown, and type a tag in the format `vA.B.C` (e.g `v1.8.0`) with a version that matches the project version that has been published (you can find this info in the `package.json` file under any folder in the `packages` directory) and click on "Create new tag"
+**To create a release:**
 
-![Screenshot 2023-04-19 at 12 24 28](https://user-images.githubusercontent.com/7448243/233060995-9475fa93-110f-44f5-8077-63ec90aea011.png)
+1. Ensure all PRs with changes have been merged to `main` and include change files (generated via `rush change`)
 
-Then name the release in the same way as your newly created tag, and click on "Generate release notes".
+2. Go to [GitHub Actions → "Publish to npm"](https://github.com/theam/magek/actions/workflows/publish.yml)
 
-Publish the release (not as draft!) and you're good to go.
+3. Click "Run workflow" and choose:
+   - **Leave version empty**: Uses `rush change` files to automatically determine version bumps
+   - **Specify a version** (e.g., `1.0.0`): Overrides automatic version detection
+
+4. The workflow will:
+   - Check for publishable changes
+   - Bump versions in all packages
+   - Build and test
+   - Publish to npm
+   - Create a GitHub Release with auto-generated release notes
+
+**Note:** If no publishable change files exist (or all changes are `type: none`), the workflow will skip publishing to prevent empty releases.
 
 ### Branch naming conventions
 
