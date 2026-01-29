@@ -1,12 +1,351 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="refresh" content="0;url=latest/">
-    <link rel="canonical" href="latest/">
-    <title>Magek Documentation</title>
-  </head>
-  <body>
-    <p>Redirecting to <a href="latest/">latest documentation</a>...</p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magek Framework - Build AI-Native Backends with Event-Driven Intelligence</title>
+  <meta name="description" content="A framework for building intelligent, agentic applications with event sourcing, swarming agents, and LLM integrations.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#10024;</text></svg>">
+  <style>
+    :root {
+      --color-primary: #6545f5;
+      --color-primary-light: #8a6df7;
+      --color-primary-dark: #4a30c9;
+      --color-background: #1a1a2e;
+      --color-background-secondary: #16162a;
+      --color-text: #f0f0f0;
+      --color-text-muted: #a0a0b0;
+      --color-accent-yellow: #fbd248;
+      --color-accent-pink: #e95a85;
+      --color-accent-purple: #b752b0;
+      --max-width: 900px;
+      --nav-height: 60px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background-color: var(--color-background);
+      color: var(--color-text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Navigation */
+    .landing-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-height);
+      background: var(--color-background-secondary);
+      border-bottom: 1px solid rgba(101, 69, 245, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--color-text);
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+
+    .nav-logo img {
+      height: 32px;
+      width: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      color: var(--color-text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--color-text);
+    }
+
+    .docs-link {
+      background: var(--color-primary);
+      color: var(--color-text) !important;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: 500;
+      transition: background 0.2s ease !important;
+    }
+
+    .docs-link:hover {
+      background: var(--color-primary-light) !important;
+    }
+
+    /* Main content */
+    .readme-content {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: calc(var(--nav-height) + 2rem) 2rem 4rem;
+    }
+
+    /* Hide first H1 (title) since logo shows it */
+    .readme-content > h1:first-child {
+      display: none;
+    }
+
+    /* Logo image styling */
+    .readme-content > p:first-of-type img,
+    .readme-content > h1:first-child + p img {
+      max-width: 300px;
+      height: auto;
+      margin: 1rem 0 2rem;
+    }
+
+    /* Headings */
+    .readme-content h1 {
+      font-size: 2.5rem;
+      margin: 2.5rem 0 1rem;
+      color: var(--color-text);
+      border-bottom: 2px solid var(--color-primary);
+      padding-bottom: 0.5rem;
+    }
+
+    .readme-content h2 {
+      font-size: 1.75rem;
+      margin: 2rem 0 1rem;
+      color: var(--color-text);
+    }
+
+    .readme-content h3 {
+      font-size: 1.25rem;
+      margin: 1.5rem 0 0.75rem;
+      color: var(--color-text-muted);
+    }
+
+    /* Paragraphs and text */
+    .readme-content p {
+      margin: 1rem 0;
+      color: var(--color-text-muted);
+    }
+
+    .readme-content blockquote {
+      border-left: 4px solid var(--color-primary);
+      padding-left: 1rem;
+      margin: 1.5rem 0;
+      font-style: italic;
+      color: var(--color-text-muted);
+    }
+
+    /* Links */
+    .readme-content a {
+      color: var(--color-primary-light);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .readme-content a:hover {
+      color: var(--color-accent-yellow);
+      text-decoration: underline;
+    }
+
+    /* Lists */
+    .readme-content ul,
+    .readme-content ol {
+      margin: 1rem 0;
+      padding-left: 1.5rem;
+    }
+
+    .readme-content li {
+      margin: 0.5rem 0;
+      color: var(--color-text-muted);
+    }
+
+    /* Code */
+    .readme-content code {
+      background: var(--color-background-secondary);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+      font-size: 0.9em;
+      color: var(--color-accent-pink);
+    }
+
+    .readme-content pre {
+      background: var(--color-background-secondary);
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border: 1px solid rgba(101, 69, 245, 0.2);
+    }
+
+    .readme-content pre code {
+      background: none;
+      padding: 0;
+      color: var(--color-text);
+    }
+
+    /* Horizontal rule */
+    .readme-content hr {
+      border: none;
+      border-top: 1px solid rgba(101, 69, 245, 0.3);
+      margin: 2rem 0;
+    }
+
+    /* Strong text */
+    .readme-content strong {
+      color: var(--color-text);
+      font-weight: 600;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .landing-nav {
+        padding: 0 1rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .nav-links a:not(.docs-link) {
+        display: none;
+      }
+
+      .readme-content {
+        padding: calc(var(--nav-height) + 1rem) 1rem 2rem;
+      }
+
+      .readme-content h1 {
+        font-size: 2rem;
+      }
+
+      .readme-content h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="landing-nav">
+    <a href="/" class="nav-logo">
+      <img src="v0.0.6/media/magek-logo.svg" alt="Magek" onerror="this.parentElement.textContent='Magek'">
+    </a>
+    <div class="nav-links">
+      <a href="https://github.com/theam/magek">GitHub</a>
+      <a href="/magek/v0.0.6/" class="docs-link">Documentation</a>
+    </div>
+  </nav>
+  <main class="readme-content">
+<h1>✨ Magek — Build AI-Native Backends with Event-Driven Intelligence</h1>
+<p><img src="docs/content/magek-logo.svg" alt="Magek Framework"></p>
+<blockquote>
+<p>A framework for building intelligent, agentic applications with event sourcing, swarming agents, and LLM integrations — cloud-agnostic and fully open source.</p>
+</blockquote>
+<hr>
+<h2>🧠 What is Magek?</h2>
+<p><strong>Magek</strong> is an open-source framework for building modern backends designed for <strong>AI-native applications</strong>. It helps you structure your code using <strong>event sourcing</strong>, run <strong>ambient agents</strong> that operate continuously, and plug into <strong>LLMs, vector databases</strong>, and <strong>retrieval systems</strong> — all from a single, unified developer experience.</p>
+<p>Magek was born as a fork and deep refactor of the <a href="https://github.com/boostercloud/booster">Booster Framework</a>, a production-ready event-sourced backend framework. With Magek, we&#39;re taking those solid foundations and bringing them into the age of intelligent, agentic applications.</p>
+<p>Whether you&#39;re building a data ingestion pipeline for LLMs, a Slack agent swarm for your team, or a full RAG-powered assistant with real-time memory and insight — Magek gives you the primitives to do it.</p>
+<hr>
+<h2>⚡ Key Concepts</h2>
+<p>Magek applications revolve around <strong>events</strong>. These are facts that describe what happened in your system. From there, the rest emerges:</p>
+<ul>
+<li><strong>Commands</strong> – requests from users or agents that trigger intent</li>
+<li><strong>Events</strong> – immutable records of what happened</li>
+<li><strong>Entities</strong> – long-lived state projections built from events</li>
+<li><strong>Event Handlers</strong> – logic that reacts to commands and events</li>
+<li><strong>Read Models</strong> – objects that enable an access point to query or subscribe to the system state</li>
+<li><strong>Agents</strong> – long-lived, autonomous workers that observe state and act accordingly, calling to commands and creating events</li>
+</ul>
+<hr>
+<h2>🧬 Ambient Agents: The Next Frontier in AI Apps</h2>
+<p>Unlike synchronous chat-based agents that wait for a user to prompt before reacting, Ambient Agents operate proactively: they run continuously in the background, listening to event streams, maintaining memory over time, and triggering complex workflows when contextually relevant. They can reason asynchronously, coordinate in swarms, and handle multi-step tasks automatically—escalating to humans only when approval is needed—allowing systems to scale beyond on-demand interactions and deliver real-world intelligence without constant human prompting.</p>
+<p>Magek’s event-sourced architecture is a perfect match for these agents. Why?</p>
+<ul>
+<li>They keep a <strong>history</strong> of what happened in the system that can be inspected or replayed to understand the context and intent</li>
+<li>They <strong>observe state changes</strong> and react without polling</li>
+<li>They have <strong>memory and purpose</strong>, built from event streams</li>
+<li>They can run asynchronously, coordinate in swarms, or wait for specific signals or human intervention</li>
+</ul>
+<p>With Magek, you can define agents that act like smart coworkers — not just API endpoints.</p>
+<hr>
+<h2>🔌 Pluggable and Cloud-Agnostic</h2>
+<p>Magek apps can be run in two ways: either as a <strong>Fastify-powered Node.js server</strong> (perfect for local development or Docker-based deployments), or deploying your app’s root functions directly to your favorite FaaS provider (no Fastify required).</p>
+<p>All infrastructure is abstracted behind <strong>adapters</strong>, so you can connect to the tools and databases that make sense for your stack:</p>
+<ul>
+<li>✅ Event Store: NeDB (development), PostgreSQL, DynamoDB, Redis, etc.</li>
+<li>✅ Read Model Store: NeDB (development), Vector Databases, SQL, NoSQL, Elasticsearch, etc.</li>
+<li>✅ Session Store: NeDB (development), Redis, PostgreSQL, etc.</li>
+<li>✅ Sessions &amp; Auth: Ready to plug with any JWT-based auth system.</li>
+<li>✅ Deployment: Run anywhere Docker runs, or deploy app functions to FaaS providers without the Fastify server.</li>
+</ul>
+<p>Magek gives you full control without sacrificing the developer experience.</p>
+<hr>
+<h2>🛠 Features at a Glance</h2>
+<ul>
+<li>🔗 <strong>Implicit API</strong> with GraphQL endpoints auto-generated from your code</li>
+<li>🔁 <strong>Event-Sourced State</strong> with CQRS separation</li>
+<li>🤖 <strong>Asynchronous Agents</strong> with internal memory and long-running logic</li>
+<li>🌐 <strong>LLM &amp; RAG integrations</strong> with tools for embeddings, retrieval, and augmentation</li>
+<li>🕸 <strong>Agent Swarms</strong>: define collaborative groups of agents with roles and goals, communicating them with events.</li>
+<li>📥 <strong>Data ingestion pipelines</strong> and streaming interfaces</li>
+<li>📦 <strong>Pluggable architecture</strong> via adapters (storage, auth, vector DBs, etc.)</li>
+<li>🚀 <strong>Docker-first</strong> and dev-friendly (Fastify-based)</li>
+<li>📦 <strong>Serverless-friendly</strong> your app functions can be deployed on FaaS providers.</li>
+</ul>
+<hr>
+<h2>🚧 Roadmap Highlights</h2>
+<p>We’re building Magek in the open. Here’s what’s happening:</p>
+<ul>
+<li>✅ Core event sourcing + CQRS engine (inherited from Booster Framework)</li>
+<li>✅ <code>@magek/server</code>: Fastify-based runtime (local/Docker)</li>
+<li>✅ <code>create-magek</code>: project scaffolding CLI (<code>npm create magek@latest</code>)</li>
+<li>🚧 Modular DB adapters: PostgreSQL (first), others via community</li>
+<li>🛠 LLM &amp; RAG integrations: OpenAI, vector DBs, prompt tooling</li>
+<li>🛠 Agent framework: asynchronous execution, memory, swarming</li>
+<li>🛠 GraphQL &amp; REST endpoints (auto-generated)</li>
+</ul>
+<hr>
+<h2>🙌 Get Involved</h2>
+<p>Magek is <strong>built in the open</strong>, and we’re just getting started. Whether you&#39;re into event-driven systems, AI agents, data engineering, or building amazing dev tools — we’d love your help.</p>
+<p>👀 <a href="https://github.com/theam/magek">Star us on GitHub</a><br>🐛 <a href="https://github.com/theam/magek/issues">Open an issue</a> to report bugs or request features<br>💬 <a href="https://github.com/theam/magek/discussions">Start a discussion</a> to help define what Magek becomes<br>🤝 <a href="https://github.com/theam/magek/pulls">Open a PR</a> to shape the future of AI infrastructure</p>
+<h3>For Maintainers</h3>
+<p>Releases are created manually via <a href="https://github.com/theam/magek/actions/workflows/publish.yml">GitHub Actions workflow dispatch</a>. See <a href="CONTRIBUTING.md#creating-a-release">CONTRIBUTING.md</a> for detailed instructions.</p>
+<hr>
+<h2>📜 License</h2>
+<p>The Magek Framework is licensed under the Apache License, Version 2.0. See the <a href="LICENSE">LICENSE</a> file for more details.</p>
+<hr>
+<h2>Resources</h2>
+<ul>
+<li><a href="https://magek.ai">Website</a></li>
+<li><a href="https://magek.ai/docs">Documentation</a></li>
+<li><a href="https://github.com/theam/magek/discussions">Join the conversation on GitHub Discussions</a></li>
+</ul>
+<blockquote>
+<p>“Magek” was the Guanche deity of the sun — a symbol of light and insight. We believe your backends should reflect that: continuously aware, reactive, and illuminating.</p>
+</blockquote>
+
+  </main>
+</body>
 </html>

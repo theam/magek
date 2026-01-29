@@ -1,6 +1,6 @@
 /**
  * Version selector for Magek documentation
- * Fetches versions.json and renders a dropdown in the TypeDoc toolbar
+ * Displays a version badge with dropdown in the TypeDoc toolbar
  */
 (function () {
   'use strict';
@@ -10,16 +10,16 @@
 
   /**
    * Extract the current version from the URL path
-   * Expected format: /magek/v0.0.7/... or /magek/latest/...
+   * Expected format: /magek/v0.0.7/...
    */
   function getCurrentVersion() {
     const pathParts = window.location.pathname.split('/');
     // pathParts: ['', 'magek', 'v0.0.7', 'index.html'] or similar
     const versionPart = pathParts[2];
-    if (versionPart && (versionPart.startsWith('v') || versionPart === 'latest')) {
+    if (versionPart && versionPart.startsWith('v')) {
       return versionPart;
     }
-    return 'latest';
+    return null;
   }
 
   /**
@@ -38,52 +38,91 @@
   function navigateToVersion(version) {
     const relativePath = getRelativePath();
     const newUrl = `${BASE_PATH}/${version}/${relativePath}`;
-
-    // Try to navigate; if the page doesn't exist, fall back to version root
     window.location.href = newUrl;
   }
 
   /**
-   * Create the version selector dropdown element
+   * Create the version badge with dropdown element
    */
   function createVersionSelector(versions, currentVersion) {
     const container = document.createElement('div');
-    container.className = 'version-selector-container';
+    container.className = 'version-badge-container';
 
-    const label = document.createElement('span');
-    label.className = 'version-selector-label';
-    label.textContent = 'Version:';
+    // Version badge button
+    const badge = document.createElement('button');
+    badge.className = 'version-badge';
+    badge.setAttribute('aria-label', 'Select documentation version');
+    badge.setAttribute('aria-haspopup', 'listbox');
+    badge.setAttribute('aria-expanded', 'false');
 
-    const select = document.createElement('select');
-    select.className = 'version-selector';
-    select.setAttribute('aria-label', 'Select documentation version');
+    const versionText = document.createElement('span');
+    versionText.className = 'version-badge-text';
+    versionText.textContent = currentVersion || `v${versions.latest}`;
 
-    // Add "latest" option
-    const latestOption = document.createElement('option');
-    latestOption.value = 'latest';
-    latestOption.textContent = `latest (v${versions.latest})`;
-    if (currentVersion === 'latest') {
-      latestOption.selected = true;
-    }
-    select.appendChild(latestOption);
+    const arrow = document.createElement('span');
+    arrow.className = 'version-badge-arrow';
+    arrow.innerHTML = '&#9662;'; // Down triangle
 
-    // Add version options (newest first)
+    badge.appendChild(versionText);
+    badge.appendChild(arrow);
+
+    // Dropdown menu
+    const dropdown = document.createElement('div');
+    dropdown.className = 'version-dropdown';
+    dropdown.setAttribute('role', 'listbox');
+
+    // Add version options (newest first, no "latest" alias)
     versions.versions.forEach(function (version) {
-      const option = document.createElement('option');
-      option.value = 'v' + version;
-      option.textContent = 'v' + version;
-      if (currentVersion === 'v' + version) {
-        option.selected = true;
+      const option = document.createElement('button');
+      option.className = 'version-option';
+      option.setAttribute('role', 'option');
+      const versionValue = 'v' + version;
+      option.textContent = versionValue;
+
+      if (currentVersion === versionValue) {
+        option.classList.add('version-option-current');
+        option.setAttribute('aria-selected', 'true');
       }
-      select.appendChild(option);
+
+      // Mark latest version
+      if (version === versions.latest) {
+        const latestBadge = document.createElement('span');
+        latestBadge.className = 'version-latest-badge';
+        latestBadge.textContent = 'latest';
+        option.appendChild(latestBadge);
+      }
+
+      option.addEventListener('click', function (e) {
+        e.stopPropagation();
+        navigateToVersion(versionValue);
+      });
+
+      dropdown.appendChild(option);
     });
 
-    select.addEventListener('change', function () {
-      navigateToVersion(this.value);
+    container.appendChild(badge);
+    container.appendChild(dropdown);
+
+    // Toggle dropdown on badge click
+    badge.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const isOpen = container.classList.toggle('version-dropdown-open');
+      badge.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
 
-    container.appendChild(label);
-    container.appendChild(select);
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function () {
+      container.classList.remove('version-dropdown-open');
+      badge.setAttribute('aria-expanded', 'false');
+    });
+
+    // Close dropdown on escape key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        container.classList.remove('version-dropdown-open');
+        badge.setAttribute('aria-expanded', 'false');
+      }
+    });
 
     return container;
   }
