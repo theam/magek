@@ -2,7 +2,7 @@
   "changes": [
     {
       "comment": "add evolve helper",
-      "type": "minor",
+      "type": "patch",
       "packageName": "@magek/common"
     }
   ],
