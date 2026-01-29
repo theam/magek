@@ -21,7 +21,7 @@
     "fp-ts": "2.16.11",
     "fs-extra": "11.3.3",
     "inflected": "2.1.0",
-    "inquirer": "13.2.1",
+    "inquirer": "13.2.2",
     "mustache": "4.2.0",
     "ora": "9.1.0",
     "ts-morph": "27.0.2",
