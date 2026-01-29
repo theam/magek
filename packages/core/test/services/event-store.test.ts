@@ -18,6 +18,7 @@ import { EventStore } from '../../src/services/event-store'
 import { createMockEventStoreAdapter } from '../helpers/event-store-adapter-helper'
 import { expect } from '../expect'
 import { MagekEntityMigrated } from '../../src/core-concepts/data-migration/events/entity-migrated'
+import { MagekEntityTouched } from '../../src/core-concepts/touch-entity/events/entity-touched'
 import { MagekAuthorizer } from '../../src/authorizer'
 
 describe('EventStore', () => {
@@ -1005,6 +1006,68 @@ describe('EventStore', () => {
               },
               snapshottedEventCreatedAt: fakeTime.toISOString(),
             })
+          })
+        })
+
+        context('given a MagekEntityTouched event with an existing snapshot', () => {
+          it('returns a new snapshot with updated timestamp', async () => {
+            const snapshot = snapshotEnvelopeFor(someEntity)
+            const fakeTime = new Date()
+            const eventEnvelope = {
+              version: 1,
+              kind: 'event',
+              entityID: '42',
+              entityTypeName: AnEntity.name,
+              value: {
+                entityName: AnEntity.name,
+                entityId: '42',
+              },
+              requestID: 'whatever',
+              typeName: MagekEntityTouched.name,
+              superKind: MAGEK_SUPER_KIND,
+              createdAt: fakeTime.toISOString(),
+            }
+
+            const newSnapshot = await eventStore.entityReducer(eventEnvelope, snapshot)
+
+            expect(newSnapshot).to.be.deep.equal({
+              version: 1,
+              kind: 'snapshot',
+              requestID: eventEnvelope.requestID,
+              entityID: someEntity.id,
+              entityTypeName: AnEntity.name,
+              typeName: AnEntity.name,
+              superKind: MAGEK_SUPER_KIND,
+              value: {
+                id: someEntity.id,
+                count: someEntity.count,
+              },
+              snapshottedEventCreatedAt: fakeTime.toISOString(),
+            })
+          })
+        })
+
+        context('given a MagekEntityTouched event without an existing snapshot', () => {
+          it('returns ReducerAction.Skip', async () => {
+            const fakeTime = new Date()
+            const eventEnvelope = {
+              version: 1,
+              kind: 'event',
+              entityID: '42',
+              entityTypeName: AnEntity.name,
+              value: {
+                entityName: AnEntity.name,
+                entityId: '42',
+              },
+              requestID: 'whatever',
+              typeName: MagekEntityTouched.name,
+              superKind: MAGEK_SUPER_KIND,
+              createdAt: fakeTime.toISOString(),
+            }
+
+            const result = await eventStore.entityReducer(eventEnvelope, undefined)
+
+            expect(result).to.equal(ReducerAction.Skip)
           })
         })
       })
