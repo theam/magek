@@ -254,8 +254,8 @@ importers:
         specifier: 2.1.0
         version: 2.1.0
       inquirer:
-        specifier: 13.2.0
-        version: 13.2.0(@types/node@22.19.7)
+        specifier: 13.2.1
+        version: 13.2.1(@types/node@22.19.7)
       mustache:
         specifier: 4.2.0
         version: 4.2.0
@@ -2391,8 +2391,8 @@ packages:
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
 
-  inquirer@13.2.0:
-    resolution: {integrity: sha512-4CBv58vLrL4CnMgrscW/T5cLvfWM2nRLevttTiZTQyku7YV7/pc2IKyABBU2rDfVl4PiIB0sTRcwOac7BIYKLA==}
+  inquirer@13.2.1:
+    resolution: {integrity: sha512-kjIN+joqgbSncQJ6GfN7gV9AbDQlMA+hJ96xcwkQUwP9KN/ZIusoJ2mAfdt0LPrZJQsEyk5i/YrgJQTxSgzlPw==}
     engines: {node: '>=23.5.0 || ^22.13.0 || ^21.7.0 || ^20.12.0'}
     peerDependencies:
       '@types/node': '>=18'
@@ -5660,7 +5660,7 @@ snapshots:
 
   inherits@2.0.4: {}
 
-  inquirer@13.2.0(@types/node@22.19.7):
+  inquirer@13.2.1(@types/node@22.19.7):
     dependencies:
       '@inquirer/ansi': 2.0.3
       '@inquirer/core': 11.1.1(@types/node@22.19.7)

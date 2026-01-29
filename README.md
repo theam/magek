@@ -97,6 +97,10 @@ Magek is **built in the open**, and we’re just getting started. Whether you're
 💬 [Start a discussion](https://github.com/theam/magek/discussions) to help define what Magek becomes  
 🤝 [Open a PR](https://github.com/theam/magek/pulls) to shape the future of AI infrastructure
 
+### For Maintainers
+
+Releases are created manually via [GitHub Actions workflow dispatch](https://github.com/theam/magek/actions/workflows/publish.yml). See [CONTRIBUTING.md](CONTRIBUTING.md#creating-a-release) for detailed instructions.
+
 ---
 
 ## 📜 License

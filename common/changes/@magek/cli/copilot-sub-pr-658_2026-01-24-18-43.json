@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@magek/cli",
+      "comment": "Bump inquirer from 13.2.0 to 13.2.1",
+      "type": "none"
+    }
+  ],
+  "packageName": "@magek/cli"
+}

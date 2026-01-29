@@ -1,6 +1,8 @@
 name: End-to-End Tests
 
 on:
+  workflow_call:  # Enable reuse from other workflows
+
   push:
     branches:
       - main
