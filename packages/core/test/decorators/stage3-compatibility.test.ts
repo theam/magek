@@ -7,7 +7,8 @@
 
 import { expect } from '../expect'
 import { Event, Role, GlobalErrorHandler } from '../../src/decorators'
-import { field, UUID } from '@magek/common'
+import { UUID } from '@magek/common'
+import { field } from '../../src'
 import { Magek } from '../../src'
 
 describe('Stage 3 decorator compatibility', () => {

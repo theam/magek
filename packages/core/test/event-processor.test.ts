@@ -11,8 +11,8 @@ import {
   Register,
   UUID,
   PromisesError,
-  field,
 } from '@magek/common'
+import { field } from '../src'
 import { expect } from './expect'
 import { ReadModelStore } from '../src/services/read-model-store'
 import { EventStore } from '../src/services/event-store'

@@ -1,5 +1,6 @@
 import { expect } from '../expect'
-import { Register, field } from '@magek/common'
+import { Register } from '@magek/common'
+import { field } from '../../src'
 import { Command } from '../../src/decorators'
 import { Magek } from '../../src'
 import { fake } from 'sinon'

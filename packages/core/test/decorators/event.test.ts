@@ -3,7 +3,8 @@
  
 import { expect } from '../expect'
 import { Event } from '../../src/decorators'
-import { UUID, field } from '@magek/common'
+import { UUID } from '@magek/common'
+import { field } from '../../src'
 import { Magek } from '../../src'
 
 describe('the `Event` decorator', () => {

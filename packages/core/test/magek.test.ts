@@ -10,9 +10,9 @@ import {
   Runtime,
   UUID,
   NotificationInterface,
-  field,
   Level,
 } from '@magek/common'
+import { field } from '../src'
 import { EventStore } from '../src/services/event-store'
 import { faker } from '@faker-js/faker'
 import { afterEach } from 'mocha'

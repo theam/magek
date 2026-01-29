@@ -4,7 +4,7 @@
 import { expect } from '../expect'
 import { Notification, partitionKey } from '../../src/decorators'
 import { Magek } from '../../src'
-import { field } from '@magek/common'
+import { field } from '../../src'
 
 describe('the `Notification` decorator', () => {
   afterEach(() => {

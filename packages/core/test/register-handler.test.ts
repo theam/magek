@@ -1,5 +1,6 @@
 import { expect } from './expect'
-import { Register, MagekConfig, Level, UserEnvelope, UUID, field } from '@magek/common'
+import { Register, MagekConfig, Level, UserEnvelope, UUID } from '@magek/common'
+import { field } from '../src'
 import { replace, fake, restore, spy } from 'sinon'
 import { RegisterHandler } from '../src'
 import { MagekEntityMigrated } from '../src/core-concepts/data-migration/events/entity-migrated'

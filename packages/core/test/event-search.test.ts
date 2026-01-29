@@ -1,4 +1,5 @@
-import { MagekConfig, EventSearchParameters, EventSearchResponse, field, Level } from '@magek/common'
+import { MagekConfig, EventSearchParameters, EventSearchResponse, Level } from '@magek/common'
+import { field } from '../src'
 import { eventSearch } from '../src/event-search'
 import { fake, restore } from 'sinon'
 import { expect } from './expect'

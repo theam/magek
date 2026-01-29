@@ -2,7 +2,8 @@
 import { expect } from '../expect'
 import { describe } from 'mocha'
 import { ReadModel, Magek, Entity, projects, sequencedBy, Role, calculatedField } from '../../src'
-import { UUID, ProjectionResult, UserEnvelope, field } from '@magek/common'
+import { UUID, ProjectionResult, UserEnvelope } from '@magek/common'
+import { field } from '../../src'
 import { MagekAuthorizer } from '../../src/authorizer'
 import { fake, restore } from 'sinon'
 

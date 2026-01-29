@@ -1,7 +1,8 @@
 import { replace, restore, fake } from 'sinon'
 import { expect } from '../../../expect'
 import { GraphQLTypeInformer } from '../../../../src/services/graphql/graphql-type-informer'
-import { MagekConfig, UUID, Level, AnyClass, Logger, getLogger, field } from '@magek/common'
+import { MagekConfig, UUID, Level, AnyClass, Logger, getLogger } from '@magek/common'
+import { field } from '../../../../src'
 import { GraphqlQueryByKeysGenerator } from '../../../../src/services/graphql/query-generators/graphql-query-by-keys-generator'
 import { faker } from '@faker-js/faker'
 

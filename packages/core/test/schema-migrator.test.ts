@@ -2,7 +2,8 @@
  
 
 import { expect } from './expect'
-import { MagekConfig, CommandEnvelope, SchemaMigrationMetadata, field } from '@magek/common'
+import { MagekConfig, CommandEnvelope, SchemaMigrationMetadata } from '@magek/common'
+import { field } from '../src'
 import { SchemaMigrator } from '../src/schema-migrator'
 
 class TestConceptV1 {

@@ -14,8 +14,8 @@ import {
   UUID,
   EntityInterface,
   ReadModelStoreAdapter,
-  field,
 } from '@magek/common'
+import { field } from '../../src'
 import { expect } from '../expect'
 import { MagekAuthorizer } from '../../src/authorizer'
 import { fake, match, replace, restore, SinonFakeTimers, spy, stub, useFakeTimers } from 'sinon'

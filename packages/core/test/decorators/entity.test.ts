@@ -4,7 +4,8 @@
 import { expect } from '../expect'
 import { Event, Entity, reduces, Role } from '../../src/decorators/'
 import { Magek } from '../../src'
-import { UserEnvelope, UUID, field } from '@magek/common'
+import { UserEnvelope, UUID } from '@magek/common'
+import { field } from '../../src'
 import { MagekAuthorizer } from '../../src/authorizer'
 import { fake, replace } from 'sinon'
 

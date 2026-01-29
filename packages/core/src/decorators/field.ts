@@ -1,26 +1,4 @@
-/**
- * Type function for specifying field types
- * The parameter is optional and not used - it's just for TypeGraphQL-style ergonomics
- */
-export type TypeFunction = (type?: unknown) => unknown
-
-/**
- * Options for the @field() decorator
- */
-export interface FieldOptions {
-  nullable?: boolean
-  readonly?: boolean
-}
-
-/**
- * Metadata stored for each field
- */
-export interface FieldMetadata {
-  name: string
-  typeFunction?: TypeFunction
-  options: FieldOptions
-  designType?: unknown // From emitDecoratorMetadata (not used in Stage 3)
-}
+import { FieldMetadata, FieldOptions, TypeFunction } from '@magek/common'
 
 // Symbol for storing fields metadata (for Stage 3 decorators)
 const FIELDS_KEY = Symbol.for('magek:fields')

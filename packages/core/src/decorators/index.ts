@@ -1,4 +1,5 @@
 export * from './command'
+export * from './field'
 export * from './query'
 export * from './data-migration'
 export * from './entity'
