@@ -4,10 +4,16 @@ on:
   # Documentation is now deployed as part of the publish workflow
   # This workflow can be used for manual testing or emergency fixes
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version label for docs (e.g., "dev" for development preview, or "0.0.7" for specific version)'
+        required: false
+        default: 'dev'
+        type: string
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -18,11 +24,13 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -38,21 +46,52 @@ jobs:
       - name: Build packages
         run: node common/scripts/install-run-rush.js build
 
+      - name: Build landing page
+        run: |
+          VERSION=${{ github.event.inputs.version }}
+          echo "Building landing page with documentation link to v${VERSION}"
+          npm install marked
+          node scripts/build-landing-page.js $VERSION
+
       - name: Build documentation
-        run: node common/scripts/install-run-rush.js docs:build
+        run: |
+          VERSION=${{ github.event.inputs.version }}
+          echo "Building documentation for version $VERSION"
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+          # Build documentation
+          node common/scripts/install-run-rush.js docs:build
+
+          # Move built docs to versioned folder
+          mkdir -p common/temp/versioned-docs/v${VERSION}
+          mv common/temp/docs-site/* common/temp/versioned-docs/v${VERSION}/
+
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v6
         with:
-          path: ./common/temp/docs-site
+          ref: gh-pages
+          path: gh-pages
 
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Update gh-pages with new version
+        run: |
+          VERSION=${{ github.event.inputs.version }}
+
+          # Copy landing page to root
+          cp common/temp/landing-page/index.html gh-pages/index.html
+
+          # Copy new version folder (overwrites if exists)
+          rm -rf gh-pages/v${VERSION}
+          cp -r common/temp/versioned-docs/v${VERSION} gh-pages/v${VERSION}
+
+          # Update versions.json manifest
+          node scripts/update-versions-manifest.js gh-pages/versions.json $VERSION
+
+      - name: Commit and push to gh-pages
+        run: |
+          VERSION=${{ github.event.inputs.version }}
+          cd gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          # Use --allow-empty in case there are no changes
+          git diff --staged --quiet || git commit -m "docs: deploy v${VERSION} documentation (manual)"
+          git push origin gh-pages

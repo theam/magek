@@ -150,6 +150,13 @@ jobs:
           tag_name: v${{ steps.bump.outputs.version }}
           generate_release_notes: true
 
+      - name: Build landing page
+        run: |
+          VERSION=${{ steps.bump.outputs.version }}
+          echo "Building landing page with documentation link to v${VERSION}"
+          npm install marked
+          node scripts/build-landing-page.js $VERSION
+
       - name: Build versioned documentation
         run: |
           VERSION=${{ steps.bump.outputs.version }}
@@ -173,31 +180,14 @@ jobs:
         run: |
           VERSION=${{ steps.bump.outputs.version }}
 
+          # Copy landing page to root (replaces existing redirect)
+          cp common/temp/landing-page/index.html gh-pages/index.html
+
           # Copy new version folder
           cp -r common/temp/versioned-docs/v${VERSION} gh-pages/v${VERSION}
 
-          # Update latest folder (copy, not symlink for GitHub Pages compatibility)
-          rm -rf gh-pages/latest
-          cp -r gh-pages/v${VERSION} gh-pages/latest
-
           # Update versions.json manifest
           node scripts/update-versions-manifest.js gh-pages/versions.json $VERSION
-
-          # Generate root redirect page
-          cat > gh-pages/index.html << 'EOF'
-          <!DOCTYPE html>
-          <html>
-            <head>
-              <meta charset="utf-8">
-              <meta http-equiv="refresh" content="0;url=latest/">
-              <link rel="canonical" href="latest/">
-              <title>Magek Documentation</title>
-            </head>
-            <body>
-              <p>Redirecting to <a href="latest/">latest documentation</a>...</p>
-            </body>
-          </html>
-          EOF
 
       - name: Commit and push to gh-pages
         run: |

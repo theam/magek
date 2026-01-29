@@ -9,7 +9,7 @@
   "entryPointStrategy": "expand",
   "out": "../common/temp/docs-site",
   "name": "Magek Framework",
-  "readme": "../README.md",
+  "readme": "none",
   "projectDocuments": [
     "./content/index.md"
   ],
