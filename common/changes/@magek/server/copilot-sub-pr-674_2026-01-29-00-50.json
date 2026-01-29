@@ -2,7 +2,7 @@
   "changes": [
     {
       "comment": "Bump fastify-sse-v2 from 4.2.1 to 4.2.2",
-      "type": "patch",
+      "type": "none",
       "packageName": "@magek/server"
     }
   ],
