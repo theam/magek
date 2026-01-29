@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "Add ReducerAction enum with Skip value and ReducerResult type for entity reducers",
+      "comment": "Add ReducerAction enum with Skip value for entity reducers and rename ReadModelAction to ProjectionAction",
       "type": "minor",
       "packageName": "@magek/common"
     }
