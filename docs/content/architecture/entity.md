@@ -58,7 +58,11 @@ export class EntityName {
   // highlight-start
   @Reduces(SomeEvent)
   public static reduceSomeEvent(event: SomeEvent, currentEntityState?: EntityName): EntityName {
-    /* Return a new entity based on the current one */
+    return evolve(currentEntityState, {
+      id: event.entityID(),
+      fieldA: event.fieldA,
+      fieldB: event.fieldB,
+    })
   }
   // highlight-end
 }
@@ -82,21 +86,16 @@ export class Cart {
   @Field()
   readonly items!: Array<CartItem>
 
-  public constructor(id: UUID, items: Array<CartItem>) {
-    this.id = id
-    this.items = items
-  }
-
   @Reduces(ProductAdded)
   public static reduceProductAdded(event: ProductAdded, currentCart?: Cart): Cart {
     const newItems = addToCart(event.item, currentCart)
-    return new Cart(event.entityID(), newItems)
+    return evolve(currentCart, { id: event.entityID(), items: newItems })
   }
 
   @Reduces(ProductRemoved)
   public static reduceProductRemoved(event: ProductRemoved, currentCart?: Cart): Cart {
     const newItems = removeFromCart(event.item, currentCart)
-    return new Cart(event.entityID(), newItems)
+    return evolve(currentCart, { items: newItems })
   }
 }
 ```
@@ -132,7 +131,10 @@ export class EntityName {
 
   @Reduces(SomeEvent)
   public static reduceSomeEvent(event: SomeEvent, currentEntityState?: EntityName): EntityName {
-    /* Return a new entity based on the current one */
+    return evolve(currentEntityState, {
+      id: event.entityID(),
+      fieldA: event.fieldA,
+    })
   }
 }
 ```

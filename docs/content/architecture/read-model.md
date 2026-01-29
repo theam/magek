@@ -67,7 +67,11 @@ export class CartReadModel {
   // highlight-start
   @Projects(Cart, 'id')
   public static projectCart(entity: Cart, currentCartReadModel?: CartReadModel): CartReadModel {
-    return new CartReadModel(entity.id, entity.cartItems, entity.paid)
+    return evolve(currentCartReadModel, {
+      id: entity.id,
+      cartItems: entity.cartItems,
+      paid: entity.paid,
+    })
   }
   // highlight-end
 }
@@ -189,12 +193,10 @@ export class CarPurchasesReadModel {
     if (!readModelId) {
       return ReadModelAction.Nothing
     }
-    return new CarPurchasesReadModel(
-      readModelId,
-      model,
-      oldCarPurchaseReadModel?.carOwner,
-      oldCarPurchaseReadModel?.offers
-    )
+    return evolve(oldCarPurchaseReadModel, {
+      id: readModelId,
+      carModel: model,
+    })
   }
 }
 ```
@@ -230,10 +232,10 @@ export class UserReadModel {
 
   @Projects(User, 'id')
   public static projectUser(entity: User, current?: UserReadModel): ProjectionResult<UserReadModel>  {
-    if (current?.deleted) {
+    if (entity.deleted) {
       return ReadModelAction.Delete
     }
-    return new UserReadModel(...)
+    return evolve(current, { id: entity.id, username: entity.username })
   }
 ```
 
@@ -256,10 +258,10 @@ export class UserReadModel {
 
   @Projects(User, 'id')
   public static projectUser(entity: User, current?: UserReadModel): ProjectionResult<UserReadModel>  {
-    if (!current?.modified) {
+    if (!entity.modified) {
       return ReadModelAction.Nothing
     }
-    return new UserReadModel(...)
+    return evolve(current, { id: entity.id, username: entity.username })
   }
 ```
 
@@ -297,7 +299,7 @@ export class UserReadModel {
 
   @Projects(User, 'id')
   public static projectUser(entity: User, current?: UserReadModel): ProjectionResult<UserReadModel>  {
-    return new UserReadModel(entity.id, entity.name, entity.postIds)
+    return evolve(current, { id: entity.id, name: entity.name, postIds: entity.postIds })
   }
 }
 ```
@@ -380,7 +382,12 @@ export class ProductReadModel {
 
   @Projects(Product, 'id')
   public static projectProduct(entity: Product, current?: ProductReadModel): ProjectionResult<ProductReadModel> {
-    return new ProductReadModel(entity.id, entity.name, entity.description, entity.price)
+    return evolve(current, {
+      id: entity.id,
+      name: entity.name,
+      description: entity.description,
+      price: entity.price,
+    })
   }
 }
 ```
@@ -405,8 +412,8 @@ export class CartReadModel {
   readonly items!: Array<CartItem>
 
   @Projects(Cart, 'id')
-  public static projectCart(entity: Cart, currentReadModel: CartReadModel): ProjectionResult<CartReadModel> {
-    return new CartReadModel(entity.id, entity.items)
+  public static projectCart(entity: Cart, currentReadModel?: CartReadModel): ProjectionResult<CartReadModel> {
+    return evolve(currentReadModel, { id: entity.id, items: entity.items })
   }
 }
 ```
@@ -451,9 +458,13 @@ export class MessageReadModel {
   @Projects(Message, 'id')
   public static projectMessage(
     entity: Message,
-    currentReadModel: MessageReadModel
+    currentReadModel?: MessageReadModel
   ): ProjectionResult<MessageReadModel> {
-    return new MessageReadModel(entity.id, entity.timestamp, entity.contents)
+    return evolve(currentReadModel, {
+      id: entity.id,
+      timestamp: entity.timestamp,
+      contents: entity.contents,
+    })
   }
 }
 ```

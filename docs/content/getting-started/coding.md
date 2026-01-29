@@ -283,7 +283,12 @@ export class Post {
 
   @Reduces(PostCreated)
   public static reducePostCreated(event: PostCreated, currentPost?: Post): Post {
-    return new Post(event.postId, event.title, event.content, event.author)
+    return evolve(currentPost, {
+      id: event.postId,
+      title: event.title,
+      content: event.content,
+      author: event.author,
+    })
   }
 }
 ```
@@ -348,7 +353,11 @@ export class PostReadModel {
 
   @Projects(Post, 'id')
   public static projectPost(entity: Post, currentPostReadModel?: PostReadModel): ProjectionResult<PostReadModel> {
-    return new PostReadModel(entity.id, entity.title, entity.author)
+    return evolve(currentPostReadModel, {
+      id: entity.id,
+      title: entity.title,
+      author: entity.author,
+    })
   }
 }
 ```
