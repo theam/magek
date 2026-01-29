@@ -15,7 +15,7 @@ You can develop with Magek using any of the following operating systems:
 
 ### Install Node.js
 
-The latest version of Magek (`3.x`) requires the current LTS version of Node.js which is `20.x`. Magek releases with versions `2.x` will only work with the previous Node.js LTS version (`18.x`).
+The latest version of Magek (`3.x`) requires the current LTS version of Node.js which is `22.x`. Magek releases with versions `2.x` will only work with the previous Node.js LTS version (`20.x`).
 
 > **Info:** For more information on upgrades between Magek v2.x.x and v3.x.x, read [this page](https://github.com/theam/magek/blob/main/upgrade-v3.md).
 >
@@ -45,7 +45,7 @@ brew install node
 Just run the following commands on the terminal:
 
 ```bash
-curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_22.x | sudo -E bash -
 sudo apt install nodejs
 ```
 
@@ -55,15 +55,15 @@ Verify that it was installed properly by checking so from your terminal:
 node -v
 ```
 
-> v14.14.0
+> v22.12.0
 
 ```bash
 npm -v
 ```
 
-> 7.0.0
+> 10.9.1
 
-As soon as you have a Node.js version higher than `v14.14`, and an `npm` version higher than
+As soon as you have a Node.js version `22.x` or higher, and an `npm` version higher than
 `7`, you are good to go. Just note that `npm` comes with node, you don't have to install
 it apart.
 
@@ -138,6 +138,6 @@ Verify the Magek CLI installation with the `npx magek version` command. You shou
 npx magek version
 ```
 
-> @magek/cli/0.16.1 darwin-x64 node-v14.14.0
+> @magek/cli/0.16.1 darwin-x64 node-v22.12.0
 
 > **Tip:** The CLI is automatically included in every Magek project - no global installation needed! Use `npx magek` for all CLI commands within your project directory.
