@@ -8,6 +8,7 @@ import {
   EventInterface,
   Level,
   NonPersistedEntitySnapshotEnvelope,
+  ReducerAction,
   Runtime,
   UUID,
   Field,
@@ -755,10 +756,10 @@ describe('EventStore', () => {
           replace(eventStore, 'loadLatestSnapshot', fake.resolves(someSnapshotEnvelope))
           replace(eventStore, 'loadEventStreamSince', fake.resolves([someEventEnvelope]))
           
-          // Mock entityReducer to return undefined (Skip action)
+          // Mock entityReducer to return ReducerAction.Skip
           const entityReducer = stub()
             .onFirstCall()
-            .returns(undefined)
+            .returns(ReducerAction.Skip)
           replace(eventStore, 'entityReducer', entityReducer)
           replace(eventStore, 'storeSnapshot', fake.resolves(someSnapshotEnvelope))
 
@@ -782,12 +783,12 @@ describe('EventStore', () => {
           
           const newSnapshot = snapshotEnvelopeFor(new AnEntity('42', 100))
           
-          // First reducer returns updated entity, second reducer returns Skip
+          // First reducer returns updated entity, second reducer returns ReducerAction.Skip
           const entityReducer = stub()
             .onFirstCall()
             .returns(newSnapshot)
             .onSecondCall()
-            .returns(undefined) // Skip
+            .returns(ReducerAction.Skip)
           replace(eventStore, 'entityReducer', entityReducer)
           replace(eventStore, 'storeSnapshot', fake.resolves(newSnapshot))
 
