@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@magek/core",
+      "comment": "Bump jwks-rsa from 3.2.1 to 3.2.2",
+      "type": "none"
+    }
+  ],
+  "packageName": "@magek/core",
+  "email": "198982749+Copilot@users.noreply.github.com"
+}
