@@ -69,6 +69,9 @@ function analyzeReturnType(targetType: unknown, isPromise: boolean = false): Typ
 
   // Handle Array
   if (Array.isArray(targetType)) {
+    if (targetType.length === 0) {
+      throw new Error('@returns decorator array type must specify an element type, e.g., @returns(type => [String])')
+    }
     const elementType = targetType[0]
     const elementMetadata = analyzeReturnType(elementType, false)
     const typeInfo: TypeMetadata = {

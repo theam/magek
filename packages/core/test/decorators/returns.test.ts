@@ -177,4 +177,27 @@ describe('the `returns` decorator', () => {
       expect(handleMethod).to.be.undefined
     })
   })
+
+  context('when invalid array type is used', () => {
+    it('should throw an error for empty array type', () => {
+      // We need to test the internal function directly since decorators
+      // are applied at class definition time
+      const { getReturnTypeMetadata, RETURNS_METADATA_KEY } = require('../../src/decorators/returns')
+
+      // Create fake metadata with empty array type
+      const fakeMetadata = {
+        [RETURNS_METADATA_KEY]: [
+          {
+            methodName: 'handle',
+            typeFunction: () => [], // Empty array - invalid!
+          },
+        ],
+      }
+
+      // This should throw an error
+      expect(() => getReturnTypeMetadata(fakeMetadata, 'handle')).to.throw(
+        '@returns decorator array type must specify an element type'
+      )
+    })
+  })
 })
