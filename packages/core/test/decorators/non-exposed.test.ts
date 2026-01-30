@@ -1,8 +1,8 @@
 import { expect } from '../expect'
 import { nonExposed } from '../../src/decorators/'
 import { Magek } from '../../src'
-import { MagekConfig, UUID } from '@magek/common'
-import { field, Entity } from '../../src/decorators'
+import { MagekConfig, UUID, Register } from '@magek/common'
+import { field, Entity, ReadModel, Command, Query } from '../../src/decorators'
 
 describe('the `nonExposed` decorator', () => {
   afterEach(() => {
@@ -12,6 +12,15 @@ describe('the `nonExposed` decorator', () => {
       }
       for (const propName in config.entities) {
         delete config.entities[propName]
+      }
+      for (const propName in config.readModels) {
+        delete config.readModels[propName]
+      }
+      for (const propName in config.commandHandlers) {
+        delete config.commandHandlers[propName]
+      }
+      for (const propName in config.queryHandlers) {
+        delete config.queryHandlers[propName]
       }
     })
   })
@@ -176,5 +185,94 @@ describe('the `nonExposed` decorator', () => {
     expect(nonExposedFields).to.exist
     expect(nonExposedFields).to.be.an('Array')
     expect(nonExposedFields).to.include('hiddenField')
+  })
+
+  describe('with @ReadModel decorator', () => {
+    it('registers non-exposed fields for ReadModels', () => {
+      @ReadModel({ authorize: 'all' })
+      class UserReadModel {
+        @field(type => UUID)
+        public readonly id!: UUID
+
+        @field()
+        public readonly displayName!: string
+
+        @nonExposed
+        @field()
+        public readonly internalScore!: number
+
+        @nonExposed
+        @field()
+        public readonly privateNotes!: string
+      }
+
+      UserReadModel // Reference to prevent unused warning
+
+      const nonExposedFields = Magek.config.nonExposedGraphQLMetadataKey['UserReadModel']
+
+      expect(nonExposedFields).to.be.an('Array')
+      expect(nonExposedFields).to.have.lengthOf(2)
+      expect(nonExposedFields).to.include('internalScore')
+      expect(nonExposedFields).to.include('privateNotes')
+      expect(nonExposedFields).to.not.include('displayName')
+    })
+  })
+
+  describe('with @Command decorator', () => {
+    it('registers non-exposed fields for Commands', () => {
+      @Command({ authorize: 'all' })
+      class CreateUser {
+        @field()
+        public readonly username!: string
+
+        @field()
+        public readonly email!: string
+
+        @nonExposed
+        @field()
+        public readonly internalTrackingId!: string
+
+        public static async handle(_command: CreateUser, _register: Register): Promise<void> {
+          // Implementation
+        }
+      }
+
+      CreateUser // Reference to prevent unused warning
+
+      const nonExposedFields = Magek.config.nonExposedGraphQLMetadataKey['CreateUser']
+
+      expect(nonExposedFields).to.be.an('Array')
+      expect(nonExposedFields).to.have.lengthOf(1)
+      expect(nonExposedFields).to.include('internalTrackingId')
+      expect(nonExposedFields).to.not.include('username')
+      expect(nonExposedFields).to.not.include('email')
+    })
+  })
+
+  describe('with @Query decorator', () => {
+    it('registers non-exposed fields for Queries', () => {
+      @Query({ authorize: 'all' })
+      class GetUserStats {
+        @field()
+        public readonly userId!: string
+
+        @nonExposed
+        @field()
+        public readonly debugInfo!: string
+
+        public static async handle(_query: GetUserStats): Promise<object> {
+          return {}
+        }
+      }
+
+      GetUserStats // Reference to prevent unused warning
+
+      const nonExposedFields = Magek.config.nonExposedGraphQLMetadataKey['GetUserStats']
+
+      expect(nonExposedFields).to.be.an('Array')
+      expect(nonExposedFields).to.have.lengthOf(1)
+      expect(nonExposedFields).to.include('debugInfo')
+      expect(nonExposedFields).to.not.include('userId')
+    })
   })
 })
