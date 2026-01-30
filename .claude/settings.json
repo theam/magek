@@ -1,0 +1,45 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch",
+      "Bash(rush lint:check*)",
+      "Bash(rush lint:fix*)",
+      "Bash(rush test*)",
+      "Bash(rush build*)",
+      "Bash(rush update*)",
+      "Bash(rush install*)",
+      "Bash(rush rebuild*)",
+      "Bash(rush clean*)",
+      "Bash(rush purge*)",
+      "Bash(rush change --verify*)",
+      "Bash(rushx test*)",
+      "Bash(rushx build*)",
+      "Bash(rushx lint*)",
+      "Bash(gh auth status*)",
+      "Bash(gh pr list*)",
+      "Bash(gh pr view*)",
+      "Bash(gh issue list*)",
+      "Bash(gh issue view*)",
+      "Bash(gh repo view*)",
+      "Bash(gh status*)",
+      "Bash(git status*)",
+      "Bash(git log*)",
+      "Bash(git diff*)",
+      "Bash(git branch*)",
+      "Bash(git show*)",
+      "Bash(node --version*)",
+      "Bash(npm --version*)",
+      "Bash(pnpm --version*)"
+    ]
+  },
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    }
+  }
+}
