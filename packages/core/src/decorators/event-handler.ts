@@ -24,7 +24,7 @@ export function EventHandler<TEvent extends EventInterface | NotificationInterfa
   context: ClassDecoratorContext
 ) => void {
   // Note: `_context` is required for the Stage 3 decorator signature but is not used here.
-  return (eventHandlerClass, _context?: Stage3ClassContext) => {
+  return (eventHandlerClass, _context?: ClassDecoratorContext) => {
     registerEventHandler(event.name, eventHandlerClass)
   }
 }
