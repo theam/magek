@@ -2,7 +2,7 @@
   "changes": [
     {
       "comment": "Add sub-millisecond precision to event timestamps for deterministic ordering",
-      "type": "none",
+      "type": "patch",
       "packageName": "@magek/adapter-event-store-nedb"
     }
   ],
