@@ -90,6 +90,14 @@ Magek implements event sourcing and CQRS patterns:
 - Some packages may have different test frameworks (check package.json scripts)
 - The project uses workspace dependencies (`workspace:^0.0.1`) for internal packages
 
+### Documentation
+- **Always keep documentation up to date** when making code changes
+- Update relevant documentation files (README.md, CLAUDE.md, .github/copilot-instructions.md) when:
+  - Adding new features or commands
+  - Changing existing behavior or APIs
+  - Modifying project structure or architecture
+  - Updating development workflows or conventions
+
 ### Pull Request Workflow
 - **Always run `rush change` before creating a PR** if you modified any published package
 - Published packages: most packages under `packages/` and `adapters/` (those with `shouldPublish: true` in rush.json)

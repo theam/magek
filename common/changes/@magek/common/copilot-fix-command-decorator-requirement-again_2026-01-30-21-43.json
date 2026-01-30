@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Remove deprecated designType property from FieldMetadata interface",
+      "type": "patch",
+      "packageName": "@magek/common"
+    }
+  ],
+  "packageName": "@magek/common",
+  "email": "198982749+Copilot@users.noreply.github.com"
+}

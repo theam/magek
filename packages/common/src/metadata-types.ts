@@ -23,7 +23,6 @@ export interface FieldMetadata {
   name: string
   typeFunction?: TypeFunction
   options: FieldOptions
-  designType?: unknown // From emitDecoratorMetadata (not used in Stage 3)
 }
 
 // type instead of enum to be able to install this package as a devDependency and not a production dependency

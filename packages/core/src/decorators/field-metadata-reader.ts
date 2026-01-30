@@ -21,7 +21,7 @@ function extractTypeMetadata(fieldMeta: FieldMetadata, isGetter: boolean = false
   let isArray = false
   let isReadonlyArray = false
 
-  // If typeFunction is provided, use it
+  // If typeFunction is provided, use it to determine the type
   if (fieldMeta.typeFunction) {
     const result = fieldMeta.typeFunction()
 
@@ -32,10 +32,8 @@ function extractTypeMetadata(fieldMeta: FieldMetadata, isGetter: boolean = false
     } else {
       targetType = result
     }
-  } else {
-    // Fall back to design:type from emitDecoratorMetadata (legacy)
-    targetType = fieldMeta.designType
   }
+  // If no typeFunction, targetType remains undefined and will be treated as 'any' type
 
   // Determine type group and construct TypeMetadata
   return analyzeType(targetType, {

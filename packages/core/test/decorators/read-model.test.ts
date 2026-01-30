@@ -195,6 +195,25 @@ describe('the `ReadModel` decorator', () => {
       await expect(Magek.config.readModels['RockingData'].authorizer(fakeUser2)).not.to.be.eventually.fulfilled
     })
   })
+
+  context('when the read model has only the required id field', () => {
+    it('registers the read model with just the id field', () => {
+      @ReadModel({ authorize: 'all' })
+      class MinimalReadModel {
+        @field(type => UUID)
+        public readonly id!: UUID
+      }
+
+      const readModelConfig = Magek.config.readModels['MinimalReadModel']
+      expect(readModelConfig).to.be.an('object')
+      expect(readModelConfig.class).to.equal(MinimalReadModel)
+      expect(readModelConfig.properties).to.be.an('Array')
+      expect(readModelConfig.properties).to.have.lengthOf(1)
+      expect(readModelConfig.properties[0].name).to.equal('id')
+      expect(readModelConfig.authorizer).to.equal(MagekAuthorizer.allowAccess)
+      expect(readModelConfig.before).to.deep.equal([])
+    })
+  })
 })
 
 describe('the `projects` decorator', () => {

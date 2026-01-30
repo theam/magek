@@ -62,8 +62,11 @@ All production code is TypeScript; tests use Mocha.  Standard utilities such as 
    - Published packages have `shouldPublish: true` in rush.json
    - Skip for documentation-only changes, CI/CD configs, or non-published packages (tools/, docs/)
    - Commit the generated change files in `common/changes/`
-3. Make sure `./scripts/check-all-the-things.sh` exits without errors.
-4. After review, core maintainers will trigger full CI and publish to npm using semver derived from change files.
+3. **Keep documentation up to date** when making code changes:
+   - Update relevant docs (README.md, CLAUDE.md, .github/copilot-instructions.md)
+   - Document new features, changed behavior, or modified workflows
+4. Make sure `./scripts/check-all-the-things.sh` exits without errors.
+5. After review, core maintainers will trigger full CI and publish to npm using semver derived from change files.
 
 > **Note**: A pre-commit hook verifies change files. Use `git commit --no-verify` to bypass for non-package changes.
 
