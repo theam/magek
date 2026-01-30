@@ -1,6 +1,7 @@
 /**
- * Version selector for Magek documentation
- * Displays a version badge with dropdown in the TypeDoc toolbar
+ * Version selector and toolbar customization for Magek documentation
+ * - Displays a version badge with dropdown in the TypeDoc toolbar
+ * - Replaces default GitHub link with styled button
  */
 (function () {
   'use strict';
@@ -162,21 +163,64 @@
   }
 
   /**
-   * Insert the version selector into the TypeDoc toolbar
+   * Create a styled GitHub button matching the landing page
    */
-  function insertVersionSelector(selector) {
+  function createGitHubButton() {
+    const link = document.createElement('a');
+    link.href = 'https://github.com/theam/magek';
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.className = 'nav-btn github-link';
+
+    const icon = document.createElement('i');
+    icon.className = 'fa-brands fa-github';
+
+    const text = document.createTextNode('Fork on GitHub');
+
+    link.appendChild(icon);
+    link.appendChild(text);
+
+    return link;
+  }
+
+  /**
+   * Create a container for toolbar section
+   */
+  function createToolbarSection(className) {
+    const container = document.createElement('div');
+    container.className = className;
+    return container;
+  }
+
+  /**
+   * Insert the version selector and GitHub button into the TypeDoc toolbar
+   */
+  function insertToolbarElements(selector, githubBtn) {
     // TypeDoc toolbar structure: .tsd-page-toolbar .tsd-toolbar-contents
     const toolbar = document.querySelector('.tsd-page-toolbar .tsd-toolbar-contents');
-    if (toolbar) {
-      // Insert after the title element
-      const title = toolbar.querySelector('a.title');
-      if (title && title.parentNode) {
-        title.parentNode.insertBefore(selector, title.nextSibling);
-      } else {
-        // Fallback: prepend to toolbar
-        toolbar.insertBefore(selector, toolbar.firstChild);
-      }
+    if (!toolbar) return;
+
+    const title = toolbar.querySelector('a.title');
+    const search = toolbar.querySelector('#tsd-search');
+
+    // Create left section: logo + version selector
+    const leftSection = createToolbarSection('tsd-toolbar-left');
+    if (title) {
+      leftSection.appendChild(title);
     }
+    leftSection.appendChild(selector);
+
+    // Create right section: GitHub button + search
+    const rightSection = createToolbarSection('tsd-toolbar-icon-container');
+    rightSection.appendChild(githubBtn);
+    if (search) {
+      rightSection.appendChild(search);
+    }
+
+    // Clear toolbar and add sections
+    toolbar.innerHTML = '';
+    toolbar.appendChild(leftSection);
+    toolbar.appendChild(rightSection);
   }
 
   /**
@@ -209,6 +253,18 @@
   }
 
   /**
+   * Remove default GitHub navigation link (we replace it with styled button)
+   */
+  function removeDefaultGitHubLink() {
+    const navLinks = document.querySelectorAll('.tsd-page-toolbar .tsd-toolbar-contents > a:not(.title)');
+    navLinks.forEach(function(link) {
+      if (link.textContent.includes('GitHub') || link.href.includes('github.com')) {
+        link.remove();
+      }
+    });
+  }
+
+  /**
    * Fetch versions.json and initialize the selector
    */
   function init() {
@@ -217,6 +273,9 @@
 
     // Make logo link to landing page
     fixLogoLink();
+
+    // Remove default GitHub link
+    removeDefaultGitHubLink();
 
     const versionsUrl = BASE_PATH + '/versions.json';
 
@@ -230,11 +289,36 @@
       .then(function (versions) {
         const currentVersion = getCurrentVersion();
         const selector = createVersionSelector(versions, currentVersion);
-        insertVersionSelector(selector);
+        const githubBtn = createGitHubButton();
+        insertToolbarElements(selector, githubBtn);
       })
       .catch(function (error) {
-        // Silently fail - version selector is non-essential
+        // Even if versions.json fails, still add GitHub button and reorganize toolbar
         console.debug('Version selector not available:', error.message);
+        const githubBtn = createGitHubButton();
+        const toolbar = document.querySelector('.tsd-page-toolbar .tsd-toolbar-contents');
+        if (toolbar) {
+          const title = toolbar.querySelector('a.title');
+          const search = toolbar.querySelector('#tsd-search');
+
+          // Create left section: just logo (no version selector available)
+          const leftSection = createToolbarSection('tsd-toolbar-left');
+          if (title) {
+            leftSection.appendChild(title);
+          }
+
+          // Create right section: GitHub button + search
+          const rightSection = createToolbarSection('tsd-toolbar-icon-container');
+          rightSection.appendChild(githubBtn);
+          if (search) {
+            rightSection.appendChild(search);
+          }
+
+          // Clear toolbar and add sections
+          toolbar.innerHTML = '';
+          toolbar.appendChild(leftSection);
+          toolbar.appendChild(rightSection);
+        }
       });
   }
 
