@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@magek/core",
+      "comment": "Fix @Command decorator to allow fieldless commands without requiring @field() properties",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@magek/core",
+  "email": "copilot@github.com"
+}
