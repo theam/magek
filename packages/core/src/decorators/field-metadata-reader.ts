@@ -5,14 +5,13 @@ import {
   PropertyMetadata,
   TypeMetadata,
   ClassType,
-  getMetadata,
 } from '@magek/common'
 import {
   FIELDS_METADATA_KEY,
   SYMBOL_METADATA,
   DecoratorMetadataObject,
-  getFieldMetadata,
 } from './decorator-types'
+import { CALCULATED_FIELDS_SYMBOL } from './read-model'
 
 /**
  * Extract TypeMetadata from a @field() decorator's metadata
@@ -153,45 +152,51 @@ function analyzeType(targetType: any, options: TypeAnalysisOptions): TypeMetadat
 }
 
 /**
- * Get all fields from a class, including inherited fields
+ * Get metadata object, preferring contextMetadata (from class decorator) over Symbol.metadata.
+ * During class decorator execution, Symbol.metadata isn't yet attached to the class,
+ * so we need to use context.metadata directly.
  */
-function getAllFields(classType: AnyClass): FieldMetadata[] {
-  const fields: FieldMetadata[] = []
-  const seenNames = new Set<string>()
-
-  const addField = (field: FieldMetadata) => {
-    if (!seenNames.has(field.name)) {
-      seenNames.add(field.name)
-      fields.push(field)
-    }
+function getMetadataObject(
+  classType: AnyClass,
+  contextMetadata?: DecoratorMetadataObject
+): DecoratorMetadataObject | undefined {
+  if (contextMetadata) {
+    return contextMetadata
   }
-
-  // Check Symbol.metadata (TypeScript sets this for Stage 3 decorators)
+  // Fall back to Symbol.metadata (for post-decorator access)
   const classRecord = classType as unknown as Record<symbol, DecoratorMetadataObject | undefined>
-  const metadata = classRecord[SYMBOL_METADATA]
-  if (metadata?.[FIELDS_METADATA_KEY]) {
-    ;(metadata[FIELDS_METADATA_KEY] as FieldMetadata[]).forEach(addField)
-  }
-
-  // Check WeakMap storage (primary mechanism)
-  getFieldMetadata(classType).forEach(addField)
-
-  // Walk prototype chain for inherited fields
-  let proto = Object.getPrototypeOf(classType)
-  while (proto && proto !== Function.prototype) {
-    getFieldMetadata(proto).forEach(addField)
-    proto = Object.getPrototypeOf(proto)
-  }
-
-  return fields
+  return classRecord[SYMBOL_METADATA]
 }
 
 /**
- * Get all getters (calculated fields) from a class
+ * Get all fields from a class, including inherited fields.
+ * Reads from Symbol.metadata (set by TC39 Stage 3 decorators).
+ *
+ * @param classType - The class to get fields from
+ * @param contextMetadata - Optional context.metadata from class decorator (used during decorator execution)
  */
-function getAllGetters(classType: AnyClass): PropertyMetadata[] {
+function getAllFields(classType: AnyClass, contextMetadata?: DecoratorMetadataObject): FieldMetadata[] {
+  const metadata = getMetadataObject(classType, contextMetadata)
+  if (metadata?.[FIELDS_METADATA_KEY]) {
+    return [...(metadata[FIELDS_METADATA_KEY] as FieldMetadata[])]
+  }
+  return []
+}
+
+/**
+ * Get all getters (calculated fields) from a class.
+ * Reads dependencies from Symbol.metadata (set by @calculatedField decorator).
+ *
+ * @param classType - The class to get getters from
+ * @param contextMetadata - Optional context.metadata from class decorator (used during decorator execution)
+ */
+function getAllGetters(classType: AnyClass, contextMetadata?: DecoratorMetadataObject): PropertyMetadata[] {
   const getters: PropertyMetadata[] = []
   const prototype = classType.prototype
+
+  // Get calculated field dependencies from metadata
+  const metadata = getMetadataObject(classType, contextMetadata)
+  const calculatedFields = metadata?.[CALCULATED_FIELDS_SYMBOL] as Record<string, string[]> | undefined
 
   // Get property descriptors
   const descriptors = Object.getOwnPropertyDescriptors(prototype)
@@ -199,8 +204,7 @@ function getAllGetters(classType: AnyClass): PropertyMetadata[] {
   for (const [propertyKey, descriptor] of Object.entries(descriptors)) {
     if (descriptor.get) {
       // This is a getter, check if it has @calculatedField metadata
-      const dependencies: string[] =
-        getMetadata<Record<string, string[]>>('dynamic:dependencies', classType)?.[propertyKey] || []
+      const dependencies = calculatedFields?.[propertyKey] || []
 
       const typeMetadata: TypeMetadata = analyzeType(Object, {
         isNullable: false,
@@ -221,11 +225,19 @@ function getAllGetters(classType: AnyClass): PropertyMetadata[] {
 }
 
 /**
- * Build ClassMetadata from @field() decorators
+ * Build ClassMetadata from @field() decorators.
+ *
+ * @param classType - The class to build metadata for
+ * @param contextMetadata - Optional context.metadata from class decorator.
+ *   IMPORTANT: During class decorator execution, Symbol.metadata isn't yet attached to the class.
+ *   Class decorators must pass context.metadata to read field metadata correctly.
  */
-export function buildClassMetadataFromFields(classType: AnyClass): ClassMetadata {
+export function buildClassMetadataFromFields(
+  classType: AnyClass,
+  contextMetadata?: DecoratorMetadataObject
+): ClassMetadata {
   // Get all fields (including inherited)
-  const fieldMetadatas = getAllFields(classType)
+  const fieldMetadatas = getAllFields(classType, contextMetadata)
 
   // Convert to PropertyMetadata
   const fields: PropertyMetadata[] = fieldMetadatas.map((fieldMeta) => ({
@@ -235,7 +247,7 @@ export function buildClassMetadataFromFields(classType: AnyClass): ClassMetadata
   }))
 
   // Get getter methods (for @calculatedField)
-  const methods = getAllGetters(classType)
+  const methods = getAllGetters(classType, contextMetadata)
 
   return {
     name: classType.name,

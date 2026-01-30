@@ -1,5 +1,3 @@
-import { FieldMetadata } from '@magek/common'
-
 // ============ SYMBOLS ============
 
 /** Symbol used to store field metadata in decorator context.metadata */
@@ -56,21 +54,3 @@ export interface GetterDecoratorContext {
   addInitializer?: (initializer: () => void) => void
 }
 
-// ============ FIELD METADATA STORAGE ============
-
-const fieldMetadataStore = new WeakMap<Function, FieldMetadata[]>()
-
-export function getFieldMetadata(classType: Function): FieldMetadata[] {
-  return fieldMetadataStore.get(classType) ?? []
-}
-
-export function setFieldMetadata(classType: Function, fields: FieldMetadata[]): void {
-  fieldMetadataStore.set(classType, fields)
-}
-
-export function addFieldMetadata(classType: Function, field: FieldMetadata): void {
-  const existing = getFieldMetadata(classType)
-  const filtered = existing.filter((f) => f.name !== field.name)
-  filtered.push(field)
-  setFieldMetadata(classType, filtered)
-}

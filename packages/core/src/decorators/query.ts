@@ -8,7 +8,7 @@ import {
 } from '@magek/common'
 import { getClassMetadata } from './metadata'
 import { MagekAuthorizer } from '../authorizer'
-import { transferFieldMetadata, ClassDecoratorContext } from './decorator-utils'
+import { ClassDecoratorContext } from './decorator-utils'
 
 /**
  * Decorator to mark a class as a Magek Query.
@@ -23,16 +23,14 @@ export function Query(
   attributes: QueryRoleAccess & CommandFilterHooks
 ): <TCommand>(queryClass: QueryInterface<TCommand>, context: ClassDecoratorContext) => void {
   return (queryClass, context) => {
-    // Transfer Stage 3 field metadata
-    transferFieldMetadata(queryClass, context.metadata)
-
     Magek.configureCurrentEnv((config): void => {
       if (config.queryHandlers[queryClass.name]) {
         throw new Error(`A query called ${queryClass.name} is already registered.
         If you think that this is an error, try performing a clean build.`)
       }
 
-      const metadata = getClassMetadata(queryClass)
+      // Pass context.metadata because Symbol.metadata isn't attached to class yet during decorator execution
+      const metadata = getClassMetadata(queryClass, context.metadata)
       config.queryHandlers[queryClass.name] = {
         class: queryClass,
         authorizer: MagekAuthorizer.build(attributes) as QueryAuthorizer,

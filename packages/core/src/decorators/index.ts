@@ -6,8 +6,6 @@ export type {
   DecoratorMetadataObject,
 } from './decorator-types'
 
-export { transferFieldMetadata } from './decorator-utils'
-
 export * from './command'
 export * from './field'
 export * from './query'

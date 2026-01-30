@@ -1,6 +1,6 @@
 import { Class, EventInterface } from '@magek/common'
 import { Magek } from '../magek'
-import { transferFieldMetadata, ClassDecoratorContext } from './decorator-utils'
+import { ClassDecoratorContext } from './decorator-utils'
 
 /**
  * Decorator to mark a class as a Magek Event.
@@ -12,11 +12,8 @@ import { transferFieldMetadata, ClassDecoratorContext } from './decorator-utils'
  */
 export function Event<TEvent extends EventInterface>(
   eventClass: Class<TEvent>,
-  context: ClassDecoratorContext
+  _context: ClassDecoratorContext
 ): void {
-  // Transfer Stage 3 field metadata
-  transferFieldMetadata(eventClass, context.metadata)
-
   Magek.configureCurrentEnv((config): void => {
     if (config.events[eventClass.name]) {
       throw new Error(`A event called ${eventClass.name} is already registered.

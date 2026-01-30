@@ -7,7 +7,7 @@ import {
 } from '@magek/common'
 import { getClassMetadata } from './metadata'
 import { MagekAuthorizer } from '../authorizer'
-import { transferFieldMetadata, ClassDecoratorContext } from './decorator-utils'
+import { ClassDecoratorContext } from './decorator-utils'
 
 /**
  * Decorator to mark a class as a Magek Command.
@@ -22,16 +22,14 @@ export function Command(
   attributes: CommandRoleAccess & CommandFilterHooks
 ): <TCommand>(commandClass: CommandInterface<TCommand>, context: ClassDecoratorContext) => void {
   return (commandClass, context) => {
-    // Transfer Stage 3 field metadata
-    transferFieldMetadata(commandClass, context.metadata)
-
     Magek.configureCurrentEnv((config): void => {
       if (config.commandHandlers[commandClass.name]) {
         throw new Error(`A command called ${commandClass.name} is already registered.
         If you think that this is an error, try performing a clean build.`)
       }
 
-      const metadata = getClassMetadata(commandClass)
+      // Pass context.metadata because Symbol.metadata isn't attached to class yet during decorator execution
+      const metadata = getClassMetadata(commandClass, context.metadata)
       config.commandHandlers[commandClass.name] = {
         class: commandClass,
         authorizer: MagekAuthorizer.build(attributes) as CommandAuthorizer,

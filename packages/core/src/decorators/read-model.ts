@@ -4,14 +4,32 @@ import {
   ReadModelFilterHooks,
   ReadModelInterface,
   ReadModelRoleAccess,
-  getMetadata,
-  defineMetadata,
+  AnyClass,
 } from '@magek/common'
 import { Magek } from '../magek'
 import { MagekAuthorizer } from '../authorizer'
 import { getClassMetadata } from './metadata'
-import { transferFieldMetadata, ClassDecoratorContext, GetterDecoratorContext } from './decorator-utils'
-import { transferSequenceKeyMetadata } from './sequenced-by'
+import { ClassDecoratorContext, GetterDecoratorContext } from './decorator-utils'
+import { SEQUENCE_KEY_SYMBOL } from './sequenced-by'
+
+/**
+ * Register sequence key for a class
+ */
+function registerSequenceKey(klass: AnyClass, propertyName: string): void {
+  Magek.configureCurrentEnv((config): void => {
+    if (config.readModelSequenceKeys[klass.name] && config.readModelSequenceKeys[klass.name] !== propertyName) {
+      throw new Error(
+        `Error trying to register a sort key named \`${propertyName}\` for class \`${
+          klass.name
+        }\`. It already had the sort key \`${
+          config.readModelSequenceKeys[klass.name]
+        }\` defined and only one sort key is allowed for each read model.`
+      )
+    } else {
+      config.readModelSequenceKeys[klass.name] = propertyName
+    }
+  })
+}
 
 /**
  * Decorator to register a class as a ReadModel.
@@ -24,10 +42,11 @@ export function ReadModel(
   attributes: ReadModelRoleAccess & ReadModelFilterHooks
 ): (readModelClass: Class<ReadModelInterface>, context: ClassDecoratorContext) => void {
   return (readModelClass, context) => {
-    // Transfer Stage 3 field metadata
-    transferFieldMetadata(readModelClass, context.metadata)
-    transferSequenceKeyMetadata(readModelClass, context.metadata)
-    transferCalculatedFieldDependencies(readModelClass, context.metadata)
+    // Read sequence key from Symbol.metadata and register to config
+    const sequenceKey = (context.metadata as Record<symbol, unknown> | undefined)?.[SEQUENCE_KEY_SYMBOL] as string | undefined
+    if (sequenceKey) {
+      registerSequenceKey(readModelClass, sequenceKey)
+    }
 
     Magek.configureCurrentEnv((config): void => {
       if (config.readModels[readModelClass.name]) {
@@ -36,23 +55,22 @@ export function ReadModel(
       }
 
       const authorizer = MagekAuthorizer.build(attributes) as ReadModelAuthorizer
-      const classMetadata = getClassMetadata(readModelClass)
-      const dynamicDependencies =
-        getMetadata<Record<string, string[]>>('dynamic:dependencies', readModelClass as object) || {}
+      // Pass context.metadata because Symbol.metadata isn't attached to class yet during decorator execution
+      const classMetadata = getClassMetadata(readModelClass, context.metadata)
 
-      // Combine fields with dynamic dependencies
-      const fieldProperties = classMetadata.fields.map((field: any) => {
+      // Combine fields with empty dependencies (fields don't have dependencies)
+      const fieldProperties = classMetadata.fields.map((field) => {
         return {
           ...field,
-          dependencies: dynamicDependencies[field.name] || [],
+          dependencies: [] as string[],
         }
       })
 
       // Include calculated fields (getters) from methods with their dependencies
-      const methodProperties = classMetadata.methods.map((method: any) => {
+      // Dependencies are already included in method from getAllGetters (reads from Symbol.metadata)
+      const methodProperties = classMetadata.methods.map((method) => {
         return {
           ...method,
-          // Dependencies already included in method from getAllGetters
         }
       })
 
@@ -73,34 +91,14 @@ interface CalculatedFieldOptions {
   dependsOn: string[]
 }
 
-// Symbol for storing calculated field dependencies in decorator context.metadata
-const CALCULATED_FIELDS_SYMBOL = Symbol.for('magek:calculatedFields')
-
-/**
- * Transfer calculated field dependencies from Stage 3 context.metadata to class metadata.
- * Called by the ReadModel class decorator.
- */
-function transferCalculatedFieldDependencies(
-  classType: Function,
-  contextMetadata?: Record<string | symbol, unknown>
-): void {
-  if (!contextMetadata) return
-
-  const calculatedFields = contextMetadata[CALCULATED_FIELDS_SYMBOL] as Record<string, string[]> | undefined
-  if (calculatedFields) {
-    const existingDependencies =
-      getMetadata<Record<string, string[]>>('dynamic:dependencies', classType as object) || {}
-    for (const [propertyName, dependencies] of Object.entries(calculatedFields)) {
-      existingDependencies[propertyName] = dependencies
-    }
-    defineMetadata('dynamic:dependencies', existingDependencies, classType as object)
-  }
-}
+/** Symbol for storing calculated field dependencies in decorator context.metadata */
+export const CALCULATED_FIELDS_SYMBOL = Symbol.for('magek:calculatedFields')
 
 /**
  * Decorator to mark a property as a calculated field with dependencies.
  *
  * Uses TC39 Stage 3 decorators.
+ * Dependencies are stored in context.metadata and read by field-metadata-reader.
  *
  * @param options - A `CalculatedFieldOptions` object indicating the dependencies.
  */
@@ -110,24 +108,13 @@ export function calculatedField(
   return (_target: Function, context: GetterDecoratorContext): void => {
     const propertyName = String(context.name)
 
-    // Store in context.metadata for ReadModel decorator to pick up
+    // Store in context.metadata (becomes class[Symbol.metadata])
     if (context.metadata) {
       if (!context.metadata[CALCULATED_FIELDS_SYMBOL]) {
         context.metadata[CALCULATED_FIELDS_SYMBOL] = {}
       }
       const calculatedFields = context.metadata[CALCULATED_FIELDS_SYMBOL] as Record<string, string[]>
       calculatedFields[propertyName] = options.dependsOn
-    }
-
-    // Also use addInitializer to set Reflect metadata
-    if (context.addInitializer) {
-      context.addInitializer(function (this: object) {
-        const klass = this.constructor
-        const existingDependencies =
-          getMetadata<Record<string, string[]>>('dynamic:dependencies', klass as object) || {}
-        existingDependencies[propertyName] = options.dependsOn
-        defineMetadata('dynamic:dependencies', existingDependencies, klass as object)
-      })
     }
   }
 }
