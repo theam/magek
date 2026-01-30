@@ -44,21 +44,32 @@ function main() {
 
   // 1. Build TypeDoc to versioned folder
   const versionedDir = path.join(OUTPUT_DIR, `v${VERSION}`);
-  console.log(`\n[1/3] Building TypeDoc to ${versionedDir}...`);
+  console.log(`\n[1/4] Building TypeDoc to ${versionedDir}...`);
   execSync(`npx typedoc --out "${versionedDir}"`, {
     cwd: DOCS_DIR,
     stdio: 'inherit',
   });
 
   // 2. Copy media files
-  console.log('\n[2/3] Copying media files...');
+  console.log('\n[2/4] Copying media files...');
   const mediaDir = path.join(versionedDir, 'media');
   fs.mkdirSync(mediaDir, { recursive: true });
   fs.copyFileSync(path.join(DOCS_DIR, 'content/magek-logo.svg'), path.join(mediaDir, 'magek-logo.svg'));
 
   // 3. Build landing page
-  console.log('\n[3/3] Building landing page...');
+  console.log('\n[3/4] Building landing page...');
   buildLandingPage(VERSION);
+
+  // 4. Create versions.json for version selector
+  console.log('\n[4/4] Creating versions.json...');
+  const versionsJson = {
+    latest: VERSION,
+    versions: [VERSION],
+  };
+  fs.writeFileSync(
+    path.join(OUTPUT_DIR, 'versions.json'),
+    JSON.stringify(versionsJson, null, 2)
+  );
 
   console.log(`\n✓ Docs site built successfully at: ${OUTPUT_DIR}`);
   console.log(`  Landing page: ${OUTPUT_DIR}/index.html`);

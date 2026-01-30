@@ -5,17 +5,17 @@
 (function () {
   'use strict';
 
-  // Base path for the docs site (GitHub Pages uses /magek/)
-  const BASE_PATH = '/magek';
+  // Base path for the docs site (empty for root deployment)
+  const BASE_PATH = '';
 
   /**
    * Extract the current version from the URL path
-   * Expected format: /magek/v0.0.7/...
+   * Expected format: /v0.0.7/...
    */
   function getCurrentVersion() {
     const pathParts = window.location.pathname.split('/');
-    // pathParts: ['', 'magek', 'v0.0.7', 'index.html'] or similar
-    const versionPart = pathParts[2];
+    // pathParts: ['', 'v0.0.7', 'index.html'] or similar
+    const versionPart = pathParts[1];
     if (versionPart && versionPart.startsWith('v')) {
       return versionPart;
     }
@@ -24,12 +24,12 @@
 
   /**
    * Get the current page path relative to the version root
-   * E.g., /magek/v0.0.7/classes/Entity.html -> classes/Entity.html
+   * E.g., /v0.0.7/classes/Entity.html -> classes/Entity.html
    */
   function getRelativePath() {
     const pathParts = window.location.pathname.split('/');
-    // Skip ['', 'magek', 'version'] and join the rest
-    return pathParts.slice(3).join('/') || 'index.html';
+    // Skip ['', 'version'] and join the rest
+    return pathParts.slice(2).join('/') || 'index.html';
   }
 
   /**
@@ -146,9 +146,39 @@
   }
 
   /**
+   * Redirect version root to Introduction page
+   */
+  function redirectToIntro() {
+    const path = window.location.pathname;
+    // Match patterns like /v0.0.6/ or /v0.0.6/index.html
+    if (path.match(/^\/v[\d.]+\/?$/) || path.match(/^\/v[\d.]+\/index\.html$/)) {
+      const versionMatch = path.match(/^(\/v[\d.]+)/);
+      if (versionMatch) {
+        window.location.replace(versionMatch[1] + '/documents/Documentation.Introduction.html');
+      }
+    }
+  }
+
+  /**
+   * Make logo link to landing page instead of version root
+   */
+  function fixLogoLink() {
+    const titleLink = document.querySelector('.tsd-page-toolbar a.title');
+    if (titleLink) {
+      titleLink.href = '/';
+    }
+  }
+
+  /**
    * Fetch versions.json and initialize the selector
    */
   function init() {
+    // Redirect version root to Introduction page
+    redirectToIntro();
+
+    // Make logo link to landing page
+    fixLogoLink();
+
     const versionsUrl = BASE_PATH + '/versions.json';
 
     fetch(versionsUrl)
