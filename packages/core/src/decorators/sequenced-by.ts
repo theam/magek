@@ -1,21 +1,9 @@
 import { Magek } from '../magek'
 import { AnyClass } from '@magek/common'
+import { FieldDecoratorContext, DecoratorMetadataObject } from './decorator-types'
 
-// Symbol for storing sequence key in Stage 3 decorator context.metadata
+// Symbol for storing sequence key in decorator context.metadata
 const SEQUENCE_KEY_SYMBOL = Symbol.for('magek:sequenceKey')
-
-/**
- * Stage 3 field decorator context
- */
-interface Stage3FieldContext {
-  kind: 'field'
-  name: string | symbol
-  static: boolean
-  private: boolean
-  metadata?: Record<string | symbol, unknown>
-  access?: unknown
-  addInitializer?: (initializer: () => void) => void
-}
 
 /**
  * Register sequence key for a class
@@ -43,7 +31,7 @@ function registerSequenceKey(klass: AnyClass, propertyName: string): void {
  */
 export function sequencedBy(
   _value: undefined,
-  context: Stage3FieldContext
+  context: FieldDecoratorContext
 ): void {
   const propertyName = String(context.name)
 
@@ -62,12 +50,12 @@ export function sequencedBy(
 }
 
 /**
- * Transfer sequence key metadata from Stage 3 context to class.
+ * Transfer sequence key metadata from decorator context to class.
  * Called by the ReadModel class decorator.
  */
 export function transferSequenceKeyMetadata(
   classType: AnyClass,
-  contextMetadata?: Record<string | symbol, unknown>
+  contextMetadata?: DecoratorMetadataObject
 ): void {
   if (!contextMetadata) return
 

@@ -1,26 +1,11 @@
 import { FieldMetadata, FieldOptions, TypeFunction } from '@magek/common'
-
-// Symbol for storing fields metadata (for Stage 3 decorators)
-const FIELDS_KEY = Symbol.for('magek:fields')
-
-/**
- * Stage 3 decorator context for class fields (TypeScript 5.0+)
- */
-interface Stage3FieldContext {
-  kind: 'field'
-  name: string | symbol
-  static: boolean
-  private: boolean
-  metadata?: Record<string | symbol, unknown>
-  access?: unknown
-  addInitializer?: (initializer: () => void) => void
-}
+import { FIELDS_METADATA_KEY, FieldDecoratorContext } from './decorator-types'
 
 /**
  * Handle Stage 3 decorator format (TC39 decorators)
  */
 function handleStage3Decorator(
-  context: Stage3FieldContext,
+  context: FieldDecoratorContext,
   typeFunction: TypeFunction | undefined,
   fieldOptions: FieldOptions
 ): void {
@@ -34,20 +19,20 @@ function handleStage3Decorator(
   // Store in context.metadata for later retrieval by class decorators
   // Class decorators (like @Command, @Entity, etc.) will transfer this to the class constructor
   if (context.metadata) {
-    if (!context.metadata[FIELDS_KEY]) {
-      context.metadata[FIELDS_KEY] = []
+    if (!context.metadata[FIELDS_METADATA_KEY]) {
+      context.metadata[FIELDS_METADATA_KEY] = []
     }
-    const fields = context.metadata[FIELDS_KEY] as FieldMetadata[]
+    const fields = context.metadata[FIELDS_METADATA_KEY] as FieldMetadata[]
     const filteredFields = fields.filter((f) => f.name !== fieldMetadata.name)
     filteredFields.push(fieldMetadata)
-    context.metadata[FIELDS_KEY] = filteredFields
+    context.metadata[FIELDS_METADATA_KEY] = filteredFields
   }
 }
 
 /**
  * Stage 3 field decorator type
  */
-type Stage3FieldDecorator = (value: undefined, context: Stage3FieldContext) => void
+type Stage3FieldDecorator = (value: undefined, context: FieldDecoratorContext) => void
 
 /**
  * @field() decorator for explicit type declaration
@@ -81,7 +66,7 @@ export function field(
   }
 
   // Return Stage 3 decorator
-  return function fieldDecorator(_value: undefined, context: Stage3FieldContext): void {
+  return function fieldDecorator(_value: undefined, context: FieldDecoratorContext): void {
     handleStage3Decorator(context, typeFunction, fieldOptions)
   }
 }

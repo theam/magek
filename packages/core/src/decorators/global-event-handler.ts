@@ -1,6 +1,6 @@
 import { EventHandlerInterface } from '@magek/common'
 import { registerEventHandler } from './event-handler'
-import { Stage3ClassContext } from './stage3-utils'
+import { ClassDecoratorContext } from './decorator-types'
 
 export const GLOBAL_EVENT_HANDLERS = 'GLOBAL_EVENT_HANDLERS'
 
@@ -14,7 +14,7 @@ export const GLOBAL_EVENT_HANDLERS = 'GLOBAL_EVENT_HANDLERS'
  */
 export function GlobalEventHandler<TEventHandler extends EventHandlerInterface>(
   eventHandlerClass: TEventHandler,
-  context: Stage3ClassContext
+  context: ClassDecoratorContext
 ): void {
   registerEventHandler(GLOBAL_EVENT_HANDLERS, eventHandlerClass)
 }

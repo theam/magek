@@ -1,31 +1,8 @@
 import { Magek } from '../magek'
 import { AnyClass } from '@magek/common'
+import { FieldDecoratorContext, MethodDecoratorContext } from './decorator-types'
 
-/**
- * Stage 3 field decorator context
- */
-interface Stage3FieldContext {
-  kind: 'field'
-  name: string | symbol
-  static: boolean
-  private: boolean
-  metadata?: Record<string | symbol, unknown>
-  addInitializer?: (initializer: () => void) => void
-}
-
-/**
- * Stage 3 method decorator context
- */
-interface Stage3MethodContext {
-  kind: 'method'
-  name: string | symbol
-  static: boolean
-  private: boolean
-  metadata?: Record<string | symbol, unknown>
-  addInitializer?: (initializer: () => void) => void
-}
-
-type Stage3FieldOrMethodContext = Stage3FieldContext | Stage3MethodContext
+type FieldOrMethodDecoratorContext = FieldDecoratorContext | MethodDecoratorContext
 
 /**
  * Decorator to mark a field or method as non-exposed in GraphQL.
@@ -34,7 +11,7 @@ type Stage3FieldOrMethodContext = Stage3FieldContext | Stage3MethodContext
  */
 export function nonExposed(
   _value: undefined | Function,
-  context: Stage3FieldOrMethodContext
+  context: FieldOrMethodDecoratorContext
 ): void {
   const fieldName = String(context.name)
 

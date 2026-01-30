@@ -8,7 +8,7 @@ import {
 } from '@magek/common'
 import { getClassMetadata } from './metadata'
 import { MagekAuthorizer } from '../authorizer'
-import { transferStage3FieldMetadata, Stage3ClassContext } from './stage3-utils'
+import { transferFieldMetadata, ClassDecoratorContext } from './decorator-utils'
 
 /**
  * Decorator to mark a class as a Magek Query.
@@ -21,10 +21,10 @@ import { transferStage3FieldMetadata, Stage3ClassContext } from './stage3-utils'
  */
 export function Query(
   attributes: QueryRoleAccess & CommandFilterHooks
-): <TCommand>(queryClass: QueryInterface<TCommand>, context: Stage3ClassContext) => void {
+): <TCommand>(queryClass: QueryInterface<TCommand>, context: ClassDecoratorContext) => void {
   return (queryClass, context) => {
     // Transfer Stage 3 field metadata
-    transferStage3FieldMetadata(queryClass, context.metadata)
+    transferFieldMetadata(queryClass, context.metadata)
 
     Magek.configureCurrentEnv((config): void => {
       if (config.queryHandlers[queryClass.name]) {

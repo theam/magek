@@ -10,23 +10,12 @@ import {
   ReadModelJoinKeyFunction,
   UUID,
 } from '@magek/common'
+import { MethodDecoratorContext } from './decorator-types'
 
 type PropertyType<TObj, TProp extends keyof TObj> = TObj[TProp]
 type JoinKeyType<TEntity extends EntityInterface, TReadModel extends ReadModelInterface> =
   | keyof TEntity
   | ReadModelJoinKeyFunction<TEntity, TReadModel>
-
-/**
- * Stage 3 method decorator context
- */
-interface Stage3MethodContext {
-  kind: 'method'
-  name: string | symbol
-  static: boolean
-  private: boolean
-  metadata?: Record<string | symbol, unknown>
-  addInitializer?: (initializer: () => void) => void
-}
 
 /**
  * Decorator to register a read model method as a projection
@@ -48,7 +37,7 @@ export function projects<
   unProject?: UnprojectionMethod<TEntity, TReadModel, PropertyType<TEntity, TJoinKey>>
 ): <TReceivedReadModel extends ReadModelInterface>(
   method: Function,
-  context: Stage3MethodContext
+  context: MethodDecoratorContext
 ) => void {
   return (_method, context) => {
     // Stage 3 decorator - use addInitializer to get the class

@@ -1,6 +1,6 @@
 import { Magek } from '../magek'
 import { ScheduledCommandInterface, ScheduleInterface } from '@magek/common'
-import { Stage3ClassContext } from './stage3-utils'
+import { ClassDecoratorContext } from './decorator-types'
 
 /**
  * Decorator to mark a class as a Magek Scheduled Command.
@@ -13,7 +13,7 @@ import { Stage3ClassContext } from './stage3-utils'
  */
 export function ScheduledCommand(
   attributes: ScheduleInterface
-): (scheduledCommandClass: ScheduledCommandInterface, context: Stage3ClassContext) => void {
+): (scheduledCommandClass: ScheduledCommandInterface, context: ClassDecoratorContext) => void {
   return (commandClass) => {
     Magek.configureCurrentEnv((config): void => {
       if (config.scheduledCommandHandlers[commandClass.name]) {

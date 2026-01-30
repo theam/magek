@@ -1,7 +1,7 @@
 /**
- * This test file tests Stage 3 TC39 decorator compatibility with Magek.
+ * This test file tests TC39 decorator compatibility with Magek.
  *
- * The codebase now uses Stage 3 decorators exclusively (experimentalDecorators
+ * The codebase uses TC39 Stage 3 decorators exclusively (experimentalDecorators
  * has been removed from all tsconfig.json files).
  */
 
@@ -11,9 +11,15 @@ import { UUID } from '@magek/common'
 import { field } from '../../src'
 import { Magek } from '../../src'
 
-describe('Stage 3 decorator compatibility', () => {
+describe('Decorator compatibility', () => {
+  afterEach(() => {
+    Magek.configure('test', (config) => {
+      config.globalErrorsHandler = undefined
+    })
+  })
+
   describe('@Event decorator', () => {
-    it('registers an event class with Stage 3 compatible signature', () => {
+    it('registers an event class with TC39 compatible signature', () => {
       @Event
       class TestEvent {
         @field()
@@ -29,7 +35,7 @@ describe('Stage 3 decorator compatibility', () => {
       })
     })
 
-    it('transfers field metadata when using Stage 3 decorators', () => {
+    it('transfers field metadata when using TC39 decorators', () => {
       @Event
       class EventWithFields {
         @field()
@@ -54,7 +60,7 @@ describe('Stage 3 decorator compatibility', () => {
   })
 
   describe('@Role decorator', () => {
-    it('registers a role class with Stage 3 compatible signature', () => {
+    it('registers a role class with TC39 compatible signature', () => {
       @Role({ auth: {} })
       class TestRole2 {
         public readonly id!: string
@@ -69,7 +75,7 @@ describe('Stage 3 decorator compatibility', () => {
   })
 
   describe('@GlobalErrorHandler decorator', () => {
-    it('registers a global error handler with Stage 3 compatible signature', () => {
+    it('registers a global error handler with TC39 compatible signature', () => {
       @GlobalErrorHandler()
       class TestGlobalErrorHandler {
         public async handle(): Promise<void> {

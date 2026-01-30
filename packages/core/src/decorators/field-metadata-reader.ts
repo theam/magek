@@ -1,11 +1,18 @@
-import { AnyClass, FieldMetadata, ClassMetadata, PropertyMetadata, TypeMetadata, ClassType, getMetadata } from '@magek/common'
-
-// Symbol used by Stage 3 decorators to store field metadata
-const FIELDS_KEY = Symbol.for('magek:fields')
-
-// Symbol.metadata may not be defined in all TypeScript lib versions
-// Use a well-known symbol that Stage 3 decorators use
-const METADATA_KEY: symbol = (Symbol as { metadata?: symbol }).metadata ?? Symbol.for('Symbol.metadata')
+import {
+  AnyClass,
+  FieldMetadata,
+  ClassMetadata,
+  PropertyMetadata,
+  TypeMetadata,
+  ClassType,
+  getMetadata,
+} from '@magek/common'
+import {
+  FIELDS_METADATA_KEY,
+  SYMBOL_METADATA,
+  DecoratorMetadataObject,
+  getFieldMetadata,
+} from './decorator-types'
 
 /**
  * Extract TypeMetadata from a @field() decorator's metadata
@@ -150,38 +157,30 @@ function analyzeType(targetType: any, options: TypeAnalysisOptions): TypeMetadat
  */
 function getAllFields(classType: AnyClass): FieldMetadata[] {
   const fields: FieldMetadata[] = []
+  const seenNames = new Set<string>()
 
-  // First, check for Stage 3 decorator metadata (Symbol.metadata on the class)
-  // Stage 3 decorators store metadata in classType[Symbol.metadata]
-  const classAsRecord = classType as unknown as Record<symbol, Record<symbol, unknown> | undefined>
-  const metadata = classAsRecord[METADATA_KEY]
-  if (metadata && metadata[FIELDS_KEY]) {
-    const stage3Fields = metadata[FIELDS_KEY] as FieldMetadata[]
-    for (const field of stage3Fields) {
-      if (!fields.some((f) => f.name === field.name)) {
-        fields.push(field)
-      }
+  const addField = (field: FieldMetadata) => {
+    if (!seenNames.has(field.name)) {
+      seenNames.add(field.name)
+      fields.push(field)
     }
   }
 
-  // Then walk up the prototype chain for __magek_fields__ fallback
-  let currentPrototype = classType.prototype
+  // Check Symbol.metadata (TypeScript sets this for Stage 3 decorators)
+  const classRecord = classType as unknown as Record<symbol, DecoratorMetadataObject | undefined>
+  const metadata = classRecord[SYMBOL_METADATA]
+  if (metadata?.[FIELDS_METADATA_KEY]) {
+    ;(metadata[FIELDS_METADATA_KEY] as FieldMetadata[]).forEach(addField)
+  }
 
-  while (currentPrototype && currentPrototype !== Object.prototype) {
-    const constructor = currentPrototype.constructor as { __magek_fields__?: FieldMetadata[] }
+  // Check WeakMap storage (primary mechanism)
+  getFieldMetadata(classType).forEach(addField)
 
-    // Check fallback property
-    if (constructor.__magek_fields__) {
-      const prototypeFields = constructor.__magek_fields__
-      // Add fields that aren't already in the list (child overrides parent)
-      for (const field of prototypeFields) {
-        if (!fields.some((f) => f.name === field.name)) {
-          fields.push(field)
-        }
-      }
-    }
-
-    currentPrototype = Object.getPrototypeOf(currentPrototype)
+  // Walk prototype chain for inherited fields
+  let proto = Object.getPrototypeOf(classType)
+  while (proto && proto !== Function.prototype) {
+    getFieldMetadata(proto).forEach(addField)
+    proto = Object.getPrototypeOf(proto)
   }
 
   return fields

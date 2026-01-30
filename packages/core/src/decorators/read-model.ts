@@ -10,7 +10,7 @@ import {
 import { Magek } from '../magek'
 import { MagekAuthorizer } from '../authorizer'
 import { getClassMetadata } from './metadata'
-import { transferStage3FieldMetadata, Stage3ClassContext } from './stage3-utils'
+import { transferFieldMetadata, ClassDecoratorContext, GetterDecoratorContext } from './decorator-utils'
 import { transferSequenceKeyMetadata } from './sequenced-by'
 
 /**
@@ -22,10 +22,10 @@ import { transferSequenceKeyMetadata } from './sequenced-by'
  */
 export function ReadModel(
   attributes: ReadModelRoleAccess & ReadModelFilterHooks
-): (readModelClass: Class<ReadModelInterface>, context: Stage3ClassContext) => void {
+): (readModelClass: Class<ReadModelInterface>, context: ClassDecoratorContext) => void {
   return (readModelClass, context) => {
     // Transfer Stage 3 field metadata
-    transferStage3FieldMetadata(readModelClass, context.metadata)
+    transferFieldMetadata(readModelClass, context.metadata)
     transferSequenceKeyMetadata(readModelClass, context.metadata)
     transferCalculatedFieldDependencies(readModelClass, context.metadata)
 
@@ -73,20 +73,7 @@ interface CalculatedFieldOptions {
   dependsOn: string[]
 }
 
-/**
- * Stage 3 getter decorator context
- */
-interface Stage3GetterContext {
-  kind: 'getter'
-  name: string | symbol
-  static: boolean
-  private: boolean
-  metadata?: Record<string | symbol, unknown>
-  access?: unknown
-  addInitializer?: (initializer: () => void) => void
-}
-
-// Symbol for storing calculated field dependencies in Stage 3 decorator context.metadata
+// Symbol for storing calculated field dependencies in decorator context.metadata
 const CALCULATED_FIELDS_SYMBOL = Symbol.for('magek:calculatedFields')
 
 /**
@@ -119,8 +106,8 @@ function transferCalculatedFieldDependencies(
  */
 export function calculatedField(
   options: CalculatedFieldOptions
-): (target: Function, context: Stage3GetterContext) => void {
-  return (_target: Function, context: Stage3GetterContext): void => {
+): (target: Function, context: GetterDecoratorContext) => void {
+  return (_target: Function, context: GetterDecoratorContext): void => {
     const propertyName = String(context.name)
 
     // Store in context.metadata for ReadModel decorator to pick up

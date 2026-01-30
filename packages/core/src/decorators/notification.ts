@@ -1,31 +1,12 @@
 import { Class, NotificationInterface } from '@magek/common'
 import { Magek } from '../magek'
+import { FieldDecoratorContext, ClassDecoratorContext } from './decorator-types'
 
 export type NotificationOptions = {
   topic?: string
 }
 
-/**
- * Stage 3 field decorator context
- */
-interface Stage3FieldContext {
-  kind: 'field'
-  name: string | symbol
-  static: boolean
-  private: boolean
-  metadata?: Record<string | symbol, unknown>
-  addInitializer?: (initializer: () => void) => void
-}
-
-/**
- * Stage 3 class decorator context
- */
-interface Stage3ClassContext {
-  kind: 'class'
-  metadata?: Record<string | symbol, unknown>
-}
-
-// Symbol for storing partition key in Stage 3 metadata
+// Symbol for storing partition key in decorator metadata
 const PARTITION_KEY_SYMBOL = Symbol.for('magek:partitionKey')
 
 /**
@@ -39,7 +20,7 @@ const PARTITION_KEY_SYMBOL = Symbol.for('magek:partitionKey')
  */
 export const Notification =
   <TEvent extends NotificationInterface>(options?: NotificationOptions) =>
-  (eventClass: Class<TEvent>, context: Stage3ClassContext): void => {
+  (eventClass: Class<TEvent>, context: ClassDecoratorContext): void => {
     // Handle Stage 3: transfer partition key from context.metadata to config
     if (context.metadata && context.metadata[PARTITION_KEY_SYMBOL]) {
       const propertyName = context.metadata[PARTITION_KEY_SYMBOL] as string
@@ -73,7 +54,7 @@ export const Notification =
  */
 export function partitionKey(
   _value: undefined,
-  context: Stage3FieldContext
+  context: FieldDecoratorContext
 ): void {
   const propertyName = String(context.name)
   // Store in context.metadata so @Notification can read it

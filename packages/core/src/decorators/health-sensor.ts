@@ -6,7 +6,7 @@ import {
 } from '@magek/common'
 import { Magek } from '../magek'
 import { defaultMagekHealthIndicators } from '../sensor/health/health-indicators'
-import { Stage3ClassContext } from './stage3-utils'
+import { ClassDecoratorContext } from './decorator-types'
 
 /**
  * Decorator to mark a class as a Magek Health Sensor.
@@ -24,7 +24,7 @@ import { Stage3ClassContext } from './stage3-utils'
  */
 export function HealthSensor(
   attributes: HealthIndicatorConfiguration
-): <TIndicator extends HealthIndicatorInterface>(healthIndicator: Class<TIndicator>, context: Stage3ClassContext) => void {
+): <TIndicator extends HealthIndicatorInterface>(healthIndicator: Class<TIndicator>, context: ClassDecoratorContext) => void {
   return (healthIndicator) => {
     Magek.configureCurrentEnv((config): void => {
       if (Object.keys(config.userHealthIndicators).length === 0) {

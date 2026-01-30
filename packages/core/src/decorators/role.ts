@@ -1,6 +1,6 @@
 import { Magek } from '../magek'
 import { Class, RoleMetadata, RoleInterface } from '@magek/common'
-import { Stage3ClassContext } from './stage3-utils'
+import { ClassDecoratorContext } from './decorator-types'
 
 /**
  * Decorator to mark a class as a Magek Role.
@@ -13,7 +13,7 @@ import { Stage3ClassContext } from './stage3-utils'
  */
 export function Role(
   roleMetadata: RoleMetadata = { auth: {} }
-): (role: Class<RoleInterface>, context: Stage3ClassContext) => void {
+): (role: Class<RoleInterface>, context: ClassDecoratorContext) => void {
   return (role): void => {
     Magek.configureCurrentEnv((config): void => {
       config.roles[role.name] = roleMetadata

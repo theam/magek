@@ -1,31 +1,10 @@
 import { Magek } from '../magek'
 import { Class, AnyClass, SchemaMigrationMetadata, MagekConfig, getMetadata, defineMetadata } from '@magek/common'
+import { MethodDecoratorContext, ClassDecoratorContext } from './decorator-types'
 
 const migrationMethodsMetadataKey = 'magek:migrationsMethods'
 
-/**
- * Stage 3 method decorator context
- */
-interface Stage3MethodContext {
-  kind: 'method'
-  name: string | symbol
-  static: boolean
-  private: boolean
-  metadata?: Record<string | symbol, unknown>
-  addInitializer?: (initializer: () => void) => void
-}
-
-/**
- * Stage 3 class decorator context
- */
-interface Stage3ClassContext {
-  kind: 'class'
-  name: string | undefined
-  metadata?: Record<string | symbol, unknown>
-  addInitializer?: (initializer: () => void) => void
-}
-
-// Symbol for storing migration metadata in Stage 3 decorator context.metadata
+// Symbol for storing migration metadata in decorator context.metadata
 const MIGRATIONS_METADATA_KEY = Symbol.for('magek:migrationsMethods')
 
 /**
@@ -35,7 +14,7 @@ const MIGRATIONS_METADATA_KEY = Symbol.for('magek:migrationsMethods')
  */
 export function SchemaMigration(
   conceptClass: AnyClass
-): (schemaMigrationClass: AnyClass, context: Stage3ClassContext) => void {
+): (schemaMigrationClass: AnyClass, context: ClassDecoratorContext) => void {
   return (schemaMigrationClass, context) => {
     Magek.configureCurrentEnv((config) => {
       const conceptMigrations = getConceptMigrations(config, conceptClass)
@@ -98,7 +77,7 @@ export function toVersion<TOldSchema, TNewSchema>(
   }
 ): (
   method: Function,
-  context: Stage3MethodContext
+  context: MethodDecoratorContext
 ) => void {
   if (toVersion <= 1) {
     throw new Error('Migration versions must always be greater than 1')

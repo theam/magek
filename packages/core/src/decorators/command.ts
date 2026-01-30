@@ -7,7 +7,7 @@ import {
 } from '@magek/common'
 import { getClassMetadata } from './metadata'
 import { MagekAuthorizer } from '../authorizer'
-import { transferStage3FieldMetadata, Stage3ClassContext } from './stage3-utils'
+import { transferFieldMetadata, ClassDecoratorContext } from './decorator-utils'
 
 /**
  * Decorator to mark a class as a Magek Command.
@@ -20,10 +20,10 @@ import { transferStage3FieldMetadata, Stage3ClassContext } from './stage3-utils'
  */
 export function Command(
   attributes: CommandRoleAccess & CommandFilterHooks
-): <TCommand>(commandClass: CommandInterface<TCommand>, context: Stage3ClassContext) => void {
+): <TCommand>(commandClass: CommandInterface<TCommand>, context: ClassDecoratorContext) => void {
   return (commandClass, context) => {
     // Transfer Stage 3 field metadata
-    transferStage3FieldMetadata(commandClass, context.metadata)
+    transferFieldMetadata(commandClass, context.metadata)
 
     Magek.configureCurrentEnv((config): void => {
       if (config.commandHandlers[commandClass.name]) {

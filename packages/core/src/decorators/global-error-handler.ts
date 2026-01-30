@@ -1,6 +1,6 @@
 import { Magek } from '../magek'
 import { GlobalErrorHandlerInterface } from '@magek/common'
-import { Stage3ClassContext } from './stage3-utils'
+import { ClassDecoratorContext } from './decorator-types'
 
 /**
  * Decorator to mark a class as a Global Error Handler.
@@ -12,7 +12,7 @@ import { Stage3ClassContext } from './stage3-utils'
  */
 export function GlobalErrorHandler(): (
   errorHandlerClass: GlobalErrorHandlerInterface,
-  context: Stage3ClassContext
+  context: ClassDecoratorContext
 ) => void {
   return (errorHandlerClass) => {
     Magek.configureCurrentEnv((config): void => {

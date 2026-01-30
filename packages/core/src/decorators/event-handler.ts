@@ -6,7 +6,7 @@ import {
   NotificationInterface,
 } from '@magek/common'
 import { Magek } from '../magek'
-import { Stage3ClassContext } from './stage3-utils'
+import { ClassDecoratorContext } from './decorator-types'
 
 /**
  * Decorator to mark a class as an Event Handler.
@@ -21,7 +21,7 @@ export function EventHandler<TEvent extends EventInterface | NotificationInterfa
   event: Class<TEvent>
 ): <TEventHandler extends EventHandlerInterface>(
   eventHandlerClass: TEventHandler,
-  context: Stage3ClassContext
+  context: ClassDecoratorContext
 ) => void {
   return (eventHandlerClass) => {
     registerEventHandler(event.name, eventHandlerClass)

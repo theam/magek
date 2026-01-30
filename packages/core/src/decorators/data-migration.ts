@@ -1,6 +1,6 @@
 import { Magek } from '../magek'
 import { DataMigrationInterface, DataMigrationParameters } from '@magek/common'
-import { Stage3ClassContext } from './stage3-utils'
+import { ClassDecoratorContext } from './decorator-types'
 
 /**
  * Decorator to mark a class as a Magek Data Migration.
@@ -13,7 +13,7 @@ import { Stage3ClassContext } from './stage3-utils'
  */
 export function DataMigration(
   attributes: DataMigrationParameters
-): (dataMigrationClass: DataMigrationInterface, context: Stage3ClassContext) => void {
+): (dataMigrationClass: DataMigrationInterface, context: ClassDecoratorContext) => void {
   return (migrationClass) => {
     Magek.configureCurrentEnv((config): void => {
       if (config.dataMigrationHandlers[migrationClass.name]) {

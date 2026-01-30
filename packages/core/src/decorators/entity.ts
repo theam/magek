@@ -9,7 +9,7 @@ import {
   EventStreamAuthorizer,
 } from '@magek/common'
 import { MagekAuthorizer } from '../authorizer'
-import { Stage3MethodContext } from './stage3-utils'
+import { transferFieldMetadata, ClassDecoratorContext, MethodDecoratorContext } from './decorator-utils'
 
 type EntityAttributes = EventStreamRoleAccess
 
@@ -18,7 +18,7 @@ type EntityAttributes = EventStreamRoleAccess
 // - The @Entity decorator have parenthesis: THEN it needs to accept an object with attributes and return a function accepting a class as a parameter
 type EntityDecoratorParam = AnyClass | EntityAttributes
 type EntityDecoratorResult<TEntity, TParam> = TParam extends EntityAttributes
-  ? (entityClass: Class<TEntity>) => void
+  ? (entityClass: Class<TEntity>, context: ClassDecoratorContext) => void
   : void
 
 /**
@@ -26,15 +26,22 @@ type EntityDecoratorResult<TEntity, TParam> = TParam extends EntityAttributes
  * Entities represent the current state derived from events.
  *
  * @param classOrAttributes - Either the class itself or entity configuration attributes
+ * @param context - Decorator context (when used without parentheses)
  * @returns A class decorator function or void if used without parentheses
  */
 export function Entity<TEntity extends EntityInterface, TParam extends EntityDecoratorParam>(
-  classOrAttributes: TParam
+  classOrAttributes: TParam,
+  context?: ClassDecoratorContext
 ): EntityDecoratorResult<TEntity, TParam> {
   let authorizeReadEvents: EventStreamRoleAccess['authorizeReadEvents']
 
   // This function will be either returned or executed, depending on the parameters passed to the decorator
-  const mainLogicFunction = (entityClass: Class<TEntity>): void => {
+  const mainLogicFunction = (entityClass: Class<TEntity>, ctx?: ClassDecoratorContext): void => {
+    // Transfer field metadata if context is available
+    if (ctx) {
+      transferFieldMetadata(entityClass, ctx.metadata)
+    }
+
     Magek.configureCurrentEnv((config): void => {
       if (config.entities[entityClass.name]) {
         throw new Error(`An entity called ${entityClass.name} is already registered
@@ -59,10 +66,12 @@ export function Entity<TEntity extends EntityInterface, TParam extends EntityDec
 
   if (isEntityAttributes(classOrAttributes)) {
     authorizeReadEvents = classOrAttributes.authorizeReadEvents
-    return mainLogicFunction as EntityDecoratorResult<TEntity, TParam>
+    return ((entityClass: Class<TEntity>, ctx: ClassDecoratorContext) => {
+      mainLogicFunction(entityClass, ctx)
+    }) as EntityDecoratorResult<TEntity, TParam>
   }
 
-  return mainLogicFunction(classOrAttributes as Class<TEntity>) as EntityDecoratorResult<TEntity, TParam>
+  return mainLogicFunction(classOrAttributes as Class<TEntity>, context) as EntityDecoratorResult<TEntity, TParam>
 }
 
 function isEntityAttributes(param: EntityDecoratorParam): param is EntityAttributes {
@@ -81,7 +90,7 @@ export function reduces<TEvent extends EventInterface>(
   eventClass: Class<TEvent>
 ): <TEntity>(
   entityClassOrMethod: Function,
-  context: Stage3MethodContext
+  context: MethodDecoratorContext
 ) => void {
   return (_method, context) => {
     // Stage 3 decorator - use addInitializer to get the class
