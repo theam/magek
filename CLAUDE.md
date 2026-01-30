@@ -2,6 +2,24 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Quick Reference (Most Used)
+
+| Task | Command |
+|------|---------|
+| Build | `rush build` |
+| Test all | `rush test` |
+| Test one package | `cd packages/<name> && rushx test` |
+| Lint fix | `rush lint:fix` |
+| Full CI | `./scripts/check-all-the-things.sh` |
+
+## File Patterns
+
+- Core framework: `packages/core/src/**/*.ts`
+- Tests: `packages/*/test/**/*.test.ts`
+- Adapters: `adapters/*/src/**/*.ts`
+- CLI commands: `packages/cli/src/commands/**/*.ts`
+- Shared types: `packages/common/src/**/*.ts`
+
 ## Development Commands
 
 ### Essential Commands
@@ -33,7 +51,7 @@ Magek is a Rush.js monorepo with PNPM workspaces:
 
 - **packages/** - Core framework packages
   - `@magek/core` - Event sourcing engine, CQRS, GraphQL generation
-  - `@magek/common` - Shared types, utilities, and concepts  
+  - `@magek/common` - Shared types, utilities, and concepts
   - `@magek/cli` - Command-line tool for project scaffolding
   - `@magek/server` - Fastify-based runtime for local development (includes infrastructure)
   - `@magek/metadata` - Metadata extraction and reflection system
@@ -82,6 +100,29 @@ Magek implements event sourcing and CQRS patterns:
 - Node.js 22.x (specified in rush.json)
 - PNPM managed automatically by Rush
 - Rush.js for build orchestration
+
+## Common Pitfalls
+
+- **Always run `rush change`** for published packages before creating a PR
+- **Pre-commit hook validates change files** - bypass with `--no-verify` for docs-only changes
+- **GraphQL types are auto-generated** - don't edit generated files directly
+- **Workspace dependencies** use `workspace:^0.0.1` syntax for internal packages
+- **Some packages use Vitest** instead of Mocha - check package.json scripts
+
+## Commit Guidelines
+
+Use Conventional Commits format:
+
+```
+feat(core): add new event handler decorator
+fix(cli): resolve path resolution on Windows
+docs(readme): update installation instructions
+chore(deps): bump typescript to 5.x
+refactor(server): extract middleware configuration
+test(common): add unit tests for utility functions
+```
+
+**Scope**: Use the package name without `@magek/` prefix (e.g., `core`, `cli`, `server`)
 
 ## Important Notes
 
