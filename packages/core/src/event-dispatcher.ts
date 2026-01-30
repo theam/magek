@@ -2,7 +2,7 @@ import { MagekConfig, TraceActionTypes, getLogger } from '@magek/common'
 import { EventStore } from './services/event-store'
 import { RawEventsParser } from './services/raw-events-parser'
 import { ReadModelStore } from './services/read-model-store'
-import { Trace } from './instrumentation'
+import { trace } from './instrumentation'
 import { MagekEventProcessor } from './event-processor'
 
 export class MagekEventDispatcher {
@@ -11,7 +11,7 @@ export class MagekEventDispatcher {
    * @param rawEvents List of raw events
    * @param config
    */
-  @Trace(TraceActionTypes.DISPATCH_EVENTS)
+  @trace(TraceActionTypes.DISPATCH_EVENTS)
   public static async dispatch(rawEvents: unknown, config: MagekConfig): Promise<void> {
     const logger = getLogger(config, 'MagekEventDispatcher#dispatch')
     const eventStore = new EventStore(config)

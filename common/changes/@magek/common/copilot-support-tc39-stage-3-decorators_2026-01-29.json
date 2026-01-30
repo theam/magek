@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Migrate to TC39 Stage 3 decorators only. Rename @Field to @field (PascalCase alias kept for compatibility). Remove reflect-metadata import. Remove legacy decorator support.",
+      "type": "minor",
+      "packageName": "@magek/common"
+    }
+  ],
+  "packageName": "@magek/common",
+  "email": "198982749+Copilot@users.noreply.github.com"
+}

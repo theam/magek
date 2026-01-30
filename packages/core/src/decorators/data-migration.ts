@@ -1,17 +1,20 @@
 import { Magek } from '../magek'
 import { DataMigrationInterface, DataMigrationParameters } from '@magek/common'
+import { ClassDecoratorContext } from './decorator-types'
 
 /**
  * Decorator to mark a class as a Magek Data Migration.
  * Data migrations are background processes that update existing data in the database.
+ *
+ * Uses TC39 Stage 3 decorators.
  *
  * @param attributes - Migration configuration (e.g., execution order)
  * @returns A class decorator function
  */
 export function DataMigration(
   attributes: DataMigrationParameters
-): (dataMigrationClass: DataMigrationInterface) => void {
-  return (migrationClass) => {
+): (dataMigrationClass: DataMigrationInterface, context: ClassDecoratorContext) => void {
+  return (migrationClass, _context?: ClassDecoratorContext) => {
     Magek.configureCurrentEnv((config): void => {
       if (config.dataMigrationHandlers[migrationClass.name]) {
         throw new Error(`A data migration called ${migrationClass.name} is already registered.

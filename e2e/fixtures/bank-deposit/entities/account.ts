@@ -1,18 +1,18 @@
-import { Entity, Reduces } from '@magek/core'
-import { Field, UUID } from '@magek/common'
+import { Entity, reduces, field } from '@magek/core'
+import { UUID } from '@magek/common'
 import { MoneyDeposited } from '../events/money-deposited'
 
 @Entity({
   authorizeReadEvents: 'all', // Allow all for testing purposes
 })
 export class Account {
-  @Field(() => UUID)
+  @field(() => UUID)
   public readonly id!: UUID
 
-  @Field(() => Number)
+  @field(() => Number)
   public readonly balance!: number
 
-  @Reduces(MoneyDeposited)
+  @reduces(MoneyDeposited)
   public static reduceMoneyDeposited(event: MoneyDeposited, currentAccount?: Account): Account {
     const currentBalance = currentAccount?.balance ?? 0
     return {

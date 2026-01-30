@@ -1,33 +1,31 @@
-import { Magek } from '../magek'
-import { AnyClass } from '@magek/common'
-import { getFunctionArguments } from './metadata'
+import { FieldDecoratorContext, MethodDecoratorContext } from './decorator-types'
 
-export function NonExposed(
-  target: AnyClass | InstanceType<AnyClass>,
-  methodName: string | undefined,
-  parameterIndex?: number
-) {
-  Magek.configureCurrentEnv((config): void => {
-    const className = target.name ?? target.constructor.name
-    const value: Array<string> = config.nonExposedGraphQLMetadataKey[className] || []
+type FieldOrMethodDecoratorContext = FieldDecoratorContext | MethodDecoratorContext
 
-    const fieldName = getFieldName(methodName, target, parameterIndex)
-    config.nonExposedGraphQLMetadataKey[className] = [...value, fieldName]
-  })
-}
+/** Symbol for storing non-exposed fields in decorator context.metadata */
+export const NON_EXPOSED_SYMBOL = Symbol.for('magek:nonExposed')
 
-function getFieldName(
-  methodName: string | undefined,
-  target: AnyClass | InstanceType<AnyClass>,
-  parameterIndex: number | undefined
-): string {
-  if (methodName) {
-    return methodName
+/**
+ * Decorator to mark a field or method as non-exposed in GraphQL.
+ *
+ * Uses TC39 Stage 3 decorators.
+ * Non-exposed fields are stored in context.metadata and read by class decorators
+ * (@Entity, @ReadModel, @Command, @Query) which register them to config.
+ */
+export function nonExposed(
+  _value: undefined | Function,
+  context: FieldOrMethodDecoratorContext
+): void {
+  const fieldName = String(context.name)
+
+  // Store in context.metadata (becomes class[Symbol.metadata])
+  if (context.metadata) {
+    if (!context.metadata[NON_EXPOSED_SYMBOL]) {
+      context.metadata[NON_EXPOSED_SYMBOL] = []
+    }
+    const nonExposedFields = context.metadata[NON_EXPOSED_SYMBOL] as string[]
+    if (!nonExposedFields.includes(fieldName)) {
+      nonExposedFields.push(fieldName)
+    }
   }
-  if (!parameterIndex) {
-    throw new Error(`We could not get field name information in ${target} for method ${methodName}`)
-  }
-
-  const argumentNames = getFunctionArguments(target)
-  return argumentNames[parameterIndex]
 }

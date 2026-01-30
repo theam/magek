@@ -4,7 +4,8 @@ import { Magek } from '../src/magek'
 import { fake, replace, restore, spy } from 'sinon'
 import { expect } from './expect'
 import { MagekCommandDispatcher } from '../src/command-dispatcher'
-import { CommandBeforeFunction, Register, NotAuthorizedError, Field } from '@magek/common'
+import { CommandBeforeFunction, Register, NotAuthorizedError } from '@magek/common'
+import { field } from '../src'
 import { Command, RegisterHandler } from '../src'
 import { faker } from '@faker-js/faker'
 import { MagekAuthorizer } from '../src/authorizer'
@@ -154,7 +155,7 @@ describe('the `MagekCommandsDispatcher`', () => {
 
     it('properly handles the registered events', async () => {
       class SomethingHappened {
-        @Field()
+        @field()
         public readonly when: string
 
         public constructor(when: string) {
@@ -217,7 +218,7 @@ describe('the `MagekCommandsDispatcher`', () => {
       let asyncOperationFinished = false
       @Command({ authorize: 'all' })
       class PostComment {
-        @Field()
+        @field()
         public readonly comment: string
 
         public constructor(comment: string) {
@@ -273,7 +274,7 @@ describe('the `MagekCommandsDispatcher`', () => {
         let transformedInput = {}
         @Command({ authorize: 'all', before: [beforeFn] })
         class PostComment {
-          @Field()
+          @field()
           public readonly comment: string
 
           public constructor(comment: string) {
@@ -310,7 +311,7 @@ describe('the `MagekCommandsDispatcher`', () => {
         let transformedInput = {}
         @Command({ authorize: 'all', before: [beforeFn, beforeFnV2] })
         class PostComment {
-          @Field()
+          @field()
           public readonly comment: string
 
           public constructor(comment: string) {

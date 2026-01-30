@@ -1,12 +1,12 @@
-import { Event } from '@magek/core'
-import { Field, UUID } from '@magek/common'
+import { Event, field } from '@magek/core'
+import { UUID } from '@magek/common'
 
 @Event
 export class MoneyDeposited {
-  @Field(() => UUID)
+  @field(() => UUID)
   public readonly accountId!: UUID
 
-  @Field(() => Number)
+  @field(() => Number)
   public readonly amount!: number
 
   constructor(accountId: UUID, amount: number) {

@@ -11,7 +11,7 @@ import {
   TraceActionTypes,
   getLogger,
 } from '@magek/common'
-import { Trace } from './instrumentation'
+import { trace } from './instrumentation'
 
 type SchemaMigrableEnvelope = CommandEnvelope | EventEnvelope | EntitySnapshotEnvelope
 type SchemaMigrableValue = CommandInterface | EventInterface | EntityInterface
@@ -19,7 +19,7 @@ type SchemaMigrableValue = CommandInterface | EventInterface | EntityInterface
 export class SchemaMigrator {
   public constructor(private config: MagekConfig) {}
 
-  @Trace(TraceActionTypes.SCHEMA_MIGRATOR_MIGRATE)
+  @trace(TraceActionTypes.SCHEMA_MIGRATOR_MIGRATE)
   public async migrate<TMigrableEnvelope extends SchemaMigrableEnvelope>(
     conceptEnvelope: TMigrableEnvelope
   ): Promise<TMigrableEnvelope> {

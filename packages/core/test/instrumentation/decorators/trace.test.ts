@@ -1,10 +1,10 @@
  
 import { MagekConfig, TraceActionTypes, TraceInfo } from '@magek/common'
-import { Magek, Trace } from '../../../src'
+import { Magek, trace } from '../../../src'
 import { expect } from '../../expect'
 import { stub } from 'sinon'
 
-describe('the `Trace` decorator', async () => {
+describe('the `trace` decorator', async () => {
   afterEach(() => {
     const magek = Magek as any
     delete magek.config.traceConfiguration
@@ -53,7 +53,7 @@ describe('the `Trace` decorator', async () => {
 class TestClass {
   public innerField = ''
 
-  @Trace(TraceActionTypes.CUSTOM)
+  @trace(TraceActionTypes.CUSTOM)
    
   // @ts-ignore
   public async myCustomMethod(param: string): Promise<void> {

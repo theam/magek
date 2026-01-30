@@ -1,8 +1,20 @@
 import { Magek } from '../magek'
 import { GlobalErrorHandlerInterface } from '@magek/common'
+import { ClassDecoratorContext } from './decorator-types'
 
-export function GlobalErrorHandler(): (errorHandlerClass: GlobalErrorHandlerInterface) => void {
-  return (errorHandlerClass) => {
+/**
+ * Decorator to mark a class as a Global Error Handler.
+ * Global error handlers catch and handle errors from the entire system.
+ *
+ * Uses TC39 Stage 3 decorators.
+ *
+ * @returns A class decorator function
+ */
+export function GlobalErrorHandler(): (
+  errorHandlerClass: GlobalErrorHandlerInterface,
+  context: ClassDecoratorContext
+) => void {
+  return (errorHandlerClass, _context?: ClassDecoratorContext) => {
     Magek.configureCurrentEnv((config): void => {
       if (config.globalErrorsHandler) {
         throw new Error(`An error handler called ${errorHandlerClass.name} is already registered.

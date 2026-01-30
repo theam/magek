@@ -1,15 +1,16 @@
 import { replace, restore, fake } from 'sinon'
 import { expect } from '../../../expect'
 import { GraphQLTypeInformer } from '../../../../src/services/graphql/graphql-type-informer'
-import { MagekConfig, UUID, Level, AnyClass, Logger, getLogger, Field } from '@magek/common'
+import { MagekConfig, UUID, Level, AnyClass, Logger, getLogger } from '@magek/common'
+import { field } from '../../../../src'
 import { GraphqlQueryByKeysGenerator } from '../../../../src/services/graphql/query-generators/graphql-query-by-keys-generator'
 import { faker } from '@faker-js/faker'
 
 class AnotherReadModel {
-  @Field(type => UUID)
+  @field(type => UUID)
   public readonly id: UUID
 
-  @Field()
+  @field()
   public readonly otherField: string
 
   public constructor(id: UUID, otherField: string) {
@@ -19,10 +20,10 @@ class AnotherReadModel {
 }
 
 class ASequencedReadModel {
-  @Field(type => UUID)
+  @field(type => UUID)
   public readonly id: UUID
 
-  @Field(type => UUID)
+  @field(type => UUID)
   public readonly sortKey: UUID
 
   public constructor(id: UUID, sortKey: UUID) {
@@ -32,15 +33,15 @@ class ASequencedReadModel {
 }
 
 class ARegularReadModel {
-  @Field()
+  @field()
   readonly id: string = '∫'
 }
 
 class AnotherSequencedReadModel {
-  @Field()
+  @field()
   readonly id: string = 'µ'
 
-  @Field()
+  @field()
   readonly sortKey: string = '™'
 }
 

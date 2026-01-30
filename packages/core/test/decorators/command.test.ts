@@ -1,5 +1,6 @@
 import { expect } from '../expect'
-import { Register, Field } from '@magek/common'
+import { Register } from '@magek/common'
+import { field } from '../../src'
 import { Command } from '../../src/decorators'
 import { Magek } from '../../src'
 import { fake } from 'sinon'
@@ -16,7 +17,7 @@ describe('the `Command` decorator', () => {
       const fakeCommandAuthorizer = fake.resolves(undefined)
       @Command({ authorize: fakeCommandAuthorizer })
       class PostComment {
-        @Field((type) => String)
+        @field((type) => String)
         public readonly comment!: string
 
         public static async handle(_command: PostComment, _register: Register): Promise<void> {
@@ -33,7 +34,7 @@ describe('the `Command` decorator', () => {
       expect(commandMetadata.properties[0].name).to.equal('comment')
       expect(commandMetadata.properties[0].typeInfo.name).to.equal('string')
       // Note: static methods like 'handle' are not included in methods metadata
-      // since they're not decorated with @Field() - methods contains getters only
+      // since they're not decorated with @field() - methods contains getters only
       expect(commandMetadata.methods).to.be.an('Array')
       expect(commandMetadata.authorizer).to.equal(fakeCommandAuthorizer)
       expect(commandMetadata.before).to.be.an('Array')
@@ -45,7 +46,7 @@ describe('the `Command` decorator', () => {
     it('injects the command handler metadata in the Magek configuration and denies access', () => {
       @Command({})
       class PostComment {
-        @Field((type) => String)
+        @field((type) => String)
         public readonly comment!: string
 
         public static async handle(_command: PostComment, _register: Register): Promise<void> {
@@ -73,7 +74,7 @@ describe('the `Command` decorator', () => {
       const fakeBeforeHook = fake.resolves(undefined)
       @Command({ before: [fakeBeforeHook] })
       class PostComment {
-        @Field((type) => String)
+        @field((type) => String)
         public readonly comment!: string
 
         public static async handle(_command: PostComment, _register: Register): Promise<void> {

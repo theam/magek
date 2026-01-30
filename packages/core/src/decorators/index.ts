@@ -1,4 +1,13 @@
+export type {
+  ClassDecoratorContext,
+  FieldDecoratorContext,
+  MethodDecoratorContext,
+  GetterDecoratorContext,
+  DecoratorMetadataObject,
+} from './decorator-types'
+
 export * from './command'
+export * from './field'
 export * from './query'
 export * from './data-migration'
 export * from './entity'
@@ -14,3 +23,4 @@ export * from './schema-migration'
 export * from './sequenced-by'
 export * from './global-event-handler'
 export * from './non-exposed'
+export * from './health-sensor'

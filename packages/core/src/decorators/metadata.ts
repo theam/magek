@@ -1,10 +1,33 @@
 import { AnyClass, ClassMetadata, getMetadata } from '@magek/common'
 import { buildClassMetadataFromFields } from './field-metadata-reader'
+import { DecoratorMetadataObject } from './decorator-types'
+import { NON_EXPOSED_SYMBOL } from './non-exposed'
 
-export function getClassMetadata(classType: AnyClass): ClassMetadata {
-  // Try new @Field() decorator system first
+/**
+ * Get non-exposed fields from decorator metadata.
+ *
+ * @param metadata - The context.metadata object from a class decorator
+ * @returns Array of field names marked with @nonExposed
+ */
+export function getNonExposedFields(metadata?: DecoratorMetadataObject): string[] {
+  return (metadata?.[NON_EXPOSED_SYMBOL] as string[]) || []
+}
+
+/**
+ * Get class metadata from @field() decorators or legacy transformer metadata.
+ *
+ * @param classType - The class to get metadata for
+ * @param contextMetadata - Optional context.metadata from class decorator.
+ *   IMPORTANT: During class decorator execution, Symbol.metadata isn't yet attached to the class.
+ *   Class decorators must pass context.metadata to read field metadata correctly.
+ */
+export function getClassMetadata(
+  classType: AnyClass,
+  contextMetadata?: DecoratorMetadataObject
+): ClassMetadata {
+  // Try new @field() decorator system first
   try {
-    const fieldMetadata = buildClassMetadataFromFields(classType)
+    const fieldMetadata = buildClassMetadataFromFields(classType, contextMetadata)
     // Check if any fields were actually found
     if (fieldMetadata.fields.length > 0 || fieldMetadata.methods.length > 0) {
       return fieldMetadata
@@ -18,7 +41,7 @@ export function getClassMetadata(classType: AnyClass): ClassMetadata {
   if (!meta) {
     throw Error(
       `Couldn't get proper metadata information of ${classType.name}. ` +
-        'Make sure to decorate all properties with @Field() or enable the TypeScript transformer.'
+        'Make sure to decorate all properties with @field() or enable the TypeScript transformer.'
     )
   }
   return meta

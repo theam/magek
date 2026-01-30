@@ -1,14 +1,15 @@
 import 'reflect-metadata'
 import { MagekEventDispatcher } from '../src/event-dispatcher'
 import { fake, replace, restore, SinonSpy } from 'sinon'
-import { MagekConfig, Runtime, UUID, Field } from '@magek/common'
+import { MagekConfig, Runtime, UUID } from '@magek/common'
+import { field } from '../src'
 import { expect } from './expect'
 import { RawEventsParser } from '../src/services/raw-events-parser'
 import { MagekEventProcessor } from '../src/event-processor'
 import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
 
 class SomeEvent {
-  @Field(type => UUID)
+  @field(type => UUID)
   public readonly id: UUID
 
   public constructor(id: UUID) {

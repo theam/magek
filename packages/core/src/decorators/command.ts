@@ -5,56 +5,31 @@ import {
   CommandInterface,
   CommandRoleAccess,
 } from '@magek/common'
-import { getClassMetadata } from './metadata'
+import { getClassMetadata, getNonExposedFields } from './metadata'
 import { MagekAuthorizer } from '../authorizer'
-import { transferStage3FieldMetadata } from './stage3-utils'
-
-/**
- * Stage 3 class decorator context
- */
-interface Stage3ClassContext {
-  kind: 'class'
-  name: string | undefined
-  metadata: Record<string | symbol, unknown>
-  addInitializer?: (initializer: () => void) => void
-}
-
-/**
- * Type guard to detect Stage 3 class decorator context
- */
-function isStage3ClassContext(arg: unknown): arg is Stage3ClassContext {
-  return (
-    arg !== null &&
-    typeof arg === 'object' &&
-    'kind' in arg &&
-    (arg as Stage3ClassContext).kind === 'class' &&
-    'metadata' in arg
-  )
-}
+import { ClassDecoratorContext } from './decorator-utils'
 
 /**
  * Decorator to mark a class as a Magek Command.
  * Commands represent user intentions and trigger business logic.
+ *
+ * Uses TC39 Stage 3 decorators.
  *
  * @param attributes - Role access control and filter hooks configuration
  * @returns A class decorator function
  */
 export function Command(
   attributes: CommandRoleAccess & CommandFilterHooks
-): <TCommand>(commandClass: CommandInterface<TCommand>, context?: Stage3ClassContext) => void {
-  return (commandClass, context?) => {
-    // Transfer Stage 3 field metadata if applicable
-    if (isStage3ClassContext(context)) {
-      transferStage3FieldMetadata(commandClass, context.metadata)
-    }
-
+): <TCommand>(commandClass: CommandInterface<TCommand>, context: ClassDecoratorContext) => void {
+  return (commandClass, context) => {
     Magek.configureCurrentEnv((config): void => {
       if (config.commandHandlers[commandClass.name]) {
         throw new Error(`A command called ${commandClass.name} is already registered.
         If you think that this is an error, try performing a clean build.`)
       }
 
-      const metadata = getClassMetadata(commandClass)
+      // Pass context.metadata because Symbol.metadata isn't attached to class yet during decorator execution
+      const metadata = getClassMetadata(commandClass, context.metadata)
       config.commandHandlers[commandClass.name] = {
         class: commandClass,
         authorizer: MagekAuthorizer.build(attributes) as CommandAuthorizer,
@@ -62,7 +37,12 @@ export function Command(
         properties: metadata.fields,
         methods: metadata.methods,
       }
+
+      // Register non-exposed fields from context.metadata
+      const nonExposedFields = getNonExposedFields(context.metadata)
+      if (nonExposedFields.length > 0) {
+        config.nonExposedGraphQLMetadataKey[commandClass.name] = nonExposedFields
+      }
     })
   }
 }
-

@@ -18,7 +18,7 @@ import {
 } from 'graphql'
 import { faker } from '@faker-js/faker'
 import { GraphQLJSON } from 'graphql-scalars'
-import { AnyClass, MagekConfig, QueryMetadata } from '@magek/common'
+import { MagekConfig, QueryMetadata } from '@magek/common'
 import { ClassMetadata } from '@magek/common'
 import * as metadata from '../../../src/decorators/metadata'
 
@@ -71,7 +71,7 @@ describe('GraphQLQueryGenerator', () => {
           let mockTargetTypeClass: BooleanConstructor | StringConstructor | NumberConstructor | ArrayConstructor
           let mockTargetTypeName: string
           let graphQLQueryGenerator: GraphQLQueryGenerator
-          let getClassMetadataStub: SinonStub<[classType: AnyClass], ClassMetadata>
+          let getClassMetadataStub: SinonStub
 
           beforeEach(() => {
             mockTargetTypeClass = faker.helpers.arrayElement([Boolean, String, Number, Array])

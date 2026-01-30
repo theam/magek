@@ -1,11 +1,12 @@
-import { MagekConfig, EventSearchParameters, EventSearchResponse, Field, Level } from '@magek/common'
+import { MagekConfig, EventSearchParameters, EventSearchResponse, Level } from '@magek/common'
+import { field } from '../src'
 import { eventSearch } from '../src/event-search'
 import { fake, restore } from 'sinon'
 import { expect } from './expect'
 import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
 
 class TestEvent {
-  @Field()
+  @field()
   public readonly id: string
 
   public constructor(id: string) {
@@ -18,7 +19,7 @@ class TestEvent {
 }
 
 class TestNotification {
-  @Field()
+  @field()
   public readonly id: string
 
   public constructor(id: string) {

@@ -1,3 +1,8 @@
+// Polyfill for Symbol.metadata (required for TC39 Stage 3 decorators)
+// Must be defined before any decorated code is imported
+// Node.js 22.x doesn't have native Symbol.metadata yet
+(Symbol as unknown as { metadata: symbol }).metadata ??= Symbol.for('Symbol.metadata')
+
 import { Magek } from './magek'
 import { MagekEventDispatcher } from './event-dispatcher'
 import { MagekGraphQLDispatcher } from './graphql-dispatcher'

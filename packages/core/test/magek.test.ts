@@ -10,9 +10,9 @@ import {
   Runtime,
   UUID,
   NotificationInterface,
-  Field,
   Level,
 } from '@magek/common'
+import { field } from '../src'
 import { EventStore } from '../src/services/event-store'
 import { faker } from '@faker-js/faker'
 import { afterEach } from 'mocha'
@@ -187,7 +187,7 @@ describe('the `Magek` class', () => {
   })
   describe('the `event` method', () => {
     class TestEvent {
-      @Field(type => UUID)
+      @field(type => UUID)
       public readonly id: UUID
 
       public constructor(id: UUID) {
@@ -204,7 +204,7 @@ describe('the `Magek` class', () => {
     }
 
     class BestEvent {
-      @Field(type => UUID)
+      @field(type => UUID)
       public readonly id: UUID
 
       public constructor(id: UUID) {
@@ -409,7 +409,7 @@ describe('the `Magek` class', () => {
         replace(EventStore.prototype, 'fetchEntitySnapshot', fake.resolves({ value: { id: '42' } }))
 
         class SomeEntity {
-          @Field(type => UUID)
+          @field(type => UUID)
           public readonly id: UUID
 
           public constructor(id: UUID) {
@@ -426,7 +426,7 @@ describe('the `Magek` class', () => {
         replace(EventStore.prototype, 'fetchEntitySnapshot', fake.resolves({ id: '42' }))
 
         class SomeEntity {
-          @Field(type => UUID)
+          @field(type => UUID)
           public readonly id: UUID
 
           public constructor(id: UUID) {

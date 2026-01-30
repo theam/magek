@@ -1,4 +1,4 @@
-import { Trace } from './instrumentation'
+import { trace } from './instrumentation'
 import { MagekConfig, TraceActionTypes, getLogger } from '@magek/common'
 import { RawEventsParser } from './services/raw-events-parser'
 
@@ -6,7 +6,7 @@ import { RawEventsParser } from './services/raw-events-parser'
  * Produces events to the event stream
  */
 export class MagekEventStreamProducer {
-  @Trace(TraceActionTypes.PRODUCE_STREAM_EVENTS)
+  @trace(TraceActionTypes.PRODUCE_STREAM_EVENTS)
   public static async produce(request: unknown, config: MagekConfig): Promise<void> {
     const logger = getLogger(config, 'MagekEventStreamProducer#produce')
     logger.debug('Produce event workflow started for request:', require('util').inspect(request, false, null, false))

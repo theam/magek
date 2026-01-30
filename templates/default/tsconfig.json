@@ -7,14 +7,14 @@
     "module": "commonjs",
     "strict": true,
     "skipLibCheck": true,
-    "target": "es2017",
+    "target": "ES2022",
+    "lib": ["ES2022"],
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
-    "experimentalDecorators": true
+    "forceConsistentCasingInFileNames": true
   },
   "include": [
     "src/**/*"

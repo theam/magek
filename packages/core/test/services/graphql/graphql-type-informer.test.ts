@@ -33,7 +33,7 @@ describe('GraphQLTypeInformer', () => {
 
   // TODO: These tests relied on compile-time TypeScript type extraction (Promise unwrapping,
   // nested ReadonlyArray handling) which is no longer available. They need to be refactored
-  // to work with explicit @Field() decorators where types are declared at runtime.
+  // to work with explicit @field() decorators where types are declared at runtime.
   describe.skip('generateGraphQLTypeForClass', () => {
     interface Parameters {
       value: string

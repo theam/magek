@@ -2,6 +2,30 @@ import 'reflect-metadata'
 
 export type ClassType = { new (...args: unknown[]): unknown }
 
+/**
+ * Type function for specifying field types
+ * The parameter is optional and not used - it's just for TypeGraphQL-style ergonomics
+ */
+export type TypeFunction = (type?: unknown) => unknown
+
+/**
+ * Options for the @field() decorator
+ */
+export interface FieldOptions {
+  nullable?: boolean
+  readonly?: boolean
+}
+
+/**
+ * Metadata stored for each field
+ */
+export interface FieldMetadata {
+  name: string
+  typeFunction?: TypeFunction
+  options: FieldOptions
+  designType?: unknown // From emitDecoratorMetadata (not used in Stage 3)
+}
+
 // type instead of enum to be able to install this package as a devDependency and not a production dependency
 export type TypeGroup =
   | 'String'

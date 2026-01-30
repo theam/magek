@@ -1,4 +1,3 @@
- 
 import { Magek } from '../magek'
 import {
   Class,
@@ -10,6 +9,8 @@ import {
   EventStreamAuthorizer,
 } from '@magek/common'
 import { MagekAuthorizer } from '../authorizer'
+import { ClassDecoratorContext, MethodDecoratorContext } from './decorator-utils'
+import { getNonExposedFields } from './metadata'
 
 type EntityAttributes = EventStreamRoleAccess
 
@@ -18,7 +19,7 @@ type EntityAttributes = EventStreamRoleAccess
 // - The @Entity decorator have parenthesis: THEN it needs to accept an object with attributes and return a function accepting a class as a parameter
 type EntityDecoratorParam = AnyClass | EntityAttributes
 type EntityDecoratorResult<TEntity, TParam> = TParam extends EntityAttributes
-  ? (entityClass: Class<TEntity>) => void
+  ? (entityClass: Class<TEntity>, context: ClassDecoratorContext) => void
   : void
 
 /**
@@ -26,15 +27,17 @@ type EntityDecoratorResult<TEntity, TParam> = TParam extends EntityAttributes
  * Entities represent the current state derived from events.
  *
  * @param classOrAttributes - Either the class itself or entity configuration attributes
+ * @param context - Decorator context (when used without parentheses)
  * @returns A class decorator function or void if used without parentheses
  */
 export function Entity<TEntity extends EntityInterface, TParam extends EntityDecoratorParam>(
-  classOrAttributes: TParam
+  classOrAttributes: TParam,
+  context?: ClassDecoratorContext
 ): EntityDecoratorResult<TEntity, TParam> {
   let authorizeReadEvents: EventStreamRoleAccess['authorizeReadEvents']
 
   // This function will be either returned or executed, depending on the parameters passed to the decorator
-  const mainLogicFunction = (entityClass: Class<TEntity>): void => {
+  const mainLogicFunction = (entityClass: Class<TEntity>, ctx?: ClassDecoratorContext): void => {
     Magek.configureCurrentEnv((config): void => {
       if (config.entities[entityClass.name]) {
         throw new Error(`An entity called ${entityClass.name} is already registered
@@ -54,15 +57,23 @@ export function Entity<TEntity extends EntityInterface, TParam extends EntityDec
         class: entityClass,
         eventStreamAuthorizer,
       }
+
+      // Register non-exposed fields from context.metadata
+      const nonExposedFields = getNonExposedFields(ctx?.metadata)
+      if (nonExposedFields.length > 0) {
+        config.nonExposedGraphQLMetadataKey[entityClass.name] = nonExposedFields
+      }
     })
   }
 
   if (isEntityAttributes(classOrAttributes)) {
     authorizeReadEvents = classOrAttributes.authorizeReadEvents
-    return mainLogicFunction as EntityDecoratorResult<TEntity, TParam>
+    return ((entityClass: Class<TEntity>, ctx: ClassDecoratorContext) => {
+      mainLogicFunction(entityClass, ctx)
+    }) as EntityDecoratorResult<TEntity, TParam>
   }
 
-  return mainLogicFunction(classOrAttributes as Class<TEntity>) as EntityDecoratorResult<TEntity, TParam>
+  return mainLogicFunction(classOrAttributes as Class<TEntity>, context) as EntityDecoratorResult<TEntity, TParam>
 }
 
 function isEntityAttributes(param: EntityDecoratorParam): param is EntityAttributes {
@@ -70,64 +81,30 @@ function isEntityAttributes(param: EntityDecoratorParam): param is EntityAttribu
 }
 
 /**
- * Stage 3 method decorator context
- */
-interface Stage3MethodContext {
-  kind: 'method'
-  name: string | symbol
-  static: boolean
-  private: boolean
-  metadata: Record<string | symbol, unknown>
-  addInitializer?: (initializer: () => void) => void
-}
-
-/**
- * Type guard to detect Stage 3 method decorator context
- */
-function isStage3MethodContext(arg: unknown): arg is Stage3MethodContext {
-  return (
-    arg !== null &&
-    typeof arg === 'object' &&
-    'kind' in arg &&
-    (arg as Stage3MethodContext).kind === 'method' &&
-    'name' in arg
-  )
-}
-
-/**
  * Decorator to register an entity class method as a reducer function
  * for a specific event.
  *
+ * Uses TC39 Stage 3 decorators.
+ *
  * @param eventClass The event that this method will react to
  */
-export function Reduces<TEvent extends EventInterface>(
+export function reduces<TEvent extends EventInterface>(
   eventClass: Class<TEvent>
 ): <TEntity>(
-  entityClassOrMethod: Class<TEntity> | Function,
-  methodNameOrContext: string | Stage3MethodContext,
-  methodDescriptor?: ReducerMethod<TEvent, TEntity>
+  entityClassOrMethod: Function,
+  context: MethodDecoratorContext
 ) => void {
-  return (entityClassOrMethod, methodNameOrContext, _methodDescriptor?) => {
-    // Detect Stage 3 vs Legacy decorator
-    if (isStage3MethodContext(methodNameOrContext)) {
-      // Stage 3 decorator - use addInitializer to get the class
-      const context = methodNameOrContext
-      if (context.addInitializer) {
-        context.addInitializer(function (this: Function) {
-          // For static methods, 'this' is the class itself
-          // For instance methods, 'this' is an instance and we need this.constructor
-          const targetClass = context.static ? this : this.constructor
-          registerReducer(eventClass.name, {
-            class: targetClass as AnyClass,
-            methodName: context.name.toString(),
-          })
+  return (_method, context) => {
+    // Stage 3 decorator - use addInitializer to get the class
+    if (context.addInitializer) {
+      context.addInitializer(function (this: Function) {
+        // For static methods, 'this' is the class itself
+        // For instance methods, 'this' is an instance and we need this.constructor
+        const targetClass = context.static ? this : this.constructor
+        registerReducer(eventClass.name, {
+          class: targetClass as AnyClass,
+          methodName: context.name.toString(),
         })
-      }
-    } else {
-      // Legacy decorator
-      registerReducer(eventClass.name, {
-        class: entityClassOrMethod as AnyClass,
-        methodName: methodNameOrContext as string,
       })
     }
   }
@@ -146,7 +123,3 @@ function registerReducer(eventName: string, reducerMetadata: ReducerMetadata): v
     config.reducers[eventName] = reducerMetadata
   })
 }
-
-type ReducerMethod<TEvent, TEntity> =
-  | TypedPropertyDescriptor<(event: TEvent, entity: TEntity) => TEntity>
-  | TypedPropertyDescriptor<(event: TEvent, entity?: TEntity) => TEntity>

@@ -4,7 +4,7 @@ import { {{commaSeparatedComponents}} } from '{{{packagePath}}}'
 
 export class {{{ name }}} {
   {{#fields}}
-  @Field()
+  @field()
   public {{{name}}}!: {{{type}}}
 
   {{/fields}}

@@ -10,7 +10,7 @@ import {
 } from '@magek/common'
 import { RegisterHandler } from './register-handler'
 import { MagekGlobalErrorDispatcher } from './global-error-dispatcher'
-import { Trace } from './instrumentation'
+import { trace } from './instrumentation'
 
 export class MagekScheduledCommandDispatcher {
   private readonly globalErrorDispatcher: MagekGlobalErrorDispatcher
@@ -19,7 +19,7 @@ export class MagekScheduledCommandDispatcher {
     this.globalErrorDispatcher = new MagekGlobalErrorDispatcher(config)
   }
 
-  @Trace(TraceActionTypes.SCHEDULED_COMMAND_HANDLER)
+  @trace(TraceActionTypes.SCHEDULED_COMMAND_HANDLER)
   public async dispatchCommand(commandEnvelope: ScheduledCommandEnvelope): Promise<void> {
     const logger = getLogger(this.config, 'MagekScheduledCommandDispatcher#dispatchCommand')
     logger.debug('Dispatching the following scheduled command envelope: ', commandEnvelope)

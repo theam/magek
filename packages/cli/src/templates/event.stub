@@ -5,7 +5,7 @@ import { {{commaSeparatedComponents}} } from '{{{packagePath}}}'
 @Event
 export class {{{ name }}} {
   {{#fields}}
-  @Field()
+  @field()
   public readonly {{{name}}}!: {{{type}}}
 
   {{/fields}}

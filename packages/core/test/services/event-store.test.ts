@@ -11,8 +11,8 @@ import {
   ReducerAction,
   Runtime,
   UUID,
-  Field,
 } from '@magek/common'
+import { field } from '../../src'
 import { fake, replace, restore, stub, match, spy } from 'sinon'
 import { EventStore } from '../../src/services/event-store'
 import { createMockEventStoreAdapter } from '../helpers/event-store-adapter-helper'
@@ -29,13 +29,13 @@ describe('EventStore', () => {
   testConfig.logLevel = Level.error
 
   class AnEvent {
-    @Field(type => UUID)
+    @field(type => UUID)
     public readonly id: UUID
 
-    @Field()
+    @field()
     public readonly entityId: string
 
-    @Field()
+    @field()
     public readonly delta: number
 
     public constructor(id: UUID, entityId: string, delta: number) {
@@ -50,7 +50,7 @@ describe('EventStore', () => {
   }
 
   class AnotherEvent {
-    @Field(type => UUID)
+    @field(type => UUID)
     public readonly id: UUID
 
     public constructor(id: UUID) {
@@ -67,10 +67,10 @@ describe('EventStore', () => {
   }
 
   class AnEntity {
-    @Field(type => UUID)
+    @field(type => UUID)
     public readonly id: UUID
 
-    @Field()
+    @field()
     public readonly count: number
 
     public constructor(id: UUID, count: number) {
