@@ -63,10 +63,28 @@ jobs:
         with:
           ref: gh-pages
           path: gh-pages
+        continue-on-error: true
+
+      - name: Create gh-pages branch if it doesn't exist
+        run: |
+          if [ ! -d "gh-pages/.git" ]; then
+            echo "gh-pages branch doesn't exist, creating it..."
+            mkdir -p gh-pages
+            cd gh-pages
+            git init
+            git checkout -b gh-pages
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git commit --allow-empty -m "Initial gh-pages branch"
+            git remote add origin https://github.com/${{ github.repository }}.git
+          fi
 
       - name: Update gh-pages with new version
         run: |
           VERSION=${{ inputs.version }}
+
+          # Remove existing version directory to prevent stale files on re-runs
+          rm -rf "gh-pages/v${VERSION}"
 
           # Copy entire built site (new files added, existing replaced, old versions untouched)
           cp -r common/temp/docs-site/* gh-pages/
@@ -81,6 +99,13 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
-          # Use --allow-empty in case there are no changes
-          git diff --staged --quiet || git commit -m "docs: deploy v${VERSION} documentation (manual)"
+
+          # Dynamic commit message based on trigger type
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            COMMIT_MSG="docs: deploy v${VERSION} documentation (manual)"
+          else
+            COMMIT_MSG="docs: deploy v${VERSION} documentation"
+          fi
+
+          git diff --staged --quiet || git commit -m "$COMMIT_MSG"
           git push origin gh-pages

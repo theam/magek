@@ -5,19 +5,30 @@
 (function () {
   'use strict';
 
-  // Base path for the docs site (empty for root deployment)
-  const BASE_PATH = '';
+  /**
+   * Derive the base path from the current URL
+   * Supports both custom domains (empty base) and GitHub Pages subpath deployment
+   */
+  function getBasePath() {
+    var path = window.location.pathname;
+    var match = path.match(/^(\/[^/]+)?\/v[\d.]+/);
+    if (match && match[1] && !match[1].match(/^\/v[\d.]+$/)) {
+      return match[1]; // e.g., "/magek"
+    }
+    return ''; // root path for custom domains
+  }
+
+  var BASE_PATH = getBasePath();
 
   /**
    * Extract the current version from the URL path
-   * Expected format: /v0.0.7/...
+   * Expected format: /v0.0.7/... or /magek/v0.0.7/...
    */
   function getCurrentVersion() {
-    const pathParts = window.location.pathname.split('/');
-    // pathParts: ['', 'v0.0.7', 'index.html'] or similar
-    const versionPart = pathParts[1];
-    if (versionPart && versionPart.startsWith('v')) {
-      return versionPart;
+    var path = window.location.pathname;
+    var match = path.match(/\/v([\d.]+)/);
+    if (match) {
+      return 'v' + match[1];
     }
     return null;
   }
@@ -25,20 +36,43 @@
   /**
    * Get the current page path relative to the version root
    * E.g., /v0.0.7/classes/Entity.html -> classes/Entity.html
+   * E.g., /magek/v0.0.7/classes/Entity.html -> classes/Entity.html
    */
   function getRelativePath() {
-    const pathParts = window.location.pathname.split('/');
-    // Skip ['', 'version'] and join the rest
-    return pathParts.slice(2).join('/') || 'index.html';
+    var path = window.location.pathname;
+    var match = path.match(/\/v[\d.]+\/(.*)$/);
+    if (match && match[1]) {
+      return match[1] || 'index.html';
+    }
+    return 'index.html';
   }
 
   /**
    * Navigate to the same page in a different version
+   * Falls back to version root if the target page doesn't exist
    */
   function navigateToVersion(version) {
-    const relativePath = getRelativePath();
-    const newUrl = `${BASE_PATH}/${version}/${relativePath}`;
-    window.location.href = newUrl;
+    var relativePath = getRelativePath();
+    var newUrl = BASE_PATH + '/' + version + '/' + relativePath;
+    var fallbackUrl = BASE_PATH + '/' + version + '/index.html';
+
+    // Check if target page exists before navigating
+    if (typeof window.fetch === 'function') {
+      window.fetch(newUrl, { method: 'HEAD' })
+        .then(function (response) {
+          if (response && response.ok) {
+            window.location.href = newUrl;
+          } else {
+            window.location.href = fallbackUrl;
+          }
+        })
+        .catch(function () {
+          window.location.href = fallbackUrl;
+        });
+    } else {
+      // Fallback for browsers without fetch
+      window.location.href = newUrl;
+    }
   }
 
   /**
@@ -147,15 +181,20 @@
 
   /**
    * Redirect version root to Introduction page
+   * Handles URLs with or without trailing slash, index.html, query params, and hash fragments
    */
   function redirectToIntro() {
-    const path = window.location.pathname;
-    // Match patterns like /v0.0.6/ or /v0.0.6/index.html
-    if (path.match(/^\/v[\d.]+\/?$/) || path.match(/^\/v[\d.]+\/index\.html$/)) {
-      const versionMatch = path.match(/^(\/v[\d.]+)/);
-      if (versionMatch) {
-        window.location.replace(versionMatch[1] + '/documents/Documentation.Introduction.html');
-      }
+    var path = window.location.pathname;
+    // Extract version from path (handles both /v0.0.6 and /magek/v0.0.6 patterns)
+    var versionMatch = path.match(/(\/v[\d.]+)/);
+    if (!versionMatch) {
+      return;
+    }
+    var versionPath = versionMatch[1];
+    // Check if we're at the version root (with or without trailing slash or index.html)
+    var afterVersion = path.substring(path.indexOf(versionPath) + versionPath.length);
+    if (afterVersion === '' || afterVersion === '/' || afterVersion === '/index.html') {
+      window.location.replace(BASE_PATH + versionPath + '/documents/Documentation.Introduction.html');
     }
   }
 

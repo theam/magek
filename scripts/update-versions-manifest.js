@@ -29,7 +29,15 @@ function main() {
   const [manifestPath, newVersion] = args;
 
   // Normalize version (remove leading 'v' if present)
-  const normalizedVersion = newVersion.replace(/^v/, '');
+  const normalizedVersion = newVersion.trim().replace(/^v/, '');
+
+  // Validate semantic version format (e.g., 1.2.3 or 1.2.3-beta.1)
+  const semverRegex = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z-.]+)?$/;
+  if (!semverRegex.test(normalizedVersion)) {
+    console.error(`Error: Invalid version "${newVersion}".`);
+    console.error('Expected a semantic version like "1.2.3" or "1.2.3-beta.1".');
+    process.exit(1);
+  }
 
   // Read existing manifest or create new one
   let manifest = {

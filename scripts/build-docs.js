@@ -51,16 +51,27 @@ function main() {
   // 1. Build TypeDoc to versioned folder
   const versionedDir = path.join(OUTPUT_DIR, `v${VERSION}`);
   console.log(`\n[1/5] Building TypeDoc to ${versionedDir}...`);
-  execSync(`npx typedoc --out "${versionedDir}"`, {
-    cwd: DOCS_DIR,
-    stdio: 'inherit',
-  });
+  try {
+    execSync(`npx typedoc --out "${versionedDir}"`, {
+      cwd: DOCS_DIR,
+      stdio: 'inherit',
+    });
+  } catch (error) {
+    console.error('\nError: Failed to build TypeDoc documentation.');
+    fs.rmSync(versionedDir, { recursive: true, force: true });
+    process.exit(1);
+  }
 
   // 2. Copy media files
   console.log('\n[2/5] Copying media files...');
   const mediaDir = path.join(versionedDir, 'media');
   fs.mkdirSync(mediaDir, { recursive: true });
-  fs.copyFileSync(path.join(DOCS_DIR, 'content/magek-logo.svg'), path.join(mediaDir, 'magek-logo.svg'));
+  const logoSourcePath = path.join(DOCS_DIR, 'content/magek-logo.svg');
+  if (!fs.existsSync(logoSourcePath)) {
+    console.error('Error: Required file docs/content/magek-logo.svg not found');
+    process.exit(1);
+  }
+  fs.copyFileSync(logoSourcePath, path.join(mediaDir, 'magek-logo.svg'));
 
   // 3. Build landing page
   console.log('\n[3/5] Building landing page...');
