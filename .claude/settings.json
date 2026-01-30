@@ -21,7 +21,6 @@
       "Bash(gh pr view*)",
       "Bash(gh issue list*)",
       "Bash(gh issue view*)",
-      "Bash(gh api*)",
       "Bash(gh repo view*)",
       "Bash(gh status*)",
       "Bash(git status*)",
