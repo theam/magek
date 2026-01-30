@@ -4,7 +4,7 @@
   "version": "{{version}}",
   "author": "{{author}}",
   "dependencies": {
-    "tslib": "2.4.0",
+    "tslib": "2.8.1",
     "@magek/core": "{{magekVersion}}",
     "@magek/common": "{{magekVersion}}",
     "@magek/cli": "{{magekVersion}}",
