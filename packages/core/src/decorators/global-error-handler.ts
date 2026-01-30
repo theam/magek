@@ -14,7 +14,7 @@ export function GlobalErrorHandler(): (
   errorHandlerClass: GlobalErrorHandlerInterface,
   context: ClassDecoratorContext
 ) => void {
-  return (errorHandlerClass) => {
+  return (errorHandlerClass, _context?: Stage3ClassContext) => {
     Magek.configureCurrentEnv((config): void => {
       if (config.globalErrorsHandler) {
         throw new Error(`An error handler called ${errorHandlerClass.name} is already registered.

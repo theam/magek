@@ -14,7 +14,7 @@ import { ClassDecoratorContext } from './decorator-types'
 export function ScheduledCommand(
   attributes: ScheduleInterface
 ): (scheduledCommandClass: ScheduledCommandInterface, context: ClassDecoratorContext) => void {
-  return (commandClass) => {
+  return (commandClass, _context?: Stage3ClassContext) => {
     Magek.configureCurrentEnv((config): void => {
       if (config.scheduledCommandHandlers[commandClass.name]) {
         throw new Error(`A command called ${commandClass.name} is already registered.

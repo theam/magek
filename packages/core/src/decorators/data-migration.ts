@@ -14,7 +14,7 @@ import { ClassDecoratorContext } from './decorator-types'
 export function DataMigration(
   attributes: DataMigrationParameters
 ): (dataMigrationClass: DataMigrationInterface, context: ClassDecoratorContext) => void {
-  return (migrationClass) => {
+  return (migrationClass, _context?: Stage3ClassContext) => {
     Magek.configureCurrentEnv((config): void => {
       if (config.dataMigrationHandlers[migrationClass.name]) {
         throw new Error(`A data migration called ${migrationClass.name} is already registered.
