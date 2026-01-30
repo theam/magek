@@ -23,8 +23,8 @@ describe('MagekDeleteEventDispatcher', () => {
 
   it('returns false when no deletable events are found', async () => {
     const findDeletableEvent = fake.resolves([])
-    const deleteSnapshot = fake.resolves()
-    const deleteEvent = fake.resolves()
+    const deleteSnapshot = fake.resolves(undefined)
+    const deleteEvent = fake.resolves(undefined)
 
     const config = new MagekConfig('test')
     config.eventStoreAdapter = createMockEventStoreAdapter({
@@ -119,8 +119,8 @@ describe('MagekDeleteEventDispatcher', () => {
       .resolves([snapshotOne])
       .onSecondCall()
       .resolves([snapshotTwo, snapshotThree])
-    const deleteSnapshot = fake.resolves()
-    const deleteEvent = fake.resolves()
+    const deleteSnapshot = fake.resolves(undefined)
+    const deleteEvent = fake.resolves(undefined)
 
     const config = new MagekConfig('test')
     config.eventStoreAdapter = createMockEventStoreAdapter({
