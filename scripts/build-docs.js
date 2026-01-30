@@ -31,7 +31,13 @@ function getVersion() {
   if (args.length > 0) {
     return args[0].replace(/^v/, '');
   }
-  return require('../packages/core/package.json').version;
+  try {
+    return require('../packages/core/package.json').version;
+  } catch (err) {
+    console.error('Error: Could not read version from packages/core/package.json');
+    console.error('Please specify a version as an argument: node scripts/build-docs.js <version>');
+    process.exit(1);
+  }
 }
 
 function main() {
