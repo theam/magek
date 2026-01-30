@@ -107,7 +107,7 @@ Magek implements event sourcing and CQRS patterns:
 - **Pre-commit hook validates change files** - bypass with `--no-verify` for docs-only changes
 - **GraphQL types are auto-generated** - don't edit generated files directly
 - **Workspace dependencies** use `workspace:^0.0.1` syntax for internal packages
-- **Some packages use Vitest** instead of Mocha - check package.json scripts
+- **Packages use Vitest - check package.json scripts
 
 ## Commit Guidelines
 
