@@ -122,8 +122,6 @@ refactor(server): extract middleware configuration
 test(common): add unit tests for utility functions
 ```
 
-**Scope**: Use the package name without `@magek/` prefix (e.g., `core`, `cli`, `server`)
-
 ## Important Notes
 
 - Always run linting before committing: `rush lint:fix`
