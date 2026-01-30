@@ -67,6 +67,8 @@ jobs:
     if: needs.check-changes.outputs.has_changes == 'true'
     runs-on: ubuntu-latest
     environment: npm-publish
+    outputs:
+      version: ${{ steps.bump.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -149,3 +151,10 @@ jobs:
         with:
           tag_name: v${{ steps.bump.outputs.version }}
           generate_release_notes: true
+
+  # Deploy documentation after successful publish
+  deploy-docs:
+    needs: publish
+    uses: ./.github/workflows/docs-deploy.yml
+    with:
+      version: ${{ needs.publish.outputs.version }}

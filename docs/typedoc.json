@@ -7,9 +7,8 @@
     "../packages/cli/src/index.ts"
   ],
   "entryPointStrategy": "expand",
-  "out": "../common/temp/docs-site",
   "name": "Magek Framework",
-  "readme": "../README.md",
+  "readme": "none",
   "projectDocuments": [
     "./content/index.md"
   ],
@@ -33,8 +32,7 @@
   "hideGenerator": false,
   "includeVersion": true,
   "navigationLinks": {
-    "GitHub": "https://github.com/theam/magek",
-    "Website": "https://magek.ai"
+    "GitHub": "https://github.com/theam/magek"
   },
   "navigation": {
     "includeCategories": false,
@@ -42,6 +40,7 @@
     "includeFolders": false
   },
   "customCss": "./custom.css",
+  "customJs": "./version-selector.js",
   "plugin": [
     "typedoc-plugin-merge-modules",
     "./custom-theme.mjs"

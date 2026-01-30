@@ -16,3 +16,142 @@
   background-repeat: no-repeat;
   background-position: center left;
 }
+
+/* Version badge container */
+.version-badge-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 1rem;
+}
+
+/* Version badge button */
+.version-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--color-accent);
+  background: linear-gradient(135deg, rgba(101, 69, 245, 0.15) 0%, rgba(183, 82, 176, 0.15) 100%);
+  color: var(--color-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.version-badge:hover {
+  border-color: var(--color-ts-function);
+  background: linear-gradient(135deg, rgba(101, 69, 245, 0.25) 0%, rgba(183, 82, 176, 0.25) 100%);
+}
+
+.version-badge:focus {
+  outline: 2px solid var(--color-ts-function);
+  outline-offset: 2px;
+}
+
+.version-badge-text {
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+}
+
+.version-badge-arrow {
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.version-dropdown-open .version-badge-arrow {
+  transform: rotate(180deg);
+}
+
+/* Dropdown menu */
+.version-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 140px;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0;
+  background: var(--color-background);
+  border: 1px solid var(--color-accent);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.2s ease;
+  z-index: 1000;
+}
+
+.version-dropdown-open .version-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Dropdown options */
+.version-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: transparent;
+  color: var(--color-text);
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+  font-size: 0.875rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.version-option:hover {
+  background: rgba(101, 69, 245, 0.2);
+}
+
+.version-option-current {
+  background: rgba(101, 69, 245, 0.15);
+  font-weight: 600;
+}
+
+.version-option-current::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 3px;
+  height: 1.5rem;
+  background: var(--color-ts-function);
+  border-radius: 0 2px 2px 0;
+}
+
+/* Latest badge */
+.version-latest-badge {
+  font-size: 0.625rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.125rem 0.375rem;
+  background: linear-gradient(135deg, #6545f5 0%, #b752b0 100%);
+  color: white;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+}
+
+/* Responsive: adjust for smaller screens */
+@media (max-width: 769px) {
+  .version-badge-container {
+    margin-left: 0.5rem;
+  }
+
+  .version-badge {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .version-dropdown {
+    right: 0;
+    left: auto;
+  }
+}
