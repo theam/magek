@@ -30,8 +30,8 @@ describe('the `nonExposed` decorator', () => {
       public readonly passwordHash!: string
     }
 
-    // Create an instance to trigger the addInitializer callbacks
-    new User()
+    // No instance creation needed - metadata is registered during class decoration
+    User // Reference to prevent unused warning
 
     const nonExposedFields = Magek.config.nonExposedGraphQLMetadataKey['User']
 
@@ -61,8 +61,8 @@ describe('the `nonExposed` decorator', () => {
       public readonly encryptedData!: string
     }
 
-    // Create an instance to trigger the addInitializer callbacks
-    new Account()
+    // No instance creation needed - metadata is registered during class decoration
+    Account // Reference to prevent unused warning
 
     const nonExposedFields = Magek.config.nonExposedGraphQLMetadataKey['Account']
 
@@ -88,8 +88,8 @@ describe('the `nonExposed` decorator', () => {
       }
     }
 
-    // Create an instance to trigger the addInitializer callbacks
-    new Document()
+    // No instance creation needed - metadata is registered during class decoration
+    Document // Reference to prevent unused warning
 
     const nonExposedMembers = Magek.config.nonExposedGraphQLMetadataKey['Document']
 
@@ -114,8 +114,8 @@ describe('the `nonExposed` decorator', () => {
       public readonly costPrice!: number
     }
 
-    // Create an instance to trigger the addInitializer callbacks
-    new Product()
+    // No instance creation needed - metadata is registered during class decoration
+    Product // Reference to prevent unused warning
 
     const nonExposedFields = Magek.config.nonExposedGraphQLMetadataKey['Product']
 
@@ -146,9 +146,9 @@ describe('the `nonExposed` decorator', () => {
       public readonly secret2!: string
     }
 
-    // Create instances to trigger the addInitializer callbacks
-    new PublicEntity()
-    new PrivateEntity()
+    // No instance creation needed - metadata is registered during class decoration
+    PublicEntity // Reference to prevent unused warning
+    PrivateEntity // Reference to prevent unused warning
 
     expect(Magek.config.nonExposedGraphQLMetadataKey['PublicEntity']).to.include('secret1')
     expect(Magek.config.nonExposedGraphQLMetadataKey['PublicEntity']).to.not.include('secret2')
@@ -167,8 +167,8 @@ describe('the `nonExposed` decorator', () => {
       public readonly hiddenField!: string
     }
 
-    // Create an instance to trigger the addInitializer callbacks
-    new SimpleEntity()
+    // No instance creation needed - metadata is registered during class decoration
+    SimpleEntity // Reference to prevent unused warning
 
     // The nonExposedGraphQLMetadataKey for SimpleEntity should exist and contain the field
     const nonExposedFields = Magek.config.nonExposedGraphQLMetadataKey['SimpleEntity']

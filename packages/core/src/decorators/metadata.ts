@@ -1,6 +1,17 @@
 import { AnyClass, ClassMetadata, getMetadata } from '@magek/common'
 import { buildClassMetadataFromFields } from './field-metadata-reader'
 import { DecoratorMetadataObject } from './decorator-types'
+import { NON_EXPOSED_SYMBOL } from './non-exposed'
+
+/**
+ * Get non-exposed fields from decorator metadata.
+ *
+ * @param metadata - The context.metadata object from a class decorator
+ * @returns Array of field names marked with @nonExposed
+ */
+export function getNonExposedFields(metadata?: DecoratorMetadataObject): string[] {
+  return (metadata?.[NON_EXPOSED_SYMBOL] as string[]) || []
+}
 
 /**
  * Get class metadata from @field() decorators or legacy transformer metadata.

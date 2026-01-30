@@ -10,6 +10,7 @@ import {
 } from '@magek/common'
 import { MagekAuthorizer } from '../authorizer'
 import { ClassDecoratorContext, MethodDecoratorContext } from './decorator-utils'
+import { getNonExposedFields } from './metadata'
 
 type EntityAttributes = EventStreamRoleAccess
 
@@ -36,7 +37,7 @@ export function Entity<TEntity extends EntityInterface, TParam extends EntityDec
   let authorizeReadEvents: EventStreamRoleAccess['authorizeReadEvents']
 
   // This function will be either returned or executed, depending on the parameters passed to the decorator
-  const mainLogicFunction = (entityClass: Class<TEntity>, _ctx?: ClassDecoratorContext): void => {
+  const mainLogicFunction = (entityClass: Class<TEntity>, ctx?: ClassDecoratorContext): void => {
     Magek.configureCurrentEnv((config): void => {
       if (config.entities[entityClass.name]) {
         throw new Error(`An entity called ${entityClass.name} is already registered
@@ -55,6 +56,12 @@ export function Entity<TEntity extends EntityInterface, TParam extends EntityDec
       config.entities[entityClass.name] = {
         class: entityClass,
         eventStreamAuthorizer,
+      }
+
+      // Register non-exposed fields from context.metadata
+      const nonExposedFields = getNonExposedFields(ctx?.metadata)
+      if (nonExposedFields.length > 0) {
+        config.nonExposedGraphQLMetadataKey[entityClass.name] = nonExposedFields
       }
     })
   }

@@ -6,7 +6,7 @@ import {
   QueryMetadata,
   QueryRoleAccess,
 } from '@magek/common'
-import { getClassMetadata } from './metadata'
+import { getClassMetadata, getNonExposedFields } from './metadata'
 import { MagekAuthorizer } from '../authorizer'
 import { ClassDecoratorContext } from './decorator-utils'
 
@@ -38,6 +38,12 @@ export function Query(
         methods: metadata.methods,
         before: attributes.before ?? [],
       } as QueryMetadata
+
+      // Register non-exposed fields from context.metadata
+      const nonExposedFields = getNonExposedFields(context.metadata)
+      if (nonExposedFields.length > 0) {
+        config.nonExposedGraphQLMetadataKey[queryClass.name] = nonExposedFields
+      }
     })
   }
 }

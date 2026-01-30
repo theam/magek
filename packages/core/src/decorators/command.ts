@@ -5,7 +5,7 @@ import {
   CommandInterface,
   CommandRoleAccess,
 } from '@magek/common'
-import { getClassMetadata } from './metadata'
+import { getClassMetadata, getNonExposedFields } from './metadata'
 import { MagekAuthorizer } from '../authorizer'
 import { ClassDecoratorContext } from './decorator-utils'
 
@@ -36,6 +36,12 @@ export function Command(
         before: attributes.before ?? [],
         properties: metadata.fields,
         methods: metadata.methods,
+      }
+
+      // Register non-exposed fields from context.metadata
+      const nonExposedFields = getNonExposedFields(context.metadata)
+      if (nonExposedFields.length > 0) {
+        config.nonExposedGraphQLMetadataKey[commandClass.name] = nonExposedFields
       }
     })
   }

@@ -8,7 +8,7 @@ import {
 } from '@magek/common'
 import { Magek } from '../magek'
 import { MagekAuthorizer } from '../authorizer'
-import { getClassMetadata } from './metadata'
+import { getClassMetadata, getNonExposedFields } from './metadata'
 import { ClassDecoratorContext, GetterDecoratorContext } from './decorator-utils'
 import { SEQUENCE_KEY_SYMBOL } from './sequenced-by'
 
@@ -82,6 +82,12 @@ export function ReadModel(
         properties,
         authorizer,
         before: attributes.before ?? [],
+      }
+
+      // Register non-exposed fields from context.metadata
+      const nonExposedFields = getNonExposedFields(context.metadata)
+      if (nonExposedFields.length > 0) {
+        config.nonExposedGraphQLMetadataKey[readModelClass.name] = nonExposedFields
       }
     })
   }
