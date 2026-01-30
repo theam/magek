@@ -33,7 +33,7 @@ describe('MagekDeleteEventDispatcher', () => {
       deleteEvent,
     })
 
-    const projectStub = stub(ReadModelStore.prototype, 'project').resolves()
+    const projectStub = stub(ReadModelStore.prototype, 'project').resolves(undefined)
 
     const result = await MagekDeleteEventDispatcher.deleteEvent(config, parameters)
 
@@ -130,7 +130,7 @@ describe('MagekDeleteEventDispatcher', () => {
       deleteEvent,
     })
 
-    const projectStub = stub(ReadModelStore.prototype, 'project').resolves()
+    const projectStub = stub(ReadModelStore.prototype, 'project').resolves(undefined)
 
     const result = await MagekDeleteEventDispatcher.deleteEvent(config, parameters)
 
