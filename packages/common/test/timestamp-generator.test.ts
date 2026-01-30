@@ -1,5 +1,5 @@
+import { TimestampGenerator, getTimestampGenerator, resetTimestampGenerator } from '../src'
 import { expect } from './helpers/expect'
-import { TimestampGenerator, getTimestampGenerator, resetTimestampGenerator } from '../src/timestamp-generator'
 
 describe('TimestampGenerator', () => {
   afterEach(() => {
