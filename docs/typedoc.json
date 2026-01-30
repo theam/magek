@@ -7,7 +7,6 @@
     "../packages/cli/src/index.ts"
   ],
   "entryPointStrategy": "expand",
-  "out": "../common/temp/docs-site",
   "name": "Magek Framework",
   "readme": "none",
   "projectDocuments": [
@@ -33,8 +32,7 @@
   "hideGenerator": false,
   "includeVersion": true,
   "navigationLinks": {
-    "GitHub": "https://github.com/theam/magek",
-    "Website": "https://magek.ai"
+    "GitHub": "https://github.com/theam/magek"
   },
   "navigation": {
     "includeCategories": false,

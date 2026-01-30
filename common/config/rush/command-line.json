@@ -51,18 +51,18 @@
     {
       "commandKind": "global",
       "name": "docs:build",
-      "summary": "Builds the documentation site using TypeDoc",
-      "description": "Generates static HTML documentation from TypeScript packages and Markdown files",
+      "summary": "Builds the complete documentation site",
+      "description": "Generates versioned TypeDoc site and landing page in common/temp/docs-site/",
       "safeForSimultaneousRushProcesses": true,
-      "shellCommand": "cd docs && rushx build"
+      "shellCommand": "node scripts/build-docs.js"
     },
     {
       "commandKind": "global",
       "name": "docs:serve",
       "summary": "Builds and serves the documentation site locally",
-      "description": "Generates documentation from TypeScript and Markdown, then serves it at http://localhost:8080",
+      "description": "Generates versioned documentation and serves it at http://localhost:8080",
       "safeForSimultaneousRushProcesses": false,
-      "shellCommand": "cd docs && rushx serve"
+      "shellCommand": "node scripts/build-docs.js && npx http-server common/temp/docs-site -p 8080 -o"
     }
   ],
 

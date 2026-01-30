@@ -4,8 +4,8 @@
   "description": "Documentation site generator for Magek Framework",
   "private": true,
   "scripts": {
-    "build": "typedoc",
-    "serve": "npm run build && npx http-server ../common/temp/docs-site -p 8080 -o",
+    "build": "echo 'Use rush docs:build from the repo root instead'",
+    "serve": "echo 'Use rush docs:serve from the repo root instead'",
     "clean": "rimraf ../common/temp/docs-site",
     "lint:check": "",
     "lint:fix": "",

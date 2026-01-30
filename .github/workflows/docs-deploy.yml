@@ -52,28 +52,14 @@ jobs:
       - name: Build packages
         run: node common/scripts/install-run-rush.js build
 
-      - name: Build landing page
-        run: |
-          VERSION=${{ inputs.version }}
-          echo "Building landing page with documentation link to v${VERSION}"
-          npm install marked
-          node scripts/build-landing-page.js $VERSION
+      - name: Install marked for landing page
+        run: npm install marked
 
       - name: Build documentation
         run: |
           VERSION=${{ inputs.version }}
-          echo "Building documentation for version $VERSION"
-
-          # Build documentation
-          node common/scripts/install-run-rush.js docs:build
-
-          # Move built docs to versioned folder
-          mkdir -p common/temp/versioned-docs/v${VERSION}
-          mv common/temp/docs-site/* common/temp/versioned-docs/v${VERSION}/
-
-          # Copy logo to media folder (for landing page)
-          mkdir -p common/temp/versioned-docs/v${VERSION}/media
-          cp docs/content/magek-logo.svg common/temp/versioned-docs/v${VERSION}/media/
+          echo "Building complete docs site for version $VERSION"
+          node scripts/build-docs.js $VERSION
 
       - name: Checkout gh-pages branch
         uses: actions/checkout@v6
@@ -85,12 +71,8 @@ jobs:
         run: |
           VERSION=${{ inputs.version }}
 
-          # Copy landing page to root
-          cp common/temp/landing-page/index.html gh-pages/index.html
-
-          # Copy new version folder (overwrites if exists)
-          rm -rf gh-pages/v${VERSION}
-          cp -r common/temp/versioned-docs/v${VERSION} gh-pages/v${VERSION}
+          # Copy entire built site (new files added, existing replaced, old versions untouched)
+          cp -r common/temp/docs-site/* gh-pages/
 
           # Update versions.json manifest
           node scripts/update-versions-manifest.js gh-pages/versions.json $VERSION
