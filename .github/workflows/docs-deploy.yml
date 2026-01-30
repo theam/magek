@@ -52,9 +52,6 @@ jobs:
       - name: Build packages
         run: node common/scripts/install-run-rush.js build
 
-      - name: Install marked for landing page
-        run: npm install marked
-
       - name: Build documentation
         run: |
           VERSION=${{ inputs.version }}

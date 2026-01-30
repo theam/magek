@@ -12,6 +12,7 @@
     "test": ""
   },
   "dependencies": {
+    "marked": "15.0.7",
     "typedoc": "^0.28.15",
     "typedoc-plugin-markdown": "^4.4.1",
     "typedoc-plugin-merge-modules": "^6.0.2"
