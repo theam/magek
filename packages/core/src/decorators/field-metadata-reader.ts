@@ -12,6 +12,7 @@ import {
   DecoratorMetadataObject,
 } from './decorator-types'
 import { CALCULATED_FIELDS_SYMBOL } from './read-model'
+import { getReturnTypeMetadata } from './returns'
 
 /**
  * Extract TypeMetadata from a @field() decorator's metadata
@@ -248,6 +249,17 @@ export function buildClassMetadataFromFields(
 
   // Get getter methods (for @calculatedField)
   const methods = getAllGetters(classType, contextMetadata)
+
+  // Check for @returns decorated handle method
+  const handleReturnType = getReturnTypeMetadata(contextMetadata, 'handle')
+  if (handleReturnType) {
+    // Add handle method with its return type to methods array
+    methods.push({
+      name: 'handle',
+      typeInfo: handleReturnType,
+      dependencies: [],
+    })
+  }
 
   return {
     name: classType.name,

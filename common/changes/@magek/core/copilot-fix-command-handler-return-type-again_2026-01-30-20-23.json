@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Add @returns decorator for command handler return type inference. Users can now specify the return type of their command's handle method using the @returns decorator, which will be properly reflected in the generated GraphQL schema.",
+      "type": "patch",
+      "packageName": "@magek/core"
+    }
+  ],
+  "packageName": "@magek/core",
+  "email": "198982749+Copilot@users.noreply.github.com"
+}
