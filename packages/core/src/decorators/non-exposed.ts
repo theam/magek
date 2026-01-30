@@ -29,7 +29,3 @@ export function nonExposed(
     }
   }
 }
-
-// Re-export with PascalCase alias for backward compatibility during migration
-// TODO: Remove this alias after all usages have been updated to @nonExposed
-export { nonExposed as NonExposed }

@@ -110,7 +110,3 @@ type ProjectionMethodDefinition<TEntity, TReadModel> = (
 type UnprojectionMethod<TEntity, TReadModel, TPropType> = TPropType extends Array<UUID>
   ? ProjectionMethodDefinitionForArray<TEntity, TReadModel>
   : ProjectionMethodDefinition<TEntity, TReadModel>
-
-// Re-export with PascalCase alias for backward compatibility during migration
-// TODO: Remove this alias after all usages have been updated to @projects
-export { projects as Projects }

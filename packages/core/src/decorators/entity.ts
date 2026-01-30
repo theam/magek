@@ -123,7 +123,3 @@ function registerReducer(eventName: string, reducerMetadata: ReducerMetadata): v
     config.reducers[eventName] = reducerMetadata
   })
 }
-
-// Re-export with PascalCase alias for backward compatibility during migration
-// TODO: Remove this alias after all usages have been updated to @reduces
-export { reduces as Reduces }

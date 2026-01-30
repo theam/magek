@@ -124,7 +124,3 @@ export function calculatedField(
     }
   }
 }
-
-// Re-export with PascalCase alias for backward compatibility during migration
-// TODO: Remove this alias after all usages have been updated to @calculatedField
-export { calculatedField as CalculatedField }
