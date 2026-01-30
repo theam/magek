@@ -14,12 +14,12 @@ describe('TimestampGenerator', () => {
   })
 
   describe('next()', () => {
-    it('should generate a valid ISO 8601 timestamp with 6 fractional digits', () => {
+    it('should generate a valid ISO 8601 timestamp with 8 fractional digits', () => {
       const generator = new TimestampGenerator()
       const timestamp = generator.next()
 
       // Check format: YYYY-MM-DDTHH:MM:SS.SSSSSSZ
-      expect(timestamp).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}Z$/)
+      expect(timestamp).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{8}Z$/)
     })
 
     it('should generate unique timestamps for consecutive calls', () => {
@@ -79,8 +79,8 @@ describe('TimestampGenerator', () => {
       const second = generator.next()
 
       // Both should be valid
-      expect(first).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}Z$/)
-      expect(second).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}Z$/)
+      expect(first).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{8}Z$/)
+      expect(second).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{8}Z$/)
 
       // Second should be after first
       expect(second > first).to.be.true
@@ -136,8 +136,8 @@ describe('TimestampGenerator', () => {
         timestamps.push(generator.next())
       }
 
-      // Extract fractional seconds (last 7 chars: .123456Z)
-      const fractions = timestamps.map((ts) => ts.slice(-7, -1))
+      // Extract fractional seconds (last 9 chars: .12345678Z)
+      const fractions = timestamps.map((ts) => ts.slice(-9, -1))
 
       // If they're in the same millisecond, the counter part should increment
       if (fractions[0].slice(0, 3) === fractions[1].slice(0, 3)) {
@@ -159,7 +159,7 @@ describe('TimestampGenerator', () => {
       const generator = getTimestampGenerator()
       const timestamp = generator.next()
 
-      expect(timestamp).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}Z$/)
+      expect(timestamp).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{8}Z$/)
     })
 
     it('should maintain state across calls', () => {
@@ -235,28 +235,30 @@ describe('TimestampGenerator', () => {
 
     it('should maintain string comparison ordering with mixed formats', () => {
       const timestamps = [
-        '2024-01-28T12:34:56.123Z',      // old format
-        '2024-01-28T12:34:56.123005Z',   // new format, counter=00, seed=5
-        '2024-01-28T12:34:56.123015Z',   // new format, counter=01, seed=5
-        '2024-01-28T12:34:56.124Z',      // old format, next ms
-        '2024-01-28T12:34:56.124007Z',   // new format, counter=00, seed=7
+        '2024-01-28T12:34:56.123Z',        // old 3-digit format
+        '2024-01-28T12:34:56.123005Z',     // old 6-digit format, counter=00, seed=5
+        '2024-01-28T12:34:56.12300005Z',   // new 8-digit format, counter=0000, seed=5
+        '2024-01-28T12:34:56.12300015Z',   // new 8-digit format, counter=0001, seed=5
+        '2024-01-28T12:34:56.124Z',        // old 3-digit format, next ms
+        '2024-01-28T12:34:56.12400007Z',   // new 8-digit format, counter=0000, seed=7
       ]
 
-      // When sorting as strings, old format (ending with Z immediately after 3 digits)
-      // will sort AFTER new format (with additional digits before Z)
+      // When sorting as strings, shorter formats (ending with Z after fewer digits)
+      // will sort AFTER longer formats (with additional digits before Z)
       // because digit characters '0'-'9' (ASCII 48-57) < 'Z' (ASCII 90)
       // This means new format timestamps will always appear BEFORE old format timestamps
       // within the same millisecond, which is acceptable since order within the same
       // millisecond was already non-deterministic with the old format.
       const sorted = [...timestamps].sort()
-      
+
       // The actual sorted order:
       const expected = [
-        '2024-01-28T12:34:56.123005Z',   // new format
-        '2024-01-28T12:34:56.123015Z',   // new format
-        '2024-01-28T12:34:56.123Z',      // old format (Z comes after digits)
-        '2024-01-28T12:34:56.124007Z',   // new format
-        '2024-01-28T12:34:56.124Z',      // old format
+        '2024-01-28T12:34:56.12300005Z',   // new 8-digit format
+        '2024-01-28T12:34:56.12300015Z',   // new 8-digit format
+        '2024-01-28T12:34:56.123005Z',     // old 6-digit format (Z comes after fewer digits)
+        '2024-01-28T12:34:56.123Z',        // old 3-digit format (Z comes after even fewer digits)
+        '2024-01-28T12:34:56.12400007Z',   // new 8-digit format
+        '2024-01-28T12:34:56.124Z',        // old 3-digit format
       ]
 
       expect(sorted).to.deep.equal(expected)
@@ -309,20 +311,20 @@ describe('TimestampGenerator', () => {
       }
     })
 
-    it('should handle counter overflow by waiting for next millisecond', async () => {
+    it('should handle counter overflow by advancing lastMs', async () => {
       const generator = new TimestampGenerator()
       const timestamps: string[] = []
 
-      // Try to exhaust a millisecond (would need 100 calls in 1ms)
+      // Generate more than 10,000 timestamps to test counter overflow
       // This is a best-effort test; depending on CPU speed, we might
       // naturally move to the next millisecond
-      for (let i = 0; i < 150; i++) {
+      for (let i = 0; i < 15000; i++) {
         timestamps.push(generator.next())
       }
 
       // All should still be unique and ordered
       const uniqueTimestamps = new Set(timestamps)
-      expect(uniqueTimestamps.size).to.equal(150)
+      expect(uniqueTimestamps.size).to.equal(15000)
 
       for (let i = 1; i < timestamps.length; i++) {
         expect(timestamps[i] > timestamps[i - 1]).to.be.true
