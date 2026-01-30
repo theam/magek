@@ -432,6 +432,24 @@
       "shouldPublish": true,
       "versionPolicyName": "magek",
       "projectFolder": "adapters/nedb/session-store"
+    },
+    {
+      "packageName": "@magek/adapter-event-store-memory",
+      "shouldPublish": true,
+      "versionPolicyName": "magek",
+      "projectFolder": "adapters/memory/event-store"
+    },
+    {
+      "packageName": "@magek/adapter-read-model-store-memory",
+      "shouldPublish": true,
+      "versionPolicyName": "magek",
+      "projectFolder": "adapters/memory/read-model-store"
+    },
+    {
+      "packageName": "@magek/adapter-session-store-memory",
+      "shouldPublish": true,
+      "versionPolicyName": "magek",
+      "projectFolder": "adapters/memory/session-store"
     }
   ]
 }
