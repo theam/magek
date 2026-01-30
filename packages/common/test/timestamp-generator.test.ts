@@ -264,6 +264,32 @@ describe('TimestampGenerator', () => {
   })
 
   describe('edge cases', () => {
+    it('should maintain monotonic ordering when clock moves backward', () => {
+      const generator = new TimestampGenerator()
+      const originalDateNow = Date.now
+      let mockTime = 1000000
+
+      // Mock Date.now
+      Date.now = () => mockTime
+
+      const ts1 = generator.next()
+      const ts2 = generator.next()
+
+      // Simulate clock moving backward
+      mockTime = 999999
+
+      const ts3 = generator.next()
+      const ts4 = generator.next()
+
+      // Restore Date.now
+      Date.now = originalDateNow
+
+      // All timestamps should still be monotonically increasing
+      expect(ts2 > ts1).to.be.true
+      expect(ts3 > ts2).to.be.true
+      expect(ts4 > ts3).to.be.true
+    })
+
     it('should handle rapid successive calls', () => {
       const generator = new TimestampGenerator()
       const timestamps: string[] = []

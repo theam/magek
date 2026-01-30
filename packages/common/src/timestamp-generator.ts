@@ -31,8 +31,9 @@ export class TimestampGenerator {
   public next(): string {
     const nowMs = Date.now()
 
-    // Reset counter if we've moved to a new millisecond
-    if (nowMs !== this.lastMs) {
+    // Reset counter only if we've moved forward to a new millisecond
+    // When nowMs <= lastMs (clock skew), continue using lastMs and incrementing counter
+    if (nowMs > this.lastMs) {
       this.lastMs = nowMs
       this.counter = 0
     }
@@ -51,7 +52,8 @@ export class TimestampGenerator {
     this.counter++
 
     // Build ISO 8601 timestamp with microsecond precision
-    const date = new Date(nowMs)
+    // Use lastMs (which may be clamped due to clock skew) instead of nowMs
+    const date = new Date(this.lastMs)
     const isoString = date.toISOString()
     
     // Replace milliseconds with our extended precision
