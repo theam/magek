@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Move createdAt assignment from adapter to framework",
+      "type": "none",
+      "packageName": "@magek/server"
+    }
+  ],
+  "packageName": "@magek/server",
+  "email": "github-actions[bot]@users.noreply.github.com"
+}

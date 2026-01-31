@@ -78,12 +78,8 @@ export async function storeEvents(
   const logger = getLogger(config, 'events-adapter#storeEvents')
   logger.debug('Storing the following event envelopes:', nonPersistedEventEnvelopes)
   const persistedEventEnvelopes: Array<EventEnvelope> = []
-  const timestampGenerator = getTimestampGenerator()
   for (const nonPersistedEventEnvelope of nonPersistedEventEnvelopes) {
-    const persistableEventEnvelope = {
-      ...nonPersistedEventEnvelope,
-      createdAt: timestampGenerator.next(),
-    }
+    const persistableEventEnvelope = nonPersistedEventEnvelope as EventEnvelope
     await retryIfError(
       async () => await persistEvent(eventRegistry, persistableEventEnvelope),
       OptimisticConcurrencyUnexpectedVersionError

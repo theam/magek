@@ -11,6 +11,7 @@ import {
   UUID,
   NotificationInterface,
   ReducerMetadata,
+  getTimestampGenerator,
 } from '@magek/common'
 import { MagekEntityMigrated } from './core-concepts/data-migration/events/entity-migrated'
 import { MagekDataMigrationStarted } from './core-concepts/data-migration/events/data-migration-started'
@@ -70,6 +71,7 @@ export class RegisterHandler {
       entityTypeName,
       typeName: eventTypeName,
       value: event,
+      createdAt: getTimestampGenerator().next(),
     }
   }
 

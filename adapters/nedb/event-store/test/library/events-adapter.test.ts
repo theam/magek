@@ -14,8 +14,6 @@ import {
   UUID,
   MagekConfig,
   NonPersistedEventEnvelope,
-  getTimestampGenerator,
-  resetTimestampGenerator,
 } from '@magek/common'
 import { expect } from '../expect'
 import { createMockNonPersistedEventEnvelop, createMockEntitySnapshotEnvelope } from '../helpers/event-helper'
@@ -66,7 +64,6 @@ describe('events-adapter', () => {
 
   afterEach(() => {
     restore()
-    resetTimestampGenerator()
   })
 
   describe('rawEventsToEnvelopes', () => {
@@ -255,33 +252,20 @@ describe('events-adapter', () => {
     context('with event envelopes', () => {
       it('should call event registry store', async () => {
         const mockEventEnvelop = createMockNonPersistedEventEnvelop()
-        // The `createdAt` will be set by the timestamp generator
-        const timestampGenerator = getTimestampGenerator()
-        const nextStub = stub(timestampGenerator, 'next').returns('2024-01-28T12:34:56.123456Z')
 
         await storeEvents(mockUserApp, mockEventRegistry, [mockEventEnvelop], mockConfig)
 
-        expect(storeStub).to.have.been.calledWithExactly({
-          ...mockEventEnvelop,
-          createdAt: '2024-01-28T12:34:56.123456Z',
-        })
-
-        nextStub.restore()
+        // The adapter now uses the createdAt from the input envelope (set by the framework)
+        expect(storeStub).to.have.been.calledWithExactly(mockEventEnvelop)
       })
 
       it('should call userApp eventDispatcher', async () => {
         const mockEventEnvelop = createMockNonPersistedEventEnvelop()
-        // The `createdAt` will be set by the timestamp generator
-        const timestampGenerator = getTimestampGenerator()
-        const nextStub = stub(timestampGenerator, 'next').returns('2024-01-28T12:34:56.123456Z')
 
         await storeEvents(mockUserApp, mockEventRegistry, [mockEventEnvelop], mockConfig)
 
-        expect(eventDispatcherStub).to.have.been.calledOnceWithExactly([
-          { ...mockEventEnvelop, createdAt: '2024-01-28T12:34:56.123456Z' },
-        ])
-
-        nextStub.restore()
+        // The adapter now uses the createdAt from the input envelope (set by the framework)
+        expect(eventDispatcherStub).to.have.been.calledOnceWithExactly([mockEventEnvelop])
       })
     })
   })

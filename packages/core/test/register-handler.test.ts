@@ -1,7 +1,7 @@
 import { expect } from './expect'
-import { Register, MagekConfig, Level, UserEnvelope, UUID } from '@magek/common'
+import { Register, MagekConfig, Level, UserEnvelope, UUID, resetTimestampGenerator } from '@magek/common'
 import { field } from '../src'
-import { replace, fake, restore, spy } from 'sinon'
+import { fake, restore, spy } from 'sinon'
 import { RegisterHandler } from '../src'
 import { MagekEntityMigrated } from '../src/core-concepts/data-migration/events/entity-migrated'
 import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
@@ -38,6 +38,7 @@ describe('the `RegisterHandler` class', () => {
 
   afterEach(() => {
     restore()
+    resetTimestampGenerator()
   })
 
   it('handles a register', async () => {
@@ -89,8 +90,6 @@ describe('the `RegisterHandler` class', () => {
       methodName: 'aReducer',
     }
 
-    replace(Date.prototype, 'toISOString', fake.returns('just the right time'))
-
     const register = new Register('1234', {} as any, RegisterHandler.flush)
     const event1 = new SomeEvent('a')
     const event2 = new SomeEvent('b')
@@ -99,33 +98,32 @@ describe('the `RegisterHandler` class', () => {
     await RegisterHandler.handle(config, register)
 
     expect(mockStore).to.have.been.calledOnce
-    expect(mockStore).to.have.been.calledWithMatch(
-      [
-        {
-          currentUser: undefined,
-          entityID: '42',
-          entityTypeName: 'SomeEntity',
-          kind: 'event',
-          superKind: 'domain',
-          requestID: '1234',
-          typeName: 'SomeEvent',
-          value: event1,
-          version: 1,
-        },
-        {
-          currentUser: undefined,
-          entityID: '42',
-          entityTypeName: 'SomeEntity',
-          kind: 'event',
-          superKind: 'domain',
-          requestID: '1234',
-          typeName: 'SomeEvent',
-          value: event2,
-          version: 1,
-        },
-      ],
-      config
-    )
+    const [[events]] = mockStore.args
+    expect(events).to.have.lengthOf(2)
+    expect(events[0]).to.include({
+      currentUser: undefined,
+      entityID: '42',
+      entityTypeName: 'SomeEntity',
+      kind: 'event',
+      superKind: 'domain',
+      requestID: '1234',
+      typeName: 'SomeEvent',
+      version: 1,
+    })
+    expect(events[0].value).to.equal(event1)
+    expect(events[0].createdAt).to.be.a('string')
+    expect(events[1]).to.include({
+      currentUser: undefined,
+      entityID: '42',
+      entityTypeName: 'SomeEntity',
+      kind: 'event',
+      superKind: 'domain',
+      requestID: '1234',
+      typeName: 'SomeEvent',
+      version: 1,
+    })
+    expect(events[1].value).to.equal(event2)
+    expect(events[1].createdAt).to.be.a('string')
   })
 
   it('can wrap events to produce eventEnvelopes', () => {
@@ -143,17 +141,19 @@ describe('the `RegisterHandler` class', () => {
     const event = new SomeEvent('a')
 
     const registerHandler = RegisterHandler as any
-    expect(registerHandler.wrapEvent(config, event, register)).to.deep.equal({
+    const result = registerHandler.wrapEvent(config, event, register)
+    expect(result).to.include({
       version: 1,
       kind: 'event',
       superKind: 'domain',
       entityID: '42',
       requestID: '1234',
       entityTypeName: 'SomeEntity',
-      value: event,
-      currentUser: user,
       typeName: 'SomeEvent',
     })
+    expect(result.value).to.equal(event)
+    expect(result.currentUser).to.deep.equal(user)
+    expect(result.createdAt).to.be.a('string')
   })
 
   it('can wrap notifications to produce eventEnvelopes', () => {
@@ -172,17 +172,19 @@ describe('the `RegisterHandler` class', () => {
     const notification = new SomeNotification()
 
     const registerHandler = RegisterHandler as any
-    expect(registerHandler.wrapEvent(config, notification, register)).to.deep.equal({
+    const result = registerHandler.wrapEvent(config, notification, register)
+    expect(result).to.include({
       version: 1,
       kind: 'event',
       superKind: 'domain',
       entityID: 'default',
       requestID: '1234',
       entityTypeName: 'defaultTopic',
-      value: notification,
-      currentUser: user,
       typeName: SomeNotification.name,
     })
+    expect(result.value).to.equal(notification)
+    expect(result.currentUser).to.deep.equal(user)
+    expect(result.createdAt).to.be.a('string')
   })
 
   it('can wrap internal events to produce eventEnvelopes', () => {
@@ -201,16 +203,18 @@ describe('the `RegisterHandler` class', () => {
     const event = new MagekEntityMigrated('oldEntity', 'oldEntityId', 'newEntityName', someEntity)
 
     const registerHandler = RegisterHandler as any
-    expect(registerHandler.wrapEvent(config, event, register)).to.deep.equal({
+    const result = registerHandler.wrapEvent(config, event, register)
+    expect(result).to.include({
       version: 1,
       kind: 'event',
       superKind: 'magek',
       entityTypeName: 'oldEntity',
       entityID: 'oldEntityId',
       requestID: '1234',
-      value: event,
-      currentUser: user,
       typeName: 'MagekEntityMigrated',
     })
+    expect(result.value).to.equal(event)
+    expect(result.currentUser).to.deep.equal(user)
+    expect(result.createdAt).to.be.a('string')
   })
 })

@@ -20,6 +20,7 @@ export function createMockNonPersistedEventEnvelopeForEntity(
     requestID: faker.string.uuid(),
     typeName: faker.lorem.word(),
     version: faker.number.int(),
+    createdAt: faker.date.past().toISOString(),
   }
 }
 
