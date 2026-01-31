@@ -11,6 +11,7 @@ on:
 permissions:
   id-token: write   # Required for OIDC
   contents: write   # Required to push version commits/tags
+  pages: write      # Required for docs-deploy workflow
 
 env:
   CI: true
