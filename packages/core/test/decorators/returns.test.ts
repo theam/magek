@@ -35,10 +35,9 @@ describe('the `returns` decorator', () => {
       const handleMethod = commandMetadata.methods.find((m: any) => m.name === 'handle')
       expect(handleMethod).to.exist
       expect(handleMethod.typeInfo).to.exist
-      expect(handleMethod.typeInfo.typeName).to.equal('Promise')
-      expect(handleMethod.typeInfo.parameters).to.be.an('Array')
-      expect(handleMethod.typeInfo.parameters[0].typeName).to.equal('UUID')
-      expect(handleMethod.typeInfo.parameters[0].typeGroup).to.equal('Class')
+      // The return type should be the GraphQL type directly (UUID), not wrapped in Promise
+      expect(handleMethod.typeInfo.typeName).to.equal('UUID')
+      expect(handleMethod.typeInfo.typeGroup).to.equal('Class')
     })
 
     it('should capture String return type in command metadata', () => {
@@ -58,9 +57,9 @@ describe('the `returns` decorator', () => {
 
       const handleMethod = commandMetadata.methods.find((m: any) => m.name === 'handle')
       expect(handleMethod).to.exist
-      expect(handleMethod.typeInfo.typeName).to.equal('Promise')
-      expect(handleMethod.typeInfo.parameters[0].typeName).to.equal('String')
-      expect(handleMethod.typeInfo.parameters[0].typeGroup).to.equal('String')
+      // The return type should be the GraphQL type directly (String), not wrapped in Promise
+      expect(handleMethod.typeInfo.typeName).to.equal('String')
+      expect(handleMethod.typeInfo.typeGroup).to.equal('String')
     })
 
     it('should capture Number return type in command metadata', () => {
@@ -80,9 +79,9 @@ describe('the `returns` decorator', () => {
 
       const handleMethod = commandMetadata.methods.find((m: any) => m.name === 'handle')
       expect(handleMethod).to.exist
-      expect(handleMethod.typeInfo.typeName).to.equal('Promise')
-      expect(handleMethod.typeInfo.parameters[0].typeName).to.equal('Number')
-      expect(handleMethod.typeInfo.parameters[0].typeGroup).to.equal('Number')
+      // The return type should be the GraphQL type directly (Number), not wrapped in Promise
+      expect(handleMethod.typeInfo.typeName).to.equal('Number')
+      expect(handleMethod.typeInfo.typeGroup).to.equal('Number')
     })
 
     it('should capture Boolean return type in command metadata', () => {
@@ -102,9 +101,9 @@ describe('the `returns` decorator', () => {
 
       const handleMethod = commandMetadata.methods.find((m: any) => m.name === 'handle')
       expect(handleMethod).to.exist
-      expect(handleMethod.typeInfo.typeName).to.equal('Promise')
-      expect(handleMethod.typeInfo.parameters[0].typeName).to.equal('Boolean')
-      expect(handleMethod.typeInfo.parameters[0].typeGroup).to.equal('Boolean')
+      // The return type should be the GraphQL type directly (Boolean), not wrapped in Promise
+      expect(handleMethod.typeInfo.typeName).to.equal('Boolean')
+      expect(handleMethod.typeInfo.typeGroup).to.equal('Boolean')
     })
 
     it('should capture Array return type in command metadata', () => {
@@ -126,9 +125,9 @@ describe('the `returns` decorator', () => {
 
       const handleMethod = commandMetadata.methods.find((m: any) => m.name === 'handle')
       expect(handleMethod).to.exist
-      expect(handleMethod.typeInfo.typeName).to.equal('Promise')
-      expect(handleMethod.typeInfo.parameters[0].typeGroup).to.equal('Array')
-      expect(handleMethod.typeInfo.parameters[0].parameters[0].typeName).to.equal('CartItem')
+      // The return type should be the GraphQL type directly (Array), not wrapped in Promise
+      expect(handleMethod.typeInfo.typeGroup).to.equal('Array')
+      expect(handleMethod.typeInfo.parameters[0].typeName).to.equal('CartItem')
     })
 
     it('should capture custom class return type in command metadata', () => {
@@ -150,9 +149,9 @@ describe('the `returns` decorator', () => {
 
       const handleMethod = commandMetadata.methods.find((m: any) => m.name === 'handle')
       expect(handleMethod).to.exist
-      expect(handleMethod.typeInfo.typeName).to.equal('Promise')
-      expect(handleMethod.typeInfo.parameters[0].typeName).to.equal('CustomResult')
-      expect(handleMethod.typeInfo.parameters[0].typeGroup).to.equal('Class')
+      // The return type should be the GraphQL type directly (CustomResult), not wrapped in Promise
+      expect(handleMethod.typeInfo.typeName).to.equal('CustomResult')
+      expect(handleMethod.typeInfo.typeGroup).to.equal('Class')
     })
   })
 

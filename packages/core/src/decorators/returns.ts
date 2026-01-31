@@ -11,12 +11,13 @@ export interface ReturnsMetadata {
 }
 
 /**
- * Analyze a type and convert it to TypeMetadata for return types
+ * Analyze a type and convert it to TypeMetadata for return types.
+ * This returns the GraphQL-compatible type directly (not wrapped in Promise).
  */
-function analyzeReturnType(targetType: unknown, isPromise: boolean = false): TypeMetadata {
+function analyzeReturnType(targetType: unknown): TypeMetadata {
   // Handle primitives
   if (targetType === String) {
-    const typeInfo: TypeMetadata = {
+    return {
       name: 'string',
       typeGroup: 'String',
       typeName: 'String',
@@ -25,11 +26,10 @@ function analyzeReturnType(targetType: unknown, isPromise: boolean = false): Typ
       isGetAccessor: false,
       type: String,
     }
-    return wrapInPromiseIfNeeded(typeInfo, isPromise)
   }
 
   if (targetType === Number) {
-    const typeInfo: TypeMetadata = {
+    return {
       name: 'number',
       typeGroup: 'Number',
       typeName: 'Number',
@@ -38,11 +38,10 @@ function analyzeReturnType(targetType: unknown, isPromise: boolean = false): Typ
       isGetAccessor: false,
       type: Number,
     }
-    return wrapInPromiseIfNeeded(typeInfo, isPromise)
   }
 
   if (targetType === Boolean) {
-    const typeInfo: TypeMetadata = {
+    return {
       name: 'boolean',
       typeGroup: 'Boolean',
       typeName: 'Boolean',
@@ -51,12 +50,11 @@ function analyzeReturnType(targetType: unknown, isPromise: boolean = false): Typ
       isGetAccessor: false,
       type: Boolean,
     }
-    return wrapInPromiseIfNeeded(typeInfo, isPromise)
   }
 
   // Handle void - return never to signal void return
   if (targetType === undefined || targetType === null) {
-    const typeInfo: TypeMetadata = {
+    return {
       name: 'never',
       typeGroup: 'Other',
       typeName: 'never',
@@ -64,7 +62,6 @@ function analyzeReturnType(targetType: unknown, isPromise: boolean = false): Typ
       isNullable: false,
       isGetAccessor: false,
     }
-    return wrapInPromiseIfNeeded(typeInfo, isPromise)
   }
 
   // Handle Array
@@ -73,8 +70,8 @@ function analyzeReturnType(targetType: unknown, isPromise: boolean = false): Typ
       throw new Error('@returns decorator array type must specify an element type, e.g., @returns(type => [String])')
     }
     const elementType = targetType[0]
-    const elementMetadata = analyzeReturnType(elementType, false)
-    const typeInfo: TypeMetadata = {
+    const elementMetadata = analyzeReturnType(elementType)
+    return {
       name: `${elementMetadata.name}[]`,
       typeGroup: 'Array',
       typeName: 'Array',
@@ -82,12 +79,11 @@ function analyzeReturnType(targetType: unknown, isPromise: boolean = false): Typ
       isNullable: false,
       isGetAccessor: false,
     }
-    return wrapInPromiseIfNeeded(typeInfo, isPromise)
   }
 
   // Handle Class types (e.g., UUID, custom types)
   if (typeof targetType === 'function') {
-    const typeInfo: TypeMetadata = {
+    return {
       name: (targetType as Function).name || 'Unknown',
       typeGroup: 'Class',
       typeName: (targetType as Function).name,
@@ -96,33 +92,14 @@ function analyzeReturnType(targetType: unknown, isPromise: boolean = false): Typ
       isGetAccessor: false,
       type: targetType as ClassType,
     }
-    return wrapInPromiseIfNeeded(typeInfo, isPromise)
   }
 
   // Default fallback
-  const typeInfo: TypeMetadata = {
+  return {
     name: 'unknown',
     typeGroup: 'Other',
     typeName: 'unknown',
     parameters: [],
-    isNullable: false,
-    isGetAccessor: false,
-  }
-  return wrapInPromiseIfNeeded(typeInfo, isPromise)
-}
-
-/**
- * Wraps type metadata in a Promise if needed
- */
-function wrapInPromiseIfNeeded(typeInfo: TypeMetadata, isPromise: boolean): TypeMetadata {
-  if (!isPromise) {
-    return typeInfo
-  }
-  return {
-    name: `Promise<${typeInfo.name}>`,
-    typeGroup: 'Class',
-    typeName: 'Promise',
-    parameters: [typeInfo],
     isNullable: false,
     isGetAccessor: false,
   }
@@ -154,14 +131,16 @@ export function getReturnTypeMetadata(
 
   // Evaluate the type function and analyze the result
   const typeResult = metadata.typeFunction()
-  // By convention, handle methods are async, so wrap in Promise
-  return analyzeReturnType(typeResult, true)
+  // Return the actual type (not wrapped in Promise) - this is the GraphQL return type
+  return analyzeReturnType(typeResult)
 }
 
 /**
  * @returns() decorator for explicit return type declaration on methods.
  *
- * Uses TC39 Stage 3 decorators.
+ * Uses TC39 Stage 3 decorators to capture return type metadata that is used
+ * for GraphQL schema generation. The type specified should be the GraphQL
+ * return type (not wrapped in Promise).
  *
  * Usage:
  *   @returns(type => UUID)

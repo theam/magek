@@ -11,29 +11,21 @@ describe('GraphQLHandledFieldsGenerator', () => {
       const logger = getLogger(config, 'test')
       const typeInformer = new GraphQLTypeInformer(logger)
 
-      // Simulate a command class that has a handle method with UUID return type (wrapped in Promise)
+      // Simulate a command class that has a handle method with UUID return type
       class CreateNote {}
 
       // Create handle method metadata as it would be set by @returns(type => UUID)
+      // The @returns decorator now stores the GraphQL type directly (not wrapped in Promise)
       const handleMethodMetadata: PropertyMetadata = {
         name: 'handle',
         typeInfo: {
-          name: 'Promise<UUID>',
+          name: 'UUID',
           typeGroup: 'Class',
-          typeName: 'Promise',
-          parameters: [
-            {
-              name: 'UUID',
-              typeGroup: 'Class',
-              typeName: 'UUID',
-              parameters: [],
-              isNullable: false,
-              isGetAccessor: false,
-              type: UUID,
-            },
-          ],
+          typeName: 'UUID',
+          parameters: [],
           isNullable: false,
           isGetAccessor: false,
+          type: UUID,
         },
         dependencies: [],
       }
@@ -72,25 +64,17 @@ describe('GraphQLHandledFieldsGenerator', () => {
       class CreateMessage {}
 
       // Create handle method metadata as it would be set by @returns(type => String)
+      // The @returns decorator now stores the GraphQL type directly (not wrapped in Promise)
       const handleMethodMetadata: PropertyMetadata = {
         name: 'handle',
         typeInfo: {
-          name: 'Promise<string>',
-          typeGroup: 'Class',
-          typeName: 'Promise',
-          parameters: [
-            {
-              name: 'string',
-              typeGroup: 'String',
-              typeName: 'String',
-              parameters: [],
-              isNullable: false,
-              isGetAccessor: false,
-              type: String,
-            },
-          ],
+          name: 'string',
+          typeGroup: 'String',
+          typeName: 'String',
+          parameters: [],
           isNullable: false,
           isGetAccessor: false,
+          type: String,
         },
         dependencies: [],
       }
