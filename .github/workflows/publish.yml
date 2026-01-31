@@ -122,7 +122,25 @@ jobs:
             echo "Using override version: ${{ github.event.inputs.version }}"
             rush version --override-version ${{ github.event.inputs.version }}
           else
-            rush version --bump
+            # Determine the highest bump type from all change files
+            # For lockStepVersion policy, we need to aggregate change types and pass --override-bump
+            BUMP_TYPE="patch"  # Default to patch
+            
+            for file in $(find common/changes -type f -name "*.json" 2>/dev/null); do
+              # Extract the change type from each change file
+              # Change files can have multiple changes, so we check all of them
+              if grep -qE '"type":\s*"major"' "$file"; then
+                BUMP_TYPE="major"
+                break  # Major is highest priority, stop looking
+              elif grep -qE '"type":\s*"minor"' "$file"; then
+                BUMP_TYPE="minor"
+                # Don't break, keep looking for major
+              fi
+              # patch changes don't need to update BUMP_TYPE since it's the default
+            done
+            
+            echo "Determined bump type from change files: $BUMP_TYPE"
+            rush version --bump --override-bump "$BUMP_TYPE"
           fi
 
           # Commit version changes if there are any
