@@ -26,10 +26,10 @@ In Magek you define them as TypeScript classes decorated with the `@Command` dec
   authorize: 'all',
 })
 export class CommandName {
-  @Field()
+  @field()
   readonly fieldA!: SomeType
 
-  @Field()
+  @field()
   readonly fieldB!: SomeOtherType
 }
 ```
@@ -41,10 +41,10 @@ These commands are handled by `Command Handlers`, the same way a **REST Controll
   authorize: 'all',
 })
 export class CommandName {
-  @Field()
+  @field()
   readonly fieldA!: SomeType
 
-  @Field()
+  @field()
   readonly fieldB!: SomeOtherType
 
   // highlight-start
@@ -74,10 +74,10 @@ Within the command handler execution, it is possible to register domain events. 
   authorize: 'all',
 })
 export class CreateProduct {
-  @Field()
+  @field()
   readonly sku!: string
 
-  @Field()
+  @field()
   readonly price!: number
 
   public static async handle(command: CreateProduct, register: Register): Promise<string> {
@@ -102,10 +102,10 @@ For example:
   authorize: 'all',
 })
 export class CreateProduct {
-  @Field()
+  @field()
   readonly sku!: string
 
-  @Field()
+  @field()
   readonly price!: number
 
   public static async handle(command: CreateProduct, register: Register): Promise<string> {
@@ -131,10 +131,10 @@ One case where you might want to throw an error is when the command is invalid b
   authorize: 'all',
 })
 export class CreateProduct {
-  @Field()
+  @field()
   readonly sku!: string
 
-  @Field()
+  @field()
   readonly price!: number
 
   public static async handle(command: CreateProduct, register: Register): Promise<void> {
@@ -169,16 +169,16 @@ There could be situations in which you want to register an event representing an
   authorize: 'all',
 })
 export class MoveStock {
-  @Field()
+  @field()
   readonly productID!: string
 
-  @Field()
+  @field()
   readonly origin!: string
 
-  @Field()
+  @field()
   readonly destination!: string
 
-  @Field()
+  @field()
   readonly quantity!: number
 
   public static async handle(command: MoveStock, register: Register): Promise<void> {
@@ -207,16 +207,16 @@ Event handlers are a good place to make decisions and, to make better decisions,
   authorize: 'all',
 })
 export class MoveStock {
-  @Field()
+  @field()
   readonly productID!: string
 
-  @Field()
+  @field()
   readonly origin!: string
 
-  @Field()
+  @field()
   readonly destination!: string
 
-  @Field()
+  @field()
   readonly quantity!: number
 
   public static async handle(command: MoveStock, register: Register): Promise<void> {
@@ -244,16 +244,16 @@ Commands are part of the public API of a Magek application, so you can define wh
   authorize: 'all',
 })
 export class CreateProduct {
-  @Field()
+  @field()
   readonly sku!: Sku
 
-  @Field()
+  @field()
   readonly displayName!: string
 
-  @Field()
+  @field()
   readonly description!: string
 
-  @Field()
+  @field()
   readonly price!: number
 
   public static async handle(command: CreateProduct, register: Register): Promise<void> {
@@ -275,16 +275,16 @@ Magek automatically creates one mutation per command. The framework infers the m
   authorize: 'all',
 })
 export class CreateProduct {
-  @Field()
+  @field()
   readonly sku!: Sku
 
-  @Field()
+  @field()
   readonly displayName!: string
 
-  @Field()
+  @field()
   readonly description!: string
 
-  @Field()
+  @field()
   readonly price!: number
 
   public static async handle(command: CreateProduct, register: Register): Promise<void> {

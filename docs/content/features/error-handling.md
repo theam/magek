@@ -73,7 +73,7 @@ export class MyErrorHandler {
 
 ### Reducer errors
 
-These are the errors that are thrown in the `@Reduces` method of the `@Entity`. You can catch and return new errors in this function annotating a class with `@GlobalErrorHandler` and implementing the following method:
+These are the errors that are thrown in the `@reduces` method of the `@Entity`. You can catch and return new errors in this function annotating a class with `@GlobalErrorHandler` and implementing the following method:
 
 ```typescript
 @GlobalErrorHandler()
@@ -109,7 +109,7 @@ This method receives the error that was thrown and the event received.
 
 ### Projection errors
 
-These are the errors that are thrown in the `@Projects` method of the `@ReadModel`. You can catch and return new errors in this function annotating a class with `@GlobalErrorHandler` and implementing the following method:
+These are the errors that are thrown in the `@projects` method of the `@ReadModel`. You can catch and return new errors in this function annotating a class with `@GlobalErrorHandler` and implementing the following method:
 
 ```typescript
 @GlobalErrorHandler()

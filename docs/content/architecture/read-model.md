@@ -28,13 +28,13 @@ In Magek, a read model is a class decorated with the `@ReadModel` decorator. The
   authorize: 'all',
 })
 export class ReadModelName {
-  @Field(type => UUID)
+  @field(type => UUID)
   public id!: UUID
 
-  @Field()
+  @field()
   readonly fieldA!: SomeType
 
-  @Field()
+  @field()
   readonly fieldB!: SomeType
 }
 ```
@@ -43,29 +43,29 @@ export class ReadModelName {
 
 ## The projection function
 
-The projection function is a static method decorated with the `@Projects` decorator. It is used to define how the read model is updated when an entity is modified. he projection function must return a new instance of the read model, it receives two arguments:
+The projection function is a static method decorated with the `@projects` decorator. It is used to define how the read model is updated when an entity is modified. he projection function must return a new instance of the read model, it receives two arguments:
 
 - `entity`: The entity that has been modified
 - `current?`: The current read model instance. If it's the first time the read model is created, this argument will be `undefined`
 
-You must provide the `@Projects` decorator with an entity class and the **_join key_**. The join key is the name of the field in the entity that is used to match it with the read model's `id` field. In the example below, we are using the `id` field of the `Cart` entity to match it with the `CartReadModel` read model.
+You must provide the `@projects` decorator with an entity class and the **_join key_**. The join key is the name of the field in the entity that is used to match it with the read model's `id` field. In the example below, we are using the `id` field of the `Cart` entity to match it with the `CartReadModel` read model.
 
 ```typescript
 @ReadModel({
   authorize: 'all',
 })
 export class CartReadModel {
-  @Field(type => UUID)
+  @field(type => UUID)
   public id!: UUID
 
-  @Field()
+  @field()
   readonly cartItems!: Array<CartItem>
 
-  @Field()
+  @field()
   readonly paid!: boolean
 
   // highlight-start
-  @Projects(Cart, 'id')
+  @projects(Cart, 'id')
   public static projectCart(entity: Cart, currentCartReadModel?: CartReadModel): CartReadModel {
     return evolve(currentCartReadModel, {
       id: entity.id,
@@ -86,20 +86,20 @@ You are able to project multiple entities into the same read model. For example,
   authorize: 'all',
 })
 export class UserReadModel {
-  @Field(type => UUID)
+  @field(type => UUID)
   public id!: UUID
 
-  @Field()
+  @field()
   readonly username!: string
 
   // highlight-next-line
-  @Projects(User, 'id')
+  @projects(User, 'id')
   public static projectUser(entity: User, current?: UserReadModel): ProjectionResult<UserReadModel> {
     // Here we update the user fields
   }
 
   // highlight-next-line
-  @Projects(Post, 'ownerId')
+  @projects(Post, 'ownerId')
   public static projectUserPost(entity: Post, current?: UserReadModel): ProjectionResult<UserReadModel> {
     //Here we can adapt the read model to show specific user information related with the Post entity
   }
@@ -115,7 +115,7 @@ There might be cases where you need to project an entity into a read model using
 You can use an array of entities as a join key. For example, if you have a `Group` entity with an array of users in that group (`users: Array<UUID>`), you can have the following to update each `UserReadModel` accordingly:
 
 ```typescript
-  @Projects(Group, 'users')
+  @projects(Group, 'users')
   public static projectUserGroup(entity: Group, readModelID: UUID, current?: UserReadModel): ProjectionResult<UserReadModel> {
     //Here we can update the read models with group information
     //This logic will be executed for each read model id in the array
@@ -125,7 +125,7 @@ You can use an array of entities as a join key. For example, if you have a `Grou
 You can even select arrays of UUIDs as `joinKey`. Magek get each value on the array, find a read model with that id and execute the projection function. The signature of the projection function is a bit different in this case. It receives the `readModelID` as the second argument, which is the id we are projecting from the array. The third argument is the current read model instance, which will be `undefined` if it's the first time the read model is created. For example, if we have a `Group` with an array of users in that group (`users: Array<UUID>`), we can have the following to update each `UserReadModel` accordingly:
 
 ```typescript
-  @Projects(Group, 'users')
+  @projects(Group, 'users')
   public static projectUserGroup(entity: Group, readModelID: UUID, current?: UserReadModel): ProjectionResult<UserReadModel> {
     //Here we can update the read models with group information
     //This logic will be executed for each read model id in the array
@@ -141,16 +141,16 @@ You can use a read model query as a join key to get all the read models that mat
   authorize: 'all',
 })
 export class CarPurchasesReadModel {
-  @Field(type => UUID)
+  @field(type => UUID)
   public id!: UUID
 
-  @Field()
+  @field()
   readonly carModel?: string
 
-  @Field()
+  @field()
   readonly carOwner?: string
 
-  @Field()
+  @field()
   readonly offers?: Array<CarOffers>
 
   // rest of the code
@@ -164,19 +164,19 @@ If a car model changed its name (or any other property of such an entity that's 
   authorize: 'all',
 })
 export class CarPurchasesReadModel {
-  @Field(type => UUID)
+  @field(type => UUID)
   public id!: UUID
 
-  @Field()
+  @field()
   readonly carModel?: CarModel
 
-  @Field()
+  @field()
   readonly carOwner?: CarOwner
 
-  @Field()
+  @field()
   readonly offers?: Array<CarOffers>
 
-  @Projects(CarModel, (carModel: CarModel): FilterFor<CarPurchasesReadModel> => {
+  @projects(CarModel, (carModel: CarModel): FilterFor<CarPurchasesReadModel> => {
     return {
       carModel: {
         id: {
@@ -224,13 +224,13 @@ One of the most common cases is when you want to delete a read model. For exampl
   authorize: 'all',
 })
 export class UserReadModel {
-  @Field(type => UUID)
+  @field(type => UUID)
   public id!: UUID
 
-  @Field()
+  @field()
   readonly username!: string
 
-  @Projects(User, 'id')
+  @projects(User, 'id')
   public static projectUser(entity: User, current?: UserReadModel): ProjectionResult<UserReadModel>  {
     if (entity.deleted) {
       return ReadModelAction.Delete
@@ -250,13 +250,13 @@ Another common case is when you want to keep the read model untouched. For examp
   authorize: 'all',
 })
 export class UserReadModel {
-  @Field(type => UUID)
+  @field(type => UUID)
   public id!: UUID
 
-  @Field()
+  @field()
   readonly username!: string
 
-  @Projects(User, 'id')
+  @projects(User, 'id')
   public static projectUser(entity: User, current?: UserReadModel): ProjectionResult<UserReadModel>  {
     if (!entity.modified) {
       return ReadModelAction.Nothing
@@ -271,7 +271,7 @@ export class UserReadModel {
 
 You can use TypeScript getters in your read models to allow nested queries and/or return calculated values. You can write arbitrary code in a getter, but you will typically query for related read model objects or generate a value computed based on the current read model instance or context. This greatly improves the potential of customizing your read model responses.
 
-> **Info:** Starting version 2.13, getters for values which are calculated using other properties of the read model need to be annotated with the `@CalculatedField` decorator and a list of those properties as dependencies.
+> **Info:** Starting version 2.13, getters for values which are calculated using other properties of the read model need to be annotated with the `@calculatedField` decorator and a list of those properties as dependencies.
 
 Here's an example of a getter in the `UserReadModel` class that returns all `PostReadModel`s that belong to a specific `UserReadModel`:
 
@@ -280,15 +280,15 @@ Here's an example of a getter in the `UserReadModel` class that returns all `Pos
   authorize: 'all',
 })
 export class UserReadModel {
-  @Field(type => UUID)
+  @field(type => UUID)
   public id!: UUID
 
-  @Field()
+  @field()
   readonly name!: string
 
   private postIds!: UUID[]
 
-  @CalculatedField({ dependsOn: ['postIds'] })
+  @calculatedField({ dependsOn: ['postIds'] })
   public get posts(): Promise<PostReadModel[]> {
     return this.postIds.map((postId) => Magek.readModel(PostReadModel)
       .filter({
@@ -297,7 +297,7 @@ export class UserReadModel {
       .search()
   }
 
-  @Projects(User, 'id')
+  @projects(User, 'id')
   public static projectUser(entity: User, current?: UserReadModel): ProjectionResult<UserReadModel>  {
     return evolve(current, { id: entity.id, name: entity.name, postIds: entity.postIds })
   }
@@ -368,19 +368,19 @@ Read models are part of the public API of a Magek application, so you can define
   authorize: 'all',
 })
 export class ProductReadModel {
-  @Field(type => UUID)
+  @field(type => UUID)
   public id!: UUID
 
-  @Field()
+  @field()
   readonly name!: string
 
-  @Field()
+  @field()
   readonly description!: string
 
-  @Field()
+  @field()
   readonly price!: number
 
-  @Projects(Product, 'id')
+  @projects(Product, 'id')
   public static projectProduct(entity: Product, current?: ProductReadModel): ProjectionResult<ProductReadModel> {
     return evolve(current, {
       id: entity.id,
@@ -405,13 +405,13 @@ Magek automatically creates the queries and subscriptions for each read model. Y
   authorize: 'all',
 })
 export class CartReadModel {
-  @Field(type => UUID)
+  @field(type => UUID)
   public id!: UUID
 
-  @Field()
+  @field()
   readonly items!: Array<CartItem>
 
-  @Projects(Cart, 'id')
+  @projects(Cart, 'id')
   public static projectCart(entity: Cart, currentReadModel?: CartReadModel): ProjectionResult<CartReadModel> {
     return evolve(currentReadModel, { id: entity.id, items: entity.items })
   }
@@ -445,17 +445,17 @@ There are some cases when it's desirable to query your read models sorted a part
   authorize: 'all',
 })
 export class MessageReadModel {
-  @Field(type => UUID)
+  @field(type => UUID)
   readonly id!: UUID // A channel ID
 
-  @Field()
+  @field()
   @sequencedBy
   readonly timestamp!: string
 
-  @Field()
+  @field()
   readonly contents!: string
 
-  @Projects(Message, 'id')
+  @projects(Message, 'id')
   public static projectMessage(
     entity: Message,
     currentReadModel?: MessageReadModel

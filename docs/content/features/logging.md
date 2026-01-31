@@ -58,10 +58,10 @@ _Example: Obtaining a logger for your command:_
   authorize: [User],
 })
 export class UpdateShippingAddress {
-  @Field()
+  @field()
   readonly cartId!: UUID
 
-  @Field()
+  @field()
   readonly address!: Address
 
   public static async handle(command: UpdateShippingAddress, register: Register): Promise<void> {

@@ -154,16 +154,16 @@ To do that, open the file we have just generated and add the string `'all'` to t
   authorize: 'all', // Specify authorized roles here. Use 'all' to authorize anyone
 })
 export class CreatePost {
-  @Field()
+  @field()
   readonly postId!: UUID
 
-  @Field()
+  @field()
   readonly title!: string
 
-  @Field()
+  @field()
   readonly content!: string
 
-  @Field()
+  @field()
   readonly author!: string
 
   public static async handle(command: CreatePost, register: Register): Promise<void> {
@@ -203,16 +203,16 @@ to return our `postID`:
 
 @Event
 export class PostCreated {
-  @Field()
+  @field()
   public readonly postId!: UUID
 
-  @Field()
+  @field()
   public readonly title!: string
 
-  @Field()
+  @field()
   public readonly content!: string
 
-  @Field()
+  @field()
   public readonly author!: string
 
   public constructor(postId: UUID, title: string, content: string, author: string) {
@@ -269,19 +269,19 @@ from the event. There is no previous state of the Post as we are creating it for
 // src/entities/post.ts
 @Entity
 export class Post {
-  @Field(type => UUID)
+  @field(type => UUID)
   public id!: UUID
 
-  @Field()
+  @field()
   readonly title!: string
 
-  @Field()
+  @field()
   readonly content!: string
 
-  @Field()
+  @field()
   readonly author!: string
 
-  @Reduces(PostCreated)
+  @reduces(PostCreated)
   public static reducePostCreated(event: PostCreated, currentPost?: Post): Post {
     return evolve(currentPost, {
       id: event.postId,
@@ -342,16 +342,16 @@ Edit the `post-read-model.ts` file to look like this:
   authorize: 'all', // Specify authorized roles here. Use 'all' to authorize anyone
 })
 export class PostReadModel {
-  @Field(type => UUID)
+  @field(type => UUID)
   public id!: UUID
 
-  @Field()
+  @field()
   readonly title!: string
 
-  @Field()
+  @field()
   readonly author!: string
 
-  @Projects(Post, 'id')
+  @projects(Post, 'id')
   public static projectPost(entity: Post, currentPostReadModel?: PostReadModel): ProjectionResult<PostReadModel> {
     return evolve(currentPostReadModel, {
       id: entity.id,

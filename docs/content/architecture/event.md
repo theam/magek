@@ -24,10 +24,10 @@ Events are the cornerstone of Magek because of its event-driven and event-source
 ```typescript title="src/events/event-name.ts"
 @Event
 export class EventName {
-  @Field()
+  @field()
   public readonly field1!: SomeType
 
-  @Field()
+  @field()
   public readonly field2!: SomeOtherType
 
   public constructor(field1: SomeType, field2: SomeOtherType) {
@@ -50,10 +50,10 @@ Events and [Entities](./entity.md) are closely related. Each event will be aggre
 ```typescript title="src/events/cart-paid.ts"
 @Event
 export class CartPaid {
-  @Field()
+  @field()
   public readonly cartID!: UUID
 
-  @Field()
+  @field()
   public readonly paymentID!: UUID
 
   public constructor(cartID: UUID, paymentID: UUID) {
@@ -86,16 +86,16 @@ We have shown you how to _declare_ an event in Magek, but we haven't explained h
   authorize: [Admin],
 })
 export class MoveStock {
-  @Field()
+  @field()
   readonly productID!: string
 
-  @Field()
+  @field()
   readonly origin!: string
 
-  @Field()
+  @field()
   readonly destination!: string
 
-  @Field()
+  @field()
   readonly quantity!: number
 
   public static async handle(command: MoveStock, register: Register): Promise<void> {

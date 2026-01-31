@@ -21,11 +21,11 @@ import {
   authorize: 'all',
 })
 export class CartTotalQuantity {
-  @Field()
+  @field()
   readonly cartId!: UUID
 
-  @Field()
-  @NonExposed
+  @field()
+  @nonExposed
   readonly multiply!: number
 
   public static async handle(query: CartTotalQuantity, queryInfo: QueryInfo): Promise<number> {
@@ -107,7 +107,7 @@ For every query, Magek automatically creates the corresponding GraphQL query. Fo
   authorize: 'all',
 })
 export class CartTotalQuantityQuery {
-  @Field()
+  @field()
   readonly cartId!: UUID
 
   public static async handle(query: CartTotalQuantity, queryInfo: QueryInfo): Promise<number> {
@@ -149,7 +149,7 @@ class SearchResult {
   authorize: 'all',
 })
 export class SearchMedia {
-  @Field()
+  @field()
   readonly searchword!: string
 
   public static async handle(query: SearchMedia, queryInfo: QueryInfo): Promise<SearchResult> {
