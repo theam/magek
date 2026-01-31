@@ -252,27 +252,20 @@ describe('events-adapter', () => {
     context('with event envelopes', () => {
       it('should call event registry store', async () => {
         const mockEventEnvelop = createMockNonPersistedEventEnvelop()
-        // The `createdAt` will be set in the `persistEvent` method
-        replace(Date.prototype, 'toISOString', () => 'a magical time')
 
         await storeEvents(mockUserApp, mockEventRegistry, [mockEventEnvelop], mockConfig)
 
-        expect(storeStub).to.have.been.calledWithExactly({
-          ...mockEventEnvelop,
-          createdAt: 'a magical time',
-        })
+        // The adapter now uses the createdAt from the input envelope (set by the framework)
+        expect(storeStub).to.have.been.calledWithExactly(mockEventEnvelop)
       })
 
       it('should call userApp eventDispatcher', async () => {
         const mockEventEnvelop = createMockNonPersistedEventEnvelop()
-        // The `createdAt` will be set in the `persistEvent` method
-        replace(Date.prototype, 'toISOString', () => 'a magical time')
 
         await storeEvents(mockUserApp, mockEventRegistry, [mockEventEnvelop], mockConfig)
 
-        expect(eventDispatcherStub).to.have.been.calledOnceWithExactly([
-          { ...mockEventEnvelop, createdAt: 'a magical time' },
-        ])
+        // The adapter now uses the createdAt from the input envelope (set by the framework)
+        expect(eventDispatcherStub).to.have.been.calledOnceWithExactly([mockEventEnvelop])
       })
     })
   })

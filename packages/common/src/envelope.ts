@@ -53,6 +53,7 @@ export interface EventStoreEntryEnvelope extends TypedEnvelope {
 
 export interface NonPersistedEventEnvelope extends EventStoreEntryEnvelope {
   kind: 'event'
+  createdAt: string
 }
 
 export interface EventEnvelope extends NonPersistedEventEnvelope {

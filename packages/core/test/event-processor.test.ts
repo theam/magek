@@ -62,6 +62,7 @@ const someEvent: NonPersistedEventEnvelope = {
   },
   requestID: '123',
   typeName: SomeEvent.name,
+  createdAt: '2024-01-01T00:00:00.000000-0000Z',
 }
 
 const someNotification: NonPersistedEventEnvelope = {
@@ -73,6 +74,7 @@ const someNotification: NonPersistedEventEnvelope = {
   value: {},
   requestID: '123',
   typeName: SomeNotification.name,
+  createdAt: '2024-01-01T00:00:00.000000-0001Z',
 }
 
 const someEntity: EntityInterface = {
