@@ -22,7 +22,7 @@ For example, to upgrade a `Product` entity from version 1 to version 2, you can 
 ```typescript
 @SchemaMigration(Product)
 export class ProductMigration {
-  @ToVersion(2, { fromSchema: ProductV1, toSchema: ProductV2 })
+  @toVersion(2, { fromSchema: ProductV1, toSchema: ProductV2 })
   public async changeNameFieldToDisplayName(old: ProductV1): Promise<ProductV2> {
     return new ProductV2(
       old.id,
@@ -37,9 +37,9 @@ export class ProductMigration {
 }
 ```
 
-Notice that we've used the `@ToVersion` decorator in the above example. This decorator not only tells Magek what schema upgrade this migration performs, it also informs it about the existence of a version, which is always an integer number. Magek will always use the latest version known to tag newly created artifacts, defaulting to 1 when no migrations are defined. This ensures that the schema of newly created events and entities is up-to-date and that they can be migrated as needed in the future.
+Notice that we've used the `@toVersion` decorator in the above example. This decorator not only tells Magek what schema upgrade this migration performs, it also informs it about the existence of a version, which is always an integer number. Magek will always use the latest version known to tag newly created artifacts, defaulting to 1 when no migrations are defined. This ensures that the schema of newly created events and entities is up-to-date and that they can be migrated as needed in the future.
 
-The `@ToVersion` decorator takes two parameters in addition to the version: `fromSchema` and `toSchema`. The fromSchema parameter is set to `ProductV1`, while the `toSchema` parameter is set to `ProductV2`. This tells Magek that the migration is updating the `Product` object from version 1 (as defined by the `ProductV1` schema) to version 2 (as defined by the `ProductV2` schema).
+The `@toVersion` decorator takes two parameters in addition to the version: `fromSchema` and `toSchema`. The fromSchema parameter is set to `ProductV1`, while the `toSchema` parameter is set to `ProductV2`. This tells Magek that the migration is updating the `Product` object from version 1 (as defined by the `ProductV1` schema) to version 2 (as defined by the `ProductV2` schema).
 
 As Magek can easily read the structure of your classes, the schemas are described as plain classes that you can maintain as part of your code. The `ProductV1` class represents the schema of the previous version of the `Product` object with the properties and structure of the `Product` object as it was defined in version 1. The `ProductV2` class is an alias for the latest version of the Product object. You can use the `Product` class here, there's no difference, but it's a good practice to create an alias for clarity.
 
@@ -61,12 +61,12 @@ class ProductV1 {
 class ProductV2 extends Product {}
 ```
 
-When you want to upgrade your artifacts from V2 to V3, you can add a new function decorated with `@ToVersion` to the same migrations class. You're free to structure the code the way you want, but we recommend keeping all migrations for the same artifact in the same migration class. For instance:
+When you want to upgrade your artifacts from V2 to V3, you can add a new function decorated with `@toVersion` to the same migrations class. You're free to structure the code the way you want, but we recommend keeping all migrations for the same artifact in the same migration class. For instance:
 
 ```typescript
 @SchemaMigration(Product)
 export class ProductMigration {
-  @ToVersion(2, { fromSchema: ProductV1, toSchema: ProductV2 })
+  @toVersion(2, { fromSchema: ProductV1, toSchema: ProductV2 })
   public async changeNameFieldToDisplayName(old: ProductV1): Promise<ProductV2> {
     return new ProductV2(
       old.id,
@@ -79,7 +79,7 @@ export class ProductMigration {
     )
   }
 
-  @ToVersion(3, { fromSchema: ProductV2, toSchema: ProductV3 })
+  @toVersion(3, { fromSchema: ProductV2, toSchema: ProductV3 })
   public async addNewField(old: ProductV2): Promise<ProductV3> {
     return new ProductV3(
       old.id,

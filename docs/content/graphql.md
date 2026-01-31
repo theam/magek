@@ -27,10 +27,10 @@ The GraphQL API is fully **auto-generated** based on your _commands_ and _read m
 // My type
 export class ItemWithQuantity {
   // Use "class", not "interface"
-  @Field()
+  @field()
   sku!: string
 
-  @Field()
+  @field()
   quantity!: number
 }
 ```
@@ -41,10 +41,10 @@ export class ItemWithQuantity {
   authorize: 'all'
 })
 export class CartReadModel {
-  @Field(type => UUID)
+  @field(type => UUID)
   readonly id!: UUID
 
-  @Field()
+  @field()
   item!: ItemWithQuantity // As ItemWithQuantity is a class, you will be able to query over nested attributes like item `quantity`
 ```
 
@@ -332,7 +332,7 @@ mutation {
 
 ## Non exposing properties and parameters
 
-By default, all properties and parameters of the command constructor and/or read model are accessible through GraphQL. It is possible to not expose any of them adding the `@NonExposed` annotation to the constructor property or parameter.
+By default, all properties and parameters of the command constructor and/or read model are accessible through GraphQL. It is possible to not expose any of them adding the `@nonExposed` annotation to the constructor property or parameter.
 
 Example
 ```typescript
@@ -340,29 +340,29 @@ Example
   authorize: 'all',
 })
 export class CartReadModel {
-  @Field(type => UUID)
+  @field(type => UUID)
   readonly id!: UUID
 
-  @Field()
+  @field()
   readonly cartItems!: Array<CartItem>
 
-  @Field()
+  @field()
   readonly checks!: number
 
-  @Field()
+  @field()
   public shippingAddress?: Address
 
-  @Field()
+  @field()
   public payment?: Payment
 
-  @Field()
+  @field()
   public cartItemsIds?: Array<string>
 
-  @NonExposed
+  @nonExposed
   private internalProperty?: number
 
-  @Field()
-  @NonExposed
+  @field()
+  @nonExposed
   readonly internalParameter?: number
 }
 ```
@@ -398,10 +398,10 @@ In order to define a before hook you pass a list of functions with the right sig
   before: [validateUser],
 })
 export class CartReadModel {
-  @Field(type => UUID)
+  @field(type => UUID)
   readonly id!: UUID
 
-  @Field()
+  @field()
   readonly userId!: UUID
 
   // Your projections go here
@@ -424,10 +424,10 @@ You can also define more than one `before` hook for a read model, and they will 
   before: [validateUser, validateEmail, changeFilters],
 })
 export class CartReadModel {
-  @Field(type => UUID)
+  @field(type => UUID)
   readonly id!: UUID
 
-  @Field()
+  @field()
   readonly userId!: UUID
 
   // Your projections go here
@@ -454,13 +454,13 @@ You can use `before` hooks also in your command handlers, and [they work as the 
   before: [beforeFn],
 })
 export class ChangeCartItem {
-  @Field()
+  @field()
   readonly cartId!: UUID
 
-  @Field()
+  @field()
   readonly productId!: UUID
 
-  @Field()
+  @field()
   readonly quantity!: number
 }
 
@@ -484,11 +484,11 @@ You can use `before` hooks also in your queries, and [they work as the Read Mode
   before: [CartTotalQuantity.beforeFn],
 })
 export class CartTotalQuantity {
-  @Field()
+  @field()
   readonly cartId!: UUID
 
-  @Field()
-  @NonExposed
+  @field()
+  @nonExposed
   readonly multiply!: number
 
   public static async beforeFn(input: QueryInput, currentUser?: UserEnvelope): Promise<QueryInput> {
@@ -820,7 +820,7 @@ For example, you can filter and get the total number of the products that meet y
   authorize: 'all',
 })
 export class GetProductsCount {
-  @Field()
+  @field()
   readonly filters!: Record<string, any>
 
   public static async handle(): Promise<void> {
@@ -851,7 +851,7 @@ You can select which fields you want to get in your read model using the `select
   authorize: 'all',
 })
 export class GetProductsCount {
-  @Field()
+  @field()
   readonly filters!: Record<string, any>
 
   public static async handle(): Promise<unknown> {
@@ -882,7 +882,7 @@ You can also select properties in objects which are part of an array property in
   authorize: 'all',
 })
 export class GetCartItems {
-  @Field()
+  @field()
   readonly filters!: Record<string, any>
 
   public static async handle(): Promise<unknown> {

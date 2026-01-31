@@ -28,35 +28,35 @@ To declare an entity in Magek, you must define a class decorated with the `@Enti
 ```typescript title="src/entities/entity-name.ts"
 @Entity
 export class EntityName {
-  @Field(type => UUID)
+  @field(type => UUID)
   public id!: UUID
 
-  @Field()
+  @field()
   readonly fieldA!: SomeType
 
-  @Field()
+  @field()
   readonly fieldB!: SomeOtherType
 }
 ```
 
 ## The reduce function
 
-In order to tell Magek how to reduce the events, you must define a static method decorated with the `@Reduces` decorator. This method will be called by the framework every time an event of the specified type is emitted. The reducer method must return a new entity instance with the current state of the entity.
+In order to tell Magek how to reduce the events, you must define a static method decorated with the `@reduces` decorator. This method will be called by the framework every time an event of the specified type is emitted. The reducer method must return a new entity instance with the current state of the entity.
 
 ```typescript title="src/entities/entity-name.ts"
 @Entity
 export class EntityName {
-  @Field(type => UUID)
+  @field(type => UUID)
   public id!: UUID
 
-  @Field()
+  @field()
   readonly fieldA!: SomeType
 
-  @Field()
+  @field()
   readonly fieldB!: SomeOtherType
 
   // highlight-start
-  @Reduces(SomeEvent)
+  @reduces(SomeEvent)
   public static reduceSomeEvent(event: SomeEvent, currentEntityState?: EntityName): EntityName {
     return evolve(currentEntityState, {
       id: event.entityID(),
@@ -73,6 +73,8 @@ The reducer method receives two parameters:
 - `event` - The event object that triggered the reducer
 - `currentEntity?` - The current state of the entity instance that the event belongs to if it exists. **This parameter is optional** and will be `undefined` if the entity doesn't exist yet (For example, when you process a `ProductCreated` event that will generate the first version of a `Product` entity).
 
+> **Tip:** The `evolve()` helper function creates a new immutable copy of the entity with the specified field updates. It safely handles the case where `currentEntityState` is `undefined` (for newly created entities) and ensures immutability by returning a fresh object rather than mutating the existing one.
+
 ### Reducing multiple events
 
 You can define as many reducer methods as you want, each one for a different event type. For example, if you have a `Cart` entity, you could define a reducer for `ProductAdded` events and another one for `ProductRemoved` events.
@@ -80,19 +82,19 @@ You can define as many reducer methods as you want, each one for a different eve
 ```typescript title="src/entities/cart.ts"
 @Entity
 export class Cart {
-  @Field(type => UUID)
+  @field(type => UUID)
   public id!: UUID
 
-  @Field()
+  @field()
   readonly items!: Array<CartItem>
 
-  @Reduces(ProductAdded)
+  @reduces(ProductAdded)
   public static reduceProductAdded(event: ProductAdded, currentCart?: Cart): Cart {
     const newItems = addToCart(event.item, currentCart)
     return evolve(currentCart, { id: event.entityID(), items: newItems })
   }
 
-  @Reduces(ProductRemoved)
+  @reduces(ProductRemoved)
   public static reduceProductRemoved(event: ProductRemoved, currentCart?: Cart): Cart {
     const newItems = removeFromCart(event.item, currentCart)
     return evolve(currentCart, { items: newItems })
@@ -116,16 +118,16 @@ import { ReducerAction, ReducerResult } from '@magek/common'
 
 @Entity
 export class Product {
-  @Field(type => UUID)
+  @field(type => UUID)
   public id!: UUID
 
-  @Field()
+  @field()
   readonly name!: string
 
-  @Field()
+  @field()
   readonly price!: number
 
-  @Reduces(ProductUpdated)
+  @reduces(ProductUpdated)
   public static reduceProductUpdated(
     event: ProductUpdated,
     currentProduct?: Product
@@ -164,16 +166,16 @@ In order to identify each entity instance, you must define an `id` field on each
 @Entity
 export class EntityName {
   // highlight-next-line
-  @Field(type => UUID)
+  @field(type => UUID)
   public id!: UUID
 
-  @Field()
+  @field()
   readonly fieldA!: SomeType
 
-  @Field()
+  @field()
   readonly fieldB!: SomeOtherType
 
-  @Reduces(SomeEvent)
+  @reduces(SomeEvent)
   public static reduceSomeEvent(event: SomeEvent, currentEntityState?: EntityName): EntityName {
     return evolve(currentEntityState, {
       id: event.entityID(),

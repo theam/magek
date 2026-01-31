@@ -222,19 +222,19 @@ const CustomEventAuthorizer: EventStreamAuthorizer = async (currentUser, eventSe
   authorizeReadEvents: CustomEventAuthorizer
 })
 export class Cart {
-  @Field(type => UUID)
+  @field(type => UUID)
   readonly id!: UUID
 
-  @Field()
+  @field()
   readonly ownerUserName!: string
 
-  @Field()
+  @field()
   readonly cartItems!: Array<CartItem>
 
-  @Field()
+  @field()
   public shippingAddress?: Address
 
-  @Field()
+  @field()
   public checks: number = 0
 
   // ... reducers
