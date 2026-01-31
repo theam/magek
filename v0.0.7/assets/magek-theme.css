@@ -1,0 +1,368 @@
+/**
+ * Magek Theme - Shared CSS for Documentation
+ *
+ * This file defines the Magek design system and applies it to both
+ * the TypeDoc documentation and other doc pages.
+ */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap');
+
+/* ============================================
+   CSS Custom Properties (Design Tokens)
+   ============================================ */
+
+:root {
+  /* Primary Colors */
+  --magek-primary: #715CFE;
+  --magek-secondary: #EC4899;
+  --magek-tertiary: #F59E0B;
+  --magek-highlight: #FCD34D;
+
+  /* Dark Theme Colors */
+  --magek-background: #0A0D23;
+  --magek-surface: #13173C;
+  --magek-text: #E7E9F7;
+  --magek-text-muted: #A5A7C3;
+
+  /* Typography */
+  --magek-font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --magek-font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --magek-font-code: 'Fira Code', 'SF Mono', Monaco, 'Cascadia Code', monospace;
+
+  /* Spacing & Layout */
+  --magek-radius: 0.5rem;
+  --magek-radius-sm: 0.25rem;
+  --magek-radius-lg: 0.75rem;
+  --magek-max-width: 900px;
+
+  /* Derived colors for transparency variants */
+  --magek-primary-alpha-10: rgba(113, 92, 254, 0.1);
+  --magek-primary-alpha-15: rgba(113, 92, 254, 0.15);
+  --magek-primary-alpha-20: rgba(113, 92, 254, 0.2);
+  --magek-primary-alpha-25: rgba(113, 92, 254, 0.25);
+  --magek-secondary-alpha-15: rgba(236, 72, 153, 0.15);
+  --magek-secondary-alpha-25: rgba(236, 72, 153, 0.25);
+}
+
+/* ============================================
+   TypeDoc CSS Variable Overrides
+   ============================================ */
+
+:root {
+  /* TypeDoc color scheme */
+  --light-color-background: var(--magek-background);
+  --light-color-background-secondary: var(--magek-surface);
+  --light-color-background-warning: #2d1f00;
+  --light-color-warning-text: var(--magek-tertiary);
+  --light-color-icon-background: var(--magek-surface);
+  --light-color-accent: var(--magek-primary);
+  --light-color-active-menu-item: var(--magek-primary);
+  --light-color-text: var(--magek-text);
+  --light-color-text-aside: var(--magek-text-muted);
+  --light-color-link: var(--magek-primary);
+
+  --dark-color-background: var(--magek-background);
+  --dark-color-background-secondary: var(--magek-surface);
+  --dark-color-background-warning: #2d1f00;
+  --dark-color-warning-text: var(--magek-tertiary);
+  --dark-color-icon-background: var(--magek-surface);
+  --dark-color-accent: var(--magek-primary);
+  --dark-color-active-menu-item: var(--magek-primary);
+  --dark-color-text: var(--magek-text);
+  --dark-color-text-aside: var(--magek-text-muted);
+  --dark-color-link: var(--magek-primary);
+
+  /* TypeDoc TS syntax colors - use our palette */
+  --light-color-ts-keyword: var(--magek-secondary);
+  --light-color-ts-module: var(--magek-primary);
+  --light-color-ts-namespace: var(--magek-primary);
+  --light-color-ts-enum: var(--magek-tertiary);
+  --light-color-ts-enum-member: var(--magek-tertiary);
+  --light-color-ts-variable: #4FC3F7;
+  --light-color-ts-function: var(--magek-highlight);
+  --light-color-ts-class: var(--magek-tertiary);
+  --light-color-ts-interface: #4FC3F7;
+  --light-color-ts-constructor: var(--magek-secondary);
+  --light-color-ts-property: #4FC3F7;
+  --light-color-ts-method: var(--magek-highlight);
+  --light-color-ts-reference: var(--magek-primary);
+  --light-color-ts-call-signature: var(--magek-highlight);
+  --light-color-ts-index-signature: var(--magek-tertiary);
+  --light-color-ts-construct-signature: var(--magek-secondary);
+  --light-color-ts-parameter: #4FC3F7;
+  --light-color-ts-type-parameter: #4FC3F7;
+  --light-color-ts-accessor: var(--magek-highlight);
+  --light-color-ts-get-signature: var(--magek-highlight);
+  --light-color-ts-set-signature: var(--magek-highlight);
+  --light-color-ts-type-alias: #4FC3F7;
+
+  --dark-color-ts-keyword: var(--magek-secondary);
+  --dark-color-ts-module: var(--magek-primary);
+  --dark-color-ts-namespace: var(--magek-primary);
+  --dark-color-ts-enum: var(--magek-tertiary);
+  --dark-color-ts-enum-member: var(--magek-tertiary);
+  --dark-color-ts-variable: #4FC3F7;
+  --dark-color-ts-function: var(--magek-highlight);
+  --dark-color-ts-class: var(--magek-tertiary);
+  --dark-color-ts-interface: #4FC3F7;
+  --dark-color-ts-constructor: var(--magek-secondary);
+  --dark-color-ts-property: #4FC3F7;
+  --dark-color-ts-method: var(--magek-highlight);
+  --dark-color-ts-reference: var(--magek-primary);
+  --dark-color-ts-call-signature: var(--magek-highlight);
+  --dark-color-ts-index-signature: var(--magek-tertiary);
+  --dark-color-ts-construct-signature: var(--magek-secondary);
+  --dark-color-ts-parameter: #4FC3F7;
+  --dark-color-ts-type-parameter: #4FC3F7;
+  --dark-color-ts-accessor: var(--magek-highlight);
+  --dark-color-ts-get-signature: var(--magek-highlight);
+  --dark-color-ts-set-signature: var(--magek-highlight);
+  --dark-color-ts-type-alias: #4FC3F7;
+}
+
+/* Force dark theme */
+:root {
+  --color-background: var(--magek-background);
+  --color-background-secondary: var(--magek-surface);
+  --color-background-warning: #2d1f00;
+  --color-warning-text: var(--magek-tertiary);
+  --color-icon-background: var(--magek-surface);
+  --color-accent: var(--magek-primary);
+  --color-active-menu-item: var(--magek-primary);
+  --color-text: var(--magek-text);
+  --color-text-aside: var(--magek-text-muted);
+  --color-link: var(--magek-primary);
+
+  --color-ts-keyword: var(--magek-secondary);
+  --color-ts-module: var(--magek-primary);
+  --color-ts-namespace: var(--magek-primary);
+  --color-ts-enum: var(--magek-tertiary);
+  --color-ts-enum-member: var(--magek-tertiary);
+  --color-ts-variable: #4FC3F7;
+  --color-ts-function: var(--magek-highlight);
+  --color-ts-class: var(--magek-tertiary);
+  --color-ts-interface: #4FC3F7;
+  --color-ts-constructor: var(--magek-secondary);
+  --color-ts-property: #4FC3F7;
+  --color-ts-method: var(--magek-highlight);
+  --color-ts-reference: var(--magek-primary);
+  --color-ts-call-signature: var(--magek-highlight);
+  --color-ts-index-signature: var(--magek-tertiary);
+  --color-ts-construct-signature: var(--magek-secondary);
+  --color-ts-parameter: #4FC3F7;
+  --color-ts-type-parameter: #4FC3F7;
+  --color-ts-accessor: var(--magek-highlight);
+  --color-ts-get-signature: var(--magek-highlight);
+  --color-ts-set-signature: var(--magek-highlight);
+  --color-ts-type-alias: #4FC3F7;
+}
+
+/* ============================================
+   Base Typography Styles
+   ============================================ */
+
+body {
+  font-family: var(--magek-font-body);
+  background-color: var(--magek-background);
+  color: var(--magek-text);
+  line-height: 1.6;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6,
+.tsd-page-title h1,
+.tsd-panel h1,
+.tsd-panel h2,
+.tsd-panel h3 {
+  font-family: var(--magek-font-heading);
+  letter-spacing: -0.5px;
+  color: var(--magek-text);
+}
+
+h1, .tsd-page-title h1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+h2, .tsd-panel h2 {
+  font-size: 2.2rem;
+  font-weight: 600;
+}
+
+h3, .tsd-panel h3 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.25px;
+}
+
+/* Code */
+code, pre, .tsd-signature,
+.tsd-kind-icon ~ span {
+  font-family: var(--magek-font-code);
+}
+
+pre {
+  background: var(--magek-surface);
+  border: 1px solid var(--magek-primary-alpha-20);
+  border-radius: var(--magek-radius);
+}
+
+code:not(pre code) {
+  background: var(--magek-surface);
+  padding: 0.2rem 0.4rem;
+  border-radius: var(--magek-radius-sm);
+  color: var(--magek-secondary);
+}
+
+/* Links */
+a {
+  color: var(--magek-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--magek-highlight);
+  text-decoration: underline;
+}
+
+/* ============================================
+   TypeDoc-Specific Overrides
+   ============================================ */
+
+/* Navigation */
+.tsd-navigation {
+  font-family: var(--magek-font-body);
+}
+
+.tsd-navigation a {
+  color: var(--magek-text-muted);
+}
+
+.tsd-navigation a:hover,
+.tsd-navigation a.current {
+  color: var(--magek-primary);
+}
+
+/* Page toolbar */
+.tsd-page-toolbar {
+  background: var(--magek-surface);
+  border-bottom: 1px solid var(--magek-primary-alpha-20);
+}
+
+/* Search */
+.tsd-search input {
+  font-family: var(--magek-font-body);
+  background: var(--magek-background);
+  border: 1px solid var(--magek-primary-alpha-20);
+  border-radius: var(--magek-radius);
+  color: var(--magek-text);
+}
+
+.tsd-search input:focus {
+  border-color: var(--magek-primary);
+  outline: none;
+}
+
+/* Panels and cards */
+.tsd-panel {
+  background: var(--magek-surface);
+  border: 1px solid var(--magek-primary-alpha-20);
+  border-radius: var(--magek-radius);
+}
+
+/* Signatures */
+.tsd-signature {
+  background: var(--magek-background);
+  border: 1px solid var(--magek-primary-alpha-20);
+  border-radius: var(--magek-radius-sm);
+}
+
+/* Member items */
+.tsd-member {
+  border-bottom: 1px solid var(--magek-primary-alpha-10);
+}
+
+/* Breadcrumb */
+.tsd-breadcrumb {
+  font-family: var(--magek-font-body);
+}
+
+.tsd-breadcrumb a {
+  color: var(--magek-text-muted);
+}
+
+.tsd-breadcrumb a:hover {
+  color: var(--magek-primary);
+}
+
+/* Kind icons - use gradient */
+.tsd-kind-icon::before {
+  background: linear-gradient(135deg, var(--magek-primary) 0%, var(--magek-secondary) 100%);
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+
+.tsd-filter-visibility,
+button,
+.button {
+  font-family: var(--magek-font-body);
+  border-radius: var(--magek-radius);
+}
+
+/* Primary button style */
+.button-primary,
+.tsd-filter-visibility button:hover {
+  background: linear-gradient(135deg, var(--magek-primary) 0%, var(--magek-secondary) 100%);
+  color: var(--magek-text);
+  border: none;
+}
+
+/* ============================================
+   Scrollbars (Webkit)
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--magek-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--magek-primary-alpha-25);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--magek-primary);
+}
+
+/* ============================================
+   Accessibility
+   ============================================ */
+
+/* Focus states */
+a:focus,
+button:focus,
+input:focus,
+[tabindex]:focus {
+  outline: 2px solid var(--magek-primary);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

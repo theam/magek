@@ -1,0 +1,662 @@
+/* Custom styles for Magek documentation */
+
+/* Import shared Magek theme */
+@import './magek-theme.css';
+
+/* Import FontAwesome for icons */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
+
+/* ============================================
+   Navbar Styling (match landing page)
+   ============================================ */
+
+/* Navbar height and styling to match landing page */
+.tsd-page-toolbar {
+  height: 60px !important;
+  min-height: 60px !important;
+  background: var(--magek-surface) !important;
+  border-bottom: 1px solid rgba(113, 92, 254, 0.2) !important;
+  backdrop-filter: blur(10px);
+}
+
+.tsd-page-toolbar .tsd-toolbar-contents {
+  height: 60px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem !important;
+  gap: 1rem;
+}
+
+/* Left section: logo + version selector */
+.tsd-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.tsd-toolbar-left .title {
+  flex-shrink: 0;
+}
+
+.tsd-toolbar-left .version-badge-container {
+  flex-shrink: 0;
+}
+
+/* Logo in navbar */
+.tsd-page-toolbar .title {
+  font-size: 0;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  height: 32px;
+}
+
+.tsd-page-toolbar .title::before {
+  content: "";
+  display: inline-block;
+  width: 120px;
+  height: 32px;
+  background-image: url("../media/magek-logo.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center left;
+}
+
+/* ============================================
+   Version Badge Styling
+   ============================================ */
+
+/* Version badge container */
+.version-badge-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Version badge button */
+.version-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--color-accent);
+  background: linear-gradient(135deg, var(--magek-primary-alpha-15) 0%, var(--magek-secondary-alpha-15) 100%);
+  color: var(--color-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.version-badge:hover {
+  border-color: var(--color-ts-function);
+  background: linear-gradient(135deg, var(--magek-primary-alpha-25) 0%, var(--magek-secondary-alpha-25) 100%);
+}
+
+.version-badge:focus {
+  outline: 2px solid var(--color-ts-function);
+  outline-offset: 2px;
+}
+
+.version-badge-text {
+  font-family: var(--magek-font-code);
+}
+
+.version-badge-arrow {
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.version-dropdown-open .version-badge-arrow {
+  transform: rotate(180deg);
+}
+
+/* Dropdown menu */
+.version-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 140px;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0;
+  background: var(--color-background);
+  border: 1px solid var(--color-accent);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.2s ease;
+  z-index: 1000;
+}
+
+.version-dropdown-open .version-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Dropdown options */
+.version-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--magek-font-code);
+  font-size: 0.875rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.version-option:hover {
+  background: var(--magek-primary-alpha-20);
+}
+
+.version-option-current {
+  background: var(--magek-primary-alpha-15);
+  font-weight: 600;
+}
+
+.version-option-current::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 3px;
+  height: 1.5rem;
+  background: var(--color-ts-function);
+  border-radius: 0 2px 2px 0;
+}
+
+/* Latest badge */
+.version-latest-badge {
+  font-size: 0.625rem;
+  font-family: var(--magek-font-body);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.125rem 0.375rem;
+  background: linear-gradient(135deg, var(--magek-primary) 0%, var(--magek-secondary) 100%);
+  color: white;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+}
+
+/* ============================================
+   Toolbar Right Section (nav links)
+   ============================================ */
+
+/* Toolbar icon container - proper spacing per design guidelines (1rem = 16px) */
+.tsd-toolbar-icon-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+/* Hide default GitHub navigation link only (we replace it with styled button) */
+.tsd-page-toolbar .tsd-toolbar-contents > a[href*="github"] {
+  display: none;
+}
+
+/* GitHub button styling (matches landing page) */
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--magek-text) !important;
+  padding: 0.5rem 1rem;
+  border-radius: var(--magek-radius);
+  font-family: var(--magek-font-body);
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-decoration: none !important;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.nav-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  text-decoration: none !important;
+}
+
+.nav-btn i {
+  font-size: 1rem;
+}
+
+/* GitHub link - outline style */
+.github-link {
+  background: transparent;
+  border: 1px solid var(--magek-text-muted);
+}
+
+.github-link:hover {
+  border-color: var(--magek-text);
+  color: var(--magek-text) !important;
+}
+
+/* ============================================
+   Left Sidebar Navigation
+   ============================================ */
+
+/* Sidebar base styling */
+.site-menu {
+  font-family: var(--magek-font-body);
+  font-size: 0.875rem;
+  padding: 1rem;
+}
+
+/* Navigation links */
+.tsd-navigation a,
+.tsd-navigation summary {
+  font-family: var(--magek-font-body);
+  font-size: 0.875rem;
+  color: var(--magek-text-muted);
+  padding: 0.375rem 0.5rem;
+  border-radius: var(--magek-radius-sm);
+  transition: all 0.15s ease;
+}
+
+.tsd-navigation a:hover,
+.tsd-navigation summary:hover {
+  color: var(--magek-text);
+  background: var(--magek-primary-alpha-10);
+  text-decoration: none;
+}
+
+.tsd-navigation a.current,
+.tsd-navigation .current > a {
+  color: var(--magek-text);
+  background: var(--magek-primary-alpha-20);
+  font-weight: 500;
+}
+
+/* Navigation group headers */
+.tsd-navigation .tsd-accordion-summary {
+  font-weight: 500;
+  color: var(--magek-text);
+}
+
+/* Hide default TypeDoc icons */
+.tsd-navigation .tsd-kind-icon {
+  display: none !important;
+}
+
+/* Custom FontAwesome icons for navigation */
+.tsd-navigation a::before,
+.tsd-navigation summary::before {
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 400;
+  margin-right: 0.5rem;
+  font-size: 0.75rem;
+  opacity: 0.7;
+  width: 1rem;
+  display: inline-block;
+  text-align: center;
+}
+
+/* Document/page icons */
+.tsd-navigation a[href*="documents"]::before,
+.tsd-navigation a[href*="Documentation"]::before {
+  content: '\f15c'; /* fa-file-lines */
+}
+
+/* Class icons */
+.tsd-navigation a[href*="classes"]::before {
+  content: '\f1b2'; /* fa-cube */
+  font-weight: 900;
+}
+
+/* Interface icons */
+.tsd-navigation a[href*="interfaces"]::before {
+  content: '\f5fd'; /* fa-shapes */
+  font-weight: 900;
+}
+
+/* Type alias icons */
+.tsd-navigation a[href*="types"]::before {
+  content: '\f121'; /* fa-code */
+  font-weight: 900;
+}
+
+/* Function icons */
+.tsd-navigation a[href*="functions"]::before {
+  content: '\f662'; /* fa-function - or use f0e7 bolt */
+  font-weight: 900;
+}
+
+/* Variable icons */
+.tsd-navigation a[href*="variables"]::before {
+  content: '\f1de'; /* fa-sliders */
+  font-weight: 900;
+}
+
+/* Enum icons */
+.tsd-navigation a[href*="enums"]::before {
+  content: '\f03a'; /* fa-list */
+  font-weight: 900;
+}
+
+/* Module/namespace icons */
+.tsd-navigation a[href*="modules"]::before {
+  content: '\f07b'; /* fa-folder */
+  font-weight: 900;
+}
+
+/* Folder/group toggle icons */
+.tsd-navigation details > summary::before {
+  content: '\f07b'; /* fa-folder */
+  font-weight: 900;
+}
+
+.tsd-navigation details[open] > summary::before {
+  content: '\f07c'; /* fa-folder-open */
+  font-weight: 900;
+}
+
+/* Chevron for expandable items */
+.tsd-navigation summary .tsd-accordion-toggle {
+  margin-right: 0.25rem;
+}
+
+.tsd-navigation summary .tsd-accordion-toggle svg {
+  width: 0.75rem;
+  height: 0.75rem;
+  opacity: 0.5;
+}
+
+/* Nested items indentation */
+.tsd-navigation .tsd-nested-navigation {
+  margin-left: 0.75rem;
+  padding-left: 0.75rem;
+  border-left: 1px solid var(--magek-primary-alpha-15);
+}
+
+/* ============================================
+   Main Content Area
+   ============================================ */
+
+/* Content panel styling */
+.col-content {
+  max-width: var(--magek-max-width);
+  padding: 2rem;
+}
+
+/* Remove default panel borders for cleaner look */
+.tsd-panel {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* Card-style panels only where needed */
+.tsd-panel.tsd-member,
+.tsd-panel.tsd-comment {
+  background: var(--magek-surface);
+  border: 1px solid var(--magek-primary-alpha-20);
+  border-radius: var(--magek-radius);
+  padding: 1.5rem;
+  margin: 1rem 0;
+}
+
+/* Typography in content area */
+.col-content h1 {
+  font-family: var(--magek-font-heading);
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--magek-text);
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--magek-primary);
+  padding-bottom: 0.75rem;
+}
+
+.col-content h2 {
+  font-family: var(--magek-font-heading);
+  font-size: 1.875rem;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  color: var(--magek-text);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.col-content h3 {
+  font-family: var(--magek-font-heading);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.25px;
+  color: var(--magek-text-muted);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.col-content h4 {
+  font-family: var(--magek-font-heading);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--magek-text-muted);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Body text */
+.col-content p,
+.col-content li,
+.tsd-comment p {
+  font-family: var(--magek-font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--magek-text-muted);
+  max-width: 75ch;
+}
+
+.col-content p {
+  margin: 1rem 0;
+}
+
+/* Blockquotes */
+.col-content blockquote {
+  border-left: 4px solid var(--magek-primary);
+  padding-left: 1.5rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: var(--magek-text-muted);
+}
+
+/* Lists */
+.col-content ul,
+.col-content ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.col-content li {
+  margin: 0.5rem 0;
+}
+
+/* Strong/bold text */
+.col-content strong {
+  color: var(--magek-text);
+  font-weight: 600;
+}
+
+/* Links in content */
+.col-content a {
+  color: var(--magek-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.col-content a:hover {
+  color: var(--magek-highlight);
+  text-decoration: underline;
+}
+
+/* Code styling */
+.col-content code:not(pre code) {
+  background: var(--magek-surface);
+  padding: 0.2rem 0.4rem;
+  border-radius: var(--magek-radius-sm);
+  font-family: var(--magek-font-code);
+  font-size: 0.9em;
+  color: var(--magek-secondary);
+}
+
+.col-content pre {
+  background: var(--magek-surface);
+  border: 1px solid var(--magek-primary-alpha-20);
+  border-radius: var(--magek-radius);
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.col-content pre code {
+  background: none;
+  padding: 0;
+  color: var(--magek-text);
+  font-size: 0.875rem;
+}
+
+/* ============================================
+   Breadcrumb
+   ============================================ */
+
+.tsd-breadcrumb {
+  font-family: var(--magek-font-body);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.tsd-breadcrumb a {
+  color: var(--magek-text-muted);
+}
+
+.tsd-breadcrumb a:hover {
+  color: var(--magek-primary);
+}
+
+/* ============================================
+   Right Sidebar (On This Page)
+   ============================================ */
+
+.page-menu {
+  font-family: var(--magek-font-body);
+  font-size: 0.875rem;
+}
+
+.page-menu .tsd-accordion-summary h3 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--magek-text);
+}
+
+.page-menu a {
+  color: var(--magek-text-muted);
+  font-size: 0.8125rem;
+  padding: 0.25rem 0;
+}
+
+.page-menu a:hover {
+  color: var(--magek-primary);
+}
+
+/* ============================================
+   Search
+   ============================================ */
+
+/* Search container - keep it compact */
+#tsd-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Search field - minimal width until focused */
+#tsd-search .field {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+#tsd-search .field label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* Search input - start collapsed, expand on focus */
+#tsd-search input {
+  font-family: var(--magek-font-body);
+  background: var(--magek-background);
+  border: 1px solid var(--magek-primary-alpha-20);
+  border-radius: var(--magek-radius);
+  padding: 0.5rem 1rem;
+  color: var(--magek-text);
+  width: 180px;
+  transition: width 0.2s ease, border-color 0.2s ease;
+}
+
+#tsd-search input:focus {
+  border-color: var(--magek-primary);
+  outline: none;
+  width: 250px;
+}
+
+#tsd-search input::placeholder {
+  color: var(--magek-text-muted);
+}
+
+/* ============================================
+   Responsive Adjustments
+   ============================================ */
+
+@media (max-width: 769px) {
+  .tsd-page-toolbar .tsd-toolbar-contents {
+    padding: 0 1rem !important;
+  }
+
+  .tsd-toolbar-left {
+    gap: 0.5rem;
+  }
+
+  .version-badge {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .version-dropdown {
+    right: 0;
+    left: auto;
+  }
+
+  .github-link {
+    display: none;
+  }
+
+  .col-content {
+    padding: 1rem;
+  }
+
+  .col-content h1 {
+    font-size: 2rem;
+  }
+
+  .col-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .col-content h3 {
+    font-size: 1.25rem;
+  }
+}

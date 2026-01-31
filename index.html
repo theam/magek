@@ -6,20 +6,33 @@
   <title>Magek Framework - Build AI-Native Backends with Event-Driven Intelligence</title>
   <meta name="description" content="A framework for building intelligent, agentic applications with event sourcing, swarming agents, and LLM integrations.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#10024;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
   <style>
     :root {
-      --color-primary: #6545f5;
-      --color-primary-light: #8a6df7;
-      --color-primary-dark: #4a30c9;
-      --color-background: #1a1a2e;
-      --color-background-secondary: #16162a;
-      --color-text: #f0f0f0;
-      --color-text-muted: #a0a0b0;
-      --color-accent-yellow: #fbd248;
-      --color-accent-pink: #e95a85;
-      --color-accent-purple: #b752b0;
+      /* Primary Colors */
+      --color-primary: #715CFE;
+      --color-secondary: #EC4899;
+      --color-tertiary: #F59E0B;
+      --color-highlight: #FCD34D;
+
+      /* Dark Theme Colors */
+      --color-background: #0A0D23;
+      --color-surface: #13173C;
+      --color-text: #E7E9F7;
+      --color-text-muted: #A5A7C3;
+
+      /* Typography */
+      --font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-code: 'Fira Code', 'SF Mono', Monaco, monospace;
+
+      /* Layout */
       --max-width: 900px;
       --nav-height: 60px;
+      --radius: 0.5rem;
     }
 
     * {
@@ -33,11 +46,12 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      font-family: var(--font-body);
       background-color: var(--color-background);
       color: var(--color-text);
       line-height: 1.6;
       min-height: 100vh;
+      font-size: 16px;
     }
 
     /* Navigation */
@@ -47,8 +61,8 @@
       left: 0;
       right: 0;
       height: var(--nav-height);
-      background: var(--color-background-secondary);
-      border-bottom: 1px solid rgba(101, 69, 245, 0.2);
+      background: var(--color-surface);
+      border-bottom: 1px solid rgba(113, 92, 254, 0.2);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -62,13 +76,23 @@
       align-items: center;
       text-decoration: none;
       color: var(--color-text);
+      font-family: var(--font-heading);
       font-weight: 600;
       font-size: 1.25rem;
+      overflow: hidden;
+      height: 32px;
+      width: 32px;
+      transition: width 0.3s ease;
+    }
+
+    .nav-logo.expanded {
+      width: 130px;
     }
 
     .nav-logo img {
       height: 32px;
-      width: auto;
+      width: 130px;
+      max-width: none;
     }
 
     .nav-links {
@@ -88,17 +112,43 @@
       color: var(--color-text);
     }
 
-    .docs-link {
-      background: var(--color-primary);
+    /* Nav button base styles */
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
       color: var(--color-text) !important;
       padding: 0.5rem 1rem;
-      border-radius: 6px;
+      border-radius: var(--radius);
       font-weight: 500;
-      transition: background 0.2s ease !important;
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
-    .docs-link:hover {
-      background: var(--color-primary-light) !important;
+    .nav-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+
+    .nav-btn i {
+      font-size: 1rem;
+    }
+
+    /* GitHub link - outline style */
+    .github-link {
+      background: transparent;
+      border: 1px solid var(--color-text-muted);
+    }
+
+    .github-link:hover {
+      border-color: var(--color-text);
+    }
+
+    /* Documentation link - gradient style */
+    .docs-link {
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
     }
 
     /* Main content */
@@ -116,29 +166,39 @@
     /* Logo image styling */
     .readme-content > p:first-of-type img,
     .readme-content > h1:first-child + p img {
-      max-width: 300px;
+      max-width: 400px;
       height: auto;
       margin: 1rem 0 2rem;
     }
 
     /* Headings */
-    .readme-content h1 {
-      font-size: 2.5rem;
-      margin: 2.5rem 0 1rem;
+    .readme-content h1,
+    .readme-content h2,
+    .readme-content h3 {
+      font-family: var(--font-heading);
+      letter-spacing: -0.5px;
       color: var(--color-text);
+    }
+
+    .readme-content h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin: 2.5rem 0 1rem;
       border-bottom: 2px solid var(--color-primary);
       padding-bottom: 0.5rem;
     }
 
     .readme-content h2 {
-      font-size: 1.75rem;
+      font-size: 2.2rem;
+      font-weight: 600;
       margin: 2rem 0 1rem;
-      color: var(--color-text);
     }
 
     .readme-content h3 {
-      font-size: 1.25rem;
+      font-size: 1.6rem;
+      font-weight: 600;
       margin: 1.5rem 0 0.75rem;
+      letter-spacing: -0.25px;
       color: var(--color-text-muted);
     }
 
@@ -146,6 +206,7 @@
     .readme-content p {
       margin: 1rem 0;
       color: var(--color-text-muted);
+      max-width: 75ch;
     }
 
     .readme-content blockquote {
@@ -158,13 +219,13 @@
 
     /* Links */
     .readme-content a {
-      color: var(--color-primary-light);
+      color: var(--color-primary);
       text-decoration: none;
       transition: color 0.2s ease;
     }
 
     .readme-content a:hover {
-      color: var(--color-accent-yellow);
+      color: var(--color-highlight);
       text-decoration: underline;
     }
 
@@ -182,21 +243,21 @@
 
     /* Code */
     .readme-content code {
-      background: var(--color-background-secondary);
+      background: var(--color-surface);
       padding: 0.2rem 0.4rem;
-      border-radius: 4px;
-      font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+      border-radius: 0.25rem;
+      font-family: var(--font-code);
       font-size: 0.9em;
-      color: var(--color-accent-pink);
+      color: var(--color-secondary);
     }
 
     .readme-content pre {
-      background: var(--color-background-secondary);
+      background: var(--color-surface);
       padding: 1rem;
-      border-radius: 8px;
+      border-radius: var(--radius);
       overflow-x: auto;
       margin: 1rem 0;
-      border: 1px solid rgba(101, 69, 245, 0.2);
+      border: 1px solid rgba(113, 92, 254, 0.2);
     }
 
     .readme-content pre code {
@@ -208,7 +269,7 @@
     /* Horizontal rule */
     .readme-content hr {
       border: none;
-      border-top: 1px solid rgba(101, 69, 245, 0.3);
+      border-top: 1px solid rgba(113, 92, 254, 0.3);
       margin: 2rem 0;
     }
 
@@ -216,6 +277,44 @@
     .readme-content strong {
       color: var(--color-text);
       font-weight: 600;
+    }
+
+    /* Footer */
+    .landing-footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+      opacity: 0.7;
+      border-top: 1px solid rgba(113, 92, 254, 0.1);
+    }
+
+    .landing-footer a {
+      color: var(--color-text-muted);
+      text-decoration: underline;
+      transition: color 0.2s ease;
+    }
+
+    .landing-footer a:hover {
+      color: var(--color-text);
+    }
+
+    /* Focus states for accessibility */
+    a:focus,
+    button:focus {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
 
     /* Responsive */
@@ -228,7 +327,7 @@
         gap: 1rem;
       }
 
-      .nav-links a:not(.docs-link) {
+      .github-link {
         display: none;
       }
 
@@ -237,11 +336,15 @@
       }
 
       .readme-content h1 {
-        font-size: 2rem;
+        font-size: 2.2rem;
       }
 
       .readme-content h2 {
-        font-size: 1.5rem;
+        font-size: 1.75rem;
+      }
+
+      .readme-content h3 {
+        font-size: 1.35rem;
       }
     }
   </style>
@@ -249,16 +352,22 @@
 <body>
   <nav class="landing-nav">
     <a href="/" class="nav-logo">
-      <img src="v0.0.6/media/magek-logo.svg" alt="Magek" onerror="this.parentElement.textContent='Magek'">
+      <img src="v0.0.7/media/magek-logo.svg" alt="Magek" onerror="this.parentElement.textContent='Magek'">
     </a>
     <div class="nav-links">
-      <a href="https://github.com/theam/magek" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a href="/v0.0.6/" class="docs-link">Documentation</a>
+      <a href="https://github.com/theam/magek" target="_blank" rel="noopener noreferrer" class="nav-btn github-link">
+        <i class="fa-brands fa-github"></i>
+        Fork on GitHub
+      </a>
+      <a href="/v0.0.7/" class="nav-btn docs-link">
+        <i class="fa-solid fa-book"></i>
+        Documentation
+      </a>
     </div>
   </nav>
   <main class="readme-content">
 <h1>✨ Magek — Build AI-Native Backends with Event-Driven Intelligence</h1>
-<p><img src="v0.0.6/media/magek-logo.svg" alt="Magek Framework"></p>
+<p><img src="v0.0.7/media/magek-logo.svg" alt="Magek Framework"></p>
 <blockquote>
 <p>A framework for building intelligent, agentic applications with event sourcing, swarming agents, and LLM integrations — cloud-agnostic and fully open source.</p>
 </blockquote>
@@ -347,5 +456,26 @@
 </blockquote>
 
   </main>
+  <footer class="landing-footer">
+    An open-source initiative by <a href="https://theagilemonkeys.com">The Agile Monkeys</a>
+  </footer>
+  <script>
+    const navLogo = document.querySelector('.nav-logo');
+    const mainLogo = document.querySelector('.readme-content img');
+
+    function checkScroll() {
+      if (mainLogo) {
+        const logoRect = mainLogo.getBoundingClientRect();
+        if (logoRect.bottom < 60) {
+          navLogo.classList.add('expanded');
+        } else {
+          navLogo.classList.remove('expanded');
+        }
+      }
+    }
+
+    window.addEventListener('scroll', checkScroll, { passive: true });
+    checkScroll();
+  </script>
 </body>
 </html>
