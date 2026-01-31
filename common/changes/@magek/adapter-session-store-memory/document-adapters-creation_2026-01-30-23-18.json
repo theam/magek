@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Add in-memory adapter packages for event store, read model store, and session store",
+      "type": "none",
+      "packageName": "@magek/adapter-session-store-memory"
+    }
+  ],
+  "packageName": "@magek/adapter-session-store-memory",
+  "email": "github-actions[bot]@users.noreply.github.com"
+}
