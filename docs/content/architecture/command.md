@@ -80,7 +80,7 @@ export class CreateProduct {
   @Field()
   readonly price!: number
 
-  public static async handle(command: CreateProduct, register: Register): Promise<string> {
+  public static async handle(command: CreateProduct, register: Register): Promise<void> {
     // highlight-next-line
     register.event(new ProductCreated(/*...*/))
   }
@@ -93,9 +93,13 @@ For more details about events and the register parameter, see the [`Events`](/ar
 
 The command handler function can return a value. This value will be the response of the GraphQL mutation. By default, the command handler function expects you to return a `void` as a return type. Since GrahpQL does not have a `void` type, the command handler function returns `true` when called through the GraphQL. This is because the GraphQL specification requires a response, and `true` is the most appropriate value to represent a successful execution with no return value.
 
-If you want to return a value, you can change the return type of the handler function. For example, if you want to return a `string`:
+If you want to return a value, you need to:
+1. Change the return type of the handler function
+2. Use the `@returns` decorator to specify the GraphQL return type
 
-For example:
+The `@returns` decorator tells Magek what type to use in the generated GraphQL schema. Without it, Magek defaults to `Boolean` for the mutation return type.
+
+For example, if you want to return a `string`:
 
 ```typescript title="src/commands/create-product.ts"
 @Command({
@@ -108,6 +112,8 @@ export class CreateProduct {
   @Field()
   readonly price!: number
 
+  // highlight-next-line
+  @returns(type => String)
   public static async handle(command: CreateProduct, register: Register): Promise<string> {
     register.event(new ProductCreated(/*...*/))
     // highlight-next-line
@@ -115,6 +121,30 @@ export class CreateProduct {
   }
 }
 ```
+
+#### The @returns decorator
+
+The `@returns` decorator is required when your command handler returns a value other than `void`. It uses the same type function pattern as `@field()`:
+
+```typescript
+// Return a primitive type
+@returns(type => String)
+public static async handle(...): Promise<string> { ... }
+
+// Return a UUID (maps to GraphQL ID)
+@returns(type => UUID)
+public static async handle(...): Promise<UUID> { ... }
+
+// Return a number
+@returns(type => Number)
+public static async handle(...): Promise<number> { ... }
+
+// Return an array
+@returns(type => [CartItem])
+public static async handle(...): Promise<CartItem[]> { ... }
+```
+
+> **Note:** The type specified in `@returns` is the GraphQL return type, not the TypeScript type. TypeScript erases type information at compile time, so Magek cannot infer the return type automatically.
 
 ### Validating data
 

@@ -7,7 +7,7 @@ group: "Architecture"
 
 ReadModels offer read operations over reduced events. On the other hand, Queries provide a way to do custom read operations.
 
-Queries are classes decorated with the `@Query` decorator that have a `handle` method.
+Queries are classes decorated with the `@Query` decorator that have a `handle` method. When the handler returns a value, use the `@returns` decorator to specify the GraphQL return type.
 
 ```typescript
 import {
@@ -28,6 +28,7 @@ export class CartTotalQuantity {
   @NonExposed
   readonly multiply!: number
 
+  @returns(type => Number)
   public static async handle(query: CartTotalQuantity, queryInfo: QueryInfo): Promise<number> {
     const cart = await Magek.entity(Cart, query.cartId)
     if (!cart || !cart.cartItems || cart.cartItems.length === 0) {
@@ -110,6 +111,7 @@ export class CartTotalQuantityQuery {
   @Field()
   readonly cartId!: UUID
 
+  @returns(type => Number)
   public static async handle(query: CartTotalQuantity, queryInfo: QueryInfo): Promise<number> {
     const cart = await Magek.entity(Cart, query.cartId)
     if (!cart || !cart.cartItems || cart.cartItems.length === 0) {
@@ -152,6 +154,7 @@ export class SearchMedia {
   @Field()
   readonly searchword!: string
 
+  @returns(type => SearchResult)
   public static async handle(query: SearchMedia, queryInfo: QueryInfo): Promise<SearchResult> {
     const [books, movies] = await Promise.all([
       Magek.readModel(BookReadModel)
