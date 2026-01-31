@@ -41,13 +41,15 @@ jobs:
           # Check if there are change files with publishable change types (patch, minor, major)
           # Change files with type "none" should not trigger a publish
           PUBLISHABLE_CHANGES=0
-          for file in $(find common/changes -type f -name "*.json" 2>/dev/null); do
-            # Check if any change in the file has a publishable type
-            if grep -qE '"type":\s*"(patch|minor|major)"' "$file"; then
+          
+          # Use find with while loop and process substitution to handle filenames safely
+          while IFS= read -r -d '' file; do
+            # Use jq to properly parse JSON and check for publishable types
+            if jq -e '.changes[]? | select(.type == "patch" or .type == "minor" or .type == "major")' "$file" > /dev/null 2>&1; then
               echo "Found publishable change in: $file"
               PUBLISHABLE_CHANGES=$((PUBLISHABLE_CHANGES + 1))
             fi
-          done
+          done < <(find common/changes -type f -name "*.json" -print0 2>/dev/null)
 
           if [[ $PUBLISHABLE_CHANGES -gt 0 ]]; then
             echo "Found $PUBLISHABLE_CHANGES change file(s) with publishable types"
