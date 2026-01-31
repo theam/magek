@@ -2,6 +2,37 @@
   "name": "@magek/common",
   "entries": [
     {
+      "version": "0.0.7",
+      "tag": "@magek/common_v0.0.7",
+      "date": "Sat, 31 Jan 2026 11:54:24 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "add evolve helper"
+          },
+          {
+            "comment": "Add sub-millisecond precision to event timestamps for deterministic ordering"
+          },
+          {
+            "comment": "Remove deprecated designType property from FieldMetadata interface"
+          }
+        ],
+        "none": [
+          {
+            "comment": "Move createdAt assignment from adapter to framework"
+          }
+        ],
+        "minor": [
+          {
+            "comment": "Add ReducerAction enum with Skip value for entity reducers and rename ReadModelAction to ProjectionAction"
+          },
+          {
+            "comment": "Migrate to TC39 Stage 3 decorators only. Rename @Field to @field (PascalCase alias kept for compatibility). Remove reflect-metadata import. Remove legacy decorator support."
+          }
+        ]
+      }
+    },
+    {
       "version": "0.0.6",
       "tag": "@magek/common_v0.0.6",
       "date": "Tue, 27 Jan 2026 18:50:37 GMT",

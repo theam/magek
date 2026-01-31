@@ -2,6 +2,33 @@
   "name": "@magek/cli",
   "entries": [
     {
+      "version": "0.0.7",
+      "tag": "@magek/cli_v0.0.7",
+      "date": "Sat, 31 Jan 2026 11:54:24 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "Bump inquirer from 13.2.0 to 13.2.1"
+          },
+          {
+            "comment": "Dependency update: bump @oclif/plugin-help from 6.2.36 to 6.2.37"
+          },
+          {
+            "comment": "Bump @oclif/test from 4.1.15 to 4.1.16 in /packages/cli"
+          },
+          {
+            "comment": "Bump @oclif/plugin-plugins from 5.4.54 to 5.4.55"
+          },
+          {
+            "comment": "Bump inquirer from 13.2.1 to 13.2.2"
+          },
+          {
+            "comment": "Update CLI stubs and templates to use camelCase decorator names (@field, @reduces, @projects)"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.0.6",
       "tag": "@magek/cli_v0.0.6",
       "date": "Tue, 27 Jan 2026 18:50:37 GMT",

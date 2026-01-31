@@ -1,6 +1,18 @@
 # Change Log - @magek/cli
 
-This log was last generated on Tue, 27 Jan 2026 18:50:37 GMT and should not be manually modified.
+This log was last generated on Sat, 31 Jan 2026 11:54:24 GMT and should not be manually modified.
+
+## 0.0.7
+Sat, 31 Jan 2026 11:54:24 GMT
+
+### Updates
+
+- Bump inquirer from 13.2.0 to 13.2.1
+- Dependency update: bump @oclif/plugin-help from 6.2.36 to 6.2.37
+- Bump @oclif/test from 4.1.15 to 4.1.16 in /packages/cli
+- Bump @oclif/plugin-plugins from 5.4.54 to 5.4.55
+- Bump inquirer from 13.2.1 to 13.2.2
+- Update CLI stubs and templates to use camelCase decorator names (@field, @reduces, @projects)
 
 ## 0.0.6
 Tue, 27 Jan 2026 18:50:37 GMT

@@ -1,6 +1,17 @@
 # Change Log - @magek/adapter-event-store-nedb
 
-This log was last generated on Tue, 27 Jan 2026 18:50:37 GMT and should not be manually modified.
+This log was last generated on Sat, 31 Jan 2026 11:54:24 GMT and should not be manually modified.
+
+## 0.0.7
+Sat, 31 Jan 2026 11:54:24 GMT
+
+### Patches
+
+- Add sub-millisecond precision to event timestamps for deterministic ordering
+
+### Updates
+
+- Move createdAt assignment from adapter to framework
 
 ## 0.0.6
 Tue, 27 Jan 2026 18:50:37 GMT

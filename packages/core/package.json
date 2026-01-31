@@ -1,6 +1,6 @@
 {
   "name": "@magek/core",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Library for your Magek apps",
   "author": "Boosterin Labs SLU",
   "homepage": "https://magek.ai",
@@ -33,7 +33,7 @@
     "node": ">=22.0.0 <23.0.0"
   },
   "dependencies": {
-    "@magek/common": "workspace:^0.0.6",
+    "@magek/common": "workspace:^0.0.7",
     "fp-ts": "2.16.11",
     "graphql-scalars": "1.25.0",
     "inflected": "2.1.0",
@@ -45,7 +45,7 @@
     "fast-check": "4.5.3"
   },
   "devDependencies": {
-    "@magek/eslint-config": "workspace:^0.0.6",
+    "@magek/eslint-config": "workspace:^0.0.7",
     "@types/chai": "5.2.3",
     "@types/chai-as-promised": "8.0.2",
     "@types/inflected": "2.1.3",

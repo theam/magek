@@ -2,6 +2,24 @@
   "name": "@magek/server",
   "entries": [
     {
+      "version": "0.0.7",
+      "tag": "@magek/server_v0.0.7",
+      "date": "Sat, 31 Jan 2026 11:54:24 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "Move createdAt assignment from adapter to framework"
+          },
+          {
+            "comment": "Update fastify from 5.7.1 to 5.7.2"
+          },
+          {
+            "comment": "Bump fastify-sse-v2 from 4.2.1 to 4.2.2"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.0.6",
       "tag": "@magek/server_v0.0.6",
       "date": "Tue, 27 Jan 2026 18:50:37 GMT",

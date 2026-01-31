@@ -1,6 +1,6 @@
 {
   "name": "@magek/common",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Contains Magek common helpers used by the core and provider packages",
   "keywords": [
     "framework-common-helpers"
@@ -43,7 +43,7 @@
     "uuid": "^13.0.0"
   },
   "devDependencies": {
-    "@magek/eslint-config": "workspace:^0.0.6",
+    "@magek/eslint-config": "workspace:^0.0.7",
     "@types/chai": "5.2.3",
     "@types/chai-as-promised": "8.0.2",
     "@types/mocha": "10.0.10",

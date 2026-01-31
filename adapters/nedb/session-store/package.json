@@ -1,6 +1,6 @@
 {
   "name": "@magek/adapter-session-store-nedb",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Nedb-based session store adapter for the Magek framework",
   "keywords": [
     "session-store",
@@ -27,7 +27,7 @@
     "node": ">=22.0.0 <23.0.0"
   },
   "dependencies": {
-    "@magek/common": "workspace:^0.0.6",
+    "@magek/common": "workspace:^0.0.7",
     "@seald-io/nedb": "4.1.2",
     "tslib": "2.8.1"
   },
@@ -44,7 +44,7 @@
     "url": "https://github.com/theam/magek/issues"
   },
   "devDependencies": {
-    "@magek/eslint-config": "workspace:^0.0.6",
+    "@magek/eslint-config": "workspace:^0.0.7",
     "@types/chai": "5.2.3",
     "@types/chai-as-promised": "8.0.2",
     "@types/mocha": "10.0.10",

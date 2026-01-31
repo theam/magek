@@ -1,6 +1,24 @@
 # Change Log - @magek/core
 
-This log was last generated on Tue, 27 Jan 2026 18:50:37 GMT and should not be manually modified.
+This log was last generated on Sat, 31 Jan 2026 11:54:24 GMT and should not be manually modified.
+
+## 0.0.7
+Sat, 31 Jan 2026 11:54:24 GMT
+
+### Minor changes
+
+- Handle ReducerAction.Skip in event-store and rename ReadModelAction to ProjectionAction in read-model-store
+- Complete TC39 Stage 3 decorators migration. Rename decorators to camelCase: @reduces, @projects, @calculatedField, @toVersion, @trace, @nonExposed. Remove all legacy decorator support. Remove experimentalDecorators from all configs.
+
+### Patches
+
+- Fix @Command decorator to allow fieldless commands without requiring @field() properties
+
+### Updates
+
+- Move createdAt assignment from adapter to framework
+- Add delete-event-dispatcher tests
+- Bump jwks-rsa from 3.2.1 to 3.2.2
 
 ## 0.0.6
 Tue, 27 Jan 2026 18:50:37 GMT

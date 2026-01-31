@@ -2,6 +2,37 @@
   "name": "@magek/core",
   "entries": [
     {
+      "version": "0.0.7",
+      "tag": "@magek/core_v0.0.7",
+      "date": "Sat, 31 Jan 2026 11:54:24 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "Move createdAt assignment from adapter to framework"
+          },
+          {
+            "comment": "Add delete-event-dispatcher tests"
+          },
+          {
+            "comment": "Bump jwks-rsa from 3.2.1 to 3.2.2"
+          }
+        ],
+        "minor": [
+          {
+            "comment": "Handle ReducerAction.Skip in event-store and rename ReadModelAction to ProjectionAction in read-model-store"
+          },
+          {
+            "comment": "Complete TC39 Stage 3 decorators migration. Rename decorators to camelCase: @reduces, @projects, @calculatedField, @toVersion, @trace, @nonExposed. Remove all legacy decorator support. Remove experimentalDecorators from all configs."
+          }
+        ],
+        "patch": [
+          {
+            "comment": "Fix @Command decorator to allow fieldless commands without requiring @field() properties"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.0.6",
       "tag": "@magek/core_v0.0.6",
       "date": "Tue, 27 Jan 2026 18:50:37 GMT",
