@@ -126,18 +126,19 @@ jobs:
             # For lockStepVersion policy, we need to aggregate change types and pass --override-bump
             BUMP_TYPE="patch"  # Default to patch
             
-            for file in $(find common/changes -type f -name "*.json" 2>/dev/null); do
-              # Extract the change type from each change file
-              # Change files can have multiple changes, so we check all of them
-              if grep -qE '"type":\s*"major"' "$file"; then
+            # Use find with while loop and process substitution to handle filenames safely
+            while IFS= read -r -d '' file; do
+              # Use jq to properly parse JSON and extract change types
+              # Check if any change in the file has type "major" or "minor"
+              if jq -e '.changes[]? | select(.type == "major")' "$file" > /dev/null 2>&1; then
                 BUMP_TYPE="major"
                 break  # Major is highest priority, stop looking
-              elif grep -qE '"type":\s*"minor"' "$file"; then
+              elif jq -e '.changes[]? | select(.type == "minor")' "$file" > /dev/null 2>&1; then
                 BUMP_TYPE="minor"
                 # Don't break, keep looking for major
               fi
               # patch changes don't need to update BUMP_TYPE since it's the default
-            done
+            done < <(find common/changes -type f -name "*.json" -print0 2>/dev/null)
             
             echo "Determined bump type from change files: $BUMP_TYPE"
             rush version --bump --override-bump "$BUMP_TYPE"
