@@ -13,7 +13,6 @@ function handleStage3Decorator(
     name: context.name.toString(),
     typeFunction,
     options: fieldOptions,
-    designType: undefined, // Stage 3 doesn't have design:type
   }
 
   // Store in context.metadata for later retrieval by class decorators

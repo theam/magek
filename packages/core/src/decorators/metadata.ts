@@ -1,4 +1,4 @@
-import { AnyClass, ClassMetadata, getMetadata } from '@magek/common'
+import { AnyClass, ClassMetadata } from '@magek/common'
 import { buildClassMetadataFromFields } from './field-metadata-reader'
 import { DecoratorMetadataObject } from './decorator-types'
 import { NON_EXPOSED_SYMBOL } from './non-exposed'
@@ -14,7 +14,7 @@ export function getNonExposedFields(metadata?: DecoratorMetadataObject): string[
 }
 
 /**
- * Get class metadata from @field() decorators or legacy transformer metadata.
+ * Get class metadata from @field() decorators.
  *
  * @param classType - The class to get metadata for
  * @param contextMetadata - Optional context.metadata from class decorator.
@@ -25,26 +25,7 @@ export function getClassMetadata(
   classType: AnyClass,
   contextMetadata?: DecoratorMetadataObject
 ): ClassMetadata {
-  // Try new @field() decorator system first
-  try {
-    const fieldMetadata = buildClassMetadataFromFields(classType, contextMetadata)
-    // Check if any fields were actually found
-    if (fieldMetadata.fields.length > 0 || fieldMetadata.methods.length > 0) {
-      return fieldMetadata
-    }
-  } catch (error) {
-    // If field metadata reading fails, try old system
-  }
-
-  // Fall back to old transformer-based system
-  const meta = getMetadata<ClassMetadata>('magek:typeinfo', classType as object)
-  if (!meta) {
-    throw Error(
-      `Couldn't get proper metadata information of ${classType.name}. ` +
-        'Make sure to decorate all properties with @field() or enable the TypeScript transformer.'
-    )
-  }
-  return meta
+  return buildClassMetadataFromFields(classType, contextMetadata)
 }
 
 /**

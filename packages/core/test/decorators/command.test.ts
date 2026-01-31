@@ -10,6 +10,7 @@ describe('the `Command` decorator', () => {
   afterEach(() => {
     const magek = Magek as any
     delete magek.config.commandHandlers['PostComment']
+    delete magek.config.commandHandlers['CreateNote']
   })
 
   context('when an authorizer function is provided', () => {
@@ -94,6 +95,31 @@ describe('the `Command` decorator', () => {
       expect(commandMetadata.authorizer).to.equal(MagekAuthorizer.denyAccess)
       expect(commandMetadata.before).to.be.an('Array')
       expect(commandMetadata.before).to.include(fakeBeforeHook)
+    })
+  })
+
+  context('when the command has no fields', () => {
+    it('injects the command handler metadata without requiring @field() decorators', () => {
+      @Command({ authorize: 'all' })
+      class CreateNote {
+        public static async handle(_command: CreateNote, _register: Register): Promise<void> {
+          throw new Error('Not implemented')
+        }
+      }
+
+      // Make Magek be of any type to access private members
+      const magek = Magek as any
+      const commandMetadata = magek.config.commandHandlers[CreateNote.name]
+
+      expect(commandMetadata).to.be.an('object')
+      expect(commandMetadata.class).to.equal(CreateNote)
+      expect(commandMetadata.properties).to.be.an('Array')
+      expect(commandMetadata.properties).to.be.empty
+      expect(commandMetadata.methods).to.be.an('Array')
+      expect(commandMetadata.methods).to.be.empty
+      expect(commandMetadata.authorizer).not.to.equal(MagekAuthorizer.denyAccess)
+      expect(commandMetadata.before).to.be.an('Array')
+      expect(commandMetadata.before).to.be.empty
     })
   })
 })
