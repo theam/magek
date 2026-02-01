@@ -10,8 +10,8 @@ import {
   Runtime,
   Register,
   UUID,
-  PromisesError,
 } from '@magek/common'
+import { PromisesError } from '../src/utils/promises'
 import { field } from '../src'
 import { expect } from './expect'
 import { ReadModelStore } from '../src/services/read-model-store'

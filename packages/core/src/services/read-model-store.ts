@@ -19,9 +19,9 @@ import {
   UUID,
   createInstance,
   getLogger,
-  Promises,
   retryIfError,
 } from '@magek/common'
+import { Promises } from '../utils/promises'
 import { MagekGlobalErrorDispatcher } from '../global-error-dispatcher'
 import { readModelSearcher } from './read-model-searcher'
 import { ReadModelSchemaMigrator } from '../read-model-schema-migrator'

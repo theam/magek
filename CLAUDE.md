@@ -44,6 +44,9 @@ cd packages/core && rushx test
 cd packages/cli && rushx test
 ```
 
+### GitHub CLI Commands
+- `gh api repos/theam/magek/issues/<number>` - Fetch issue details (preferred over `gh issue view` which has project compatibility issues)
+
 ## Architecture Overview
 
 ### Monorepo Structure
