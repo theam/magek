@@ -1,5 +1,6 @@
 import { eventsDatabase, readModelsDatabase } from '../paths'
-import { localPort, HealthEnvelope, UUID, request } from '@magek/common'
+import { HealthEnvelope, UUID, request } from '@magek/common'
+import { localPort } from '../internal-info'
 import { existsSync } from 'fs'
 import { FastifyRequest } from 'fastify'
 import Nedb from '@seald-io/nedb'

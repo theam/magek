@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "refactor: extract internal utilities to their packages",
+      "type": "none",
+      "packageName": "@magek/server"
+    }
+  ],
+  "packageName": "@magek/server",
+  "email": "github-actions[bot]@users.noreply.github.com"
+}

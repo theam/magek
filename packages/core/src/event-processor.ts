@@ -10,9 +10,8 @@ import {
   NotificationInterface,
   createInstance,
   getLogger,
-  Promises,
-  PromisesError,
 } from '@magek/common'
+import { Promises, PromisesError } from './utils/promises'
 import { EventStore } from './services/event-store'
 import { EventsStreamingCallback } from './services/raw-events-parser'
 import { ReadModelStore } from './services/read-model-store'
