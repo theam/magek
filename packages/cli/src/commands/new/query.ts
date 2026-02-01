@@ -65,7 +65,7 @@ function generateImports(info: QueryInfo): Array<ImportDeclaration> {
   return [
     {
       packagePath: '@magek/core',
-      commaSeparatedComponents: 'Query',
+      commaSeparatedComponents: 'Query, returns',
     },
     {
       packagePath: '@magek/common',

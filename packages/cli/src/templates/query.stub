@@ -11,6 +11,7 @@ export class {{{ name }}} {
   readonly {{{name}}}!: {{{type}}}
 
   {{/fields}}
+  @returns(type => String)
   public static async handle(query: {{{ name }}}, queryInfo?: QueryInfo): Promise<string> {
     /* YOUR CODE HERE */
   }

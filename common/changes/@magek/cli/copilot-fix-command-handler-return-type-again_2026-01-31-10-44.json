@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Update query template to include @returns decorator for GraphQL return type",
+      "type": "patch",
+      "packageName": "@magek/cli"
+    }
+  ],
+  "packageName": "@magek/cli",
+  "email": "198982749+Copilot@users.noreply.github.com"
+}
