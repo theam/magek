@@ -1,6 +1,6 @@
 import { readFile, readdir, stat } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
-import { join, relative } from 'node:path'
+import { join, normalize, relative, resolve } from 'node:path'
 
 export interface DocumentInfo {
   uri: string
@@ -17,7 +17,14 @@ export class DocsLoader {
   constructor(private readonly docsPath: string) {}
 
   async loadDocument(relativePath: string): Promise<string> {
-    const fullPath = join(this.docsPath, relativePath)
+    const fullPath = resolve(this.docsPath, relativePath)
+    const normalizedDocsPath = resolve(this.docsPath)
+
+    // Security: ensure the resolved path is within docsPath
+    if (!fullPath.startsWith(normalizedDocsPath + '/') && fullPath !== normalizedDocsPath) {
+      throw new Error(`Invalid path: ${relativePath}`)
+    }
+
     if (!existsSync(fullPath)) {
       throw new Error(`Document not found: ${relativePath}`)
     }
@@ -123,6 +130,24 @@ export class DocsLoader {
     if (!match) {
       return null
     }
-    return `${match[1]}.md`
+
+    const pathSegment = match[1]
+
+    // Security: reject path traversal attempts and absolute paths
+    if (
+      pathSegment.includes('..') ||
+      pathSegment.startsWith('/') ||
+      pathSegment.includes('\\')
+    ) {
+      return null
+    }
+
+    // Normalize and verify it's a clean relative path
+    const normalized = normalize(pathSegment)
+    if (normalized.startsWith('..') || normalized.startsWith('/')) {
+      return null
+    }
+
+    return `${normalized}.md`
   }
 }

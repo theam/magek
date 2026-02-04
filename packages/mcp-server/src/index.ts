@@ -7,7 +7,7 @@ import { createMagekServer } from './server.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-// Resolve docs path - first check env var, then bundled docs, then local development path
+// Resolve docs path - first check env var, then use bundled docs
 function resolveDocsPath(): string {
   if (process.env.MAGEK_DOCS_PATH) {
     return process.env.MAGEK_DOCS_PATH

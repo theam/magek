@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -103,10 +103,11 @@ function buildDocsIndex(sourceDir) {
 
 console.log('Copying documentation files...')
 
-// Create target directory
-if (!existsSync(targetDocsDir)) {
-  mkdirSync(targetDocsDir, { recursive: true })
+// Clear target directory to remove stale files
+if (existsSync(targetDocsDir)) {
+  rmSync(targetDocsDir, { recursive: true })
 }
+mkdirSync(targetDocsDir, { recursive: true })
 
 // Check if source docs exist
 if (!existsSync(sourceDocsDir)) {

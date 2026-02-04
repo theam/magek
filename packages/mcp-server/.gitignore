@@ -1,0 +1,8 @@
+# Bundled documentation (generated during CI publish)
+docs/
+
+# Build output
+dist/
+
+# TypeScript build info
+tsconfig.tsbuildinfo

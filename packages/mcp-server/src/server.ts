@@ -1,3 +1,4 @@
+import { createRequire } from 'node:module'
 import { Server } from '@modelcontextprotocol/sdk/server/index.js'
 import {
   CallToolRequestSchema,
@@ -9,6 +10,9 @@ import {
 } from '@modelcontextprotocol/sdk/types.js'
 
 import { DocsLoader } from './utils/docs-loader.js'
+
+const require = createRequire(import.meta.url)
+const packageJson = require('../package.json') as { version: string }
 import { DocumentationResources } from './resources/documentation.js'
 import {
   CLI_REFERENCE_URI,
@@ -39,7 +43,7 @@ export function createMagekServer(options: MagekServerOptions): Server {
   const server = new Server(
     {
       name: 'magek',
-      version: '0.0.7',
+      version: packageJson.version,
     },
     {
       capabilities: {
