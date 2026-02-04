@@ -1,6 +1,17 @@
 # Change Log - @magek/core
 
-This log was last generated on Sat, 31 Jan 2026 11:54:24 GMT and should not be manually modified.
+This log was last generated on Wed, 04 Feb 2026 19:54:30 GMT and should not be manually modified.
+
+## 0.0.8
+Wed, 04 Feb 2026 19:54:30 GMT
+
+### Patches
+
+- Add @returns decorator for command handler return type inference. Users can now specify the return type of their command's handle method using the @returns decorator, which will be properly reflected in the generated GraphQL schema.
+
+### Updates
+
+- refactor: extract internal utilities to their packages
 
 ## 0.0.7
 Sat, 31 Jan 2026 11:54:24 GMT

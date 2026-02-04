@@ -2,6 +2,23 @@
   "name": "@magek/core",
   "entries": [
     {
+      "version": "0.0.8",
+      "tag": "@magek/core_v0.0.8",
+      "date": "Wed, 04 Feb 2026 19:54:30 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Add @returns decorator for command handler return type inference. Users can now specify the return type of their command's handle method using the @returns decorator, which will be properly reflected in the generated GraphQL schema."
+          }
+        ],
+        "none": [
+          {
+            "comment": "refactor: extract internal utilities to their packages"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.0.7",
       "tag": "@magek/core_v0.0.7",
       "date": "Sat, 31 Jan 2026 11:54:24 GMT",

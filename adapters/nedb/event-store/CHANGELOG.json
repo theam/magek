@@ -2,6 +2,18 @@
   "name": "@magek/adapter-event-store-nedb",
   "entries": [
     {
+      "version": "0.0.8",
+      "tag": "@magek/adapter-event-store-nedb_v0.0.8",
+      "date": "Wed, 04 Feb 2026 19:54:30 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add built-in async event processing with polling"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.0.7",
       "tag": "@magek/adapter-event-store-nedb_v0.0.7",
       "date": "Sat, 31 Jan 2026 11:54:24 GMT",

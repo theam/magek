@@ -1,6 +1,13 @@
 # Change Log - @magek/cli
 
-This log was last generated on Sat, 31 Jan 2026 11:54:24 GMT and should not be manually modified.
+This log was last generated on Wed, 04 Feb 2026 19:54:30 GMT and should not be manually modified.
+
+## 0.0.8
+Wed, 04 Feb 2026 19:54:30 GMT
+
+### Patches
+
+- Update query template to include @returns decorator for GraphQL return type
 
 ## 0.0.7
 Sat, 31 Jan 2026 11:54:24 GMT

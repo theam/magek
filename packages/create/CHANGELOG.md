@@ -1,6 +1,11 @@
 # Change Log - create-magek
 
-This log was last generated on Sat, 31 Jan 2026 11:54:24 GMT and should not be manually modified.
+This log was last generated on Wed, 04 Feb 2026 19:54:30 GMT and should not be manually modified.
+
+## 0.0.8
+Wed, 04 Feb 2026 19:54:30 GMT
+
+_Version update only_
 
 ## 0.0.7
 Sat, 31 Jan 2026 11:54:24 GMT

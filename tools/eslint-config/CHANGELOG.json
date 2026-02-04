@@ -2,6 +2,12 @@
   "name": "@magek/eslint-config",
   "entries": [
     {
+      "version": "0.0.8",
+      "tag": "@magek/eslint-config_v0.0.8",
+      "date": "Wed, 04 Feb 2026 19:54:30 GMT",
+      "comments": {}
+    },
+    {
       "version": "0.0.7",
       "tag": "@magek/eslint-config_v0.0.7",
       "date": "Sat, 31 Jan 2026 11:54:24 GMT",
