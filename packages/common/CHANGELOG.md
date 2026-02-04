@@ -1,6 +1,13 @@
 # Change Log - @magek/common
 
-This log was last generated on Wed, 04 Feb 2026 21:36:16 GMT and should not be manually modified.
+This log was last generated on Wed, 04 Feb 2026 22:30:21 GMT and should not be manually modified.
+
+## 0.0.10
+Wed, 04 Feb 2026 22:30:21 GMT
+
+### Patches
+
+- fix(core): correct EventHandlerInterface type for TC39 decorators
 
 ## 0.0.9
 Wed, 04 Feb 2026 21:36:16 GMT
