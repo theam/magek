@@ -1,6 +1,6 @@
 {
   "name": "@magek/eslint-config",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Shared eslint rules",
   "author": "Boosterin Labs SLU",
   "homepage": "https://magek.ai",

@@ -2,6 +2,18 @@
   "name": "@magek/core",
   "entries": [
     {
+      "version": "0.0.9",
+      "tag": "@magek/core_v0.0.9",
+      "date": "Wed, 04 Feb 2026 21:36:16 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Forced version bump due to incomplete v0.0.8 release (some packages failed to publish to npm)"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.0.8",
       "tag": "@magek/core_v0.0.8",
       "date": "Wed, 04 Feb 2026 19:54:30 GMT",

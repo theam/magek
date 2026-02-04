@@ -1,6 +1,13 @@
 # Change Log - @magek/core
 
-This log was last generated on Wed, 04 Feb 2026 19:54:30 GMT and should not be manually modified.
+This log was last generated on Wed, 04 Feb 2026 21:36:16 GMT and should not be manually modified.
+
+## 0.0.9
+Wed, 04 Feb 2026 21:36:16 GMT
+
+### Minor changes
+
+- Forced version bump due to incomplete v0.0.8 release (some packages failed to publish to npm)
 
 ## 0.0.8
 Wed, 04 Feb 2026 19:54:30 GMT
