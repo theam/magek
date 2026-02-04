@@ -1,0 +1,241 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Sensor Health | Magek Framework</title><meta name="description" content="Documentation for Magek Framework"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><link rel="stylesheet" href="../assets/custom.css"/><script defer src="../assets/main.js"></script><script defer src="../assets/custom.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><a href="../index.html" class="title">Magek Framework</a><div id="tsd-toolbar-links"><a href="https://github.com/theam/magek">GitHub</a></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/><ul role="listbox" id="tsd-search-results"></ul><div id="tsd-search-status" aria-live="polite" aria-atomic="true"><div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb" aria-label="Breadcrumb"><li><a href="Documentation.html">Documentation</a></li><li><a href="" aria-current="page">Sensor Health</a></li></ul></div><div class="tsd-panel tsd-typography"><h2 id="health" class="tsd-anchor-link">Health<a href="#health" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The Health functionality allows users to easily monitor the health status of their applications. With this functionality, users can make GET requests to a specific endpoint and retrieve detailed information about the health and status of their application components.</p>
+<h3 id="enabling-health-functionality" class="tsd-anchor-link">Enabling Health Functionality<a href="#enabling-health-functionality" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>To enable the Health functionality in your Magek application, follow these steps:</p>
+<ol>
+<li>Install or update to the latest version of the Magek framework, ensuring compatibility with the Health functionality.</li>
+<li>Enable the Magek Health endpoints in your application's configuration file. Example configuration in config.ts:</li>
+</ol>
+<pre><code class="typescript"><br/><span class="hl-4">Magek</span><span class="hl-1">.</span><span class="hl-0">configure</span><span class="hl-1">(</span><span class="hl-2">&#39;local&#39;</span><span class="hl-1">, (</span><span class="hl-4">config</span><span class="hl-1">: </span><span class="hl-7">MagekConfig</span><span class="hl-1">): </span><span class="hl-7">void</span><span class="hl-1"> </span><span class="hl-3">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">config</span><span class="hl-1">.</span><span class="hl-4">appName</span><span class="hl-1"> = </span><span class="hl-2">&#39;my-store&#39;</span><br/><span class="hl-1">  </span><span class="hl-4">config</span><span class="hl-1">.</span><span class="hl-4">runtime</span><span class="hl-1"> = </span><span class="hl-4">ServerRuntime</span><br/><span class="hl-1">  </span><span class="hl-4">Object</span><span class="hl-1">.</span><span class="hl-0">values</span><span class="hl-1">(</span><span class="hl-4">config</span><span class="hl-1">.</span><span class="hl-4">sensorConfiguration</span><span class="hl-1">.</span><span class="hl-4">health</span><span class="hl-1">.</span><span class="hl-4">magek</span><span class="hl-1">).</span><span class="hl-0">forEach</span><span class="hl-1">((</span><span class="hl-4">indicator</span><span class="hl-1">) </span><span class="hl-3">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-4">indicator</span><span class="hl-1">.</span><span class="hl-4">enabled</span><span class="hl-1"> = </span><span class="hl-3">true</span><br/><span class="hl-1">  })</span><br/><span class="hl-1">})</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Or enable only the components you want:</p>
+<pre><code class="typescript"><span class="hl-4">Magek</span><span class="hl-1">.</span><span class="hl-0">configure</span><span class="hl-1">(</span><span class="hl-2">&#39;local&#39;</span><span class="hl-1">, (</span><span class="hl-4">config</span><span class="hl-1">: </span><span class="hl-7">MagekConfig</span><span class="hl-1">): </span><span class="hl-7">void</span><span class="hl-1"> </span><span class="hl-3">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">config</span><span class="hl-1">.</span><span class="hl-4">appName</span><span class="hl-1"> = </span><span class="hl-2">&#39;my-store&#39;</span><br/><span class="hl-1">  </span><span class="hl-4">config</span><span class="hl-1">.</span><span class="hl-4">runtime</span><span class="hl-1"> = </span><span class="hl-4">ServerRuntime</span><br/><span class="hl-1">  </span><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-8">sensors</span><span class="hl-1"> = </span><span class="hl-4">config</span><span class="hl-1">.</span><span class="hl-4">sensorConfiguration</span><span class="hl-1">.</span><span class="hl-4">health</span><span class="hl-1">.</span><span class="hl-4">magek</span><br/><span class="hl-1">  </span><span class="hl-4">sensors</span><span class="hl-1">[</span><span class="hl-8">HEALTH_INDICATORS_IDS</span><span class="hl-1">.</span><span class="hl-8">DATABASE</span><span class="hl-1">].</span><span class="hl-4">enabled</span><span class="hl-1"> = </span><span class="hl-3">true</span><br/><span class="hl-1">})</span>
+</code><button type="button">Copy</button></pre>
+
+<ol start="3">
+<li>Optionally, implement health checks for your application components. Each component should provide a health method that performs the appropriate checks and returns a response indicating the health status. Example:</li>
+</ol>
+<pre><code class="typescript"><span class="hl-6">import</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">MagekConfig</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">HealthIndicatorResult</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">HealthIndicatorMetadata</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">HealthStatus</span><span class="hl-1">,</span><br/><span class="hl-1">} </span><span class="hl-6">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@magek/common&#39;</span><br/><br/><span class="hl-1">@</span><span class="hl-0">HealthSensor</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-4">id:</span><span class="hl-1"> </span><span class="hl-2">&#39;application&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-2">&#39;my-application&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">enabled:</span><span class="hl-1"> </span><span class="hl-3">true</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">details:</span><span class="hl-1"> </span><span class="hl-3">true</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">showChildren:</span><span class="hl-1"> </span><span class="hl-3">true</span><span class="hl-1">,</span><br/><span class="hl-1">})</span><br/><span class="hl-6">export</span><span class="hl-1"> </span><span class="hl-3">class</span><span class="hl-1"> </span><span class="hl-7">ApplicationHealthIndicator</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-3">public</span><span class="hl-1"> </span><span class="hl-3">async</span><span class="hl-1"> </span><span class="hl-0">health</span><span class="hl-1">(</span><br/><span class="hl-1">    </span><span class="hl-4">config</span><span class="hl-1">: </span><span class="hl-7">MagekConfig</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-4">healthIndicatorMetadata</span><span class="hl-1">: </span><span class="hl-7">HealthIndicatorMetadata</span><br/><span class="hl-1">  ): </span><span class="hl-7">Promise</span><span class="hl-1">&lt;</span><span class="hl-7">HealthIndicatorResult</span><span class="hl-1">&gt; {</span><br/><span class="hl-1">    </span><span class="hl-6">return</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-4">status:</span><span class="hl-1"> </span><span class="hl-4">HealthStatus</span><span class="hl-1">.</span><span class="hl-8">UP</span><span class="hl-1">,</span><br/><span class="hl-1">    } </span><span class="hl-6">as</span><span class="hl-1"> </span><span class="hl-7">HealthIndicatorResult</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<ol start="4">
+<li>A health check typically involves verifying the connectivity and status of the component, running any necessary tests, and returning an appropriate status code.</li>
+<li>Start or restart your Magek application. The Health functionality will be available at the <a href="https://your-application-url/sensor/health/">https://your-application-url/sensor/health/</a> endpoint URL.</li>
+</ol>
+<h3 id="health-endpoint" class="tsd-anchor-link">Health Endpoint<a href="#health-endpoint" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The Health functionality provides a dedicated endpoint where users can make GET requests to retrieve the health status of their application. The endpoint URL is: <a href="https://your-application-url/sensor/health/">https://your-application-url/sensor/health/</a></p>
+<p>This endpoint will return all the enabled Magek and application components health status. To get specific component health status, add the component status to the url. For example, to get the events status use: <a href="https://your-application-url/sensor/health/magek/database/events">https://your-application-url/sensor/health/magek/database/events</a></p>
+<h4 id="available-endpoints" class="tsd-anchor-link">Available endpoints<a href="#available-endpoints" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Magek provides the following endpoints to retrieve the enabled components:</p>
+<ul>
+<li><a href="https://your-application-url/sensor/health/">https://your-application-url/sensor/health/</a>: All the components status</li>
+<li><a href="https://your-application-url/sensor/health/magek">https://your-application-url/sensor/health/magek</a>: Magek status</li>
+<li><a href="https://your-application-url/sensor/health/magek/database">https://your-application-url/sensor/health/magek/database</a>: Database status</li>
+<li><a href="https://your-application-url/sensor/health/magek/database/events">https://your-application-url/sensor/health/magek/database/events</a>: Events status</li>
+<li><a href="https://your-application-url/sensor/health/magek/database/readmodels">https://your-application-url/sensor/health/magek/database/readmodels</a>: ReadModels status</li>
+<li><a href="https://your-application-url/sensor/health/magek/function">https://your-application-url/sensor/health/magek/function</a>: Functions status</li>
+<li><a href="https://your-application-url/sensor/health/your-component-id">https://your-application-url/sensor/health/your-component-id</a>: User defined status</li>
+<li><a href="https://your-application-url/sensor/health/your-component-id/your-component-child-id">https://your-application-url/sensor/health/your-component-id/your-component-child-id</a>: User child component status</li>
+</ul>
+<p>Depending on the <code>showChildren</code> configuration, child components will be included or not.</p>
+<h3 id="health-status-response" class="tsd-anchor-link">Health Status Response<a href="#health-status-response" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Each component response will contain the following information:</p>
+<ul>
+<li>status: The component or subsystem status</li>
+<li>name: component description</li>
+<li>id: string. unique component identifier. You can request a component status using the id in the url</li>
+<li>details: optional object. If <code>details</code> is enabled, specific details about this component.</li>
+<li>components: optional object. If <code>showChildren</code> is enabled, child components health status.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="json"><span class="hl-1">[</span><br/><span class="hl-1">  {</span><br/><span class="hl-1">    </span><span class="hl-10">&quot;status&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;UP&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-10">&quot;details&quot;</span><span class="hl-1">: {</span><br/><span class="hl-1">      </span><span class="hl-10">&quot;urls&quot;</span><span class="hl-1">: [</span><br/><span class="hl-1">        </span><span class="hl-2">&quot;dbs/my-store-app&quot;</span><br/><span class="hl-1">      ]</span><br/><span class="hl-1">    },</span><br/><span class="hl-1">    </span><span class="hl-10">&quot;name&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;Magek Database&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-10">&quot;id&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;magek/database&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-10">&quot;components&quot;</span><span class="hl-1">: [</span><br/><span class="hl-1">      {</span><br/><span class="hl-1">        </span><span class="hl-10">&quot;status&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;UP&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">        </span><span class="hl-10">&quot;details&quot;</span><span class="hl-1">: {</span><br/><span class="hl-1">          </span><span class="hl-10">&quot;url&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;dbs/my-store-app/colls/my-store-app-events-store&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">          </span><span class="hl-10">&quot;count&quot;</span><span class="hl-1">: </span><span class="hl-9">6</span><br/><span class="hl-1">        },</span><br/><span class="hl-1">        </span><span class="hl-10">&quot;name&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;Magek Database Events&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">        </span><span class="hl-10">&quot;id&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;magek/database/events&quot;</span><br/><span class="hl-1">      },</span><br/><span class="hl-1">      {</span><br/><span class="hl-1">        </span><span class="hl-10">&quot;status&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;UP&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">        </span><span class="hl-10">&quot;details&quot;</span><span class="hl-1">: [</span><br/><span class="hl-1">          {</span><br/><span class="hl-1">            </span><span class="hl-10">&quot;url&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;dbs/my-store-app/colls/my-store-app-ProductReadModel&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">            </span><span class="hl-10">&quot;count&quot;</span><span class="hl-1">: </span><span class="hl-9">1</span><br/><span class="hl-1">          }</span><br/><span class="hl-1">        ],</span><br/><span class="hl-1">        </span><span class="hl-10">&quot;name&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;Magek Database ReadModels&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">        </span><span class="hl-10">&quot;id&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;magek/database/readmodels&quot;</span><br/><span class="hl-1">      }</span><br/><span class="hl-1">    ]</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">]</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="http-status-codes" class="tsd-anchor-link">HTTP Status Codes<a href="#http-status-codes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The health endpoint returns different HTTP status codes based on the overall health of the application:</p>
+<ul>
+<li>200 OK: All components are healthy (UP)</li>
+<li>503 Service Unavailable: One or more components are unhealthy (DOWN or PARTIALLY_UP)</li>
+</ul>
+<h3 id="get-specific-component-health-information" class="tsd-anchor-link">Get specific component health information<a href="#get-specific-component-health-information" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Use the <code>id</code> field to get specific component health information. Magek provides the following ids:</p>
+<ul>
+<li>magek</li>
+<li>magek/function</li>
+<li>magek/database</li>
+<li>magek/database/events</li>
+<li>magek/database/readmodels</li>
+</ul>
+<p>You can provide new components:</p>
+<pre><code class="typescript"><span class="hl-1">@</span><span class="hl-0">HealthSensor</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-4">id:</span><span class="hl-1"> </span><span class="hl-2">&#39;application&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">})</span>
+</code><button type="button">Copy</button></pre>
+
+<pre><code class="typescript"><span class="hl-1">@</span><span class="hl-0">HealthSensor</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-4">id:</span><span class="hl-1"> </span><span class="hl-2">&#39;application/child&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">})</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Add your own components to Magek:</p>
+<pre><code class="typescript"><span class="hl-1">@</span><span class="hl-0">HealthSensor</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-4">id:</span><span class="hl-1"> </span><span class="hl-2">`</span><span class="hl-3">${</span><span class="hl-8">HEALTH_INDICATORS_IDS</span><span class="hl-11">.</span><span class="hl-8">DATABASE</span><span class="hl-3">}</span><span class="hl-2">/extra`</span><span class="hl-1">,</span><br/><span class="hl-1">})</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Or override Magek existing components with your own implementation:</p>
+<pre><code class="typescript"><span class="hl-1">@</span><span class="hl-0">HealthSensor</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-4">id:</span><span class="hl-1"> </span><span class="hl-8">HEALTH_INDICATORS_IDS</span><span class="hl-1">.</span><span class="hl-8">DATABASE</span><span class="hl-1">,</span><br/><span class="hl-1">})</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="health-configuration" class="tsd-anchor-link">Health configuration<a href="#health-configuration" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Health components are fully configurable, allowing you to display the information you want at any moment.</p>
+<p>Configuration options:</p>
+<ul>
+<li>enabled: If false, this indicator and the components of this indicator will be skipped</li>
+<li>details: If false, the indicator will not include the details</li>
+<li>showChildren: If false, this indicator will not include child components in the tree.
+<ul>
+<li>Child components will be shown through child urls</li>
+</ul>
+</li>
+<li>authorize: Authorize configuration. <a href="https://docs.magek.ai/security/security">See security documentation</a></li>
+</ul>
+<h4 id="magek-components-default-configuration" class="tsd-anchor-link">Magek components default configuration<a href="#magek-components-default-configuration" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Magek sets the following default configuration for its own components:</p>
+<ul>
+<li>enabled: false</li>
+<li>details: true</li>
+<li>showChildren: true</li>
+</ul>
+<p>Change this configuration using the <code>config.sensorConfiguration</code> object. This object provides:</p>
+<ul>
+<li>config.sensorConfiguration.health.globalAuthorizer: Allow to define authorization configuration</li>
+<li>config.sensorConfiguration.health.magek: Allow to override default Magek components configuration
+<ul>
+<li>config.sensorConfiguration.health.magek[COMPONENT_ID].enabled</li>
+<li>config.sensorConfiguration.health.magek[COMPONENT_ID].details</li>
+<li>config.sensorConfiguration.health.magek[COMPONENT_ID].showChildren</li>
+</ul>
+</li>
+</ul>
+<h4 id="user-components-configuration" class="tsd-anchor-link">User components configuration<a href="#user-components-configuration" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Use <code>@HealthSensor</code> parameters to configure user components. Example:</p>
+<pre><code class="typescript"><span class="hl-1">@</span><span class="hl-0">HealthSensor</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-4">id:</span><span class="hl-1"> </span><span class="hl-2">&#39;user&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-2">&#39;my-application&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">enabled:</span><span class="hl-1"> </span><span class="hl-3">true</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">details:</span><span class="hl-1"> </span><span class="hl-3">true</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">showChildren:</span><span class="hl-1"> </span><span class="hl-3">true</span><span class="hl-1">,</span><br/><span class="hl-1">})</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="create-your-own-health-endpoint" class="tsd-anchor-link">Create your own health endpoint<a href="#create-your-own-health-endpoint" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Create your own health endpoint with a class annotated with <code>@HealthSensor</code> decorator. This class
+should define a <code>health</code> method that returns a <strong>HealthIndicatorResult</strong>. Example:</p>
+<pre><code class="typescript"><span class="hl-6">import</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">MagekConfig</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">HealthIndicatorResult</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">HealthIndicatorMetadata</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">HealthStatus</span><span class="hl-1">,</span><br/><span class="hl-1">} </span><span class="hl-6">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@magek/common&#39;</span><br/><br/><span class="hl-1">@</span><span class="hl-0">HealthSensor</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-4">id:</span><span class="hl-1"> </span><span class="hl-2">&#39;application&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-2">&#39;my-application&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">enabled:</span><span class="hl-1"> </span><span class="hl-3">true</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">details:</span><span class="hl-1"> </span><span class="hl-3">true</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">showChildren:</span><span class="hl-1"> </span><span class="hl-3">true</span><span class="hl-1">,</span><br/><span class="hl-1">})</span><br/><span class="hl-6">export</span><span class="hl-1"> </span><span class="hl-3">class</span><span class="hl-1"> </span><span class="hl-7">ApplicationHealthIndicator</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-3">public</span><span class="hl-1"> </span><span class="hl-3">async</span><span class="hl-1"> </span><span class="hl-0">health</span><span class="hl-1">(</span><br/><span class="hl-1">    </span><span class="hl-4">config</span><span class="hl-1">: </span><span class="hl-7">MagekConfig</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-4">healthIndicatorMetadata</span><span class="hl-1">: </span><span class="hl-7">HealthIndicatorMetadata</span><br/><span class="hl-1">  ): </span><span class="hl-7">Promise</span><span class="hl-1">&lt;</span><span class="hl-7">HealthIndicatorResult</span><span class="hl-1">&gt; {</span><br/><span class="hl-1">    </span><span class="hl-6">return</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-4">status:</span><span class="hl-1"> </span><span class="hl-4">HealthStatus</span><span class="hl-1">.</span><span class="hl-8">UP</span><span class="hl-1">,</span><br/><span class="hl-1">    } </span><span class="hl-6">as</span><span class="hl-1"> </span><span class="hl-7">HealthIndicatorResult</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="magek-health-endpoints" class="tsd-anchor-link">Magek health endpoints<a href="#magek-health-endpoints" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><h4 id="magek" class="tsd-anchor-link">magek<a href="#magek" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>status: UP if and only if graphql function is UP and events are UP</li>
+<li>details:
+<ul>
+<li>magekVersion: Magek version number</li>
+</ul>
+</li>
+</ul>
+<h4 id="magekfunction" class="tsd-anchor-link">magek/function<a href="#magekfunction" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>status: UP if and only if graphql function is UP</li>
+<li>details:
+<ul>
+<li>graphQL_url: GraphQL function url</li>
+<li>cpus: Information about each logical CPU core.
+<ul>
+<li>cpu:
+<ul>
+<li>model: Cpu model. Example: AMD EPYC 7763 64-Core Processor</li>
+<li>speed: cpu speed in MHz</li>
+<li>times: The number of milliseconds the CPU/core spent in (see iostat)
+<ul>
+<li>user:  CPU utilization that occurred while executing at the user level (application)</li>
+<li>nice: CPU utilization that occurred while executing at the user level with nice priority.</li>
+<li>sys: CPU utilization that occurred while executing at the system level (kernel).</li>
+<li>idle: CPU or CPUs were idle and the system did not have an outstanding disk I/O request.</li>
+<li>irq: CPU load system</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>timesPercentages: For each times value, the percentage over the total times</li>
+</ul>
+</li>
+<li>memory:
+<ul>
+<li>totalBytes: the total amount of system memory in bytes as an integer.</li>
+<li>freeBytes: the amount of free system memory in bytes as an integer.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="magekdatabase" class="tsd-anchor-link">magek/database<a href="#magekdatabase" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>status: UP if and only if events are UP and Read Models are UP</li>
+<li>details:
+<ul>
+<li>urls: Database urls</li>
+</ul>
+</li>
+</ul>
+<h4 id="magekdatabaseevents" class="tsd-anchor-link">magek/database/events<a href="#magekdatabaseevents" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>status: UP if and only if events are UP</li>
+<li>details:
+<ul>
+<li>file: event database file</li>
+<li>count: number of rows</li>
+</ul>
+</li>
+</ul>
+<h4 id="magekdatabasereadmodels" class="tsd-anchor-link">magek/database/readmodels<a href="#magekdatabasereadmodels" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>status: UP if and only if Read Models are UP</li>
+<li>details:
+<ul>
+<li>file: Read Models database file</li>
+<li>count: number of total rows</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong>
+Details will be included only if <code>details</code> is enabled</p>
+</blockquote>
+<h3 id="health-status" class="tsd-anchor-link">Health status<a href="#health-status" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Available status are</p>
+<ul>
+<li>UP: The component or subsystem is working as expected</li>
+<li>PARTIALLY_UP: The component is partially working or has reduced functionality</li>
+<li>DOWN: The component is not working</li>
+<li>OUT_OF_SERVICE: The component is out of service temporarily</li>
+<li>UNKNOWN: The component state is unknown</li>
+</ul>
+<p>If a component throw an exception the status will be DOWN</p>
+<h3 id="securing-health-endpoints" class="tsd-anchor-link">Securing health endpoints<a href="#securing-health-endpoints" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>To configure the health endpoints authorization use <code>config.sensorConfiguration.health.globalAuthorizer</code>.</p>
+<p>Example:</p>
+<pre><code class="typescript"><span class="hl-4">config</span><span class="hl-1">.</span><span class="hl-4">sensorConfiguration</span><span class="hl-1">.</span><span class="hl-4">health</span><span class="hl-1">.</span><span class="hl-4">globalAuthorizer</span><span class="hl-1"> = {</span><br/><span class="hl-1">      </span><span class="hl-4">authorize:</span><span class="hl-1"> </span><span class="hl-2">&#39;all&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<p>If the authorization process fails, the health endpoint will return a 401 error code</p>
+<h3 id="example" class="tsd-anchor-link">Example<a href="#example" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>If all components are enable and showChildren is set to true:</p>
+<ul>
+<li>A Request to <a href="https://your-application-url/sensor/health/">https://your-application-url/sensor/health/</a> will return:</li>
+</ul>
+<pre><code class="text">├── magek
+│  ├── database
+│    ├── events
+│    └── readmodels
+└  └── function
+</code><button type="button">Copy</button></pre>
+
+<p>If the database component is disabled, the same url will return:</p>
+<pre><code class="text">├── magek
+└  └── function
+</code><button type="button">Copy</button></pre>
+
+<p>If the request url is <a href="https://your-application-url/sensor/health/database">https://your-application-url/sensor/health/database</a>, the component will not be returned</p>
+<pre><code class="text">[Empty]
+</code><button type="button">Copy</button></pre>
+
+<p>And the child components will be disabled too using direct url <a href="https://your-application-url/sensor/health/database/events">https://your-application-url/sensor/health/database/events</a></p>
+<pre><code class="text">[Empty]
+</code><button type="button">Copy</button></pre>
+
+<p>If database is enabled and showChildren is set to false and using <a href="https://your-application-url/sensor/health/">https://your-application-url/sensor/health/</a></p>
+<pre><code class="text">├── magek
+│  ├── database
+│  └── function
+</code><button type="button">Copy</button></pre>
+
+<p>using <a href="https://your-application-url/sensor/health/database">https://your-application-url/sensor/health/database</a>, children will not be visible</p>
+<pre><code class="text">└── database
+</code><button type="button">Copy</button></pre>
+
+<p>but you can access to them using the component url <a href="https://your-application-url/sensor/health/database/events">https://your-application-url/sensor/health/database/events</a></p>
+<pre><code class="text">└── events
+</code><button type="button">Copy</button></pre>
+
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#health"><span>Health</span></a><ul><li><a href="#enabling-health-functionality"><span>Enabling <wbr/>Health <wbr/>Functionality</span></a></li><li><a href="#health-endpoint"><span>Health <wbr/>Endpoint</span></a></li><li><ul><li><a href="#available-endpoints"><span>Available endpoints</span></a></li></ul></li><li><a href="#health-status-response"><span>Health <wbr/>Status <wbr/>Response</span></a></li><li><a href="#http-status-codes"><span>HTTP <wbr/>Status <wbr/>Codes</span></a></li><li><a href="#get-specific-component-health-information"><span>Get specific component health information</span></a></li><li><a href="#health-configuration"><span>Health configuration</span></a></li><li><ul><li><a href="#magek-components-default-configuration"><span>Magek components default configuration</span></a></li><li><a href="#user-components-configuration"><span>User components configuration</span></a></li></ul></li><li><a href="#create-your-own-health-endpoint"><span>Create your own health endpoint</span></a></li><li><a href="#magek-health-endpoints"><span>Magek health endpoints</span></a></li><li><ul><li><a href="#magek"><span>magek</span></a></li><li><a href="#magekfunction"><span>magek/function</span></a></li><li><a href="#magekdatabase"><span>magek/database</span></a></li><li><a href="#magekdatabaseevents"><span>magek/database/events</span></a></li><li><a href="#magekdatabasereadmodels"><span>magek/database/readmodels</span></a></li></ul></li><li><a href="#health-status"><span>Health status</span></a></li><li><a href="#securing-health-endpoints"><span>Securing health endpoints</span></a></li><li><a href="#example"><span>Example</span></a></li></ul></div></details></div><div class="site-menu"><nav id="tsd-sidebar-links" class="tsd-navigation"><a href="https://github.com/theam/magek" class="tsd-nav-link">GitHub</a></nav><nav class="tsd-navigation"><a href="../index.html">Magek Framework</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>
