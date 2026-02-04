@@ -1,6 +1,7 @@
 import { UserApp, MagekConfig, getLogger } from '@magek/common'
 
 let pollingTimer: NodeJS.Timeout | null = null
+let currentPollPromise: Promise<void> | null = null
 
 /**
  * Starts the event polling loop.
@@ -15,9 +16,20 @@ export function startEventPolling(userApp: UserApp, config: MagekConfig): void {
 
   logger.info(`Starting event polling every ${intervalMs}ms (batch size: ${config.eventProcessingBatchSize})`)
 
-  pollingTimer = setInterval(async () => {
-    await pollAndProcessEvents(userApp, config, logger)
+  pollingTimer = setInterval(() => {
+    // Store the promise so tests can await it
+    currentPollPromise = pollAndProcessEvents(userApp, config, logger)
   }, intervalMs)
+}
+
+/**
+ * Waits for the current poll cycle to complete.
+ * Exported for tests to ensure async poll callbacks finish before assertions.
+ */
+export async function waitForCurrentPoll(): Promise<void> {
+  if (currentPollPromise) {
+    await currentPollPromise
+  }
 }
 
 /**
@@ -28,6 +40,7 @@ export function stopEventPolling(): void {
     clearInterval(pollingTimer)
     pollingTimer = null
   }
+  currentPollPromise = null
 }
 
 async function pollAndProcessEvents(userApp: UserApp, config: MagekConfig, logger: ReturnType<typeof getLogger>): Promise<void> {

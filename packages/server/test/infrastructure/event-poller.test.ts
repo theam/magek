@@ -2,7 +2,7 @@ import { restore, stub, SinonStub, useFakeTimers, SinonFakeTimers } from 'sinon'
 import { expect } from '../expect'
 import { faker } from '@faker-js/faker'
 import { MagekConfig, UserApp, EventEnvelope } from '@magek/common'
-import { startEventPolling, stopEventPolling } from '../../src/infrastructure/event-poller'
+import { startEventPolling, stopEventPolling, waitForCurrentPoll } from '../../src/infrastructure/event-poller'
 
 function createMockEventEnvelope(id?: string): EventEnvelope {
   return {
@@ -65,11 +65,13 @@ describe('Event Poller', () => {
 
       // Advance time by one interval
       await clock.tickAsync(1000)
+      await waitForCurrentPoll()
 
       expect(fetchUnprocessedEventsStub).to.have.been.calledOnce
 
       // Advance time by another interval
       await clock.tickAsync(1000)
+      await waitForCurrentPoll()
 
       expect(fetchUnprocessedEventsStub).to.have.been.calledTwice
     })
@@ -79,6 +81,7 @@ describe('Event Poller', () => {
 
       startEventPolling(mockUserApp, mockConfig)
       await clock.tickAsync(1000)
+      await waitForCurrentPoll()
 
       expect(eventDispatcherStub).not.to.have.been.called
     })
@@ -90,6 +93,7 @@ describe('Event Poller', () => {
 
       startEventPolling(mockUserApp, mockConfig)
       await clock.tickAsync(1000)
+      await waitForCurrentPoll()
 
       expect(eventDispatcherStub).to.have.been.calledTwice
       expect(eventDispatcherStub.firstCall).to.have.been.calledWith([event1])
@@ -103,6 +107,7 @@ describe('Event Poller', () => {
 
       startEventPolling(mockUserApp, mockConfig)
       await clock.tickAsync(1000)
+      await waitForCurrentPoll()
 
       expect(markEventProcessedStub).to.have.been.calledTwice
       expect(markEventProcessedStub.firstCall).to.have.been.calledWith(mockConfig, 'event-1')
@@ -117,6 +122,7 @@ describe('Event Poller', () => {
 
       startEventPolling(mockUserApp, mockConfig)
       await clock.tickAsync(1000)
+      await waitForCurrentPoll()
 
       // Should have tried to dispatch first event
       expect(eventDispatcherStub).to.have.been.calledOnce
@@ -131,6 +137,7 @@ describe('Event Poller', () => {
 
       startEventPolling(mockUserApp, mockConfig)
       await clock.tickAsync(1000)
+      await waitForCurrentPoll()
 
       expect(eventDispatcherStub).to.have.been.calledOnce
       expect(markEventProcessedStub).not.to.have.been.called
@@ -142,6 +149,7 @@ describe('Event Poller', () => {
       startEventPolling(mockUserApp, mockConfig)
 
       await clock.tickAsync(1000)
+      await waitForCurrentPoll()
       expect(fetchUnprocessedEventsStub).to.have.been.calledOnce
 
       stopEventPolling()
@@ -161,6 +169,7 @@ describe('Event Poller', () => {
 
       startEventPolling(mockUserApp, configWithoutSupport)
       await clock.tickAsync(1000)
+      await waitForCurrentPoll()
 
       // Should not throw, just silently skip
       expect(eventDispatcherStub).not.to.have.been.called
@@ -176,6 +185,7 @@ describe('Event Poller', () => {
 
       startEventPolling(mockUserApp, configWithPartialSupport)
       await clock.tickAsync(1000)
+      await waitForCurrentPoll()
 
       // Should not throw, just silently skip
       expect(eventDispatcherStub).not.to.have.been.called
