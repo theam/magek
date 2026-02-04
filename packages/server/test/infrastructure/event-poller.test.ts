@@ -4,6 +4,13 @@ import { faker } from '@faker-js/faker'
 import { MagekConfig, UserApp, EventEnvelope } from '@magek/common'
 import { startEventPolling, stopEventPolling, waitForCurrentPoll } from '../../src/infrastructure/event-poller'
 
+const noopLogger = {
+  debug: () => {},
+  info: () => {},
+  warn: () => {},
+  error: () => {},
+}
+
 function createMockEventEnvelope(id?: string): EventEnvelope {
   return {
     id: id ?? faker.string.uuid(),
@@ -41,7 +48,8 @@ describe('Event Poller', () => {
         fetchUnprocessedEvents: fetchUnprocessedEventsStub,
         markEventProcessed: markEventProcessedStub,
       },
-      logLevel: 4, // error only
+      logLevel: 4,
+      logger: noopLogger, // Suppress all log output in tests
     } as unknown as MagekConfig
 
     mockUserApp = {

@@ -23,9 +23,17 @@ function createMockEventEnvelopeWithId(createdAt?: string): EventEnvelope {
   }
 }
 
+const noopLogger = {
+  debug: () => {},
+  info: () => {},
+  warn: () => {},
+  error: () => {},
+}
+
 function createMockConfig(batchSize = 100): MagekConfig {
   const config = new MagekConfig('test')
   config.eventProcessingBatchSize = batchSize
+  config.logger = noopLogger
   return config
 }
 
