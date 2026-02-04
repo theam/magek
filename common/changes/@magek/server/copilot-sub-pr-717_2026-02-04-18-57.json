@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@magek/server",
+      "comment": "Dependency updates",
+      "type": "none"
+    }
+  ],
+  "packageName": "@magek/server"
+}
