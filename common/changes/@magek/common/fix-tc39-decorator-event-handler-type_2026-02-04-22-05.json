@@ -2,7 +2,7 @@
   "changes": [
     {
       "comment": "fix(core): correct EventHandlerInterface type for TC39 decorators",
-      "type": "none",
+      "type": "patch",
       "packageName": "@magek/common"
     }
   ],
