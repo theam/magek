@@ -8,7 +8,6 @@ import {
   rawEventsToEnvelopes,
 } from '../../src/library/events-adapter'
 import {
-  UserApp,
   EventEnvelope,
   EntitySnapshotEnvelope,
   UUID,
@@ -28,9 +27,7 @@ describe('events-adapter', () => {
   let storeStub: SinonStub
   let queryStub: SinonStub
   let queryLatestStub: SinonStub
-  let eventDispatcherStub: SinonStub
 
-  let mockUserApp: UserApp
   let mockEventRegistry: SinonStubbedInstance<EventRegistry>
 
   beforeEach(() => {
@@ -42,7 +39,6 @@ describe('events-adapter', () => {
 
     loggerDebugStub = stub()
     storeStub = stub()
-    eventDispatcherStub = stub()
     queryStub = stub()
     queryLatestStub = stub()
 
@@ -52,9 +48,6 @@ describe('events-adapter', () => {
       error: fake(),
       debug: loggerDebugStub,
     }
-    mockUserApp = {
-      eventDispatcher: eventDispatcherStub,
-    } as any
     mockEventRegistry = createStubInstance(EventRegistry)
 
     replace(mockEventRegistry, 'store', storeStub as any)
@@ -237,15 +230,11 @@ describe('events-adapter', () => {
   describe('storeEvents', () => {
     context('no event envelopes', () => {
       beforeEach(async () => {
-        await storeEvents(mockUserApp, mockEventRegistry, [], mockConfig)
+        await storeEvents(mockEventRegistry, [], mockConfig)
       })
 
       it('should not call event registry store', () => {
         expect(storeStub).not.to.have.been.called
-      })
-
-      it('should call userApp eventDispatcher', () => {
-        expect(eventDispatcherStub).to.have.been.calledOnceWithExactly([])
       })
     })
 
@@ -253,19 +242,18 @@ describe('events-adapter', () => {
       it('should call event registry store', async () => {
         const mockEventEnvelop = createMockNonPersistedEventEnvelop()
 
-        await storeEvents(mockUserApp, mockEventRegistry, [mockEventEnvelop], mockConfig)
+        await storeEvents(mockEventRegistry, [mockEventEnvelop], mockConfig)
 
         // The adapter now uses the createdAt from the input envelope (set by the framework)
         expect(storeStub).to.have.been.calledWithExactly(mockEventEnvelop)
       })
 
-      it('should call userApp eventDispatcher', async () => {
+      it('should return the persisted event envelopes', async () => {
         const mockEventEnvelop = createMockNonPersistedEventEnvelop()
 
-        await storeEvents(mockUserApp, mockEventRegistry, [mockEventEnvelop], mockConfig)
+        const result = await storeEvents(mockEventRegistry, [mockEventEnvelop], mockConfig)
 
-        // The adapter now uses the createdAt from the input envelope (set by the framework)
-        expect(eventDispatcherStub).to.have.been.calledOnceWithExactly([mockEventEnvelop])
+        expect(result).to.deep.equal([mockEventEnvelop])
       })
     })
   })

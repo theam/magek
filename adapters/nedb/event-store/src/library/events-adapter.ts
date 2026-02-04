@@ -1,6 +1,5 @@
 import {
   UUID,
-  UserApp,
   MagekConfig,
   EventEnvelope,
   OptimisticConcurrencyUnexpectedVersionError,
@@ -70,7 +69,6 @@ export async function readEntityLatestSnapshot(
 }
 
 export async function storeEvents(
-  userApp: UserApp,
   eventRegistry: EventRegistry,
   nonPersistedEventEnvelopes: Array<NonPersistedEventEnvelope>,
   config: MagekConfig
@@ -88,7 +86,6 @@ export async function storeEvents(
   }
   logger.debug('EventEnvelopes stored: ', persistedEventEnvelopes)
 
-  await userApp.eventDispatcher(persistedEventEnvelopes)
   return persistedEventEnvelopes
 }
 
