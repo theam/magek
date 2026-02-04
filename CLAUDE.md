@@ -108,11 +108,12 @@ Magek implements event sourcing and CQRS patterns:
 
 ## Common Pitfalls
 
+- **Always run `rush update` and commit `pnpm-lock.yaml`** - The lockfile at `common/config/rush/pnpm-lock.yaml` is essential for CI/CD. Always run `rush update` after any dependency changes and commit the updated lockfile.
 - **Always run `rush change`** for published packages before creating a PR
 - **Pre-commit hook validates change files** - bypass with `--no-verify` for docs-only changes
 - **GraphQL types are auto-generated** - don't edit generated files directly
 - **Workspace dependencies** use `workspace:^0.0.1` syntax for internal packages
-- **Packages use Vitest - check package.json scripts
+- **Packages use Vitest** - check package.json scripts
 
 ## Commit Guidelines
 
@@ -143,10 +144,12 @@ test(common): add unit tests for utility functions
   - Updating development workflows or conventions
 
 ### Pull Request Workflow
+- **Always run `rush update` before pushing** to ensure `common/config/rush/pnpm-lock.yaml` is up to date - CI/CD will fail without a current lockfile
 - **Always run `rush change` before creating a PR** if you modified any published package
 - Published packages: most packages under `packages/` and `adapters/` (those with `shouldPublish: true` in rush.json)
 - Skip `rush change` for: documentation-only changes, CI/CD config changes, or non-published packages (tools/, docs/)
 - After running `rush change`, commit the generated files in `common/changes/`
+- **Always commit `pnpm-lock.yaml`** along with your other changes - it's required for reproducible builds
 - A pre-commit hook will verify change files exist; use `git commit --no-verify` to bypass for non-package changes
 
 ### Adding New Publishable Packages
