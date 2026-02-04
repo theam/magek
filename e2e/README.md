@@ -1,67 +1,16 @@
-# Integration E2E Tests for Magek framework
+# Magek E2E Tests (Docker)
 
-This directory contains the end-to-end integration test infrastructure for the `magek` framework.
+This directory contains the Docker entry point for the TypeScript/Mocha E2E suite in `packages/e2e-tests`.
 
-## Overview
-
-The integration test simulates a full development workflow with Magek in an isolated Docker container defined in the `e2e/Dockerfile` file. The Docker image will be initialized with the following steps:
-
-### Phase 1: Building and packaging all workspace packages
-
-The first thing we do is to install and launch a local Verdaccio registry. This is a private npm registry that will be used to publish the workspace packages.
-
-Then, we build and package all workspace packages using the existing build infrastructure.
-
-Finally, we publish the packed packages to the Verdaccio registry.
-
-### Phase 2: Running `npm create magek@latest` in the Docker container
-
-We run `npm create magek@latest test-app --template /workspace/templates/default` in the Docker container. This will create a new project in the `test-app` directory using the template from the `/workspace/templates/default` directory.
-
-> TODO: Add an additional test using the default template live at the official repository.
-
-### Phase 3: Validating the generated project structure and token replacements
-
-We validate the generated project structure and token replacements.
-
-### Phase 4: Build and launch the local Magek server with NeDB
-
-The generated app installs its dependencies, builds the TypeScript sources, starts the Fastify-based `@magek/server`
-using the NeDB adapters, and verifies that the health endpoint responds without errors. This ensures the scaffolding
-works end-to-end with the local server runtime.
-
-### Phase 5: Integration test with bank deposit scenario
-
-This phase adds a complete domain implementation to the generated app and verifies the full event sourcing and CQRS
-workflow:
-
-- Copies pre-built domain files (Command, Entity, Event, EventHandler, ReadModel) for a bank deposit scenario
-- Rebuilds and restarts the server
-- Tests command execution via GraphQL mutation (`DepositMoney`)
-- Verifies events are stored in the NeDB event store
-- Verifies entities are updated correctly
-- Tests read model queries via GraphQL
-- Tests GraphQL subscription functionality
-- Validates the complete happy path: command → event → entity → read model → query/subscription
-
-## Components
-
-### TODO: Run e2e tests in GitHub Actions Workflow
-
-### Docker Infrastructure
-
-#### Dockerfile
-
-- Based on `node:22-alpine`
-- Configures npm to use Verdaccio registry
-- Includes git, curl, bash, and build tools (python3, make, g++) for native dependencies
-
-## Running the Tests
-
-To run the E2E tests, execute the following command from the workspace root:
+## Running
 
 ```bash
 docker build -f e2e/Dockerfile .
 ```
 
-This will build the Docker image and run all four phases of the test.
+The image runs `rush test:e2e`, which:
+
+1. Starts a local Verdaccio registry
+2. Publishes Magek packages to it via Rush
+3. Scaffolds a new app from the local registry
+4. Builds and runs the server, then executes the GraphQL flow

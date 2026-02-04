@@ -20,6 +20,14 @@
       "enableParallelism": true
     },
     {
+      "commandKind": "global",
+      "name": "test:e2e",
+      "summary": "Runs end-to-end tests in Docker",
+      "description": "Builds the E2E Docker image and executes the test suite inside the container.",
+      "safeForSimultaneousRushProcesses": false,
+      "shellCommand": "docker build -f e2e/Dockerfile -t magek-e2e . && docker run --rm magek-e2e"
+    },
+    {
       "commandKind": "bulk",
       "name": "lint:check",
       "summary": "Checks that there are no ESLint issues",
