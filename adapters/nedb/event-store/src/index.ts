@@ -1,6 +1,5 @@
 import {
   UUID,
-  UserApp,
   MagekConfig,
   NonPersistedEventEnvelope,
   NonPersistedEntitySnapshotEnvelope,
@@ -27,11 +26,9 @@ import {
   findDeletableEvent,
   findDeletableSnapshot,
 } from './library/event-delete-adapter'
+import { fetchUnprocessedEvents, markEventProcessed } from './library/event-processing-adapter'
 import { eventsDatabase } from './paths'
 import { existsSync } from 'fs'
-import * as path from 'path'
-
-
 
 // Pre-built NeDB Event Store Adapter instance
 const eventRegistry = new EventRegistry()
@@ -46,21 +43,6 @@ async function countAll(database: any): Promise<number> {
   return count ?? 0
 }
 
-// Function to get userApp from config or load it from standard location
-function getUserApp(config: MagekConfig): UserApp {
-  // Check if userApp is attached to config
-  if ((config as any).userApp) {
-    return (config as any).userApp
-  }
-  
-  // Fallback to loading from standard location
-  try {
-    return require(path.join(process.cwd(), 'dist', 'index.js'))
-  } catch (error) {
-    throw new Error('Could not load userApp from config or standard location')
-  }
-}
-
 export const eventStore: EventStoreAdapter = {
   rawToEnvelopes: rawEventsToEnvelopes,
   rawStreamToEnvelopes: notImplemented,
@@ -70,10 +52,8 @@ export const eventStore: EventStoreAdapter = {
     readEntityEventsSince(eventRegistry, config, entityTypeName, entityID, since),
   latestEntitySnapshot: (config: MagekConfig, entityTypeName: string, entityID: UUID) =>
     readEntityLatestSnapshot(eventRegistry, config, entityTypeName, entityID),
-  store: (eventEnvelopes: Array<NonPersistedEventEnvelope>, config: MagekConfig) => {
-    const userApp = getUserApp(config)
-    return storeEvents(userApp, eventRegistry, eventEnvelopes, config)
-  },
+  store: (eventEnvelopes: Array<NonPersistedEventEnvelope>, config: MagekConfig) =>
+    storeEvents(eventRegistry, eventEnvelopes, config),
   storeSnapshot: (snapshotEnvelope: NonPersistedEntitySnapshotEnvelope, config: MagekConfig) =>
     storeSnapshot(eventRegistry, snapshotEnvelope, config),
   search: (config: MagekConfig, parameters: EventSearchParameters) =>
@@ -104,4 +84,6 @@ export const eventStore: EventStoreAdapter = {
     },
     urls: async () => [eventsDatabase],
   },
+  fetchUnprocessedEvents: (config: MagekConfig) => fetchUnprocessedEvents(eventRegistry, config),
+  markEventProcessed: (config: MagekConfig, eventId: UUID) => markEventProcessed(eventRegistry, config, eventId),
 }

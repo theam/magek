@@ -106,6 +106,12 @@ export class MagekConfig {
   // TTL for events stored in dispatched events table. Default to 5 minutes (i.e., 300 seconds).
   public dispatchedEventsTtl = 300
 
+  /** Interval in milliseconds between event polling cycles. Default: 1000ms */
+  public eventPollingIntervalMs = 1000
+
+  /** Number of events to process per polling cycle. Default: 100 */
+  public eventProcessingBatchSize = 100
+
   public traceConfiguration: TraceConfiguration = {
     enableTraceNotification: false,
     includeInternal: false,

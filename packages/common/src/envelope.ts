@@ -57,9 +57,17 @@ export interface NonPersistedEventEnvelope extends EventStoreEntryEnvelope {
 }
 
 export interface EventEnvelope extends NonPersistedEventEnvelope {
+  /** Unique identifier assigned by the event store after persistence. */
   id?: string
+  /** ISO timestamp when the event was created. */
   createdAt: string
+  /** ISO timestamp when the event was soft-deleted, if applicable. */
   deletedAt?: string
+  /**
+   * ISO timestamp when the event was processed by async event processing.
+   * Used for filtering unprocessed events and as an audit marker.
+   */
+  processedAt?: string
 }
 
 export interface NonPersistedEntitySnapshotEnvelope extends EventStoreEntryEnvelope {

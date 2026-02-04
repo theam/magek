@@ -82,4 +82,20 @@ export class EventRegistry {
     await this.loadDatabaseIfNeeded()
     return await this.events.countAsync(query)
   }
+
+  /**
+   * Marks an event as processed by setting its processedAt timestamp.
+   *
+   * @param id - The event ID
+   * @param processedAt - The ISO timestamp when the event was processed
+   */
+  public async markProcessed(id: string, processedAt: string): Promise<void> {
+    await this.loadDatabaseIfNeeded()
+    await new Promise((resolve, reject) =>
+      this.events.update({ _id: id }, { $set: { processedAt } }, {}, (err: any, numUpdated: number) => {
+        if (err) reject(err)
+        else resolve(numUpdated)
+      })
+    )
+  }
 }
