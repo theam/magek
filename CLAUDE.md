@@ -148,3 +148,21 @@ test(common): add unit tests for utility functions
 - Skip `rush change` for: documentation-only changes, CI/CD config changes, or non-published packages (tools/, docs/)
 - After running `rush change`, commit the generated files in `common/changes/`
 - A pre-commit hook will verify change files exist; use `git commit --no-verify` to bypass for non-package changes
+
+### Adding New Publishable Packages
+When adding a new package to the monorepo that should be published to npm:
+
+1. **Create the package** with the standard structure (package.json, src/, etc.)
+2. **Add to rush.json** with `shouldPublish: true` and `versionPolicyName: "magek"`
+3. **Before the first automated publish**, manually publish the package:
+   ```bash
+   cd packages/<new-package>
+   npm publish --access public --otp=YOUR_OTP_CODE
+   ```
+4. **Configure OIDC trusted publisher** on npmjs.com for automated CI publishing:
+   - Go to `https://www.npmjs.com/package/@magek/<package-name>/access`
+   - Under "Publishing access" → "Add trusted publisher"
+   - Select GitHub Actions
+   - Configure: repo `theam/magek`, workflow `publish.yml`, environment `npm-publish`
+
+**Why this is needed:** The publish workflow uses OIDC trusted publishing which requires the package to exist on npm with trusted publisher settings configured before the first automated publish.
