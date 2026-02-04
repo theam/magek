@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@magek/core",
+      "comment": "Forced version bump due to incomplete v0.0.8 release (some packages failed to publish to npm)",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@magek/core"
+}
