@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@magek/mcp-server",
+      "comment": "Bump @types/node from 22.19.7 to 22.19.8",
+      "type": "none"
+    }
+  ],
+  "packageName": "@magek/mcp-server",
+  "email": "198982749+Copilot@users.noreply.github.com"
+}
