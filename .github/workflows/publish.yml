@@ -106,6 +106,11 @@ jobs:
       - name: Build
         run: rush build
 
+      - name: Bundle docs into MCP server
+        run: |
+          cd packages/mcp-server
+          npm run bundle-docs
+
       - name: Run unit tests
         run: rush test
 

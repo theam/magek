@@ -1,0 +1,46 @@
+{
+  "name": "@magek/mcp-server",
+  "version": "0.0.7",
+  "description": "MCP server for Magek documentation and CLI reference",
+  "author": "Boosterin Labs SLU",
+  "homepage": "https://magek.ai",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "magek-mcp-server": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "docs"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theam/magek.git"
+  },
+  "scripts": {
+    "lint:check": "eslint \"src/**/*.ts\"",
+    "lint:fix": "eslint --quiet --fix \"src/**/*.ts\"",
+    "build": "tsc -b tsconfig.json",
+    "clean": "rimraf ./dist ./docs tsconfig.tsbuildinfo",
+    "bundle-docs": "node scripts/copy-docs.js"
+  },
+  "bugs": {
+    "url": "https://github.com/theam/magek/issues"
+  },
+  "engines": {
+    "node": ">=22.0.0 <23.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0"
+  },
+  "devDependencies": {
+    "@magek/eslint-config": "workspace:^0.0.7",
+    "@types/node": "22.19.7",
+    "rimraf": "6.1.2",
+    "typescript": "5.9.3"
+  }
+}
