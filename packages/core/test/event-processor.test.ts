@@ -1,11 +1,12 @@
  
  
-import { createStubInstance, fake, match, replace, restore } from 'sinon'
+import { createStubInstance, fake, match, replace, restore, SinonSpy } from 'sinon'
 import {
   MagekConfig,
   EntityInterface,
   EntitySnapshotEnvelope,
   EventInterface,
+  EventHandlerInterface,
   NonPersistedEventEnvelope,
   Runtime,
   Register,
@@ -42,10 +43,21 @@ class SomeNotification {
 }
 
 class AnEventHandler {
-   
+
   public static async handle(event: SomeEvent, register: Register): Promise<void> {
     event.getPrefixedId('prefix')
   }
+}
+
+/**
+ * Creates a mock event handler class with the given spy as its static handle method.
+ * This is needed because EventHandlerInterface now properly describes a class with
+ * a static handle method (extending Class<unknown>).
+ */
+function createMockHandler(handleSpy: SinonSpy): EventHandlerInterface {
+  return class MockHandler {
+    public static handle = handleSpy
+  } as unknown as EventHandlerInterface
 }
 
 const someEvent: NonPersistedEventEnvelope = {
@@ -259,7 +271,7 @@ describe('MagekEventProcessor', () => {
 
       it('calls global handler for the current event if defined', async () => {
         const fakeGlobalHandler = fake()
-        config.eventHandlers[SomeEvent.name] = [{ handle: fakeGlobalHandler }]
+        config.eventHandlers[SomeEvent.name] = [createMockHandler(fakeGlobalHandler)]
 
         replace(RegisterHandler, 'handle', fake())
 
@@ -278,9 +290,9 @@ describe('MagekEventProcessor', () => {
         const fakeHandler2 = fake(async () => {})
         const fakeGlobalHandler = fake(async () => {})
         config.eventHandlers[SomeEvent.name] = [
-          { handle: fakeHandler1 },
-          { handle: fakeHandler2 },
-          { handle: fakeGlobalHandler },
+          createMockHandler(fakeHandler1),
+          createMockHandler(fakeHandler2),
+          createMockHandler(fakeGlobalHandler),
         ]
 
         replace(RegisterHandler, 'handle', fake())
@@ -302,9 +314,9 @@ describe('MagekEventProcessor', () => {
         const fakeHandler2 = fake(async () => {})
         const fakeGlobalHandler = fake(async () => {})
         config.eventHandlers[SomeNotification.name] = [
-          { handle: fakeHandler1 },
-          { handle: fakeHandler2 },
-          { handle: fakeGlobalHandler },
+          createMockHandler(fakeHandler1),
+          createMockHandler(fakeHandler2),
+          createMockHandler(fakeGlobalHandler),
         ]
 
         replace(RegisterHandler, 'handle', fake())
@@ -328,7 +340,7 @@ describe('MagekEventProcessor', () => {
         const fakeHandler2 = fake(async (event: EventInterface, register: Register) => {
           capturedRegister2 = register
         })
-        config.eventHandlers[SomeEvent.name] = [{ handle: fakeHandler1 }, { handle: fakeHandler2 }]
+        config.eventHandlers[SomeEvent.name] = [createMockHandler(fakeHandler1), createMockHandler(fakeHandler2)]
 
         replace(RegisterHandler, 'handle', fake())
 
@@ -347,7 +359,7 @@ describe('MagekEventProcessor', () => {
           register.events(someEvent.value as EventInterface)
           capturedRegister = register
         })
-        config.eventHandlers[SomeEvent.name] = [{ handle: fakeHandler }]
+        config.eventHandlers[SomeEvent.name] = [createMockHandler(fakeHandler)]
 
         replace(RegisterHandler, 'handle', fake())
 
@@ -362,8 +374,8 @@ describe('MagekEventProcessor', () => {
         const failingHandler = fake.rejects(new Error('Handler failed'))
         const successHandler = fake.resolves({})
 
-        config.eventHandlers[SomeEvent.name] = [{ handle: failingHandler }]
-        config.eventHandlers[SomeNotification.name] = [{ handle: successHandler }]
+        config.eventHandlers[SomeEvent.name] = [createMockHandler(failingHandler)]
+        config.eventHandlers[SomeNotification.name] = [createMockHandler(successHandler)]
 
         replace(RegisterHandler, 'handle', fake())
 
@@ -385,7 +397,7 @@ describe('MagekEventProcessor', () => {
         ])
         const failingHandler = fake.rejects(promisesError)
 
-        config.eventHandlers[SomeEvent.name] = [{ handle: failingHandler }]
+        config.eventHandlers[SomeEvent.name] = [createMockHandler(failingHandler)]
 
         replace(RegisterHandler, 'handle', fake())
 
@@ -413,7 +425,7 @@ describe('MagekEventProcessor', () => {
         const failingHandler = fake.rejects(new Error('Handler failed'))
         const successHandler = fake.resolves({})
 
-        config.eventHandlers[SomeEvent.name] = [{ handle: failingHandler }, { handle: successHandler }]
+        config.eventHandlers[SomeEvent.name] = [createMockHandler(failingHandler), createMockHandler(successHandler)]
 
         replace(RegisterHandler, 'handle', fake())
 
@@ -451,7 +463,7 @@ describe('MagekEventProcessor', () => {
     })
 
     it('calls an instance method in the event and it is executed without failing', async () => {
-      config.eventHandlers[SomeEvent.name] = [{ handle: AnEventHandler.handle }]
+      config.eventHandlers[SomeEvent.name] = [createMockHandler(AnEventHandler.handle as SinonSpy)]
       const eventProcessor = MagekEventProcessor as any
       const getPrefixedIdFake = fake()
       replace(SomeEvent.prototype, 'getPrefixedId', getPrefixedIdFake)

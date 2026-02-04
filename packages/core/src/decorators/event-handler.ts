@@ -35,7 +35,7 @@ export function registerEventHandler<TEventHandler extends EventHandlerInterface
 ): void {
   Magek.configureCurrentEnv((config: MagekConfig): void => {
     const registeredEventHandlers = config.eventHandlers[eventName] || []
-    if (registeredEventHandlers.some((klass: EventHandlerInterface) => klass == eventHandlerClass)) {
+    if (registeredEventHandlers.some((klass) => klass == eventHandlerClass)) {
       return
     }
     registeredEventHandlers.push(eventHandlerClass)
