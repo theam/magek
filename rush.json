@@ -432,6 +432,12 @@
       "shouldPublish": true,
       "versionPolicyName": "magek",
       "projectFolder": "adapters/nedb/session-store"
+    },
+    {
+      "packageName": "@magek/mcp-server",
+      "shouldPublish": true,
+      "versionPolicyName": "magek",
+      "projectFolder": "packages/mcp-server"
     }
   ]
 }
