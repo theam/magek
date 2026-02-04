@@ -6,6 +6,26 @@
 
 ---
 
+## 🤖 Start Coding with AI Assistants
+
+Get your AI coding assistant ready to build Magek apps in seconds:
+
+**Claude Code:**
+```bash
+claude mcp add magek -- npx -y @magek/mcp-server
+```
+
+**Codex CLI** — add to `.codex/config.json`:
+```json
+{ "mcpServers": { "magek": { "command": "npx", "args": ["-y", "@magek/mcp-server"] } } }
+```
+
+Then just ask your assistant to *"create a new Magek project"* or *"implement a user registration feature"* — it knows the CLI commands, CQRS patterns, and best practices.
+
+[Learn more about AI coding assistants →](https://magek.ai/docs/getting-started/ai-coding-assistants)
+
+---
+
 ## 🧠 What is Magek?
 
 **Magek** is an open-source framework for building modern backends designed for **AI-native applications**. It helps you structure your code using **event sourcing**, run **ambient agents** that operate continuously, and plug into **LLMs, vector databases**, and **retrieval systems** — all from a single, unified developer experience.
