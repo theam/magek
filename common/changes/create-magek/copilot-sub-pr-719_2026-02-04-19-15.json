@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "create-magek",
+      "comment": "Bump @types/node from 22.19.7 to 22.19.8",
+      "type": "none"
+    }
+  ],
+  "packageName": "create-magek",
+  "email": "198982749+Copilot@users.noreply.github.com"
+}
