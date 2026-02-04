@@ -2,7 +2,7 @@
   "changes": [
     {
       "comment": "Add built-in async event processing with polling",
-      "type": "none",
+      "type": "minor",
       "packageName": "@magek/common"
     }
   ],

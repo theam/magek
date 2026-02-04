@@ -9,7 +9,7 @@ import { HealthController } from './infrastructure/controllers/health-controller
 import { WebSocketRegistry } from './infrastructure/websocket-registry'
 import { requestFailed } from './infrastructure/http'
 import { configureScheduler } from './infrastructure/scheduler'
-import { startEventPolling } from './infrastructure/event-poller'
+import { startEventPolling, stopEventPolling } from './infrastructure/event-poller'
 
 // Global WebSocket registry instance
 let globalWebSocketRegistry: WebSocketRegistry | undefined
@@ -220,6 +220,11 @@ export async function createServer(userApp: UserApp, options: ServerOptions = {}
   if (config) {
     configureScheduler(config, userApp)
     startEventPolling(userApp, config)
+
+    // Clean up event polling when server shuts down
+    fastify.addHook('onClose', async () => {
+      stopEventPolling()
+    })
   }
 
   await fastify.ready()

@@ -1,4 +1,5 @@
 import * as fs from 'fs'
+import * as path from 'path'
 import { MagekConfig, EventEnvelope, getLogger, getTimestampGenerator, UUID } from '@magek/common'
 import { EventRegistry } from '../event-registry'
 import { eventProcessingCursorFile } from '../paths'
@@ -24,6 +25,11 @@ function readCursor(): string | null {
 
 function writeCursor(cursor: string): void {
   const cursorData: CursorData = { cursor }
+  // Ensure the directory exists before writing
+  const dir = path.dirname(eventProcessingCursorFile)
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true })
+  }
   fs.writeFileSync(eventProcessingCursorFile, JSON.stringify(cursorData, null, 2), 'utf-8')
 }
 
@@ -46,6 +52,7 @@ export async function fetchUnprocessedEvents(
   const query = {
     kind: 'event',
     deletedAt: { $exists: false },
+    processedAt: { $exists: false },
     createdAt: { $gt: cursor },
   }
 

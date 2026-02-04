@@ -17,8 +17,14 @@ export function startEventPolling(userApp: UserApp, config: MagekConfig): void {
   logger.info(`Starting event polling every ${intervalMs}ms (batch size: ${config.eventProcessingBatchSize})`)
 
   pollingTimer = setInterval(() => {
-    // Store the promise so tests can await it
-    currentPollPromise = pollAndProcessEvents(userApp, config, logger)
+    // Skip if previous poll is still running to prevent overlapping executions
+    if (currentPollPromise) {
+      return
+    }
+    // Store the promise so tests can await it and we can prevent overlap
+    currentPollPromise = pollAndProcessEvents(userApp, config, logger).finally(() => {
+      currentPollPromise = null
+    })
   }, intervalMs)
 }
 

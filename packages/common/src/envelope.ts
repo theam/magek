@@ -63,7 +63,10 @@ export interface EventEnvelope extends NonPersistedEventEnvelope {
   createdAt: string
   /** ISO timestamp when the event was soft-deleted, if applicable. */
   deletedAt?: string
-  /** ISO timestamp when the event was processed by async event processing. Safety marker to prevent re-processing. */
+  /**
+   * ISO timestamp when the event was processed by async event processing.
+   * Used for filtering unprocessed events and as an audit marker.
+   */
   processedAt?: string
 }
 
