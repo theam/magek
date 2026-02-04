@@ -7,7 +7,6 @@ import {
   CommandHandlerGlobalError,
   TraceActionTypes,
   CommandInput,
-  createInstance,
   getLogger,
 } from '@magek/common'
 import { RegisterHandler } from './register-handler'
@@ -39,8 +38,7 @@ export class MagekCommandDispatcher {
 
     await commandMetadata.authorizer(commandEnvelope.currentUser, commandEnvelope)
 
-    const commandClass = commandMetadata.class
-    logger.debug('Found the following command:', commandClass.name)
+    logger.debug('Found command:', commandMetadata.name)
 
     const migratedCommandEnvelope = await new SchemaMigrator(this.config).migrate<CommandEnvelope>(commandEnvelope)
     let result: unknown
@@ -58,10 +56,8 @@ export class MagekCommandDispatcher {
         migratedCommandEnvelope.currentUser
       )
 
-      const commandInstance = createInstance(commandClass, commandInput)
-
-      logger.debug('Calling "handle" method on command: ', commandClass)
-      result = await commandClass.handle(commandInstance, register)
+      logger.debug('Calling handler for command:', commandMetadata.name)
+      result = await commandMetadata.handler(commandInput, register)
     } catch (err) {
       const e = err as Error
       const error = await this.globalErrorDispatcher.dispatch(
