@@ -1,7 +1,7 @@
  
  
 import { Magek } from '../src/magek'
-import { fake, replace, restore, spy } from 'sinon'
+import { fake, replace, restore } from 'sinon'
 import { expect } from './expect'
 import { MagekCommandDispatcher } from '../src/command-dispatcher'
 import { CommandBeforeFunction, Register, NotAuthorizedError } from '@magek/common'
@@ -83,9 +83,12 @@ describe('the `MagekCommandsDispatcher`', () => {
       const config = {
         commandHandlers: {
           ProperlyHandledCommand: {
+            name: 'ProperlyHandledCommand',
             authorizer: MagekAuthorizer.allowAccess,
             before: [],
-            class: ProperlyHandledCommand,
+            handler: fakeHandler,
+            properties: [],
+            methods: [],
           },
         },
         currentVersionFor: fake.returns(1),
@@ -110,21 +113,22 @@ describe('the `MagekCommandsDispatcher`', () => {
     })
 
     it('allows the handler set the responseHeaders', async () => {
-      class ProperlyHandledCommand {
-        public static handle(command: ProperlyHandledCommand, register: Register) {
-          register.responseHeaders['Test-Header'] = 'test'
-        }
+      const handleFn = (_command: any, register: Register) => {
+        register.responseHeaders['Test-Header'] = 'test'
       }
 
-      spy(ProperlyHandledCommand, 'handle')
+      const fakeHandleHandler = fake(handleFn)
       replace(RegisterHandler, 'handle', fake())
 
       const config = {
         commandHandlers: {
           ProperlyHandledCommand: {
+            name: 'ProperlyHandledCommand',
             authorizer: MagekAuthorizer.allowAccess,
             before: [],
-            class: ProperlyHandledCommand,
+            handler: fakeHandleHandler,
+            properties: [],
+            methods: [],
           },
         },
         currentVersionFor: fake.returns(1),
@@ -149,7 +153,7 @@ describe('the `MagekCommandsDispatcher`', () => {
 
       await new MagekCommandDispatcher(config as any).dispatchCommand(commandEnvelope as any, context as any)
 
-      expect(ProperlyHandledCommand.handle).to.have.been.calledWithMatch(commandValue, { responseHeaders: {} })
+      expect(fakeHandleHandler).to.have.been.calledWithMatch(commandValue, { responseHeaders: {} })
       expect(context.responseHeaders).to.deep.equal({ 'Test-Header': 'test' })
     })
 
@@ -173,19 +177,17 @@ describe('the `MagekCommandsDispatcher`', () => {
         register.events(event)
       })
 
-      class ProperlyHandledCommand {
-        public static handle(_command: any, _register: Register) {}
-      }
-
-      replace(ProperlyHandledCommand, 'handle', fakeHandler)
       replace(RegisterHandler, 'handle', fake())
 
       const config = {
         commandHandlers: {
           ProperlyHandledCommand: {
+            name: 'ProperlyHandledCommand',
             authorizer: MagekAuthorizer.allowAccess,
             before: [],
-            class: ProperlyHandledCommand,
+            handler: fakeHandler,
+            properties: [],
+            methods: [],
           },
         },
         currentVersionFor: fake.returns(1),

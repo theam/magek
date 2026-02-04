@@ -3,11 +3,13 @@ import {
   MagekConfig,
   Class,
   CommandEnvelope,
+  CommandMetadata,
   EventSearchParameters,
   EventSearchRequest,
   EventSearchResponse,
   ProjectionFor,
   QueryEnvelope,
+  QueryMetadata,
   ReadModelByIdRequestArgs,
   ReadModelInterface,
   ReadModelRequestArgs,
@@ -16,6 +18,7 @@ import {
   UUID,
   getLogger,
 } from '@magek/common'
+import { TargetTypesMap } from './common'
 import {
   FieldNode,
   FragmentDefinitionNode,
@@ -66,7 +69,7 @@ export class GraphQLGenerator {
       const queryGenerator = new GraphQLQueryGenerator(
         config,
         Object.values(config.readModels).map((m) => m.class),
-        config.queryHandlers,
+        queryMetadataToTargetTypes(config.queryHandlers),
         typeInformer,
         this.readModelByIDResolverBuilder.bind(this, config),
         this.queriesResolverBuilder.bind(this),
@@ -76,7 +79,7 @@ export class GraphQLGenerator {
       )
 
       const mutationGenerator = new GraphQLMutationGenerator(
-        config.commandHandlers,
+        commandMetadataToTargetTypes(config.commandHandlers),
         typeInformer,
         this.commandResolverBuilder.bind(this),
         config
@@ -102,8 +105,12 @@ export class GraphQLGenerator {
   }
 
   public static readModelResolverBuilder(
-    readModelClass: AnyClass
+    readModelNameOrClass: string | AnyClass
   ): GraphQLFieldResolver<unknown, GraphQLResolverContext, ReadModelRequestArgs<ReadModelInterface>> {
+    // ReadModels still use classes, so we need to handle the string case
+    const readModelClass = typeof readModelNameOrClass === 'string'
+      ? { name: readModelNameOrClass } as unknown as AnyClass
+      : readModelNameOrClass
     return (parent, args, context, info) => {
       let isPaginated = false
       const fields: ProjectionFor<unknown> = this.getFields(info) as ProjectionFor<unknown>
@@ -126,8 +133,12 @@ export class GraphQLGenerator {
 
   public static readModelByIDResolverBuilder(
     config: MagekConfig,
-    readModelClass: AnyClass
+    readModelNameOrClass: string | AnyClass
   ): GraphQLFieldResolver<unknown, GraphQLResolverContext, ReadModelByIdRequestArgs> {
+    // ReadModels still use classes, so we need to handle the string case
+    const readModelClass = typeof readModelNameOrClass === 'string'
+      ? { name: readModelNameOrClass } as unknown as AnyClass
+      : readModelNameOrClass
     const sequenceKeyName = config.readModelSequenceKeys[readModelClass.name]
     return async (parent, args, context) => {
       const readModelRequestEnvelope = this.toReadModelByIdRequestEnvelope(
@@ -150,10 +161,11 @@ export class GraphQLGenerator {
   }
 
   public static commandResolverBuilder(
-    commandClass: AnyClass
+    commandNameOrClass: string | AnyClass
   ): GraphQLFieldResolver<unknown, GraphQLResolverContext, { input: unknown }> {
+    const commandName = typeof commandNameOrClass === 'string' ? commandNameOrClass : commandNameOrClass.name
     return async (parent, args, context) => {
-      const commandEnvelope = toEnvelope(commandClass.name, args.input, context) as CommandEnvelope
+      const commandEnvelope = toEnvelope(commandName, args.input, context) as CommandEnvelope
       const result = await this.commandsDispatcher.dispatchCommand(commandEnvelope, context)
       // It could be that the command didn't return anything
       // so in that case we return `true`, as GraphQL doesn't have a `null` type
@@ -162,18 +174,22 @@ export class GraphQLGenerator {
   }
 
   public static queriesResolverBuilder(
-    queryClass: AnyClass
+    queryNameOrClass: string | AnyClass
   ): GraphQLFieldResolver<unknown, GraphQLResolverContext, { input: unknown }> {
+    const queryName = typeof queryNameOrClass === 'string' ? queryNameOrClass : queryNameOrClass.name
     return async (parent, args, context) => {
-      const queryEnvelope = toEnvelope(queryClass.name, args.input, context) as QueryEnvelope
+      const queryEnvelope = toEnvelope(queryName, args.input, context) as QueryEnvelope
       return await this.queriesDispatcher.dispatchQuery(queryEnvelope, context)
     }
   }
 
   public static subscriptionByIDResolverBuilder(
     config: MagekConfig,
-    readModelClass: AnyClass
+    readModelNameOrClass: string | AnyClass
   ): GraphQLFieldResolver<unknown, GraphQLResolverContext, ReadModelRequestProperties<ReadModelInterface>> {
+    const readModelClass = typeof readModelNameOrClass === 'string'
+      ? { name: readModelNameOrClass } as unknown as AnyClass
+      : readModelNameOrClass
     return async (parent, args, context, info) => {
       const filterArgs = { filter: { id: { eq: args.id } } }
       return this.subscriptionResolverBuilder(config, readModelClass)(parent, filterArgs, context, info)
@@ -182,8 +198,11 @@ export class GraphQLGenerator {
 
   public static subscriptionResolverBuilder(
     config: MagekConfig,
-    readModelClass: AnyClass
+    readModelNameOrClass: string | AnyClass
   ): GraphQLFieldResolver<unknown, GraphQLResolverContext, ReadModelRequestArgs<ReadModelInterface>> {
+    const readModelClass = typeof readModelNameOrClass === 'string'
+      ? { name: readModelNameOrClass } as unknown as AnyClass
+      : readModelNameOrClass
     return async (parent, args, context) => {
       if (!context.connectionID) {
         throw new Error('Missing "connectionID". It is required for subscriptions')
@@ -397,4 +416,40 @@ function toEnvelope(typeName: string, value: any, context: GraphQLResolverContex
       rawContext: context,
     },
   }
+}
+
+/**
+ * Transforms CommandMetadata records to TargetTypesMap format for GraphQL generation.
+ */
+function commandMetadataToTargetTypes(
+  commandHandlers: Record<string, CommandMetadata>
+): TargetTypesMap {
+  const result: TargetTypesMap = {}
+  for (const [name, metadata] of Object.entries(commandHandlers)) {
+    result[name] = {
+      name: metadata.name,
+      properties: metadata.properties,
+      methods: metadata.methods,
+    }
+  }
+  return result
+}
+
+/**
+ * Transforms QueryMetadata records to TargetTypesMap format for GraphQL generation.
+ * QueryMetadata still uses class-based format (not yet migrated to DSL).
+ */
+function queryMetadataToTargetTypes(
+  queryHandlers: Record<string, QueryMetadata>
+): TargetTypesMap {
+  const result: TargetTypesMap = {}
+  for (const [name, metadata] of Object.entries(queryHandlers)) {
+    result[name] = {
+      name: metadata.class.name,
+      properties: metadata.properties,
+      methods: metadata.methods,
+      class: metadata.class, // Keep class for backwards compatibility
+    }
+  }
+  return result
 }

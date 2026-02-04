@@ -23,14 +23,22 @@ import { ReadModelPubSub } from '../pub-sub/read-model-pub-sub'
 
 export type TargetTypesMap = Record<string, TargetTypeMetadata>
 export interface TargetTypeMetadata {
-  class: AnyClass
+  /** The name of the target type */
+  name: string
+  /** Property metadata for input type generation */
   properties: Array<PropertyMetadata>
+  /** Method metadata for return type generation */
   methods: Array<PropertyMetadata>
+  /**
+   * @deprecated Use `name` instead. Kept for backwards compatibility with query handlers.
+   * Will be removed in a future version.
+   */
+  class?: AnyClass
 }
 
 export type GraphQLNonInputType = GraphQLObjectType | GraphQLScalarType | GraphQLList<GraphQLType>
 
-export type ResolverBuilder = (objectClass: AnyClass) => GraphQLFieldResolver<unknown, GraphQLResolverContext, any>
+export type ResolverBuilder = (nameOrClass: string | AnyClass) => GraphQLFieldResolver<unknown, GraphQLResolverContext, any>
 
 export interface GraphQLResolverContext {
   connectionID?: string

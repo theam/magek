@@ -32,6 +32,45 @@ export class GraphQLTypeInformer {
     return this.getOrCreateObjectType(metadata, inputType, excludeProps)
   }
 
+  /**
+   * Generate GraphQL type from metadata without requiring a class reference.
+   * Used for DSL-defined commands and other artifacts that don't have classes.
+   */
+  public generateGraphQLTypeForMetadata(
+    name: string,
+    properties: Array<PropertyMetadata>,
+    excludeProps: Array<string> | undefined,
+    inputType: true
+  ): GraphQLInputType
+  public generateGraphQLTypeForMetadata(
+    name: string,
+    properties: Array<PropertyMetadata>,
+    excludeProps: Array<string> | undefined,
+    inputType?: false
+  ): GraphQLOutputType
+  public generateGraphQLTypeForMetadata(
+    name: string,
+    properties: Array<PropertyMetadata>,
+    excludeProps: Array<string> | undefined,
+    inputType: boolean
+  ): GraphQLType
+  public generateGraphQLTypeForMetadata(
+    name: string,
+    properties: Array<PropertyMetadata>,
+    excludeProps: Array<string> | undefined,
+    inputType = false
+  ): GraphQLType {
+    this.logger.debug(`Generate GraphQL ${inputType ? 'input' : 'output'} type for ${name}`)
+    // Create a synthetic ClassMetadata object
+    const metadata: ClassMetadata = {
+      name,
+      type: { name } as unknown as ClassType, // Minimal type info for compatibility
+      fields: properties,
+      methods: [],
+    }
+    return this.getOrCreateObjectType(metadata, inputType, excludeProps ?? [])
+  }
+
   public getOrCreateGraphQLType(typeMetadata: TypeMetadata, inputType: true): GraphQLInputType
   public getOrCreateGraphQLType(typeMetadata: TypeMetadata, inputType?: false): GraphQLOutputType
   public getOrCreateGraphQLType(typeMetadata: TypeMetadata, inputType: boolean): GraphQLType

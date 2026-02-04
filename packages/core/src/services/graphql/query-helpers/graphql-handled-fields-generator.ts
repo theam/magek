@@ -21,7 +21,8 @@ export class GraphQLHandledFieldsGenerator {
       const type = this.typeInformer.getOrCreateGraphQLType(returnMetadata, false)
       fields[name] = {
         type: type,
-        resolve: this.resolver(metadata.class),
+        // Use name for new-style metadata, fall back to class for legacy
+        resolve: this.resolver(metadata.name),
       }
       const input = this.generateInputForType(metadata)
       if (input) {
@@ -36,9 +37,10 @@ export class GraphQLHandledFieldsGenerator {
     return {
       input: {
         type: new GraphQLNonNull(
-          this.typeInformer.generateGraphQLTypeForClass(
-            metadata.class,
-            this.config.nonExposedGraphQLMetadataKey[metadata.class.name],
+          this.typeInformer.generateGraphQLTypeForMetadata(
+            metadata.name,
+            metadata.properties,
+            this.config.nonExposedGraphQLMetadataKey[metadata.name],
             true
           )
         ),

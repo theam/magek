@@ -31,7 +31,8 @@ describe('the `Command` decorator', () => {
       const commandMetadata = magek.config.commandHandlers[PostComment.name]
 
       expect(commandMetadata).to.be.an('object')
-      expect(commandMetadata.class).to.equal(PostComment)
+      expect(commandMetadata.name).to.equal('PostComment')
+      expect(commandMetadata.handler).to.be.a('function')
       expect(commandMetadata.properties[0].name).to.equal('comment')
       expect(commandMetadata.properties[0].typeInfo.name).to.equal('string')
       // Note: static methods like 'handle' are not included in methods metadata
@@ -60,7 +61,8 @@ describe('the `Command` decorator', () => {
       const commandMetadata = magek.config.commandHandlers[PostComment.name]
 
       expect(commandMetadata).to.be.an('object')
-      expect(commandMetadata.class).to.equal(PostComment)
+      expect(commandMetadata.name).to.equal('PostComment')
+      expect(commandMetadata.handler).to.be.a('function')
       expect(commandMetadata.properties[0].name).to.equal('comment')
       expect(commandMetadata.properties[0].typeInfo.name).to.equal('string')
       expect(commandMetadata.methods).to.be.an('Array')
@@ -88,7 +90,8 @@ describe('the `Command` decorator', () => {
       const commandMetadata = magek.config.commandHandlers[PostComment.name]
 
       expect(commandMetadata).to.be.an('object')
-      expect(commandMetadata.class).to.equal(PostComment)
+      expect(commandMetadata.name).to.equal('PostComment')
+      expect(commandMetadata.handler).to.be.a('function')
       expect(commandMetadata.properties[0].name).to.equal('comment')
       expect(commandMetadata.properties[0].typeInfo.name).to.equal('string')
       expect(commandMetadata.methods).to.be.an('Array')
@@ -112,7 +115,8 @@ describe('the `Command` decorator', () => {
       const commandMetadata = magek.config.commandHandlers[CreateNote.name]
 
       expect(commandMetadata).to.be.an('object')
-      expect(commandMetadata.class).to.equal(CreateNote)
+      expect(commandMetadata.name).to.equal('CreateNote')
+      expect(commandMetadata.handler).to.be.a('function')
       expect(commandMetadata.properties).to.be.an('Array')
       expect(commandMetadata.properties).to.be.empty
       expect(commandMetadata.methods).to.be.an('Array')

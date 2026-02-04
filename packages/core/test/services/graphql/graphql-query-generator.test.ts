@@ -18,7 +18,8 @@ import {
 } from 'graphql'
 import { faker } from '@faker-js/faker'
 import { GraphQLJSON } from 'graphql-scalars'
-import { MagekConfig, QueryMetadata } from '@magek/common'
+import { MagekConfig } from '@magek/common'
+import { TargetTypesMap } from '../../../src/services/graphql/common'
 import { ClassMetadata } from '@magek/common'
 import * as metadata from '../../../src/decorators/metadata'
 
@@ -38,7 +39,7 @@ describe('GraphQLQueryGenerator', () => {
       let mockQueryResolverBuilder: SinonStub
       let mockFilterResolverBuilder: SinonStub
       let mockEventsResolver: SinonStub
-      const queryHandlers: Record<string, QueryMetadata> = {}
+      const queryHandlers: TargetTypesMap = {}
 
       let getGraphQLTypeForStub: SinonStub
 
