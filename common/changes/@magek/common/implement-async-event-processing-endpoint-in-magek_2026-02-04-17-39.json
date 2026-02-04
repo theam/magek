@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Add built-in async event processing with polling",
+      "type": "none",
+      "packageName": "@magek/common"
+    }
+  ],
+  "packageName": "@magek/common",
+  "email": "github-actions[bot]@users.noreply.github.com"
+}

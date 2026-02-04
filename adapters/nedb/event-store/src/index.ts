@@ -27,6 +27,7 @@ import {
   findDeletableEvent,
   findDeletableSnapshot,
 } from './library/event-delete-adapter'
+import { fetchUnprocessedEvents, markEventProcessed } from './library/event-processing-adapter'
 import { eventsDatabase } from './paths'
 import { existsSync } from 'fs'
 import * as path from 'path'
@@ -104,4 +105,6 @@ export const eventStore: EventStoreAdapter = {
     },
     urls: async () => [eventsDatabase],
   },
+  fetchUnprocessedEvents: (config: MagekConfig) => fetchUnprocessedEvents(eventRegistry, config),
+  markEventProcessed: (config: MagekConfig, eventId: UUID) => markEventProcessed(eventRegistry, config, eventId),
 }

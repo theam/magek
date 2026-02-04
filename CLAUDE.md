@@ -98,6 +98,8 @@ Magek implements event sourcing and CQRS patterns:
 - Tests located in `test/` directories within each package
 - Run `rush test` to execute all tests
 - Individual package tests: `cd packages/<name> && rushx test`
+- **Always write tests for new code** - every feature or bug fix should include corresponding tests
+- **Update documentation** - when completing any work, update relevant docs (README.md, CLAUDE.md, etc.) if behavior changes
 
 ### Development Requirements
 - Node.js 22.x (specified in rush.json)

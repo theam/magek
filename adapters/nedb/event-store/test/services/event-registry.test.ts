@@ -183,4 +183,43 @@ describe('the event registry', () => {
       await expect(eventRegistry.store(event)).to.be.rejectedWith(error)
     })
   })
+
+  describe('markProcessed', () => {
+    it('should set processedAt on an event', async () => {
+      const mockEvent: EventEnvelope = createMockEventEnvelope()
+      await eventRegistry.store(mockEvent)
+
+      // Get the stored event with its _id
+      const storedEvents = (await eventRegistry.query({ createdAt: mockEvent.createdAt })) as any[]
+      const eventId = storedEvents[0]._id
+
+      const processedAt = new Date().toISOString()
+      await eventRegistry.markProcessed(eventId, processedAt)
+
+      // Verify the event has processedAt set
+      const updatedEvents = (await eventRegistry.query({ _id: eventId })) as any[]
+      expect(updatedEvents[0].processedAt).to.equal(processedAt)
+    })
+
+    it('should not modify other event fields', async () => {
+      const mockEvent: EventEnvelope = createMockEventEnvelope()
+      await eventRegistry.store(mockEvent)
+
+      const storedEvents = (await eventRegistry.query({ createdAt: mockEvent.createdAt })) as any[]
+      const eventId = storedEvents[0]._id
+      const originalEvent = { ...storedEvents[0] }
+
+      const processedAt = new Date().toISOString()
+      await eventRegistry.markProcessed(eventId, processedAt)
+
+      const updatedEvents = (await eventRegistry.query({ _id: eventId })) as any[]
+      const updatedEvent = updatedEvents[0]
+
+      // All original fields should be unchanged
+      expect(updatedEvent.entityID).to.equal(originalEvent.entityID)
+      expect(updatedEvent.entityTypeName).to.equal(originalEvent.entityTypeName)
+      expect(updatedEvent.createdAt).to.equal(originalEvent.createdAt)
+      expect(updatedEvent.typeName).to.equal(originalEvent.typeName)
+    })
+  })
 })

@@ -24,10 +24,34 @@ export interface EventStoreAdapter {
    */
   rawToEnvelopes(rawEvents: unknown): Array<EventEnvelope>
 
+  /**
+   * Converts raw stream data into an array of EventEnvelope objects.
+   *
+   * @param config - The Magek configuration object
+   * @param context - The context from the raw stream
+   * @param dedupEventStream - The deduplicated event stream
+   * @returns An array of EventEnvelope objects
+   */
   rawStreamToEnvelopes(config: MagekConfig, context: unknown, dedupEventStream: EventStream): Array<EventEnvelope>
 
+  /**
+   * Deduplicates raw events and returns them as an EventStream.
+   *
+   * @param config - The Magek configuration object
+   * @param rawEvents - The raw events data to deduplicate
+   * @returns A promise that resolves to a deduplicated EventStream
+   */
   dedupEventStream(config: MagekConfig, rawEvents: unknown): Promise<EventStream>
 
+  /**
+   * Produces events to an external event stream (e.g., Kafka).
+   *
+   * @param entityName - The name of the entity type
+   * @param entityID - The unique identifier of the entity
+   * @param eventEnvelopes - The array of EventEnvelope objects to produce
+   * @param config - The Magek configuration object
+   * @returns A promise that resolves when events are produced
+   */
   produce(
     entityName: string,
     entityID: UUID,
@@ -122,10 +146,11 @@ export interface EventStoreAdapter {
   storeDispatched(eventEnvelope: EventEnvelope, config: MagekConfig): Promise<boolean>
 
   /**
-   * Find all events to be removed based on the parameters
+   * Finds all events matching the deletion criteria.
    *
-   * @param config
-   * @param parameters
+   * @param config - The Magek configuration object
+   * @param parameters - The parameters specifying which events to find for deletion
+   * @returns A promise that resolves to an array of EventEnvelopeFromDatabase objects
    */
   findDeletableEvent(
     config: MagekConfig,
@@ -133,10 +158,11 @@ export interface EventStoreAdapter {
   ): Promise<Array<EventEnvelopeFromDatabase>>
 
   /**
-   * Find all snapshots to be removed based on the parameters
+   * Finds all snapshots matching the deletion criteria.
    *
-   * @param config
-   * @param parameters
+   * @param config - The Magek configuration object
+   * @param parameters - The parameters specifying which snapshots to find for deletion
+   * @returns A promise that resolves to an array of EntitySnapshotEnvelopeFromDatabase objects
    */
   findDeletableSnapshot(
     config: MagekConfig,
@@ -144,38 +170,69 @@ export interface EventStoreAdapter {
   ): Promise<Array<EntitySnapshotEnvelopeFromDatabase>>
 
   /**
-   * Delete events
+   * Soft-deletes events by marking them with a deletedAt timestamp.
    *
-   * @param config
-   * @param events
+   * @param config - The Magek configuration object
+   * @param events - The array of events to delete
+   * @returns A promise that resolves when the events are deleted
    */
   deleteEvent(config: MagekConfig, events: Array<EventEnvelopeFromDatabase>): Promise<void>
 
   /**
-   * Delete snapshots
+   * Soft-deletes snapshots by marking them with a deletedAt timestamp.
    *
-   * @param config
-   * @param snapshots
+   * @param config - The Magek configuration object
+   * @param snapshots - The array of snapshots to delete
+   * @returns A promise that resolves when the snapshots are deleted
    */
   deleteSnapshot(config: MagekConfig, snapshots: Array<EntitySnapshotEnvelopeFromDatabase>): Promise<void>
 
   /**
-   * Health check methods for the event store
+   * Health check methods for the event store.
    */
   healthCheck?: {
     /**
-     * Check if the event store is up and running
+     * Checks if the event store is up and running.
+     *
+     * @param config - The Magek configuration object
+     * @returns A promise that resolves to true if the event store is healthy
      */
     isUp(config: MagekConfig): Promise<boolean>
-    
+
     /**
-     * Get detailed health information about the event store
+     * Gets detailed health information about the event store.
+     *
+     * @param config - The Magek configuration object
+     * @returns A promise that resolves to health details
      */
     details(config: MagekConfig): Promise<unknown>
-    
+
     /**
-     * Get the URLs/endpoints of the event store
+     * Gets the URLs/endpoints of the event store.
+     *
+     * @param config - The Magek configuration object
+     * @returns A promise that resolves to an array of URL strings
      */
     urls(config: MagekConfig): Promise<Array<string>>
   }
+
+  /**
+   * Fetches the next batch of unprocessed events.
+   * The adapter manages the cursor internally to track processing position.
+   * Batch size is read from config.eventProcessingBatchSize.
+   *
+   * @param config - The Magek configuration object
+   * @returns A promise that resolves to an array of EventEnvelope objects
+   */
+  fetchUnprocessedEvents?(config: MagekConfig): Promise<Array<EventEnvelope>>
+
+  /**
+   * Marks a single event as processed and advances the internal cursor.
+   * Should be called after each event has been successfully dispatched.
+   *
+   * @param config - The Magek configuration object
+   * @param eventId - The ID of the event that was processed
+   * @returns A promise that resolves when the event is marked and cursor is updated
+   */
+  markEventProcessed?(config: MagekConfig, eventId: UUID): Promise<void>
 }

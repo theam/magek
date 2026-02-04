@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Add built-in async event processing with polling",
+      "type": "none",
+      "packageName": "@magek/adapter-event-store-nedb"
+    }
+  ],
+  "packageName": "@magek/adapter-event-store-nedb",
+  "email": "github-actions[bot]@users.noreply.github.com"
+}
