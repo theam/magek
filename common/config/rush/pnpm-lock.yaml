@@ -13,7 +13,7 @@ importers:
   ../../adapters/memory/event-store:
     dependencies:
       '@magek/common':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../../../packages/common
       tslib:
         specifier: 2.8.1
@@ -23,7 +23,7 @@ importers:
         specifier: 10.2.0
         version: 10.2.0
       '@magek/eslint-config':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../../../tools/eslint-config
       '@types/chai':
         specifier: 5.2.3
@@ -74,7 +74,7 @@ importers:
   ../../adapters/memory/read-model-store:
     dependencies:
       '@magek/common':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../../../packages/common
       tslib:
         specifier: 2.8.1
@@ -84,7 +84,7 @@ importers:
         specifier: 10.2.0
         version: 10.2.0
       '@magek/eslint-config':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../../../tools/eslint-config
       '@types/chai':
         specifier: 5.2.3
@@ -135,7 +135,7 @@ importers:
   ../../adapters/memory/session-store:
     dependencies:
       '@magek/common':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../../../packages/common
       tslib:
         specifier: 2.8.1
@@ -145,7 +145,7 @@ importers:
         specifier: 10.2.0
         version: 10.2.0
       '@magek/eslint-config':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../../../tools/eslint-config
       '@types/chai':
         specifier: 5.2.3
@@ -196,7 +196,7 @@ importers:
   ../../adapters/nedb/event-store:
     dependencies:
       '@magek/common':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../../../packages/common
       '@seald-io/nedb':
         specifier: 4.1.2
@@ -209,7 +209,7 @@ importers:
         specifier: 10.2.0
         version: 10.2.0
       '@magek/eslint-config':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../../../tools/eslint-config
       '@types/chai':
         specifier: 5.2.3
@@ -260,7 +260,7 @@ importers:
   ../../adapters/nedb/read-model-store:
     dependencies:
       '@magek/common':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../../../packages/common
       '@seald-io/nedb':
         specifier: 4.1.2
@@ -273,7 +273,7 @@ importers:
         specifier: 10.2.0
         version: 10.2.0
       '@magek/eslint-config':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../../../tools/eslint-config
       '@types/chai':
         specifier: 5.2.3
@@ -324,7 +324,7 @@ importers:
   ../../adapters/nedb/session-store:
     dependencies:
       '@magek/common':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../../../packages/common
       '@seald-io/nedb':
         specifier: 4.1.2
@@ -337,7 +337,7 @@ importers:
         specifier: 10.2.0
         version: 10.2.0
       '@magek/eslint-config':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../../../tools/eslint-config
       '@types/chai':
         specifier: 5.2.3
@@ -410,7 +410,7 @@ importers:
   ../../packages/cli:
     dependencies:
       '@magek/common':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../common
       '@oclif/core':
         specifier: 4.8.0
@@ -453,7 +453,7 @@ importers:
         version: 2.8.1
     devDependencies:
       '@magek/eslint-config':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../../tools/eslint-config
       '@oclif/test':
         specifier: 4.1.16
@@ -532,7 +532,7 @@ importers:
         specifier: 10.2.0
         version: 10.2.0
       '@magek/eslint-config':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../../tools/eslint-config
       '@types/chai':
         specifier: 5.2.3
@@ -592,7 +592,7 @@ importers:
   ../../packages/core:
     dependencies:
       '@magek/common':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../common
       fp-ts:
         specifier: 2.16.11
@@ -620,7 +620,7 @@ importers:
         specifier: 10.2.0
         version: 10.2.0
       '@magek/eslint-config':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../../tools/eslint-config
       '@types/chai':
         specifier: 5.2.3
@@ -699,7 +699,7 @@ importers:
         version: 2.4.2
     devDependencies:
       '@magek/eslint-config':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../../tools/eslint-config
       '@types/chai':
         specifier: 5.2.3
@@ -744,7 +744,7 @@ importers:
   ../../packages/e2e-tests:
     devDependencies:
       '@magek/eslint-config':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../../tools/eslint-config
       '@types/chai':
         specifier: 5.2.3
@@ -778,7 +778,7 @@ importers:
         version: 1.25.3
     devDependencies:
       '@magek/eslint-config':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../../tools/eslint-config
       '@types/node':
         specifier: 22.19.9
@@ -799,7 +799,7 @@ importers:
         specifier: 11.2.0
         version: 11.2.0
       '@magek/common':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../common
       '@seald-io/nedb':
         specifier: 4.1.2
@@ -821,7 +821,7 @@ importers:
         specifier: 10.2.0
         version: 10.2.0
       '@magek/eslint-config':
-        specifier: workspace:^0.0.10
+        specifier: workspace:^0.0.11
         version: link:../../tools/eslint-config
       '@types/chai':
         specifier: 5.2.3
