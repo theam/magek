@@ -12,6 +12,7 @@ children:
   - ./architecture/read-model.md
   - ./architecture/notifications.md
   - ./architecture/queries.md
+  - ./architecture/best-practices.md
   - ./features/event-stream.md
   - ./features/schedule-actions.md
   - ./features/logging.md
