@@ -1,6 +1,5 @@
 import {
   UUID,
-  UserApp,
   MagekConfig,
   NonPersistedEventEnvelope,
   NonPersistedEntitySnapshotEnvelope,
@@ -22,30 +21,17 @@ import {
   EventParametersFilterByType,
 } from '@magek/common'
 import { MemoryEventRegistry, QueryFilter } from './memory-event-registry'
-import * as path from 'path'
 
 // Pre-built Memory Event Store Adapter instance
 const eventRegistry = new MemoryEventRegistry()
 
 const originOfTime = new Date(0).toISOString()
 
+// In-memory cursor for async event processing
+let processingCursor: string = originOfTime
+
 function notImplemented(): any {
   throw new Error('Not implemented for Memory adapter')
-}
-
-// Function to get userApp from config or load it from standard location
-function getUserApp(config: MagekConfig): UserApp {
-  // Check if userApp is attached to config
-  if ((config as any).userApp) {
-    return (config as any).userApp
-  }
-
-  // Fallback to loading from standard location
-  try {
-    return require(path.join(process.cwd(), 'dist', 'index.js'))
-  } catch (error) {
-    throw new Error('Could not load userApp from config or standard location')
-  }
 }
 
 export function rawEventsToEnvelopes(rawEvents: Array<unknown>): Array<EventEnvelope> {
@@ -102,7 +88,6 @@ async function readEntityLatestSnapshot(
 }
 
 async function storeEvents(
-  userApp: UserApp,
   registry: MemoryEventRegistry,
   nonPersistedEventEnvelopes: Array<NonPersistedEventEnvelope>,
   config: MagekConfig
@@ -123,7 +108,6 @@ async function storeEvents(
   }
   logger.debug('EventEnvelopes stored: ', persistedEventEnvelopes)
 
-  await userApp.eventDispatcher(persistedEventEnvelopes)
   return persistedEventEnvelopes
 }
 
@@ -150,6 +134,49 @@ async function storeSnapshot(
 async function storeDispatchedEvent(registry: MemoryEventRegistry, eventEnvelope: EventEnvelope): Promise<boolean> {
   const eventId = eventEnvelope.id || `${eventEnvelope.entityTypeName}:${eventEnvelope.entityID}:${eventEnvelope.createdAt}`
   return registry.storeDispatched(eventId)
+}
+
+async function fetchUnprocessedEvents(
+  registry: MemoryEventRegistry,
+  config: MagekConfig
+): Promise<Array<EventEnvelope>> {
+  const logger = getLogger(config, 'memory-events-adapter#fetchUnprocessedEvents')
+  const batchSize = config.eventProcessingBatchSize
+
+  const query: QueryFilter = {
+    kind: 'event',
+    deletedAt: { $exists: false },
+    processedAt: { $exists: false },
+    createdAt: { $gt: processingCursor },
+  }
+
+  logger.debug(`Fetching events after cursor ${processingCursor} (batch size: ${batchSize})`)
+  const result = await registry.query(query, 'asc', batchSize)
+
+  logger.debug(`Fetched ${result.length} unprocessed events`)
+  return result as Array<EventEnvelope>
+}
+
+async function markEventProcessed(
+  registry: MemoryEventRegistry,
+  config: MagekConfig,
+  eventId: UUID
+): Promise<void> {
+  const logger = getLogger(config, 'memory-events-adapter#markEventProcessed')
+  const processedAt = new Date().toISOString()
+
+  const events = await registry.query({ _id: eventId.toString(), kind: 'event' })
+  if (events.length === 0) {
+    logger.warn(`Event ${eventId} not found, cannot mark as processed`)
+    return
+  }
+  const event = events[0] as EventEnvelope
+
+  logger.debug(`Marking event ${eventId} as processed at ${processedAt}`)
+  await registry.markProcessed(eventId.toString(), processedAt)
+
+  processingCursor = event.createdAt
+  logger.debug(`Cursor advanced to ${processingCursor}`)
 }
 
 function buildFiltersForByTime(fromValue?: string, toValue?: string): { createdAt?: any } {
@@ -371,10 +398,8 @@ export const eventStore: EventStoreAdapter = {
     readEntityEventsSince(eventRegistry, config, entityTypeName, entityID, since),
   latestEntitySnapshot: (config: MagekConfig, entityTypeName: string, entityID: UUID) =>
     readEntityLatestSnapshot(eventRegistry, config, entityTypeName, entityID),
-  store: (eventEnvelopes: Array<NonPersistedEventEnvelope>, config: MagekConfig) => {
-    const userApp = getUserApp(config)
-    return storeEvents(userApp, eventRegistry, eventEnvelopes, config)
-  },
+  store: (eventEnvelopes: Array<NonPersistedEventEnvelope>, config: MagekConfig) =>
+    storeEvents(eventRegistry, eventEnvelopes, config),
   storeSnapshot: (snapshotEnvelope: NonPersistedEntitySnapshotEnvelope, config: MagekConfig) =>
     storeSnapshot(eventRegistry, snapshotEnvelope, config),
   search: (config: MagekConfig, parameters: EventSearchParameters) =>
@@ -406,6 +431,8 @@ export const eventStore: EventStoreAdapter = {
     },
     urls: async () => ['memory://in-memory-event-store'],
   },
+  fetchUnprocessedEvents: (config: MagekConfig) => fetchUnprocessedEvents(eventRegistry, config),
+  markEventProcessed: (config: MagekConfig, eventId: UUID) => markEventProcessed(eventRegistry, config, eventId),
 }
 
 // Export components for testing

@@ -294,4 +294,74 @@ describe('MemoryEventRegistry', () => {
       expect(count).to.equal(1)
     })
   })
+
+  describe('processedAt filtering', () => {
+    it('should filter by processedAt $exists false', async () => {
+      const event1 = createMockEventEnvelope()
+      const event2 = createMockEventEnvelope({ processedAt: new Date().toISOString() })
+
+      await registry.store(event1)
+      await registry.store(event2)
+
+      const results = await registry.query({
+        kind: 'event',
+        processedAt: { $exists: false },
+      })
+
+      expect(results).to.have.length(1)
+    })
+
+    it('should filter by processedAt $exists true', async () => {
+      const event1 = createMockEventEnvelope()
+      const event2 = createMockEventEnvelope({ processedAt: new Date().toISOString() })
+
+      await registry.store(event1)
+      await registry.store(event2)
+
+      const results = await registry.query({
+        kind: 'event',
+        processedAt: { $exists: true },
+      })
+
+      expect(results).to.have.length(1)
+      expect((results[0] as EventEnvelope).processedAt).to.not.be.undefined
+    })
+  })
+
+  describe('_id filtering', () => {
+    it('should filter by _id', async () => {
+      const event1 = createMockEventEnvelope()
+      const event2 = createMockEventEnvelope()
+
+      const id1 = await registry.store(event1)
+      await registry.store(event2)
+
+      const results = await registry.query({
+        kind: 'event',
+        _id: id1,
+      })
+
+      expect(results).to.have.length(1)
+      expect((results[0] as EventEnvelope).id).to.equal(id1)
+    })
+  })
+
+  describe('markProcessed', () => {
+    it('should mark an event as processed', async () => {
+      const event = createMockEventEnvelope()
+      const id = await registry.store(event)
+
+      const processedAt = new Date().toISOString()
+      await registry.markProcessed(id, processedAt)
+
+      const results = await registry.query({ kind: 'event', _id: id })
+      expect(results).to.have.length(1)
+      expect((results[0] as EventEnvelope).processedAt).to.equal(processedAt)
+    })
+
+    it('should not fail when marking a non-existent event', async () => {
+      // Should not throw
+      await registry.markProcessed('non-existent-id', new Date().toISOString())
+    })
+  })
 })

@@ -53,6 +53,10 @@ interface EventStoreAdapter {
     details(config: MagekConfig): Promise<unknown>
     urls(config: MagekConfig): Promise<Array<string>>
   }
+
+  // Async event processing (optional)
+  fetchUnprocessedEvents?(config: MagekConfig): Promise<Array<EventEnvelope>>
+  markEventProcessed?(config: MagekConfig, eventId: UUID): Promise<void>
 }
 ```
 
@@ -177,6 +181,7 @@ Key implementation considerations:
 3. **Soft Deletes**: Events should be soft-deleted by setting `deletedAt` and clearing `value`
 4. **Snapshots**: Hard delete snapshots when requested
 5. **Dispatch Tracking**: Track which events have been dispatched to prevent duplicate processing
+6. **Async Processing** (optional): Implement `fetchUnprocessedEvents` and `markEventProcessed` for polling-based event dispatch
 
 Example implementation pattern:
 
@@ -278,6 +283,48 @@ healthCheck: {
   urls: async (config) => ['your-database://connection-string'],
 }
 ```
+
+### Async Event Processing (Optional)
+
+Magek supports async event processing through polling. When implemented, the server polls for unprocessed events and dispatches them in batches, preventing duplicate processing.
+
+#### Configuration Options
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `eventPollingIntervalMs` | 1000 | Milliseconds between polling cycles |
+| `eventProcessingBatchSize` | 100 | Maximum events per batch |
+
+#### Implementation Pattern
+
+```typescript
+// Track cursor position
+let processingCursor: string = new Date(0).toISOString()
+
+async function fetchUnprocessedEvents(config: MagekConfig): Promise<Array<EventEnvelope>> {
+  const query = {
+    kind: 'event',
+    deletedAt: { $exists: false },
+    processedAt: { $exists: false },
+    createdAt: { $gt: processingCursor },
+  }
+  return database.query(query, { sort: 'createdAt', limit: config.eventProcessingBatchSize })
+}
+
+async function markEventProcessed(config: MagekConfig, eventId: UUID): Promise<void> {
+  const event = await database.findById(eventId)
+  if (!event) return
+  await database.update(eventId, { processedAt: new Date().toISOString() })
+  processingCursor = event.createdAt
+}
+```
+
+#### Important Considerations
+
+1. **Remove Synchronous Dispatch**: When implementing async processing, remove any `eventDispatcher()` call from your `store()` method
+2. **Cursor Persistence**: Persistent adapters should persist the cursor; in-memory can use a variable
+3. **Event Ordering**: Process events in `createdAt` order for consistency
+4. **Optional Implementation**: If not implemented, the server uses synchronous dispatch
 
 ## Configuration
 

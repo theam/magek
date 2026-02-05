@@ -200,6 +200,11 @@ export class MemoryEventRegistry {
   }
 
   private matchesFilter(envelope: EventEnvelope | EntitySnapshotEnvelope, query: QueryFilter): boolean {
+    // Check _id
+    if (query._id && (envelope as EventEnvelope).id !== query._id) {
+      return false
+    }
+
     // Check kind
     if (query.kind && envelope.kind !== query.kind) {
       return false
@@ -256,7 +261,22 @@ export class MemoryEventRegistry {
       }
     }
 
+    // Check processedAt exists condition
+    if (query.processedAt !== undefined) {
+      if (typeof query.processedAt === 'object' && '$exists' in query.processedAt) {
+        const hasProcessedAt = (envelope as EventEnvelope).processedAt !== undefined
+        if (query.processedAt.$exists !== hasProcessedAt) return false
+      }
+    }
+
     return true
+  }
+
+  public async markProcessed(id: string, processedAt: string): Promise<void> {
+    const event = this.events.get(id)
+    if (event) {
+      this.events.set(id, { ...event, processedAt })
+    }
   }
 }
 
@@ -274,4 +294,6 @@ export interface QueryFilter {
   typeName?: string
   createdAt?: string | CreatedAtConditions
   deletedAt?: { $exists: boolean }
+  processedAt?: { $exists: boolean }
+  _id?: string
 }
