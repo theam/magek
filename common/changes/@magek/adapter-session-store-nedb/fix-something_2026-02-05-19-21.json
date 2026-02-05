@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Remove unused dependencies and fix filename typo",
+      "type": "none",
+      "packageName": "@magek/adapter-session-store-nedb"
+    }
+  ],
+  "packageName": "@magek/adapter-session-store-nedb",
+  "email": "github-actions[bot]@users.noreply.github.com"
+}
