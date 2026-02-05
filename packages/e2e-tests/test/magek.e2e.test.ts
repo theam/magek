@@ -79,6 +79,19 @@ describe('Magek end-to-end workflow', function () {
     }
   }
 
+  const dumpServerLogs = async (logsRoot: string, label: string): Promise<void> => {
+    const logFile = path.join(logsRoot, 'magek-server.log')
+    if (!existsSync(logFile)) return
+    try {
+      const contents = await readFile(logFile, 'utf8')
+      const lines = contents.split('\n')
+      const tail = lines.slice(-50).join('\n')
+      console.log(`\n--- Server logs (last 50 lines, ${label}) ---\n${tail}\n--- End server logs ---\n`)
+    } catch {
+      // Best-effort: don't fail cleanup if we can't read the log
+    }
+  }
+
   before(async () => {
     paths = await resolvePaths()
 
@@ -300,6 +313,7 @@ describe('Magek end-to-end workflow', function () {
 
     after(async function () {
       keepServerRunning = false
+      await dumpServerLogs(paths.logsRoot, 'health check')
       if (activeServer) {
         await activeServer.stop()
         activeServer = undefined
@@ -338,6 +352,7 @@ describe('Magek end-to-end workflow', function () {
 
     after(async function () {
       keepServerRunning = false
+      await dumpServerLogs(paths.logsRoot, 'bank deposit flow')
       if (activeServer) {
         await activeServer.stop()
         activeServer = undefined
@@ -389,9 +404,24 @@ describe('Magek end-to-end workflow', function () {
       const accountId = 'test-account-123'
       const depositAmount = 100
 
-      const mutationResponse = await graphqlRequest<{ DepositMoney?: boolean }>(
-        graphqlUrl,
-        `mutation { DepositMoney(input: { accountId: "${accountId}", amount: ${depositAmount} }) }`
+      // Retry the first mutation: the GraphQL schema may not be fully
+      // initialized immediately after the health endpoint responds.
+      const mutationResponse = await waitFor(
+        async () => {
+          const response = await graphqlRequest<{ DepositMoney?: boolean }>(
+            graphqlUrl,
+            `mutation { DepositMoney(input: { accountId: "${accountId}", amount: ${depositAmount} }) }`
+          )
+          if (response.errors || !response.data?.DepositMoney) {
+            return false
+          }
+          return response
+        },
+        {
+          timeoutMs: 15000,
+          intervalMs: 1000,
+          message: 'First DepositMoney mutation did not succeed (GraphQL schema may not be ready)'
+        }
       )
 
       expect(mutationResponse.errors).to.equal(undefined)
