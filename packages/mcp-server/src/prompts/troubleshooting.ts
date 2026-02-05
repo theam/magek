@@ -92,8 +92,9 @@ export class Product {
 1. Check the \`authorize\` option in decorators:
    \`\`\`typescript
    @Command({ authorize: 'all' })  // Public access
-   @Command({ authorize: 'authenticated' })  // Requires login
-   @Command({ authorize: ['admin'] })  // Requires admin role
+   @Command({ authorize: [User] })  // Requires User role
+   @Command({ authorize: [Admin] })  // Requires Admin role
+   @Command({ authorize: [User, Admin] })  // Requires User OR Admin role
    \`\`\`
 
 2. If using authentication, ensure JWT token is valid

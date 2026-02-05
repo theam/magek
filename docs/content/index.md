@@ -4,6 +4,7 @@ children:
   - ./introduction.md
   - ./getting-started/installation.md
   - ./getting-started/coding.md
+  - ./getting-started/ai-coding-assistants.md
   - ./architecture/event-driven.md
   - ./architecture/command.md
   - ./architecture/event.md

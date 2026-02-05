@@ -43,7 +43,7 @@ public static reduceProductCreated(event: ProductCreated): Product {
 
 ```typescript
 // DO: Use evolve()
-@Projects(Product, 'id')
+@projects(Product, 'id')
 public static projectProduct(entity: Product, current?: ProductReadModel): ProjectionResult<ProductReadModel> {
   return evolve(current, {
     id: entity.id,
