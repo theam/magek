@@ -102,7 +102,7 @@ npx magek new:entity <EntityName> --fields <field1:type1> <field2:type2> --reduc
 **Best Practices:**
 - One entity per aggregate root
 - Entities should only contain state derived from events
-- Use the \`@Reduces\` decorator to specify which events affect this entity
+- Use the \`@reduces\` decorator to specify which events affect this entity
 - **Always use \`evolve()\` for state updates** - it ensures immutability
 
 **Example:**
@@ -117,7 +117,7 @@ export class <EntityName> {
     readonly field2: number,
   ) {}
 
-  @Reduces(<EventName>)
+  @reduces(<EventName>)
   public static reduce<EventName>(
     event: <EventName>,
     currentEntity?: <EntityName>
@@ -161,7 +161,7 @@ export class <ReadModelName> {
     readonly field2: number,
   ) {}
 
-  @Projects(<EntityName>, 'id')
+  @projects(<EntityName>, 'id')
   public static project<EntityName>(
     entity: <EntityName>,
     currentReadModel?: <ReadModelName>

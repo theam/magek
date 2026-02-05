@@ -1,38 +1,43 @@
 ---
 title: "Documentation"
 children:
+  # Getting Started
   - ./introduction.md
   - ./getting-started/installation.md
+  - ./magek-cli.md
   - ./getting-started/coding.md
   - ./getting-started/ai-coding-assistants.md
+  # Architecture (follows CQRS flow: Command → Event → Entity → Read Model → Handler)
   - ./architecture/event-driven.md
   - ./architecture/command.md
   - ./architecture/event.md
-  - ./architecture/event-handler.md
   - ./architecture/entity.md
   - ./architecture/read-model.md
+  - ./architecture/event-handler.md
   - ./architecture/notifications.md
   - ./architecture/queries.md
   - ./architecture/best-practices.md
+  # Features
+  - ./graphql.md
   - ./features/event-stream.md
   - ./features/schedule-actions.md
   - ./features/logging.md
   - ./features/error-handling.md
+  # Security
   - ./security/security.md
   - ./security/authentication.md
   - ./security/authorization.md
-  - ./magek-cli.md
-  - ./graphql.md
-  - ./advanced/custom-templates.md
-  - ./advanced/data-migrations.md
+  # Advanced
   - ./advanced/environment-configuration.md
-  - ./advanced/framework-packages.md
-  - ./advanced/instrumentation.md
-  - ./advanced/register.md
-  - ./advanced/sensor.md
   - ./advanced/testing.md
-  - ./advanced/touch-entities.md
+  - ./advanced/data-migrations.md
+  - ./advanced/instrumentation.md
+  - ./advanced/sensor.md
   - ./advanced/health/sensor-health.md
+  - ./advanced/register.md
+  - ./advanced/touch-entities.md
+  - ./advanced/custom-templates.md
+  - ./advanced/framework-packages.md
   - ./contributing.md
 ---
 
@@ -44,21 +49,22 @@ Welcome to the Magek documentation! Use the navigation on the left to browse gui
 
 - **[Introduction](./introduction.md)** - Learn what Magek is
 - **[Installation](./getting-started/installation.md)** - Get started quickly
+- **[CLI Reference](./magek-cli.md)** - Command-line tool
 - **[Coding Tutorial](./getting-started/coding.md)** - Build your first app
 
 ## Sections
 
 ### Getting Started
-Set up your environment and build your first Magek application.
+Set up your environment, learn the CLI, and build your first Magek application.
 
 ### Architecture
-Understand Commands, Events, Entities, Read Models, and other core concepts.
+Understand the CQRS pattern: Commands, Events, Entities, Read Models, and Event Handlers.
 
 ### Features
-Learn about Event Streams, Scheduled Actions, Logging, and Error Handling.
+GraphQL API, Event Streams, Scheduled Actions, Logging, and Error Handling.
 
 ### Security
 Implement Authentication and Authorization in your applications.
 
 ### Advanced Topics
-Dive deeper into Providers, Migrations, Testing, and more.
+Environment configuration, Testing, Migrations, Instrumentation, and more.

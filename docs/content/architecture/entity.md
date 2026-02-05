@@ -228,3 +228,9 @@ Entities live within the entities directory of the project source: `<project-roo
 │   ├── index.ts
 │   └── read-models
 ```
+
+## Related Topics
+
+- [Best Practices](./best-practices.md) - Recommended patterns for `evolve()` and state management
+- [Events](./event.md) - Events that trigger entity reducers
+- [Read Models](./read-model.md) - Project entities into query-optimized views

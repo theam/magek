@@ -13,7 +13,7 @@ Two patterns influence the Magek's event-driven architecture: Command-Query Resp
 
 As you can see in the diagram, Magek applications consist of four main building blocks: `Commands`, `Events`, `Entities`, and `Read Models`. `Commands` and `Read Models` are the public interface of the application, while `Events` and `Entities` are private implementation details. With Magek, clients submit `Commands`, query the `Read Models`, or subscribe to them for receiving real-time updates thanks to the out of the box [GraphQL API](/graphql)
 
-Magek applications are event-driven and event-sourced so, **the source of truth is the whole history of events**. When a client submits a command, Magek _wakes up_ and handles it throght `Command Handlers`. As part of the process, some `Events` may be _registered_ as needed.
+Magek applications are event-driven and event-sourced so, **the source of truth is the whole history of events**. When a client submits a command, Magek _wakes up_ and handles it through `Command Handlers`. As part of the process, some `Events` may be _registered_ as needed.
 
 On the other side, the framework caches the current state by automatically _reducing_ all the registered events into `Entities`. You can also _react_ to events via `Event Handlers`, triggering side effect actions to certain events. Finally, `Entities` are not directly exposed, they are transformed or _projected_ into `ReadModels`, which are exposed to the public.
 

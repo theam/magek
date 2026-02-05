@@ -233,7 +233,7 @@ export class UserReadModel {
   @projects(User, 'id')
   public static projectUser(entity: User, current?: UserReadModel): ProjectionResult<UserReadModel>  {
     if (entity.deleted) {
-      return ReadModelAction.Delete
+      return ProjectionAction.Delete
     }
     return evolve(current, { id: entity.id, username: entity.username })
   }
@@ -259,7 +259,7 @@ export class UserReadModel {
   @projects(User, 'id')
   public static projectUser(entity: User, current?: UserReadModel): ProjectionResult<UserReadModel>  {
     if (!entity.modified) {
-      return ReadModelAction.Nothing
+      return ProjectionAction.Skip
     }
     return evolve(current, { id: entity.id, username: entity.username })
   }
@@ -396,7 +396,7 @@ You can read more about this on the [Authorization section](/security/authorizat
 
 ## Querying a read model
 
-Magek read models are accessible to the outside world through GraphQL queries. GrahpQL fits very well with Magek's CQRS approach because it has two kinds of reading operations: Queries and Subscriptions. They are read-only operations that do not modify the state of the application. Magek uses them to fetch data from the read models.
+Magek read models are accessible to the outside world through GraphQL queries. GraphQL fits very well with Magek's CQRS approach because it has two kinds of reading operations: Queries and Subscriptions. They are read-only operations that do not modify the state of the application. Magek uses them to fetch data from the read models.
 
 Magek automatically creates the queries and subscriptions for each read model. You can use them to fetch the data from the read models. For example, given the following read model:
 
@@ -505,3 +505,10 @@ Despite you can place your read models in any directory, we strongly recommend y
 │   ├── index.ts
 │   └── read-models
 ```
+
+## Related Topics
+
+- [Best Practices](./best-practices.md) - Recommended patterns for `evolve()` and projections
+- [Entities](./entity.md) - Source data for read model projections
+- [Queries](./queries.md) - Alternative approach for complex query logic
+- [GraphQL API](../graphql.md) - How read models are exposed via GraphQL
