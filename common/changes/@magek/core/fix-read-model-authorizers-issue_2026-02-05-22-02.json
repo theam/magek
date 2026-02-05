@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@magek/core",
+      "comment": "Include request context (headers, body) in read model request envelopes so authorizers can access HTTP headers",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@magek/core"
+}
