@@ -28,7 +28,7 @@ export function Command(
     // This creates an instance for backwards compatibility with existing code
     const handler = async (input: unknown, register: Register): Promise<unknown> => {
       // Create an instance from the input (mirroring old createInstance behavior)
-      const instance = Object.assign(Object.create(commandClass.prototype), input)
+      const instance = Object.assign(new (commandClass as any)(), input)
       return commandClass.handle(instance, register)
     }
 

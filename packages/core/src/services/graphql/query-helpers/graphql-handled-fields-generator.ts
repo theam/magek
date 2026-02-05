@@ -21,7 +21,6 @@ export class GraphQLHandledFieldsGenerator {
       const type = this.typeInformer.getOrCreateGraphQLType(returnMetadata, false)
       fields[name] = {
         type: type,
-        // Use name for new-style metadata, fall back to class for legacy
         resolve: this.resolver(metadata.name),
       }
       const input = this.generateInputForType(metadata)
