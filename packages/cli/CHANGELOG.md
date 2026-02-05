@@ -1,6 +1,14 @@
 # Change Log - @magek/cli
 
-This log was last generated on Wed, 04 Feb 2026 22:30:21 GMT and should not be manually modified.
+This log was last generated on Thu, 05 Feb 2026 22:33:42 GMT and should not be manually modified.
+
+## 0.0.11
+Thu, 05 Feb 2026 22:33:42 GMT
+
+### Updates
+
+- chore(deps-dev): bump @types/node from 22.19.7 to 22.19.8
+- Bump ora from 9.1.0 to 9.2.0
 
 ## 0.0.10
 Wed, 04 Feb 2026 22:30:21 GMT
