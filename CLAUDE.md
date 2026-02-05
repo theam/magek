@@ -32,6 +32,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `rush lint:check` - Check for linting issues without fixing
 - `rush clean` - Clean TypeScript compilation output
 
+> **Note:** Always invoke Rush commands directly (e.g. `rush build`), not via `node common/scripts/install-run-rush.js`. The `install-run-rush.js` script is only for CI/CD environments.
+
 ### Development Workflow Commands
 - `./scripts/check-all-the-things.sh` - Run full CI pipeline locally (clean, purge, update, rebuild, lint, test)
 - `cd packages/<name> && rushx test` - Run tests for a specific package

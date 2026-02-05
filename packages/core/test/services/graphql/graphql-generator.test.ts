@@ -17,7 +17,7 @@ import { field } from '../../../src'
 import { expect } from '../../expect'
 import { GraphQLQueryGenerator } from '../../../src/services/graphql/graphql-query-generator'
 import { GraphQLMutationGenerator } from '../../../src/services/graphql/graphql-mutation-generator'
-import { GraphQLSubscriptionGenerator } from '../../../src/services/graphql/graphql-subcriptions-generator'
+import { GraphQLSubscriptionGenerator } from '../../../src/services/graphql/graphql-subscriptions-generator'
 import { faker } from '@faker-js/faker'
 import { MagekEventsReader } from '../../../src/events-reader'
 
