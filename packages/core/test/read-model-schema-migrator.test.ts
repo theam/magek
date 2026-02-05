@@ -56,7 +56,7 @@ describe('ReadModelSchemaMigrator', () => {
     toVersion: 3,
   })
   const config = new MagekConfig('test')
-  config.schemaMigrations['TestConcept'] = migrations
+  config.registry.schemaMigrations['TestConcept'] = migrations
   const migrator = new ReadModelSchemaMigrator(config)
 
   describe('migrate', async () => {

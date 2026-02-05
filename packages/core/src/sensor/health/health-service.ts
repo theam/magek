@@ -12,7 +12,7 @@ import {
 import { childHealthProviders, isEnabled, metadataFromId, rootHealthProviders } from './health-utils'
 import { defaultMagekHealthIndicators } from './health-indicators'
 import { MagekTokenVerifier } from '../../token-verifier'
-import { MagekAuthorizer } from '../../authorizer'
+import { MagekAuthorizer } from '@magek/common'
 
 /**
  * This class is in charge of handling the health check requests

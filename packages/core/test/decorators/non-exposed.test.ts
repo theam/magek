@@ -7,25 +7,25 @@ import { field, Entity, ReadModel, Command, Query } from '../../src/decorators'
 describe('the `nonExposed` decorator', () => {
   afterEach(() => {
     Magek.configureCurrentEnv((config: MagekConfig) => {
-      for (const propName in config.nonExposedGraphQLMetadataKey) {
-        delete config.nonExposedGraphQLMetadataKey[propName]
+      for (const propName in config.registry.nonExposedGraphQLMetadataKey) {
+        delete config.registry.nonExposedGraphQLMetadataKey[propName]
       }
-      for (const propName in config.entities) {
-        delete config.entities[propName]
+      for (const propName in config.registry.entities) {
+        delete config.registry.entities[propName]
       }
-      for (const propName in config.readModels) {
-        delete config.readModels[propName]
+      for (const propName in config.registry.readModels) {
+        delete config.registry.readModels[propName]
       }
-      for (const propName in config.commandHandlers) {
-        delete config.commandHandlers[propName]
+      for (const propName in config.registry.commandHandlers) {
+        delete config.registry.commandHandlers[propName]
       }
-      for (const propName in config.queryHandlers) {
-        delete config.queryHandlers[propName]
+      for (const propName in config.registry.queryHandlers) {
+        delete config.registry.queryHandlers[propName]
       }
     })
   })
 
-  it('registers the field name in config.nonExposedGraphQLMetadataKey', () => {
+  it('registers the field name in config.registry.nonExposedGraphQLMetadataKey', () => {
     @Entity
     class User {
       @field(type => UUID)
@@ -42,7 +42,7 @@ describe('the `nonExposed` decorator', () => {
     // No instance creation needed - metadata is registered during class decoration
     User // Reference to prevent unused warning
 
-    const nonExposedFields = Magek.config.nonExposedGraphQLMetadataKey['User']
+    const nonExposedFields = Magek.config.registry.nonExposedGraphQLMetadataKey['User']
 
     expect(nonExposedFields).to.be.an('Array')
     expect(nonExposedFields).to.include('passwordHash')
@@ -73,7 +73,7 @@ describe('the `nonExposed` decorator', () => {
     // No instance creation needed - metadata is registered during class decoration
     Account // Reference to prevent unused warning
 
-    const nonExposedFields = Magek.config.nonExposedGraphQLMetadataKey['Account']
+    const nonExposedFields = Magek.config.registry.nonExposedGraphQLMetadataKey['Account']
 
     expect(nonExposedFields).to.be.an('Array')
     expect(nonExposedFields).to.have.lengthOf(3)
@@ -100,7 +100,7 @@ describe('the `nonExposed` decorator', () => {
     // No instance creation needed - metadata is registered during class decoration
     Document // Reference to prevent unused warning
 
-    const nonExposedMembers = Magek.config.nonExposedGraphQLMetadataKey['Document']
+    const nonExposedMembers = Magek.config.registry.nonExposedGraphQLMetadataKey['Document']
 
     expect(nonExposedMembers).to.be.an('Array')
     expect(nonExposedMembers).to.include('getInternalMetadata')
@@ -126,7 +126,7 @@ describe('the `nonExposed` decorator', () => {
     // No instance creation needed - metadata is registered during class decoration
     Product // Reference to prevent unused warning
 
-    const nonExposedFields = Magek.config.nonExposedGraphQLMetadataKey['Product']
+    const nonExposedFields = Magek.config.registry.nonExposedGraphQLMetadataKey['Product']
 
     expect(nonExposedFields).to.have.lengthOf(1)
     expect(nonExposedFields).to.include('costPrice')
@@ -159,10 +159,10 @@ describe('the `nonExposed` decorator', () => {
     PublicEntity // Reference to prevent unused warning
     PrivateEntity // Reference to prevent unused warning
 
-    expect(Magek.config.nonExposedGraphQLMetadataKey['PublicEntity']).to.include('secret1')
-    expect(Magek.config.nonExposedGraphQLMetadataKey['PublicEntity']).to.not.include('secret2')
-    expect(Magek.config.nonExposedGraphQLMetadataKey['PrivateEntity']).to.include('secret2')
-    expect(Magek.config.nonExposedGraphQLMetadataKey['PrivateEntity']).to.not.include('secret1')
+    expect(Magek.config.registry.nonExposedGraphQLMetadataKey['PublicEntity']).to.include('secret1')
+    expect(Magek.config.registry.nonExposedGraphQLMetadataKey['PublicEntity']).to.not.include('secret2')
+    expect(Magek.config.registry.nonExposedGraphQLMetadataKey['PrivateEntity']).to.include('secret2')
+    expect(Magek.config.registry.nonExposedGraphQLMetadataKey['PrivateEntity']).to.not.include('secret1')
   })
 
   it('creates an empty array entry for class if no non-exposed fields exist initially', () => {
@@ -180,7 +180,7 @@ describe('the `nonExposed` decorator', () => {
     SimpleEntity // Reference to prevent unused warning
 
     // The nonExposedGraphQLMetadataKey for SimpleEntity should exist and contain the field
-    const nonExposedFields = Magek.config.nonExposedGraphQLMetadataKey['SimpleEntity']
+    const nonExposedFields = Magek.config.registry.nonExposedGraphQLMetadataKey['SimpleEntity']
 
     expect(nonExposedFields).to.exist
     expect(nonExposedFields).to.be.an('Array')
@@ -208,7 +208,7 @@ describe('the `nonExposed` decorator', () => {
 
       UserReadModel // Reference to prevent unused warning
 
-      const nonExposedFields = Magek.config.nonExposedGraphQLMetadataKey['UserReadModel']
+      const nonExposedFields = Magek.config.registry.nonExposedGraphQLMetadataKey['UserReadModel']
 
       expect(nonExposedFields).to.be.an('Array')
       expect(nonExposedFields).to.have.lengthOf(2)
@@ -239,7 +239,7 @@ describe('the `nonExposed` decorator', () => {
 
       CreateUser // Reference to prevent unused warning
 
-      const nonExposedFields = Magek.config.nonExposedGraphQLMetadataKey['CreateUser']
+      const nonExposedFields = Magek.config.registry.nonExposedGraphQLMetadataKey['CreateUser']
 
       expect(nonExposedFields).to.be.an('Array')
       expect(nonExposedFields).to.have.lengthOf(1)
@@ -267,7 +267,7 @@ describe('the `nonExposed` decorator', () => {
 
       GetUserStats // Reference to prevent unused warning
 
-      const nonExposedFields = Magek.config.nonExposedGraphQLMetadataKey['GetUserStats']
+      const nonExposedFields = Magek.config.registry.nonExposedGraphQLMetadataKey['GetUserStats']
 
       expect(nonExposedFields).to.be.an('Array')
       expect(nonExposedFields).to.have.lengthOf(1)

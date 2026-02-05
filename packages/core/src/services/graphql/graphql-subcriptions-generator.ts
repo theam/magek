@@ -39,7 +39,7 @@ export class GraphQLSubscriptionGenerator {
   private generateByIDSubscriptions(): GraphQLFieldConfigMap<any, any> {
     const subscriptions: GraphQLFieldConfigMap<any, any> = {}
     for (const readModel of this.readModels) {
-      const excludeProps = this.config.nonExposedGraphQLMetadataKey[readModel.name]
+      const excludeProps = this.config.registry.nonExposedGraphQLMetadataKey[readModel.name]
       const graphQLType = this.typeInformer.generateGraphQLTypeForClass(readModel, excludeProps)
       subscriptions[readModel.name] = {
         type: graphQLType,
@@ -56,7 +56,7 @@ export class GraphQLSubscriptionGenerator {
   private generateFilterSubscriptions(): GraphQLFieldConfigMap<any, any> {
     const subscriptions: GraphQLFieldConfigMap<any, any> = {}
     for (const readModel of this.readModels) {
-      const excludeProps = this.config.nonExposedGraphQLMetadataKey[readModel.name]
+      const excludeProps = this.config.registry.nonExposedGraphQLMetadataKey[readModel.name]
       const graphQLType = this.typeInformer.generateGraphQLTypeForClass(readModel, excludeProps)
       subscriptions[inflected.pluralize(readModel.name)] = {
         type: graphQLType,

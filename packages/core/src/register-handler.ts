@@ -62,7 +62,7 @@ export class RegisterHandler {
     }
 
     return {
-      version: config.currentVersionFor(eventTypeName),
+      version: config.registry.currentVersionFor(eventTypeName),
       kind: 'event',
       superKind: RegisterHandler.getSuperKind(eventTypeName),
       entityID,
@@ -90,10 +90,10 @@ export class RegisterHandler {
     if (eventTypeName === MagekEntityTouched.name) {
       return (event as MagekEntityTouched).entityName
     }
-    if (eventTypeName in config.notifications) {
-      return config.eventToTopic[eventTypeName] ?? 'defaultTopic'
+    if (eventTypeName in config.registry.notifications) {
+      return config.registry.eventToTopic[eventTypeName] ?? 'defaultTopic'
     }
-    const reducerInfo: ReducerMetadata | undefined = config.reducers[eventTypeName]
+    const reducerInfo: ReducerMetadata | undefined = config.registry.reducers[eventTypeName]
     return reducerInfo?.class?.name
   }
 
@@ -103,11 +103,11 @@ export class RegisterHandler {
   ): UUID {
     const eventName = event.constructor.name
     const evtObject = event as Record<string, unknown>
-    const entityIdField = config.partitionKeys[eventName]
+    const entityIdField = config.registry.partitionKeys[eventName]
     if (entityIdField && entityIdField in evtObject && typeof evtObject[entityIdField] === 'string') {
       return evtObject[entityIdField] as UUID
     }
-    if (eventName in config.notifications) {
+    if (eventName in config.registry.notifications) {
       return RegisterHandler.getDefaultNotificationPartitionId(event)
     }
     return RegisterHandler.getDefaultStateEventEntityId(event as Instance & EventInterface)

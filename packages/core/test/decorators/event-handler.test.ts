@@ -9,11 +9,11 @@ import { UUID, Register, MagekConfig } from '@magek/common'
 describe('the `EventHandler` decorator', () => {
   afterEach(() => {
     Magek.configureCurrentEnv((config: MagekConfig) => {
-      for (const propName in config.events) {
-        delete config.events[propName]
+      for (const propName in config.registry.events) {
+        delete config.registry.events[propName]
       }
-      for (const propName in config.eventHandlers) {
-        delete config.eventHandlers[propName]
+      for (const propName in config.registry.eventHandlers) {
+        delete config.registry.eventHandlers[propName]
       }
     })
   })
@@ -34,7 +34,7 @@ describe('the `EventHandler` decorator', () => {
     }
 
     const magek = Magek as any
-    const someEventHandlers = magek.config.eventHandlers['SomeEvent']
+    const someEventHandlers = magek.config.registry.eventHandlers['SomeEvent']
 
     expect(someEventHandlers).to.be.an('Array')
     expect(someEventHandlers).to.contain(SomeEventHandler)

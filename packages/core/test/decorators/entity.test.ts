@@ -6,21 +6,21 @@ import { Event, Entity, reduces, Role } from '../../src/decorators/'
 import { Magek } from '../../src'
 import { UserEnvelope, UUID } from '@magek/common'
 import { field } from '../../src'
-import { MagekAuthorizer } from '../../src/authorizer'
+import { MagekAuthorizer } from '@magek/common'
 import { fake, replace } from 'sinon'
 
 describe('the `Entity` decorator', () => {
   afterEach(() => {
     Magek.configure('test', (config) => {
       config.appName = ''
-      for (const propName in config.reducers) {
-        delete config.reducers[propName]
+      for (const propName in config.registry.reducers) {
+        delete config.registry.reducers[propName]
       }
-      for (const propName in config.entities) {
-        delete config.entities[propName]
+      for (const propName in config.registry.entities) {
+        delete config.registry.entities[propName]
       }
-      for (const propName in config.roles) {
-        delete config.roles[propName]
+      for (const propName in config.registry.roles) {
+        delete config.registry.roles[propName]
       }
     })
   })
@@ -51,10 +51,10 @@ describe('the `Entity` decorator', () => {
         }
       }
 
-      expect(Magek.config.entities['Comment'].class).to.be.equal(Comment)
-      expect(Magek.config.entities['Comment'].eventStreamAuthorizer).to.be.equal(MagekAuthorizer.denyAccess)
+      expect(Magek.config.registry.entities['Comment'].class).to.be.equal(Comment)
+      expect(Magek.config.registry.entities['Comment'].eventStreamAuthorizer).to.be.equal(MagekAuthorizer.denyAccess)
 
-      expect(Magek.config.reducers['CommentPosted']).to.deep.include({
+      expect(Magek.config.registry.reducers['CommentPosted']).to.deep.include({
         class: Comment,
         methodName: 'react',
       })
@@ -74,7 +74,7 @@ describe('the `Entity` decorator', () => {
         public readonly content!: string
       }
 
-      expect(Magek.config.entities['Comment']).to.deep.equal({
+      expect(Magek.config.registry.entities['Comment']).to.deep.equal({
         class: Comment,
         eventStreamAuthorizer: MagekAuthorizer.allowAccess,
       })
@@ -102,11 +102,11 @@ describe('the `Entity` decorator', () => {
         public readonly content!: string
       }
 
-      expect(Magek.config.entities['User'].class).to.be.equal(User)
+      expect(Magek.config.registry.entities['User'].class).to.be.equal(User)
       const fakeUserEnvelope = {
         username: 'asdf',
       } as UserEnvelope
-      await Magek.config.entities['User'].eventStreamAuthorizer(fakeUserEnvelope)
+      await Magek.config.registry.entities['User'].eventStreamAuthorizer(fakeUserEnvelope)
       expect(fakeAuthorizeRoles).to.have.been.calledWithMatch([Manager], fakeUserEnvelope)
     })
   })
@@ -127,16 +127,16 @@ describe('the `Entity` decorator', () => {
         public readonly content!: string
       }
 
-      expect(Magek.config.entities['User'].class).to.be.equal(User)
+      expect(Magek.config.registry.entities['User'].class).to.be.equal(User)
       const fakeUserEnvelope = {
         username: 'asdf',
       } as UserEnvelope
-      await expect(Magek.config.entities['User'].eventStreamAuthorizer(fakeUserEnvelope)).to.be.fulfilled
+      await expect(Magek.config.registry.entities['User'].eventStreamAuthorizer(fakeUserEnvelope)).to.be.fulfilled
 
       const fakeUserEnvelope2 = {
         username: 'qwer',
       } as UserEnvelope
-      await expect(Magek.config.entities['User'].eventStreamAuthorizer(fakeUserEnvelope2)).to.be.rejected
+      await expect(Magek.config.registry.entities['User'].eventStreamAuthorizer(fakeUserEnvelope2)).to.be.rejected
     })
   })
 })

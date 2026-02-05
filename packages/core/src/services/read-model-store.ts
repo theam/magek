@@ -41,7 +41,7 @@ export class ReadModelStore {
     logger.debug(
       `Projections found for entity ${entitySnapshotEnvelope.entityTypeName}: ${JSON.stringify(projections)}`
     )
-    const entityMetadata = this.config.entities[entitySnapshotEnvelope.entityTypeName]
+    const entityMetadata = this.config.registry.entities[entitySnapshotEnvelope.entityTypeName]
     const entityInstance = createInstance(entityMetadata.class, entitySnapshotEnvelope.value)
     const projectReadModelPromises = projections.flatMap(
       (projectionMetadata: ProjectionMetadata<EntityInterface, ReadModelInterface>) => {
@@ -83,7 +83,7 @@ export class ReadModelStore {
       `Looking for ReadModels for entity ${JSON.stringify(entityInstance)} using Filter ${projectionMetadata.joinKey}`
     )
     const readModelName = projectionMetadata.class.name
-    const readModelMetadata = this.config.readModels[readModelName]
+    const readModelMetadata = this.config.registry.readModels[readModelName]
     const filter = this.filterForProjection(entityInstance, projectionMetadata, entityMetadata)
     if (!filter) {
       return []
@@ -121,7 +121,7 @@ export class ReadModelStore {
       sequenceKey
     )
     if (result && result.length > 0) {
-      const readModelMetadata = this.config.readModels[readModelName]
+      const readModelMetadata = this.config.registry.readModels[readModelName]
       return createInstance(readModelMetadata.class, result[0])
     }
     return undefined
@@ -160,13 +160,13 @@ export class ReadModelStore {
   private entityProjections(
     entitySnapshotEnvelope: EntitySnapshotEnvelope
   ): Array<ProjectionMetadata<EntityInterface, ReadModelInterface>> {
-    return this.config.projections[entitySnapshotEnvelope.entityTypeName]
+    return this.config.registry.projections[entitySnapshotEnvelope.entityTypeName]
   }
 
   private entityUnProjections(
     entitySnapshotEnvelope: EntitySnapshotEnvelope
   ): Array<ProjectionMetadata<EntityInterface, ReadModelInterface>> {
-    return this.config.unProjections[entitySnapshotEnvelope.entityTypeName]
+    return this.config.registry.unProjections[entitySnapshotEnvelope.entityTypeName]
   }
 
   private findFirstMissingProjection(
@@ -191,7 +191,7 @@ export class ReadModelStore {
     entity: EntityInterface,
     projectionMetadata: ProjectionMetadata<EntityInterface, ReadModelInterface>
   ): SequenceKey | undefined {
-    const sequenceKeyName = this.config.readModelSequenceKeys[projectionMetadata.class.name]
+    const sequenceKeyName = this.config.registry.readModelSequenceKeys[projectionMetadata.class.name]
     const sequenceKeyValue = (entity as any)[sequenceKeyName]
     if (sequenceKeyName && sequenceKeyValue) {
       return { name: sequenceKeyName, value: sequenceKeyValue }
@@ -340,7 +340,7 @@ export class ReadModelStore {
     if (!rawReadModels?.length) {
       return []
     }
-    const readModelMetadata = this.config.readModels[readModelName]
+    const readModelMetadata = this.config.registry.readModels[readModelName]
     return rawReadModels.map((rawReadModel) => createInstance(readModelMetadata.class, rawReadModel))
   }
 
@@ -435,7 +435,7 @@ export class ReadModelStore {
   ): Promise<unknown> {
     const logger = getLogger(this.config, 'ReadModelStore#store')
     const schemaVersion: number =
-      migratedReadModel?.magekMetadata?.schemaVersion ?? this.config.currentVersionFor(readModelName)
+      migratedReadModel?.magekMetadata?.schemaVersion ?? this.config.registry.currentVersionFor(readModelName)
     // Increment the read model version in 1 before storing
     const newReadModelVersion = expectedCurrentDatabaseVersion + 1
     newReadModel.magekMetadata = {

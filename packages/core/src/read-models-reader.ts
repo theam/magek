@@ -38,7 +38,7 @@ export class MagekReadModelsReader {
   ): Promise<ReadModelInterface | ReadOnlyNonEmptyArray<ReadModelInterface>> {
     await this.validateByIdRequest(readModelRequest)
 
-    const readModelMetadata = this.config.readModels[readModelRequest.class.name]
+    const readModelMetadata = this.config.registry.readModels[readModelRequest.class.name]
     const readModelTransformedRequest = await applyReadModelRequestBeforeFunctions(
       readModelRequest,
       readModelMetadata.before,
@@ -68,7 +68,7 @@ export class MagekReadModelsReader {
   ): Promise<Array<ReadModelInterface> | ReadModelListResult<ReadModelInterface>> {
     await this.validateRequest(readModelRequest)
 
-    const readModelMetadata = this.config.readModels[readModelRequest.class.name]
+    const readModelMetadata = this.config.registry.readModels[readModelRequest.class.name]
     const readModelTransformedRequest = await applyReadModelRequestBeforeFunctions(
       readModelRequest,
       readModelMetadata.before,
@@ -225,7 +225,7 @@ export class MagekReadModelsReader {
       throw new InvalidParameterError('The required request "version" was not present')
     }
 
-    const readModelMetadata = this.config.readModels[readModelByIdRequest.class.name]
+    const readModelMetadata = this.config.registry.readModels[readModelByIdRequest.class.name]
     if (!readModelMetadata) {
       throw new NotFoundError(`Could not find read model ${readModelByIdRequest.class.name}`)
     }
@@ -234,7 +234,7 @@ export class MagekReadModelsReader {
 
     if (
       readModelByIdRequest?.key?.sequenceKey &&
-      readModelByIdRequest.key.sequenceKey.name !== this.config.readModelSequenceKeys[readModelByIdRequest.class.name]
+      readModelByIdRequest.key.sequenceKey.name !== this.config.registry.readModelSequenceKeys[readModelByIdRequest.class.name]
     ) {
       throw new InvalidParameterError(
         `Could not find a sort key defined for ${readModelByIdRequest.class.name} named '${readModelByIdRequest.key.sequenceKey.name}'.`
@@ -249,7 +249,7 @@ export class MagekReadModelsReader {
       throw new InvalidParameterError('The required request "version" was not present')
     }
 
-    const readModelMetadata = this.config.readModels[readModelRequest.class.name]
+    const readModelMetadata = this.config.registry.readModels[readModelRequest.class.name]
     if (!readModelMetadata) {
       throw new NotFoundError(`Could not find read model ${readModelRequest.class.name}`)
     }
@@ -267,7 +267,7 @@ export class MagekReadModelsReader {
       `Processing subscription of connection '${connectionID}' to read model '${readModelRequest.class.name}' with the following data: `,
       readModelRequest
     )
-    const readModelMetadata = this.config.readModels[readModelRequest.class.name]
+    const readModelMetadata = this.config.registry.readModels[readModelRequest.class.name]
 
     const newReadModelRequest = await applyReadModelRequestBeforeFunctions(
       readModelRequest,
@@ -298,7 +298,7 @@ export class MagekReadModelsReader {
    * @private
    */
   private getCalculatedFieldsDependencies(readModelClass: AnyClass): Record<string, Array<string>> {
-    const readModelMetadata: ReadModelMetadata = this.config.readModels[readModelClass.name]
+    const readModelMetadata: ReadModelMetadata = this.config.registry.readModels[readModelClass.name]
 
     const dependenciesMap: Record<string, Array<string>> = {}
     readModelMetadata?.properties.map((property: PropertyMetadata): void => {

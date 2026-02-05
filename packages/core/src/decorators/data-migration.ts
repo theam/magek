@@ -16,15 +16,10 @@ export function DataMigration(
 ): (dataMigrationClass: DataMigrationInterface, context: ClassDecoratorContext) => void {
   return (migrationClass, _context?: ClassDecoratorContext) => {
     Magek.configureCurrentEnv((config): void => {
-      if (config.dataMigrationHandlers[migrationClass.name]) {
-        throw new Error(`A data migration called ${migrationClass.name} is already registered.
-        If you think that this is an error, try performing a clean build.`)
-      }
-
-      config.dataMigrationHandlers[migrationClass.name] = {
+      config.registry.registerDataMigration(migrationClass.name, {
         class: migrationClass,
         migrationOptions: attributes,
-      }
+      })
     })
   }
 }

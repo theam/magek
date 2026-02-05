@@ -54,7 +54,7 @@ export class GraphqlQueryFilterArgumentsBuilder {
       let nestedProperties: ThunkObjMap<GraphQLInputFieldConfig> = {}
       const metadata = getClassMetadata(prop.typeInfo.type)
       if (metadata.fields.length === 0) return GraphQLJSON
-      const excludeProps = this.config.nonExposedGraphQLMetadataKey[prop.name]
+      const excludeProps = this.config.registry.nonExposedGraphQLMetadataKey[prop.name]
       this.typeInformer.generateGraphQLTypeForClass(prop.typeInfo.type, excludeProps, true)
 
       for (const prop of metadata.fields) {

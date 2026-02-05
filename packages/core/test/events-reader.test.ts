@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker'
 import { MagekEventsReader } from '../src/events-reader'
 import { expect } from './expect'
 import { Magek } from '../src'
-import { MagekAuthorizer } from '../src/authorizer'
+import { MagekAuthorizer } from '@magek/common'
 import { createMockEventStoreAdapter } from './helpers/event-store-adapter-helper'
 
 describe('MagekEventsReader', () => {
@@ -51,19 +51,19 @@ describe('MagekEventsReader', () => {
         search: providerEventsSearch,
       })
 
-      config.entities[TestEntity.name] = {
+      config.registry.entities[TestEntity.name] = {
         class: TestEntity,
         eventStreamAuthorizer,
       }
-      config.reducers[TestEvent.name] = {
+      config.registry.reducers[TestEvent.name] = {
         class: TestEntity,
         methodName: 'testReducerMethod',
       }
-      config.reducers[TestEventReducedByNonRegisteredEntity.name] = {
+      config.registry.reducers[TestEventReducedByNonRegisteredEntity.name] = {
         class: NonRegisteredTestEntity,
         methodName: 'testReducerMethod',
       }
-      config.events[TestEvent.name] = { class: TestEvent }
+      config.registry.events[TestEvent.name] = { class: TestEvent }
       eventsReader = new MagekEventsReader(config)
     })
   })

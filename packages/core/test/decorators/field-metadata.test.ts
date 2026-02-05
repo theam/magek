@@ -22,12 +22,12 @@ describe('Symbol.metadata storage for decorators', () => {
   afterEach(() => {
     Magek.configure('test', (config) => {
       // Clean up registered entities
-      for (const key in config.events) delete config.events[key]
-      for (const key in config.entities) delete config.entities[key]
-      for (const key in config.commandHandlers) delete config.commandHandlers[key]
-      for (const key in config.queryHandlers) delete config.queryHandlers[key]
-      for (const key in config.readModels) delete config.readModels[key]
-      for (const key in config.readModelSequenceKeys) delete config.readModelSequenceKeys[key]
+      for (const key in config.registry.events) delete config.registry.events[key]
+      for (const key in config.registry.entities) delete config.registry.entities[key]
+      for (const key in config.registry.commandHandlers) delete config.registry.commandHandlers[key]
+      for (const key in config.registry.queryHandlers) delete config.registry.queryHandlers[key]
+      for (const key in config.registry.readModels) delete config.registry.readModels[key]
+      for (const key in config.registry.readModelSequenceKeys) delete config.registry.readModelSequenceKeys[key]
     })
   })
 
@@ -241,7 +241,7 @@ describe('Symbol.metadata storage for decorators', () => {
         public createdAt!: string
       }
 
-      expect(Magek.config.readModelSequenceKeys['SequencedModel']).to.equal('createdAt')
+      expect(Magek.config.registry.readModelSequenceKeys['SequencedModel']).to.equal('createdAt')
       // Use the class to avoid unused variable warning
       expect(SequencedModel).to.exist
     })
@@ -260,7 +260,7 @@ describe('Symbol.metadata storage for decorators', () => {
         public static async handle(): Promise<void> {}
       }
 
-      const commandConfig = Magek.config.commandHandlers['CreateItem']
+      const commandConfig = Magek.config.registry.commandHandlers['CreateItem']
       expect(commandConfig).to.exist
       expect(commandConfig.properties).to.have.lengthOf(2)
       expect(commandConfig.properties.map((p) => p.name)).to.include.members(['name', 'quantity'])
@@ -277,7 +277,7 @@ describe('Symbol.metadata storage for decorators', () => {
         public static async handle(): Promise<void> {}
       }
 
-      const queryConfig = Magek.config.queryHandlers['GetItems']
+      const queryConfig = Magek.config.registry.queryHandlers['GetItems']
       expect(queryConfig).to.exist
       expect(queryConfig.properties).to.have.lengthOf(1)
       expect(queryConfig.properties[0].name).to.equal('filter')
@@ -298,7 +298,7 @@ describe('Symbol.metadata storage for decorators', () => {
         public price!: number
       }
 
-      const readModelConfig = Magek.config.readModels['ItemView']
+      const readModelConfig = Magek.config.registry.readModels['ItemView']
       expect(readModelConfig).to.exist
       expect(readModelConfig.properties).to.have.lengthOf(3)
 
@@ -322,8 +322,8 @@ describe('Symbol.metadata storage for decorators', () => {
         }
       }
 
-      expect(Magek.config.events['ItemCreated']).to.exist
-      expect(Magek.config.events['ItemCreated'].class).to.equal(ItemCreated)
+      expect(Magek.config.registry.events['ItemCreated']).to.exist
+      expect(Magek.config.registry.events['ItemCreated'].class).to.equal(ItemCreated)
     })
 
     it('@Entity registers entity correctly with field metadata', () => {
@@ -336,8 +336,8 @@ describe('Symbol.metadata storage for decorators', () => {
         public name!: string
       }
 
-      expect(Magek.config.entities['Item']).to.exist
-      expect(Magek.config.entities['Item'].class).to.equal(Item)
+      expect(Magek.config.registry.entities['Item']).to.exist
+      expect(Magek.config.registry.entities['Item'].class).to.equal(Item)
     })
   })
 })

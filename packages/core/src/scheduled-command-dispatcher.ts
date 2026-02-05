@@ -24,7 +24,7 @@ export class MagekScheduledCommandDispatcher {
     const logger = getLogger(this.config, 'MagekScheduledCommandDispatcher#dispatchCommand')
     logger.debug('Dispatching the following scheduled command envelope: ', commandEnvelope)
 
-    const commandMetadata = this.config.scheduledCommandHandlers[commandEnvelope.typeName]
+    const commandMetadata = this.config.registry.scheduledCommandHandlers[commandEnvelope.typeName]
     if (!commandMetadata) {
       throw new NotFoundError(`Could not find a proper handler for ${commandEnvelope.typeName}`)
     }

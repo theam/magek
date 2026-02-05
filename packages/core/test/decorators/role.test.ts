@@ -3,8 +3,8 @@ import { Magek, Role } from '../../src'
 
 describe('the `Role` decorator', () => {
   afterEach(() => {
-    for (const roleName in Magek.config.roles) {
-      delete Magek.config.roles[roleName]
+    for (const roleName in Magek.config.registry.roles) {
+      delete Magek.config.registry.roles[roleName]
     }
   })
 
@@ -13,7 +13,7 @@ describe('the `Role` decorator', () => {
       @Role({ auth: {} })
       class SomeRole {}
 
-      expect(Magek.config.roles[SomeRole.name]).to.deep.equal({ auth: {} })
+      expect(Magek.config.registry.roles[SomeRole.name]).to.deep.equal({ auth: {} })
     })
   })
 
@@ -22,7 +22,7 @@ describe('the `Role` decorator', () => {
       @Role({ auth: { signUpMethods: ['email', 'phone'], skipConfirmation: true } })
       class SomeRole {}
 
-      expect(Magek.config.roles[SomeRole.name]).to.deep.equal({
+      expect(Magek.config.registry.roles[SomeRole.name]).to.deep.equal({
         auth: { signUpMethods: ['email', 'phone'], skipConfirmation: true },
       })
     })

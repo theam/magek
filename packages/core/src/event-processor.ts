@@ -34,7 +34,7 @@ export class MagekEventProcessor {
       ]
 
       // Read models are not updated for notification events (events that are not related to an entity but a topic)
-      if (!(entityName in config.topicToEvent)) {
+      if (!(entityName in config.registry.topicToEvent)) {
         eventEnvelopesProcessors.push(
           MagekEventProcessor.snapshotAndUpdateReadModels(config, entityName, entityID, eventStore, readModelStore)
         )
@@ -94,8 +94,8 @@ export class MagekEventProcessor {
     try {
       await Promises.allSettledAndFulfilled(
         entityEventEnvelopes.map(async (eventEnvelope) => {
-          let eventHandlers = config.eventHandlers[eventEnvelope.typeName] || []
-          const globalEventHandler = config.eventHandlers[GLOBAL_EVENT_HANDLERS]
+          let eventHandlers = config.registry.eventHandlers[eventEnvelope.typeName] || []
+          const globalEventHandler = config.registry.eventHandlers[GLOBAL_EVENT_HANDLERS]
           if (globalEventHandler && globalEventHandler.length > 0) {
             eventHandlers = eventHandlers.concat(globalEventHandler)
           }
@@ -135,7 +135,7 @@ export class MagekEventProcessor {
     config: MagekConfig,
     eventEnvelope: EventEnvelope | NotificationInterface
   ): EventInterface {
-    const eventClass = config.events[eventEnvelope.typeName] ?? config.notifications[eventEnvelope.typeName]
+    const eventClass = config.registry.events[eventEnvelope.typeName] ?? config.registry.notifications[eventEnvelope.typeName]
     return createInstance(eventClass.class, eventEnvelope.value)
   }
 

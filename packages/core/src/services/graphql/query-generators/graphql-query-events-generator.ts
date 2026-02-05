@@ -27,7 +27,7 @@ export class GraphqlQueryEventsGenerator {
         type: eventQueryResponse,
         args: {
           entity: {
-            type: new GraphQLNonNull(buildGraphqlSimpleEnumFor('EntityType', Object.keys(this.config.entities))),
+            type: new GraphQLNonNull(buildGraphqlSimpleEnumFor('EntityType', Object.keys(this.config.registry.entities))),
           },
           entityID: { type: GraphQLID },
           from: { type: GraphQLString },
@@ -40,7 +40,7 @@ export class GraphqlQueryEventsGenerator {
         type: eventQueryResponse,
         args: {
           type: {
-            type: new GraphQLNonNull(buildGraphqlSimpleEnumFor('EventType', Object.keys(this.config.reducers))),
+            type: new GraphQLNonNull(buildGraphqlSimpleEnumFor('EventType', Object.keys(this.config.registry.reducers))),
           },
           from: { type: GraphQLString },
           to: { type: GraphQLString },

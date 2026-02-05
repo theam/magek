@@ -4,15 +4,15 @@ import { describe } from 'mocha'
 import { ReadModel, Magek, Entity, projects, sequencedBy, Role, calculatedField } from '../../src'
 import { UUID, ProjectionResult, UserEnvelope } from '@magek/common'
 import { field } from '../../src'
-import { MagekAuthorizer } from '../../src/authorizer'
+import { MagekAuthorizer } from '@magek/common'
 import { fake, restore } from 'sinon'
 
 describe('the `ReadModel` decorator', () => {
   afterEach(() => {
     restore()
     Magek.configure('test', (config) => {
-      for (const propName in config.readModels) {
-        delete config.readModels[propName]
+      for (const propName in config.registry.readModels) {
+        delete config.registry.readModels[propName]
       }
     })
   })
@@ -28,7 +28,7 @@ describe('the `ReadModel` decorator', () => {
         public readonly title!: string
       }
 
-      const postConfig = Magek.config.readModels['Post']
+      const postConfig = Magek.config.registry.readModels['Post']
       expect(postConfig).to.be.an('object')
       expect(postConfig.class).to.equal(Post)
       expect(postConfig.authorizer).to.equal(MagekAuthorizer.denyAccess)
@@ -59,11 +59,11 @@ describe('the `ReadModel` decorator', () => {
         public readonly aStringProp!: string
       }
 
-      expect(Magek.config.readModels['Post'].class).to.equal(Post)
-      expect(Magek.config.readModels['Post'].authorizer).to.be.equal(MagekAuthorizer.denyAccess)
-      expect(Magek.config.readModels['Post'].before).to.be.an('Array')
-      expect(Magek.config.readModels['Post'].before).to.have.lengthOf(1)
-      expect(Magek.config.readModels['Post'].before[0]).to.be.equal(fakeBeforeFilter)
+      expect(Magek.config.registry.readModels['Post'].class).to.equal(Post)
+      expect(Magek.config.registry.readModels['Post'].authorizer).to.be.equal(MagekAuthorizer.denyAccess)
+      expect(Magek.config.registry.readModels['Post'].before).to.be.an('Array')
+      expect(Magek.config.registry.readModels['Post'].before).to.have.lengthOf(1)
+      expect(Magek.config.registry.readModels['Post'].before[0]).to.be.equal(fakeBeforeFilter)
     })
   })
 
@@ -86,7 +86,7 @@ describe('the `ReadModel` decorator', () => {
         public readonly aReadonlyArray!: ReadonlyArray<string>
       }
 
-      const readModelConfig = Magek.config.readModels['SomeReadModel']
+      const readModelConfig = Magek.config.registry.readModels['SomeReadModel']
       expect(readModelConfig).to.be.an('object')
       expect(readModelConfig.class).to.equal(SomeReadModel)
       expect(readModelConfig.authorizer).to.equal(MagekAuthorizer.allowAccess)
@@ -139,9 +139,9 @@ describe('the `ReadModel` decorator', () => {
         public readonly aStringProp!: string
       }
 
-      expect(Magek.config.readModels['SomeReadModel'].class).to.be.equal(SomeReadModel)
+      expect(Magek.config.registry.readModels['SomeReadModel'].class).to.be.equal(SomeReadModel)
 
-      const authorizerFunction = Magek.config.readModels['SomeReadModel']?.authorizer
+      const authorizerFunction = Magek.config.registry.readModels['SomeReadModel']?.authorizer
       console.log('-----------------------------------')
       console.log(authorizerFunction)
       console.log('-----------------------------------')
@@ -178,21 +178,21 @@ describe('the `ReadModel` decorator', () => {
         public readonly aStringProp!: string
       }
 
-      expect(Magek.config.readModels['RockingData'].class).to.be.equal(RockingData)
+      expect(Magek.config.registry.readModels['RockingData'].class).to.be.equal(RockingData)
 
       const fakeUser = {
         claims: {
           permissions: ['Rock'],
         },
       } as unknown as UserEnvelope
-      await expect(Magek.config.readModels['RockingData'].authorizer(fakeUser)).to.be.eventually.fulfilled
+      await expect(Magek.config.registry.readModels['RockingData'].authorizer(fakeUser)).to.be.eventually.fulfilled
 
       const fakeUser2 = {
         claims: {
           permissions: ['Reaggeton'],
         },
       } as unknown as UserEnvelope
-      await expect(Magek.config.readModels['RockingData'].authorizer(fakeUser2)).not.to.be.eventually.fulfilled
+      await expect(Magek.config.registry.readModels['RockingData'].authorizer(fakeUser2)).not.to.be.eventually.fulfilled
     })
   })
 
@@ -204,7 +204,7 @@ describe('the `ReadModel` decorator', () => {
         public readonly id!: UUID
       }
 
-      const readModelConfig = Magek.config.readModels['MinimalReadModel']
+      const readModelConfig = Magek.config.registry.readModels['MinimalReadModel']
       expect(readModelConfig).to.be.an('object')
       expect(readModelConfig.class).to.equal(MinimalReadModel)
       expect(readModelConfig.properties).to.be.an('Array')
@@ -219,11 +219,11 @@ describe('the `ReadModel` decorator', () => {
 describe('the `projects` decorator', () => {
   afterEach(() => {
     Magek.configure('test', (config) => {
-      for (const propName in config.readModels) {
-        delete config.readModels[propName]
+      for (const propName in config.registry.readModels) {
+        delete config.registry.readModels[propName]
       }
-      for (const propName in config.projections) {
-        delete config.projections[propName]
+      for (const propName in config.registry.projections) {
+        delete config.registry.projections[propName]
       }
     })
   })
@@ -248,10 +248,10 @@ describe('the `projects` decorator', () => {
       }
     }
 
-    const someEntityObservers = Magek.config.projections['SomeEntity']
+    const someEntityObservers = Magek.config.registry.projections['SomeEntity']
 
-    expect(Magek.config.readModels['SomeReadModel']).to.be.an('object')
-    expect(Magek.config.readModels['SomeReadModel'].class).to.equal(SomeReadModel)
+    expect(Magek.config.registry.readModels['SomeReadModel']).to.be.an('object')
+    expect(Magek.config.registry.readModels['SomeReadModel'].class).to.equal(SomeReadModel)
     expect(someEntityObservers).to.be.an('Array')
     expect(someEntityObservers).to.deep.include({
       class: SomeReadModel,
@@ -263,11 +263,11 @@ describe('the `projects` decorator', () => {
   describe('the `sequencedBy` decorator', () => {
     afterEach(() => {
       Magek.configure('test', (config) => {
-        for (const propName in config.readModels) {
-          delete config.readModels[propName]
+        for (const propName in config.registry.readModels) {
+          delete config.registry.readModels[propName]
         }
-        for (const propName in config.projections) {
-          delete config.projections[propName]
+        for (const propName in config.registry.projections) {
+          delete config.registry.projections[propName]
         }
       })
     })
@@ -285,9 +285,9 @@ describe('the `projects` decorator', () => {
         public readonly timestamp!: string
       }
 
-      expect(Magek.config.readModelSequenceKeys).not.to.be.null
-      expect(Magek.config.readModelSequenceKeys[SequencedReadModel.name]).to.be.a('String')
-      expect(Magek.config.readModelSequenceKeys[SequencedReadModel.name]).to.be.equal('timestamp')
+      expect(Magek.config.registry.readModelSequenceKeys).not.to.be.null
+      expect(Magek.config.registry.readModelSequenceKeys[SequencedReadModel.name]).to.be.a('String')
+      expect(Magek.config.registry.readModelSequenceKeys[SequencedReadModel.name]).to.be.equal('timestamp')
     })
   })
 })
@@ -296,8 +296,8 @@ describe('the `calculatedField` decorator', () => {
   afterEach(() => {
     restore()
     Magek.configure('test', (config) => {
-      for (const propName in config.readModels) {
-        delete config.readModels[propName]
+      for (const propName in config.registry.readModels) {
+        delete config.registry.readModels[propName]
       }
     })
   })
@@ -322,7 +322,7 @@ describe('the `calculatedField` decorator', () => {
       }
     }
 
-    const readModelConfig = Magek.config.readModels['PersonReadModel']
+    const readModelConfig = Magek.config.registry.readModels['PersonReadModel']
     expect(readModelConfig).to.be.an('object')
     expect(readModelConfig.class).to.equal(PersonReadModel)
     expect(readModelConfig.authorizer).to.equal(MagekAuthorizer.allowAccess)

@@ -72,7 +72,7 @@ describe('Schema Migrator', () => {
     toVersion: 3,
   })
   const config = new MagekConfig('test')
-  config.schemaMigrations['TestConcept'] = schemaMigrations
+  config.registry.schemaMigrations['TestConcept'] = schemaMigrations
   const migrator = new SchemaMigrator(config)
 
   describe('schema migrate', async () => {

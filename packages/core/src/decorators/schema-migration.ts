@@ -1,5 +1,5 @@
 import { Magek } from '../magek'
-import { Class, AnyClass, SchemaMigrationMetadata, MagekConfig, getMetadata, defineMetadata } from '@magek/common'
+import { Class, AnyClass, SchemaMigrationMetadata, getMetadata, defineMetadata } from '@magek/common'
 import { MethodDecoratorContext, ClassDecoratorContext } from './decorator-types'
 
 const migrationMethodsMetadataKey = 'magek:migrationsMethods'
@@ -17,8 +17,6 @@ export function SchemaMigration(
 ): (schemaMigrationClass: AnyClass, context: ClassDecoratorContext) => void {
   return (schemaMigrationClass, context) => {
     Magek.configureCurrentEnv((config) => {
-      const conceptMigrations = getConceptMigrations(config, conceptClass)
-
       // Get migration methods from context.metadata
       let migrationMethodsMetadata: Array<SchemaMigrationMetadata>
 
@@ -41,24 +39,14 @@ export function SchemaMigration(
       }
 
       for (const schemaMigrationMetadata of migrationMethodsMetadata) {
-        if (conceptMigrations.has(schemaMigrationMetadata.toVersion)) {
-          throw new Error(
-            `Found duplicated migration for '${conceptClass.name}' in migration class '${schemaMigrationClass.name}': ` +
-              `There is an already defined migration for version ${schemaMigrationMetadata.toVersion}`
-          )
-        }
-
-        conceptMigrations.set(schemaMigrationMetadata.toVersion, schemaMigrationMetadata)
+        config.registry.registerSchemaMigration(
+          conceptClass.name,
+          schemaMigrationMetadata.toVersion,
+          schemaMigrationMetadata
+        )
       }
     })
   }
-}
-
-function getConceptMigrations(config: MagekConfig, conceptClass: AnyClass): Map<number, SchemaMigrationMetadata> {
-  if (!config.schemaMigrations[conceptClass.name]) {
-    config.schemaMigrations[conceptClass.name] = new Map()
-  }
-  return config.schemaMigrations[conceptClass.name]
 }
 
 /**

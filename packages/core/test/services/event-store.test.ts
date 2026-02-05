@@ -19,7 +19,7 @@ import { createMockEventStoreAdapter } from '../helpers/event-store-adapter-help
 import { expect } from '../expect'
 import { MagekEntityMigrated } from '../../src/core-concepts/data-migration/events/entity-migrated'
 import { MagekEntityTouched } from '../../src/core-concepts/touch-entity/events/entity-touched'
-import { MagekAuthorizer } from '../../src/authorizer'
+import { MagekAuthorizer } from '@magek/common'
 
 describe('EventStore', () => {
   afterEach(() => {
@@ -108,20 +108,20 @@ describe('EventStore', () => {
     latestEntitySnapshot: async () => undefined,
     forEntitySince: async () => [],
   })
-  config.entities[AnEntity.name] = {
+  config.registry.entities[AnEntity.name] = {
     class: AnEntity,
     eventStreamAuthorizer: MagekAuthorizer.authorizeRoles.bind(null, []),
   }
-  config.reducers[AnEvent.name] = {
+  config.registry.reducers[AnEvent.name] = {
     class: AnEntity,
     methodName: 'reducerThatCallsEntityMethod',
   }
-  config.reducers[AnotherEvent.name] = {
+  config.registry.reducers[AnotherEvent.name] = {
     class: AnEntity,
     methodName: 'reducerThatCallsEventMethod',
   }
-  config.events[AnEvent.name] = { class: AnEvent }
-  config.events[AnotherEvent.name] = { class: AnotherEvent }
+  config.registry.events[AnEvent.name] = { class: AnEvent }
+  config.registry.events[AnotherEvent.name] = { class: AnotherEvent }
   config.logger = {
     info: fake(),
     debug: fake(),

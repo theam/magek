@@ -73,7 +73,7 @@ export class EventStore {
               continue
             } else if (e instanceof InvalidReducerError) {
               const globalErrorDispatcher = new MagekGlobalErrorDispatcher(this.config)
-              const reducerMetadata = this.config.reducers[pendingEvent.typeName]
+              const reducerMetadata = this.config.registry.reducers[pendingEvent.typeName]
               const error = await globalErrorDispatcher.dispatch(
                 new ReducerGlobalError(pendingEvent, e.eventInstance, e.snapshotInstance, reducerMetadata, e)
               )
@@ -173,8 +173,8 @@ export class EventStore {
     const eventMetadata = this.eventMetadataFor(eventEnvelope)
     const migratedEventEnvelope = await new SchemaMigrator(this.config).migrate(eventEnvelope)
     const eventInstance = createInstance(eventMetadata.class, migratedEventEnvelope.value)
-    const entityMetadata = this.config.entities[migratedEventEnvelope.entityTypeName]
-    const reducerMetadata = this.config.reducers[eventEnvelope.typeName]
+    const entityMetadata = this.config.registry.entities[migratedEventEnvelope.entityTypeName]
+    const reducerMetadata = this.config.registry.reducers[eventEnvelope.typeName]
     const snapshotInstance = latestSnapshot ? createInstance(entityMetadata.class, latestSnapshot.value) : null
     return this.createNewSnapshot(
       migratedEventEnvelope,
@@ -192,7 +192,7 @@ export class EventStore {
 
   private eventMetadataFor(eventEnvelope: EventEnvelope): EventMetadata {
     const logger = getLogger(this.config, 'eventMetadataFor')
-    const eventMetadata = this.config.events[eventEnvelope.typeName]
+    const eventMetadata = this.config.registry.events[eventEnvelope.typeName]
     if (!eventMetadata) {
       logger.error(`No event registered for event ${eventEnvelope.typeName}`)
       throw new InvalidEventError(`No event registered for event ${eventEnvelope.typeName}`)
@@ -221,7 +221,7 @@ export class EventStore {
       }
 
       const newSnapshot: NonPersistedEntitySnapshotEnvelope = {
-        version: this.config.currentVersionFor(eventEnvelope.entityTypeName),
+        version: this.config.registry.currentVersionFor(eventEnvelope.entityTypeName),
         kind: 'snapshot',
         superKind: migratedEventEnvelope.superKind,
         requestID: migratedEventEnvelope.requestID,
@@ -271,7 +271,7 @@ export class EventStore {
     }
 
     const event = eventEnvelope.value as MagekEntityTouched
-    const entityMetadata = this.config.entities[event.entityName]
+    const entityMetadata = this.config.registry.entities[event.entityName]
     const snapshotInstance = createInstance(entityMetadata.class, latestSnapshot.value)
     return this.toMagekEntitySnapshot(eventEnvelope, snapshotInstance, event.entityName)
   }
@@ -283,7 +283,7 @@ export class EventStore {
   ): NonPersistedEntitySnapshotEnvelope {
     const logger = getLogger(this.config, 'EventStore#toMagekEntitySnapshot')
     const migratedSnapshot: NonPersistedEntitySnapshotEnvelope = {
-      version: this.config.currentVersionFor(className),
+      version: this.config.registry.currentVersionFor(className),
       kind: 'snapshot',
       superKind: eventEnvelope.superKind,
       requestID: eventEnvelope.requestID,
@@ -304,7 +304,7 @@ export class EventStore {
      
   ): Function {
     const logger = getLogger(this.config, 'EventStore#reducerForEvent')
-    const reducerMetadata = this.config.reducers[eventName]
+    const reducerMetadata = this.config.registry.reducers[eventName]
     if (!reducerMetadata) {
       throw new InvalidReducerError(`No reducer registered for event ${eventName}`, eventInstance, snapshotInstance)
     } else {

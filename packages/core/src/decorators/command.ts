@@ -44,7 +44,7 @@ export function Command(
     const nonExposedFields = getNonExposedFields(context.metadata)
     if (nonExposedFields.length > 0) {
       Magek.configureCurrentEnv((config): void => {
-        config.nonExposedGraphQLMetadataKey[commandClass.name] = nonExposedFields
+        config.registry.registerNonExposedFields(commandClass.name, nonExposedFields)
       })
     }
   }

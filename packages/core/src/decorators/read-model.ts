@@ -7,7 +7,7 @@ import {
   AnyClass,
 } from '@magek/common'
 import { Magek } from '../magek'
-import { MagekAuthorizer } from '../authorizer'
+import { MagekAuthorizer } from '@magek/common'
 import { getClassMetadata, getNonExposedFields } from './metadata'
 import { ClassDecoratorContext, GetterDecoratorContext } from './decorator-utils'
 import { SEQUENCE_KEY_SYMBOL } from './sequenced-by'
@@ -17,17 +17,7 @@ import { SEQUENCE_KEY_SYMBOL } from './sequenced-by'
  */
 function registerSequenceKey(klass: AnyClass, propertyName: string): void {
   Magek.configureCurrentEnv((config): void => {
-    if (config.readModelSequenceKeys[klass.name] && config.readModelSequenceKeys[klass.name] !== propertyName) {
-      throw new Error(
-        `Error trying to register a sort key named \`${propertyName}\` for class \`${
-          klass.name
-        }\`. It already had the sort key \`${
-          config.readModelSequenceKeys[klass.name]
-        }\` defined and only one sort key is allowed for each read model.`
-      )
-    } else {
-      config.readModelSequenceKeys[klass.name] = propertyName
-    }
+    config.registry.registerSequenceKey(klass.name, propertyName)
   })
 }
 
@@ -49,11 +39,6 @@ export function ReadModel(
     }
 
     Magek.configureCurrentEnv((config): void => {
-      if (config.readModels[readModelClass.name]) {
-        throw new Error(`A read model called ${readModelClass.name} is already registered.
-        If you think that this is an error, try performing a clean build.`)
-      }
-
       const authorizer = MagekAuthorizer.build(attributes) as ReadModelAuthorizer
       // Pass context.metadata because Symbol.metadata isn't attached to class yet during decorator execution
       const classMetadata = getClassMetadata(readModelClass, context.metadata)
@@ -77,17 +62,17 @@ export function ReadModel(
       // Merge fields and methods into properties
       const properties = [...fieldProperties, ...methodProperties]
 
-      config.readModels[readModelClass.name] = {
+      config.registry.registerReadModel(readModelClass.name, {
         class: readModelClass,
         properties,
         authorizer,
         before: attributes.before ?? [],
-      }
+      })
 
       // Register non-exposed fields from context.metadata
       const nonExposedFields = getNonExposedFields(context.metadata)
       if (nonExposedFields.length > 0) {
-        config.nonExposedGraphQLMetadataKey[readModelClass.name] = nonExposedFields
+        config.registry.registerNonExposedFields(readModelClass.name, nonExposedFields)
       }
     })
   }

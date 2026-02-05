@@ -1,21 +1,6 @@
 import {
-  CommandMetadata,
-  DataMigrationMetadata,
-  EntityInterface,
-  EntityMetadata,
-  EventHandlerInterface,
-  EventMetadata,
   EventStreamConfiguration,
   GlobalErrorHandlerMetadata,
-  NotificationMetadata,
-  ProjectionMetadata,
-  QueryMetadata,
-  ReadModelInterface,
-  ReadModelMetadata,
-  ReducerMetadata,
-  RoleMetadata,
-  ScheduledCommandMetadata,
-  SchemaMigrationMetadata,
   TokenVerifier,
 } from './concepts'
 import { Runtime } from './runtime'
@@ -26,10 +11,14 @@ import { Level } from './logger'
 import * as path from 'path'
 import { DEFAULT_SENSOR_HEALTH_CONFIGURATIONS, HealthIndicatorMetadata, Logger, SensorConfiguration } from '.'
 import { TraceConfiguration } from './instrumentation/trace-types'
+import { MagekRegistry } from './registry'
 
 /**
  * Class used by external packages that needs to get a representation of
  * the Magek config.
+ *
+ * Structural metadata (commands, events, entities, etc.) lives in the `registry`.
+ * This class holds only runtime configuration (adapters, log level, app name, etc.).
  */
 export class MagekConfig {
   public logLevel: Level = Level.debug
@@ -71,24 +60,6 @@ export class MagekConfig {
 
   public readonly functionRelativePath: string = path.join('..', this.codeRelativePath, 'index.js')
 
-  public readonly events: Record<EventName, EventMetadata> = {}
-  public readonly notifications: Record<EventName, NotificationMetadata> = {}
-  public readonly partitionKeys: Record<EventName, string> = {}
-  public readonly topicToEvent: Record<string, EventName> = {}
-  public readonly eventToTopic: Record<EventName, string> = {}
-  public readonly entities: Record<EntityName, EntityMetadata> = {}
-  public readonly reducers: Record<EventName, ReducerMetadata> = {}
-  public readonly commandHandlers: Record<CommandName, CommandMetadata> = {}
-  public readonly queryHandlers: Record<QueryName, QueryMetadata> = {}
-  public readonly eventHandlers: Record<EventName, Array<EventHandlerInterface>> = {}
-  public readonly readModels: Record<ReadModelName, ReadModelMetadata> = {}
-  public readonly projections: Record<EntityName, Array<ProjectionMetadata<EntityInterface, ReadModelInterface>>> = {}
-  public readonly unProjections: Record<EntityName, Array<ProjectionMetadata<EntityInterface, ReadModelInterface>>> = {}
-  public readonly readModelSequenceKeys: Record<EntityName, string> = {}
-  public readonly roles: Record<RoleName, RoleMetadata> = {}
-  public readonly schemaMigrations: Record<ConceptName, Map<Version, SchemaMigrationMetadata>> = {}
-  public readonly scheduledCommandHandlers: Record<ScheduledCommandName, ScheduledCommandMetadata> = {}
-  public readonly dataMigrationHandlers: Record<DataMigrationName, DataMigrationMetadata> = {}
   public userHealthIndicators: Record<string, HealthIndicatorMetadata> = {}
   public readonly sensorConfiguration: SensorConfiguration = {
     health: {
@@ -101,7 +72,6 @@ export class MagekConfig {
 
   public globalErrorsHandler: GlobalErrorHandlerMetadata | undefined
   public enableSubscriptions = true
-  public readonly nonExposedGraphQLMetadataKey: Record<string, Array<string>> = {}
 
   // TTL for events stored in dispatched events table. Default to 5 minutes (i.e., 300 seconds).
   public dispatchedEventsTtl = 300
@@ -131,7 +101,10 @@ export class MagekConfig {
    */
   public tokenVerifiers: Array<TokenVerifier> = []
 
-  public constructor(public readonly environmentName: string) {}
+  public constructor(
+    public readonly environmentName: string,
+    public readonly registry: MagekRegistry = new MagekRegistry()
+  ) {}
 
   public get resourceNames(): ResourceNames {
     if (this.appName.length === 0) throw new Error('Application name cannot be empty')
@@ -166,20 +139,15 @@ export class MagekConfig {
    * won't be registered (they are all anonymous)
    */
   public get thereAreRoles(): boolean {
-    return Object.entries(this.roles).length > 0
+    return this.registry.hasRoles()
   }
 
   public currentVersionFor(className: string): number {
-    const migrations = this.schemaMigrations[className]
-    if (!migrations) {
-      return 1
-    }
-
-    return Math.max(...migrations.keys())
+    return this.registry.currentVersionFor(className)
   }
 
   public validate(): void {
-    this.validateAllMigrations()
+    this.registry.validateSchemaMigrations()
   }
 
   public get runtime(): Runtime {
@@ -232,25 +200,6 @@ export class MagekConfig {
     }
     return value
   }
-
-  private validateAllMigrations(): void {
-    for (const conceptName in this.schemaMigrations) {
-      this.validateConceptSchemaMigrations(conceptName, this.schemaMigrations[conceptName])
-    }
-  }
-
-  private validateConceptSchemaMigrations(conceptName: string, migrations: Map<number, SchemaMigrationMetadata>): void {
-    // Check that migrations are defined consecutively. In other words, there are no gaps between the version numbers
-    const currentVersion = this.currentVersionFor(conceptName)
-    for (let toVersion = 2; toVersion <= currentVersion; toVersion++) {
-      if (!migrations.has(toVersion)) {
-        throw new Error(
-          `Schema Migrations for '${conceptName}' are invalid: they are missing a migration with toVersion=${toVersion}. ` +
-            `There must be a migration for '${conceptName}' for every version in the range [2..${currentVersion}]`
-        )
-      }
-    }
-  }
 }
 
 
@@ -265,14 +214,3 @@ interface ResourceNames {
 
   forReadModel(entityName: string): string
 }
-
-type EntityName = string
-type EventName = string
-type CommandName = string
-type QueryName = string
-type ReadModelName = string
-type RoleName = string
-type ConceptName = string
-type Version = number
-type ScheduledCommandName = string
-type DataMigrationName = string

@@ -36,7 +36,7 @@ export class ReadModelSchemaMigrator {
       )
     }
 
-    const currentVersion = this.config.currentVersionFor(readModelName)
+    const currentVersion = this.config.registry.currentVersionFor(readModelName)
     if (currentVersion < readModelVersion) {
       throw new InvalidVersionError(
         `Can not migrate schema an unknown version: The current schema version of ${readModelName} is ${currentVersion}, which is ` +
@@ -46,7 +46,7 @@ export class ReadModelSchemaMigrator {
   }
 
   private needsMigration(readModel: ReadModelInterface, readModelName: string): boolean {
-    const currentVersion = this.config.currentVersionFor(readModelName)
+    const currentVersion = this.config.registry.currentVersionFor(readModelName)
     return currentVersion > ReadModelSchemaMigrator.readModelSchemaVersion(readModel)
   }
 
@@ -56,11 +56,11 @@ export class ReadModelSchemaMigrator {
   ): Promise<TMigratableReadModel> {
     const logger = getLogger(this.config, 'ReadModelSchemaMigrator#applyAllMigrations')
     const oldVersion = ReadModelSchemaMigrator.readModelSchemaVersion(oldReadModel)
-    const currentVersion = this.config.currentVersionFor(readModelName)
+    const currentVersion = this.config.registry.currentVersionFor(readModelName)
     logger.info(`Migrating Schema ${readModelName} from version ${oldVersion} to version ${currentVersion}`)
     logger.debug('ReadModel before schema migration:\n', oldReadModel)
 
-    const migrations = this.config.schemaMigrations[readModelName]
+    const migrations = this.config.registry.schemaMigrations[readModelName]
     let migratedValue = oldReadModel
     for (let toVersion = oldVersion + 1; toVersion <= currentVersion; toVersion++) {
       migratedValue = await this.applyMigration(migratedValue, migrations.get(toVersion))

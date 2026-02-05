@@ -51,7 +51,7 @@ export class MagekEventsReader {
   }
 
   private entityMetadataFromEntityName(entityName: string): EntityMetadata {
-    const entityMetadata = this.config.entities[entityName]
+    const entityMetadata = this.config.registry.entities[entityName]
     if (!entityMetadata) {
       throw new NotFoundError(`Could not find entity metadata for "${entityName}"`)
     }
@@ -61,7 +61,7 @@ export class MagekEventsReader {
   private entityMetadataFromEventName(eventName: string): EntityMetadata {
     // All the events must be reduced by an entity, so we can get the associated entity from the
     // reducers
-    const reducerMetadata = this.config.reducers[eventName]
+    const reducerMetadata = this.config.registry.reducers[eventName]
     if (!reducerMetadata) {
       throw new NotFoundError(`Could not find the entity associated to event type "${eventName}"`)
     }

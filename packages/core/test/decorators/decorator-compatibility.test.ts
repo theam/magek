@@ -30,7 +30,7 @@ describe('Decorator compatibility', () => {
         }
       }
 
-      expect(Magek.config.events['TestEvent']).to.deep.equal({
+      expect(Magek.config.registry.events['TestEvent']).to.deep.equal({
         class: TestEvent,
       })
     })
@@ -50,8 +50,8 @@ describe('Decorator compatibility', () => {
       }
 
       // Verify the event is registered
-      expect(Magek.config.events['EventWithFields']).to.exist
-      expect(Magek.config.events['EventWithFields'].class).to.equal(EventWithFields)
+      expect(Magek.config.registry.events['EventWithFields']).to.exist
+      expect(Magek.config.registry.events['EventWithFields'].class).to.equal(EventWithFields)
 
       // Verify field metadata is preserved (checked by other parts of the system)
       const instance = new EventWithFields()
@@ -68,7 +68,7 @@ describe('Decorator compatibility', () => {
 
       // Verify the class is registered
       expect(TestRole2.name).to.equal('TestRole2')
-      expect(Magek.config.roles['TestRole2']).to.deep.equal({
+      expect(Magek.config.registry.roles['TestRole2']).to.deep.equal({
         auth: {},
       })
     })

@@ -17,7 +17,7 @@ import { fake, match, replace, restore, SinonStub, stub } from 'sinon'
 import { MagekReadModelsReader } from '../src/read-models-reader'
 import { faker } from '@faker-js/faker'
 import { Magek } from '../src/magek'
-import { MagekAuthorizer } from '../src/authorizer'
+import { MagekAuthorizer } from '@magek/common'
 import { ReadModelSchemaMigrator } from '../src/read-model-schema-migrator'
 
 describe('MagekReadModelReader', () => {
@@ -73,7 +73,7 @@ describe('MagekReadModelReader', () => {
   class UserRole {}
 
   // Why sorting by salmon? Salmons are fun! https://youtu.be/dDj7DuHVV9E
-  config.readModelSequenceKeys[SequencedReadModel.name] = 'salmon'
+  config.registry.readModelSequenceKeys[SequencedReadModel.name] = 'salmon'
 
   const readModelReader = new MagekReadModelsReader(config)
 
@@ -109,13 +109,13 @@ describe('MagekReadModelReader', () => {
 
   context('requests by Id', () => {
     beforeEach(() => {
-      config.readModels[TestReadModel.name] = {
+      config.registry.readModels[TestReadModel.name] = {
         class: TestReadModel,
         authorizer: MagekAuthorizer.authorizeRoles.bind(null, [UserRole]),
         properties: [],
         before: [],
       }
-      config.readModels[SequencedReadModel.name] = {
+      config.registry.readModels[SequencedReadModel.name] = {
         class: SequencedReadModel,
         authorizer: MagekAuthorizer.authorizeRoles.bind(null, [UserRole]),
         properties: [],
@@ -124,8 +124,8 @@ describe('MagekReadModelReader', () => {
     })
 
     afterEach(() => {
-      delete config.readModels[TestReadModel.name]
-      delete config.readModels[SequencedReadModel.name]
+      delete config.registry.readModels[TestReadModel.name]
+      delete config.registry.readModels[SequencedReadModel.name]
     })
 
     describe('the `validateByIdRequest` function', () => {
@@ -191,14 +191,14 @@ describe('MagekReadModelReader', () => {
     describe('the `findById` method', () => {
       let migratorStub: SinonStub
       beforeEach(() => {
-        config.readModels['SomeReadModel'] = {
+        config.registry.readModels['SomeReadModel'] = {
           before: [],
         } as any
         migratorStub = stub(ReadModelSchemaMigrator.prototype, 'migrate')
       })
 
       afterEach(() => {
-        delete config.readModels['SomeReadModel']
+        delete config.registry.readModels['SomeReadModel']
         migratorStub.restore()
       })
 
@@ -306,7 +306,7 @@ describe('MagekReadModelReader', () => {
 
   describe('the validation for methods `search` and `subscribe`', () => {
     beforeEach(() => {
-      config.readModels[TestReadModel.name] = {
+      config.registry.readModels[TestReadModel.name] = {
         class: TestReadModel,
         authorizer: MagekAuthorizer.authorizeRoles.bind(null, [UserRole]),
         properties: [],
@@ -315,7 +315,7 @@ describe('MagekReadModelReader', () => {
     })
 
     afterEach(() => {
-      delete config.readModels[TestReadModel.name]
+      delete config.registry.readModels[TestReadModel.name]
     })
 
     it('throws the right error when request is missing "version"', async () => {
@@ -402,7 +402,7 @@ describe('MagekReadModelReader', () => {
     describe('the "search" method', () => {
       let migratorStub: SinonStub
       beforeEach(() => {
-        config.readModels[TestReadModel.name] = {
+        config.registry.readModels[TestReadModel.name] = {
           class: TestReadModel,
           authorizer: MagekAuthorizer.authorizeRoles.bind(null, [UserRole]),
           properties: [],
@@ -412,7 +412,7 @@ describe('MagekReadModelReader', () => {
       })
 
       afterEach(() => {
-        delete config.readModels[TestReadModel.name]
+        delete config.registry.readModels[TestReadModel.name]
         migratorStub.restore()
       })
 
@@ -575,7 +575,7 @@ describe('MagekReadModelReader', () => {
         beforeEach(() => {
           const providerSearcherFunctionFake = fake.resolves([])
 
-          config.readModels[TestReadModel.name] = {
+          config.registry.readModels[TestReadModel.name] = {
             class: TestReadModel,
             authorizer: MagekAuthorizer.authorizeRoles.bind(null, [UserRole]),
             properties: [],
@@ -587,7 +587,7 @@ describe('MagekReadModelReader', () => {
         })
 
         afterEach(() => {
-          delete config.readModels[TestReadModel.name]
+          delete config.registry.readModels[TestReadModel.name]
         })
 
         it('calls the before hook function', async () => {
@@ -610,7 +610,7 @@ describe('MagekReadModelReader', () => {
         beforeEach(() => {
           const providerSearcherFunctionFake = fake.resolves([])
 
-          config.readModels[TestReadModel.name] = {
+          config.registry.readModels[TestReadModel.name] = {
             class: TestReadModel,
             authorizer: MagekAuthorizer.authorizeRoles.bind(null, [UserRole]),
             properties: [],
@@ -623,7 +623,7 @@ describe('MagekReadModelReader', () => {
         })
 
         afterEach(() => {
-          delete config.readModels[TestReadModel.name]
+          delete config.registry.readModels[TestReadModel.name]
         })
 
         it('chains the before hook functions when there is more than one', async () => {
@@ -656,7 +656,7 @@ describe('MagekReadModelReader', () => {
         const providerSubscribeFunctionFake = fake()
 
         beforeEach(() => {
-          config.readModels[TestReadModel.name] = {
+          config.registry.readModels[TestReadModel.name] = {
             class: TestReadModel,
             authorizer: MagekAuthorizer.authorizeRoles.bind(null, [UserRole]),
             properties: [],
@@ -689,7 +689,7 @@ describe('MagekReadModelReader', () => {
         const providerSubscribeFunctionFake = fake()
 
         beforeEach(() => {
-          config.readModels[TestReadModel.name] = {
+          config.registry.readModels[TestReadModel.name] = {
             class: TestReadModel,
             authorizer: MagekAuthorizer.authorizeRoles.bind(null, [UserRole]),
             properties: [],

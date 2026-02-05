@@ -68,8 +68,8 @@ export class GraphQLGenerator {
 
       const queryGenerator = new GraphQLQueryGenerator(
         config,
-        Object.values(config.readModels).map((m) => m.class),
-        queryMetadataToTargetTypes(config.queryHandlers),
+        Object.values(config.registry.readModels).map((m) => m.class),
+        queryMetadataToTargetTypes(config.registry.queryHandlers),
         typeInformer,
         this.readModelByIDResolverBuilder.bind(this, config),
         this.queriesResolverBuilder.bind(this),
@@ -79,14 +79,14 @@ export class GraphQLGenerator {
       )
 
       const mutationGenerator = new GraphQLMutationGenerator(
-        commandMetadataToTargetTypes(config.commandHandlers),
+        commandMetadataToTargetTypes(config.registry.commandHandlers),
         typeInformer,
         this.commandResolverBuilder.bind(this),
         config
       )
 
       const subscriptionGenerator = new GraphQLSubscriptionGenerator(
-        Object.values(config.readModels).map((m) => m.class),
+        Object.values(config.registry.readModels).map((m) => m.class),
         typeInformer,
         this.subscriptionByIDResolverBuilder.bind(this, config),
         this.subscriptionResolverBuilder.bind(this, config),
@@ -139,7 +139,7 @@ export class GraphQLGenerator {
     const readModelClass = typeof readModelNameOrClass === 'string'
       ? { name: readModelNameOrClass } as unknown as AnyClass
       : readModelNameOrClass
-    const sequenceKeyName = config.readModelSequenceKeys[readModelClass.name]
+    const sequenceKeyName = config.registry.readModelSequenceKeys[readModelClass.name]
     return async (parent, args, context) => {
       const readModelRequestEnvelope = this.toReadModelByIdRequestEnvelope(
         readModelClass,

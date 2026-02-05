@@ -44,7 +44,7 @@ describe('the config type', () => {
   describe('thereAreRoles', () => {
     it('returns true when there are roles defined', () => {
       const config = new MagekConfig('test')
-      config.roles['test-role'] = {
+      config.registry.roles['test-role'] = {
         auth: {
           signUpMethods: [],
         },
@@ -64,7 +64,7 @@ describe('the config type', () => {
       const config = new MagekConfig('test')
       const schemaMigrations = new Map()
       schemaMigrations.set(2, {} as any)
-      config.schemaMigrations['concept-with-migrations'] = schemaMigrations
+      config.registry.schemaMigrations['concept-with-migrations'] = schemaMigrations
 
       expect(config.currentVersionFor('concept-without-migration')).to.be.equal(1)
     })
@@ -88,7 +88,7 @@ describe('the config type', () => {
         migrationClass: SchemaMigrationClassTest,
         toVersion: 2,
       })
-      config.schemaMigrations['concept'] = schemaMigrations
+      config.registry.schemaMigrations['concept'] = schemaMigrations
 
       expect(config.currentVersionFor('concept')).to.be.equal(3)
     })
@@ -102,7 +102,7 @@ describe('the config type', () => {
       schemaMigrations.set(3, {} as any)
       schemaMigrations.set(2, {} as any)
       schemaMigrations.set(5, {} as any)
-      config.schemaMigrations['concept'] = schemaMigrations
+      config.registry.schemaMigrations['concept'] = schemaMigrations
 
       expect(() => config.validate()).to.throw(/Schema Migrations for 'concept' are invalid/)
     })
@@ -114,7 +114,7 @@ describe('the config type', () => {
       schemaMigrations.set(4, {} as any)
       schemaMigrations.set(2, {} as any)
       schemaMigrations.set(3, {} as any)
-      config.schemaMigrations['concept'] = schemaMigrations
+      config.registry.schemaMigrations['concept'] = schemaMigrations
 
       expect(() => config.validate()).to.not.throw()
     })

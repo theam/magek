@@ -17,7 +17,7 @@ import { MagekEntityMigrated } from './core-concepts/data-migration/events/entit
 import { MagekDataMigrationEntity } from './core-concepts/data-migration/entities/data-migration-entity'
 import { MagekDataMigrationStarted } from './core-concepts/data-migration/events/data-migration-started'
 import { MagekDataMigrationFinished } from './core-concepts/data-migration/events/data-migration-finished'
-import { MagekAuthorizer } from './authorizer'
+import { MagekAuthorizer } from '@magek/common'
 import { MagekEntityTouched } from './core-concepts/touch-entity/events/entity-touched'
 import { readModelSearcher } from './services/read-model-searcher'
 import { MagekDeleteEventDispatcher } from './delete-event-dispatcher'
@@ -117,36 +117,38 @@ export class Magek {
   }
 
   private static configureDataMigrations(): void {
-    this.config.events[MagekEntityMigrated.name] = {
+    const registry = this.config.registry
+
+    registry.events[MagekEntityMigrated.name] = {
       class: MagekEntityMigrated,
     }
 
-    this.config.events[MagekDataMigrationStarted.name] = {
+    registry.events[MagekDataMigrationStarted.name] = {
       class: MagekDataMigrationStarted,
     }
 
-    this.config.reducers[MagekDataMigrationStarted.name] = {
+    registry.reducers[MagekDataMigrationStarted.name] = {
       class: MagekDataMigrationEntity,
       methodName: 'started',
     }
 
-    this.config.events[MagekDataMigrationFinished.name] = {
+    registry.events[MagekDataMigrationFinished.name] = {
       class: MagekDataMigrationFinished,
     }
 
-    this.config.reducers[MagekDataMigrationFinished.name] = {
+    registry.reducers[MagekDataMigrationFinished.name] = {
       class: MagekDataMigrationEntity,
       methodName: 'finished',
     }
 
-    this.config.entities[MagekDataMigrationEntity.name] = {
+    registry.entities[MagekDataMigrationEntity.name] = {
       class: MagekDataMigrationEntity,
       eventStreamAuthorizer: MagekAuthorizer.denyAccess,
     }
   }
 
   private static configureTouchEntities(): void {
-    this.config.events[MagekEntityTouched.name] = {
+    this.config.registry.events[MagekEntityTouched.name] = {
       class: MagekEntityTouched,
     }
   }

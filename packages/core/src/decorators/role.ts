@@ -16,7 +16,7 @@ export function Role(
 ): (role: Class<RoleInterface>, context: ClassDecoratorContext) => void {
   return (role, _context?: ClassDecoratorContext): void => {
     Magek.configureCurrentEnv((config): void => {
-      config.roles[role.name] = roleMetadata
+      config.registry.registerRole(role.name, roleMetadata)
     })
   }
 }

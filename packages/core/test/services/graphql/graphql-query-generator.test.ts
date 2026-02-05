@@ -478,10 +478,10 @@ describe('GraphQLQueryGenerator', () => {
         beforeEach(() => {
           const configWithEventsAndEntities = new MagekConfig('test')
           for (const entityName of entityNames) {
-            configWithEventsAndEntities.entities[entityName] = {} as never
+            configWithEventsAndEntities.registry.entities[entityName] = {} as never
           }
           for (const eventTypeName of eventTypeNames) {
-            configWithEventsAndEntities.reducers[eventTypeName] = {} as never
+            configWithEventsAndEntities.registry.reducers[eventTypeName] = {} as never
           }
           mockTargetTypeClass = Boolean
           const mockedClassMetadata = {

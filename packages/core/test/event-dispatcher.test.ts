@@ -36,8 +36,8 @@ describe('MagekEventDispatcher', () => {
 
   const config = new MagekConfig('test')
   config.runtime = {} as Runtime
-  config.events[SomeEvent.name] = { class: SomeEvent }
-  config.notifications[SomeNotification.name] = { class: SomeNotification }
+  config.registry.events[SomeEvent.name] = { class: SomeEvent }
+  config.registry.notifications[SomeNotification.name] = { class: SomeNotification }
   config.logger = {
     info: fake(),
     error: fake(),

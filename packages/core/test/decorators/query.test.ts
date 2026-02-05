@@ -4,13 +4,13 @@ import { field } from '../../src'
 import { Query } from '../../src/decorators'
 import { Magek } from '../../src'
 import { fake } from 'sinon'
-import { MagekAuthorizer } from '../../src/authorizer'
+import { MagekAuthorizer } from '@magek/common'
 
 describe('the `Query` decorator', () => {
   afterEach(() => {
     const magek = Magek as any
-    delete magek.config.queryHandlers['GetComments']
-    delete magek.config.queryHandlers['ListNotes']
+    delete magek.config.registry.queryHandlers['GetComments']
+    delete magek.config.registry.queryHandlers['ListNotes']
   })
 
   context('when an authorizer function is provided', () => {
@@ -28,7 +28,7 @@ describe('the `Query` decorator', () => {
 
       // Make Magek be of any type to access private members
       const magek = Magek as any
-      const queryMetadata = magek.config.queryHandlers[GetComments.name]
+      const queryMetadata = magek.config.registry.queryHandlers[GetComments.name]
 
       expect(queryMetadata).to.be.an('object')
       expect(queryMetadata.class).to.equal(GetComments)
@@ -57,7 +57,7 @@ describe('the `Query` decorator', () => {
 
       // Make Magek be of any type to access private members
       const magek = Magek as any
-      const queryMetadata = magek.config.queryHandlers[GetComments.name]
+      const queryMetadata = magek.config.registry.queryHandlers[GetComments.name]
 
       expect(queryMetadata).to.be.an('object')
       expect(queryMetadata.class).to.equal(GetComments)
@@ -85,7 +85,7 @@ describe('the `Query` decorator', () => {
 
       // Make Magek be of any type to access private members
       const magek = Magek as any
-      const queryMetadata = magek.config.queryHandlers[GetComments.name]
+      const queryMetadata = magek.config.registry.queryHandlers[GetComments.name]
 
       expect(queryMetadata).to.be.an('object')
       expect(queryMetadata.class).to.equal(GetComments)
@@ -109,7 +109,7 @@ describe('the `Query` decorator', () => {
 
       // Make Magek be of any type to access private members
       const magek = Magek as any
-      const queryMetadata = magek.config.queryHandlers[ListNotes.name]
+      const queryMetadata = magek.config.registry.queryHandlers[ListNotes.name]
 
       expect(queryMetadata).to.be.an('object')
       expect(queryMetadata.class).to.equal(ListNotes)

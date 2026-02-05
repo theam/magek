@@ -25,7 +25,7 @@ export class GraphqlQueryFiltersGenerator {
   public generateFilterQueries(): GraphQLFieldConfigMap<unknown, GraphQLResolverContext> {
     const queries: GraphQLFieldConfigMap<unknown, GraphQLResolverContext> = {}
     for (const readModel of this.readModels) {
-      const excludeProp = this.config.nonExposedGraphQLMetadataKey[readModel.name]
+      const excludeProp = this.config.registry.nonExposedGraphQLMetadataKey[readModel.name]
       const graphQLType = this.typeInformer.generateGraphQLTypeForClass(readModel, excludeProp)
       queries[inflected.pluralize(readModel.name)] = {
         type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(graphQLType))),

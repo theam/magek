@@ -102,8 +102,8 @@ describe('MagekEventProcessor', () => {
 
   const config = new MagekConfig('test')
   config.runtime = {} as Runtime
-  config.events[SomeEvent.name] = { class: SomeEvent }
-  config.notifications[SomeNotification.name] = { class: SomeNotification }
+  config.registry.events[SomeEvent.name] = { class: SomeEvent }
+  config.registry.notifications[SomeNotification.name] = { class: SomeNotification }
   config.logger = {
     info: fake(),
     error: fake(),
@@ -155,7 +155,7 @@ describe('MagekEventProcessor', () => {
         )
       })
 
-      it("doesn't call snapshotAndUpdateReadModels if the entity name is in config.topicToEvent", async () => {
+      it("doesn't call snapshotAndUpdateReadModels if the entity name is in config.registry.topicToEvent", async () => {
         const stubEventStore = createStubInstance(EventStore)
         const stubReadModelStore = createStubInstance(ReadModelStore)
 
@@ -164,12 +164,12 @@ describe('MagekEventProcessor', () => {
         replace(eventProcessor, 'dispatchEntityEventsToEventHandlers', fake())
 
         const overriddenConfig = { ...config }
-        overriddenConfig.topicToEvent = { [someEvent.entityTypeName]: 'SomeEvent' }
+        ;(overriddenConfig.registry as any).topicToEvent = { [someEvent.entityTypeName]: 'SomeEvent' }
 
         const callback = eventProcessor.eventProcessor(stubEventStore, stubReadModelStore)
 
         await callback(someEvent.entityTypeName, someEvent.entityID, [someEvent], overriddenConfig)
-        overriddenConfig.topicToEvent = {}
+        ;(overriddenConfig.registry as any).topicToEvent = {}
 
         expect(eventProcessor.snapshotAndUpdateReadModels).not.to.have.been.called
       })
@@ -242,24 +242,24 @@ describe('MagekEventProcessor', () => {
 
     describe('the `dispatchEntityEventsToEventHandlers` method', () => {
       afterEach(() => {
-        config.eventHandlers[SomeEvent.name] = []
+        config.registry.eventHandlers[SomeEvent.name] = []
       })
 
       it('does nothing and does not throw if there are no event handlers and no global handler', async () => {
         replace(RegisterHandler, 'handle', fake())
         const eventProcessor = MagekEventProcessor as any
         // We try first with null array of event handlers
-        config.eventHandlers[SomeEvent.name] = null as any
+        config.registry.eventHandlers[SomeEvent.name] = null as any
         await eventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
         // And now with an empty array
-        config.eventHandlers[SomeEvent.name] = []
+        config.registry.eventHandlers[SomeEvent.name] = []
         await eventProcessor.dispatchEntityEventsToEventHandlers([someEvent], config)
         // It should not throw any errors
       })
 
       it('calls global handler for the current event if defined', async () => {
         const fakeGlobalHandler = fake()
-        config.eventHandlers[SomeEvent.name] = [{ handle: fakeGlobalHandler }]
+        config.registry.eventHandlers[SomeEvent.name] = [{ handle: fakeGlobalHandler }]
 
         replace(RegisterHandler, 'handle', fake())
 
@@ -277,7 +277,7 @@ describe('MagekEventProcessor', () => {
         const fakeHandler1 = fake(async () => {})
         const fakeHandler2 = fake(async () => {})
         const fakeGlobalHandler = fake(async () => {})
-        config.eventHandlers[SomeEvent.name] = [
+        config.registry.eventHandlers[SomeEvent.name] = [
           { handle: fakeHandler1 },
           { handle: fakeHandler2 },
           { handle: fakeGlobalHandler },
@@ -301,7 +301,7 @@ describe('MagekEventProcessor', () => {
         const fakeHandler1 = fake(async () => {})
         const fakeHandler2 = fake(async () => {})
         const fakeGlobalHandler = fake(async () => {})
-        config.eventHandlers[SomeNotification.name] = [
+        config.registry.eventHandlers[SomeNotification.name] = [
           { handle: fakeHandler1 },
           { handle: fakeHandler2 },
           { handle: fakeGlobalHandler },
@@ -328,7 +328,7 @@ describe('MagekEventProcessor', () => {
         const fakeHandler2 = fake(async (event: EventInterface, register: Register) => {
           capturedRegister2 = register
         })
-        config.eventHandlers[SomeEvent.name] = [{ handle: fakeHandler1 }, { handle: fakeHandler2 }]
+        config.registry.eventHandlers[SomeEvent.name] = [{ handle: fakeHandler1 }, { handle: fakeHandler2 }]
 
         replace(RegisterHandler, 'handle', fake())
 
@@ -347,7 +347,7 @@ describe('MagekEventProcessor', () => {
           register.events(someEvent.value as EventInterface)
           capturedRegister = register
         })
-        config.eventHandlers[SomeEvent.name] = [{ handle: fakeHandler }]
+        config.registry.eventHandlers[SomeEvent.name] = [{ handle: fakeHandler }]
 
         replace(RegisterHandler, 'handle', fake())
 
@@ -362,8 +362,8 @@ describe('MagekEventProcessor', () => {
         const failingHandler = fake.rejects(new Error('Handler failed'))
         const successHandler = fake.resolves({})
 
-        config.eventHandlers[SomeEvent.name] = [{ handle: failingHandler }]
-        config.eventHandlers[SomeNotification.name] = [{ handle: successHandler }]
+        config.registry.eventHandlers[SomeEvent.name] = [{ handle: failingHandler }]
+        config.registry.eventHandlers[SomeNotification.name] = [{ handle: successHandler }]
 
         replace(RegisterHandler, 'handle', fake())
 
@@ -385,7 +385,7 @@ describe('MagekEventProcessor', () => {
         ])
         const failingHandler = fake.rejects(promisesError)
 
-        config.eventHandlers[SomeEvent.name] = [{ handle: failingHandler }]
+        config.registry.eventHandlers[SomeEvent.name] = [{ handle: failingHandler }]
 
         replace(RegisterHandler, 'handle', fake())
 
@@ -413,7 +413,7 @@ describe('MagekEventProcessor', () => {
         const failingHandler = fake.rejects(new Error('Handler failed'))
         const successHandler = fake.resolves({})
 
-        config.eventHandlers[SomeEvent.name] = [{ handle: failingHandler }, { handle: successHandler }]
+        config.registry.eventHandlers[SomeEvent.name] = [{ handle: failingHandler }, { handle: successHandler }]
 
         replace(RegisterHandler, 'handle', fake())
 
@@ -451,7 +451,7 @@ describe('MagekEventProcessor', () => {
     })
 
     it('calls an instance method in the event and it is executed without failing', async () => {
-      config.eventHandlers[SomeEvent.name] = [{ handle: AnEventHandler.handle }]
+      config.registry.eventHandlers[SomeEvent.name] = [{ handle: AnEventHandler.handle }]
       const eventProcessor = MagekEventProcessor as any
       const getPrefixedIdFake = fake()
       replace(SomeEvent.prototype, 'getPrefixedId', getPrefixedIdFake)

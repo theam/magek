@@ -18,13 +18,13 @@ export async function eventSearch(
 
 function createEventValueInstance(config: MagekConfig, event: EventSearchResponse): EventSearchResponse {
   const logger = getLogger(config, 'magek-event-search#createEventValueInstance')
-  const eventMetadata: EventMetadata = config.events[event.type]
+  const eventMetadata: EventMetadata = config.registry.events[event.type]
   if (eventMetadata) {
     event.value = createInstance(eventMetadata.class, event.value)
     logger.debug(`Found @Event for "${event.type}". Created value instance`)
     return event
   }
-  const notificationMetadata: NotificationMetadata = config.notifications[event.type]
+  const notificationMetadata: NotificationMetadata = config.registry.notifications[event.type]
   if (notificationMetadata) {
     event.value = createInstance(notificationMetadata.class, event.value)
     logger.debug(`Found @Notification for "${event.type}"`)

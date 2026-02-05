@@ -8,9 +8,9 @@ import { fake } from 'sinon'
 describe('the `returns` decorator', () => {
   afterEach(() => {
     const magek = Magek as any
-    delete magek.config.commandHandlers['CreateNote']
-    delete magek.config.commandHandlers['GetNotes']
-    delete magek.config.commandHandlers['ProcessItems']
+    delete magek.config.registry.commandHandlers['CreateNote']
+    delete magek.config.registry.commandHandlers['GetNotes']
+    delete magek.config.registry.commandHandlers['ProcessItems']
   })
 
   context('when used with @Command', () => {
@@ -27,7 +27,7 @@ describe('the `returns` decorator', () => {
       }
 
       const magek = Magek as any
-      const commandMetadata = magek.config.commandHandlers[CreateNote.name]
+      const commandMetadata = magek.config.registry.commandHandlers[CreateNote.name]
 
       expect(commandMetadata).to.be.an('object')
       expect(commandMetadata.methods).to.be.an('Array')
@@ -53,7 +53,7 @@ describe('the `returns` decorator', () => {
       }
 
       const magek = Magek as any
-      const commandMetadata = magek.config.commandHandlers[CreateNote.name]
+      const commandMetadata = magek.config.registry.commandHandlers[CreateNote.name]
 
       const handleMethod = commandMetadata.methods.find((m: any) => m.name === 'handle')
       expect(handleMethod).to.exist
@@ -75,7 +75,7 @@ describe('the `returns` decorator', () => {
       }
 
       const magek = Magek as any
-      const commandMetadata = magek.config.commandHandlers[CreateNote.name]
+      const commandMetadata = magek.config.registry.commandHandlers[CreateNote.name]
 
       const handleMethod = commandMetadata.methods.find((m: any) => m.name === 'handle')
       expect(handleMethod).to.exist
@@ -97,7 +97,7 @@ describe('the `returns` decorator', () => {
       }
 
       const magek = Magek as any
-      const commandMetadata = magek.config.commandHandlers[CreateNote.name]
+      const commandMetadata = magek.config.registry.commandHandlers[CreateNote.name]
 
       const handleMethod = commandMetadata.methods.find((m: any) => m.name === 'handle')
       expect(handleMethod).to.exist
@@ -121,7 +121,7 @@ describe('the `returns` decorator', () => {
       }
 
       const magek = Magek as any
-      const commandMetadata = magek.config.commandHandlers[GetNotes.name]
+      const commandMetadata = magek.config.registry.commandHandlers[GetNotes.name]
 
       const handleMethod = commandMetadata.methods.find((m: any) => m.name === 'handle')
       expect(handleMethod).to.exist
@@ -145,7 +145,7 @@ describe('the `returns` decorator', () => {
       }
 
       const magek = Magek as any
-      const commandMetadata = magek.config.commandHandlers[ProcessItems.name]
+      const commandMetadata = magek.config.registry.commandHandlers[ProcessItems.name]
 
       const handleMethod = commandMetadata.methods.find((m: any) => m.name === 'handle')
       expect(handleMethod).to.exist
@@ -169,7 +169,7 @@ describe('the `returns` decorator', () => {
       }
 
       const magek = Magek as any
-      const commandMetadata = magek.config.commandHandlers[CreateNote.name]
+      const commandMetadata = magek.config.registry.commandHandlers[CreateNote.name]
 
       // Without @returns, the handle method should NOT be in methods array
       const handleMethod = commandMetadata.methods.find((m: any) => m.name === 'handle')

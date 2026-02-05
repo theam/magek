@@ -81,8 +81,8 @@ describe('the `Migrates` annotation', () => {
   afterEach(() => {
     Magek.configure('test', (config) => {
       config.appName = ''
-      for (const propName in config.schemaMigrations) {
-        delete config.schemaMigrations[propName]
+      for (const propName in config.registry.schemaMigrations) {
+        delete config.registry.schemaMigrations[propName]
       }
     })
   })
@@ -115,8 +115,8 @@ describe('the `Migrates` annotation', () => {
     }
 
     Magek.configure('test', (config) => {
-      expect(Object.keys(config.schemaMigrations).length).to.be.equal(1)
-      const productMigrations = config.schemaMigrations[Product.name]
+      expect(Object.keys(config.registry.schemaMigrations).length).to.be.equal(1)
+      const productMigrations = config.registry.schemaMigrations[Product.name]
       expect(productMigrations.size).to.be.equal(4)
       expect(productMigrations.get(2)).to.be.deep.equal({
         migrationClass: MigrateProductFrom1To3,

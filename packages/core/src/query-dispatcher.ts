@@ -27,7 +27,7 @@ export class MagekQueryDispatcher {
       throw new InvalidParameterError('The required query "version" was not present')
     }
 
-    const queryMetadata = this.config.queryHandlers[queryEnvelope.typeName]
+    const queryMetadata = this.config.registry.queryHandlers[queryEnvelope.typeName]
     if (!queryMetadata) {
       throw new NotFoundError(`Could not find a proper handler for ${queryEnvelope.typeName}`)
     }

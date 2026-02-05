@@ -7,19 +7,19 @@ import { field } from '../../src'
 describe('the `reduces` decorator', () => {
   afterEach(() => {
     Magek.configureCurrentEnv((config: MagekConfig) => {
-      for (const propName in config.reducers) {
-        delete config.reducers[propName]
+      for (const propName in config.registry.reducers) {
+        delete config.registry.reducers[propName]
       }
-      for (const propName in config.entities) {
-        delete config.entities[propName]
+      for (const propName in config.registry.entities) {
+        delete config.registry.entities[propName]
       }
-      for (const propName in config.events) {
-        delete config.events[propName]
+      for (const propName in config.registry.events) {
+        delete config.registry.events[propName]
       }
     })
   })
 
-  it('registers the reducer metadata in config.reducers with class and methodName', () => {
+  it('registers the reducer metadata in config.registry.reducers with class and methodName', () => {
     @Event
     class ItemAdded {
       @field()
@@ -44,7 +44,7 @@ describe('the `reduces` decorator', () => {
       }
     }
 
-    const reducerMetadata = Magek.config.reducers['ItemAdded']
+    const reducerMetadata = Magek.config.registry.reducers['ItemAdded']
 
     expect(reducerMetadata).to.be.an('object')
     expect(reducerMetadata.class).to.equal(Cart)
@@ -94,10 +94,10 @@ describe('the `reduces` decorator', () => {
       }
     }
 
-    expect(Magek.config.reducers['OrderCreated'].class).to.equal(Order)
-    expect(Magek.config.reducers['OrderCreated'].methodName).to.equal('create')
-    expect(Magek.config.reducers['PaymentReceived'].class).to.equal(Payment)
-    expect(Magek.config.reducers['PaymentReceived'].methodName).to.equal('receive')
+    expect(Magek.config.registry.reducers['OrderCreated'].class).to.equal(Order)
+    expect(Magek.config.registry.reducers['OrderCreated'].methodName).to.equal('create')
+    expect(Magek.config.registry.reducers['PaymentReceived'].class).to.equal(Payment)
+    expect(Magek.config.registry.reducers['PaymentReceived'].methodName).to.equal('receive')
   })
 
   it('throws an error when the same event is reduced by multiple methods', () => {

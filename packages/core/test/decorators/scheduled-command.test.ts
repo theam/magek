@@ -6,13 +6,13 @@ import { MagekConfig, Register } from '@magek/common'
 describe('the `ScheduledCommand` decorator', () => {
   afterEach(() => {
     Magek.configureCurrentEnv((config: MagekConfig) => {
-      for (const propName in config.scheduledCommandHandlers) {
-        delete config.scheduledCommandHandlers[propName]
+      for (const propName in config.registry.scheduledCommandHandlers) {
+        delete config.registry.scheduledCommandHandlers[propName]
       }
     })
   })
 
-  it('registers the scheduled command in config.scheduledCommandHandlers', () => {
+  it('registers the scheduled command in config.registry.scheduledCommandHandlers', () => {
     @ScheduledCommand({ minute: '0', hour: '*/2' })
     class CleanupExpiredSessions {
       public static async handle(_register: Register): Promise<void> {
@@ -20,7 +20,7 @@ describe('the `ScheduledCommand` decorator', () => {
       }
     }
 
-    const commandMetadata = Magek.config.scheduledCommandHandlers['CleanupExpiredSessions']
+    const commandMetadata = Magek.config.registry.scheduledCommandHandlers['CleanupExpiredSessions']
 
     expect(commandMetadata).to.be.an('object')
     expect(commandMetadata.class).to.equal(CleanupExpiredSessions)
@@ -45,7 +45,7 @@ describe('the `ScheduledCommand` decorator', () => {
       }
     }
 
-    const commandMetadata = Magek.config.scheduledCommandHandlers['QuarterlyReport']
+    const commandMetadata = Magek.config.registry.scheduledCommandHandlers['QuarterlyReport']
 
     expect(commandMetadata.scheduledOn).to.deep.equal({
       minute: '30',
@@ -71,10 +71,10 @@ describe('the `ScheduledCommand` decorator', () => {
       public static async handle(_register: Register): Promise<void> {}
     }
 
-    expect(Magek.config.scheduledCommandHandlers['HealthCheck'].class).to.equal(HealthCheck)
-    expect(Magek.config.scheduledCommandHandlers['DailyBackup'].class).to.equal(DailyBackup)
-    expect(Magek.config.scheduledCommandHandlers['HealthCheck'].scheduledOn.minute).to.equal('*/5')
-    expect(Magek.config.scheduledCommandHandlers['DailyBackup'].scheduledOn.hour).to.equal('0')
+    expect(Magek.config.registry.scheduledCommandHandlers['HealthCheck'].class).to.equal(HealthCheck)
+    expect(Magek.config.registry.scheduledCommandHandlers['DailyBackup'].class).to.equal(DailyBackup)
+    expect(Magek.config.registry.scheduledCommandHandlers['HealthCheck'].scheduledOn.minute).to.equal('*/5')
+    expect(Magek.config.registry.scheduledCommandHandlers['DailyBackup'].scheduledOn.hour).to.equal('0')
   })
 
   it('throws an error when the same command is registered twice', () => {
@@ -86,11 +86,11 @@ describe('the `ScheduledCommand` decorator', () => {
     expect(() => {
       // Re-registering a command with the same name should throw
       Magek.configureCurrentEnv((config: MagekConfig) => {
-        if (config.scheduledCommandHandlers['DuplicateCommand']) {
+        if (config.registry.scheduledCommandHandlers['DuplicateCommand']) {
           throw new Error(`A command called DuplicateCommand is already registered.
         If you think that this is an error, try performing a clean build.`)
         }
-        config.scheduledCommandHandlers['DuplicateCommand'] = {
+        config.registry.scheduledCommandHandlers['DuplicateCommand'] = {
           class: DuplicateCommand,
           scheduledOn: { minute: '30' },
         }
@@ -104,7 +104,7 @@ describe('the `ScheduledCommand` decorator', () => {
       public static async handle(_register: Register): Promise<void> {}
     }
 
-    const commandMetadata = Magek.config.scheduledCommandHandlers['MorningTask']
+    const commandMetadata = Magek.config.registry.scheduledCommandHandlers['MorningTask']
 
     expect(commandMetadata.scheduledOn).to.deep.equal({ hour: '6' })
     expect(commandMetadata.scheduledOn.minute).to.be.undefined

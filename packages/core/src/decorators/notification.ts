@@ -25,23 +25,16 @@ export const Notification =
     if (context.metadata && context.metadata[PARTITION_KEY_SYMBOL]) {
       const propertyName = context.metadata[PARTITION_KEY_SYMBOL] as string
       Magek.configureCurrentEnv((config): void => {
-        config.partitionKeys[eventClass.name] = propertyName
+        config.registry.registerPartitionKey(eventClass.name, propertyName)
       })
     }
 
     Magek.configureCurrentEnv((config): void => {
-      if (config.notifications[eventClass.name] || config.events[eventClass.name]) {
-        throw new Error(`A notification called ${eventClass.name} is already registered.
-        If you think that this is an error, try performing a clean build.`)
-      }
       const topic = options?.topic ?? 'defaultTopic'
       if (topic) {
-        config.eventToTopic[eventClass.name] = topic
-        config.topicToEvent[topic] = eventClass.name
+        config.registry.registerTopicMapping(eventClass.name, topic)
       }
-      config.notifications[eventClass.name] = {
-        class: eventClass,
-      }
+      config.registry.registerNotification(eventClass.name, { class: eventClass })
     })
   }
 

@@ -6,13 +6,13 @@ import { MagekConfig, Register } from '@magek/common'
 describe('the `DataMigration` decorator', () => {
   afterEach(() => {
     Magek.configureCurrentEnv((config: MagekConfig) => {
-      for (const propName in config.dataMigrationHandlers) {
-        delete config.dataMigrationHandlers[propName]
+      for (const propName in config.registry.dataMigrationHandlers) {
+        delete config.registry.dataMigrationHandlers[propName]
       }
     })
   })
 
-  it('registers the data migration in config.dataMigrationHandlers', () => {
+  it('registers the data migration in config.registry.dataMigrationHandlers', () => {
     @DataMigration({ order: 1 })
     class AddDefaultRoles {
       public static async start(_register: Register): Promise<void> {
@@ -20,7 +20,7 @@ describe('the `DataMigration` decorator', () => {
       }
     }
 
-    const migrationMetadata = Magek.config.dataMigrationHandlers['AddDefaultRoles']
+    const migrationMetadata = Magek.config.registry.dataMigrationHandlers['AddDefaultRoles']
 
     expect(migrationMetadata).to.be.an('object')
     expect(migrationMetadata.class).to.equal(AddDefaultRoles)
@@ -38,8 +38,8 @@ describe('the `DataMigration` decorator', () => {
       public static async start(_register: Register): Promise<void> {}
     }
 
-    expect(Magek.config.dataMigrationHandlers['UpdateUserSchema'].migrationOptions.order).to.equal(5)
-    expect(Magek.config.dataMigrationHandlers['MigrateUserData'].migrationOptions.order).to.equal(10)
+    expect(Magek.config.registry.dataMigrationHandlers['UpdateUserSchema'].migrationOptions.order).to.equal(5)
+    expect(Magek.config.registry.dataMigrationHandlers['MigrateUserData'].migrationOptions.order).to.equal(10)
 
     // Suppress unused variable warnings
     void UpdateUserSchema
@@ -62,9 +62,9 @@ describe('the `DataMigration` decorator', () => {
       public static async start(_register: Register): Promise<void> {}
     }
 
-    expect(Magek.config.dataMigrationHandlers['FirstMigration'].class).to.equal(FirstMigration)
-    expect(Magek.config.dataMigrationHandlers['SecondMigration'].class).to.equal(SecondMigration)
-    expect(Magek.config.dataMigrationHandlers['ThirdMigration'].class).to.equal(ThirdMigration)
+    expect(Magek.config.registry.dataMigrationHandlers['FirstMigration'].class).to.equal(FirstMigration)
+    expect(Magek.config.registry.dataMigrationHandlers['SecondMigration'].class).to.equal(SecondMigration)
+    expect(Magek.config.registry.dataMigrationHandlers['ThirdMigration'].class).to.equal(ThirdMigration)
   })
 
   it('throws an error when the same migration is registered twice', () => {
@@ -76,11 +76,11 @@ describe('the `DataMigration` decorator', () => {
     expect(() => {
       // Re-registering a migration with the same name should throw
       Magek.configureCurrentEnv((config: MagekConfig) => {
-        if (config.dataMigrationHandlers['DuplicateMigration']) {
+        if (config.registry.dataMigrationHandlers['DuplicateMigration']) {
           throw new Error(`A data migration called DuplicateMigration is already registered.
         If you think that this is an error, try performing a clean build.`)
         }
-        config.dataMigrationHandlers['DuplicateMigration'] = {
+        config.registry.dataMigrationHandlers['DuplicateMigration'] = {
           class: DuplicateMigration,
           migrationOptions: { order: 2 },
         }
@@ -94,7 +94,7 @@ describe('the `DataMigration` decorator', () => {
       public static async start(_register: Register): Promise<void> {}
     }
 
-    const migrationMetadata = Magek.config.dataMigrationHandlers['InitialSetup']
+    const migrationMetadata = Magek.config.registry.dataMigrationHandlers['InitialSetup']
 
     expect(migrationMetadata.migrationOptions.order).to.equal(0)
 
@@ -108,7 +108,7 @@ describe('the `DataMigration` decorator', () => {
       public static async start(_register: Register): Promise<void> {}
     }
 
-    const migrationMetadata = Magek.config.dataMigrationHandlers['FinalCleanup']
+    const migrationMetadata = Magek.config.registry.dataMigrationHandlers['FinalCleanup']
 
     expect(migrationMetadata.migrationOptions.order).to.equal(9999)
 

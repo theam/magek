@@ -1,7 +1,7 @@
 import { expect } from './expect'
 import { NotAuthorizedError, UserEnvelope } from '@magek/common'
 
-import { MagekAuthorizer } from '../src/authorizer'
+import { MagekAuthorizer } from '@magek/common'
 
 describe('MagekAuthorizer', () => {
   class Admin {}

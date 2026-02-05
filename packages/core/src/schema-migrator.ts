@@ -39,7 +39,7 @@ export class SchemaMigrator {
       )
     }
 
-    const currentVersion = this.config.currentVersionFor(conceptEnvelope.typeName)
+    const currentVersion = this.config.registry.currentVersionFor(conceptEnvelope.typeName)
     if (currentVersion < conceptEnvelope.version) {
       throw new InvalidVersionError(
         `Can not migrate schema an unknown version: The current schema version of ${conceptEnvelope.typeName} is ${currentVersion}, which is ` +
@@ -49,7 +49,7 @@ export class SchemaMigrator {
   }
 
   private needsMigration(conceptEnvelope: SchemaMigrableEnvelope): boolean {
-    const currentVersion = this.config.currentVersionFor(conceptEnvelope.typeName)
+    const currentVersion = this.config.registry.currentVersionFor(conceptEnvelope.typeName)
     return currentVersion > conceptEnvelope.version
   }
 
@@ -57,14 +57,14 @@ export class SchemaMigrator {
     oldConceptEnvelope: TMigrableEnvelope
   ): Promise<TMigrableEnvelope> {
     const logger = getLogger(this.config, 'SchemaMigrator#applyAllMigrations')
-    const currentVersion = this.config.currentVersionFor(oldConceptEnvelope.typeName)
+    const currentVersion = this.config.registry.currentVersionFor(oldConceptEnvelope.typeName)
     const oldVersion = oldConceptEnvelope.version
     logger.info(
       `Migrating schema ${oldConceptEnvelope.typeName} from version ${oldVersion} to version ${currentVersion}`
     )
     logger.debug('Envelope before schema migration:\n', oldConceptEnvelope)
 
-    const migrations = this.config.schemaMigrations[oldConceptEnvelope.typeName]
+    const migrations = this.config.registry.schemaMigrations[oldConceptEnvelope.typeName]
     let migratedConceptValue = oldConceptEnvelope.value as SchemaMigrableValue
     for (let toVersion = oldVersion + 1; toVersion <= currentVersion; toVersion++) {
       migratedConceptValue = await this.applyMigration(migratedConceptValue, migrations.get(toVersion))

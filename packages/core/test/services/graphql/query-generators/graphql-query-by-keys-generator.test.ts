@@ -66,7 +66,7 @@ describe('GraphQLQueryGenerator', () => {
     beforeEach(() => {
       const fakeReadModels = [AnotherReadModel, ASequencedReadModel] as AnyClass[]
       const typeInformer = new GraphQLTypeInformer(mockLogger)
-      mockConfig.readModelSequenceKeys['ASequencedReadModel'] = 'sortKey'
+      mockConfig.registry.readModelSequenceKeys['ASequencedReadModel'] = 'sortKey'
       graphqlQueryByKeysGenerator = new GraphqlQueryByKeysGenerator(mockConfig, fakeReadModels, typeInformer, () =>
         fake()
       ) as any // So we can see private methods

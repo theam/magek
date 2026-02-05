@@ -15,7 +15,7 @@ export class GraphqlQueryByKeysGenerator {
     const queries: GraphQLFieldConfigMap<unknown, GraphQLResolverContext> = {}
     for (const readModel of this.readModels) {
       const readModelName = readModel.name
-      const sequenceKeyName = this.config.readModelSequenceKeys[readModelName]
+      const sequenceKeyName = this.config.registry.readModelSequenceKeys[readModelName]
       if (sequenceKeyName) {
         queries[readModelName] = this.generateByIdAndSequenceKeyQuery(readModel, sequenceKeyName)
       } else {
@@ -28,7 +28,7 @@ export class GraphqlQueryByKeysGenerator {
   private generateByIdQuery(readModel: AnyClass): GraphQLFieldConfig<unknown, GraphQLResolverContext> {
     const graphQLType = this.typeInformer.generateGraphQLTypeForClass(
       readModel,
-      this.config.nonExposedGraphQLMetadataKey[readModel.name]
+      this.config.registry.nonExposedGraphQLMetadataKey[readModel.name]
     )
     return {
       type: graphQLType,
@@ -45,7 +45,7 @@ export class GraphqlQueryByKeysGenerator {
   ): GraphQLFieldConfig<unknown, GraphQLResolverContext> {
     const graphQLType = this.typeInformer.generateGraphQLTypeForClass(
       readModel,
-      this.config.nonExposedGraphQLMetadataKey[readModel.name]
+      this.config.registry.nonExposedGraphQLMetadataKey[readModel.name]
     )
     return {
       type: new GraphQLList(graphQLType),

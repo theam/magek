@@ -11,7 +11,7 @@ import {
   ReadModelAuthorizer,
   HealthRoleAccess,
   HealthAuthorizer,
-} from '@magek/common'
+} from '.'
 
 export class MagekAuthorizer {
   public static allowAccess(): Promise<void> {

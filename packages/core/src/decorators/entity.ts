@@ -8,7 +8,7 @@ import {
   AnyClass,
   EventStreamAuthorizer,
 } from '@magek/common'
-import { MagekAuthorizer } from '../authorizer'
+import { MagekAuthorizer } from '@magek/common'
 import { ClassDecoratorContext, MethodDecoratorContext } from './decorator-utils'
 import { getNonExposedFields } from './metadata'
 
@@ -39,11 +39,6 @@ export function Entity<TEntity extends EntityInterface, TParam extends EntityDec
   // This function will be either returned or executed, depending on the parameters passed to the decorator
   const mainLogicFunction = (entityClass: Class<TEntity>, ctx?: ClassDecoratorContext): void => {
     Magek.configureCurrentEnv((config): void => {
-      if (config.entities[entityClass.name]) {
-        throw new Error(`An entity called ${entityClass.name} is already registered
-        If you think that this is an error, try performing a clean build..`)
-      }
-
       let eventStreamAuthorizer: EventStreamAuthorizer = MagekAuthorizer.denyAccess
       if (authorizeReadEvents === 'all') {
         eventStreamAuthorizer = MagekAuthorizer.allowAccess
@@ -53,15 +48,15 @@ export function Entity<TEntity extends EntityInterface, TParam extends EntityDec
         eventStreamAuthorizer = authorizeReadEvents
       }
 
-      config.entities[entityClass.name] = {
+      config.registry.registerEntity(entityClass.name, {
         class: entityClass,
         eventStreamAuthorizer,
-      }
+      })
 
       // Register non-exposed fields from context.metadata
       const nonExposedFields = getNonExposedFields(ctx?.metadata)
       if (nonExposedFields.length > 0) {
-        config.nonExposedGraphQLMetadataKey[entityClass.name] = nonExposedFields
+        config.registry.registerNonExposedFields(entityClass.name, nonExposedFields)
       }
     })
   }
@@ -112,14 +107,6 @@ export function reduces<TEvent extends EventInterface>(
 
 function registerReducer(eventName: string, reducerMetadata: ReducerMetadata): void {
   Magek.configureCurrentEnv((config): void => {
-    const reducerPath = config.reducers[eventName]
-    if (reducerPath) {
-      throw new Error(
-        `Error registering reducer: The event ${eventName} was already registered to be reduced by method ${reducerPath.methodName} in the entity ${reducerPath.class.name}.
-        If you think that this is an error, try performing a clean build.`
-      )
-    }
-
-    config.reducers[eventName] = reducerMetadata
+    config.registry.registerReducer(eventName, reducerMetadata)
   })
 }

@@ -62,8 +62,8 @@ describe('eventSearch function', () => {
       } as EventSearchResponse,
     ])
     config.eventStoreAdapter = createMockEventStoreAdapter({ search: providerSearch })
-    config.events[TestEvent.name] = { class: TestEvent }
-    config.notifications[TestNotification.name] = { class: TestNotification }
+    config.registry.events[TestEvent.name] = { class: TestEvent }
+    config.registry.notifications[TestNotification.name] = { class: TestNotification }
 
     const params = { entity: 'TestEntity' } as EventSearchParameters
     const result = await eventSearch(config, params)

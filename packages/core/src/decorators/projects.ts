@@ -68,7 +68,7 @@ function registerProjection(
   projectionMetadata: ProjectionMetadata<EntityInterface, ReadModelInterface>
 ): void {
   Magek.configureCurrentEnv((config): void => {
-    configure(originName, projectionMetadata, config.projections)
+    config.registry.registerProjection(originName, projectionMetadata)
   })
 }
 
@@ -77,21 +77,8 @@ function registerUnProjection(
   projectionMetadata: ProjectionMetadata<EntityInterface, ReadModelInterface>
 ): void {
   Magek.configureCurrentEnv((config): void => {
-    configure(originName, projectionMetadata, config.unProjections)
+    config.registry.registerUnProjection(originName, projectionMetadata)
   })
-}
-
-function configure(
-  originName: string,
-  projectionMetadata: ProjectionMetadata<EntityInterface, ReadModelInterface>,
-  configuration: Record<string, Array<ProjectionMetadata<EntityInterface, ReadModelInterface>>>
-): void {
-  const entityProjections = configuration[originName] || []
-  if (entityProjections.indexOf(projectionMetadata) < 0) {
-    // Skip duplicate registrations
-    entityProjections.push(projectionMetadata)
-    configuration[originName] = entityProjections
-  }
 }
 
 type ProjectionMethodDefinitionForArray<TEntity, TReadModel> = (

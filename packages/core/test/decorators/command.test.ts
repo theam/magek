@@ -4,13 +4,13 @@ import { field } from '../../src'
 import { Command } from '../../src/decorators'
 import { Magek } from '../../src'
 import { fake } from 'sinon'
-import { MagekAuthorizer } from '../../src/authorizer'
+import { MagekAuthorizer } from '@magek/common'
 
 describe('the `Command` decorator', () => {
   afterEach(() => {
     const magek = Magek as any
-    delete magek.config.commandHandlers['PostComment']
-    delete magek.config.commandHandlers['CreateNote']
+    delete magek.config.registry.commandHandlers['PostComment']
+    delete magek.config.registry.commandHandlers['CreateNote']
   })
 
   context('when an authorizer function is provided', () => {
@@ -28,7 +28,7 @@ describe('the `Command` decorator', () => {
 
       // Make Magek be of any type to access private members
       const magek = Magek as any
-      const commandMetadata = magek.config.commandHandlers[PostComment.name]
+      const commandMetadata = magek.config.registry.commandHandlers[PostComment.name]
 
       expect(commandMetadata).to.be.an('object')
       expect(commandMetadata.name).to.equal('PostComment')
@@ -58,7 +58,7 @@ describe('the `Command` decorator', () => {
 
       // Make Magek be of any type to access private members
       const magek = Magek as any
-      const commandMetadata = magek.config.commandHandlers[PostComment.name]
+      const commandMetadata = magek.config.registry.commandHandlers[PostComment.name]
 
       expect(commandMetadata).to.be.an('object')
       expect(commandMetadata.name).to.equal('PostComment')
@@ -87,7 +87,7 @@ describe('the `Command` decorator', () => {
 
       // Make Magek be of any type to access private members
       const magek = Magek as any
-      const commandMetadata = magek.config.commandHandlers[PostComment.name]
+      const commandMetadata = magek.config.registry.commandHandlers[PostComment.name]
 
       expect(commandMetadata).to.be.an('object')
       expect(commandMetadata.name).to.equal('PostComment')
@@ -112,7 +112,7 @@ describe('the `Command` decorator', () => {
 
       // Make Magek be of any type to access private members
       const magek = Magek as any
-      const commandMetadata = magek.config.commandHandlers[CreateNote.name]
+      const commandMetadata = magek.config.registry.commandHandlers[CreateNote.name]
 
       expect(commandMetadata).to.be.an('object')
       expect(commandMetadata.name).to.equal('CreateNote')

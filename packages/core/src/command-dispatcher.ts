@@ -31,7 +31,7 @@ export class MagekCommandDispatcher {
       throw new InvalidParameterError('The required command "version" was not present')
     }
 
-    const commandMetadata = this.config.commandHandlers[commandEnvelope.typeName]
+    const commandMetadata = this.config.registry.commandHandlers[commandEnvelope.typeName]
     if (!commandMetadata) {
       throw new NotFoundError(`Could not find a proper handler for ${commandEnvelope.typeName}`)
     }

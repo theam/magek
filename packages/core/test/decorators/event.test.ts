@@ -18,7 +18,7 @@ describe('the `Event` decorator', () => {
         return '123'
       }
     }
-    expect(Magek.config.events['AnEvent']).to.deep.equal({
+    expect(Magek.config.registry.events['AnEvent']).to.deep.equal({
       class: AnEvent,
     })
   })

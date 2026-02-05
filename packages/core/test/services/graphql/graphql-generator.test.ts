@@ -249,7 +249,7 @@ describe('GraphQL generator', () => {
 
       context('when the read model is sequenced', () => {
         const config = new MagekConfig('test')
-        config.readModelSequenceKeys['SomeReadModel'] = 'timestamp'
+        config.registry.readModelSequenceKeys['SomeReadModel'] = 'timestamp'
 
         it('builds a function that perform requests by id and sequence key', async () => {
           const toReadModelByIdRequestEnvelopeSpy = spy(GraphQLGenerator as any, 'toReadModelByIdRequestEnvelope')

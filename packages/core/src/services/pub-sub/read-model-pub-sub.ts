@@ -24,7 +24,7 @@ export class FilteredReadModelPubSub<TReadModel extends ReadModelInterface> impl
     readModelRequestEnvelope: ReadModelRequestEnvelope<TReadModel>,
     config: MagekConfig
   ): Promise<AsyncIterator<ReadModelInterface>> {
-    const readModelMetadata = config.readModels[readModelRequestEnvelope.class.name]
+    const readModelMetadata = config.registry.readModels[readModelRequestEnvelope.class.name]
 
     const newReadModelRequestEnvelope = await applyReadModelRequestBeforeFunctions(
       readModelRequestEnvelope,

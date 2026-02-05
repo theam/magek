@@ -8,15 +8,15 @@ import { CommandBeforeFunction, Register, NotAuthorizedError } from '@magek/comm
 import { field } from '../src'
 import { Command, RegisterHandler } from '../src'
 import { faker } from '@faker-js/faker'
-import { MagekAuthorizer } from '../src/authorizer'
+import { MagekAuthorizer } from '@magek/common'
 
 describe('the `MagekCommandsDispatcher`', () => {
   afterEach(() => {
     restore()
     Magek.configure('test', (config) => {
       config.appName = ''
-      for (const propName in config.commandHandlers) {
-        delete config.commandHandlers[propName]
+      for (const propName in config.registry.commandHandlers) {
+        delete config.registry.commandHandlers[propName]
       }
     })
   })
@@ -51,9 +51,11 @@ describe('the `MagekCommandsDispatcher`', () => {
       class Thor {}
 
       const config = {
-        commandHandlers: {
-          UnauthorizedCommand: {
-            authorizer: MagekAuthorizer.authorizeRoles.bind(null, [Thor]),
+        registry: {
+          commandHandlers: {
+            UnauthorizedCommand: {
+              authorizer: MagekAuthorizer.authorizeRoles.bind(null, [Thor]),
+            },
           },
         },
       }
@@ -81,17 +83,19 @@ describe('the `MagekCommandsDispatcher`', () => {
       replace(RegisterHandler, 'handle', fake())
 
       const config = {
-        commandHandlers: {
-          ProperlyHandledCommand: {
-            name: 'ProperlyHandledCommand',
-            authorizer: MagekAuthorizer.allowAccess,
-            before: [],
-            handler: fakeHandler,
-            properties: [],
-            methods: [],
+        registry: {
+          commandHandlers: {
+            ProperlyHandledCommand: {
+              name: 'ProperlyHandledCommand',
+              authorizer: MagekAuthorizer.allowAccess,
+              before: [],
+              handler: fakeHandler,
+              properties: [],
+              methods: [],
+            },
           },
+          currentVersionFor: fake.returns(1),
         },
-        currentVersionFor: fake.returns(1),
       }
       const commandValue = {
         something: 'to handle',
@@ -121,17 +125,19 @@ describe('the `MagekCommandsDispatcher`', () => {
       replace(RegisterHandler, 'handle', fake())
 
       const config = {
-        commandHandlers: {
-          ProperlyHandledCommand: {
-            name: 'ProperlyHandledCommand',
-            authorizer: MagekAuthorizer.allowAccess,
-            before: [],
-            handler: fakeHandleHandler,
-            properties: [],
-            methods: [],
+        registry: {
+          commandHandlers: {
+            ProperlyHandledCommand: {
+              name: 'ProperlyHandledCommand',
+              authorizer: MagekAuthorizer.allowAccess,
+              before: [],
+              handler: fakeHandleHandler,
+              properties: [],
+              methods: [],
+            },
           },
+          currentVersionFor: fake.returns(1),
         },
-        currentVersionFor: fake.returns(1),
       }
       const commandValue = {
         something: 'to handle',
@@ -180,17 +186,19 @@ describe('the `MagekCommandsDispatcher`', () => {
       replace(RegisterHandler, 'handle', fake())
 
       const config = {
-        commandHandlers: {
-          ProperlyHandledCommand: {
-            name: 'ProperlyHandledCommand',
-            authorizer: MagekAuthorizer.allowAccess,
-            before: [],
-            handler: fakeHandler,
-            properties: [],
-            methods: [],
+        registry: {
+          commandHandlers: {
+            ProperlyHandledCommand: {
+              name: 'ProperlyHandledCommand',
+              authorizer: MagekAuthorizer.allowAccess,
+              before: [],
+              handler: fakeHandler,
+              properties: [],
+              methods: [],
+            },
           },
+          currentVersionFor: fake.returns(1),
         },
-        currentVersionFor: fake.returns(1),
       }
       const commandValue = {
         something: 'to handle',

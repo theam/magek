@@ -39,7 +39,7 @@ export class GraphQLHandledFieldsGenerator {
           this.typeInformer.generateGraphQLTypeForMetadata(
             metadata.name,
             metadata.properties,
-            this.config.nonExposedGraphQLMetadataKey[metadata.name],
+            this.config.registry.nonExposedGraphQLMetadataKey[metadata.name],
             true
           )
         ),

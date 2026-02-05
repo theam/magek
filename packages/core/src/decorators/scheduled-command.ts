@@ -16,15 +16,10 @@ export function ScheduledCommand(
 ): (scheduledCommandClass: ScheduledCommandInterface, context: ClassDecoratorContext) => void {
   return (commandClass, _context?: ClassDecoratorContext) => {
     Magek.configureCurrentEnv((config): void => {
-      if (config.scheduledCommandHandlers[commandClass.name]) {
-        throw new Error(`A command called ${commandClass.name} is already registered.
-        If you think that this is an error, try performing a clean build.`)
-      }
-
-      config.scheduledCommandHandlers[commandClass.name] = {
+      config.registry.registerScheduledCommand(commandClass.name, {
         class: commandClass,
         scheduledOn: attributes,
-      }
+      })
     })
   }
 }

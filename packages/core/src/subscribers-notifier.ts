@@ -43,7 +43,7 @@ export class MagekSubscribersNotifier {
   }
 
   private getReadModelInstance(envelope: ReadModelEnvelope): ReadModelInterface & Instance {
-    const readModelMetadata = this.config.readModels[envelope.typeName]
+    const readModelMetadata = this.config.registry.readModels[envelope.typeName]
     if (!readModelMetadata) {
       throw new Error('Could not get information about read model with name: ' + envelope.typeName)
     }

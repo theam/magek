@@ -17,7 +17,7 @@ import {
 } from '@magek/common'
 import { field } from '../../src'
 import { expect } from '../expect'
-import { MagekAuthorizer } from '../../src/authorizer'
+import { MagekAuthorizer } from '@magek/common'
 import { fake, match, replace, restore, SinonFakeTimers, spy, stub, useFakeTimers } from 'sinon'
 import { Magek } from '../../src/magek'
 
@@ -178,31 +178,31 @@ describe('ReadModelStore', () => {
     delete: fake(),
     rawToEnvelopes: fake(),
   } as any
-  config.entities[AnImportantEntity.name] = {
+  config.registry.entities[AnImportantEntity.name] = {
     class: AnImportantEntity,
     eventStreamAuthorizer: MagekAuthorizer.authorizeRoles.bind(null, []),
   }
-  config.entities[AnEntity.name] = {
+  config.registry.entities[AnEntity.name] = {
     class: AnEntity,
     eventStreamAuthorizer: MagekAuthorizer.authorizeRoles.bind(null, []),
   }
-  config.entities[AnImportantEntityWithArray.name] = {
+  config.registry.entities[AnImportantEntityWithArray.name] = {
     class: AnImportantEntityWithArray,
     eventStreamAuthorizer: MagekAuthorizer.authorizeRoles.bind(null, []),
   }
-  config.readModels[SomeReadModel.name] = {
+  config.registry.readModels[SomeReadModel.name] = {
     class: SomeReadModel,
     authorizer: MagekAuthorizer.allowAccess,
     properties: [],
     before: [],
   }
-  config.readModels[AnotherReadModel.name] = {
+  config.registry.readModels[AnotherReadModel.name] = {
     class: AnotherReadModel,
     authorizer: MagekAuthorizer.allowAccess,
     properties: [],
     before: [],
   }
-  config.projections[AnImportantEntity.name] = [
+  config.registry.projections[AnImportantEntity.name] = [
     {
       class: SomeReadModel,
       methodName: 'someObserver',
@@ -219,14 +219,14 @@ describe('ReadModelStore', () => {
       joinKey: 'someKey',
     } as ProjectionMetadata<any, any>,
   ]
-  config.projections[AnImportantEntityWithArray.name] = [
+  config.registry.projections[AnImportantEntityWithArray.name] = [
     {
       class: SomeReadModel,
       methodName: 'someObserverArray',
       joinKey: 'someKey',
     } as ProjectionMetadata<any, any>,
   ]
-  config.projections['AnEntity'] = [
+  config.registry.projections['AnEntity'] = [
     {
       class: SomeReadModel,
       methodName: 'projectionThatCallsReadModelMethod',
@@ -912,11 +912,11 @@ describe('ReadModelStore', () => {
 
     context('for read models with defined sequenceKeys', () => {
       beforeEach(() => {
-        config.readModelSequenceKeys['AnotherReadModel'] = 'count'
+        config.registry.readModelSequenceKeys['AnotherReadModel'] = 'count'
       })
 
       afterEach(() => {
-        delete config.readModelSequenceKeys.AnotherReadModel
+        delete config.registry.readModelSequenceKeys.AnotherReadModel
       })
 
       it('applies the projections with the right sequenceMetadata', async () => {
@@ -931,7 +931,7 @@ describe('ReadModelStore', () => {
         await readModelStore.project(anEntitySnapshot)
 
         expect(fakeApplyProjectionToReadModel).to.have.been.calledThrice
-        for (const projectionMetadata of config.projections[AnImportantEntity.name]) {
+        for (const projectionMetadata of config.registry.projections[AnImportantEntity.name]) {
           const readModelClassName = projectionMetadata.class.name
           expect(fakeApplyProjectionToReadModel).to.have.been.calledWith(
             anEntitySnapshot,
@@ -1031,11 +1031,11 @@ describe('ReadModelStore', () => {
 
     context('when there is a sequence key for the read model in the config', () => {
       beforeEach(() => {
-        config.readModelSequenceKeys['AnotherReadModel'] = 'count'
+        config.registry.readModelSequenceKeys['AnotherReadModel'] = 'count'
       })
 
       afterEach(() => {
-        delete config.readModelSequenceKeys.AnotherReadModel
+        delete config.registry.readModelSequenceKeys.AnotherReadModel
       })
 
       it('returns a `SequenceMetadata`object with the right sequenceKeyName and sequenceValue values', () => {

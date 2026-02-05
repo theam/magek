@@ -24,7 +24,7 @@ export class MagekDataMigrations {
     const logger = getLogger(config, 'MagekDataMigrationDispatcher#dispatch')
     let migrating = false
 
-    const configuredMigrations = config.dataMigrationHandlers
+    const configuredMigrations = config.registry.dataMigrationHandlers
     if (Object.keys(configuredMigrations).length === 0) {
       logger.debug('No defined migrations found. Skipping...')
       return false

@@ -8,16 +8,16 @@ import { UUID, Register, MagekConfig } from '@magek/common'
 describe('the `GlobalEventHandler` decorator', () => {
   afterEach(() => {
     Magek.configureCurrentEnv((config: MagekConfig) => {
-      for (const propName in config.events) {
-        delete config.events[propName]
+      for (const propName in config.registry.events) {
+        delete config.registry.events[propName]
       }
-      for (const propName in config.eventHandlers) {
-        delete config.eventHandlers[propName]
+      for (const propName in config.registry.eventHandlers) {
+        delete config.registry.eventHandlers[propName]
       }
     })
   })
 
-  it('registers the handler in config.eventHandlers under GLOBAL_EVENT_HANDLERS key', () => {
+  it('registers the handler in config.registry.eventHandlers under GLOBAL_EVENT_HANDLERS key', () => {
     @GlobalEventHandler
     class AuditLogger {
       public static handle(_event: unknown, _register: Register): Promise<void> {
@@ -25,7 +25,7 @@ describe('the `GlobalEventHandler` decorator', () => {
       }
     }
 
-    const globalHandlers = Magek.config.eventHandlers[GLOBAL_EVENT_HANDLERS]
+    const globalHandlers = Magek.config.registry.eventHandlers[GLOBAL_EVENT_HANDLERS]
 
     expect(globalHandlers).to.be.an('Array')
     expect(globalHandlers).to.contain(AuditLogger)
@@ -46,7 +46,7 @@ describe('the `GlobalEventHandler` decorator', () => {
       }
     }
 
-    const globalHandlers = Magek.config.eventHandlers[GLOBAL_EVENT_HANDLERS]
+    const globalHandlers = Magek.config.registry.eventHandlers[GLOBAL_EVENT_HANDLERS]
 
     expect(globalHandlers).to.be.an('Array')
     expect(globalHandlers).to.have.lengthOf(2)
@@ -77,12 +77,12 @@ describe('the `GlobalEventHandler` decorator', () => {
     }
 
     // Global handlers are stored under GLOBAL_EVENT_HANDLERS key
-    const globalHandlers = Magek.config.eventHandlers[GLOBAL_EVENT_HANDLERS]
+    const globalHandlers = Magek.config.registry.eventHandlers[GLOBAL_EVENT_HANDLERS]
     expect(globalHandlers).to.contain(GlobalLogger)
     expect(globalHandlers).to.not.contain(UserCreatedHandler)
 
     // Specific event handlers are stored under the event name
-    const userCreatedHandlers = Magek.config.eventHandlers['UserCreated']
+    const userCreatedHandlers = Magek.config.registry.eventHandlers['UserCreated']
     expect(userCreatedHandlers).to.contain(UserCreatedHandler)
     expect(userCreatedHandlers).to.not.contain(GlobalLogger)
   })
@@ -98,14 +98,14 @@ describe('the `GlobalEventHandler` decorator', () => {
 
     // Manually try to register again (simulating re-import scenario)
     Magek.configureCurrentEnv((config: MagekConfig) => {
-      const registeredHandlers = config.eventHandlers[GLOBAL_EVENT_HANDLERS] || []
+      const registeredHandlers = config.registry.eventHandlers[GLOBAL_EVENT_HANDLERS] || []
       if (!registeredHandlers.some((klass) => klass === SingletonHandler)) {
         registeredHandlers.push(SingletonHandler)
-        config.eventHandlers[GLOBAL_EVENT_HANDLERS] = registeredHandlers
+        config.registry.eventHandlers[GLOBAL_EVENT_HANDLERS] = registeredHandlers
       }
     })
 
-    const globalHandlers = Magek.config.eventHandlers[GLOBAL_EVENT_HANDLERS]
+    const globalHandlers = Magek.config.registry.eventHandlers[GLOBAL_EVENT_HANDLERS]
     const singletonCount = globalHandlers.filter((h) => h === SingletonHandler).length
 
     expect(singletonCount).to.equal(1)

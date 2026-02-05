@@ -8,7 +8,7 @@ interface ScheduledCommandInfo {
 
 export function configureScheduler(config: MagekConfig, userProject: any): void {
   const triggerScheduledCommands = userProject['triggerScheduledCommands']
-  Object.keys(config.scheduledCommandHandlers)
+  Object.keys(config.registry.scheduledCommandHandlers)
     .map((scheduledCommandName) => buildScheduledCommandInfo(config, scheduledCommandName))
     .filter((scheduledCommandInfo) => scheduledCommandInfo.metadata.scheduledOn)
     .forEach((scheduledCommandInfo) => {
@@ -26,6 +26,6 @@ function createCronExpression(scheduledCommandMetadata: ScheduledCommandMetadata
 function buildScheduledCommandInfo(config: MagekConfig, scheduledCommandName: string): ScheduledCommandInfo {
   return {
     name: scheduledCommandName,
-    metadata: config.scheduledCommandHandlers[scheduledCommandName],
+    metadata: config.registry.scheduledCommandHandlers[scheduledCommandName],
   }
 }

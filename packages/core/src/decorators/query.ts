@@ -7,7 +7,7 @@ import {
   QueryRoleAccess,
 } from '@magek/common'
 import { getClassMetadata, getNonExposedFields } from './metadata'
-import { MagekAuthorizer } from '../authorizer'
+import { MagekAuthorizer } from '@magek/common'
 import { ClassDecoratorContext } from './decorator-utils'
 
 /**
@@ -24,25 +24,20 @@ export function Query(
 ): <TCommand>(queryClass: QueryInterface<TCommand>, context: ClassDecoratorContext) => void {
   return (queryClass, context) => {
     Magek.configureCurrentEnv((config): void => {
-      if (config.queryHandlers[queryClass.name]) {
-        throw new Error(`A query called ${queryClass.name} is already registered.
-        If you think that this is an error, try performing a clean build.`)
-      }
-
       // Pass context.metadata because Symbol.metadata isn't attached to class yet during decorator execution
       const metadata = getClassMetadata(queryClass, context.metadata)
-      config.queryHandlers[queryClass.name] = {
+      config.registry.registerQuery(queryClass.name, {
         class: queryClass,
         authorizer: MagekAuthorizer.build(attributes) as QueryAuthorizer,
         properties: metadata.fields,
         methods: metadata.methods,
         before: attributes.before ?? [],
-      } as QueryMetadata
+      } as QueryMetadata)
 
       // Register non-exposed fields from context.metadata
       const nonExposedFields = getNonExposedFields(context.metadata)
       if (nonExposedFields.length > 0) {
-        config.nonExposedGraphQLMetadataKey[queryClass.name] = nonExposedFields
+        config.registry.registerNonExposedFields(queryClass.name, nonExposedFields)
       }
     })
   }

@@ -25,8 +25,8 @@ describe('the `Magek` class', () => {
     restore()
     Magek.configure('test', (config) => {
       config.appName = ''
-      for (const propName in config.commandHandlers) {
-        delete config.commandHandlers[propName]
+      for (const propName in config.registry.commandHandlers) {
+        delete config.registry.commandHandlers[propName]
       }
     })
   })
@@ -224,11 +224,11 @@ describe('the `Magek` class', () => {
       restore()
       Magek.configureCurrentEnv((config) => {
         config.appName = ''
-        for (const propName in config.events) {
-          delete config.events[propName]
+        for (const propName in config.registry.events) {
+          delete config.registry.events[propName]
         }
-        for (const propName in config.notifications) {
-          delete config.notifications[propName]
+        for (const propName in config.registry.notifications) {
+          delete config.registry.notifications[propName]
         }
       })
     })
@@ -265,8 +265,8 @@ describe('the `Magek` class', () => {
         config.eventStoreAdapter = createMockEventStoreAdapter({
           search: providerEventsSearch,
         })
-        config.events[TestEvent.name] = { class: TestEvent }
-        config.events[BestEvent.name] = { class: BestEvent }
+        config.registry.events[TestEvent.name] = { class: TestEvent }
+        config.registry.events[BestEvent.name] = { class: BestEvent }
       })
 
       const eventFilterByType: EventParametersFilterByType = {
@@ -326,7 +326,7 @@ describe('the `Magek` class', () => {
         config.eventStoreAdapter = createMockEventStoreAdapter({
           search: providerEventsSearch,
         })
-        config.events[TestEvent.name] = { class: TestEvent }
+        config.registry.events[TestEvent.name] = { class: TestEvent }
       })
 
       const eventFilterByType: EventParametersFilterByType = {
@@ -375,7 +375,7 @@ describe('the `Magek` class', () => {
         config.eventStoreAdapter = createMockEventStoreAdapter({
           search: providerEventsSearch,
         })
-        config.notifications[TestEvent.name] = { class: TestEvent }
+        config.registry.notifications[TestEvent.name] = { class: TestEvent }
       })
 
       const eventFilterByType: EventParametersFilterByType = {

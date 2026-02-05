@@ -47,7 +47,7 @@ describe('the `RegisterHandler` class', () => {
     config.eventStoreAdapter = createMockEventStoreAdapter({
       store: mockStore,
     })
-    config.reducers['SomeEvent'] = { class: SomeEntity, methodName: 'whatever' }
+    config.registry.reducers['SomeEvent'] = { class: SomeEntity, methodName: 'whatever' }
 
     const register = new Register('1234', {} as any, RegisterHandler.flush)
     const event1 = new SomeEvent('a')
@@ -71,7 +71,7 @@ describe('the `RegisterHandler` class', () => {
     config.eventStoreAdapter = createMockEventStoreAdapter({
       store: mockStore,
     })
-    config.reducers['SomeEvent'] = { class: SomeEntity, methodName: 'whatever' }
+    config.registry.reducers['SomeEvent'] = { class: SomeEntity, methodName: 'whatever' }
 
     const register = new Register('1234', {} as any, RegisterHandler.flush)
     await RegisterHandler.handle(config, register)
@@ -85,7 +85,7 @@ describe('the `RegisterHandler` class', () => {
     config.eventStoreAdapter = createMockEventStoreAdapter({
       store: mockStore,
     })
-    config.reducers['SomeEvent'] = {
+    config.registry.reducers['SomeEvent'] = {
       class: SomeEntity,
       methodName: 'aReducer',
     }
@@ -128,7 +128,7 @@ describe('the `RegisterHandler` class', () => {
 
   it('can wrap events to produce eventEnvelopes', () => {
     const config = new MagekConfig('test')
-    config.reducers['SomeEvent'] = {
+    config.registry.reducers['SomeEvent'] = {
       class: SomeEntity,
       methodName: 'someReducer',
     }
@@ -158,7 +158,7 @@ describe('the `RegisterHandler` class', () => {
 
   it('can wrap notifications to produce eventEnvelopes', () => {
     const config = new MagekConfig('test')
-    config.notifications[SomeNotification.name] = {
+    config.registry.notifications[SomeNotification.name] = {
       class: SomeNotification,
     }
 
@@ -189,7 +189,7 @@ describe('the `RegisterHandler` class', () => {
 
   it('can wrap internal events to produce eventEnvelopes', () => {
     const config = new MagekConfig('test')
-    config.reducers['MagekEntityMigrated'] = {
+    config.registry.reducers['MagekEntityMigrated'] = {
       class: SomeEntity,
       methodName: 'someReducer',
     }
