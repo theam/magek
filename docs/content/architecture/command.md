@@ -5,7 +5,7 @@ group: "Architecture"
 
 # Command
 
-Commands are any action a user performs on your application. For example, `RemoveItemFromCart`, `RatePhoto` or `AddCommentToPost`. They express the intention of an user, and they are the main interaction mechanism of your application. They are a similar to the concept of a **request on a REST API**. Command issuers can also send data on a command as parameters.
+Commands are any action a user performs on your application. For example, `RemoveItemFromCart`, `RatePhoto` or `AddCommentToPost`. They express the intention of an user, and they are the main interaction mechanism of your application. They are similar to the concept of a **request on a REST API**. Command issuers can also send data on a command as parameters.
 
 ## Creating a command
 
@@ -82,7 +82,7 @@ export class CreateProduct {
 
   public static async handle(command: CreateProduct, register: Register): Promise<void> {
     // highlight-next-line
-    register.event(new ProductCreated(/*...*/))
+    register.events(new ProductCreated(/*...*/))
   }
 }
 ```
@@ -91,7 +91,7 @@ For more details about events and the register parameter, see the [`Events`](/ar
 
 ### Returning a value
 
-The command handler function can return a value. This value will be the response of the GraphQL mutation. By default, the command handler function expects you to return a `void` as a return type. Since GrahpQL does not have a `void` type, the command handler function returns `true` when called through the GraphQL. This is because the GraphQL specification requires a response, and `true` is the most appropriate value to represent a successful execution with no return value.
+The command handler function can return a value. This value will be the response of the GraphQL mutation. By default, the command handler function expects you to return a `void` as a return type. Since GraphQL does not have a `void` type, the command handler function returns `true` when called through the GraphQL. This is because the GraphQL specification requires a response, and `true` is the most appropriate value to represent a successful execution with no return value.
 
 If you want to return a value, you need to:
 1. Change the return type of the handler function
@@ -115,7 +115,7 @@ export class CreateProduct {
   // highlight-next-line
   @returns(type => String)
   public static async handle(command: CreateProduct, register: Register): Promise<string> {
-    register.event(new ProductCreated(/*...*/))
+    register.events(new ProductCreated(/*...*/))
     // highlight-next-line
     return 'Product created!'
   }
@@ -296,7 +296,7 @@ You can read more about this on the [Authorization section](/security/authorizat
 
 ## Submitting a command
 
-Magek commands are accessible to the outside world as GraphQL mutations. GrahpQL fits very well with Magek's CQRS approach because it has two kinds of operations: Mutations and Queries. Mutations are actions that modify the server-side data, just like commands.
+Magek commands are accessible to the outside world as GraphQL mutations. GraphQL fits very well with Magek's CQRS approach because it has two kinds of operations: Mutations and Queries. Mutations are actions that modify the server-side data, just like commands.
 
 Magek automatically creates one mutation per command. The framework infers the mutation input type from the command fields. Given this `CreateProduct` command:
 
@@ -365,3 +365,10 @@ Despite you can place commands, and other Magek files, in any directory, we stro
 │   ├── index.ts
 │   └── read-models
 ```
+
+## Related Topics
+
+- [Events](./event.md) - Events registered by command handlers
+- [Event Handlers](./event-handler.md) - Side effects triggered by events
+- [Authorization](../security/authorization.md) - Securing commands with roles
+- [GraphQL API](../graphql.md) - How commands become mutations

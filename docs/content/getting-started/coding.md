@@ -394,7 +394,7 @@ Now, let's run our application to see it working. It is as simple as running:
 npx magek start -e local
 ```
 
-This will execute a local `Express.js` server and will try to expose it in port `3000`. You can change the port by using the `-p` option:
+This will execute a local `Fastify` server and will try to expose it on port `3000`. You can change the port by using the `-p` option:
 
 ```bash
 npx magek start -e local -p 8080

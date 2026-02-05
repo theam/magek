@@ -141,3 +141,10 @@ npx magek version
 > @magek/cli/0.16.1 darwin-x64 node-v22.12.0
 
 > **Tip:** The CLI is automatically included in every Magek project - no global installation needed! Use `npx magek` for all CLI commands within your project directory.
+
+## Next Steps
+
+Now that you have Magek installed, continue with:
+
+- **[CLI Reference](../magek-cli.md)** - Learn all available CLI commands
+- **[Coding Tutorial](./coding.md)** - Build your first Magek application step by step

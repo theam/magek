@@ -52,13 +52,18 @@ export * from './read-models/ProductReadModel'
 3. Ensure the reduce method returns a new entity instance (not mutating)
 
 \`\`\`typescript
+import { evolve } from '@magek/common'
+
 @Entity
 export class Product {
   // Make sure decorator references the actual event class
   @Reduces(ProductCreated)  // ✅ Correct
   @Reduces('ProductCreated') // ❌ Won't work
-  public static reduceProductCreated(event: ProductCreated): Product {
-    return new Product(event.entityId, event.name)
+  public static reduceProductCreated(event: ProductCreated, current?: Product): Product {
+    return evolve(current, {
+      id: event.entityId,
+      name: event.name,
+    })
   }
 }
 \`\`\`
@@ -87,8 +92,9 @@ export class Product {
 1. Check the \`authorize\` option in decorators:
    \`\`\`typescript
    @Command({ authorize: 'all' })  // Public access
-   @Command({ authorize: 'authenticated' })  // Requires login
-   @Command({ authorize: ['admin'] })  // Requires admin role
+   @Command({ authorize: [User] })  // Requires User role
+   @Command({ authorize: [Admin] })  // Requires Admin role
+   @Command({ authorize: [User, Admin] })  // Requires User OR Admin role
    \`\`\`
 
 2. If using authentication, ensure JWT token is valid
@@ -145,6 +151,39 @@ export class Product {
    if (!entity) {
      throw new InvalidParameterError('Product not found')
    }
+   \`\`\`
+
+### Reducer returns incorrect state
+
+**Symptoms:**
+- Entity state not updating as expected
+- State appears corrupted or missing fields
+- Immutability violations
+
+**Solutions:**
+1. **Always use \`evolve()\` for state updates** - never mutate directly:
+   \`\`\`typescript
+   // ✅ Correct - use evolve()
+   return evolve(current, { name: event.newName })
+
+   // ❌ Incorrect - mutates state directly
+   current.name = event.newName
+   return current
+
+   // ❌ Incorrect - manual construction doesn't handle undefined
+   return new Product(event.id, event.name)
+   \`\`\`
+
+2. Handle the case when \`current\` is undefined (new entity):
+   \`\`\`typescript
+   // evolve() handles this automatically
+   return evolve(current, { id: event.id, name: event.name })
+   \`\`\`
+
+3. For update-only reducers, skip if entity doesn't exist:
+   \`\`\`typescript
+   if (!current) return ReducerAction.Skip
+   return evolve(current, { name: event.newName })
    \`\`\`
 
 ---

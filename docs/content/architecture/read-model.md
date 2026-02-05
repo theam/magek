@@ -5,7 +5,7 @@ group: "Architecture"
 
 # Read model
 
-A read model contains the data of your application that is exposed to the client through the GraphQL API. It's a _projection_ of one or more entities, so you dont have to directly expose them to the client. Magek generates the GraphQL queries that allow you to fetch your read models.
+A read model contains the data of your application that is exposed to the client through the GraphQL API. It's a _projection_ of one or more entities, so you don't have to directly expose them to the client. Magek generates the GraphQL queries that allow you to fetch your read models.
 
 In other words, Read Models are cached data optimized for read operations. They're updated reactively when [Entities](./entity.md) are updated after reducing [events](./event.md).
 
@@ -43,7 +43,7 @@ export class ReadModelName {
 
 ## The projection function
 
-The projection function is a static method decorated with the `@projects` decorator. It is used to define how the read model is updated when an entity is modified. he projection function must return a new instance of the read model, it receives two arguments:
+The projection function is a static method decorated with the `@projects` decorator. It is used to define how the read model is updated when an entity is modified. The projection function must return a new instance of the read model, it receives two arguments:
 
 - `entity`: The entity that has been modified
 - `current?`: The current read model instance. If it's the first time the read model is created, this argument will be `undefined`
@@ -233,7 +233,7 @@ export class UserReadModel {
   @projects(User, 'id')
   public static projectUser(entity: User, current?: UserReadModel): ProjectionResult<UserReadModel>  {
     if (entity.deleted) {
-      return ReadModelAction.Delete
+      return ProjectionAction.Delete
     }
     return evolve(current, { id: entity.id, username: entity.username })
   }
@@ -259,7 +259,7 @@ export class UserReadModel {
   @projects(User, 'id')
   public static projectUser(entity: User, current?: UserReadModel): ProjectionResult<UserReadModel>  {
     if (!entity.modified) {
-      return ReadModelAction.Nothing
+      return ProjectionAction.Skip
     }
     return evolve(current, { id: entity.id, username: entity.username })
   }
@@ -357,7 +357,7 @@ And here is an example of the corresponding JSON response when this query is exe
 }
 ```
 
-Notice that getters are not cached in the read models database, so the getters will be executed every time you include these fields in the queries. If access to nested queries is frequent or the size of the responses are big, you could improe your API response performance by querying the read models separately and joining the results in the client application.
+Notice that getters are not cached in the read models database, so the getters will be executed every time you include these fields in the queries. If access to nested queries is frequent or the size of the responses are big, you could improve your API response performance by querying the read models separately and joining the results in the client application.
 
 ## Authorizing a read model
 
@@ -396,7 +396,7 @@ You can read more about this on the [Authorization section](/security/authorizat
 
 ## Querying a read model
 
-Magek read models are accessible to the outside world through GraphQL queries. GrahpQL fits very well with Magek's CQRS approach because it has two kinds of reading operations: Queries and Subscriptions. They are read-only operations that do not modify the state of the application. Magek uses them to fetch data from the read models.
+Magek read models are accessible to the outside world through GraphQL queries. GraphQL fits very well with Magek's CQRS approach because it has two kinds of reading operations: Queries and Subscriptions. They are read-only operations that do not modify the state of the application. Magek uses them to fetch data from the read models.
 
 Magek automatically creates the queries and subscriptions for each read model. You can use them to fetch the data from the read models. For example, given the following read model:
 
@@ -505,3 +505,10 @@ Despite you can place your read models in any directory, we strongly recommend y
 │   ├── index.ts
 │   └── read-models
 ```
+
+## Related Topics
+
+- [Best Practices](./best-practices.md) - Recommended patterns for `evolve()` and projections
+- [Entities](./entity.md) - Source data for read model projections
+- [Queries](./queries.md) - Alternative approach for complex query logic
+- [GraphQL API](../graphql.md) - How read models are exposed via GraphQL

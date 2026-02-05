@@ -102,10 +102,13 @@ npx magek new:entity <EntityName> --fields <field1:type1> <field2:type2> --reduc
 **Best Practices:**
 - One entity per aggregate root
 - Entities should only contain state derived from events
-- Use the \`@Reduces\` decorator to specify which events affect this entity
+- Use the \`@reduces\` decorator to specify which events affect this entity
+- **Always use \`evolve()\` for state updates** - it ensures immutability
 
 **Example:**
 \`\`\`typescript
+import { evolve } from '@magek/common'
+
 @Entity
 export class <EntityName> {
   public constructor(
@@ -114,19 +117,21 @@ export class <EntityName> {
     readonly field2: number,
   ) {}
 
-  @Reduces(<EventName>)
+  @reduces(<EventName>)
   public static reduce<EventName>(
     event: <EventName>,
     currentEntity?: <EntityName>
   ): <EntityName> {
-    return new <EntityName>(
-      event.entityId,
-      event.field1,
-      event.field2,
-    )
+    return evolve(currentEntity, {
+      id: event.entityId,
+      field1: event.field1,
+      field2: event.field2,
+    })
   }
 }
 \`\`\`
+
+> **Important:** Always use \`evolve()\` from \`@magek/common\` for state updates. It ensures immutability and handles both new entities (when \`currentEntity\` is undefined) and updates.
 
 ## Step 4: Define the Read Model
 
@@ -140,9 +145,12 @@ npx magek new:read-model <ReadModelName> --fields <field1:type1> <field2:type2> 
 - Design read models for specific query use cases
 - Include only the fields needed for queries
 - You can have multiple read models projecting the same entity
+- **Use \`evolve()\` for projection updates** - same pattern as entities
 
 **Example:**
 \`\`\`typescript
+import { evolve } from '@magek/common'
+
 @ReadModel({
   authorize: 'all'
 })
@@ -153,16 +161,16 @@ export class <ReadModelName> {
     readonly field2: number,
   ) {}
 
-  @Projects(<EntityName>, 'id')
+  @projects(<EntityName>, 'id')
   public static project<EntityName>(
     entity: <EntityName>,
     currentReadModel?: <ReadModelName>
   ): ProjectionResult<<ReadModelName>> {
-    return new <ReadModelName>(
-      entity.id,
-      entity.field1,
-      entity.field2,
-    )
+    return evolve(currentReadModel, {
+      id: entity.id,
+      field1: entity.field1,
+      field2: entity.field2,
+    })
   }
 }
 \`\`\`

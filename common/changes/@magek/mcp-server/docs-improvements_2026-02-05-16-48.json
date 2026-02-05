@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "docs: improve MCP prompts to recommend evolve() helper and fix decorator names",
+      "type": "none",
+      "packageName": "@magek/mcp-server"
+    }
+  ],
+  "packageName": "@magek/mcp-server",
+  "email": "github-actions[bot]@users.noreply.github.com"
+}

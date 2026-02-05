@@ -39,9 +39,25 @@ export class EntityName {
 }
 ```
 
+## Working with Entity State
+
+Magek entities use immutable state updates. Always use the `evolve()` helper from `@magek/common`:
+
+```typescript
+import { evolve } from '@magek/common'
+
+// In your reducer:
+return evolve(currentEntityState, {
+  fieldA: newValue,
+  fieldB: anotherValue,
+})
+```
+
+> **Why `evolve()`?** It ensures immutability, handles undefined state for new entities, and provides clear, consistent patterns across your codebase. See [Best Practices](./best-practices.md) for more details.
+
 ## The reduce function
 
-In order to tell Magek how to reduce the events, you must define a static method decorated with the `@reduces` decorator. This method will be called by the framework every time an event of the specified type is emitted. The reducer method must return a new entity instance with the current state of the entity.
+In order to tell Magek how to reduce the events, you must define a static method decorated with the `@reduces` decorator. This method will be called by the framework every time an event of the specified type is emitted. The reducer method must return a new entity instance with the current state of the entity using `evolve()`.
 
 ```typescript title="src/entities/entity-name.ts"
 @Entity
@@ -212,3 +228,9 @@ Entities live within the entities directory of the project source: `<project-roo
 │   ├── index.ts
 │   └── read-models
 ```
+
+## Related Topics
+
+- [Best Practices](./best-practices.md) - Recommended patterns for `evolve()` and state management
+- [Events](./event.md) - Events that trigger entity reducers
+- [Read Models](./read-model.md) - Project entities into query-optimized views
