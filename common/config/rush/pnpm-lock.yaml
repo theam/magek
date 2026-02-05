@@ -13,7 +13,7 @@ importers:
   ../../adapters/memory/event-store:
     dependencies:
       '@magek/common':
-        specifier: workspace:^0.0.6
+        specifier: workspace:^0.0.10
         version: link:../../../packages/common
       tslib:
         specifier: 2.8.1
@@ -23,7 +23,7 @@ importers:
         specifier: 10.2.0
         version: 10.2.0
       '@magek/eslint-config':
-        specifier: workspace:^0.0.6
+        specifier: workspace:^0.0.10
         version: link:../../../tools/eslint-config
       '@types/chai':
         specifier: 5.2.3
@@ -74,7 +74,7 @@ importers:
   ../../adapters/memory/read-model-store:
     dependencies:
       '@magek/common':
-        specifier: workspace:^0.0.6
+        specifier: workspace:^0.0.10
         version: link:../../../packages/common
       tslib:
         specifier: 2.8.1
@@ -84,7 +84,7 @@ importers:
         specifier: 10.2.0
         version: 10.2.0
       '@magek/eslint-config':
-        specifier: workspace:^0.0.6
+        specifier: workspace:^0.0.10
         version: link:../../../tools/eslint-config
       '@types/chai':
         specifier: 5.2.3
@@ -135,7 +135,7 @@ importers:
   ../../adapters/memory/session-store:
     dependencies:
       '@magek/common':
-        specifier: workspace:^0.0.6
+        specifier: workspace:^0.0.10
         version: link:../../../packages/common
       tslib:
         specifier: 2.8.1
@@ -145,7 +145,7 @@ importers:
         specifier: 10.2.0
         version: 10.2.0
       '@magek/eslint-config':
-        specifier: workspace:^0.0.6
+        specifier: workspace:^0.0.10
         version: link:../../../tools/eslint-config
       '@types/chai':
         specifier: 5.2.3
