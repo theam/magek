@@ -197,7 +197,7 @@ describe('GraphQL generator', () => {
                 query: 'Test query',
               },
             },
-            rawContext: mockResolverContext,
+            rawContext: mockResolverContext.context?.rawContext,
           },
         }
 
@@ -240,6 +240,7 @@ describe('GraphQL generator', () => {
 
           const fakeArgs = { id: '42' }
           const fakeUser = { a: 'user' }
+          const fakeRawContext = { raw: 'http-request' }
           const fakeContext: any = {
             user: fakeUser,
             requestID: '314',
@@ -248,6 +249,7 @@ describe('GraphQL generator', () => {
                 headers: { authorization: 'Bearer test-token' },
                 body: { query: 'test query' },
               },
+              rawContext: fakeRawContext,
             },
           }
           await returnedFunction({}, fakeArgs, fakeContext, {} as any)
@@ -267,7 +269,7 @@ describe('GraphQL generator', () => {
               headers: { authorization: 'Bearer test-token' },
               body: { query: 'test query' },
             },
-            rawContext: fakeContext,
+            rawContext: fakeRawContext,
           })
 
           expect(fakeFindById).to.have.been.calledOnceWith(envelope)
@@ -288,6 +290,7 @@ describe('GraphQL generator', () => {
 
           const fakeArgs = { id: '42', timestamp: '1000' }
           const fakeUser = { a: 'user' }
+          const fakeRawContext = { raw: 'http-request' }
           const fakeContext: any = {
             user: fakeUser,
             requestID: '314',
@@ -296,6 +299,7 @@ describe('GraphQL generator', () => {
                 headers: { authorization: 'Bearer test-token' },
                 body: { query: 'test query' },
               },
+              rawContext: fakeRawContext,
             },
           }
           await returnedFunction({}, fakeArgs, fakeContext, {} as any)
@@ -319,7 +323,7 @@ describe('GraphQL generator', () => {
               headers: { authorization: 'Bearer test-token' },
               body: { query: 'test query' },
             },
-            rawContext: fakeContext,
+            rawContext: fakeRawContext,
           })
 
           expect(fakeFindById).to.have.been.calledOnceWith(envelope)
@@ -558,7 +562,7 @@ describe('GraphQL generator', () => {
                 query: 'Test query',
               },
             },
-            rawContext: mockResolverContext,
+            rawContext: mockResolverContext.context?.rawContext,
           },
         })
       })

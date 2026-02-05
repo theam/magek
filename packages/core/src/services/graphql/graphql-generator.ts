@@ -227,7 +227,7 @@ export class GraphQLGenerator {
           body: context.context?.request.body,
           headers: context.context?.request.headers,
         },
-        rawContext: context,
+        rawContext: context.context?.rawContext,
       },
     }
   }
@@ -382,7 +382,7 @@ function toReadModelRequestEnvelope(
         body: context.context?.request.body,
         headers: context.context?.request.headers,
       },
-      rawContext: context,
+      rawContext: context.context?.rawContext,
     },
   }
 }
