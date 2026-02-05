@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Bump @types/node to 22.19.9",
+      "type": "none",
+      "packageName": "@magek/adapter-read-model-store-memory"
+    }
+  ],
+  "packageName": "@magek/adapter-read-model-store-memory",
+  "email": "198982749+Copilot@users.noreply.github.com"
+}
