@@ -456,6 +456,11 @@
       "shouldPublish": true,
       "versionPolicyName": "magek",
       "projectFolder": "adapters/memory/session-store"
+    },
+    {
+      "packageName": "@magek/e2e-tests",
+      "shouldPublish": false,
+      "projectFolder": "packages/e2e-tests"
     }
   ]
 }
