@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@magek/eslint-config": "workspace:^0.0.10",
-    "@types/node": "22.19.7",
+    "@types/node": "22.19.8",
     "rimraf": "6.1.2",
     "typescript": "5.9.3"
   }
