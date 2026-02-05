@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "chore(deps-dev): bump @types/node from 22.19.8 to 22.19.9",
+      "type": "none",
+      "packageName": "@magek/adapter-event-store-nedb"
+    }
+  ],
+  "packageName": "@magek/adapter-event-store-nedb",
+  "email": "198982749+Copilot@users.noreply.github.com"
+}
