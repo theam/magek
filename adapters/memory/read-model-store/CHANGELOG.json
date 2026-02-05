@@ -1,0 +1,17 @@
+{
+  "name": "@magek/adapter-read-model-store-memory",
+  "entries": [
+    {
+      "version": "0.0.11",
+      "tag": "@magek/adapter-read-model-store-memory_v0.0.11",
+      "date": "Thu, 05 Feb 2026 22:33:42 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "Add in-memory adapter packages for event store, read model store, and session store"
+          }
+        ]
+      }
+    }
+  ]
+}

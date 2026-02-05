@@ -2,6 +2,18 @@
   "name": "create-magek",
   "entries": [
     {
+      "version": "0.0.11",
+      "tag": "create-magek_v0.0.11",
+      "date": "Thu, 05 Feb 2026 22:33:42 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "chore(deps-dev): bump @types/node from 22.19.7 to 22.19.8"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.0.10",
       "tag": "create-magek_v0.0.10",
       "date": "Wed, 04 Feb 2026 22:30:21 GMT",
