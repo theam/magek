@@ -741,6 +741,36 @@ importers:
         specifier: 5.9.3
         version: 5.9.3
 
+  ../../packages/e2e-tests:
+    devDependencies:
+      '@magek/eslint-config':
+        specifier: workspace:^0.0.10
+        version: link:../../tools/eslint-config
+      '@types/chai':
+        specifier: 5.2.3
+        version: 5.2.3
+      '@types/mocha':
+        specifier: 10.0.10
+        version: 10.0.10
+      '@types/node':
+        specifier: 22.19.8
+        version: 22.19.8
+      chai:
+        specifier: 6.2.2
+        version: 6.2.2
+      mocha:
+        specifier: 11.7.5
+        version: 11.7.5
+      rimraf:
+        specifier: 6.1.2
+        version: 6.1.2
+      tsx:
+        specifier: ^4.19.2
+        version: 4.21.0
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
   ../../packages/mcp-server:
     dependencies:
       '@modelcontextprotocol/sdk':
@@ -2498,6 +2528,7 @@ packages:
 
   glob@10.5.0:
     resolution: {integrity: sha512-DfXN8DfhJ7NH3Oe7cFmu3NCu1wKbkReJ8TorzSAFbSKrlNaQSKfIzqYqVY8zlbs2NLBbWpRiU52GX2PbaBVNkg==}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   glob@13.0.0:

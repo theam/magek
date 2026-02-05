@@ -1,0 +1,12 @@
+diff: true
+require:
+  - tsx/cjs
+extension:
+  - ts
+package: './package.json'
+recursive: true
+reporter: 'spec'
+timeout: 1200000
+full-trace: true
+bail: true
+color: true

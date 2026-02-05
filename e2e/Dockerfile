@@ -11,28 +11,14 @@ RUN git config --global user.email "test@example.com" && \
 # Install Verdaccio, pnpm, and Rush globally
 RUN npm install -g verdaccio@5 pnpm@10.14.0 @microsoft/rush@5.153.2
 
-# Set working directory
-WORKDIR /work
+# Set working directory for the repo
+WORKDIR /workspace
 
-# Copy the entire workspace (needed for building packages)
+# Copy the entire workspace
 COPY . /workspace
 
-# Copy Verdaccio configuration
-COPY ./e2e/verdaccio-config.yaml /etc/verdaccio/config.yaml
-
-# Copy all phase scripts
-COPY ./e2e/phase1-setup-registry.sh /scripts/
-COPY ./e2e/phase2-create-app.sh /scripts/
-COPY ./e2e/phase3-validate-app.sh /scripts/
-COPY ./e2e/phase4-run-server.sh /scripts/
-COPY ./e2e/phase5-integration-test.sh /scripts/
-COPY ./e2e/run-e2e-tests.sh /scripts/
-
-# Make scripts executable
-RUN chmod +x /scripts/*.sh
-
 # Create necessary directories and set ownership for non-root user
-RUN mkdir -p /tmp/verdaccio-storage && \
+RUN mkdir -p /tmp/verdaccio-storage /work && \
     chown -R node:node /tmp/verdaccio-storage && \
     chown -R node:node /workspace && \
     chown -R node:node /work
@@ -40,5 +26,14 @@ RUN mkdir -p /tmp/verdaccio-storage && \
 # Switch to non-root user
 USER node
 
-# Default command runs the orchestrator script
-CMD ["/scripts/run-e2e-tests.sh"]
+ENV E2E_APP_ROOT=/work
+ENV E2E_REGISTRY_URL=http://localhost:4873
+ENV E2E_VERDACCIO_CONFIG=/workspace/e2e/verdaccio-config.yaml
+ENV E2E_FIXTURES_DIR=/workspace/packages/e2e-tests/fixtures
+
+# Install workspace dependencies so the E2E runner has its toolchain
+RUN rush install
+
+# Default command runs the E2E suite inside the package
+WORKDIR /workspace/packages/e2e-tests
+CMD ["rushx", "test:e2e"]

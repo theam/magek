@@ -1,0 +1,28 @@
+{
+  "name": "@magek/e2e-tests",
+  "version": "0.0.0",
+  "private": true,
+  "description": "End-to-end tests for Magek (container-only)",
+  "scripts": {
+    "format": "prettier --write --ext '.js,.ts' **/*.ts **/*/*.ts",
+    "lint:check": "eslint \"**/*.ts\"",
+    "lint:fix": "eslint --quiet --fix \"**/*.ts\"",
+    "build": "tsc -b tsconfig.json",
+    "clean": "rimraf ./dist tsconfig.tsbuildinfo",
+    "test:e2e": "tsc --noEmit -p tsconfig.test.json && mocha --config .mocharc.yml --forbid-only \"test/**/*.test.ts\""
+  },
+  "engines": {
+    "node": ">=22.0.0 <23.0.0"
+  },
+  "devDependencies": {
+    "@magek/eslint-config": "workspace:^0.0.10",
+    "@types/chai": "5.2.3",
+    "@types/mocha": "10.0.10",
+    "@types/node": "22.19.8",
+    "chai": "6.2.2",
+    "mocha": "11.7.5",
+    "rimraf": "6.1.2",
+    "tsx": "^4.19.2",
+    "typescript": "5.9.3"
+  }
+}
