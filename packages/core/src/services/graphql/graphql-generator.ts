@@ -222,6 +222,13 @@ export class GraphQLGenerator {
       version: 1, // TODO: How to pass the version through GraphQL?
       filters: {},
       sortBy: {},
+      context: {
+        request: {
+          body: context.context?.request.body,
+          headers: context.context?.request.headers,
+        },
+        rawContext: context.context?.rawContext,
+      },
     }
   }
 
@@ -370,6 +377,13 @@ function toReadModelRequestEnvelope(
     paginatedVersion,
     version: 1, // TODO: How to pass the version through GraphQL?
     select,
+    context: {
+      request: {
+        body: context.context?.request.body,
+        headers: context.context?.request.headers,
+      },
+      rawContext: context.context?.rawContext,
+    },
   }
 }
 

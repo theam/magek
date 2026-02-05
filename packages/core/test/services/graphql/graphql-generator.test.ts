@@ -188,6 +188,17 @@ describe('GraphQL generator', () => {
           paginatedVersion: false,
           version: 1,
           select: undefined,
+          context: {
+            request: {
+              headers: {
+                authorization: 'Bearer 123',
+              },
+              body: {
+                query: 'Test query',
+              },
+            },
+            rawContext: mockResolverContext.context?.rawContext,
+          },
         }
 
         await returnedFunction('', {}, mockResolverContext, { fieldNodes: [] } as any)
@@ -229,7 +240,18 @@ describe('GraphQL generator', () => {
 
           const fakeArgs = { id: '42' }
           const fakeUser = { a: 'user' }
-          const fakeContext: any = { user: fakeUser, requestID: '314' }
+          const fakeRawContext = { raw: 'http-request' }
+          const fakeContext: any = {
+            user: fakeUser,
+            requestID: '314',
+            context: {
+              request: {
+                headers: { authorization: 'Bearer test-token' },
+                body: { query: 'test query' },
+              },
+              rawContext: fakeRawContext,
+            },
+          }
           await returnedFunction({}, fakeArgs, fakeContext, {} as any)
 
           expect(toReadModelByIdRequestEnvelopeSpy).to.have.been.calledOnceWith(SomeReadModel, fakeArgs, fakeContext)
@@ -242,6 +264,13 @@ describe('GraphQL generator', () => {
           expect(envelope.key).to.be.deep.equal({ id: '42' })
           expect(envelope.key.sequenceKey).to.be.undefined
           expect(envelope).to.have.property('version', 1)
+          expect(envelope.context).to.deep.equal({
+            request: {
+              headers: { authorization: 'Bearer test-token' },
+              body: { query: 'test query' },
+            },
+            rawContext: fakeRawContext,
+          })
 
           expect(fakeFindById).to.have.been.calledOnceWith(envelope)
         })
@@ -261,7 +290,18 @@ describe('GraphQL generator', () => {
 
           const fakeArgs = { id: '42', timestamp: '1000' }
           const fakeUser = { a: 'user' }
-          const fakeContext: any = { user: fakeUser, requestID: '314' }
+          const fakeRawContext = { raw: 'http-request' }
+          const fakeContext: any = {
+            user: fakeUser,
+            requestID: '314',
+            context: {
+              request: {
+                headers: { authorization: 'Bearer test-token' },
+                body: { query: 'test query' },
+              },
+              rawContext: fakeRawContext,
+            },
+          }
           await returnedFunction({}, fakeArgs, fakeContext, {} as any)
 
           expect(toReadModelByIdRequestEnvelopeSpy).to.have.been.calledOnceWith(
@@ -278,8 +318,64 @@ describe('GraphQL generator', () => {
           expect(envelope).to.have.property('className', 'SomeReadModel')
           expect(envelope.key).to.be.deep.equal({ id: '42', sequenceKey: { name: 'timestamp', value: '1000' } })
           expect(envelope).to.have.property('version', 1)
+          expect(envelope.context).to.deep.equal({
+            request: {
+              headers: { authorization: 'Bearer test-token' },
+              body: { query: 'test query' },
+            },
+            rawContext: fakeRawContext,
+          })
 
           expect(fakeFindById).to.have.been.calledOnceWith(envelope)
+        })
+      })
+    })
+
+    describe('readModelResolverBuilder includes request context', () => {
+      it('should include request headers in the read model envelope', async () => {
+        const fakeSearch = stub().resolves([])
+        replace(MagekReadModelsReader.prototype, 'search', fakeSearch)
+
+        const returnedFunction = GraphQLGenerator.readModelResolverBuilder(mockType)
+        await returnedFunction('', {}, mockResolverContext, { fieldNodes: [] } as any)
+
+        const envelope = fakeSearch.firstCall.args[0]
+        expect(envelope.context).to.exist
+        expect(envelope.context.request.headers).to.deep.equal({
+          authorization: 'Bearer 123',
+        })
+        expect(envelope.context.request.body).to.deep.equal({
+          query: 'Test query',
+        })
+      })
+    })
+
+    describe('readModelByIDResolverBuilder includes request context', () => {
+      class ContextTestReadModel {
+        @field()
+        public readonly id: string
+
+        public constructor(id: string) {
+          this.id = id
+        }
+      }
+
+      it('should include request headers in the read model by ID envelope', async () => {
+        const config = new MagekConfig('test')
+        const toReadModelByIdRequestEnvelopeSpy = spy(GraphQLGenerator as any, 'toReadModelByIdRequestEnvelope')
+        const fakeFindById = fake()
+        replace((GraphQLGenerator as any).readModelsReader, 'findById', fakeFindById)
+
+        const returnedFunction = GraphQLGenerator.readModelByIDResolverBuilder(config, ContextTestReadModel)
+        await returnedFunction({}, { id: '1' }, mockResolverContext, {} as any)
+
+        const envelope = toReadModelByIdRequestEnvelopeSpy.returnValues[0]
+        expect(envelope.context).to.exist
+        expect(envelope.context.request.headers).to.deep.equal({
+          authorization: 'Bearer 123',
+        })
+        expect(envelope.context.request.body).to.deep.equal({
+          query: 'Test query',
         })
       })
     })
@@ -457,6 +553,17 @@ describe('GraphQL generator', () => {
           paginatedVersion: false,
           version: 1,
           select: undefined,
+          context: {
+            request: {
+              headers: {
+                authorization: 'Bearer 123',
+              },
+              body: {
+                query: 'Test query',
+              },
+            },
+            rawContext: mockResolverContext.context?.rawContext,
+          },
         })
       })
 
