@@ -35,8 +35,8 @@ importers:
         specifier: 10.0.10
         version: 10.0.10
       '@types/node':
-        specifier: 22.19.7
-        version: 22.19.7
+        specifier: 22.19.8
+        version: 22.19.8
       '@types/sinon':
         specifier: 21.0.0
         version: 21.0.0
@@ -96,8 +96,8 @@ importers:
         specifier: 10.0.10
         version: 10.0.10
       '@types/node':
-        specifier: 22.19.7
-        version: 22.19.7
+        specifier: 22.19.8
+        version: 22.19.8
       '@types/sinon':
         specifier: 21.0.0
         version: 21.0.0
@@ -157,8 +157,8 @@ importers:
         specifier: 10.0.10
         version: 10.0.10
       '@types/node':
-        specifier: 22.19.7
-        version: 22.19.7
+        specifier: 22.19.8
+        version: 22.19.8
       '@types/sinon':
         specifier: 21.0.0
         version: 21.0.0
@@ -446,8 +446,8 @@ importers:
         specifier: 4.2.0
         version: 4.2.0
       ora:
-        specifier: 9.1.0
-        version: 9.1.0
+        specifier: 9.2.0
+        version: 9.2.0
       ts-morph:
         specifier: 27.0.2
         version: 27.0.2
@@ -3370,8 +3370,8 @@ packages:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
     engines: {node: '>= 0.8.0'}
 
-  ora@9.1.0:
-    resolution: {integrity: sha512-53uuLsXHOAJl5zLrUrzY9/kE+uIFEx7iaH4g2BIJQK4LZjY4LpCCYZVKDWIkL+F01wAaCg93duQ1whnK/AmY1A==}
+  ora@9.2.0:
+    resolution: {integrity: sha512-4sGT6oNDbqIuciDfD2aCkoPgHLmOe+g+xpFK2WDO0aQuD/bNHNwfdFosWP+DXmcxRyXeF8vnki6kXnOOHTuRSA==}
     engines: {node: '>=20'}
 
   outvariant@1.4.3:
@@ -3812,8 +3812,8 @@ packages:
     resolution: {integrity: sha512-DvEy55V3DB7uknRo+4iOGT5fP1slR8wQohVdknigZPMpMstaKJQWhwiYBACJE3Ul2pTnATihhBYnRhZQHGBiRw==}
     engines: {node: '>= 0.8'}
 
-  stdin-discarder@0.2.2:
-    resolution: {integrity: sha512-UhDfHmA92YAlNnCfhmq0VeNL5bDbiZGg7sZ2IvPsXubGkiNa9EC+tUTsjBRsYUAz87btI6/1wf4XoVvQ3uRnmQ==}
+  stdin-discarder@0.3.1:
+    resolution: {integrity: sha512-reExS1kSGoElkextOcPkel4NE99S0BWxjUHQeDFnR8S993JxpPX7KU4MNmO19NXhlJp+8dmdCbKQVNgLJh2teA==}
     engines: {node: '>=18'}
 
   stop-iteration-iterator@1.1.0:
@@ -6839,7 +6839,7 @@ snapshots:
       type-check: 0.4.0
       word-wrap: 1.2.5
 
-  ora@9.1.0:
+  ora@9.2.0:
     dependencies:
       chalk: 5.6.2
       cli-cursor: 5.0.0
@@ -6847,7 +6847,7 @@ snapshots:
       is-interactive: 2.0.0
       is-unicode-supported: 2.1.0
       log-symbols: 7.0.1
-      stdin-discarder: 0.2.2
+      stdin-discarder: 0.3.1
       string-width: 8.1.0
 
   outvariant@1.4.3: {}
@@ -7309,7 +7309,7 @@ snapshots:
 
   statuses@2.0.2: {}
 
-  stdin-discarder@0.2.2: {}
+  stdin-discarder@0.3.1: {}
 
   stop-iteration-iterator@1.1.0:
     dependencies:
