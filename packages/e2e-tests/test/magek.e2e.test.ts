@@ -66,7 +66,15 @@ describe('Magek end-to-end workflow', function () {
     dbChecked: false,
     subscriptionChecked: false,
     secondDeposit: false,
-    secondBalance: false
+    secondBalance: false,
+    nonExistentQueried: false,
+    secondAccountDeposited: false,
+    secondAccountBalanceChecked: false,
+    firstAccountUnaffected: false,
+    listedBalances: false,
+    eventsByEntityQueried: false,
+    eventsByTypeQueried: false,
+    invalidQueryHandled: false
   }
 
   const port = 3000
@@ -561,6 +569,168 @@ describe('Magek end-to-end workflow', function () {
 
       expect(finalBalanceResponse.data?.AccountBalance?.balance).to.equal(expectedFinalBalance)
       steps.secondBalance = true
+    })
+
+    it('returns null for a non-existent account', async function () {
+      requireStep(this, steps.secondBalance)
+
+      const response = await graphqlRequest<{ AccountBalance?: { id: string; balance: number } | null }>(
+        graphqlUrl,
+        `query { AccountBalance(id: "non-existent-account") { id balance } }`
+      )
+
+      expect(response.errors).to.equal(undefined)
+      expect(response.data?.AccountBalance).to.equal(null)
+      steps.nonExistentQueried = true
+    })
+
+    it('deposits to a second independent account', async function () {
+      requireStep(this, steps.nonExistentQueried)
+
+      const secondAccountId = 'test-account-456'
+      const depositAmount = 200
+
+      const mutationResponse = await graphqlRequest<{ DepositMoney?: boolean }>(
+        graphqlUrl,
+        `mutation { DepositMoney(input: { accountId: "${secondAccountId}", amount: ${depositAmount} }) }`
+      )
+
+      expect(mutationResponse.errors).to.equal(undefined)
+      expect(mutationResponse.data).to.have.property('DepositMoney')
+      steps.secondAccountDeposited = true
+    })
+
+    it('reads the second account balance', async function () {
+      requireStep(this, steps.secondAccountDeposited)
+
+      const secondAccountId = 'test-account-456'
+      const expectedBalance = 200
+
+      const balanceResponse = await waitFor(
+        async () => {
+          const response = await graphqlRequest<{ AccountBalance?: { id: string; balance: number } }>(
+            graphqlUrl,
+            `query { AccountBalance(id: "${secondAccountId}") { id balance } }`
+          )
+          if (response.errors || !response.data?.AccountBalance) {
+            return false
+          }
+          return response.data.AccountBalance.balance === expectedBalance ? response : false
+        },
+        {
+          timeoutMs: 10000,
+          intervalMs: 500,
+          message: 'AccountBalance did not update for second account'
+        }
+      )
+
+      expect(balanceResponse.data?.AccountBalance?.balance).to.equal(expectedBalance)
+      expect(balanceResponse.data?.AccountBalance?.id).to.equal(secondAccountId)
+      steps.secondAccountBalanceChecked = true
+    })
+
+    it('verifies the first account balance is unaffected', async function () {
+      requireStep(this, steps.secondAccountBalanceChecked)
+
+      const firstAccountId = 'test-account-123'
+      const expectedFirstBalance = 150
+
+      const response = await graphqlRequest<{ AccountBalance?: { id: string; balance: number } }>(
+        graphqlUrl,
+        `query { AccountBalance(id: "${firstAccountId}") { id balance } }`
+      )
+
+      expect(response.errors).to.equal(undefined)
+      expect(response.data?.AccountBalance?.balance).to.equal(expectedFirstBalance)
+      expect(response.data?.AccountBalance?.id).to.equal(firstAccountId)
+      steps.firstAccountUnaffected = true
+    })
+
+    it('lists all account balances', async function () {
+      requireStep(this, steps.firstAccountUnaffected)
+
+      const response = await graphqlRequest<{
+        ListAccountBalances?: { items: Array<{ id: string; balance: number }>; count: number }
+      }>(graphqlUrl, `query { ListAccountBalances { items { id balance } count } }`)
+
+      expect(response.errors).to.equal(undefined)
+      expect(response.data?.ListAccountBalances).to.have.property('items')
+      expect(response.data?.ListAccountBalances).to.have.property('count')
+      expect(response.data?.ListAccountBalances?.count).to.be.greaterThanOrEqual(2)
+
+      const items = response.data?.ListAccountBalances?.items ?? []
+      const account123 = items.find((item) => item.id === 'test-account-123')
+      const account456 = items.find((item) => item.id === 'test-account-456')
+      expect(account123).to.not.equal(undefined)
+      expect(account123?.balance).to.equal(150)
+      expect(account456).to.not.equal(undefined)
+      expect(account456?.balance).to.equal(200)
+      steps.listedBalances = true
+    })
+
+    it('queries events by entity', async function () {
+      requireStep(this, steps.listedBalances)
+
+      const response = await graphqlRequest<{
+        eventsByEntity?: Array<{
+          type: string
+          entity: string
+          entityID: string
+          value: Record<string, unknown>
+          createdAt: string
+        }>
+      }>(
+        graphqlUrl,
+        `query { eventsByEntity(entity: Account, entityID: "test-account-123") { type entity entityID value createdAt } }`
+      )
+
+      expect(response.errors).to.equal(undefined)
+      const events = response.data?.eventsByEntity ?? []
+      expect(events.length).to.be.greaterThanOrEqual(2)
+
+      for (const event of events) {
+        expect(event.type).to.equal('MoneyDeposited')
+        expect(event.entity).to.equal('Account')
+        expect(event.entityID).to.equal('test-account-123')
+        expect(event.createdAt).to.be.a('string').and.not.equal('')
+      }
+      steps.eventsByEntityQueried = true
+    })
+
+    it('queries events by type', async function () {
+      requireStep(this, steps.eventsByEntityQueried)
+
+      const response = await graphqlRequest<{
+        eventsByType?: Array<{
+          type: string
+          entity: string
+          entityID: string
+          value: Record<string, unknown>
+        }>
+      }>(graphqlUrl, `query { eventsByType(type: MoneyDeposited) { type entity entityID value } }`)
+
+      expect(response.errors).to.equal(undefined)
+      const events = response.data?.eventsByType ?? []
+      // At least 3 events: two deposits to account-123, one to account-456
+      expect(events.length).to.be.greaterThanOrEqual(3)
+
+      const accountIds = new Set(events.map((e) => e.entityID))
+      expect(accountIds.has('test-account-123')).to.equal(true)
+      expect(accountIds.has('test-account-456')).to.equal(true)
+      steps.eventsByTypeQueried = true
+    })
+
+    it('handles an invalid GraphQL query gracefully', async function () {
+      requireStep(this, steps.eventsByTypeQueried)
+
+      const response = await graphqlRequest<Record<string, unknown>>(
+        graphqlUrl,
+        `query { ThisDoesNotExist { id } }`
+      )
+
+      expect(response.errors).to.be.an('array').and.not.be.empty
+      expect(response.errors?.[0]).to.have.property('message')
+      steps.invalidQueryHandled = true
     })
   })
 })
