@@ -17,7 +17,7 @@ jobs:
           node-version: "22"
 
       # Install pnpm itself (one line)
-      - uses: pnpm/action-setup@v4      # provides the pnpm CLI  [oai_citation:7‡GitHub](https://github.com/pnpm/action-setup?utm_source=chatgpt.com)
+      - uses: pnpm/action-setup@v5      # provides the pnpm CLI  [oai_citation:7‡GitHub](https://github.com/pnpm/action-setup?utm_source=chatgpt.com)
         with:
           version: 10
           run_install: false           # Rush will handle installs
