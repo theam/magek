@@ -38,7 +38,7 @@
   "dependencies": {
     "tslib": "2.8.1",
     "reflect-metadata": "0.2.2",
-    "uuid": "^13.0.0"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@magek/eslint-config": "workspace:^0.0.11",
