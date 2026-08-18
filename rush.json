@@ -121,7 +121,7 @@
    * LTS versions: https://nodejs.org/en/download/releases/
    */
   // "nodeSupportedVersionRange": ">=22.0.0 <23.0.0",
-  "nodeSupportedVersionRange": ">=22.0.0 <23.0.0",
+  "nodeSupportedVersionRange": ">=22.0.0 <27.0.0",
 
   /**
    * Odd-numbered major versions of Node.js are experimental.  Even-numbered releases
@@ -134,7 +134,7 @@
    * pre-LTS versions in preparation for supporting the first LTS version, you can use this setting
    * to disable Rush's warning.
    */
-  // "suppressNodeLtsWarning": false,
+  "suppressNodeLtsWarning": true,
 
   /**
    * If you would like the version specifiers for your dependencies to be consistent, then
@@ -461,6 +461,12 @@
       "packageName": "@magek/e2e-tests",
       "shouldPublish": false,
       "projectFolder": "packages/e2e-tests"
+    },
+    {
+      "packageName": "@magek/jeparag",
+      "shouldPublish": true,
+      "versionPolicyName": "magek",
+      "projectFolder": "packages/jeparag"
     }
   ]
 }
