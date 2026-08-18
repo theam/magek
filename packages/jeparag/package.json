@@ -30,6 +30,7 @@
     "lint:fix": "eslint --quiet --fix \"**/*.ts\"",
     "build": "tsc -b tsconfig.json",
     "clean": "rimraf ./dist ./dist-test tsconfig.tsbuildinfo",
+    "demo": "tsx examples/hipaa-audit-demo.ts",
     "test": "tsc -b tsconfig.json && tsc -p tsconfig.test.json --outDir ./dist-test && mocha \"dist-test/test/**/*.test.js\" && rimraf ./dist-test",
     "prepack": "tsc -b tsconfig.json"
   },
