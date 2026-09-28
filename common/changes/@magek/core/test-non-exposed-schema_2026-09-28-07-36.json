@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Add a schema test that @nonExposed fields are omitted from the generated read model type.",
+      "type": "none",
+      "packageName": "@magek/core"
+    }
+  ],
+  "packageName": "@magek/core",
+  "email": "omidomirzaei@gmail.com"
+}
