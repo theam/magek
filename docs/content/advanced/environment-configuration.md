@@ -27,6 +27,26 @@ Magek.configure('prod', (config: MagekConfig): void => {
 })
 ```
 
+## Programmatic initialization
+
+`Magek.config` is created the first time something reads it. When `MAGEK_ENV` is already set, that value is the environment name. That is the path used by the test runner and by apps that set the variable before startup.
+
+You can set the name in code instead:
+
+```typescript
+import { Magek } from '@magek/core'
+
+Magek.init('production')
+
+Magek.configureCurrentEnv((config: MagekConfig): void => {
+  config.appName = 'fruit-store'
+})
+```
+
+`init` has to run before any module that uses Magek decorators or calls `Magek.configure` is evaluated. ES `import` declarations are hoisted, so a call written under those imports in the same file runs too late. Put `init` in a module that loads first, or import the rest of the app dynamically after `init`.
+
+Calling `init` again with the same name does nothing. Calling it with a different name throws, including when config was already built from `MAGEK_ENV`.
+
 ## Pluggable Adapters
 
 Magek uses a pluggable architecture for data storage, allowing you to choose the most appropriate storage solution for your needs. The framework provides several adapter types:

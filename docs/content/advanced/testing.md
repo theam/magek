@@ -29,7 +29,7 @@ The only thing that you should add to this line are the `AWS_SDK_LOAD_CONFIG=tru
 
 ### Testing with `sinon-chai`
 
-The `MagekConfig` can be accessed through the `Magek.config` on any part of a Magek application. To properly mock it for your objective, we really recommend to use sinon `replace` method, after configuring your `Magek.config` as desired.
+The `MagekConfig` can be accessed through the `Magek.config` on any part of a Magek application. `Magek.config` is a getter, so sinon `replace` throws on it. Use `replaceGetter` after configuring your `Magek.config` as desired.
 
 In the example below, we add 2 "empty" read-models, since we are iterating `Magek.config.readModels` from a command handler:
 
@@ -41,7 +41,7 @@ config.appName = 'testing-time'
 config.runtime = {} as Runtime
 config.readModels['WoW'] = {} as ReadModelMetadata
 config.readModels['Amazing'] = {} as ReadModelMetadata
-replace(Magek, 'config', config)
+replaceGetter(Magek, 'config', () => config)
 
 const spyMyCall = spy(MyCommand, 'myCall')
 const command = new MyCommand('1', true)

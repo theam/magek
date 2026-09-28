@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Add Magek.init(environment). Config is created on first access and still uses MAGEK_ENV when init is not called. Stub Magek.config with sinon replaceGetter instead of replace.",
+      "type": "patch",
+      "packageName": "@magek/core"
+    }
+  ],
+  "packageName": "@magek/core",
+  "email": "omidomirzaei@gmail.com"
+}

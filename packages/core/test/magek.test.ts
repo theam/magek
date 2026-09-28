@@ -446,15 +446,97 @@ describe('the `Magek` class', () => {
     })
   })
 
-  describe('MAGEK_ENV error handling', () => {
-    it('throws a helpful error message when MAGEK_ENV is not set', () => {
-      const errorMessage = 
-        'Magek environment is missing. You need to provide an environment to configure your Magek project.\n\n' +
-        'To fix this error, set the MAGEK_ENV environment variable.\n' +
-        'Common environment names: local, development, staging, production, test'
+  describe('the `init` method', () => {
+    const magek = Magek as unknown as { _config?: MagekConfig }
+    let savedConfig: MagekConfig | undefined
+    let savedEnv: string | undefined
+    let savedEnvironments: string[]
 
-      expect(errorMessage).to.include('To fix this error, set the MAGEK_ENV environment variable')
-      expect(errorMessage).to.include('Common environment names: local, development, staging, production, test')
+    beforeEach(() => {
+      savedConfig = magek._config
+      savedEnv = process.env.MAGEK_ENV
+      savedEnvironments = [...Magek.configuredEnvironments]
+      magek._config = undefined
+    })
+
+    afterEach(() => {
+      magek._config = savedConfig
+      if (savedEnv === undefined) {
+        delete process.env.MAGEK_ENV
+      } else {
+        process.env.MAGEK_ENV = savedEnv
+      }
+      Magek.configuredEnvironments.clear()
+      for (const name of savedEnvironments) {
+        Magek.configuredEnvironments.add(name)
+      }
+    })
+
+    it('uses the name passed to init for configureCurrentEnv', () => {
+      Magek.init('production')
+      let seen: string | undefined
+      Magek.configureCurrentEnv((config) => {
+        seen = config.environmentName
+      })
+      expect(seen).to.equal('production')
+    })
+
+    it('builds config from MAGEK_ENV when init was not called', () => {
+      process.env.MAGEK_ENV = 'staging'
+      const config = Magek.config
+      expect(config.environmentName).to.equal('staging')
+      expect(Magek.config).to.equal(config)
+    })
+
+    it('throws when config is read with no init and no MAGEK_ENV', () => {
+      delete process.env.MAGEK_ENV
+      expect(() => Magek.config).to.throw(/set the MAGEK_ENV environment variable/)
+      expect(() => Magek.config).to.throw(/Magek.init/)
+    })
+
+    it('throws when MAGEK_ENV is only whitespace', () => {
+      process.env.MAGEK_ENV = '   '
+      expect(() => Magek.config).to.throw(/set the MAGEK_ENV environment variable/)
+    })
+
+    it('does nothing when init is called again with the same name', () => {
+      Magek.init('a')
+      const config = Magek.config
+      Magek.init('a')
+      expect(Magek.config).to.equal(config)
+    })
+
+    it('throws when init is called again with a different name', () => {
+      Magek.init('a')
+      expect(() => Magek.init('b')).to.throw(/already initialized with environment 'a'/)
+    })
+
+    it('throws when init disagrees with a config already built from MAGEK_ENV', () => {
+      process.env.MAGEK_ENV = 'test'
+      const config = Magek.config
+      expect(() => Magek.init('production')).to.throw(/already initialized with environment 'test'/)
+      expect(Magek.config).to.equal(config)
+      Magek.init('test')
+      expect(Magek.config).to.equal(config)
+    })
+
+    it('throws when init is called with an empty name', () => {
+      expect(() => Magek.init('')).to.throw(/non-empty/)
+      expect(() => Magek.init('   ')).to.throw(/non-empty/)
+    })
+
+    it('runs configure only for the initialized environment', () => {
+      Magek.init('production')
+      let otherCalled = false
+      let productionCalled = false
+      Magek.configure('other', () => {
+        otherCalled = true
+      })
+      Magek.configure('production', () => {
+        productionCalled = true
+      })
+      expect(otherCalled).to.equal(false)
+      expect(productionCalled).to.equal(true)
     })
   })
 

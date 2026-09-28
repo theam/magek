@@ -13,7 +13,7 @@ import {
   SubscriptionEnvelope,
   UUID,
 } from '@magek/common'
-import { fake, match, replace, restore, SinonStub, stub } from 'sinon'
+import { fake, match, replace, replaceGetter, restore, SinonStub, stub } from 'sinon'
 import { MagekReadModelsReader } from '../src/read-models-reader'
 import { faker } from '@faker-js/faker'
 import { Magek } from '../src/magek'
@@ -421,7 +421,7 @@ describe('MagekReadModelReader', () => {
         const providerSearcherFunctionFake = fake.resolves(expectedReadModels)
         replace(config.readModelStoreAdapter as any, 'search', providerSearcherFunctionFake)
 
-        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
+        replaceGetter(Magek, 'config', () => config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
 
         migratorStub.callsFake(async (readModel, readModelName) => readModel)
 
@@ -445,7 +445,7 @@ describe('MagekReadModelReader', () => {
         const providerSearcherFunctionFake = fake.resolves(expectedReadModels)
         replace(config.readModelStoreAdapter as any, 'search', providerSearcherFunctionFake)
 
-        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
+        replaceGetter(Magek, 'config', () => config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
 
         migratorStub.callsFake(async (readModel, readModelName) => readModel)
 
@@ -475,7 +475,7 @@ describe('MagekReadModelReader', () => {
         const providerSearcherFunctionFake = fake.resolves(searchResult)
         replace(config.readModelStoreAdapter as any, 'search', providerSearcherFunctionFake)
 
-        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
+        replaceGetter(Magek, 'config', () => config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
 
         migratorStub.callsFake(async (readModel, readModelName) => readModel)
 
@@ -513,7 +513,7 @@ describe('MagekReadModelReader', () => {
           const providerSearcherFunctionFake = fake.resolves(expectedReadModels)
           replace(config.readModelStoreAdapter as any, 'search', providerSearcherFunctionFake)
 
-          replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
+          replaceGetter(Magek, 'config', () => config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
 
           migratorStub.callsFake(async (readModel, readModelName) => readModel)
 
@@ -548,7 +548,7 @@ describe('MagekReadModelReader', () => {
           const providerSearcherFunctionFake = fake.resolves(expectedResult)
           replace(config.readModelStoreAdapter as any, 'search', providerSearcherFunctionFake)
 
-          replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
+          replaceGetter(Magek, 'config', () => config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
 
           migratorStub.callsFake(async (readModel, readModelName) => readModel)
 
@@ -582,7 +582,7 @@ describe('MagekReadModelReader', () => {
             before: [fakeBeforeFn],
           }
 
-          replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
+          replaceGetter(Magek, 'config', () => config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
           replace(config.readModelStoreAdapter as any, 'search', providerSearcherFunctionFake)
         })
 
@@ -617,7 +617,7 @@ describe('MagekReadModelReader', () => {
             before: [beforeFnSpy, beforeFnV2Spy],
           }
 
-          replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
+          replaceGetter(Magek, 'config', () => config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
 
           replace(config.readModelStoreAdapter as any, 'search', providerSearcherFunctionFake)
         })

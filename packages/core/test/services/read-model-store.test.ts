@@ -18,7 +18,7 @@ import {
 import { field } from '../../src'
 import { expect } from '../expect'
 import { MagekAuthorizer } from '../../src/authorizer'
-import { fake, match, replace, restore, SinonFakeTimers, spy, stub, useFakeTimers } from 'sinon'
+import { fake, match, replace, replaceGetter, restore, SinonFakeTimers, spy, stub, useFakeTimers } from 'sinon'
 import { Magek } from '../../src/magek'
 
 // Utility function to create complete mock adapters
@@ -298,7 +298,7 @@ describe('ReadModelStore', () => {
           search: fake.resolves([]) as any,
         })
         replace(config, 'readModelStoreAdapter', mockAdapter)
-        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
+        replaceGetter(Magek, 'config', () => config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(
           ReadModelStore.prototype,
           'getProjectionFunction',
@@ -321,7 +321,7 @@ describe('ReadModelStore', () => {
           search: fake.resolves([]) as any,
         })
         replace(config, 'readModelStoreAdapter', mockAdapter)
-        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
+        replaceGetter(Magek, 'config', () => config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(
           ReadModelStore.prototype,
           'getProjectionFunction',
@@ -351,7 +351,7 @@ describe('ReadModelStore', () => {
       // dependency injection or replaceGetter for proper mocking.
       it.skip('creates new instances of the read models', async () => {
         replace(config.readModelStore, 'store', fake())
-        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
+        replaceGetter(Magek, 'config', () => config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(config.readModelStore, 'search', fake.resolves([]))
         const readModelStore = new ReadModelStore(config)
         replace(readModelStore, 'fetchReadModel', fake.resolves(null))
@@ -460,7 +460,7 @@ describe('ReadModelStore', () => {
         const readModelStore = new ReadModelStore(config)
         const someReadModelStoredVersion = 10
         const anotherReadModelStoredVersion = 32
-        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
+        replaceGetter(Magek, 'config', () => config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         const searchStub = stub(config.readModelStore as any, 'search') as any
         searchStub.callsFake(async (_config: any, className: string) => {
           if (className == SomeReadModel.name) {
@@ -627,7 +627,7 @@ describe('ReadModelStore', () => {
     context('when the projection calls an instance method in the entity', () => {
       it('is executed without failing', async () => {
         const readModelStore = new ReadModelStore(config)
-        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
+        replaceGetter(Magek, 'config', () => config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(config.readModelStore as any, 'search', fake.resolves([]))
         const getPrefixedKeyFake = fake()
         replace(AnImportantEntity.prototype, 'getPrefixedKey', getPrefixedKeyFake)
@@ -639,7 +639,7 @@ describe('ReadModelStore', () => {
     context('when the projection calls an instance method in the read model', () => {
       it('is executed without failing', async () => {
         const readModelStore = new ReadModelStore(config)
-        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
+        replaceGetter(Magek, 'config', () => config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(config.readModelStore as any, 'search', fake.resolves([{ id: 'joinColumnID', count: 31415 }]))
         const getIdFake = fake()
         replace(SomeReadModel.prototype, 'getId', getIdFake)
@@ -671,7 +671,7 @@ describe('ReadModelStore', () => {
           }
           return Promise.resolve()
         })
-        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
+        replaceGetter(Magek, 'config', () => config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(config.readModelStore as any, 'search', fake.resolves([]))
         replace(config.readModelStore as any, 'store', fakeStore)
         const readModelStore = new ReadModelStore(config)
@@ -722,7 +722,7 @@ describe('ReadModelStore', () => {
         replace(config.readModelStore as any, 'store', fake())
         const readModelStore = new ReadModelStore(config)
         const someReadModelStoredVersion = 10
-        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
+        replaceGetter(Magek, 'config', () => config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(
           config.readModelStore as any,
           'search',
@@ -849,7 +849,7 @@ describe('ReadModelStore', () => {
           }
         )
         replace(config.readModelStore as any, 'store', fakeStore)
-        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
+        replaceGetter(Magek, 'config', () => config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(config.readModelStore as any, 'search', fake.resolves([]))
 
         const readModelStore = new ReadModelStore(config)
@@ -925,7 +925,7 @@ describe('ReadModelStore', () => {
         const readModelStore = new ReadModelStore(config)
         const fakeApplyProjectionToReadModel = fake()
         replace(readModelStore as any, 'applyProjectionToReadModel', fakeApplyProjectionToReadModel)
-        replace(Magek, 'config', config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
+        replaceGetter(Magek, 'config', () => config) // Needed because the function `Magek.readModel` references `this.config` from `searchFunction`
         replace(config.readModelStore as any, 'search', fake.resolves([]))
 
         await readModelStore.project(anEntitySnapshot)

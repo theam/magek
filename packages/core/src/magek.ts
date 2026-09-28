@@ -31,7 +31,34 @@ import { eventSearch } from './event-search'
  */
 export class Magek {
   public static readonly configuredEnvironments: Set<string> = new Set<string>()
-  public static readonly config = new MagekConfig(checkAndGetCurrentEnv())
+  private static _config: MagekConfig | undefined
+
+  public static get config(): MagekConfig {
+    if (!this._config) {
+      this._config = new MagekConfig(checkAndGetCurrentEnv())
+    }
+    return this._config
+  }
+
+  /**
+   * Sets the environment name before config is first read.
+   * Has to run before decorated classes or Magek.configure are evaluated.
+   */
+  public static init(environment: string): void {
+    if (!environment || environment.trim().length === 0) {
+      throw new Error('Magek.init requires a non-empty environment name.')
+    }
+    if (this._config) {
+      if (this._config.environmentName !== environment) {
+        throw new Error(
+          `Magek already initialized with environment '${this._config.environmentName}'. ` +
+            `Cannot reinitialize with '${environment}'.`
+        )
+      }
+      return
+    }
+    this._config = new MagekConfig(environment)
+  }
 
   public static configureCurrentEnv(configurator: (config: MagekConfig) => void): void {
     configurator(this.config)
@@ -158,7 +185,7 @@ function checkAndGetCurrentEnv(): string {
   if (!env || env.trim().length == 0) {
     throw new Error(
       'Magek environment is missing. You need to provide an environment to configure your Magek project.\n\n' +
-      'To fix this error, set the MAGEK_ENV environment variable.\n' +
+      'To fix this error, set the MAGEK_ENV environment variable or call Magek.init(environment).\n' +
       'Common environment names: local, development, staging, production, test'
     )
   }
