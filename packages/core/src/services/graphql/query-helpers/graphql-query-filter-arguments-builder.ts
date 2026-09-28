@@ -10,7 +10,7 @@ import {
   GraphQLString,
   ThunkObjMap,
 } from 'graphql'
-import { getClassMetadata } from '../../../decorators/metadata'
+import { getClassMetadata, nonExposedFieldsForClass } from '../../../decorators/metadata'
 import { PropertyMetadata, TypeMetadata } from '@magek/common'
 import { GraphQLJSON } from 'graphql-scalars'
 import { AnyClass, MagekConfig, UUID } from '@magek/common'
@@ -54,11 +54,13 @@ export class GraphqlQueryFilterArgumentsBuilder {
       let nestedProperties: ThunkObjMap<GraphQLInputFieldConfig> = {}
       const metadata = getClassMetadata(prop.typeInfo.type)
       if (metadata.fields.length === 0) return GraphQLJSON
-      const excludeProps = this.config.nonExposedGraphQLMetadataKey[prop.name]
-      this.typeInformer.generateGraphQLTypeForClass(prop.typeInfo.type, excludeProps, true)
+      const excludeProps = nonExposedFieldsForClass(this.config, prop.typeInfo.type)
+      // Do not pass exclusions into the shared input-type cache. Queries are built
+      // before mutations, and a cached AddressInput would then drop the field there too.
+      this.typeInformer.generateGraphQLTypeForClass(prop.typeInfo.type, [], true)
 
-      for (const prop of metadata.fields) {
-        const property = { [prop.name]: { type: this.generateFilterFor(prop) } }
+      for (const nestedProp of nonExcludedFields(metadata.fields, excludeProps)) {
+        const property = { [nestedProp.name]: { type: this.generateFilterFor(nestedProp) } }
         nestedProperties = { ...nestedProperties, ...property }
       }
       fields = () => ({

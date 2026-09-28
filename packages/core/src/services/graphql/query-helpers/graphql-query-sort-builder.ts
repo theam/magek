@@ -1,6 +1,6 @@
 import { GraphQLEnumType, GraphQLFieldConfigArgumentMap, GraphQLInputObjectType, ThunkObjMap } from 'graphql'
 import { PropertyMetadata } from '@magek/common'
-import { getClassMetadata } from '../../../decorators/metadata'
+import { getClassMetadata, nonExposedFieldsForClass } from '../../../decorators/metadata'
 import { buildGraphqlSimpleEnumFor, isExternalType, nonExcludedFields } from '../common'
 import { GraphQLInputFieldConfig } from 'graphql/type/definition'
 import { GraphQLTypeInformer } from '../graphql-type-informer'
@@ -42,11 +42,13 @@ export class GraphqlQuerySortBuilder {
       let nestedProperties: ThunkObjMap<GraphQLInputFieldConfig> = {}
       const metadata = getClassMetadata(prop.typeInfo.type)
       if (metadata.fields.length === 0) return this.orderType
-      const excludeProps = this.config.nonExposedGraphQLMetadataKey[prop.name]
-      this.typeInformer.generateGraphQLTypeForClass(prop.typeInfo.type, excludeProps, true)
+      const excludeProps = nonExposedFieldsForClass(this.config, prop.typeInfo.type)
+      // Do not pass exclusions into the shared input-type cache. Queries are built
+      // before mutations, and a cached AddressInput would then drop the field there too.
+      this.typeInformer.generateGraphQLTypeForClass(prop.typeInfo.type, [], true)
 
-      for (const prop of metadata.fields) {
-        const property = { [prop.name]: { type: this.generateSortFor(prop) } }
+      for (const nestedProp of nonExcludedFields(metadata.fields, excludeProps)) {
+        const property = { [nestedProp.name]: { type: this.generateSortFor(nestedProp) } }
         nestedProperties = { ...nestedProperties, ...property }
       }
       fields = () => ({

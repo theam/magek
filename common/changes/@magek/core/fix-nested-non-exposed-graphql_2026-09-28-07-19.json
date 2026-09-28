@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Omit @nonExposed fields from nested GraphQL filter and sort inputs.",
+      "type": "patch",
+      "packageName": "@magek/core"
+    }
+  ],
+  "packageName": "@magek/core",
+  "email": "omidomirzaei@gmail.com"
+}

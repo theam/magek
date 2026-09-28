@@ -1,6 +1,6 @@
-import { AnyClass, ClassMetadata } from '@magek/common'
+import { AnyClass, ClassMetadata, MagekConfig } from '@magek/common'
 import { buildClassMetadataFromFields } from './field-metadata-reader'
-import { DecoratorMetadataObject } from './decorator-types'
+import { DecoratorMetadataObject, SYMBOL_METADATA } from './decorator-types'
 import { NON_EXPOSED_SYMBOL } from './non-exposed'
 
 /**
@@ -11,6 +11,20 @@ import { NON_EXPOSED_SYMBOL } from './non-exposed'
  */
 export function getNonExposedFields(metadata?: DecoratorMetadataObject): string[] {
   return (metadata?.[NON_EXPOSED_SYMBOL] as string[]) || []
+}
+
+/**
+ * Fields that must be left out of GraphQL for a class.
+ * Class decorators register the list under the class name. A nested class with no
+ * class decorator only has the names on its own decorator metadata.
+ */
+export function nonExposedFieldsForClass(config: MagekConfig, type: AnyClass): string[] {
+  const registered = config.nonExposedGraphQLMetadataKey[type.name]
+  if (registered) {
+    return registered
+  }
+  const classRecord = type as unknown as Record<symbol, DecoratorMetadataObject | undefined>
+  return getNonExposedFields(classRecord[SYMBOL_METADATA])
 }
 
 /**
