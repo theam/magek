@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "Do not store a snapshot when every pending event is skipped.",
+      "type": "patch",
+      "packageName": "@magek/core"
+    }
+  ],
+  "packageName": "@magek/core",
+  "email": "omidomirzaei@gmail.com"
+}

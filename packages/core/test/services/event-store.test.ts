@@ -757,20 +757,54 @@ describe('EventStore', () => {
           replace(eventStore, 'loadLatestSnapshot', fake.resolves(someSnapshotEnvelope))
           replace(eventStore, 'loadEventStreamSince', fake.resolves([someEventEnvelope]))
           
-          // Mock entityReducer to return ReducerAction.Skip
-          const entityReducer = stub()
-            .onFirstCall()
-            .returns(ReducerAction.Skip)
+          const entityReducer = stub().onFirstCall().returns(ReducerAction.Skip)
           replace(eventStore, 'entityReducer', entityReducer)
-          replace(eventStore, 'storeSnapshot', fake.resolves(someSnapshotEnvelope))
+          const storedSnapshot = snapshotEnvelopeFor({ id: '99', count: 7 })
+          replace(eventStore, 'storeSnapshot', fake.resolves(storedSnapshot))
 
           const entityName = AnEntity.name
           const entityID = '42'
           const entity = await eventStore.fetchEntitySnapshot(entityName, entityID)
 
           expect(eventStore.entityReducer).to.have.been.calledOnce
-          expect(eventStore.storeSnapshot).to.have.been.calledOnceWith(someSnapshotEnvelope)
-          expect(entity).to.be.deep.equal(someSnapshotEnvelope)
+          expect(eventStore.storeSnapshot).not.to.have.been.called
+          expect(entity).to.equal(someSnapshotEnvelope)
+        })
+
+        it('does not store a snapshot when every pending event is skipped', async () => {
+          const eventStore = new EventStore(config) as any
+          const someSnapshotEnvelope = snapshotEnvelopeFor(someEntity)
+          const firstEventEnvelope = eventEnvelopeFor(someEvent, AnEvent.name, new Date())
+          const secondEventEnvelope = eventEnvelopeFor(otherEvent, AnEvent.name, new Date())
+
+          replace(eventStore, 'loadLatestSnapshot', fake.resolves(someSnapshotEnvelope))
+          replace(eventStore, 'loadEventStreamSince', fake.resolves([firstEventEnvelope, secondEventEnvelope]))
+
+          const entityReducer = stub().returns(ReducerAction.Skip)
+          replace(eventStore, 'entityReducer', entityReducer)
+          const storedSnapshot = snapshotEnvelopeFor({ id: '99', count: 7 })
+          replace(eventStore, 'storeSnapshot', fake.resolves(storedSnapshot))
+
+          const entity = await eventStore.fetchEntitySnapshot(AnEntity.name, '42')
+
+          expect(eventStore.entityReducer).to.have.been.calledTwice
+          expect(eventStore.storeSnapshot).not.to.have.been.called
+          expect(entity).to.equal(someSnapshotEnvelope)
+        })
+
+        it('returns undefined without storing when there is no snapshot and every event is skipped', async () => {
+          const eventStore = new EventStore(config) as any
+          const someEventEnvelope = eventEnvelopeFor(someEvent, AnEvent.name, new Date())
+
+          replace(eventStore, 'loadLatestSnapshot', fake.resolves(undefined))
+          replace(eventStore, 'loadEventStreamSince', fake.resolves([someEventEnvelope]))
+          replace(eventStore, 'entityReducer', stub().returns(ReducerAction.Skip))
+          replace(eventStore, 'storeSnapshot', fake.resolves(snapshotEnvelopeFor(someEntity)))
+
+          const entity = await eventStore.fetchEntitySnapshot(AnEntity.name, '42')
+
+          expect(eventStore.storeSnapshot).not.to.have.been.called
+          expect(entity).to.equal(undefined)
         })
 
         it('keeps the previous snapshot when Skip is returned for an event', async () => {
@@ -801,6 +835,32 @@ describe('EventStore', () => {
           // The snapshot should be the one from the first event, not changed by the skip
           expect(eventStore.storeSnapshot).to.have.been.calledOnceWith(newSnapshot)
           expect(entity).to.be.deep.equal(newSnapshot)
+        })
+
+        it('stores the reduced snapshot when a skipped event is followed by a reduced one', async () => {
+          const eventStore = new EventStore(config) as any
+          const initialSnapshot = snapshotEnvelopeFor(someEntity)
+          const firstEventEnvelope = eventEnvelopeFor(someEvent, AnEvent.name, new Date())
+          const secondEventEnvelope = eventEnvelopeFor(otherEvent, AnEvent.name, new Date())
+          const reducedSnapshot = snapshotEnvelopeFor(new AnEntity('42', 100))
+
+          replace(eventStore, 'loadLatestSnapshot', fake.resolves(initialSnapshot))
+          replace(eventStore, 'loadEventStreamSince', fake.resolves([firstEventEnvelope, secondEventEnvelope]))
+
+          const entityReducer = stub()
+            .onFirstCall()
+            .returns(ReducerAction.Skip)
+            .onSecondCall()
+            .returns(reducedSnapshot)
+          replace(eventStore, 'entityReducer', entityReducer)
+          replace(eventStore, 'storeSnapshot', fake.resolves(reducedSnapshot))
+
+          const entity = await eventStore.fetchEntitySnapshot(AnEntity.name, '42')
+
+          expect(eventStore.entityReducer).to.have.been.calledTwice
+          expect(eventStore.entityReducer.getCall(1).args[1]).to.equal(initialSnapshot)
+          expect(eventStore.storeSnapshot).to.have.been.calledOnceWith(reducedSnapshot)
+          expect(entity).to.deep.equal(reducedSnapshot)
         })
       })
     })

@@ -56,6 +56,7 @@ export class EventStore {
       logger.debug(`Looking for the reducer for entity ${entityName} with ID ${entityID}`)
       // In this assignment we discard the `createdAt` field because it's not needed in the reduction process
       let newEntitySnapshot: NonPersistedEntitySnapshotEnvelope | undefined = latestSnapshotEnvelope
+      let snapshotChanged = false
       for (const pendingEvent of pendingEvents) {
         // We double-check that what we are reducing is an event
         if (pendingEvent.kind === 'event') {
@@ -64,6 +65,7 @@ export class EventStore {
             // If reducer returns ReducerAction.Skip, keep the current snapshot unchanged
             if (reducerResult !== ReducerAction.Skip) {
               newEntitySnapshot = reducerResult
+              snapshotChanged = true
             }
           } catch (e) {
             if (e instanceof InvalidEventError) {
@@ -83,6 +85,11 @@ export class EventStore {
             throw e
           }
         }
+      }
+
+      if (!snapshotChanged) {
+        logger.debug('All pending events were skipped, returning the latest snapshot without storing it')
+        return latestSnapshotEnvelope
       }
 
       if (!newEntitySnapshot) {
